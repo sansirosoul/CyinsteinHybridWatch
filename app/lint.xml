@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <issue id="DuplicateIds" severity="warning" />
+    <issue id="MissingTranslation" severity="warning" />
+    <issue id="SdCardPath">
+        <ignore path="src/com/xyy/Gazella/activity/LandingActivity.java" />
+    </issue>
+    <issue id="SimpleDateFormat">
+        <ignore path="src/com/xyy/Gazella/activity/homepage/StatisticalFragmentActivity.java" />
+    </issue>
+</lint>

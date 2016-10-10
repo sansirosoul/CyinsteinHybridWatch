@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Juts-Sqlite-Jdbc-Driver">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/libs/Juts-Sqlite-Jdbc-Driver.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

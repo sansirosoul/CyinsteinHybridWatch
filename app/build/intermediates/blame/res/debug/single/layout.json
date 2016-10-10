@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\devicelist.xml",
+        "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\devicelist.xml"
+    },
+    {
+        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\connection_device.xml",
+        "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\connection_device.xml"
+    },
+    {
+        "merged": "E:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\home_activity.xml",
+        "source": "E:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\home_activity.xml"
+    },
+    {
+        "merged": "E:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\connection_device.xml",
+        "source": "E:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\connection_device.xml"
+    },
+    {
+        "merged": "E:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\set_user_data_activity.xml",
+        "source": "E:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\set_user_data_activity.xml"
+    },
+    {
+        "merged": "E:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\start_activity.xml",
+        "source": "E:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\start_activity.xml"
+    },
+    {
+        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\set_user_data_activity.xml",
+        "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\set_user_data_activity.xml"
+    },
+    {
+        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\home_activity.xml",
+        "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\home_activity.xml"
+    },
+    {
+        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\start_activity.xml",
+        "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\start_activity.xml"
+    },
+    {
+        "merged": "E:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\device_list_item.xml",
+        "source": "E:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\device_list_item.xml"
+    },
+    {
+        "merged": "E:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\devicelist.xml",
+        "source": "E:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\devicelist.xml"
+    },
+    {
+        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\device_list_item.xml",
+        "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\layout\\device_list_item.xml"
+    }
+]

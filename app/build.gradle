@@ -1,0 +1,33 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion "24.0.2"
+
+    defaultConfig {
+        applicationId "com.ysp.smartwatch"
+        minSdkVersion 18
+        targetSdkVersion 19
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.google.code.gson:gson:2.2.3'
+    compile files('libs/commons-httpclient.jar')
+    compile files('libs/fileupload.jar')
+    compile files('libs/googleBLE.jar')
+    compile files('libs/Juts-Android-Exchange-Engine140313.jar')
+    compile files('libs/Juts-Framework140305.jar')
+    compile files('libs/Juts-License.jar')
+    compile files('libs/Juts-Sqlite-Jdbc-Driver.jar')
+    compile files('libs/Juts-Utility.jar')
+    compile files('libs/samsung_ble_sdk_200.jar')
+}

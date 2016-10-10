@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="gb2312"?>
+<Juts version="1.0">
+	<system>
+		<no>JutsSoft2011</no>
+		<!--系统状态 online 上线develop开发-->
+		<mode>develop</mode>
+		<!--系统代理方式，remotejson远程 local本地-->
+		<proxy_type>local</proxy_type>
+		<!-- <proxy>http://192.168.0.223:8080/bangle</proxy> -->
+		<proxy>http://learningxrk.xicp.net:8081/interfaceapi</proxy>
+		<!--<proxy>http://192.168.1.124:8080/appointment</proxy>-->
+		<proxy_parse>com.xyy.Gazella.exchange.GazellaEngineActionProxy</proxy_parse>
+		<proxy_encoding>utf8</proxy_encoding>
+		<exchange_vo_case>false</exchange_vo_case>
+	</system>
+	<database>
+		<default name="ezpos"/>
+		<!--
+			db: oracle/sqlserver/mysql/...
+			type:pool/jdbc
+		-->
+		<ds db="mysql" type="proxool">
+			<url>jdbc:mysql://localhost/ez_pos?useUnicode=true&amp;characterEncoding=utf8</url>
+			<driver>com.mysql.jdbc.Driver</driver>
+			<properties>
+				<proxool.maximum-connection-count>20</proxool.maximum-connection-count>
+				<proxool.house-keeping-test-sql>select current_date</proxool.house-keeping-test-sql>
+				<statistics-log-level>ERROR</statistics-log-level>
+				<user>K?wuu+v)|</user>
+				<password>K?wuu+v)|</password>
+			</properties>
+		</ds>
+		<ezpos db="sqlite" type="sqlite">
+			<url>jdbc.adj:/data/data/com.ysp.smartwatch/ez-pos.db</url>
+			<driver>com.android.jdbc.impl.ADJDriver</driver>
+		</ezpos>
+	</database>
+</Juts>

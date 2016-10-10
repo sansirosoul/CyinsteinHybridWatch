@@ -1,0 +1,14 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    
+    <style name= "AppTheme" parent= "AppBaseTheme" type= "text/css" >
+        </style> 
+ 
+
+ 
+
+</resources>

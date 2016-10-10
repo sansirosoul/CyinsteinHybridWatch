@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.ysp.smartwatch"
+    android:versionCode="60"
+    android:versionName="2.5" >
+
+    <uses-sdk
+        android:minSdkVersion="18"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" /> -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- <uses-permission android:name="android.permission.READ_SMS" /> -->
+    <!-- <uses-permission android:name="android.permission.INTERNET" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" /> -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name="com.ysp.newband.GazelleApplication"
+        android:allowBackup="true"
+        android:alwaysRetainTaskState="true"
+        android:icon="@drawable/hillmassion"
+        android:label="@string/app_name"
+        android:persistent="true"
+        android:supportsRtl="true"
+        android:theme="@style/AppBaseTheme" >
+        <activity
+            android:name="com.xyy.Gazella.activity.StartActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" >
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" >
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.HomeActivity" >
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.SetUesrDataActivity" >
+        </activity>
+
+        <service android:name="com.xyy.Gazella.BroadcastReceiver.PhoneService" >
+        </service>
+        <service
+            android:name="com.xyy.Gazella.googlebth.BluetoothLeService"
+            android:enabled="true" />
+        <service
+            android:name="com.xyy.Gazella.bth.BluetoothClientService"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+    </application>
+
+</manifest>
