@@ -1,41 +1,23 @@
 package com.xyy.Gazella.activity;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
-import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.exchange.android.engine.Uoi;
 import com.exchange.android.engine.Uoo;
 import com.juts.framework.exp.JException;
 import com.juts.utility.StringUtil;
 import com.xyy.Gazella.exchange.ServicesBase;
-import com.xyy.Gazella.fileupload.FormFile;
-import com.xyy.Gazella.fileupload.HttpFilePost;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class SetUesrDataActivity extends BaseActivity  {
 

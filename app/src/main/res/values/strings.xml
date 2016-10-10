@@ -203,7 +203,7 @@
     <string name="Friday">Friday</string>
     <string name="Saturday">Saturday</string>
     <string name="Sunday">Sunday</string>
-    
+
     <string name="Monday_s">Mon</string>
     <string name="Tuesday_s">Tue</string>
     <string name="Wednesday_s">Wed</string>
@@ -211,8 +211,8 @@
     <string name="Friday_s">Fri</string>
     <string name="Saturday_s">Sat</string>
     <string name="Sunday_s">Sun</string>
-    
-    
+
+
     <string name="AlarmTime">Alarm Time</string>
     <string name="SnoozeTime">Snooze Time</string>
     <string name="Repetition">Repetition</string>
@@ -425,7 +425,7 @@
     <string name="band_type3_guide1_title3">3. After data synced, LED indicator will go back to flashing-status for another 30 seconds then turn-off automatically, if theres no other interruption.</string>
     <string name="band_type3_guide1_title4">4. Blinking, red LED signals low battery level. Insert a new battery.</string>
     <string name="device_not_support">The device does not support Bluetooth 4.0</string>
-   
+
     <string name="start_type2_title1">&#160;&#160;&#160;&#160;Step 1: Open mobilephone\'s bluetooth.</string>
     <string name="start_type2_title2">&#160;&#160;&#160;&#160;Step 2: Choose wristband\'s type, open wristband\'s bluetooth.</string>
     <string name="start_type2_title3">Wristband with 12pcs LED:</string>
@@ -433,11 +433,11 @@
     <string name="start_type2_title4">Wristband with single LED:</string>
     <string name="start_type2_title4_content">&#160;&#160;&#160;&#160;Tap twice to activate your pedometer BT. LED indicator will keep flashing.</string>
 
-     <string name="updatetips2_type2">Tap twice to activate your pedometer BT. LED indicator will keep flashing.</string>
-       <string name="updatetips2_type3">Tap the watch watch surface 3 times to turn on the bluetooth module and prepare for firmware updating, one of the LEDs will flash.</string>
+    <string name="updatetips2_type2">Tap twice to activate your pedometer BT. LED indicator will keep flashing.</string>
+    <string name="updatetips2_type3">Tap the watch watch surface 3 times to turn on the bluetooth module and prepare for firmware updating, one of the LEDs will flash.</string>
     <string name="WrongDate">Date error, please try again.</string>
-    
-        <string name="currectweek">current week</string>
-          <string name="mileage">mile age</string>
-              <string name="Walked">Walked</string>
+
+    <string name="currectweek">current week</string>
+    <string name="mileage">mile age</string>
+    <string name="Walked">Walked</string>
 </resources>

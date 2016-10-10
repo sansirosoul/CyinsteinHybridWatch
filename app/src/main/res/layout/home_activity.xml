@@ -34,6 +34,7 @@
                 android:gravity="center" >
 
                 <LinearLayout
+                    android:id="@+id/ll_time"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -52,6 +53,7 @@
                         android:layout_below="@id/image_but"
                         android:gravity="center"
                         android:text="AAAAAAA" />
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -62,6 +64,7 @@
                 android:background="@color/list_item_selected_bg" >
                 
                  <LinearLayout
+                     android:id="@+id/ll_notice"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -100,6 +103,7 @@
                 android:background="@color/gray" >
                  
                  <LinearLayout
+                     android:id="@+id/ll_healthy"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -129,6 +133,7 @@
                 android:background="@color/white" >
                  
                  <LinearLayout
+                     android:id="@+id/ll_settings"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -166,6 +171,7 @@
                 android:background="@color/home_bg" >
                  
                  <LinearLayout
+                     android:id="@+id/ll_introduce"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
