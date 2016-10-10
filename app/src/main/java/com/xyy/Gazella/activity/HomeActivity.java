@@ -18,5 +18,6 @@ public class HomeActivity  extends BaseActivity{
 
 		a ="fdfdsfsafsa";
 		b =true;
+		b=false;
 	}
 }
