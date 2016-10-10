@@ -17,6 +17,6 @@ public class HomeActivity  extends BaseActivity{
 		setContentView(R.layout.home_activity);
 
 		a ="fdfdsfsafsa";
-		
+		b =true;
 	}
 }
