@@ -7,9 +7,7 @@ import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
 public class HomeActivity  extends BaseActivity{
-
-	private  String ggg;
-
+	
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
