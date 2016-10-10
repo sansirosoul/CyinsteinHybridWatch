@@ -15,6 +15,8 @@ public class HomeActivity  extends BaseActivity{
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
 		setContentView(R.layout.home_activity);
+
+		a ="fdfdsfsafsa";
 		
 	}
 }
