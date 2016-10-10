@@ -5,4 +5,6 @@ package com.xyy.Gazella.activity;
  */
 
 public class NewClass {
+    private  String aa;
+    
 }
