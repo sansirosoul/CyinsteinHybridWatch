@@ -1838,12 +1838,12 @@ containing a value of this type.
         public static final int abc_select_dialog_material=0x7f030018;
         public static final int activity_healthy=0x7f030019;
         public static final int activity_sleep=0x7f03001a;
-        public static final int activity_stup=0x7f03001b;
+        public static final int activity_step =0x7f03001b;
         public static final int connection_device=0x7f03001c;
         public static final int device_list_item=0x7f03001d;
         public static final int devicelist=0x7f03001e;
         public static final int fragment_sleep=0x7f03001f;
-        public static final int fragment_stup=0x7f030020;
+        public static final int fragment_step =0x7f030020;
         public static final int home_activity=0x7f030021;
         public static final int notification_media_action=0x7f030022;
         public static final int notification_media_cancel_action=0x7f030023;

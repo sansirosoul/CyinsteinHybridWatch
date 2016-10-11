@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\values-ro-rRO\\values-ro-rRO.xml",
+        "outputFile": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\values-ro-rRO\\values-ro-rRO.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 91
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 158,
                         "startColumn": 0,
@@ -30,7 +30,7 @@
                     "endOffset": 141
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 246,
                         "startColumn": 0,
@@ -49,7 +49,7 @@
                     "endOffset": 206
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 144,
                         "startColumn": 0,
@@ -68,7 +68,7 @@
                     "endOffset": 254
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 220,
                         "startColumn": 0,
@@ -87,7 +87,7 @@
                     "endOffset": 314
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 294,
                         "startColumn": 0,
@@ -106,7 +106,7 @@
                     "endOffset": 371
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 338,
                         "startColumn": 0,
@@ -125,7 +125,7 @@
                     "endOffset": 427
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 296,
                         "startColumn": 0,
@@ -144,7 +144,7 @@
                     "endOffset": 475
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 302,
                         "startColumn": 0,
@@ -163,7 +163,7 @@
                     "endOffset": 528
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 400,
                         "startColumn": 0,
@@ -182,7 +182,7 @@
                     "endOffset": 588
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 436,
                         "startColumn": 0,
@@ -201,7 +201,7 @@
                     "endOffset": 637
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 438,
                         "startColumn": 0,
@@ -220,7 +220,7 @@
                     "endOffset": 709
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 712,
                         "startColumn": 0,
@@ -239,7 +239,7 @@
                     "endOffset": 750
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 528,
                         "startColumn": 0,
@@ -258,7 +258,7 @@
                     "endOffset": 790
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 316,
                         "startColumn": 0,
@@ -277,7 +277,7 @@
                     "endOffset": 834
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 482,
                         "startColumn": 0,
@@ -296,7 +296,7 @@
                     "endOffset": 883
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 642,
                         "startColumn": 0,
@@ -315,7 +315,7 @@
                     "endOffset": 929
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 236,
                         "startColumn": 0,
@@ -334,7 +334,7 @@
                     "endOffset": 984
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 174,
                         "startColumn": 0,
@@ -353,7 +353,7 @@
                     "endOffset": 1037
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 718,
                         "startColumn": 0,
@@ -372,7 +372,7 @@
                     "endOffset": 1109
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 102,
                         "startColumn": 0,
@@ -391,7 +391,7 @@
                     "endOffset": 1185
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 100,
                         "startColumn": 0,
@@ -410,7 +410,7 @@
                     "endOffset": 1241
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 336,
                         "startColumn": 0,
@@ -429,7 +429,7 @@
                     "endOffset": 1407
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 444,
                         "startColumn": 0,
@@ -448,7 +448,7 @@
                     "endOffset": 1467
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 216,
                         "startColumn": 0,
@@ -467,7 +467,7 @@
                     "endOffset": 1510
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 250,
                         "startColumn": 0,
@@ -486,7 +486,7 @@
                     "endOffset": 1560
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 186,
                         "startColumn": 0,
@@ -505,7 +505,7 @@
                     "endOffset": 1616
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 24,
                         "startColumn": 0,
@@ -524,7 +524,7 @@
                     "endOffset": 1726
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 370,
                         "startColumn": 0,
@@ -543,7 +543,7 @@
                     "endOffset": 1784
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 368,
                         "startColumn": 0,
@@ -562,7 +562,7 @@
                     "endOffset": 1862
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 800,
                         "startColumn": 0,
@@ -581,7 +581,7 @@
                     "endOffset": 1917
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 422,
                         "startColumn": 0,
@@ -600,7 +600,7 @@
                     "endOffset": 1955
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 184,
                         "startColumn": 0,
@@ -619,7 +619,7 @@
                     "endOffset": 2016
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 214,
                         "startColumn": 0,
@@ -638,7 +638,7 @@
                     "endOffset": 2054
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 648,
                         "startColumn": 0,
@@ -657,7 +657,7 @@
                     "endOffset": 2098
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 304,
                         "startColumn": 0,
@@ -676,7 +676,7 @@
                     "endOffset": 2159
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 298,
                         "startColumn": 0,
@@ -695,7 +695,7 @@
                     "endOffset": 2197
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 290,
                         "startColumn": 0,
@@ -714,7 +714,7 @@
                     "endOffset": 2238
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 252,
                         "startColumn": 0,
@@ -733,7 +733,7 @@
                     "endOffset": 2299
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 108,
                         "startColumn": 0,
@@ -752,7 +752,7 @@
                     "endOffset": 2377
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 94,
                         "startColumn": 0,
@@ -771,7 +771,7 @@
                     "endOffset": 2426
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 518,
                         "startColumn": 0,
@@ -790,7 +790,7 @@
                     "endOffset": 2474
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 678,
                         "startColumn": 0,
@@ -809,7 +809,7 @@
                     "endOffset": 2552
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 548,
                         "startColumn": 0,
@@ -828,7 +828,7 @@
                     "endOffset": 2628
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 544,
                         "startColumn": 0,
@@ -847,7 +847,7 @@
                     "endOffset": 2702
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 540,
                         "startColumn": 0,
@@ -866,7 +866,7 @@
                     "endOffset": 2774
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 536,
                         "startColumn": 0,
@@ -885,7 +885,7 @@
                     "endOffset": 2848
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 542,
                         "startColumn": 0,
@@ -904,7 +904,7 @@
                     "endOffset": 2924
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 546,
                         "startColumn": 0,
@@ -923,7 +923,7 @@
                     "endOffset": 2996
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 538,
                         "startColumn": 0,
@@ -942,7 +942,7 @@
                     "endOffset": 3056
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 276,
                         "startColumn": 0,
@@ -961,7 +961,7 @@
                     "endOffset": 3124
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 282,
                         "startColumn": 0,
@@ -980,7 +980,7 @@
                     "endOffset": 3193
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 454,
                         "startColumn": 0,
@@ -999,7 +999,7 @@
                     "endOffset": 3253
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 218,
                         "startColumn": 0,
@@ -1018,7 +1018,7 @@
                     "endOffset": 3309
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 280,
                         "startColumn": 0,
@@ -1037,7 +1037,7 @@
                     "endOffset": 3356
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 520,
                         "startColumn": 0,
@@ -1056,7 +1056,7 @@
                     "endOffset": 3433
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 562,
                         "startColumn": 0,
@@ -1075,7 +1075,7 @@
                     "endOffset": 3508
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 558,
                         "startColumn": 0,
@@ -1094,7 +1094,7 @@
                     "endOffset": 3581
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 554,
                         "startColumn": 0,
@@ -1113,7 +1113,7 @@
                     "endOffset": 3652
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 550,
                         "startColumn": 0,
@@ -1132,7 +1132,7 @@
                     "endOffset": 3714
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 568,
                         "startColumn": 0,
@@ -1151,7 +1151,7 @@
                     "endOffset": 3793
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 606,
                         "startColumn": 0,
@@ -1170,7 +1170,7 @@
                     "endOffset": 3857
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 576,
                         "startColumn": 0,
@@ -1189,7 +1189,7 @@
                     "endOffset": 3934
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 600,
                         "startColumn": 0,
@@ -1208,7 +1208,7 @@
                     "endOffset": 3992
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 564,
                         "startColumn": 0,
@@ -1227,7 +1227,7 @@
                     "endOffset": 4067
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 596,
                         "startColumn": 0,
@@ -1246,7 +1246,7 @@
                     "endOffset": 4140
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 556,
                         "startColumn": 0,
@@ -1265,7 +1265,7 @@
                     "endOffset": 4204
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 578,
                         "startColumn": 0,
@@ -1284,7 +1284,7 @@
                     "endOffset": 4281
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 602,
                         "startColumn": 0,
@@ -1303,7 +1303,7 @@
                     "endOffset": 4343
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 570,
                         "startColumn": 0,
@@ -1322,7 +1322,7 @@
                     "endOffset": 4418
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 560,
                         "startColumn": 0,
@@ -1341,7 +1341,7 @@
                     "endOffset": 4489
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 552,
                         "startColumn": 0,
@@ -1360,7 +1360,7 @@
                     "endOffset": 4549
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 566,
                         "startColumn": 0,
@@ -1379,7 +1379,7 @@
                     "endOffset": 4626
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 604,
                         "startColumn": 0,
@@ -1398,7 +1398,7 @@
                     "endOffset": 4688
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 572,
                         "startColumn": 0,
@@ -1417,7 +1417,7 @@
                     "endOffset": 4763
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 598,
                         "startColumn": 0,
@@ -1436,7 +1436,7 @@
                     "endOffset": 4825
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 574,
                         "startColumn": 0,
@@ -1455,7 +1455,7 @@
                     "endOffset": 4880
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 730,
                         "startColumn": 0,
@@ -1474,7 +1474,7 @@
                     "endOffset": 4939
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 340,
                         "startColumn": 0,
@@ -1493,7 +1493,7 @@
                     "endOffset": 4999
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 254,
                         "startColumn": 0,
@@ -1512,7 +1512,7 @@
                     "endOffset": 5061
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 74,
                         "startColumn": 0,
@@ -1531,7 +1531,7 @@
                     "endOffset": 5125
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 768,
                         "startColumn": 0,
@@ -1550,7 +1550,7 @@
                     "endOffset": 5167
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 394,
                         "startColumn": 0,
@@ -1569,7 +1569,7 @@
                     "endOffset": 5206
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 172,
                         "startColumn": 0,
@@ -1588,7 +1588,7 @@
                     "endOffset": 5277
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 380,
                         "startColumn": 0,
@@ -1607,7 +1607,7 @@
                     "endOffset": 5369
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 456,
                         "startColumn": 0,
@@ -1626,7 +1626,7 @@
                     "endOffset": 5431
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 76,
                         "startColumn": 0,
@@ -1645,7 +1645,7 @@
                     "endOffset": 5535
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 740,
                         "startColumn": 0,
@@ -1664,7 +1664,7 @@
                     "endOffset": 5616
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 88,
                         "startColumn": 0,
@@ -1683,7 +1683,7 @@
                     "endOffset": 5675
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 90,
                         "startColumn": 0,
@@ -1702,7 +1702,7 @@
                     "endOffset": 5719
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 176,
                         "startColumn": 0,
@@ -1721,7 +1721,7 @@
                     "endOffset": 5774
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 142,
                         "startColumn": 0,
@@ -1740,7 +1740,7 @@
                     "endOffset": 5824
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 362,
                         "startColumn": 0,
@@ -1759,7 +1759,7 @@
                     "endOffset": 5942
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 418,
                         "startColumn": 0,
@@ -1778,7 +1778,7 @@
                     "endOffset": 6005
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 516,
                         "startColumn": 0,
@@ -1797,7 +1797,7 @@
                     "endOffset": 6075
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 442,
                         "startColumn": 0,
@@ -1816,7 +1816,7 @@
                     "endOffset": 6155
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 634,
                         "startColumn": 0,
@@ -1835,7 +1835,7 @@
                     "endOffset": 6233
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 632,
                         "startColumn": 0,
@@ -1854,7 +1854,7 @@
                     "endOffset": 6304
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 206,
                         "startColumn": 0,
@@ -1873,7 +1873,7 @@
                     "endOffset": 6367
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 360,
                         "startColumn": 0,
@@ -1892,7 +1892,7 @@
                     "endOffset": 6417
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 266,
                         "startColumn": 0,
@@ -1911,7 +1911,7 @@
                     "endOffset": 6467
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 292,
                         "startColumn": 0,
@@ -1930,7 +1930,7 @@
                     "endOffset": 6512
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 288,
                         "startColumn": 0,
@@ -1949,7 +1949,7 @@
                     "endOffset": 6552
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 188,
                         "startColumn": 0,
@@ -1968,7 +1968,7 @@
                     "endOffset": 6593
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 260,
                         "startColumn": 0,
@@ -1987,7 +1987,7 @@
                     "endOffset": 6632
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 680,
                         "startColumn": 0,
@@ -2006,7 +2006,7 @@
                     "endOffset": 6717
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 728,
                         "startColumn": 0,
@@ -2025,7 +2025,7 @@
                     "endOffset": 6795
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 534,
                         "startColumn": 0,
@@ -2044,7 +2044,7 @@
                     "endOffset": 6891
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 274,
                         "startColumn": 0,
@@ -2063,7 +2063,7 @@
                     "endOffset": 6930
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 500,
                         "startColumn": 0,
@@ -2082,7 +2082,7 @@
                     "endOffset": 6985
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 242,
                         "startColumn": 0,
@@ -2101,7 +2101,7 @@
                     "endOffset": 7048
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 22,
                         "startColumn": 0,
@@ -2120,7 +2120,7 @@
                     "endOffset": 7105
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 84,
                         "startColumn": 0,
@@ -2139,7 +2139,7 @@
                     "endOffset": 7169
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 80,
                         "startColumn": 0,
@@ -2158,7 +2158,7 @@
                     "endOffset": 7211
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 348,
                         "startColumn": 0,
@@ -2177,7 +2177,7 @@
                     "endOffset": 7249
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 268,
                         "startColumn": 0,
@@ -2196,7 +2196,7 @@
                     "endOffset": 7301
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 72,
                         "startColumn": 0,
@@ -2215,7 +2215,7 @@
                     "endOffset": 7341
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 386,
                         "startColumn": 0,
@@ -2234,7 +2234,7 @@
                     "endOffset": 7408
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 716,
                         "startColumn": 0,
@@ -2253,7 +2253,7 @@
                     "endOffset": 7447
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 182,
                         "startColumn": 0,
@@ -2272,7 +2272,7 @@
                     "endOffset": 7516
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 430,
                         "startColumn": 0,
@@ -2291,7 +2291,7 @@
                     "endOffset": 7574
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 168,
                         "startColumn": 0,
@@ -2310,7 +2310,7 @@
                     "endOffset": 7613
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 424,
                         "startColumn": 0,
@@ -2329,7 +2329,7 @@
                     "endOffset": 7766
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 426,
                         "startColumn": 0,
@@ -2348,7 +2348,7 @@
                     "endOffset": 7820
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 428,
                         "startColumn": 0,
@@ -2367,7 +2367,7 @@
                     "endOffset": 7867
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 732,
                         "startColumn": 0,
@@ -2386,7 +2386,7 @@
                     "endOffset": 7913
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 138,
                         "startColumn": 0,
@@ -2405,7 +2405,7 @@
                     "endOffset": 7947
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 468,
                         "startColumn": 0,
@@ -2424,7 +2424,7 @@
                     "endOffset": 8028
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 796,
                         "startColumn": 0,
@@ -2443,7 +2443,7 @@
                     "endOffset": 8071
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 742,
                         "startColumn": 0,
@@ -2462,7 +2462,7 @@
                     "endOffset": 8127
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 112,
                         "startColumn": 0,
@@ -2481,7 +2481,7 @@
                     "endOffset": 8165
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 408,
                         "startColumn": 0,
@@ -2500,7 +2500,7 @@
                     "endOffset": 8217
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 410,
                         "startColumn": 0,
@@ -2519,7 +2519,7 @@
                     "endOffset": 8349
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 146,
                         "startColumn": 0,
@@ -2538,7 +2538,7 @@
                     "endOffset": 8554
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 148,
                         "startColumn": 0,
@@ -2557,7 +2557,7 @@
                     "endOffset": 8613
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 698,
                         "startColumn": 0,
@@ -2576,7 +2576,7 @@
                     "endOffset": 8658
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 522,
                         "startColumn": 0,
@@ -2595,7 +2595,7 @@
                     "endOffset": 8708
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 86,
                         "startColumn": 0,
@@ -2614,7 +2614,7 @@
                     "endOffset": 8790
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 630,
                         "startColumn": 0,
@@ -2633,7 +2633,7 @@
                     "endOffset": 8834
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 132,
                         "startColumn": 0,
@@ -2652,7 +2652,7 @@
                     "endOffset": 8945
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 724,
                         "startColumn": 0,
@@ -2671,7 +2671,7 @@
                     "endOffset": 8997
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 140,
                         "startColumn": 0,
@@ -2690,7 +2690,7 @@
                     "endOffset": 9053
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 190,
                         "startColumn": 0,
@@ -2709,7 +2709,7 @@
                     "endOffset": 9142
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 486,
                         "startColumn": 0,
@@ -2728,7 +2728,7 @@
                     "endOffset": 9271
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 640,
                         "startColumn": 0,
@@ -2747,7 +2747,7 @@
                     "endOffset": 9469
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 702,
                         "startColumn": 0,
@@ -2766,7 +2766,7 @@
                     "endOffset": 9507
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 478,
                         "startColumn": 0,
@@ -2785,7 +2785,7 @@
                     "endOffset": 9550
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 286,
                         "startColumn": 0,
@@ -2804,7 +2804,7 @@
                     "endOffset": 9601
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 532,
                         "startColumn": 0,
@@ -2823,7 +2823,7 @@
                     "endOffset": 9731
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 736,
                         "startColumn": 0,
@@ -2842,7 +2842,7 @@
                     "endOffset": 9785
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 376,
                         "startColumn": 0,
@@ -2861,7 +2861,7 @@
                     "endOffset": 9837
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 96,
                         "startColumn": 0,
@@ -2880,7 +2880,7 @@
                     "endOffset": 9903
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 98,
                         "startColumn": 0,
@@ -2899,7 +2899,7 @@
                     "endOffset": 9972
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 526,
                         "startColumn": 0,
@@ -2918,7 +2918,7 @@
                     "endOffset": 10039
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 354,
                         "startColumn": 0,
@@ -2937,7 +2937,7 @@
                     "endOffset": 10102
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 356,
                         "startColumn": 0,
@@ -2956,7 +2956,7 @@
                     "endOffset": 10169
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 134,
                         "startColumn": 0,
@@ -2975,7 +2975,7 @@
                     "endOffset": 10221
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 60,
                         "startColumn": 0,
@@ -2994,7 +2994,7 @@
                     "endOffset": 10282
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 58,
                         "startColumn": 0,
@@ -3013,7 +3013,7 @@
                     "endOffset": 10332
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 62,
                         "startColumn": 0,
@@ -3032,7 +3032,7 @@
                     "endOffset": 10376
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 42,
                         "startColumn": 0,
@@ -3051,7 +3051,7 @@
                     "endOffset": 10424
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 240,
                         "startColumn": 0,
@@ -3070,7 +3070,7 @@
                     "endOffset": 10484
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 82,
                         "startColumn": 0,
@@ -3089,7 +3089,7 @@
                     "endOffset": 10524
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 378,
                         "startColumn": 0,
@@ -3108,7 +3108,7 @@
                     "endOffset": 10585
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 472,
                         "startColumn": 0,
@@ -3127,7 +3127,7 @@
                     "endOffset": 10634
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 404,
                         "startColumn": 0,
@@ -3146,7 +3146,7 @@
                     "endOffset": 10690
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 700,
                         "startColumn": 0,
@@ -3165,7 +3165,7 @@
                     "endOffset": 10751
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 130,
                         "startColumn": 0,
@@ -3184,7 +3184,7 @@
                     "endOffset": 10803
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 636,
                         "startColumn": 0,
@@ -3203,7 +3203,7 @@
                     "endOffset": 10848
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 238,
                         "startColumn": 0,
@@ -3222,7 +3222,7 @@
                     "endOffset": 10883
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 480,
                         "startColumn": 0,
@@ -3241,7 +3241,7 @@
                     "endOffset": 10928
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 396,
                         "startColumn": 0,
@@ -3260,7 +3260,7 @@
                     "endOffset": 10969
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 278,
                         "startColumn": 0,
@@ -3279,7 +3279,7 @@
                     "endOffset": 11023
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 726,
                         "startColumn": 0,
@@ -3298,7 +3298,7 @@
                     "endOffset": 11087
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 696,
                         "startColumn": 0,
@@ -3317,7 +3317,7 @@
                     "endOffset": 11147
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 706,
                         "startColumn": 0,
@@ -3336,7 +3336,7 @@
                     "endOffset": 11205
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 156,
                         "startColumn": 0,
@@ -3355,7 +3355,7 @@
                     "endOffset": 11269
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 0,
@@ -3374,7 +3374,7 @@
                     "endOffset": 11313
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 248,
                         "startColumn": 0,
@@ -3393,7 +3393,7 @@
                     "endOffset": 11372
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 192,
                         "startColumn": 0,
@@ -3412,7 +3412,7 @@
                     "endOffset": 11455
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 490,
                         "startColumn": 0,
@@ -3431,7 +3431,7 @@
                     "endOffset": 11537
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 492,
                         "startColumn": 0,
@@ -3450,7 +3450,7 @@
                     "endOffset": 11599
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 194,
                         "startColumn": 0,
@@ -3469,7 +3469,7 @@
                     "endOffset": 11672
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 494,
                         "startColumn": 0,
@@ -3488,7 +3488,7 @@
                     "endOffset": 11736
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 196,
                         "startColumn": 0,
@@ -3507,7 +3507,7 @@
                     "endOffset": 11806
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 452,
                         "startColumn": 0,
@@ -3526,7 +3526,7 @@
                     "endOffset": 11857
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 448,
                         "startColumn": 0,
@@ -3545,7 +3545,7 @@
                     "endOffset": 11908
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 450,
                         "startColumn": 0,
@@ -3564,7 +3564,7 @@
                     "endOffset": 11950
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 126,
                         "startColumn": 0,
@@ -3583,7 +3583,7 @@
                     "endOffset": 11989
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 228,
                         "startColumn": 0,
@@ -3602,7 +3602,7 @@
                     "endOffset": 12038
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 310,
                         "startColumn": 0,
@@ -3621,7 +3621,7 @@
                     "endOffset": 12091
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 306,
                         "startColumn": 0,
@@ -3640,7 +3640,7 @@
                     "endOffset": 12149
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 312,
                         "startColumn": 0,
@@ -3659,7 +3659,7 @@
                     "endOffset": 12196
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 734,
                         "startColumn": 0,
@@ -3678,7 +3678,7 @@
                     "endOffset": 12259
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 384,
                         "startColumn": 0,
@@ -3697,7 +3697,7 @@
                     "endOffset": 12313
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 402,
                         "startColumn": 0,
@@ -3716,7 +3716,7 @@
                     "endOffset": 12375
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 78,
                         "startColumn": 0,
@@ -3735,7 +3735,7 @@
                     "endOffset": 12436
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 374,
                         "startColumn": 0,
@@ -3754,7 +3754,7 @@
                     "endOffset": 12490
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 300,
                         "startColumn": 0,
@@ -3773,7 +3773,7 @@
                     "endOffset": 12549
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 128,
                         "startColumn": 0,
@@ -3792,7 +3792,7 @@
                     "endOffset": 12599
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 244,
                         "startColumn": 0,
@@ -3811,7 +3811,7 @@
                     "endOffset": 12644
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 262,
                         "startColumn": 0,
@@ -3830,7 +3830,7 @@
                     "endOffset": 12690
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 530,
                         "startColumn": 0,
@@ -3849,7 +3849,7 @@
                     "endOffset": 12734
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 398,
                         "startColumn": 0,
@@ -3868,7 +3868,7 @@
                     "endOffset": 12772
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 508,
                         "startColumn": 0,
@@ -3887,7 +3887,7 @@
                     "endOffset": 12832
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 694,
                         "startColumn": 0,
@@ -3906,7 +3906,7 @@
                     "endOffset": 12878
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 70,
                         "startColumn": 0,
@@ -3925,7 +3925,7 @@
                     "endOffset": 13129
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 714,
                         "startColumn": 0,
@@ -3944,7 +3944,7 @@
                     "endOffset": 13216
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 802,
                         "startColumn": 0,
@@ -3963,7 +3963,7 @@
                     "endOffset": 13257
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 392,
                         "startColumn": 0,
@@ -3982,7 +3982,7 @@
                     "endOffset": 13294
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 318,
                         "startColumn": 0,
@@ -4001,7 +4001,7 @@
                     "endOffset": 13348
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 314,
                         "startColumn": 0,
@@ -4020,7 +4020,7 @@
                     "endOffset": 13393
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 524,
                         "startColumn": 0,
@@ -4039,7 +4039,7 @@
                     "endOffset": 13434
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 324,
                         "startColumn": 0,
@@ -4058,7 +4058,7 @@
                     "endOffset": 13472
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 208,
                         "startColumn": 0,
@@ -4077,7 +4077,7 @@
                     "endOffset": 13542
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 270,
                         "startColumn": 0,
@@ -4096,7 +4096,7 @@
                     "endOffset": 13614
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 344,
                         "startColumn": 0,
@@ -4115,7 +4115,7 @@
                     "endOffset": 13703
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 584,
                         "startColumn": 0,
@@ -4134,7 +4134,7 @@
                     "endOffset": 13794
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 592,
                         "startColumn": 0,
@@ -4153,7 +4153,7 @@
                     "endOffset": 13879
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 580,
                         "startColumn": 0,
@@ -4172,7 +4172,7 @@
                     "endOffset": 13970
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 594,
                         "startColumn": 0,
@@ -4191,7 +4191,7 @@
                     "endOffset": 14059
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 586,
                         "startColumn": 0,
@@ -4210,7 +4210,7 @@
                     "endOffset": 14146
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 582,
                         "startColumn": 0,
@@ -4229,7 +4229,7 @@
                     "endOffset": 14235
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 588,
                         "startColumn": 0,
@@ -4248,7 +4248,7 @@
                     "endOffset": 14324
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 590,
                         "startColumn": 0,
@@ -4267,7 +4267,7 @@
                     "endOffset": 14415
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 618,
                         "startColumn": 0,
@@ -4286,7 +4286,7 @@
                     "endOffset": 14503
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 612,
                         "startColumn": 0,
@@ -4305,7 +4305,7 @@
                     "endOffset": 14589
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 608,
                         "startColumn": 0,
@@ -4324,7 +4324,7 @@
                     "endOffset": 14677
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 614,
                         "startColumn": 0,
@@ -4343,7 +4343,7 @@
                     "endOffset": 14765
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 616,
                         "startColumn": 0,
@@ -4362,7 +4362,7 @@
                     "endOffset": 14851
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 610,
                         "startColumn": 0,
@@ -4381,7 +4381,7 @@
                     "endOffset": 14907
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 342,
                         "startColumn": 0,
@@ -4400,7 +4400,7 @@
                     "endOffset": 14965
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 346,
                         "startColumn": 0,
@@ -4419,7 +4419,7 @@
                     "endOffset": 15018
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 200,
                         "startColumn": 0,
@@ -4438,7 +4438,7 @@
                     "endOffset": 15060
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 388,
                         "startColumn": 0,
@@ -4457,7 +4457,7 @@
                     "endOffset": 15102
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 720,
                         "startColumn": 0,
@@ -4476,7 +4476,7 @@
                     "endOffset": 15173
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 204,
                         "startColumn": 0,
@@ -4495,7 +4495,7 @@
                     "endOffset": 15232
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 366,
                         "startColumn": 0,
@@ -4514,7 +4514,7 @@
                     "endOffset": 15294
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 136,
                         "startColumn": 0,
@@ -4533,7 +4533,7 @@
                     "endOffset": 15371
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 722,
                         "startColumn": 0,
@@ -4552,7 +4552,7 @@
                     "endOffset": 15431
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 704,
                         "startColumn": 0,
@@ -4571,7 +4571,7 @@
                     "endOffset": 15469
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 284,
                         "startColumn": 0,
@@ -4590,7 +4590,7 @@
                     "endOffset": 15539
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 350,
                         "startColumn": 0,
@@ -4609,7 +4609,7 @@
                     "endOffset": 15605
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 352,
                         "startColumn": 0,
@@ -4628,7 +4628,7 @@
                     "endOffset": 15657
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 710,
                         "startColumn": 0,
@@ -4647,7 +4647,7 @@
                     "endOffset": 15714
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 358,
                         "startColumn": 0,
@@ -4666,7 +4666,7 @@
                     "endOffset": 15782
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 708,
                         "startColumn": 0,
@@ -4685,7 +4685,7 @@
                     "endOffset": 15829
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 390,
                         "startColumn": 0,
@@ -4704,7 +4704,7 @@
                     "endOffset": 15872
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 334,
                         "startColumn": 0,
@@ -4723,7 +4723,7 @@
                     "endOffset": 15916
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 178,
                         "startColumn": 0,
@@ -4742,7 +4742,7 @@
                     "endOffset": 16112
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 434,
                         "startColumn": 0,
@@ -4761,7 +4761,7 @@
                     "endOffset": 16175
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 432,
                         "startColumn": 0,
@@ -4780,7 +4780,7 @@
                     "endOffset": 16227
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 738,
                         "startColumn": 0,
@@ -4799,7 +4799,7 @@
                     "endOffset": 16310
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 798,
                         "startColumn": 0,
@@ -4818,7 +4818,7 @@
                     "endOffset": 16357
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 64,
                         "startColumn": 0,
@@ -4837,7 +4837,7 @@
                     "endOffset": 16439
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 837,
                         "startColumn": 0,
@@ -4856,7 +4856,7 @@
                     "endOffset": 16487
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 154,
                         "startColumn": 0,
@@ -4875,7 +4875,7 @@
                     "endOffset": 16522
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 372,
                         "startColumn": 0,
@@ -4894,7 +4894,7 @@
                     "endOffset": 16570
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 308,
                         "startColumn": 0,
@@ -4913,7 +4913,7 @@
                     "endOffset": 16617
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 222,
                         "startColumn": 0,
@@ -4932,7 +4932,7 @@
                     "endOffset": 16659
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 510,
                         "startColumn": 0,
@@ -4951,7 +4951,7 @@
                     "endOffset": 16710
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 256,
                         "startColumn": 0,
@@ -4970,7 +4970,7 @@
                     "endOffset": 16778
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 224,
                         "startColumn": 0,
@@ -4989,7 +4989,7 @@
                     "endOffset": 16827
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 164,
                         "startColumn": 0,
@@ -5008,7 +5008,7 @@
                     "endOffset": 16893
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 166,
                         "startColumn": 0,
@@ -5027,7 +5027,7 @@
                     "endOffset": 16965
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 498,
                         "startColumn": 0,
@@ -5046,7 +5046,7 @@
                     "endOffset": 17035
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 638,
                         "startColumn": 0,
@@ -5065,7 +5065,7 @@
                     "endOffset": 17083
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 512,
                         "startColumn": 0,
@@ -5084,7 +5084,7 @@
                     "endOffset": 17136
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 514,
                         "startColumn": 0,
@@ -5103,7 +5103,7 @@
                     "endOffset": 17177
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 382,
                         "startColumn": 0,
@@ -5122,7 +5122,7 @@
                     "endOffset": 17219
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 644,
                         "startColumn": 0,
@@ -5141,7 +5141,7 @@
                     "endOffset": 17452
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 620,
                         "startColumn": 0,
@@ -5160,7 +5160,7 @@
                     "endOffset": 17711
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 622,
                         "startColumn": 0,
@@ -5179,7 +5179,7 @@
                     "endOffset": 17832
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 624,
                         "startColumn": 0,
@@ -5198,7 +5198,7 @@
                     "endOffset": 17921
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 626,
                         "startColumn": 0,
@@ -5217,7 +5217,7 @@
                     "endOffset": 18169
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 628,
                         "startColumn": 0,
@@ -5236,7 +5236,7 @@
                     "endOffset": 18220
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 0,
@@ -5255,7 +5255,7 @@
                     "endOffset": 18287
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 464,
                         "startColumn": 0,
@@ -5274,7 +5274,7 @@
                     "endOffset": 18332
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -5293,7 +5293,7 @@
                     "endOffset": 18402
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 744,
                         "startColumn": 0,
@@ -5312,7 +5312,7 @@
                     "endOffset": 18758
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 806,
                         "startColumn": 0,
@@ -5331,7 +5331,7 @@
                     "endOffset": 18953
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 808,
                         "startColumn": 0,
@@ -5350,7 +5350,7 @@
                     "endOffset": 19306
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 810,
                         "startColumn": 0,
@@ -5369,7 +5369,7 @@
                     "endOffset": 19471
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 812,
                         "startColumn": 0,
@@ -5388,7 +5388,7 @@
                     "endOffset": 19697
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 814,
                         "startColumn": 0,
@@ -5407,7 +5407,7 @@
                     "endOffset": 19937
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 816,
                         "startColumn": 0,
@@ -5426,7 +5426,7 @@
                     "endOffset": 20117
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 818,
                         "startColumn": 0,
@@ -5445,7 +5445,7 @@
                     "endOffset": 20165
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 676,
                         "startColumn": 0,
@@ -5464,7 +5464,7 @@
                     "endOffset": 20206
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 272,
                         "startColumn": 0,
@@ -5483,7 +5483,7 @@
                     "endOffset": 20250
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 36,
                         "startColumn": 0,
@@ -5502,7 +5502,7 @@
                     "endOffset": 20292
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 488,
                         "startColumn": 0,
@@ -5521,7 +5521,7 @@
                     "endOffset": 20370
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 764,
                         "startColumn": 0,
@@ -5540,7 +5540,7 @@
                     "endOffset": 20490
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 766,
                         "startColumn": 0,
@@ -5559,7 +5559,7 @@
                     "endOffset": 20524
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 474,
                         "startColumn": 0,
@@ -5578,7 +5578,7 @@
                     "endOffset": 20562
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 476,
                         "startColumn": 0,
@@ -5597,7 +5597,7 @@
                     "endOffset": 20604
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 198,
                         "startColumn": 0,
@@ -5616,7 +5616,7 @@
                     "endOffset": 20650
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 26,
                         "startColumn": 0,
@@ -5635,7 +5635,7 @@
                     "endOffset": 20722
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 106,
                         "startColumn": 0,
@@ -5654,7 +5654,7 @@
                     "endOffset": 20769
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 0,
@@ -5673,7 +5673,7 @@
                     "endOffset": 20825
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 124,
                         "startColumn": 0,
@@ -5692,7 +5692,7 @@
                     "endOffset": 20867
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 416,
                         "startColumn": 0,
@@ -5711,7 +5711,7 @@
                     "endOffset": 20904
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 162,
                         "startColumn": 0,
@@ -5730,7 +5730,7 @@
                     "endOffset": 20942
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 160,
                         "startColumn": 0,
@@ -5749,7 +5749,7 @@
                     "endOffset": 20991
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 646,
                         "startColumn": 0,
@@ -5768,7 +5768,7 @@
                     "endOffset": 21042
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 330,
                         "startColumn": 0,
@@ -5787,7 +5787,7 @@
                     "endOffset": 21134
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 804,
                         "startColumn": 0,
@@ -5806,7 +5806,7 @@
                     "endOffset": 21180
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 0,
@@ -5825,7 +5825,7 @@
                     "endOffset": 21265
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 820,
                         "startColumn": 0,
@@ -5844,7 +5844,7 @@
                     "endOffset": 21316
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 28,
                         "startColumn": 0,
@@ -5863,7 +5863,7 @@
                     "endOffset": 21374
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 0,
@@ -5882,7 +5882,7 @@
                     "endOffset": 21446
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 46,
                         "startColumn": 0,
@@ -5901,7 +5901,7 @@
                     "endOffset": 21501
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 258,
                         "startColumn": 0,
@@ -5920,7 +5920,7 @@
                     "endOffset": 21569
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 414,
                         "startColumn": 0,
@@ -5939,7 +5939,7 @@
                     "endOffset": 21620
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 412,
                         "startColumn": 0,
@@ -5958,7 +5958,7 @@
                     "endOffset": 21668
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 458,
                         "startColumn": 0,
@@ -5977,7 +5977,7 @@
                     "endOffset": 21707
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 758,
                         "startColumn": 0,
@@ -5996,7 +5996,7 @@
                     "endOffset": 21748
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 760,
                         "startColumn": 0,
@@ -6015,7 +6015,7 @@
                     "endOffset": 21780
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 234,
                         "startColumn": 0,
@@ -6034,7 +6034,7 @@
                     "endOffset": 21836
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 466,
                         "startColumn": 0,
@@ -6053,7 +6053,7 @@
                     "endOffset": 21874
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 232,
                         "startColumn": 0,
@@ -6072,7 +6072,7 @@
                     "endOffset": 21967
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 170,
                         "startColumn": 0,
@@ -6091,7 +6091,7 @@
                     "endOffset": 22056
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 794,
                         "startColumn": 0,
@@ -6110,7 +6110,7 @@
                     "endOffset": 22133
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 496,
                         "startColumn": 0,
@@ -6129,7 +6129,7 @@
                     "endOffset": 22182
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 328,
                         "startColumn": 0,
@@ -6148,7 +6148,7 @@
                     "endOffset": 22214
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 226,
                         "startColumn": 0,
@@ -6167,7 +6167,7 @@
                     "endOffset": 22290
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 406,
                         "startColumn": 0,
@@ -6186,7 +6186,7 @@
                     "endOffset": 22332
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 682,
                         "startColumn": 0,
@@ -6205,7 +6205,7 @@
                     "endOffset": 22373
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 460,
                         "startColumn": 0,
@@ -6224,7 +6224,7 @@
                     "endOffset": 22412
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 322,
                         "startColumn": 0,
@@ -6243,7 +6243,7 @@
                     "endOffset": 22453
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 502,
                         "startColumn": 0,
@@ -6262,7 +6262,7 @@
                     "endOffset": 22496
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 504,
                         "startColumn": 0,
@@ -6281,7 +6281,7 @@
                     "endOffset": 22535
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 364,
                         "startColumn": 0,
@@ -6300,7 +6300,7 @@
                     "endOffset": 22591
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 462,
                         "startColumn": 0,
@@ -6319,7 +6319,7 @@
                     "endOffset": 22635
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 150,
                         "startColumn": 0,
@@ -6338,7 +6338,7 @@
                     "endOffset": 22711
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 0,
@@ -6357,7 +6357,7 @@
                     "endOffset": 22779
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 48,
                         "startColumn": 0,
@@ -6376,7 +6376,7 @@
                     "endOffset": 22825
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 50,
                         "startColumn": 0,
@@ -6395,7 +6395,7 @@
                     "endOffset": 22863
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 440,
                         "startColumn": 0,
@@ -6414,7 +6414,7 @@
                     "endOffset": 22905
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 40,
                         "startColumn": 0,
@@ -6433,7 +6433,7 @@
                     "endOffset": 22974
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 104,
                         "startColumn": 0,
@@ -6452,7 +6452,7 @@
                     "endOffset": 23017
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 32,
                         "startColumn": 0,
@@ -6471,7 +6471,7 @@
                     "endOffset": 23102
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 152,
                         "startColumn": 0,
@@ -6490,7 +6490,7 @@
                     "endOffset": 23198
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 202,
                         "startColumn": 0,
@@ -6509,7 +6509,7 @@
                     "endOffset": 23272
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 116,
                         "startColumn": 0,
@@ -6528,7 +6528,7 @@
                     "endOffset": 23312
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 120,
                         "startColumn": 0,
@@ -6547,7 +6547,7 @@
                     "endOffset": 23366
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 114,
                         "startColumn": 0,
@@ -6566,7 +6566,7 @@
                     "endOffset": 23407
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 118,
                         "startColumn": 0,
@@ -6585,7 +6585,7 @@
                     "endOffset": 23453
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 56,
                         "startColumn": 0,
@@ -6604,7 +6604,7 @@
                     "endOffset": 23509
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 66,
                         "startColumn": 0,
@@ -6623,7 +6623,7 @@
                     "endOffset": 23565
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 68,
                         "startColumn": 0,
@@ -6642,7 +6642,7 @@
                     "endOffset": 23619
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 30,
                         "startColumn": 0,
@@ -6661,7 +6661,7 @@
                     "endOffset": 23674
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 110,
                         "startColumn": 0,
@@ -6680,7 +6680,7 @@
                     "endOffset": 23757
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 762,
                         "startColumn": 0,
@@ -6699,7 +6699,7 @@
                     "endOffset": 23809
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 92,
                         "startColumn": 0,
@@ -6718,7 +6718,7 @@
                     "endOffset": 23852
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 506,
                         "startColumn": 0,
@@ -6737,7 +6737,7 @@
                     "endOffset": 23896
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 484,
                         "startColumn": 0,
@@ -6756,7 +6756,7 @@
                     "endOffset": 23937
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 34,
                         "startColumn": 0,
@@ -6775,7 +6775,7 @@
                     "endOffset": 23983
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 0,
@@ -6794,7 +6794,7 @@
                     "endOffset": 24049
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 0,
@@ -6813,7 +6813,7 @@
                     "endOffset": 24138
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 446,
                         "startColumn": 0,
@@ -6832,7 +6832,7 @@
                     "endOffset": 24178
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 752,
                         "startColumn": 0,
@@ -6851,7 +6851,7 @@
                     "endOffset": 24268
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 822,
                         "startColumn": 0,
@@ -6870,7 +6870,7 @@
                     "endOffset": 24375
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 824,
                         "startColumn": 0,
@@ -6889,7 +6889,7 @@
                     "endOffset": 24445
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 826,
                         "startColumn": 0,
@@ -6908,7 +6908,7 @@
                     "endOffset": 24670
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 828,
                         "startColumn": 0,
@@ -6927,7 +6927,7 @@
                     "endOffset": 24744
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 830,
                         "startColumn": 0,
@@ -6946,7 +6946,7 @@
                     "endOffset": 24878
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 832,
                         "startColumn": 0,
@@ -6965,7 +6965,7 @@
                     "endOffset": 24932
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 420,
                         "startColumn": 0,
@@ -6984,7 +6984,7 @@
                     "endOffset": 24982
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 332,
                         "startColumn": 0,
@@ -7003,7 +7003,7 @@
                     "endOffset": 25023
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 0,
@@ -7022,7 +7022,7 @@
                     "endOffset": 25060
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 212,
                         "startColumn": 0,
@@ -7041,7 +7041,7 @@
                     "endOffset": 25099
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 210,
                         "startColumn": 0,
@@ -7060,7 +7060,7 @@
                     "endOffset": 25153
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 264,
                         "startColumn": 0,
@@ -7079,7 +7079,7 @@
                     "endOffset": 25210
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 650,
                         "startColumn": 0,
@@ -7098,7 +7098,7 @@
                     "endOffset": 25256
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 668,
                         "startColumn": 0,
@@ -7117,7 +7117,7 @@
                     "endOffset": 25483
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 670,
                         "startColumn": 0,
@@ -7136,7 +7136,7 @@
                     "endOffset": 25528
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 672,
                         "startColumn": 0,
@@ -7155,7 +7155,7 @@
                     "endOffset": 25756
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 674,
                         "startColumn": 0,
@@ -7174,7 +7174,7 @@
                     "endOffset": 25802
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 684,
                         "startColumn": 0,
@@ -7193,7 +7193,7 @@
                     "endOffset": 25939
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 686,
                         "startColumn": 0,
@@ -7212,7 +7212,7 @@
                     "endOffset": 26036
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 688,
                         "startColumn": 0,
@@ -7231,7 +7231,7 @@
                     "endOffset": 26087
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 690,
                         "startColumn": 0,
@@ -7250,7 +7250,7 @@
                     "endOffset": 26219
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 692,
                         "startColumn": 0,
@@ -7269,7 +7269,7 @@
                     "endOffset": 26511
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 652,
                         "startColumn": 0,
@@ -7288,7 +7288,7 @@
                     "endOffset": 26561
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 654,
                         "startColumn": 0,
@@ -7307,7 +7307,7 @@
                     "endOffset": 27081
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 656,
                         "startColumn": 0,
@@ -7326,7 +7326,7 @@
                     "endOffset": 27130
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 658,
                         "startColumn": 0,
@@ -7345,7 +7345,7 @@
                     "endOffset": 27235
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 660,
                         "startColumn": 0,
@@ -7364,7 +7364,7 @@
                     "endOffset": 27432
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 662,
                         "startColumn": 0,
@@ -7383,7 +7383,7 @@
                     "endOffset": 27480
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 664,
                         "startColumn": 0,
@@ -7402,7 +7402,7 @@
                     "endOffset": 27610
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 666,
                         "startColumn": 0,
@@ -7421,7 +7421,7 @@
                     "endOffset": 27647
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 320,
                         "startColumn": 0,
@@ -7440,7 +7440,7 @@
                     "endOffset": 27684
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 326,
                         "startColumn": 0,
@@ -7459,7 +7459,7 @@
                     "endOffset": 27736
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 38,
                         "startColumn": 0,
@@ -7478,7 +7478,7 @@
                     "endOffset": 27814
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 770,
                         "startColumn": 0,
@@ -7497,7 +7497,7 @@
                     "endOffset": 27873
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 788,
                         "startColumn": 0,
@@ -7516,7 +7516,7 @@
                     "endOffset": 27984
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 790,
                         "startColumn": 0,
@@ -7535,7 +7535,7 @@
                     "endOffset": 28090
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 792,
                         "startColumn": 0,
@@ -7554,7 +7554,7 @@
                     "endOffset": 28191
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 772,
                         "startColumn": 0,
@@ -7573,7 +7573,7 @@
                     "endOffset": 28257
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 774,
                         "startColumn": 0,
@@ -7592,7 +7592,7 @@
                     "endOffset": 28310
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 776,
                         "startColumn": 0,
@@ -7611,7 +7611,7 @@
                     "endOffset": 28381
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 778,
                         "startColumn": 0,
@@ -7630,7 +7630,7 @@
                     "endOffset": 28436
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 780,
                         "startColumn": 0,
@@ -7649,7 +7649,7 @@
                     "endOffset": 28513
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 782,
                         "startColumn": 0,
@@ -7668,7 +7668,7 @@
                     "endOffset": 28590
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 784,
                         "startColumn": 0,
@@ -7687,7 +7687,7 @@
                     "endOffset": 28682
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 786,
                         "startColumn": 0,
@@ -7706,7 +7706,7 @@
                     "endOffset": 28882
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 746,
                         "startColumn": 0,
@@ -7725,7 +7725,7 @@
                     "endOffset": 29057
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 748,
                         "startColumn": 0,
@@ -7744,7 +7744,7 @@
                     "endOffset": 29178
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 834,
                         "startColumn": 0,
@@ -7763,7 +7763,7 @@
                     "endOffset": 29347
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 836,
                         "startColumn": 0,
@@ -7782,7 +7782,7 @@
                     "endOffset": 29422
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 750,
                         "startColumn": 0,
@@ -7801,7 +7801,7 @@
                     "endOffset": 29463
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 754,
                         "startColumn": 0,
@@ -7820,7 +7820,7 @@
                     "endOffset": 29506
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 756,
                         "startColumn": 0,
@@ -7839,7 +7839,7 @@
                     "endOffset": 29555
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 470,
                         "startColumn": 0,
@@ -7858,7 +7858,7 @@
                     "endOffset": 29626
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 122,
                         "startColumn": 0,
@@ -7877,7 +7877,7 @@
                     "endOffset": 29694
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 52,
                         "startColumn": 0,
@@ -7896,7 +7896,7 @@
                     "endOffset": 29743
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 44,
                         "startColumn": 0,
@@ -7915,7 +7915,7 @@
                     "endOffset": 29799
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 54,
                         "startColumn": 0,
@@ -7934,7 +7934,7 @@
                     "endOffset": 29835
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 180,
                         "startColumn": 0,
@@ -7953,7 +7953,7 @@
                     "endOffset": 29883
                 },
                 "from": {
-                    "file": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
+                    "file": "E:\\workspace\\Partner\\app\\src\\main\\res\\values-ro-rRO\\string.xml",
                     "position": {
                         "startLine": 230,
                         "startColumn": 0,

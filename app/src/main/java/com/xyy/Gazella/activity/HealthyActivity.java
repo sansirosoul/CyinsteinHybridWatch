@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.xyy.Gazella.fragment.SleepFragment;
-import com.xyy.Gazella.fragment.StupFragment;
+import com.xyy.Gazella.fragment.StepFragment;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class HealthyActivity extends FragmentActivity {
     private ViewPager viewPager;
     private ArrayList<Fragment> fragmentsList;
     private SleepFragment sleepFragment;
-    private StupFragment stupFragment;
+    private StepFragment stupFragment;
     private FragmentAdapter mFragmentAdapter;
 
     @Override
@@ -40,7 +40,7 @@ public class HealthyActivity extends FragmentActivity {
         viewPager= (ViewPager) findViewById(viewpager);
         fragmentsList = new ArrayList<>();
         sleepFragment = new SleepFragment();
-        stupFragment = new StupFragment();
+        stupFragment = new StepFragment();
         fragmentsList.add(stupFragment);
         fragmentsList.add(sleepFragment);
 
