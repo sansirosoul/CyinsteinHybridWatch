@@ -130,5 +130,6 @@
     <orderEntry type="library" exported="" name="butterknife-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="Juts-Framework140305" level="project" />
     <orderEntry type="library" exported="" name="Juts-Utility" level="project" />
+    <orderEntry type="library" exported="" name="android-android-23" level="project" />
   </component>
 </module>
