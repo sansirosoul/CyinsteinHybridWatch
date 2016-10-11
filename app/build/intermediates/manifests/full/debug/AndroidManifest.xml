@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="18"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="23" />
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -25,6 +25,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name="com.ysp.newband.GazelleApplication"
         android:allowBackup="true"
@@ -35,7 +37,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme" >
         <activity
-            android:name="com.xyy.Gazella.activity.StartActivity"
+            android:name="com.xyy.Gazella.activity.HomeActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent"
@@ -46,17 +48,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" >
-        </activity>
-        <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" >
-        </activity>
-        <activity android:name="com.xyy.Gazella.activity.HomeActivity" >
-        </activity>
-        <activity android:name="com.xyy.Gazella.activity.SetUesrDataActivity" >
-        </activity>
+        <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" />
+        <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" />
+        <!-- <activity android:name="com.xyy.Gazella.activity.HomeActivity"></activity> -->
+        <activity android:name="com.xyy.Gazella.activity.SetUesrDataActivity" />
 
-        <service android:name="com.xyy.Gazella.BroadcastReceiver.PhoneService" >
-        </service>
+        <service android:name="com.xyy.Gazella.BroadcastReceiver.PhoneService" />
         <service
             android:name="com.xyy.Gazella.googlebth.BluetoothLeService"
             android:enabled="true" />
@@ -64,6 +61,10 @@
             android:name="com.xyy.Gazella.bth.BluetoothClientService"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+
+        <activity android:name="com.xyy.Gazella.activity.HealthyActivity" />
+        <activity android:name="com.xyy.Gazella.activity.SleepActivity" />
+        <activity android:name="com.xyy.Gazella.activity.StupActivity" />
     </application>
 
 </manifest>
