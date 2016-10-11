@@ -126,6 +126,7 @@
     <orderEntry type="library" exported="" name="Juts-Sqlite-Jdbc-Driver" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="javapoet-1.7.0" level="project" />
+    <orderEntry type="library" exported="" name="MPChartLib" level="project" />
     <orderEntry type="library" exported="" name="butterknife-annotations-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="Juts-Framework140305" level="project" />
