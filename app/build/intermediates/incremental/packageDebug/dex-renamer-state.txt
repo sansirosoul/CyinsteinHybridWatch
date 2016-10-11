@@ -1,0 +1,7 @@
+#Tue Oct 11 16:06:02 CST 2016
+base.0=E\:\\workspace\\Partner\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_592d36eefb87ffe9804e6deb662dba4d9f049f2e
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=E\:\\workspace\\Partner\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_f59f56abc3e5fd37a996109a1dc985159dce07b6\\classes.dex
+base.1=E\:\\workspace\\Partner\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_f59f56abc3e5fd37a996109a1dc985159dce07b6
+file.0=E\:\\workspace\\Partner\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_592d36eefb87ffe9804e6deb662dba4d9f049f2e\\classes.dex

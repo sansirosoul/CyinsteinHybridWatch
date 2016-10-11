@@ -64,7 +64,7 @@
 
         <activity android:name="com.xyy.Gazella.activity.HealthyActivity" />
         <activity android:name="com.xyy.Gazella.activity.SleepActivity" />
-        <activity android:name="com.xyy.Gazella.activity.StupActivity" />
+        <activity android:name="com.xyy.Gazella.activity.StepActivity" />
     </application>
 
 </manifest>
