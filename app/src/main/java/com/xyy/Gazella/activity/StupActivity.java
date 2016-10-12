@@ -3,7 +3,13 @@ package com.xyy.Gazella.activity;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
@@ -14,22 +20,65 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StupActivity extends BaseActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
+public class StupActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
+
+    @BindView(R.id.btnExit)
+    Button btnExit;
+    @BindView(R.id.btnOpt)
+    Button btnOpt;
+    @BindView(R.id.TVTitle)
+    TextView TVTitle;
+    @BindView(R.id.calendarView)
+    MaterialCalendarView widget;
     private LineChart mChart;
+    private  boolean WidgetType=false;
+    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_stup);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.connection_title);
+        ButterKnife.bind(this);
+
+        initCalendar();
+
         initChart();
+
     }
+
+    private void initCalendar() {
+        btnOpt.setBackground(this.getResources().getDrawable(R.drawable.hillmassion));
+        widget.setTopbarVisible(!widget.getTopbarVisible());
+        widget.state().edit() .setCalendarDisplayMode(CalendarMode.WEEKS)
+                .commit();
+        TVTitle.setText(getSelectedDatesString());
+        
+        widget.setOnDateChangedListener(this);
+        widget.setOnMonthChangedListener(this);
+    }
+
 
     private void initChart() {
         mChart = (LineChart) findViewById(R.id.chart1);
@@ -82,12 +131,11 @@ public class StupActivity extends BaseActivity {
         List<ILineDataSet> sets = mChart.getData().getDataSets();
         for (ILineDataSet iSet : sets) {
             LineDataSet set = (LineDataSet) iSet;
-            set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER? LineDataSet.Mode.LINEAR: LineDataSet.Mode.CUBIC_BEZIER);
+            set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER ? LineDataSet.Mode.LINEAR : LineDataSet.Mode.CUBIC_BEZIER);
         }
     }
 
     private void setData(int count, float range) {
-
         ArrayList<Entry> values = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             float val = (float) (Math.random() * range) + 3;
@@ -96,7 +144,7 @@ public class StupActivity extends BaseActivity {
 
         LineDataSet set1;
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet)mChart.getData().getDataSetByIndex(0);
+            set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(values);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
@@ -110,17 +158,62 @@ public class StupActivity extends BaseActivity {
 
             if (Utils.getSDKInt() >= 18) {
                 // fill drawable only supported on api level 18 and above
-                    Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_red);
-                    set1.setFillDrawable(drawable);
+                Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_red);
+                set1.setFillDrawable(drawable);
+            } else {
+                set1.setFillColor(Color.BLACK);
             }
-            else {
-                    set1.setFillColor(Color.BLACK);
-            }
-
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             dataSets.add(set1); // add the datasets
             LineData data = new LineData(dataSets);
             mChart.setData(data);
         }
+    }
+
+    @OnClick({R.id.btnExit, R.id.btnOpt, R.id.TVTitle})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnExit:
+                StupActivity.this.finish();
+                overridePendingTransitionExit(StupActivity.this);
+                break;
+            case R.id.btnOpt:
+                if (!WidgetType){
+                    widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS)
+                            .commit();
+                    WidgetType=true;
+                }else {
+                    widget.state().edit() .setCalendarDisplayMode(CalendarMode.WEEKS)
+                            .commit();
+                    WidgetType=false;
+                }
+
+                break;
+            case R.id.TVTitle:
+                break;
+        }
+    }
+
+    @Override
+    public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+        TVTitle.setText(getSelectedDatesString());
+
+        if (WidgetType){
+            widget.state().edit() .setCalendarDisplayMode(CalendarMode.WEEKS)
+                    .commit();
+            WidgetType=false;
+        }
+    }
+    @Override
+    public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+        TVTitle.setText(FORMATTER.format(date.getDate()));
+    }
+
+    private String getSelectedDatesString() {
+        CalendarDay date = widget.getSelectedDate();
+        if (date == null) {
+            return "";
+        }
+        return FORMATTER.format(date.getDate());
     }
 }

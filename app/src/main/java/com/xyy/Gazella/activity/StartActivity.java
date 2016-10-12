@@ -1,16 +1,5 @@
 package com.xyy.Gazella.activity;
 
-import com.exchange.android.engine.ExchangeProxy;
-import com.exchange.android.engine.Uoi;
-import com.exchange.android.engine.Uoo;
-import com.juts.framework.exp.JException;
-import com.juts.framework.vo.DataSet;
-import com.juts.framework.vo.Row;
-import com.xyy.Gazella.exchange.ExangeErrorHandler;
-import com.xyy.Gazella.exchange.ServicesBase;
-import com.ysp.newband.BaseActivity;
-import com.ysp.newband.GazelleApplication;
-import com.ysp.smartwatch.R;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,6 +7,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import com.exchange.android.engine.Uoi;
+import com.exchange.android.engine.Uoo;
+import com.juts.framework.exp.JException;
+import com.juts.framework.vo.DataSet;
+import com.juts.framework.vo.Row;
+import com.xyy.Gazella.exchange.ServicesBase;
+import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
+import com.ysp.smartwatch.R;
 
 
      /** 启动页面 */
@@ -45,7 +44,7 @@ public class StartActivity extends BaseActivity {
 				}
 			}
 		}
-		setContentView(R.layout.start_activity);
+		setContentView(R.layout.activity_start);
 		start_btn = (Button) findViewById(R.id.start_btn);
 		start_btn.setOnClickListener(new OnClickListener() {
 			@Override

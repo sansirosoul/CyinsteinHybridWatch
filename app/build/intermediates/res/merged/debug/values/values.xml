@@ -99,6 +99,7 @@
     <declare-styleable name="LinearLayoutCompat"><attr name="android:orientation"/><attr name="android:gravity"/><attr name="android:baselineAligned"/><attr name="android:baselineAlignedChildIndex"/><attr name="android:weightSum"/><attr format="boolean" name="measureWithLargestChild"/><attr name="divider"/><attr name="showDividers"><flag name="none" value="0"/><flag name="beginning" value="1"/><flag name="middle" value="2"/><flag name="end" value="4"/></attr><attr format="dimension" name="dividerPadding"/></declare-styleable>
     <declare-styleable name="LinearLayoutCompat_Layout"><attr name="android:layout_width"/><attr name="android:layout_height"/><attr name="android:layout_weight"/><attr name="android:layout_gravity"/></declare-styleable>
     <declare-styleable name="ListPopupWindow"><attr name="android:dropDownVerticalOffset"/><attr name="android:dropDownHorizontalOffset"/></declare-styleable>
+    <declare-styleable name="MaterialCalendarView"><attr format="reference" name="mcv_dateTextAppearance"/><attr format="reference" name="mcv_weekDayTextAppearance"/><attr format="reference" name="mcv_headerTextAppearance"/><attr format="color" name="mcv_arrowColor"/><attr format="reference" name="mcv_leftArrowMask"/><attr format="reference" name="mcv_rightArrowMask"/><attr format="color" name="mcv_selectionColor"/><attr format="integer" name="mcv_showOtherDates"><flag name="none" value="0"/><flag name="other_months" value="1"/><flag name="out_of_range" value="2"/><flag name="decorated_disabled" value="4"/><flag name="defaults" value="4"/><flag name="all" value="7"/></attr><attr format="boolean" name="mcv_allowClickDaysOutsideCurrentMonth"/><attr format="reference" name="mcv_weekDayLabels"/><attr format="reference" name="mcv_monthLabels"/><attr format="dimension" name="mcv_tileSize"><enum name="match_parent" value="-1"/></attr><attr format="dimension" name="mcv_tileHeight"><enum name="match_parent" value="-1"/></attr><attr format="dimension" name="mcv_tileWidth"><enum name="match_parent" value="-1"/></attr><attr format="enum" name="mcv_firstDayOfWeek"><enum name="sunday" value="1"/><enum name="monday" value="2"/><enum name="tuesday" value="3"/><enum name="wednesday" value="4"/><enum name="thursday" value="5"/><enum name="friday" value="6"/><enum name="saturday" value="7"/></attr><attr format="enum" name="mcv_calendarMode"><enum name="month" value="0"/><enum name="week" value="1"/></attr><attr format="enum" name="mcv_titleAnimationOrientation"><enum name="vertical" value="0"/><enum name="horizontal" value="1"/></attr></declare-styleable>
     <declare-styleable name="MenuGroup"><attr name="android:id"/><attr name="android:menuCategory"/><attr name="android:orderInCategory"/><attr name="android:checkableBehavior"/><attr name="android:visible"/><attr name="android:enabled"/></declare-styleable>
     <declare-styleable name="MenuItem"><attr name="android:id"/><attr name="android:menuCategory"/><attr name="android:orderInCategory"/><attr name="android:title"/><attr name="android:titleCondensed"/><attr name="android:icon"/><attr name="android:alphabeticShortcut"/><attr name="android:numericShortcut"/><attr name="android:checkable"/><attr name="android:checked"/><attr name="android:visible"/><attr name="android:enabled"/><attr name="android:onClick"/><attr name="showAsAction"><flag name="never" value="0"/><flag name="ifRoom" value="1"/><flag name="always" value="2"/><flag name="withText" value="4"/><flag name="collapseActionView" value="8"/></attr><attr format="reference" name="actionLayout"/><attr format="string" name="actionViewClass"/><attr format="string" name="actionProviderClass"/></declare-styleable>
     <declare-styleable name="MenuView"><attr name="android:itemTextAppearance"/><attr name="android:horizontalDivider"/><attr name="android:verticalDivider"/><attr name="android:headerBackground"/><attr name="android:itemBackground"/><attr name="android:windowAnimationStyle"/><attr name="android:itemIconDisabledAlpha"/><attr format="boolean" name="preserveIconSpacing"/></declare-styleable>
@@ -204,6 +205,7 @@
     <item name="action_menu_divider" type="id"/>
     <item name="action_menu_presenter" type="id"/>
     <item name="home" type="id"/>
+    <item name="mcv_pager" type="id"/>
     <item name="progress_circular" type="id"/>
     <item name="progress_horizontal" type="id"/>
     <item name="split_action_bar" type="id"/>
@@ -528,6 +530,7 @@
     <string name="band_type3_guide1_title3">3. After data synced, LED indicator will go back to flashing-status for another 30 seconds then turn-off automatically, if theres no other interruption.</string>
     <string name="band_type3_guide1_title4">4. Blinking, red LED signals low battery level. Insert a new battery.</string>
     <string name="bluetooth">Bluetooth</string>
+    <string name="calendar">Calendar</string>
     <string name="calories">Cal</string>
     <string name="cancel">Cancel</string>
     <string name="charging">days</string>
@@ -591,6 +594,7 @@
     <string name="popup_no">NO</string>
     <string name="popup_title">QUIT HRP Collector?</string>
     <string name="popup_yes">YES</string>
+    <string name="previous">Go to previous</string>
     <string name="readChar">readChar</string>
     <string name="readDisValues">readDisValues</string>
     <string name="readHrsValues">readHrsValues</string>
@@ -1629,6 +1633,13 @@
         <item name="android:minWidth">56dp</item>
         <item name="android:scaleType">center</item>
     </style>
+    <style name="ExampleTheme" parent="android:Theme.Holo">
+        <item name="android:editTextColor">#000000</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowTitleSize">50dp</item>
+         <item name="android:background">@color/white</item>设置背景
+    </style>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
 
@@ -1829,6 +1840,16 @@
     </style>
     <style name="TextAppearance.AppCompat.Widget.Switch" parent="Base.TextAppearance.AppCompat.Widget.Switch"/>
     <style name="TextAppearance.AppCompat.Widget.TextView.SpinnerItem" parent="Base.TextAppearance.AppCompat.Widget.TextView.SpinnerItem"/>
+    <style name="TextAppearance.MaterialCalendarWidget.Date" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/mcv_text_date_light</item>
+    </style>
+    <style name="TextAppearance.MaterialCalendarWidget.Header" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="TextAppearance.MaterialCalendarWidget.WeekDay" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
     <style name="TextAppearance.StatusBar.EventContent" parent=""/>
     <style name="TextAppearance.StatusBar.EventContent.Info" parent=""/>
     <style name="TextAppearance.StatusBar.EventContent.Line2" parent=""/>

@@ -6,9 +6,12 @@
 
     
     <style name= "AppTheme" parent= "AppBaseTheme" type= "text/css" >
-        </style> 
- 
-
- 
-
+        </style>
+    <style name="ExampleTheme" parent="android:Theme.Holo">
+        <item name="android:editTextColor">#000000</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowTitleSize">50dp</item>
+         <item name="android:background">@color/white</item>设置背景
+    </style>
 </resources>

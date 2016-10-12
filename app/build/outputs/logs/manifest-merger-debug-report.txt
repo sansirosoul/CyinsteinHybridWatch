@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:2:1-70:12
+ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:2:1-78:12
 	package
 		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:3:5-33
 		INJECTED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml
@@ -86,6 +86,23 @@ MERGED from [com.android.support:support-core-ui:24.2.1] D:\StudioProject\Partne
 MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:21:5-23:58
 MERGED from [com.android.support:support-core-utils:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\AndroidManifest.xml:21:5-23:61
 MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:21:5-23:58
+MERGED from [Partner:library:unspecified] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\Partner\library\unspecified\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:support-v4:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-media-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-ui:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-fragment:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-media-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-ui:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-utils:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:21:5-23:58
 	tools:overrideLibrary
 		ADDED from [com.android.support:support-v4:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\AndroidManifest.xml:23:9-51
 	android:targetSdkVersion
@@ -124,12 +141,8 @@ uses-permission#android.permission.VIBRATE
 ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:26:5-66
 	android:name
 		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:26:22-63
-android:uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:28:5-88
-	android:name
-		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:28:30-85
 application
-ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:30:5-68:19
+ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:30:5-76:19
 MERGED from [com.android.support:support-v4:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-media-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\AndroidManifest.xml:25:5-20
@@ -182,6 +195,23 @@ MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner
 MERGED from [com.android.support:support-core-utils:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-vector-drawable:23.4.0] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
+MERGED from [Partner:library:unspecified] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\Partner\library\unspecified\AndroidManifest.xml:11:5-20
 MERGED from [com.android.support:support-v4:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:support-media-compat:24.2.1] D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\AndroidManifest.xml:25:5-20
@@ -275,6 +305,16 @@ ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:66:9-75
 	android:name
 		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:66:19-72
 activity#com.xyy.Gazella.activity.StupActivity
-ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:67:9-83
+ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:68:9-74:46
+	android:screenOrientation
+		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:72:13-49
+	android:label
+		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:71:13-45
+	android:launchMode
+		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:74:13-43
+	android:configChanges
+		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:70:13-97
+	android:theme
+		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:73:13-48
 	android:name
-		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:67:19-71
+		ADDED from D:\StudioProject\Partner\app\src\main\AndroidManifest.xml:69:13-65
