@@ -1,7 +1,5 @@
 package com.xyy.Gazella.bth;
 
-import java.util.UUID;
-
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -21,6 +19,8 @@ import com.samsung.android.sdk.bt.gatt.BluetoothGattCallback;
 import com.samsung.android.sdk.bt.gatt.BluetoothGattCharacteristic;
 import com.samsung.android.sdk.bt.gatt.BluetoothGattDescriptor;
 import com.samsung.android.sdk.bt.gatt.BluetoothGattService;
+
+import java.util.UUID;
 
 @SuppressLint("NewApi")
 public class BleService extends Service {
@@ -118,8 +118,8 @@ public class BleService extends Service {
 			if (profile == BluetoothGattAdapter.GATT) {
 				if (mBluetoothGatt != null)
 					mBluetoothGatt.unregisterApp();
-				Log.e("onServiceDisconnected==mBluetoothGatt", mBluetoothGatt
-						+ "");
+//				Log.e("onServiceDisconnected==mBluetoothGatt", mBluetoothGatt
+//						+ "");
 				mBluetoothGatt = null;
 			}
 		}
