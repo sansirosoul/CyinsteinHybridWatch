@@ -36,12 +36,12 @@
         "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\connection_device.xml"
     },
     {
-        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_stup.xml",
-        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\activity_stup.xml"
-    },
-    {
         "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_list_menu_item_radio.xml",
         "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_list_menu_item_radio.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\pairing_activity.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\pairing_activity.xml"
     },
     {
         "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_step.xml",
@@ -96,10 +96,6 @@
         "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\support_simple_spinner_dropdown_item.xml"
     },
     {
-        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\fragment_stup.xml",
-        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\fragment_stup.xml"
-    },
-    {
         "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_healthy.xml",
         "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\activity_healthy.xml"
     },
@@ -142,6 +138,10 @@
     {
         "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_bar.xml",
         "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\search_activity.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\search_activity.xml"
     },
     {
         "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_simple.xml",
@@ -196,11 +196,19 @@
         "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_screen_content_include.xml"
     },
     {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\pairing_dialog.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\pairing_dialog.xml"
+    },
+    {
         "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_screen_toolbar.xml",
         "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_screen_toolbar.xml"
     },
     {
         "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\abc_alert_dialog_material.xml",
         "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\layout\\abc_alert_dialog_material.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\person_activity.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\person_activity.xml"
     }
 ]
