@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.xyy.Gazella.adapter.DeviceListAdapter;
+import com.xyy.Gazella.utils.LoadingDialog;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
@@ -43,6 +44,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private RelativeLayout searchLayout;
     private  LinearLayout pairingLayout;
     private Context context;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -71,9 +73,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             finish();
             return;
         }
-
-
-        bluetoothAdapter.startLeScan(leScanCallback);
     }
 
     BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
@@ -101,12 +100,31 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
+        searchLayout.setVisibility(View.VISIBLE);
+        pairingLayout.setVisibility(View.GONE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                searchLayout.setVisibility(View.GONE);
+                pairingLayout.setVisibility(View.VISIBLE);
+            }
+        },1000);
+        devices.clear();
+        bluetoothAdapter.startLeScan(leScanCallback);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(bluetoothAdapter!=null){
+            bluetoothAdapter.stopLeScan(leScanCallback);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) {
-            finish();
+
             return;
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -125,22 +143,17 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
         searchLayout= (RelativeLayout) findViewById(R.id.search_layout);
         pairingLayout=(LinearLayout) findViewById(R.id.pairing_layout);
-        searchLayout.setVisibility(View.VISIBLE);
-        pairingLayout.setVisibility(View.GONE);
 
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                searchLayout.setVisibility(View.GONE);
-                pairingLayout.setVisibility(View.VISIBLE);
-            }
-        },1000);
+        loadingDialog=new LoadingDialog(context);
+
+
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        loadingDialog.show();
 //        if(GazelleApplication.mBluetoothService.initialize()){
 //            GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
 //            GazelleApplication.mBluetoothService.setActivityHandler(mHandler);

@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:background="@color/black"
+        android:id="@+id/pairing_layout"
+        android:background="@drawable/page3_bg"
         android:orientation="vertical"
         android:visibility="visible"
-        android:id="@+id/pairing_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <RelativeLayout
@@ -31,7 +31,7 @@
                 android:layout_height="1dp"/>
         </RelativeLayout>
         <RelativeLayout
-            android:layout_weight="7"
+            android:layout_weight="10"
             android:layout_width="match_parent"
             android:layout_height="0dp">
             <ListView

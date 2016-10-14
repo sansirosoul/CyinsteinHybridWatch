@@ -206,5 +206,13 @@
     {
         "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\item_calendar.xml",
         "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\item_calendar.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\loading_dialog.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\loading_dialog.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\layout\\person_activity.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\layout\\person_activity.xml"
     }
 ]
