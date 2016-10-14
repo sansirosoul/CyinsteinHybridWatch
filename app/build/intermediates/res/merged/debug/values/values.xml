@@ -534,6 +534,9 @@
     <string name="calories">Cal</string>
     <string name="cancel">Cancel</string>
     <string name="charging">days</string>
+    <string name="choose_birth">请选择您的出生年月</string>
+    <string name="choose_height">请选择您的身高</string>
+    <string name="choose_weight">请选择您的体重</string>
     <string name="clearAPPdata">Remove the mobile data</string>
     <string name="clearAppdata2">Are you sure you want to erase data of mobile phone collected form?This operation is not reversible!</string>
     <string name="cm">cm</string>
@@ -559,17 +562,23 @@
     <string name="everyMondaytofriday">Every Monday to Friday</string>
     <string name="everyday">Everyday</string>
     <string name="exercise">Exercise</string>
+    <string name="female">女</string>
     <string name="gostep">step</string>
     <string name="gosteps">steps</string>
     <string name="h">h</string>
     <string name="homepageweight">Weight/BMI</string>
     <string name="hours">Hours</string>
     <string name="information">Providing accurate information helps Watch to give you meaningful feedbacks.</string>
+    <string name="input_name">请输入您的昵称</string>
     <string name="inputweight">Wrist Watch remind you to input the weight!</string>
+    <string name="launch01">欢迎使用健康手表</string>
+    <string name="launch02">开启您的健康之旅</string>
+    <string name="launch03">Copyright@2016All Right Reserved</string>
     <string name="lefttonextlevel">left to next level</string>
     <string name="lightsleep">Light sleep</string>
     <string name="loading">"\tLoading..."</string>
     <string name="m">m</string>
+    <string name="male">男</string>
     <string name="martsleepwindow">Sleep window</string>
     <string name="medalDay">Time</string>
     <string name="meters">meters</string>
@@ -588,6 +597,7 @@
     <string name="pair">pair</string>
     <string name="pair_or_unpair">Pair/Unpair</string>
     <string name="paired">paired</string>
+    <string name="pairing">正在配对，请稍等…</string>
     <string name="personalizing">Pairing complete, starting personalization</string>
     <string name="personalizingiscomplete">Thank you, personalization is completed</string>
     <string name="popup_message">Device Quit , Do you want to quit this Application?</string>
@@ -598,6 +608,7 @@
     <string name="readChar">readChar</string>
     <string name="readDisValues">readDisValues</string>
     <string name="readHrsValues">readHrsValues</string>
+    <string name="real_msg">* 请填写真实可靠的信息，有助于我们提供有意义的意见给您</string>
     <string name="refresh">discoverCharacteristics</string>
     <string name="removeBond">Remove Bond</string>
     <string name="replaceband">This is the using Cyband,no need to change</string>
@@ -606,8 +617,12 @@
     <string name="sband">\'s band</string>
     <string name="scan">Scan</string>
     <string name="scanning">Scanning </string>
+    <string name="search_devices">搜索到的设备</string>
+    <string name="searching">正在搜索设备，请稍等…</string>
     <string name="select_device">Select a device</string>
+    <string name="sex">性别</string>
     <string name="shared">Below contents will be shared to your friends</string>
+    <string name="skip">跳过配对</string>
     <string name="sleeptime">h</string>
     <string name="start_type2_title1">    Step 1: Open mobilephone\'s bluetooth.</string>
     <string name="start_type2_title2">    Step 2: Choose wristband\'s type, open wristband\'s bluetooth.</string>
@@ -1990,4 +2005,12 @@
     <style name="Widget.AppCompat.TextView.SpinnerItem" parent="Base.Widget.AppCompat.TextView.SpinnerItem"/>
     <style name="Widget.AppCompat.Toolbar" parent="Base.Widget.AppCompat.Toolbar"/>
     <style name="Widget.AppCompat.Toolbar.Button.Navigation" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation"/>
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@drawable/mydialog</item>
+        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
+    </style>
 </resources>
