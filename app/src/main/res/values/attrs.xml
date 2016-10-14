@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <declare-styleable name="TasksCompletedView">
-        <attr name="radius" format="dimension"/>
-        <attr name="strokeWidth" format="dimension"/>
-        <attr name="circleColor" format="color"/>
-        <attr name="ringColor" format="color"/>
-        <attr name="ringBackgroundColor" format="color"/>
-        <attr name="textSize" format="dimension"/>
+
+    <declare-styleable name="CustomAnalogClock">
+        <attr name="dial" format="reference" />
+        <attr name="hand_hour" format="reference" />
+        <attr name="hand_minute" format="reference" />
+        <attr name="hand_second" format="reference" />
     </declare-styleable>
-    
+
+
 </resources>

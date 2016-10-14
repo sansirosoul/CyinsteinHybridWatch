@@ -60,10 +60,6 @@
         "source": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_btn_default_mtrl_shape.xml"
     },
     {
-        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\mydialog.xml",
-        "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\drawable\\mydialog.xml"
-    },
-    {
         "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_cab_background_top_material.xml",
         "source": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_cab_background_top_material.xml"
     },
@@ -100,12 +96,12 @@
         "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\drawable\\circle_message.xml"
     },
     {
-        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_switch_thumb_material.xml",
-        "source": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_switch_thumb_material.xml"
+        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\fade_red.xml",
+        "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\drawable\\fade_red.xml"
     },
     {
-        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\selector_device_list_bg.xml",
-        "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\drawable\\selector_device_list_bg.xml"
+        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_switch_thumb_material.xml",
+        "source": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_switch_thumb_material.xml"
     },
     {
         "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_dialog_material_background_dark.xml",
@@ -114,9 +110,5 @@
     {
         "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\abc_tab_indicator_material.xml",
         "source": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\drawable\\abc_tab_indicator_material.xml"
-    },
-    {
-        "merged": "D:\\StudioProject\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\selector_device_list_clock.xml",
-        "source": "D:\\StudioProject\\Partner\\app\\src\\main\\res\\drawable\\selector_device_list_clock.xml"
     }
 ]

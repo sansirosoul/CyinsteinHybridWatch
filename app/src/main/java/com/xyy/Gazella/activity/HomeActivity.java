@@ -7,6 +7,8 @@ package com.xyy.Gazella.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.ysp.newband.BaseActivity;
@@ -22,22 +24,35 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llTime;
     @BindView(R.id.ll_notice)
     LinearLayout llNotice;
+    @BindView(R.id.ll_healthy)
+    LinearLayout llHealthy;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.home_activity);
+        //隐藏标题栏
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.ll_time, R.id.ll_notice})
+    @OnClick({R.id.ll_time, R.id.ll_notice,R.id.ll_healthy})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_time:
-                Intent timeIntent= new Intent( HomeActivity.this,HealthyActivity.class);
+                Intent timeIntent = new Intent(HomeActivity.this, TimeSynchronization.class);
                 startActivity(timeIntent);
+                overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.ll_notice:
+
+                break;
+            case  R.id.ll_healthy:
+                Intent healthIntent = new Intent(HomeActivity.this, HealthyActivity.class);
+                startActivity(healthIntent);
+                overridePendingTransitionEnter(HomeActivity.this);
                 break;
         }
     }

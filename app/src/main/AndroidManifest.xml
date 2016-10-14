@@ -25,8 +25,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!--<android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-
+    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
     <application
         android:name="com.ysp.newband.GazelleApplication"
         android:allowBackup="true"
@@ -36,53 +35,45 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme">
-        <!--<activity-->
-        <!--android:name="com.xyy.Gazella.activity.HomeActivity"-->
-        <!--android:label="@string/app_name"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:theme="@android:style/Theme.Translucent"-->
-        <!--android:windowSoftInputMode="adjustUnspecified|stateHidden">-->
-
-        <!--</activity>-->
-
-        <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" />
-        <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" />
-        <!-- <activity android:name="com.xyy.Gazella.activity.HomeActivity"></activity> -->
-        <activity android:name="com.xyy.Gazella.activity.SetUesrDataActivity" />
-        <activity android:name="com.xyy.Gazella.activity.HomeActivity">
+        <activity
+            android:name="com.xyy.Gazella.activity.HomeActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.xyy.Gazella.activity.PairingActivity">
-
-        </activity>
+        <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" />
+        <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" />
+        <!-- <activity android:name="com.xyy.Gazella.activity.HomeActivity"></activity> -->
+        <activity android:name="com.xyy.Gazella.activity.SetUesrDataActivity" />
 
         <service android:name="com.xyy.Gazella.BroadcastReceiver.PhoneService" />
         <service
             android:name="com.xyy.Gazella.googlebth.BluetoothLeService"
             android:enabled="true" />
-        <!--<service-->
-        <!--android:name="com.xyy.Gazella.bth.BluetoothClientService"-->
-        <!--android:screenOrientation="portrait"-->
-        <!--android:windowSoftInputMode="adjustUnspecified|stateHidden" />-->
-        <service android:name="com.xyy.Gazella.services.BluetoothService" />
+        <service
+            android:name="com.xyy.Gazella.bth.BluetoothClientService"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
 
-        <activity android:name="com.ysp.newband.BaseActivity"></activity>
         <activity android:name="com.xyy.Gazella.activity.HealthyActivity" />
         <activity android:name="com.xyy.Gazella.activity.SleepActivity" />
-
-        <activity android:name="com.xyy.Gazella.activity.SearchActivity" />
-        <activity android:name="com.xyy.Gazella.activity.PersonActivity" />
-        <activity android:name="com.xyy.Gazella.activity.PersonalizeActivity" />
-
         <activity
-            android:name="com.xyy.Gazella.activity.StepActivity"
+            android:name="com.xyy.Gazella.activity.StupActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/ExampleTheme"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+            android:theme="@style/ExampleTheme" />
+        <activity android:name="com.xyy.Gazella.activity.TimeSynchronization"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme" />
     </application>
 
 </manifest>

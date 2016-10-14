@@ -4,27 +4,16 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    
-    <style name= "AppTheme" parent= "AppBaseTheme" type= "text/css" >
-        </style>
 
-    <style name="dialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowFrame">@null</item><!--边框-->
-        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
-        <item name="android:windowIsTranslucent">false</item><!--半透明-->
-        <item name="android:windowNoTitle">true</item><!--无标题-->
-        <item name="android:windowBackground">@drawable/mydialog</item>
-        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
-    </style>
-
+    <style name="AppTheme" parent="AppBaseTheme" type="text/css"></style>
 
     <style name="ExampleTheme" parent="android:Theme.Holo">
         <item name="android:editTextColor">#000000</item>
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowTitleSize">50dp</item>
-        <item name="android:background">@color/white</item>设置背景
+        <!--<item name="android:background">@color/black</item>设置背景-->
     </style>
- 
+
 
 </resources>
