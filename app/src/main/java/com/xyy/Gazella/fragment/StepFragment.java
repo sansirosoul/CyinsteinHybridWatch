@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.xyy.Gazella.activity.StepActivity;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -41,8 +42,8 @@ public class StepFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.image_but:
-//                Intent intent = new Intent(getActivity(), StepActivity.class);
-//                startrtActivity(intent);
+                Intent intent = new Intent(getActivity(), StepActivity.class);
+                startActivity(intent);
                 break;
             case R.id.text:
                 break;

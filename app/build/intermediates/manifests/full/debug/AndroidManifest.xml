@@ -76,6 +76,11 @@
         <activity android:name="com.xyy.Gazella.activity.SearchActivity" />
         <activity android:name="com.xyy.Gazella.activity.PersonActivity" />
         <activity android:name="com.xyy.Gazella.activity.PersonalizeActivity" />
+        <activity
+            android:name="com.xyy.Gazella.activity.StepActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
     </application>
 
 </manifest>
