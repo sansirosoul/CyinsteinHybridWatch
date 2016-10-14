@@ -16,6 +16,6 @@ public class PersonActivity extends BaseActivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.person_activity);
+//        setContentView(R.layout.person_activity);
     }
 }

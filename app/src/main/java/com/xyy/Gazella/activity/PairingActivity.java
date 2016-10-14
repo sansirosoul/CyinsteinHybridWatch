@@ -16,13 +16,12 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.xyy.Gazella.adapter.DeviceListAdapter;
-import com.xyy.Gazella.services.BluetoothService;
-import com.xyy.Gazella.utils.PairingDialog;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
@@ -41,8 +40,8 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private BluetoothAdapter bluetoothAdapter;
     private List<BluetoothDevice> devices = new ArrayList<BluetoothDevice>();
     private static final int REQUEST_ENABLE_BT = 1;
-    private RelativeLayout searchLayout,pairingLayout;
-    private PairingDialog pairingDialog;
+    private RelativeLayout searchLayout;
+    private  LinearLayout pairingLayout;
     private Context context;
 
     @Override
@@ -125,11 +124,10 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         skip.setOnClickListener(this);
 
         searchLayout= (RelativeLayout) findViewById(R.id.search_layout);
-        pairingLayout=(RelativeLayout) findViewById(R.id.pairing_layout);
+        pairingLayout=(LinearLayout) findViewById(R.id.pairing_layout);
         searchLayout.setVisibility(View.VISIBLE);
         pairingLayout.setVisibility(View.GONE);
 
-        pairingDialog=new PairingDialog(this);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -143,12 +141,11 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if(GazelleApplication.mBluetoothService.initialize()){
-            pairingDialog.show();
-            GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
-            GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
-        }
-        bluetoothAdapter.stopLeScan(leScanCallback);
+//        if(GazelleApplication.mBluetoothService.initialize()){
+//            GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
+//            GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
+//        }
+//        bluetoothAdapter.stopLeScan(leScanCallback);
     }
 
     Handler mHandler = new Handler(){
@@ -156,14 +153,14 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what){
-                case BluetoothService.STATE_CONNECTED:
-                    pairingDialog.dismiss();
-                    Intent intent = new Intent(context,PersonActivity.class);
-                    startActivity(intent);
-                    break;
-                case BluetoothService.STATE_DISCONNECTED:
+//                case BluetoothService.STATE_CONNECTED:
+//                    pairingDialog.dismiss();
+//                    Intent intent = new Intent(context,PersonActivity.class);
+//                    startActivity(intent);
+//                    break;
+//                case BluetoothService.STATE_DISCONNECTED:
 
-                    break;
+//                    break;
                 default:
                     break;
             }

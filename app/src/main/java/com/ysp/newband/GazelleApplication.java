@@ -13,7 +13,7 @@ import android.os.IBinder;
 import android.telephony.TelephonyManager;
 import com.xyy.Gazella.BroadcastReceiver.PhoneBroadcastReceiver;
 import com.xyy.Gazella.googlebth.BluetoothLeService;
-import com.xyy.Gazella.services.BluetoothService;
+
 import com.xyy.model.User;
 
 public class GazelleApplication extends Application {
@@ -23,7 +23,6 @@ public class GazelleApplication extends Application {
 	public static int SCREEN_WIDTH = 800;
 	public static int SCREEN_HEIGHT = 480;
 	public static BluetoothLeService mService;
-	public static BluetoothService mBluetoothService;
 	public static ServiceConnection mServiceConnection;
 	public static BluetoothDevice device;
 	public static int USER_ID = 1;
@@ -57,7 +56,7 @@ public class GazelleApplication extends Application {
 				System.out.println("come in");
 				try {
 //					mService = ((BluetoothLeService.LocalBinder) rawBinder).getService();
-					mBluetoothService=((BluetoothService.LocalBinder) rawBinder).getService();
+			//		mBluetoothService=((BluetoothService.LocalBinder) rawBinder).getService();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -66,12 +65,12 @@ public class GazelleApplication extends Application {
 			public void onServiceDisconnected(ComponentName classname) {
 				System.out.println("come on");
 //				mService = null;
-				mBluetoothService=null;
+			//	mBluetoothService=null;
 			}
 		};
-		Intent bindIntent = new Intent(this, BluetoothService.class);
-		startService(bindIntent);
-		bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+//		Intent bindIntent = new Intent(this, BluetoothService.class);
+//		startService(bindIntent);
+//		bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
 //		Intent bindIntent = new Intent(this, BluetoothLeService.class);
 //		startService(bindIntent);
@@ -107,7 +106,7 @@ public class GazelleApplication extends Application {
 	public void onTerminate() {
 		unbindService(mServiceConnection);
 //		stopService(new Intent(this, BluetoothLeService.class));
-		stopService(new Intent(this, BluetoothService.class));
+	//	stopService(new Intent(this, BluetoothService.class));
 		super.onTerminate();
 	}
 

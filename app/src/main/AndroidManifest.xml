@@ -36,20 +36,20 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppBaseTheme">
-        <activity
-            android:name="com.xyy.Gazella.activity.HomeActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden">
+        <!--<activity-->
+            <!--android:name="com.xyy.Gazella.activity.HomeActivity"-->
+            <!--android:label="@string/app_name"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@android:style/Theme.Translucent"-->
+            <!--android:windowSoftInputMode="adjustUnspecified|stateHidden">-->
 
-        </activity>
+        <!--</activity>-->
 
         <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" />
         <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" />
         <!-- <activity android:name="com.xyy.Gazella.activity.HomeActivity"></activity> -->
         <activity android:name="com.xyy.Gazella.activity.SetUesrDataActivity" />
-        <activity android:name="com.xyy.Gazella.activity.LaunchActivity"
+        <activity android:name="com.xyy.Gazella.activity.HomeActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
