@@ -7,8 +7,6 @@ package com.xyy.Gazella.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.ysp.newband.BaseActivity;
@@ -30,16 +28,17 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        //隐藏标题栏
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_home);
+
         ButterKnife.bind(this);
     }
 
     @OnClick({R.id.ll_time, R.id.ll_notice,R.id.ll_healthy})
     public void onClick(View view) {
+
+//        Animation loadImageAnimation = AnimationUtils.loadAnimation(
+//                getApplicationContext(), R.anim.blackbutton_backgroundselecter);
+//        llTime.setAnimation(loadImageAnimation);
         switch (view.getId()) {
             case R.id.ll_time:
                 Intent timeIntent = new Intent(HomeActivity.this, TimeSynchronization.class);
