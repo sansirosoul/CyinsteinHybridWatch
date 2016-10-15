@@ -78,7 +78,6 @@
     <string name="OpenBluetooth">Please confirm the bluetooth is activated\nPress and hold the button until blue LED flashes</string>
     <string name="OpenBluetooth_type2">Please make sure the blue tooth on your mobile device is truned on.Tap the band watch face twice to turn on the bluetooth module on your band to begin sync,LED Indicator will keep flashing.</string>
     <string name="next">Next</string>
-    <string name="personalizing">Pairing complete, starting personalization</string>
     <string name="XXXband">\'s band</string>
     <string name="SerialNumber">Serial Number</string>
     <string name="About">about</string>
@@ -456,4 +455,5 @@
     <string name="sex">性别</string>
     <string name="male">男</string>
     <string name="female">女</string>
+    <string name="personalizing">正在进行个人化设置，请稍等...</string>
 </resources>
