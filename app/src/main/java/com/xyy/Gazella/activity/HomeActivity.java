@@ -35,10 +35,6 @@ public class HomeActivity extends BaseActivity {
 
     @OnClick({R.id.ll_time, R.id.ll_notice,R.id.ll_healthy})
     public void onClick(View view) {
-
-//        Animation loadImageAnimation = AnimationUtils.loadAnimation(
-//                getApplicationContext(), R.anim.blackbutton_backgroundselecter);
-//        llTime.setAnimation(loadImageAnimation);
         switch (view.getId()) {
             case R.id.ll_time:
                 Intent timeIntent = new Intent(HomeActivity.this, TimeSynchronization.class);
