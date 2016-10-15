@@ -37,7 +37,6 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@color/home_bg"
                 android:gravity="center">
 
                 <LinearLayout
@@ -45,8 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:background="@drawable/page_time"
                     android:gravity="center"
+                    android:background="@drawable/page_time"
                     android:orientation="vertical">
 
                     <ImageView
@@ -72,7 +71,8 @@
                 android:layout_weight="1" >
 
                 <LinearLayout
-                    android:id="@+id/ll_notice"
+                    android:id="@+id/ll_no
+                    tice"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
