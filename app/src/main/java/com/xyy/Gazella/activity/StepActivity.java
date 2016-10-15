@@ -5,11 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
@@ -35,16 +30,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class StepActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
 
-    @BindView(R.id.btnExit)
-    Button btnExit;
-    @BindView(R.id.btnOpt)
-    Button btnOpt;
-    @BindView(R.id.TVTitle)
-    TextView TVTitle;
     @BindView(R.id.calendarView)
     MaterialCalendarView widget;
     private LineChart mChart;
@@ -56,25 +44,18 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_step);
-        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.connection_title);
+
         ButterKnife.bind(this);
-
         initCalendar();
-
         initChart();
-
     }
 
     private void initCalendar() {
-        btnOpt.setBackground(this.getResources().getDrawable(R.drawable.hillmassion));
+
         widget.setTopbarVisible(!widget.getTopbarVisible());
         widget.state().edit() .setCalendarDisplayMode(CalendarMode.WEEKS)
                 .commit();
-        TVTitle.setText(getSelectedDatesString());
-
         widget.setOnDateChangedListener(this);
         widget.setOnMonthChangedListener(this);
     }
@@ -170,33 +151,33 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         }
     }
 
-    @OnClick({R.id.btnExit, R.id.btnOpt, R.id.TVTitle})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnExit:
-                StepActivity.this.finish();
-                overridePendingTransitionExit(StepActivity.this);
-                break;
-            case R.id.btnOpt:
-                if (!WidgetType){
-                    widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS)
-                            .commit();
-                    WidgetType=true;
-                }else {
-                    widget.state().edit() .setCalendarDisplayMode(CalendarMode.WEEKS)
-                            .commit();
-                    WidgetType=false;
-                }
-
-                break;
-            case R.id.TVTitle:
-                break;
-        }
-    }
+//    @OnClick({R.id.btnExit, R.id.btnOpt, R.id.TVTitle})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.btnExit:
+//                StepActivity.this.finish();
+//                overridePendingTransitionExit(StepActivity.this);
+//                break;
+//            case R.id.btnOpt:
+//                if (!WidgetType){
+//                    widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS)
+//                            .commit();
+//                    WidgetType=true;
+//                }else {
+//                    widget.state().edit() .setCalendarDisplayMode(CalendarMode.WEEKS)
+//                            .commit();
+//                    WidgetType=false;
+//                }
+//
+//                break;
+//            case R.id.TVTitle:
+//                break;
+//        }
+//    }
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-        TVTitle.setText(getSelectedDatesString());
+       // TVTitle.setText(getSelectedDatesString());
 
         if (WidgetType){
             widget.state().edit() .setCalendarDisplayMode(CalendarMode.WEEKS)
@@ -206,7 +187,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     }
     @Override
     public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
-        TVTitle.setText(FORMATTER.format(date.getDate()));
+       // TVTitle.setText(FORMATTER.format(date.getDate()));
     }
 
     private String getSelectedDatesString() {
