@@ -12,6 +12,9 @@
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowTitleSize">50dp</item>
+        <item name="android:windowNoTitle">true</item>
+
+
         <!--<item name="android:background">@color/black</item>设置背景-->
     </style>
 
