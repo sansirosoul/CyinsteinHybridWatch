@@ -80,14 +80,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
                 break;
             case R.id.ll_height:
-                ArrayList<String> heights = new ArrayList<>();
-                for (int i = 150;i<200;i++){
-                    heights.add(i+"cm");
-                }
-                WheelViewDialog dialog = new WheelViewDialog(context);
-                dialog.setItems(heights);
-                dialog.setLoop(true);
-                dialog.show();
+
                 break;
             case R.id.ll_weight:
 
