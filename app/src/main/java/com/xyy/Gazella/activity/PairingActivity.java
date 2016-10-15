@@ -81,10 +81,19 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(!devices.contains(bluetoothDevice)){
-                        devices.add(bluetoothDevice);
-                        deviceListAdapter.notifyDataSetChanged();
+                    if(bluetoothDevice.getName() != null&&(bluetoothDevice.getName().equals("Watch")
+                            || bluetoothDevice.getName().equals("Partner")
+                            || bluetoothDevice.getName().equals("Band")
+                            || bluetoothDevice.getName().equals("Felix") || bluetoothDevice
+                            .getName().equals("Nova"))){
+                        if(!devices.contains(bluetoothDevice)){
+                            searchLayout.setVisibility(View.GONE);
+                            pairingLayout.setVisibility(View.VISIBLE);
+                            devices.add(bluetoothDevice);
+                            deviceListAdapter.notifyDataSetChanged();
+                        }
                     }
+
                 }
             });
         }
@@ -102,13 +111,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
         searchLayout.setVisibility(View.VISIBLE);
         pairingLayout.setVisibility(View.GONE);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                searchLayout.setVisibility(View.GONE);
-                pairingLayout.setVisibility(View.VISIBLE);
-            }
-        },1000);
+
         devices.clear();
         bluetoothAdapter.startLeScan(leScanCallback);
     }
