@@ -41,11 +41,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" />
         <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" />
@@ -56,10 +52,7 @@
         <service
             android:name="com.xyy.Gazella.googlebth.BluetoothLeService"
             android:enabled="true" />
-        <service
-            android:name="com.xyy.Gazella.bth.BluetoothClientService"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+       <service android:name="com.xyy.Gazella.services.BluetoothService"></service>
 
         <activity android:name="com.xyy.Gazella.activity.HealthyActivity" />
         <activity android:name="com.xyy.Gazella.activity.SleepActivity" />
@@ -74,6 +67,17 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme" />
+        <activity android:name="com.xyy.Gazella.activity.StartActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.LaunchActivity"></activity>
+        <activity android:name="com.xyy.Gazella.activity.PairingActivity"></activity>
+        <activity android:name="com.xyy.Gazella.activity.PersonActivity"></activity>
+        <activity android:name="com.xyy.Gazella.activity.PersonalizeActivity"></activity>
     </application>
 
 </manifest>
