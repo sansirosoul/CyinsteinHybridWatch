@@ -91,7 +91,6 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             case R.id.go:
                 Intent intent = new Intent(context, PersonalizeActivity.class);
                 startActivity(intent);
-                finish();
                 break;
         }
     }
