@@ -1,7 +1,6 @@
 package com.xyy.Gazella.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -11,11 +10,11 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -24,17 +23,27 @@ import android.widget.Toast;
 import com.xyy.Gazella.adapter.DeviceListAdapter;
 import com.xyy.Gazella.utils.LoadingDialog;
 import com.ysp.newband.BaseActivity;
-import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/12.
  */
 
 public class PairingActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
+    @BindView(R.id.view)
+    View view;
+    @BindView(R.id.top)
+    RelativeLayout top;
+    @BindView(R.id.listview)
+    ListView listview;
+    @BindView(R.id.skip)
     private ListView listView;
     private Button skip;
     private DeviceListAdapter deviceListAdapter;
@@ -42,7 +51,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private List<BluetoothDevice> devices = new ArrayList<BluetoothDevice>();
     private static final int REQUEST_ENABLE_BT = 1;
     private RelativeLayout searchLayout;
-    private  LinearLayout pairingLayout;
+    private LinearLayout pairingLayout;
     private Context context;
     private LoadingDialog loadingDialog;
 
@@ -51,6 +60,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         super.onCreate(arg0);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.pairing_activity);
+        ButterKnife.bind(this);
 
         initView();
         initBluetooth();
@@ -81,7 +91,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(!devices.contains(bluetoothDevice)){
+                    if (!devices.contains(bluetoothDevice)) {
                         devices.add(bluetoothDevice);
                         deviceListAdapter.notifyDataSetChanged();
                     }
@@ -108,7 +118,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                 searchLayout.setVisibility(View.GONE);
                 pairingLayout.setVisibility(View.VISIBLE);
             }
-        },1000);
+        }, 1000);
         devices.clear();
         bluetoothAdapter.startLeScan(leScanCallback);
     }
@@ -116,7 +126,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(bluetoothAdapter!=null){
+        if (bluetoothAdapter != null) {
             bluetoothAdapter.stopLeScan(leScanCallback);
         }
     }
@@ -131,7 +141,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     }
 
     private void initView() {
-        context=this;
+        context = this;
         listView = (ListView) findViewById(R.id.listview);
         skip = (Button) findViewById(R.id.skip);
 
@@ -141,11 +151,11 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         listView.setOnItemClickListener(this);
         skip.setOnClickListener(this);
 
-        searchLayout= (RelativeLayout) findViewById(R.id.search_layout);
-        pairingLayout=(LinearLayout) findViewById(R.id.pairing_layout);
+        searchLayout = (RelativeLayout) findViewById(R.id.search_layout);
+        pairingLayout = (LinearLayout) findViewById(R.id.pairing_layout);
 
 
-        loadingDialog=new LoadingDialog(context);
+        loadingDialog = new LoadingDialog(context);
 
 
     }
@@ -161,11 +171,11 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 //        bluetoothAdapter.stopLeScan(leScanCallback);
     }
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
 //                case BluetoothService.STATE_CONNECTED:
 //                    pairingDialog.dismiss();
 //                    Intent intent = new Intent(context,PersonActivity.class);
@@ -180,15 +190,25 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         }
     };
 
-    @Override
+    @OnClick({R.id.view, R.id.top, R.id.listview, R.id.skip, R.id.pairing_layout, R.id.clock, R.id.search_layout})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.view:
+                break;
+            case R.id.top:
+                break;
+            case R.id.listview:
+                break;
             case R.id.skip:
                 bluetoothAdapter.stopLeScan(leScanCallback);
-                Intent intent = new Intent(context,PersonActivity.class);
+                Intent intent = new Intent(context, PersonActivity.class);
                 startActivity(intent);
                 break;
-            default:
+            case R.id.pairing_layout:
+                break;
+            case R.id.clock:
+                break;
+            case R.id.search_layout:
                 break;
         }
     }
