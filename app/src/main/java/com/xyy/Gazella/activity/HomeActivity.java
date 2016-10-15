@@ -49,6 +49,12 @@ public class HomeActivity extends BaseActivity {
                 startActivity(healthIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
+
+
+
+
+
+
         }
     }
 }

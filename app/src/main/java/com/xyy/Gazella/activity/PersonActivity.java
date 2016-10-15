@@ -1,28 +1,45 @@
 package com.xyy.Gazella.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
-import com.wx.wheelview.widget.WheelViewDialog;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
-import java.util.ArrayList;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/12.
  */
 
-public class PersonActivity extends BaseActivity implements View.OnClickListener{
-    private ToggleButton tg_male,tg_female;
-    private Button back,go;
-    private LinearLayout ll_birth,ll_height,ll_weight;
+public class PersonActivity extends BaseActivity implements View.OnClickListener {
+    @BindView(R.id.ll_birth)
+    LinearLayout llBirth;
+    @BindView(R.id.tg_male)
+    ToggleButton tgMale;
+    @BindView(R.id.tg_female)
+    ToggleButton tgFemale;
+    @BindView(R.id.ll_height)
+    LinearLayout llHeight;
+    @BindView(R.id.ll_weight)
+    LinearLayout llWeight;
+    @BindView(R.id.back)
+    Button back;
+    @BindView(R.id.go)
+    Button go;
+    @BindView(R.id.head)
+    ImageView head;
+
     private Context context;
 
     @Override
@@ -30,62 +47,51 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(arg0);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.person_activity);
-        context=this;
+        ButterKnife.bind(this);
+        context = this;
         initView();
     }
 
     private void initView() {
-        tg_male= (ToggleButton) findViewById(R.id.tg_male);
-        tg_female= (ToggleButton) findViewById(R.id.tg_female);
 
-        tg_male.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        tgMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    tg_female.setChecked(false);
+                if (b) {
+                    tgFemale.setChecked(false);
                 }
             }
         });
 
-        tg_female.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        tgFemale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    tg_male.setChecked(false);
+                if (b) {
+                    tgMale.setChecked(false);
                 }
             }
         });
-
-        back= (Button) findViewById(R.id.back);
-        go= (Button) findViewById(R.id.go);
-        back.setOnClickListener(this);
-        go.setOnClickListener(this);
-
-        ll_birth= (LinearLayout) findViewById(R.id.ll_birth);
-        ll_height= (LinearLayout) findViewById(R.id.ll_height);
-        ll_weight= (LinearLayout) findViewById(R.id.ll_weight);
-
-        ll_birth.setOnClickListener(this);
-        ll_height.setOnClickListener(this);
-        ll_weight.setOnClickListener(this);
     }
 
-    @Override
+
+    @OnClick({R.id.ll_birth, R.id.head, R.id.ll_height, R.id.ll_weight, R.id.back, R.id.go})
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
+            case R.id.ll_birth:
+                break;
+            case R.id.head:
+                break;
+            case R.id.ll_height:
+                break;
+            case R.id.ll_weight:
+                break;
             case R.id.back:
                 finish();
                 break;
-            case R.id.ll_birth:
-
-                break;
-            case R.id.ll_height:
-
-                break;
-            case R.id.ll_weight:
-
-                break;
-            default:
+            case R.id.go:
+                Intent intent = new Intent(context, PersonalizeActivity.class);
+                startActivity(intent);
+                finish();
                 break;
         }
     }
