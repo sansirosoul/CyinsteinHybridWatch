@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.xyy.Gazella.activity.StupActivity">
+    tools:context="com.xyy.Gazella.activity.StepActivity">
 
 
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView

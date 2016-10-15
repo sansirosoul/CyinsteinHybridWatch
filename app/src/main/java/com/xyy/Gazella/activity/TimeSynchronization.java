@@ -10,7 +10,7 @@ public class TimeSynchronization extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_time_synchronization);
+       setContentView(R.layout.activity_time_synchronization);
 
 
     }

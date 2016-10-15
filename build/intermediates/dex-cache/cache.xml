@@ -1,3 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
 
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\internal_impl-24.2.1_0a832ca23994a5b004be5109de31893934fa4039.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-utils-24.2.1_bbe309be7cdc60341014475ee5237b6a568eb3b0.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\libs\samsung_ble_sdk_200.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="a010e00c4291888fec2bd113bd4941f896088c47">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\samsung_ble_sdk_200_1cd1d0325a0c366878b81c47a13c71233bc2ed51.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\internal_impl-24.2.1_65ca9a9b10857b2039ca245aa8b524b23db2a736.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\libs\Juts-Sqlite-Jdbc-Driver.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="b16c8c12435973b799cc41f72560ce9a53e33963">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\Juts-Sqlite-Jdbc-Driver_30edcf14d9c8e5d543393467682d07d901f141f1.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\libs\Juts-Utility.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="d5f9c9ebdbb034279dd51c54ba60008a318ee6bf">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\Juts-Utility_827e94d88c0099c93befa0c6a34fd98f1d95e492.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-24.2.1_f71b8f88715a9a6d51e846a9c55a2fec2dd69053.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\internal_impl-24.2.1_63d5e84a172bb44a2d95a6fe32509e9412039fbb.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.4.0_3d7828b35358efbcacf9b60e71b029909baab1b5.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife-compiler\8.4.0\22f40cd3f01849c6deeab0a755d2082b2624581\butterknife-compiler-8.4.0.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="022f40cd3f01849c6deeab0a755d2082b2624581">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\butterknife-compiler-8.4.0_c9660a1b88bc0799fb0d37c5af8ff66a68ead23b.jar" />
+    </item>
+    <item
+        jar="F:\AndroidStudio\gradle\m2repository\com\google\guava\guava\18.0\guava-18.0.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="cce0823396aa693798f8882e64213b1772032b09">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\guava-18.0_06828df1db3ce80de025262f82e3da9955391e2c.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\internal_impl-24.2.1_66dcea95f951adf057d81ddeaf26f765e955fbab.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\libs\googleBLE.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="235a19f94d7c6dd487360b52a1dccbd0aef06216">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\googleBLE_d7e3e74bd0b8ede4643af9c8586a7c3efe8e0589.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.google.auto.service\auto-service\1.0-rc2\51033a5b8fcf7039159e35b6878f106ccd5fb35f\auto-service-1.0-rc2.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="51033a5b8fcf7039159e35b6878f106ccd5fb35f">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\auto-service-1.0-rc2_5c3271ea07ecc16d19e38f32f604038ecb60d0e1.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-compat\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\com.android.support-support-compat-24.2.1_366a294bb76ab4614d1ed1982e38d01cfa5c4517.jar" />
+    </item>
+    <item
+        jar="F:\AndroidSDK\extras\android\m2repository\com\android\support\support-annotations\24.2.1\support-annotations-24.2.1.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\support-annotations-24.2.1_9f4526760464b99845e4b5220db1967bd66b7b39.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\libs\fileupload.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="896dce5a3d482b4a75f4cfe9fe9b93cd4ec33a9a">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\fileupload_98f3ab32a4ea503497c0e42b90969dd6b331944a.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-ui-24.2.1_09c5b139218345c156f0d25755015f77d9cd1eba.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\com.android.support-support-media-compat-24.2.1_914a1a73db13e8989bccf26226080da3b677560d.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\libs\internal_impl-24.2.1.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\internal_impl-24.2.1_20e596ebf588dd2959fd6e7126de3c7e6d6c5886.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\Partner\Calendarlibrary\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="95f8a76b16483477d90d1a9ac48d1e254455ad5c">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\Partner-Calendarlibrary-unspecified_57ba090c8e4ef9380b4554e26b68541ed2d9fad1.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\libs\commons-httpclient.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="964cd74171f427720480efdec40a7c7f6e58426a">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\commons-httpclient_bc46c0d66f9d6be77de57f13c27d38bce3435401.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-fragment\24.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\com.android.support-support-fragment-24.2.1_b82741c81ef90b4ab2ac3af9420d811ce2342e28.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\libs\MPChartLib.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="95552ed4c65bbaed30f631bff4cddcd5f605210e">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\MPChartLib_af045dbf08c0709dd91457bf56c22c0c45a7ed21.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\libs\Juts-Android-Exchange-Engine140313.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="342e9261b70b7fc56f5fc11337e0fe4280765748">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\Juts-Android-Exchange-Engine140313_130300e6409eff7e338fb5e178aebc247dde5158.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife-annotations\8.4.0\ea392375cf9ff59234a82e7928a204215ccc98cd\butterknife-annotations-8.4.0.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="ea392375cf9ff59234a82e7928a204215ccc98cd">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\butterknife-annotations-8.4.0_a2a255623276bf6fd1b525dcb3e3c692cac62c3e.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\libs\Juts-License.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="7eb903075ec24dad4747be7e2c22b2028cf5a876">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\Juts-License_a148adaf458af15b49c41041da2e8c50647e3927.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.jakewharton\butterknife\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="a07818a1ecabdb149998823429cce555af4b9cba">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\com.jakewharton-butterknife-8.4.0_558a8ed07cf20ffe36bb26b1d87231c0b995f09d.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.squareup\javapoet\1.7.0\4fdcf1fc27c1a8f55d1109df986c923152f07759\javapoet-1.7.0.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="4fdcf1fc27c1a8f55d1109df986c923152f07759">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\javapoet-1.7.0_4d22ec76e2375b8b5c4031c7f5b9f96deae19a45.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.4.0_c8886afd3b7eddda20de54a1b8a0038e2e547050.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.4.0_c93d3def06a8eec24a3aed87e6cf7ac3b5a6b376.jar" />
+    </item>
+    <item
+        jar="D:\StudioProject\Partner\app\libs\Juts-Framework140305.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="16ed7dbcbe88b65a8f993f491de0c209df9bd506">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\Juts-Framework140305_e1eb00a096b3ad6faabf7e4e5db64db90f48ecbd.jar" />
+    </item>
+    <item
+        jar="C:\Users\Administrator\.gradle\caches\modules-2\files-2.1\com.google.auto\auto-common\0.6\cf7212b0f8bfef12657b942df8f4f2cf032d3f41\auto-common-0.6.jar"
+        jumboMode="false"
+        revision="24.0.2"
+        sha1="cf7212b0f8bfef12657b942df8f4f2cf032d3f41">
+        <dex dex="D:\StudioProject\Partner\app\build\intermediates\pre-dexed\debug\auto-common-0.6_25026c5daa3c99057fc5ab69478ce5bed4363fb7.jar" />
+    </item>
+
+</items>
