@@ -15,7 +15,7 @@
     <color name="main_bg">#DCDDDD</color>
     <color name="home_bg">#EEF3F9</color>
     <color name="title_bg">#0088FF</color>
-
+    <color name="shadow">#cc222222</color>
     <color name="personalize1">#b6e1ff</color>
     <color name="personalize2">#005ea0</color>
 </resources>
