@@ -66,6 +66,8 @@ public class HomeActivity extends BaseActivity {
 
 
 
+
+
              //  .setShape(GuideView.MyShape.CIRCULAR)   //
                 // ，
                 .setBgColor(getResources().getColor(R.color.shadow))
