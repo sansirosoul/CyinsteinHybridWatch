@@ -342,8 +342,13 @@ public class AnalogClock extends View {
         return (int) mHour;
     }
 
+    /***
+     *
+     * @param TimeType  1 是时针  , 2是分针
+     * @param TimeValue  设置时间值
+     */
+
     public void setTimeValue(int TimeType, int TimeValue) {
-        //  1 是时针  , 2是分针
         if (TimeType == 1)
             mHour = TimeValue;
         else
