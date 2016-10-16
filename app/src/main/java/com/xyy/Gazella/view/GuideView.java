@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
 import android.view.Gravity;
@@ -269,7 +270,7 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
                         guideViewParams.setMargins(offsetX, bottom + offsetY, -offsetX, -bottom - offsetY);
                         break;
                     case RIGHT:
-                        guideViewParams.setMargins(right + offsetX, top + offsetY, -right - offsetX, -top - offsetY);
+                        guideViewParams.setMargins(right -80, top + 400, -right - offsetX, -top - offsetY);
                         break;
                     case LEFT_TOP:
                         this.setGravity(Gravity.RIGHT | Gravity.BOTTOM);
@@ -310,6 +311,15 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
             location[1] = targetView.getHeight();
         }
         return location;
+    }
+
+    /**获取View的坐标*/
+    private Rect getTargetViewPostion() {
+        Rect mRectSrc = new Rect();
+        if (isMeasured) {
+            targetView.   getGlobalVisibleRect(mRectSrc);
+        }
+        return mRectSrc;
     }
 
     /**
@@ -367,12 +377,13 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
         // targetView 的透明圆形画笔
         if (mCirclePaint == null)
             mCirclePaint = new Paint();
+        //mCirclePaint.setColor(Color.RED);
         porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_OUT);// 或者CLEAR
         mCirclePaint.setXfermode(porterDuffXfermode);
         mCirclePaint.setAntiAlias(true);
 
+        RectF oval = new RectF();
         if (myShape != null) {
-            RectF oval = new RectF();
             switch (myShape) {
                 case CIRCULAR://圆形
                     temp.drawCircle(center[0], center[1], radius, mCirclePaint);//绘制圆形
@@ -395,7 +406,8 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
                     break;
             }
         } else {
-            temp.drawCircle(center[0], center[1], radius, mCirclePaint);//绘制圆形
+            Rect f=getTargetViewPostion();
+            temp.drawRect(f,mCirclePaint);//绘制正方形
         }
 
         // 绘制到屏幕
