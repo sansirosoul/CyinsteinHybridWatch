@@ -58,6 +58,11 @@ public class HomeActivity extends BaseActivity {
                 .setTargetView(llF)//设置目标
                 .setCustomGuideView(iv)
                 .setDirction(GuideView.Direction.RIGHT)
+
+
+
+
+
              //  .setShape(GuideView.MyShape.CIRCULAR)   //
                 // ，
                 .setBgColor(getResources().getColor(R.color.shadow))
