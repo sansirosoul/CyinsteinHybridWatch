@@ -21,9 +21,9 @@ import android.view.View;
 
 import com.ysp.smartwatch.R;
 
-public class CustomAnalogClock extends View {
+public class AnalogClock extends View {
 
-    private static final String TAG = CustomAnalogClock.class.getName();
+    private static final String TAG = AnalogClock.class.getName();
     private Time mCalendar;
     private Drawable mHourHand;
     private Drawable mMinuteHand;
@@ -51,17 +51,18 @@ public class CustomAnalogClock extends View {
     private int w;
     private int x, y;  // 时钟中心点位置（相对于视图）
     private int ChangeTimeType;//改变时针或分针  1 :时针 ，2 :分针
-    private  ChangeTimeListener changetimelistener;
+    private ChangeTimeListener changetimelistener;  //监听时间变换
+    private boolean isChangedTime = false;
 
-    public CustomAnalogClock(Context context) {
+    public AnalogClock(Context context) {
         this(context, null);
     }
 
-    public CustomAnalogClock(Context context, AttributeSet attrs) {
+    public AnalogClock(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CustomAnalogClock(Context context, AttributeSet attrs, int defStyle) {
+    public AnalogClock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         Resources r = getContext().getResources();
 
@@ -118,15 +119,15 @@ public class CustomAnalogClock extends View {
 //        mHour = 12;
 //        mMinutes = 0;
         // mSecond = second;
-        if (isStop) stop = second;
-        else mSecond = move;
-        if (isStop) mSecond = second;
-        else mSecond = stop;
+        if (!isChangedTime) {
+            if (isStop) stop = second;
+            else mSecond = move;
+            if (isStop) mSecond = second;
+            else mSecond = stop;
+            mChanged = true;
 
-
-        mChanged = true;
-
-        updateContentDescription(mCalendar);
+            updateContentDescription(mCalendar);
+        }
     }
 
     @Override
@@ -142,7 +143,7 @@ public class CustomAnalogClock extends View {
             public void run() {
                 if (mTickerStopped)
                     return;
-                onTimeChanged();
+                // onTimeChanged();
                 invalidate();
                 long now = SystemClock.uptimeMillis();
                 long next = now + (1000 - now % 1000);
@@ -204,6 +205,20 @@ public class CustomAnalogClock extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        if (!isChangedTime) {
+
+            mCalendar.setToNow();// 取当前时间
+            int hour = mCalendar.hour;
+            int minute = mCalendar.minute;
+            int second = mCalendar.second;
+            // mDay = String.valueOf(mCalendar.year) + "-"
+            // + String.valueOf(mCalendar.month + 1) + "-"
+            // + String.valueOf(mCalendar.monthDay);
+            // mWeek = this.getWeek(mCalendar.weekDay);
+
+            mHour = hour + mMinutes / 60.0f + mSecond / 3600.0f;
+            mMinutes = minute + second / 60.0f;
+        }
         boolean changed = mChanged;
 
         if (changed) {
@@ -238,7 +253,9 @@ public class CustomAnalogClock extends View {
         dial.draw(canvas);
         canvas.save();
 
+
         canvas.rotate(mHour / 12.0f * 360.0f, x, y);
+
         final Drawable hourHand = mHourHand;
         if (changed) {
             w = hourHand.getIntrinsicWidth();
@@ -279,15 +296,7 @@ public class CustomAnalogClock extends View {
             canvas.restore();
         }
 
-//        Paint paint = new Paint();
-//		paint.setColor(Color.RED);
-//
-//		canvas.drawLine(0, y, canvas.getWidth(), y, paint);
-//
-//		canvas.drawLine(x, 0, x, canvas.getHeight(), paint);
-
     }
-
 
     private void updateContentDescription(Time time) {
         final int flags = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_24HOUR;
@@ -316,9 +325,9 @@ public class CustomAnalogClock extends View {
                     Tiemvalue = Tiemvalue / 6;
                     mMinutes = Tiemvalue;
                 }
-                if(changetimelistener!=null)
+                if (changetimelistener != null)
                     changetimelistener.ChangeTimeListener(Tiemvalue);
-
+                isChangedTime = true;
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_UP:
@@ -326,6 +335,27 @@ public class CustomAnalogClock extends View {
                 break;
         }
         return true;
+    }
+
+    public int getHourTimeValue() {
+
+        return (int) mHour;
+    }
+
+    public void setTimeValue(int TimeType, int TimeValue) {
+        //  1 是时针  , 2是分针
+        if (TimeType == 1)
+            mHour = TimeValue;
+        else
+            mMinutes = TimeValue;
+        isChangedTime = true;
+        postInvalidate();
+
+    }
+
+    public int getMinutesTimeValue() {
+
+        return (int) mMinutes;
     }
 
 
