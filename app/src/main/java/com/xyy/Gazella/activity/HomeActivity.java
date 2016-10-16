@@ -7,8 +7,13 @@ package com.xyy.Gazella.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.xyy.Gazella.view.GuideView;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -24,6 +29,14 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llNotice;
     @BindView(R.id.ll_healthy)
     LinearLayout llHealthy;
+    @BindView(R.id.ll_f)
+    LinearLayout llF;
+    @BindView(R.id.image_time)
+    ImageView imageTime;
+    @BindView(R.id.text_time)
+    TextView textTime;
+
+    private GuideView guideView;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -31,9 +44,34 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
+
+
+        // 使用图片
+        final ImageView iv = new ImageView(this);
+        iv.setImageResource(R.drawable.img_new_task_guide);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        iv.setLayoutParams(params);
+
+
+        guideView = GuideView.Builder
+                .newInstance(this)
+                .setTargetView(llF)//设置目标
+                .setCustomGuideView(iv)
+                .setDirction(GuideView.Direction.RIGHT)
+             //  .setShape(GuideView.MyShape.CIRCULAR)   //
+                // ，
+                .setBgColor(getResources().getColor(R.color.shadow))
+                .setOnclickListener(new GuideView.OnClickCallback() {
+                    @Override
+                    public void onClickedGuideView() {
+                        guideView.hide();
+                    }
+                })
+                .build();
+        guideView.show();
     }
 
-    @OnClick({R.id.ll_time, R.id.ll_notice,R.id.ll_healthy})
+    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_time:
@@ -44,17 +82,11 @@ public class HomeActivity extends BaseActivity {
             case R.id.ll_notice:
 
                 break;
-            case  R.id.ll_healthy:
+            case R.id.ll_healthy:
                 Intent healthIntent = new Intent(HomeActivity.this, HealthyActivity.class);
                 startActivity(healthIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
-
-
-
-
-
-
         }
     }
 }
