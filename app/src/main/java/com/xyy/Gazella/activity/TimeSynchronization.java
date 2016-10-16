@@ -65,6 +65,9 @@ public class TimeSynchronization extends BaseActivity {
 
             case R.id.add:
 
+
+
+
                 analogClock.setTimeValue(1, setMinutesValue);
                 setHoutValue++;
                 setMinutesValue++;
