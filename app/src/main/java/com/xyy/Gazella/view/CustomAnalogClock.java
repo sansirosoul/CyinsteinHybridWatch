@@ -16,7 +16,6 @@ import android.os.SystemClock;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -52,6 +51,7 @@ public class CustomAnalogClock extends View {
     private int w;
     private int x, y;  // 时钟中心点位置（相对于视图）
     private int ChangeTimeType;//改变时针或分针  1 :时针 ，2 :分针
+    private  ChangeTimeListener changetimelistener;
 
     public CustomAnalogClock(Context context) {
         this(context, null);
@@ -91,7 +91,12 @@ public class CustomAnalogClock extends View {
         }
     }
 
-    public void setChangeTime(int ChangeTimeType) {
+    public void setChangeTimeListener(ChangeTimeListener changetimelistener) {
+        this.changetimelistener = changetimelistener;
+    }
+
+
+    public void setChangeTimeType(int ChangeTimeType) {
         this.ChangeTimeType = ChangeTimeType;
 
     }
@@ -300,19 +305,19 @@ public class CustomAnalogClock extends View {
                 break;
             case MotionEvent.ACTION_MOVE:
                 //  isStop = false;
-
                 int rx = (int) event.getX() - x;
                 int ry = -((int) event.getY() - y);
                 Point point = new Point(rx, ry);
-                int pos = MyDegreeAdapter.GetRadianByPos(point);
-                Log.i(TAG, "POS" + String.valueOf(pos));
+                int Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
                 if (ChangeTimeType == 1) {  //移动时针
-                    pos = pos / 30;
-                    mHour = pos;
+                    Tiemvalue = Tiemvalue / 30;
+                    mHour = Tiemvalue;
                 } else {
-                    pos = pos / 6;
-                    mMinutes = pos;
+                    Tiemvalue = Tiemvalue / 6;
+                    mMinutes = Tiemvalue;
                 }
+                if(changetimelistener!=null)
+                    changetimelistener.ChangeTimeListener(Tiemvalue);
 
                 postInvalidate();
                 break;
@@ -323,19 +328,8 @@ public class CustomAnalogClock extends View {
         return true;
     }
 
-    /**
-     * @param dx
-     * @param dy 根据事件坐标更新表示时间
-     */
-    public void calcDegree(int dx, int dy) {
-        int rx = dx - x;
-        int ry = -(dy - y);
-        Point point = new Point(rx, ry);
-        int a = MyDegreeAdapter.GetRadianByPos(point);
 
-        Log.i("TAA", "AAAAAAAAA=========" + String.valueOf(a));
-        a = a / 30;
-        Log.i("TAA", "AAAAAAAAA=========" + String.valueOf(a));
-        mHour = a;
+    public interface ChangeTimeListener {
+        void ChangeTimeListener(int TimeValue);
     }
 }
