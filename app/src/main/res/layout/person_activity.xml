@@ -37,6 +37,7 @@
             <EditText
                 android:id="@+id/ed_name"
                 android:background="@null"
+                android:gravity="center_vertical"
                 android:layout_gravity="center_vertical"
                 android:layout_width="0dp"
                 android:layout_weight="1"

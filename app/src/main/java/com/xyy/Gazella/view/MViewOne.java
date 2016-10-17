@@ -1,5 +1,6 @@
 package com.xyy.Gazella.view;
 
+import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -105,8 +106,9 @@ public class MViewOne extends View {
         // 画弧线
 //        canvas.drawArc(mRectF, 270, 360, false, mPaint);
 
-        RadialGradient shader = new RadialGradient(length/2,length/2,length/2,new int[]{R.color.personalize1,R.color.personalize2},null,Shader.TileMode.REPEAT);
-        mArcPaint.setShader(shader);
+        ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+        Integer color =(Integer) argbEvaluator.evaluate(mSweepValue/360f,R.color.personalize1,R.color.personalize2);
+        mArcPaint.setColor(color);
         canvas.drawArc(mRectF, 270, mSweepValue, false, mArcPaint);
 
         // 绘制文字
@@ -124,8 +126,8 @@ public class MViewOne extends View {
             mShowText = mSweepValue + "%";
             Log.e("this.mSweepValue:", this.mSweepValue + "");
         } else {
-            this.mSweepValue = 25;
-            mShowText = 25 + "%";
+//            this.mSweepValue = 25;
+//            mShowText = 25 + "%";
         }
 
         invalidate();
