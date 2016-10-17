@@ -30,7 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-
             app:dial="@drawable/clock_dial"
             app:hand_hour="@drawable/appwidget_clock_hour"
             app:hand_minute="@drawable/appwidget_clock_minute" />
@@ -55,7 +54,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-
                 android:background="@drawable/time_addbtn_check"
                 android:layout_alignTop="@+id/but_reduce"
                 android:layout_alignParentStart="true"
@@ -78,6 +76,7 @@
 
 
         <Button
+            android:id="@+id/but_hour"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
@@ -88,6 +87,7 @@
             android:gravity="center"/>
 
         <Button
+            android:id="@+id/but_muinutes"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_margin="15dp"
@@ -95,6 +95,7 @@
             android:text="分针"/>
 
         <Button
+            android:id="@+id/but_second"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_margin="15dp"
@@ -108,9 +109,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1.5"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/but_reset"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -119,6 +123,7 @@
             android:text="重置"/>
 
         <Button
+            android:id="@+id/but_synchronization"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
