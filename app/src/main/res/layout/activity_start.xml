@@ -7,7 +7,7 @@
 
    <ImageView
        android:layout_centerInParent="true"
-       android:background="@drawable/hillmassion"
+       android:background="@drawable/page3_bg"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content" />
 </RelativeLayout>

@@ -7,30 +7,26 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
 import com.xyy.Gazella.activity.PersonActivity;
 import com.ysp.smartwatch.R;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
 
 /**
  * Created by Administrator on 2016/10/17.
  */
 
 public class HeightDialog extends Dialog {
-    private WheelView wheelView;
+
     private Context context;
+
+    private WheelView wheelView;
 
     public HeightDialog(Context context) {
         super(context,R.style.dialog);
@@ -43,7 +39,7 @@ public class HeightDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.height_dialog);
         setDialogAttributes((Activity) context,this,0.8f,0, Gravity.CENTER);
-        wheelView= (WheelView) findViewById(R.id.wheelview);
+       wheelView= (WheelView) findViewById(R.id.wheelview);
 
         List<String> list = new ArrayList<>();
         for (int i = 150;i<201;i++){

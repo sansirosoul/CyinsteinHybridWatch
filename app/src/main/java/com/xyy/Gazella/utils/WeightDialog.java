@@ -1,5 +1,6 @@
 package com.xyy.Gazella.utils;
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.view.WindowManager;
 
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
+import com.xyy.Gazella.activity.PersonActivity;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -25,8 +27,9 @@ public class WeightDialog extends Dialog {
     private WheelView wheelView;
     private Context context;
 
+
     public WeightDialog(Context context) {
-        super(context,R.style.dialog);
+        super(context, R.style.dialog);
         this.context = context;
     }
 
@@ -46,6 +49,14 @@ public class WeightDialog extends Dialog {
         wheelView.setWheelData(list);
         wheelView.setSkin(WheelView.Skin.Holo);
         wheelView.setLoop(true);
+
+        wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
+            @Override
+            public void onItemSelected(int i, Object o) {
+                PersonActivity.tvWeight.setText(o+"");
+                PersonActivity.tvWeight.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        });
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,
