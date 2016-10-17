@@ -9,34 +9,123 @@
     android:orientation="vertical"
     tools:context="com.xyy.Gazella.activity.TimeSynchronization">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="4"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <com.xyy.Gazella.view.AnalogClock
-        android:id="@+id/analogclock"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:dial="@drawable/clock_dial"
-        app:hand_hour="@drawable/appwidget_clock_hour"
-        app:hand_minute="@drawable/appwidget_clock_minute"
-        app:hand_second="@drawable/appwidget_clock_second"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:text="将表盘拨至和手表指针位置一致处" />
+
+        <com.xyy.Gazella.view.AnalogClock
+            android:id="@+id/analogclock"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+
+            app:dial="@drawable/clock_dial"
+            app:hand_hour="@drawable/appwidget_clock_hour"
+            app:hand_minute="@drawable/appwidget_clock_minute" />
 
 
-    <Button
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buyy"/>
-    <Button
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="减"
-        android:id="@+id/b"/>
-    <Button
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="加"
-        android:id="@+id/add"/>
+            <ImageButton
+                android:id="@+id/but_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="20dp"
+
+                android:background="@drawable/time_addbtn_check" />
+
+            <ImageButton
+                android:id="@+id/but_reduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/time_reducebtn_check" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:layout_margin="15dp"
+            android:background="@drawable/time_circlebtn_press"
+            android:clickable="true"
+            android:text="时针"
+            android:gravity="center"/>
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="15dp"
+            android:background="@drawable/time_circlebtn_press"
+            android:text="分针"/>
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="15dp"
+            android:background="@drawable/time_circlebtn_press"
+            android:text="小针"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:background="@drawable/time_squarebtn_check"
+            android:text="重置"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="同步"
+            android:layout_margin="10dp"
+            android:background="@drawable/time_squarebtn_check"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>
