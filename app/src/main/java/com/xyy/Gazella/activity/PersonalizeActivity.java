@@ -34,7 +34,7 @@ public class PersonalizeActivity extends BaseActivity {
         setContentView(R.layout.personalize_activity);
         ButterKnife.bind(this);
 
-        circle.setProgress(100);
+        circle.setProgress(50);
     }
 
 

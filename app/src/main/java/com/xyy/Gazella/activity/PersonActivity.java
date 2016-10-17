@@ -107,22 +107,22 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.go:
-                if (edName.getText() == null || edName.getText().toString().equals("")) {
-                    Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
-                    Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
-                    Toast.makeText(context, R.string.choose_height, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
-                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                if (edName.getText() == null || edName.getText().toString().equals("")) {
+//                    Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
+//                    Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
+//                    Toast.makeText(context, R.string.choose_height, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if(tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
+//                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 Intent intent = new Intent(context, PersonalizeActivity.class);
                 startActivity(intent);
                 break;
