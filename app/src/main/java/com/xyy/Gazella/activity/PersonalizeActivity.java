@@ -3,6 +3,7 @@ package com.xyy.Gazella.activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Window;
 import android.widget.TextView;
@@ -33,7 +34,8 @@ public class PersonalizeActivity extends BaseActivity {
         setContentView(R.layout.personalize_activity);
         ButterKnife.bind(this);
 
-
-
+        circle.setProgress(100);
     }
+
+
 }
