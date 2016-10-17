@@ -10,6 +10,9 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.wx.wheelview.adapter.ArrayWheelAdapter;
+import com.wx.wheelview.widget.WheelView;
+import com.xyy.Gazella.activity.PersonActivity;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ public class HeightDialog extends Dialog {
 
     private Context context;
 
+    private WheelView wheelView;
+
     public HeightDialog(Context context) {
         super(context,R.style.dialog);
         this.context = context;
@@ -34,24 +39,24 @@ public class HeightDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.height_dialog);
         setDialogAttributes((Activity) context,this,0.8f,0, Gravity.CENTER);
-    //    wheelView= (WheelView) findViewById(R.id.wheelview);
+       wheelView= (WheelView) findViewById(R.id.wheelview);
 
         List<String> list = new ArrayList<>();
         for (int i = 150;i<201;i++){
             list.add(i+"cm");
         }
-      //  wheelView.setWheelAdapter(new ArrayWheelAdapter(context));
-//        wheelView.setWheelData(list);
-//        wheelView.setSkin(WheelView.Skin.Holo);
-//        wheelView.setLoop(true);
-//
-//        wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(int i, Object o) {
-//                PersonActivity.tvHeight.setText(o+"");
-//                PersonActivity.tvHeight.setTextColor(context.getResources().getColor(R.color.white));
-//            }
-//        });
+        wheelView.setWheelAdapter(new ArrayWheelAdapter(context));
+        wheelView.setWheelData(list);
+        wheelView.setSkin(WheelView.Skin.Holo);
+        wheelView.setLoop(true);
+
+        wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
+            @Override
+            public void onItemSelected(int i, Object o) {
+                PersonActivity.tvHeight.setText(o+"");
+                PersonActivity.tvHeight.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        });
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,

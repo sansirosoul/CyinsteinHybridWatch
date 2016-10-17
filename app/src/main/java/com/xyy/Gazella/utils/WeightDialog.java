@@ -1,5 +1,6 @@
 package com.xyy.Gazella.utils;
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -10,18 +11,24 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.wx.wheelview.adapter.ArrayWheelAdapter;
+import com.wx.wheelview.widget.WheelView;
 import com.ysp.smartwatch.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/17.
  */
 
 public class WeightDialog extends Dialog {
-    //private WheelView wheelView;
+    private WheelView wheelView;
     private Context context;
 
+
     public WeightDialog(Context context) {
-        super(context,R.style.dialog);
+        super(context, R.style.dialog);
         this.context = context;
     }
 
@@ -31,16 +38,16 @@ public class WeightDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.weight_dialog);
         setDialogAttributes((Activity) context,this,0.8f,0, Gravity.CENTER);
-//        wheelView= (WheelView) findViewById(R.id.wheelview);
-//
-//        List<String> list = new ArrayList<>();
-//        for (int i = 30;i<101;i++){
-//            list.add(i+"kg");
-//        }
-//        wheelView.setWheelAdapter(new ArrayWheelAdapter(context));
-//        wheelView.setWheelData(list);
-//        wheelView.setSkin(WheelView.Skin.Holo);
-//        wheelView.setLoop(true);
+        wheelView= (WheelView) findViewById(R.id.wheelview);
+
+        List<String> list = new ArrayList<>();
+        for (int i = 30;i<101;i++){
+            list.add(i+"kg");
+        }
+        wheelView.setWheelAdapter(new ArrayWheelAdapter(context));
+        wheelView.setWheelData(list);
+        wheelView.setSkin(WheelView.Skin.Holo);
+        wheelView.setLoop(true);
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,
