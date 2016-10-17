@@ -1,7 +1,6 @@
 package com.xyy.Gazella.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -11,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 import com.xyy.Gazella.adapter.DeviceListAdapter;
 import com.xyy.Gazella.utils.LoadingDialog;
 import com.ysp.newband.BaseActivity;
-import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -70,8 +67,11 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         // 检查设备上是否支持蓝牙
         if (bluetoothAdapter == null) {
             Toast.makeText(this, "不支持蓝牙", Toast.LENGTH_SHORT).show();
-            finish();
+           // finish();
             return;
+
+
+
         }
     }
 
