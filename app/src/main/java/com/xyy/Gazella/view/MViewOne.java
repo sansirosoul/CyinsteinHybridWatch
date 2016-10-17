@@ -1,12 +1,17 @@
 package com.xyy.Gazella.view;
 
+import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -51,12 +56,9 @@ public class MViewOne extends View {
         mArcPaint = new Paint();
         mArcPaint.setStrokeWidth(20);
         mArcPaint.setAntiAlias(true);
-        mArcPaint.setColor(getResources().getColor(R.color.personalize1));
         mArcPaint.setStyle(Paint.Style.STROKE);
 
         mCirclePaint = new Paint();
-        mCirclePaint.setColor(Color.GREEN);
-        mCirclePaint.setAntiAlias(true);
 
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
@@ -103,8 +105,13 @@ public class MViewOne extends View {
         // 画弧线
 //        canvas.drawArc(mRectF, 270, 360, false, mPaint);
 
+
+        SweepGradient sg = new SweepGradient(length/2,length/2,new int[]{R.color.personalize1,R.color.personalize2},null);
+//        mArcPaint.setShader(sg);
+        mArcPaint.setColor(getResources().getColor(R.color.personalize1));
         canvas.drawArc(mRectF, 270, mSweepValue, false, mArcPaint);
 
+//        canvas.drawCircle(length/2,length/2,(float)(length * 0.5 / 2),mCirclePaint);
         // 绘制文字
         float textWidth = mTextPaint.measureText(mShowText);   //测量字体宽度，我们需要根据字体的宽度设置在圆环中间
 
@@ -120,8 +127,8 @@ public class MViewOne extends View {
             mShowText = mSweepValue + "%";
             Log.e("this.mSweepValue:", this.mSweepValue + "");
         } else {
-            this.mSweepValue = 25;
-            mShowText = 25 + "%";
+//            this.mSweepValue = 25;
+//            mShowText = 25 + "%";
         }
 
         invalidate();

@@ -7,10 +7,16 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.xyy.Gazella.utils.CalendarDialog;
+import com.xyy.Gazella.utils.HeightDialog;
+import com.xyy.Gazella.utils.WeightDialog;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -39,6 +45,12 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     Button go;
     @BindView(R.id.head)
     ImageView head;
+    @BindView(R.id.ed_name)
+    EditText edName;
+
+    public static TextView tvBirth;
+    public static TextView tvHeight;
+    public static TextView tvWeight;
 
     private Context context;
 
@@ -53,6 +65,9 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initView() {
+        tvHeight= (TextView) findViewById(R.id.tv_height);
+        tvWeight= (TextView) findViewById(R.id.tv_weight);
+        tvBirth= (TextView) findViewById(R.id.tv_birth);
 
         tgMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -71,6 +86,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 }
             }
         });
+
     }
 
 
@@ -78,20 +94,43 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_birth:
+                CalendarDialog calendarDialog = new CalendarDialog(context);
+                calendarDialog.show();
                 break;
             case R.id.head:
                 break;
             case R.id.ll_height:
+                HeightDialog heightDialog = new HeightDialog(context);
+                heightDialog.show();
                 break;
             case R.id.ll_weight:
+                WeightDialog weightDialog = new WeightDialog(context);
+                weightDialog.show();
                 break;
             case R.id.back:
                 finish();
                 break;
             case R.id.go:
-                Intent intent = new Intent(context, PersonalizeActivity.class);
+//                if (edName.getText() == null || edName.getText().toString().equals("")) {
+//                    Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
+//                    Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
+//                    Toast.makeText(context, R.string.choose_height, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if(tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
+//                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+                Intent intent = new Intent(context, HomeActivity.class);
                 startActivity(intent);
                 break;
         }
     }
+
 }

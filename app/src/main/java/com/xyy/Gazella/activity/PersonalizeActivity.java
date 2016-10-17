@@ -1,9 +1,9 @@
 package com.xyy.Gazella.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
+import android.os.Message;
 import android.view.Window;
 import android.widget.TextView;
 
@@ -25,6 +25,9 @@ public class PersonalizeActivity extends BaseActivity {
     TextView num;
     @BindView(R.id.circle)
     MViewOne circle;
+    @BindView(R.id.text)
+    TextView text;
+    private int cur = 0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -33,7 +36,38 @@ public class PersonalizeActivity extends BaseActivity {
         setContentView(R.layout.personalize_activity);
         ButterKnife.bind(this);
 
+        circle.setProgress(100);
 
-
+        handler.post(runnable);
     }
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    num.setText(cur + "%");
+                    circle.setProgress((float) cur);
+                    if(cur==100){
+                        Intent intent = new Intent(PersonalizeActivity.this,HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    break;
+            }
+        }
+    };
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (cur != 100) {
+                cur++;
+                handler.sendEmptyMessage(1);
+                handler.postDelayed(this, 50);
+            }else{
+                text.setText(getResources().getText(R.string.personalized));
+            }
+        }
+    };
 }

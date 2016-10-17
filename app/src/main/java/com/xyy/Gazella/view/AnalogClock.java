@@ -50,7 +50,7 @@ public class AnalogClock extends View {
     private int h;
     private int w;
     private int x, y;  // 时钟中心点位置（相对于视图）
-    private int ChangeTimeType;//改变时针或分针  1 :时针 ，2 :分针
+    public int ChangeTimeType=1;//改变时针或分针  1 :时针 ，2 :分针
     private ChangeTimeListener changetimelistener;  //监听时间变换
     private boolean isChangedTime = false;
 
@@ -100,6 +100,10 @@ public class AnalogClock extends View {
     public void setChangeTimeType(int ChangeTimeType) {
         this.ChangeTimeType = ChangeTimeType;
 
+    }
+
+    public  int getChangeTimeType(){
+        return  this.ChangeTimeType;
     }
 
 

@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.xyy.Gazella.adapter.DeviceListAdapter;
+import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.LoadingDialog;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
@@ -147,21 +148,18 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         searchLayout= (RelativeLayout) findViewById(R.id.search_layout);
         pairingLayout=(LinearLayout) findViewById(R.id.pairing_layout);
 
-
         loadingDialog=new LoadingDialog(context);
-
-
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         loadingDialog.show();
-//        if(GazelleApplication.mBluetoothService.initialize()){
-//            GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
-//            GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
-//        }
-//        bluetoothAdapter.stopLeScan(leScanCallback);
+        if(GazelleApplication.mBluetoothService.initialize()){
+            GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
+            GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
+        }
+        bluetoothAdapter.stopLeScan(leScanCallback);
     }
 
     Handler mHandler = new Handler(){
@@ -169,14 +167,14 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what){
-//                case BluetoothService.STATE_CONNECTED:
-//                    pairingDialog.dismiss();
-//                    Intent intent = new Intent(context,PersonActivity.class);
-//                    startActivity(intent);
-//                    break;
-//                case BluetoothService.STATE_DISCONNECTED:
+                case BluetoothService.STATE_CONNECTED:
+                    loadingDialog.dismiss();
+                    Intent intent = new Intent(context,PersonActivity.class);
+                    startActivity(intent);
+                    break;
+                case BluetoothService.STATE_DISCONNECTED:
 
-//                    break;
+                    break;
                 default:
                     break;
             }
