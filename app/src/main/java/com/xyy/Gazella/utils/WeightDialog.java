@@ -1,5 +1,6 @@
 package com.xyy.Gazella.utils;
 
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -25,8 +26,9 @@ public class WeightDialog extends Dialog {
     private WheelView wheelView;
     private Context context;
 
+
     public WeightDialog(Context context) {
-        super(context,R.style.dialog);
+        super(context, R.style.dialog);
         this.context = context;
     }
 
