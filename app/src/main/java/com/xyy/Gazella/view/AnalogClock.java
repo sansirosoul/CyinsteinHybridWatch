@@ -239,7 +239,7 @@ public class AnalogClock extends View {
         int w = dial.getIntrinsicWidth();
         int h = dial.getIntrinsicHeight();
 
-        // int dialWidth = w;
+        int dialWidth = w;
         int dialHeight = h;
         boolean scaled = false;
 
