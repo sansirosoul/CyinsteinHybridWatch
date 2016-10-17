@@ -94,7 +94,7 @@ public class TimeSynchronization extends BaseActivity {
     @OnClick({R.id.btnExit, R.id.btnOpt, R.id.TVTitle, R.id.but_reduce, R.id.but_add, R.id.but_hour, R.id.but_muinutes, R.id.but_second, R.id.but_reset, R.id.but_synchronization})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.but_reduce:
+            case R.id.but_reduce:  //减时间
                 getHourValue = analogclock.getHourTimeValue();
                 getMinutesValue = analogclock.getMinutesTimeValue();
                 if (!isChangeTime) {
@@ -111,7 +111,7 @@ public class TimeSynchronization extends BaseActivity {
                 isChangeTime = true;
                 break;
 
-            case R.id.but_add:
+            case R.id.but_add://加时间
                 getHourValue = analogclock.getHourTimeValue();
                 getMinutesValue = analogclock.getMinutesTimeValue();
                 if (!isChangeTime) {
@@ -128,19 +128,19 @@ public class TimeSynchronization extends BaseActivity {
                 isChangeTime = true;
                 break;
 
-            case R.id.but_hour:
+            case R.id.but_hour:   // 调整时针
                 analogclock.setChangeTimeType(1);
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 break;
-            case R.id.but_muinutes:
+            case R.id.but_muinutes://  调整分针
                 analogclock.setChangeTimeType(2);
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 break;
-            case R.id.but_second:
+            case R.id.but_second:   // 调整小时针
 
                 checkAnalogClock.show();
                 butReset.setVisibility(View.GONE);
@@ -150,11 +150,11 @@ public class TimeSynchronization extends BaseActivity {
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
 
                 break;
-            case R.id.but_reset:
+            case R.id.but_reset:   /// 重置
                 break;
-            case R.id.but_synchronization:
+            case R.id.but_synchronization:    ///同步
                 break;
-            case R.id.btnExit:
+            case R.id.btnExit:   // 退出
                 overridePendingTransitionExit(TimeSynchronization.this);
                 TimeSynchronization.this.finish();
                 break;

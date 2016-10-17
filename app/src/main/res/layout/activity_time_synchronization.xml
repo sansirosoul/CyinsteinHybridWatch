@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            app:dial="@drawable/clock_dial"
+            app:dial="@drawable/page12_biaopan"
             app:hand_hour="@drawable/appwidget_clock_hour"
             app:hand_minute="@drawable/appwidget_clock_minute" />
 
