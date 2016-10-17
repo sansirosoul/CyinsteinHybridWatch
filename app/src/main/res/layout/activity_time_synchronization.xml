@@ -42,16 +42,6 @@
             android:layout_weight="1">
 
             <ImageButton
-                android:id="@+id/but_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="20dp"
-
-                android:background="@drawable/time_addbtn_check" />
-
-            <ImageButton
                 android:id="@+id/but_reduce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,6 +49,17 @@
                 android:layout_centerInParent="true"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/time_reducebtn_check" />
+
+            <ImageButton
+                android:id="@+id/but_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+
+                android:background="@drawable/time_addbtn_check"
+                android:layout_alignTop="@+id/but_reduce"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="21dp" />
 
         </RelativeLayout>
 
