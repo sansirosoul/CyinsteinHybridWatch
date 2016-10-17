@@ -2,6 +2,7 @@ package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -56,6 +57,10 @@ public class TimeSynchronization extends BaseActivity {
         ButterKnife.bind(this);
 
         InitView();
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+       analogclock.setLayoutParams(params);
+
     }
 
     private void InitView() {

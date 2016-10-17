@@ -9,9 +9,10 @@
     android:orientation="vertical"
     tools:context="com.xyy.Gazella.activity.TimeSynchronization">
 
-    <include layout="@layout/connection_title"
-        android:layout_height="50dp"
-        android:layout_width="match_parent"/>
+    <include
+        layout="@layout/connection_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,19 +27,45 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="15dp"
+            android:layout_marginTop="5dp"
             android:gravity="center"
-            android:layout_marginTop="15dp"
             android:text="将表盘拨至和手表指针位置一致处" />
 
-        <com.xyy.Gazella.view.AnalogClock
-            android:id="@+id/analogclock"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            app:dial="@drawable/page12_biaopan"
-            app:hand_hour="@drawable/page12_hour_normal"
-            app:hand_minute="@drawable/page12_minute_selected"/>
+            android:layout_gravity="center"
+            android:gravity="center"
 
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/page14_left_grey"
+               />
+
+            <com.xyy.Gazella.view.AnalogClock
+                android:id="@+id/analogclock"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                app:dial="@drawable/page12_biaopan"
+                app:hand_hour="@drawable/page12_hour_normal"
+                app:hand_minute="@drawable/page12_minute_selected" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/page14_right_grey"
+                />
+
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -58,11 +85,11 @@
                 android:id="@+id/but_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:background="@drawable/time_addbtn_check"
-                android:layout_alignTop="@+id/but_reduce"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="21dp" />
+                android:layout_alignTop="@+id/but_reduce"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="21dp"
+                android:background="@drawable/time_addbtn_check" />
 
         </RelativeLayout>
 
@@ -88,8 +115,8 @@
             android:layout_margin="15dp"
             android:background="@drawable/time_circlebtn_press"
             android:clickable="true"
-            android:text="时针"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:text="时针" />
 
         <Button
             android:id="@+id/but_muinutes"
@@ -97,7 +124,7 @@
             android:layout_height="70dp"
             android:layout_margin="15dp"
             android:background="@drawable/time_circlebtn_press"
-            android:text="分针"/>
+            android:text="分针" />
 
         <Button
             android:id="@+id/but_second"
@@ -105,7 +132,7 @@
             android:layout_height="70dp"
             android:layout_margin="15dp"
             android:background="@drawable/time_circlebtn_press"
-            android:text="小针"/>
+            android:text="小针" />
 
     </LinearLayout>
 
@@ -113,28 +140,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5"
-        android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1.5"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/but_reset"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_margin="10dp"
+            android:layout_weight="1"
             android:background="@drawable/time_squarebtn_check"
-            android:text="重置"/>
+            android:text="重置" />
 
         <Button
             android:id="@+id/but_synchronization"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="同步"
             android:layout_margin="10dp"
-            android:background="@drawable/time_squarebtn_check"/>
+            android:layout_weight="1"
+            android:background="@drawable/time_squarebtn_check"
+            android:text="同步" />
 
     </LinearLayout>
 

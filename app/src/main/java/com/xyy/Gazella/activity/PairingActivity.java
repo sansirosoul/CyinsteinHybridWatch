@@ -23,6 +23,7 @@ import com.xyy.Gazella.adapter.DeviceListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.LoadingDialog;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;

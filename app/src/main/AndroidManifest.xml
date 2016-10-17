@@ -35,16 +35,16 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar">
-        <activity
-            android:name="com.xyy.Gazella.activity.HomeActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/ExampleTheme"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+        <!--<activity-->
+            <!--android:name="com.xyy.Gazella.activity.HomeActivity"-->
+            <!--android:label="@string/app_name"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/ExampleTheme"-->
+            <!--android:windowSoftInputMode="adjustUnspecified|stateHidden"/>-->
 
         <!--首页-->
 
-        <activity android:name="com.xyy.Gazella.activity.StartActivity">
+        <activity android:name="com.xyy.Gazella.activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
