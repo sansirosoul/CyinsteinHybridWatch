@@ -16,14 +16,13 @@ import android.os.SystemClock;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.ysp.smartwatch.R;
 
-public class AnalogClock extends View {
-
-    private static final String TAG = AnalogClock.class.getName();
+public class CustomAnalogClock extends View {
     private Time mCalendar;
     private Drawable mHourHand;
     private Drawable mMinuteHand;
@@ -42,35 +41,32 @@ public class AnalogClock extends View {
     private boolean mTickerStopped = false;
     private boolean isStop = true;
     private float stop;
-    private float move;
+    private  float move;
     private float downX;
     private float downY;
     private double angle = 0;
     private String currentNumber;
     private int h;
     private int w;
-    private int x, y;  // 时钟中心点位置（相对于视图）
-    private int ChangeTimeType;//改变时针或分针  1 :时针 ，2 :分针
-    private ChangeTimeListener changetimelistener;  //监听时间变换
-    private boolean isChangedTime = false;
+    private  int x,y;  // 时钟中心点位置（相对于视图）
 
-    public AnalogClock(Context context) {
+    public CustomAnalogClock(Context context) {
         this(context, null);
     }
 
-    public AnalogClock(Context context, AttributeSet attrs) {
+    public CustomAnalogClock(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public AnalogClock(Context context, AttributeSet attrs, int defStyle) {
+    public CustomAnalogClock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         Resources r = getContext().getResources();
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomAnalogClock, defStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.CustomAnalogClock, defStyle, 0);
         mDial = a.getDrawable(R.styleable.CustomAnalogClock_dial);
         mHourHand = a.getDrawable(R.styleable.CustomAnalogClock_hand_hour);
         mMinuteHand = a.getDrawable(R.styleable.CustomAnalogClock_hand_minute);
-        //    mSecondHand = a.getDrawable(R.styleable.CustomAnalogClock_hand_second);
+        mSecondHand = a.getDrawable(R.styleable.CustomAnalogClock_hand_second);
 
 
         if (mDial == null || mHourHand == null || mMinuteHand == null) {
@@ -92,16 +88,6 @@ public class AnalogClock extends View {
         }
     }
 
-    public void setChangeTimeListener(ChangeTimeListener changetimelistener) {
-        this.changetimelistener = changetimelistener;
-    }
-
-
-    public void setChangeTimeType(int ChangeTimeType) {
-        this.ChangeTimeType = ChangeTimeType;
-
-    }
-
 
     private void onTimeChanged() {
         mCalendar.setToNow();// 取当前时间
@@ -119,15 +105,15 @@ public class AnalogClock extends View {
 //        mHour = 12;
 //        mMinutes = 0;
         // mSecond = second;
-        if (!isChangedTime) {
-            if (isStop) stop = second;
-            else mSecond = move;
-            if (isStop) mSecond = second;
-            else mSecond = stop;
-            mChanged = true;
+        if (isStop) stop = second;
+        else  mSecond= move;
+        if (isStop) mSecond = second;
+        else mSecond = stop;
 
-            updateContentDescription(mCalendar);
-        }
+
+        mChanged = true;
+
+        updateContentDescription(mCalendar);
     }
 
     @Override
@@ -143,7 +129,7 @@ public class AnalogClock extends View {
             public void run() {
                 if (mTickerStopped)
                     return;
-                // onTimeChanged();
+                onTimeChanged();
                 invalidate();
                 long now = SystemClock.uptimeMillis();
                 long next = now + (1000 - now % 1000);
@@ -205,20 +191,6 @@ public class AnalogClock extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (!isChangedTime) {
-
-            mCalendar.setToNow();// 取当前时间
-            int hour = mCalendar.hour;
-            int minute = mCalendar.minute;
-            int second = mCalendar.second;
-            // mDay = String.valueOf(mCalendar.year) + "-"
-            // + String.valueOf(mCalendar.month + 1) + "-"
-            // + String.valueOf(mCalendar.monthDay);
-            // mWeek = this.getWeek(mCalendar.weekDay);
-
-            mHour = hour + mMinutes / 60.0f + mSecond / 3600.0f;
-            mMinutes = minute + second / 60.0f;
-        }
         boolean changed = mChanged;
 
         if (changed) {
@@ -228,8 +200,8 @@ public class AnalogClock extends View {
         int availableWidth = getRight() - getLeft();
         int availableHeight = getBottom() - getTop();
 
-        x = availableWidth / 2;
-        y = availableHeight / 2;
+         x = availableWidth / 2;
+         y = availableHeight / 2;
 
         final Drawable dial = mDial;
         int w = dial.getIntrinsicWidth();
@@ -253,15 +225,13 @@ public class AnalogClock extends View {
         dial.draw(canvas);
         canvas.save();
 
-
         canvas.rotate(mHour / 12.0f * 360.0f, x, y);
-
         final Drawable hourHand = mHourHand;
         if (changed) {
             w = hourHand.getIntrinsicWidth();
             h = hourHand.getIntrinsicHeight();
-            hourHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y
-                    + (h / 2));
+            hourHand.setBounds(x - (w / 2), y - (h /1), x + (w / 2), y
+                    + (h /2));
         }
         hourHand.draw(canvas);
         canvas.restore();
@@ -282,21 +252,32 @@ public class AnalogClock extends View {
         canvas.save();
 
         canvas.rotate(mSecond / 60.0f * 360.0f, x, y);
-//        final Drawable secondHand = mSecondHand;
-//        if (changed) {
-//            w = secondHand.getIntrinsicWidth();
-//            h = secondHand.getIntrinsicHeight();
-//            secondHand.setBounds(x - (w / 2), y - (h / 2), x + (w / 2), y
-//                    + (h / 2));
-//        }
-//        secondHand.draw(canvas);
-//        canvas.restore();
+        final Drawable secondHand = mSecondHand;
+        if (changed) {
+            w = secondHand.getIntrinsicWidth();
+            h = secondHand.getIntrinsicHeight();
+            secondHand.setBounds(x - (w / 2), y - (h / 2), x + (w / 2), y
+                    + (h / 2));
+        }
+        secondHand.draw(canvas);
+        canvas.restore();
 
         if (scaled) {
             canvas.restore();
         }
 
+//        Paint paint = new Paint();
+//		paint.setColor(Color.RED);
+//
+//		canvas.drawLine(0, y, canvas.getWidth(), y, paint);
+//
+//		canvas.drawLine(x, 0, x, canvas.getHeight(), paint);
+
+
+
+
     }
+
 
     private void updateContentDescription(Time time) {
         final int flags = DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_24HOUR;
@@ -309,62 +290,39 @@ public class AnalogClock extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                //  isStop = false;
+                isStop = false;
 
                 break;
             case MotionEvent.ACTION_MOVE:
-                //  isStop = false;
-                int rx = (int) event.getX() - x;
-                int ry = -((int) event.getY() - y);
-                Point point = new Point(rx, ry);
-                int Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
-                if (ChangeTimeType == 1) {  //移动时针
-                    Tiemvalue = Tiemvalue / 30;
-                    mHour = Tiemvalue;
-                } else {
-                    Tiemvalue = Tiemvalue / 6;
-                    mMinutes = Tiemvalue;
-                }
-                if (changetimelistener != null)
-                    changetimelistener.ChangeTimeListener(Tiemvalue);
-                isChangedTime = true;
+                isStop = false;
+
+                calcDegree((int)event.getX(), (int)event.getY());
                 postInvalidate();
                 break;
             case MotionEvent.ACTION_UP:
                 isStop = true;
+                Log.i("TAG", "UP========" + "333333333333");
                 break;
         }
         return true;
     }
 
-    public int getHourTimeValue() {
-
-        return (int) mHour;
-    }
-
-    /***
+    /**
+     * @param dx
+     * @param dy
      *
-     * @param TimeType  1 是时针  , 2是分针
-     * @param TimeValue  设置时间值
+     * 根据事件坐标更新表示时间
      */
+    public void calcDegree(int dx, int dy){
+        int rx = dx - x;
+        int ry = - (dy - y);
 
-    public void setTimeValue(int TimeType, int TimeValue) {
-        if (TimeType == 1)
-            mHour = TimeValue;
-        else
-            mMinutes = TimeValue;
-        isChangedTime = true;
-        postInvalidate();
-
+        Point point = new Point(rx, ry);
+        int  a= MyDegreeAdapter.GetRadianByPos(point);
+        Log.i("TAA","AAAAAAAAA========="+String .valueOf(a));
+        a=a/30;
+        Log.i("TAA","AAAAAAAAA========="+String .valueOf(a));
+        mHour=a;
     }
 
-    public int getMinutesTimeValue() {
-
-        return (int) mMinutes;
-    }
-
-
-    public interface ChangeTimeListener {
-        void ChangeTimeListener(int TimeValue);
-    }
 }

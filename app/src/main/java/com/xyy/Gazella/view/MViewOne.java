@@ -5,8 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -51,7 +54,6 @@ public class MViewOne extends View {
         mArcPaint = new Paint();
         mArcPaint.setStrokeWidth(20);
         mArcPaint.setAntiAlias(true);
-        mArcPaint.setColor(getResources().getColor(R.color.personalize1));
         mArcPaint.setStyle(Paint.Style.STROKE);
 
         mCirclePaint = new Paint();
@@ -103,6 +105,8 @@ public class MViewOne extends View {
         // 画弧线
 //        canvas.drawArc(mRectF, 270, 360, false, mPaint);
 
+        RadialGradient shader = new RadialGradient(length/2,length/2,length/2,new int[]{R.color.personalize1,R.color.personalize2},null,Shader.TileMode.REPEAT);
+        mArcPaint.setShader(shader);
         canvas.drawArc(mRectF, 270, mSweepValue, false, mArcPaint);
 
         // 绘制文字
