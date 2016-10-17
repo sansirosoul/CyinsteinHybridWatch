@@ -74,9 +74,9 @@ public class AnalogClock extends View {
 
 
         if (mDial == null || mHourHand == null || mMinuteHand == null) {
-            mDial = r.getDrawable(R.drawable.clock_dial);
-            mHourHand = r.getDrawable(R.drawable.appwidget_clock_hour);
-            mMinuteHand = r.getDrawable(R.drawable.appwidget_clock_minute);
+            mDial = r.getDrawable(R.drawable.page12_biaopan);
+            mHourHand = r.getDrawable(R.drawable.page12_hour_selected);
+            mMinuteHand = r.getDrawable(R.drawable.page12_minute_selected);
             mSecondHand = r.getDrawable(R.drawable.appwidget_clock_second);
         }
         a.recycle();
