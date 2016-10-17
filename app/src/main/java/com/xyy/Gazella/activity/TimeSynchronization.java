@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.xyy.Gazella.utils.CheckAnalogClock;
 import com.xyy.Gazella.view.AnalogClock;
@@ -35,6 +36,12 @@ public class TimeSynchronization extends BaseActivity {
     Button butSynchronization;
     @BindView(R.id.activity_time_synchronization)
     LinearLayout activityTimeSynchronization;
+    @BindView(R.id.btnExit)
+    Button btnExit;
+    @BindView(R.id.btnOpt)
+    Button btnOpt;
+    @BindView(R.id.TVTitle)
+    TextView TVTitle;
     private int getMinutesValue;
     private int getHourValue;
     private int setMinutesValue;
@@ -52,13 +59,12 @@ public class TimeSynchronization extends BaseActivity {
     }
 
     private void InitView() {
+        TVTitle.setText("智能校时");
+        btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
         checkAnalogClock = new CheckAnalogClock(TimeSynchronization.this);
-
-
         butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
         butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
         butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
-
         checkAnalogClock.setOnItemClickListener(new CheckAnalogClock.onItemClickListener() {
 
             @Override
@@ -83,10 +89,9 @@ public class TimeSynchronization extends BaseActivity {
                 butSynchronization.setVisibility(View.VISIBLE);
             }
         });
-
     }
 
-    @OnClick({R.id.but_reduce, R.id.but_add, R.id.but_hour, R.id.but_muinutes, R.id.but_second, R.id.but_reset, R.id.but_synchronization})
+    @OnClick({R.id.btnExit, R.id.btnOpt, R.id.TVTitle, R.id.but_reduce, R.id.but_add, R.id.but_hour, R.id.but_muinutes, R.id.but_second, R.id.but_reset, R.id.but_synchronization})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_reduce:
@@ -149,6 +154,15 @@ public class TimeSynchronization extends BaseActivity {
                 break;
             case R.id.but_synchronization:
                 break;
+            case R.id.btnExit:
+                overridePendingTransitionExit(TimeSynchronization.this);
+                TimeSynchronization.this.finish();
+                break;
+            case R.id.btnOpt:
+                break;
+            case R.id.TVTitle:
+                break;
         }
     }
+
 }
