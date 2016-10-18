@@ -1,26 +1,38 @@
 package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.xyy.Gazella.fragment.MainDialFragment;
+import com.xyy.Gazella.fragment.SmallFragment1;
+import com.xyy.Gazella.fragment.SmallFragment2;
+import com.xyy.Gazella.fragment.SmallFragment3;
 import com.xyy.Gazella.utils.CheckAnalogClock;
-import com.xyy.Gazella.view.AnalogClock;
-import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TimeSynchronization extends BaseActivity {
+import static com.ysp.newband.BaseActivity.overridePendingTransitionExit;
 
-    @BindView(R.id.analogclock)
-    AnalogClock analogclock;
+public class TimeSynchronization extends FragmentActivity {
+
+    //    @BindView(R.id.analogclock)
+//    AnalogClock analogclock;
     @BindView(R.id.but_reduce)
     ImageButton butReduce;
     @BindView(R.id.but_add)
@@ -43,6 +55,12 @@ public class TimeSynchronization extends BaseActivity {
     Button btnOpt;
     @BindView(R.id.TVTitle)
     TextView TVTitle;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.iv_right)
+    ImageView ivRight;
+    @BindView(R.id.viewpager)
+    ViewPager viewpager;
     private int getMinutesValue;
     private int getHourValue;
     private int setMinutesValue;
@@ -50,42 +68,61 @@ public class TimeSynchronization extends BaseActivity {
     private boolean isChangeTime = false;
     private CheckAnalogClock checkAnalogClock;
 
+    private ArrayList<Fragment> fragmentsList;
+    private SmallFragment1 smallFragment1;
+    private SmallFragment2 smallFragment2;
+    private SmallFragment3 smallFragment3;
+    private MainDialFragment mainDialFragment;
+    private TimeSynchronization.FragmentAdapter mFragmentAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_synchronization);
         ButterKnife.bind(this);
-
         InitView();
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-       analogclock.setLayoutParams(params);
-
+        InitViewPager();
     }
 
     private void InitView() {
         TVTitle.setText("智能校时");
         btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
+        ivLeft.setVisibility(View.GONE);
+        ivRight.setVisibility(View.GONE);
         checkAnalogClock = new CheckAnalogClock(TimeSynchronization.this);
         butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
         butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
         butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
-
         checkAnalogClock.setOnItemClickListener(new CheckAnalogClock.onItemClickListener() {
 
             @Override
             public void onSmall1Click() {
-
+                setImageVisible(1);
+                butReset.setVisibility(View.VISIBLE);
+                butSynchronization.setVisibility(View.VISIBLE);
+                checkAnalogClock.dismiss();
+//                analogclock.setDialDrawable(R.drawable.page14_biaopan1);
+//                analogclock.setChangeTimeType(1);
             }
 
             @Override
             public void onSmall2Click() {
-
+                setImageVisible(1);
+                butReset.setVisibility(View.VISIBLE);
+                butSynchronization.setVisibility(View.VISIBLE);
+                checkAnalogClock.dismiss();
+//                analogclock.setDialDrawable(R.drawable.page14_biaopan2);
+//                analogclock.setChangeTimeType(1);
             }
 
             @Override
             public void onSmall3Click() {
-
+                setImageVisible(1);
+                butReset.setVisibility(View.VISIBLE);
+                butSynchronization.setVisibility(View.VISIBLE);
+                checkAnalogClock.dismiss();
+//                analogclock.setDialDrawable(R.drawable.page14_biaopan3);
+//                analogclock.setChangeTimeType(1);
             }
 
             @Override
@@ -97,57 +134,58 @@ public class TimeSynchronization extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.btnExit, R.id.btnOpt, R.id.TVTitle, R.id.but_reduce, R.id.but_add, R.id.but_hour, R.id.but_muinutes, R.id.but_second, R.id.but_reset, R.id.but_synchronization})
+    @OnClick({R.id.iv_left, R.id.iv_right, R.id.btnExit, R.id.btnOpt, R.id.TVTitle, R.id.but_reduce, R.id.but_add, R.id.but_hour, R.id.but_muinutes, R.id.but_second, R.id.but_reset, R.id.but_synchronization})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_reduce:  //减时间
-                getHourValue = analogclock.getHourTimeValue();
-                getMinutesValue = analogclock.getMinutesTimeValue();
+//                getHourValue = analogclock.getHourTimeValue();
+//                getMinutesValue = analogclock.getMinutesTimeValue();
                 if (!isChangeTime) {
                     setHourValue = getHourValue;
                     setMinutesValue = getMinutesValue;
                 }
-                if (analogclock.ChangeTimeType == 1) {
-                    analogclock.setTimeValue(1, setHourValue);
-                    setHourValue--;
-                } else {
-                    analogclock.setTimeValue(2, setMinutesValue);
-                    setMinutesValue--;
-                }
+//                if (analogclock.ChangeTimeType == 1) {
+//                    analogclock.setTimeValue(1, setHourValue);
+//                    setHourValue--;
+//                } else {
+//                    analogclock.setTimeValue(2, setMinutesValue);
+//                    setMinutesValue--;
+//                }
                 isChangeTime = true;
                 break;
 
             case R.id.but_add://加时间
-                getHourValue = analogclock.getHourTimeValue();
-                getMinutesValue = analogclock.getMinutesTimeValue();
+//                getHourValue = analogclock.getHourTimeValue();
+//                getMinutesValue = analogclock.getMinutesTimeValue();
                 if (!isChangeTime) {
                     setHourValue = getHourValue;
                     setMinutesValue = getMinutesValue;
                 }
-                if (analogclock.ChangeTimeType == 1) {
-                    analogclock.setTimeValue(1, setHourValue);
-                    setHourValue++;
-                } else {
-                    analogclock.setTimeValue(2, setMinutesValue);
-                    setMinutesValue++;
-                }
+//                if (analogclock.ChangeTimeType == 1) {
+//                    analogclock.setTimeValue(1, setHourValue);
+//                    setHourValue++;
+//                } else {
+//                    analogclock.setTimeValue(2, setMinutesValue);
+//                    setMinutesValue++;
+//                }
                 isChangeTime = true;
                 break;
 
             case R.id.but_hour:   // 调整时针
-                analogclock.setChangeTimeType(1);
+                setImageVisible(2);
+                // analogclock.setChangeTimeType(1);
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 break;
             case R.id.but_muinutes://  调整分针
-                analogclock.setChangeTimeType(2);
+                setImageVisible(2);
+                //  analogclock.setChangeTimeType(2);
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 break;
             case R.id.but_second:   // 调整小时针
-
                 checkAnalogClock.show();
                 butReset.setVisibility(View.GONE);
                 butSynchronization.setVisibility(View.GONE);
@@ -161,14 +199,93 @@ public class TimeSynchronization extends BaseActivity {
             case R.id.but_synchronization:    ///同步
                 break;
             case R.id.btnExit:   // 退出
-                overridePendingTransitionExit(TimeSynchronization.this);
                 TimeSynchronization.this.finish();
+                overridePendingTransitionExit(TimeSynchronization.this);
                 break;
             case R.id.btnOpt:
                 break;
             case R.id.TVTitle:
                 break;
+            case R.id.iv_left:
+                break;
+            case R.id.iv_right:
+                break;
         }
     }
 
+    private void InitViewPager() {
+        fragmentsList = new ArrayList<>();
+        mainDialFragment = new MainDialFragment();
+        smallFragment1 = new SmallFragment1();
+        smallFragment2 = new SmallFragment2();
+        smallFragment3 = new SmallFragment3();
+        fragmentsList.add(mainDialFragment);
+        fragmentsList.add(smallFragment1);
+        fragmentsList.add(smallFragment2);
+        fragmentsList.add(smallFragment3);
+
+        mFragmentAdapter = new TimeSynchronization.FragmentAdapter( this.getSupportFragmentManager(), fragmentsList);
+        viewpager.setAdapter(mFragmentAdapter);
+        viewpager.setCurrentItem(0);
+        viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+
+    public class FragmentAdapter extends FragmentPagerAdapter {
+
+        List<Fragment> fragmentList = new ArrayList<>();
+
+        public FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
+            super(fm);
+            this.fragmentList = fragmentList;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /***
+     * @param type 1 是显示  2 是隐藏
+     */
+    private void setImageVisible(int type) {
+        if (type == 1) {
+            ivRight.setVisibility(View.VISIBLE);
+            ivLeft.setVisibility(View.VISIBLE);
+        } else {
+            ivRight.setVisibility(View.GONE);
+            ivLeft.setVisibility(View.GONE);
+        }
+    }
 }

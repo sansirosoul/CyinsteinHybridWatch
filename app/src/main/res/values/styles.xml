@@ -8,14 +8,11 @@
     <style name="AppTheme" parent="AppBaseTheme" type="text/css"></style>
 
     <style name="ExampleTheme" parent="android:Theme.Holo">
-        <item name="android:editTextColor">#000000</item>
-        <item name="android:textCursorDrawable">@null</item>
-        <item name="android:windowActionBar">false</item>
+        <!--<item name="android:editTextColor">#000000</item>-->
+        <!--<item name="android:textCursorDrawable">@null</item>-->
+        <!--<item name="android:windowActionBar">false</item>-->
         <item name="android:windowTitleSize">50dp</item>
         <item name="android:windowNoTitle">true</item>
-
-
-        <!--<item name="android:background">@color/black</item>设置背景-->
     </style>
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item><!--边框-->
