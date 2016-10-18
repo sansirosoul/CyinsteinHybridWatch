@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -31,6 +32,8 @@ import static com.ysp.newband.BaseActivity.overridePendingTransitionExit;
 
 public class TimeSynchronization extends FragmentActivity {
 
+    //    @BindView(R.id.analogclock)
+//    AnalogClock analogclock;
     @BindView(R.id.but_reduce)
     ImageButton butReduce;
     @BindView(R.id.but_add)
@@ -59,6 +62,11 @@ public class TimeSynchronization extends FragmentActivity {
     ImageView ivRight;
     @BindView(R.id.viewpager)
     MyViewPage viewpager;
+    private int getMinutesValue;
+    private int getHourValue;
+    private int setMinutesValue;
+    private int setHourValue;
+    private boolean isChangeTime = false;
     private CheckAnalogClock checkAnalogClock;
 
     private ArrayList<Fragment> fragmentsList;
@@ -95,11 +103,6 @@ public class TimeSynchronization extends FragmentActivity {
                 butReset.setVisibility(View.VISIBLE);
                 butSynchronization.setVisibility(View.VISIBLE);
                 checkAnalogClock.dismiss();
-                fragmentsList.clear();
-                fragmentsList.add(smallFragment1);
-                fragmentsList.add(smallFragment2);
-                fragmentsList.add(smallFragment3);
-                mFragmentAdapter.notifyDataSetChanged();
 
                 viewpager.setScroll(false);
                 viewpager.setCurrentItem(1);
@@ -241,6 +244,7 @@ public class TimeSynchronization extends FragmentActivity {
             return fragmentList.size();
         }
     }
+
     /***
      * @param type 1 是显示  2 是隐藏
      */
