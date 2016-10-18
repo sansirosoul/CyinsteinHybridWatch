@@ -40,8 +40,8 @@ public class MyViewPage extends ViewPager {
     public void setCurrentItem(int item, boolean smoothScroll) {
         super.setCurrentItem(item, smoothScroll);
     }
-    @Override
-    public void setCurrentItem(int item) {
-        super.setCurrentItem(item);
-    }
+//    @Override
+//    public void setCurrentItem(int item) {
+//        super.setCurrentItem(item);
+//    }
 }
