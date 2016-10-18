@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -104,6 +103,13 @@ public class TimeSynchronization extends FragmentActivity {
                 butSynchronization.setVisibility(View.VISIBLE);
                 checkAnalogClock.dismiss();
 
+                mFragmentAdapter.removeAllFragments();
+
+                fragmentsList.add(smallFragment1);
+                fragmentsList.add(smallFragment2);
+                fragmentsList.add(smallFragment3);
+
+                mFragmentAdapter.notifyDataSetChanged();
                 viewpager.setScroll(false);
                 viewpager.setCurrentItem(1);
             }
@@ -144,6 +150,7 @@ public class TimeSynchronization extends FragmentActivity {
                 break;
 
             case R.id.but_add://加时间
+
                 mainDialFragment.AddTime();
                 break;
 
@@ -242,6 +249,12 @@ public class TimeSynchronization extends FragmentActivity {
         @Override
         public int getCount() {
             return fragmentList.size();
+        }
+        public void removeAllFragments(){
+            this.fragmentList.clear();
+        }
+        public void addFragmentsListToAdapter(List<Fragment> fragments) {
+            this.fragmentList.addAll(fragments);
         }
     }
 

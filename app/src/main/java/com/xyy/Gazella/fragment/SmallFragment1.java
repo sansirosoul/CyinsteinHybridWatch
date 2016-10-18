@@ -23,6 +23,12 @@ public class SmallFragment1 extends Fragment {
     AnalogClock analogclock;
     private View view;
 
+    private int getMinutesValue;
+    private int getHourValue;
+    private int setMinutesValue;
+    private int setHourValue;
+    private boolean isChangeTime = false;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_small_1, container, false);
@@ -30,5 +36,40 @@ public class SmallFragment1 extends Fragment {
         analogclock.setChangeTimeType(2);
         analogclock.setTimeValue(2,0);
         return view;
+    }
+    public void AddTime() {
+
+        getHourValue = analogclock.getHourTimeValue();
+        getMinutesValue = analogclock.getMinutesTimeValue();
+        if (!isChangeTime) {
+            setHourValue = getHourValue;
+            setMinutesValue = getMinutesValue;
+        }
+        if (analogclock.ChangeTimeType == 1) {
+            analogclock.setTimeValue(1, setHourValue);
+            setHourValue++;
+        } else {
+            analogclock.setTimeValue(2, setMinutesValue);
+            setMinutesValue++;
+        }
+        isChangeTime = true;
+    }
+
+    public void ReduceTime() {
+
+        getHourValue = analogclock.getHourTimeValue();
+        getMinutesValue = analogclock.getMinutesTimeValue();
+        if (!isChangeTime) {
+            setHourValue = getHourValue;
+            setMinutesValue = getMinutesValue;
+        }
+        if (analogclock.ChangeTimeType == 1) {
+            analogclock.setTimeValue(1, setHourValue);
+            setHourValue--;
+        } else {
+            analogclock.setTimeValue(2, setMinutesValue);
+            setMinutesValue--;
+        }
+        isChangeTime = true;
     }
 }
