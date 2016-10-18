@@ -75,5 +75,4 @@ public class MainDialFragment extends Fragment {
         }
         isChangeTime = true;
     }
-
 }

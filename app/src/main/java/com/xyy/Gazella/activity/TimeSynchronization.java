@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -32,8 +31,6 @@ import static com.ysp.newband.BaseActivity.overridePendingTransitionExit;
 
 public class TimeSynchronization extends FragmentActivity {
 
-    //    @BindView(R.id.analogclock)
-//    AnalogClock analogclock;
     @BindView(R.id.but_reduce)
     ImageButton butReduce;
     @BindView(R.id.but_add)
@@ -62,11 +59,6 @@ public class TimeSynchronization extends FragmentActivity {
     ImageView ivRight;
     @BindView(R.id.viewpager)
     MyViewPage viewpager;
-    private int getMinutesValue;
-    private int getHourValue;
-    private int setMinutesValue;
-    private int setHourValue;
-    private boolean isChangeTime = false;
     private CheckAnalogClock checkAnalogClock;
 
     private ArrayList<Fragment> fragmentsList;
@@ -103,11 +95,14 @@ public class TimeSynchronization extends FragmentActivity {
                 butReset.setVisibility(View.VISIBLE);
                 butSynchronization.setVisibility(View.VISIBLE);
                 checkAnalogClock.dismiss();
+                fragmentsList.clear();
+                fragmentsList.add(smallFragment1);
+                fragmentsList.add(smallFragment2);
+                fragmentsList.add(smallFragment3);
+                mFragmentAdapter.notifyDataSetChanged();
 
                 viewpager.setScroll(false);
                 viewpager.setCurrentItem(1);
-//             analogclock.setDialDrawable(R.drawable.page14_biaopan1);
-//             analogclock.setChangeTimeType(1);
             }
 
             @Override
@@ -116,11 +111,8 @@ public class TimeSynchronization extends FragmentActivity {
                 butReset.setVisibility(View.VISIBLE);
                 butSynchronization.setVisibility(View.VISIBLE);
                 checkAnalogClock.dismiss();
-
                 viewpager.setScroll(false);
                 viewpager.setCurrentItem(2);
-//             analogclock.setDialDrawable(R.drawable.page14_biaopan2);
-//             analogclock.setChangeTimeType(1);
             }
 
             @Override
@@ -129,13 +121,9 @@ public class TimeSynchronization extends FragmentActivity {
                 butReset.setVisibility(View.VISIBLE);
                 butSynchronization.setVisibility(View.VISIBLE);
                 checkAnalogClock.dismiss();
-
                 viewpager.setScroll(false);
                 viewpager.setCurrentItem(3);
-//             analogclock.setDialDrawable(R.drawable.page14_biaopan3);
-//             analogclock.setChangeTimeType(1);
             }
-
             @Override
             public void onCloseClick() {
                 checkAnalogClock.dismiss();
@@ -149,7 +137,7 @@ public class TimeSynchronization extends FragmentActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_reduce:  //减时间
-                 mainDialFragment.ReduceTime();
+                mainDialFragment.ReduceTime();
                 break;
 
             case R.id.but_add://加时间
@@ -165,6 +153,7 @@ public class TimeSynchronization extends FragmentActivity {
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+
                 break;
             case R.id.but_muinutes://  调整分针
                 setImageVisible(2);
@@ -176,6 +165,7 @@ public class TimeSynchronization extends FragmentActivity {
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+
                 break;
             case R.id.but_second:   // 调整小时针
                 checkAnalogClock.show();
@@ -231,24 +221,7 @@ public class TimeSynchronization extends FragmentActivity {
         viewpager.setCurrentItem(0);
         viewpager.setScroll(true);
 
-        viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
     }
-
 
     public class FragmentAdapter extends FragmentPagerAdapter {
         List<Fragment> fragmentList = new ArrayList<>();
@@ -268,7 +241,6 @@ public class TimeSynchronization extends FragmentActivity {
             return fragmentList.size();
         }
     }
-
     /***
      * @param type 1 是显示  2 是隐藏
      */

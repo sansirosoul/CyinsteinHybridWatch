@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.xyy.Gazella.view.AnalogClock;
 import com.ysp.smartwatch.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,12 +19,16 @@ import butterknife.ButterKnife;
 public class SmallFragment1 extends Fragment {
 
 
+    @BindView(R.id.analogclock)
+    AnalogClock analogclock;
     private View view;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_small_1, container, false);
         ButterKnife.bind(this, view);
+        analogclock.setChangeTimeType(2);
+        analogclock.setTimeValue(2,0);
         return view;
     }
 }
