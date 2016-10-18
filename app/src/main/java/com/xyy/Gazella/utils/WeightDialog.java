@@ -13,6 +13,7 @@ import android.view.WindowManager;
 
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
+import com.xyy.Gazella.activity.PersonActivity;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -48,6 +49,14 @@ public class WeightDialog extends Dialog {
         wheelView.setWheelData(list);
         wheelView.setSkin(WheelView.Skin.Holo);
         wheelView.setLoop(true);
+
+        wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
+            @Override
+            public void onItemSelected(int i, Object o) {
+                PersonActivity.tvWeight.setText(o+"");
+                PersonActivity.tvWeight.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        });
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,

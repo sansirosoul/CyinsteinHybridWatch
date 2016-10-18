@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -58,8 +59,6 @@ public class MViewOne extends View {
         mArcPaint.setStyle(Paint.Style.STROKE);
 
         mCirclePaint = new Paint();
-        mCirclePaint.setColor(Color.GREEN);
-        mCirclePaint.setAntiAlias(true);
 
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
@@ -106,11 +105,13 @@ public class MViewOne extends View {
         // 画弧线
 //        canvas.drawArc(mRectF, 270, 360, false, mPaint);
 
-        ArgbEvaluator argbEvaluator = new ArgbEvaluator();
-        Integer color =(Integer) argbEvaluator.evaluate(mSweepValue/360f,R.color.personalize1,R.color.personalize2);
-        mArcPaint.setColor(color);
+
+        SweepGradient sg = new SweepGradient(length/2,length/2,new int[]{R.color.personalize1,R.color.personalize2},null);
+//        mArcPaint.setShader(sg);
+        mArcPaint.setColor(getResources().getColor(R.color.personalize1));
         canvas.drawArc(mRectF, 270, mSweepValue, false, mArcPaint);
 
+//        canvas.drawCircle(length/2,length/2,(float)(length * 0.5 / 2),mCirclePaint);
         // 绘制文字
         float textWidth = mTextPaint.measureText(mShowText);   //测量字体宽度，我们需要根据字体的宽度设置在圆环中间
 

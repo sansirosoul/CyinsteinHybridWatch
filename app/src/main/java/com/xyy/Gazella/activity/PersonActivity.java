@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
 import com.xyy.Gazella.utils.WeightDialog;
 import com.ysp.newband.BaseActivity;
@@ -46,11 +47,10 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     ImageView head;
     @BindView(R.id.ed_name)
     EditText edName;
-    @BindView(R.id.tv_birth)
-    TextView tvBirth;
+
+    public static TextView tvBirth;
     public static TextView tvHeight;
-    @BindView(R.id.tv_weight)
-    TextView tvWeight;
+    public static TextView tvWeight;
 
     private Context context;
 
@@ -66,6 +66,8 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
     private void initView() {
         tvHeight= (TextView) findViewById(R.id.tv_height);
+        tvWeight= (TextView) findViewById(R.id.tv_weight);
+        tvBirth= (TextView) findViewById(R.id.tv_birth);
 
         tgMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -92,6 +94,8 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_birth:
+                CalendarDialog calendarDialog = new CalendarDialog(context);
+                calendarDialog.show();
                 break;
             case R.id.head:
                 break;
@@ -123,7 +127,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 //                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
-                Intent intent = new Intent(context, PersonalizeActivity.class);
+                Intent intent = new Intent(context, HomeActivity.class);
                 startActivity(intent);
                 break;
         }

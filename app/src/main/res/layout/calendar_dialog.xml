@@ -2,9 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-     <com.wx.wheelview.widget.WheelView
-         android:id="@+id/wheelview"
-         android:layout_margin="10dp"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"/>
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/cal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

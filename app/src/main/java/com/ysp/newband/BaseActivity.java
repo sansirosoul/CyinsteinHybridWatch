@@ -1,7 +1,6 @@
 package com.ysp.newband;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -56,12 +55,18 @@ public class BaseActivity extends ActivityBase {
 		overridePendingTransitionExit(this);
 	}
 
-	/*从左到右进入*/
+	/***
+	 *    进入页面调用  从左到右进入
+	 * @param at
+     */
 	public static void overridePendingTransitionEnter(Activity at){
 		at.overridePendingTransition(R.anim.in_from_right, R.anim.out_righttoleft);
 	}
-	/*从右到左退出*/
-	@SuppressLint("NewApi")
+
+	/***
+	 *  退出页面调用 从右到左退出
+	 * @param at
+     */
 	public static void overridePendingTransitionExit(Activity at){
 		at.overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
 	}
