@@ -94,7 +94,6 @@ public class MViewOne extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Bitmap bitmap =BitmapFactory.decodeResource(getResources(), R.drawable.page6_clock);
-
         canvas.drawBitmap(bitmap,0,0,new Paint());
 
         length=bitmap.getWidth();
@@ -106,10 +105,12 @@ public class MViewOne extends View {
 //        canvas.drawArc(mRectF, 270, 360, false, mPaint);
 
 
-        SweepGradient sg = new SweepGradient(length/2,length/2,new int[]{R.color.personalize1,R.color.personalize2},null);
-//        mArcPaint.setShader(sg);
-        mArcPaint.setColor(getResources().getColor(R.color.personalize1));
-        canvas.drawArc(mRectF, 270, mSweepValue, false, mArcPaint);
+        canvas.rotate(-90, length / 2, length / 2);
+//        SweepGradient sg = new SweepGradient(length/2,length/2,new int[]{Color.GREEN,Color.YELLOW,Color.RED},null);
+        SweepGradient sg = new SweepGradient(length/2,length/2,new int[]{getResources().getColor(R.color.personalize1),getResources().getColor(R.color.personalize2)},null);
+        mArcPaint.setShader(sg);
+//        mArcPaint.setColor(getResources().getColor(R.color.personalize1));
+        canvas.drawArc(mRectF, 0, mSweepValue, false, mArcPaint);
 
 //        canvas.drawCircle(length/2,length/2,(float)(length * 0.5 / 2),mCirclePaint);
         // 绘制文字

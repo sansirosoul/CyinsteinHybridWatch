@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_exit">返回</string>
+    <string name="skip">跳过配对</string>
+    <string name="launch01">欢迎使用健康手表</string>
+    <string name="launch02">开启您的健康之旅</string>
+    <string name="launch03">Copyright@2016All Right Reserved</string>
+    <string name="searching">正在搜索设备，请稍等…</string>
+    <string name="pairing">正在配对，请稍等…</string>
+    <string name="pair_failed">配对失败，请重试！</string>
+    <string name="search_devices">搜索到的设备</string>
+    <string name="real_msg">* 请填写真实可靠的信息，有助于我们提供有意义的意见给您</string>
+    <string name="choose_weight">请选择您的体重</string>
+    <string name="choose_height">请选择您的身高</string>
+    <string name="choose_birth">请选择您的出生年月</string>
+    <string name="input_name">请输入您的昵称</string>
+    <string name="sex">性别</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="personalizing">正在进行个人化设置，请稍等...</string>
+    <string name="personalized">个人化设置完成，正在跳转...</string>
 </resources>

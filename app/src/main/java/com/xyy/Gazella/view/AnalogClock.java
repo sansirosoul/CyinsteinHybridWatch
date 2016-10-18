@@ -24,6 +24,7 @@ import com.ysp.smartwatch.R;
 public class AnalogClock extends View {
 
     private static final String TAG = AnalogClock.class.getName();
+    private final Resources r;
     private Time mCalendar;
     private Drawable mHourHand;
     private Drawable mMinuteHand;
@@ -53,6 +54,7 @@ public class AnalogClock extends View {
     public int ChangeTimeType=1;//改变时针或分针  1 :时针 ，2 :分针
     private ChangeTimeListener changetimelistener;  //监听时间变换
     private boolean isChangedTime = false;
+    private Context mContext;
 
     public AnalogClock(Context context) {
         this(context, null);
@@ -64,18 +66,18 @@ public class AnalogClock extends View {
 
     public AnalogClock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        Resources r = getContext().getResources();
+         r = getContext().getResources();
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomAnalogClock, defStyle, 0);
         mDial = a.getDrawable(R.styleable.CustomAnalogClock_dial);
         mHourHand = a.getDrawable(R.styleable.CustomAnalogClock_hand_hour);
         mMinuteHand = a.getDrawable(R.styleable.CustomAnalogClock_hand_minute);
-        //    mSecondHand = a.getDrawable(R.styleable.CustomAnalogClock_hand_second);
+        // mSecondHand = a.getDrawable(R.styleable.CustomAnalogClock_hand_second);
 
 
-        if (mDial == null || mHourHand == null || mMinuteHand == null) {
+        if (mDial == null || mMinuteHand == null) {
             mDial = r.getDrawable(R.drawable.page12_biaopan);
-            mHourHand = r.getDrawable(R.drawable.page12_hour_selected);
+           // mHourHand = r.getDrawable(R.drawable.page12_hour_selected);
             mMinuteHand = r.getDrawable(R.drawable.page12_minute_selected);
             mSecondHand = r.getDrawable(R.drawable.appwidget_clock_second);
         }
@@ -100,6 +102,9 @@ public class AnalogClock extends View {
     public void setChangeTimeType(int ChangeTimeType) {
         this.ChangeTimeType = ChangeTimeType;
 
+    }
+    public  void  setDialDrawable(int drawable){
+        mDial = r.getDrawable(drawable);
     }
 
     public  int getChangeTimeType(){
@@ -209,7 +214,6 @@ public class AnalogClock extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         if (!isChangedTime) {
 
             mCalendar.setToNow();// 取当前时间
@@ -261,18 +265,19 @@ public class AnalogClock extends View {
 
         canvas.rotate(mHour / 12.0f * 360.0f, x, y);
 
-        final Drawable hourHand = mHourHand;
-        if (changed) {
-            w = hourHand.getIntrinsicWidth();
-            h = hourHand.getIntrinsicHeight();
-            hourHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y
-                    + (h / 2));
+        if(mHourHand!=null) {
+            final Drawable hourHand = mHourHand;
+            if (changed) {
+                w = hourHand.getIntrinsicWidth();
+                h = hourHand.getIntrinsicHeight();
+                hourHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y
+                        + (h / 2));
+            }
+            hourHand.draw(canvas);
+            canvas.restore();
+
+            canvas.save();
         }
-        hourHand.draw(canvas);
-        canvas.restore();
-
-        canvas.save();
-
         canvas.rotate(mMinutes / 60.0f * 360.0f, x, y);
         final Drawable minuteHand = mMinuteHand;
         if (changed) {

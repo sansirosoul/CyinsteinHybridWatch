@@ -1,5 +1,6 @@
 package com.xyy.Gazella.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -10,6 +11,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 import com.xyy.Gazella.adapter.DeviceListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.LoadingDialog;
+import com.xyy.Gazella.utils.PairFailedDialog;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
@@ -38,17 +42,17 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private Button skip;
     private DeviceListAdapter deviceListAdapter;
     private BluetoothAdapter bluetoothAdapter;
-    private List<BluetoothDevice> devices = new ArrayList<BluetoothDevice>();
+    private List<BluetoothDevice> devices = new ArrayList<>();
     private static final int REQUEST_ENABLE_BT = 1;
     private RelativeLayout searchLayout;
     private  LinearLayout pairingLayout;
     private Context context;
     private LoadingDialog loadingDialog;
+    private PairFailedDialog pairFailedDialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.pairing_activity);
 
         initView();
@@ -71,9 +75,17 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             Toast.makeText(this, "不支持蓝牙", Toast.LENGTH_SHORT).show();
            // finish();
             return;
+        }
+    }
 
-
-
+    //sdk6.0获取蓝牙权限
+    private void checkPermission() {
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_DENIED){
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                //TODO 提示权限已经被禁用 且不在提示
+                return;
+            }
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         }
     }
 
@@ -103,6 +115,11 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         // 为了确保设备上蓝牙能使用, 如果当前蓝牙设备没启用,弹出对话框向用户要求授予权限来启用
@@ -110,6 +127,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
+        checkPermission();
 
         searchLayout.setVisibility(View.VISIBLE);
         pairingLayout.setVisibility(View.GONE);
@@ -150,6 +168,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         pairingLayout=(LinearLayout) findViewById(R.id.pairing_layout);
 
         loadingDialog=new LoadingDialog(context);
+        pairFailedDialog=new PairFailedDialog(context);
     }
 
 
@@ -172,9 +191,10 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     loadingDialog.dismiss();
                     Intent intent = new Intent(context,PersonActivity.class);
                     startActivity(intent);
+                    overridePendingTransitionEnter(PairingActivity.this);
                     break;
                 case BluetoothService.STATE_DISCONNECTED:
-
+                    pairFailedDialog.show();
                     break;
                 default:
                     break;
@@ -189,6 +209,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                 bluetoothAdapter.stopLeScan(leScanCallback);
                 Intent intent = new Intent(context,PersonActivity.class);
                 startActivity(intent);
+                overridePendingTransitionEnter(PairingActivity.this);
                 break;
             default:
                 break;
