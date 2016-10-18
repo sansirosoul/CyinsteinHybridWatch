@@ -186,6 +186,7 @@ public class AnalogClock extends View {
             vScale = (float) heightSize / (float) mDialHeight;
         }
 
+
         float scale = Math.min(hScale, vScale);
 
         w = resolveSizeAndState((int) (mDialWidth * scale),
