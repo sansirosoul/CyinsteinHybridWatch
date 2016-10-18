@@ -18,6 +18,7 @@ import com.xyy.Gazella.fragment.SmallFragment1;
 import com.xyy.Gazella.fragment.SmallFragment2;
 import com.xyy.Gazella.fragment.SmallFragment3;
 import com.xyy.Gazella.utils.CheckAnalogClock;
+import com.xyy.Gazella.view.MyViewPage;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class TimeSynchronization extends FragmentActivity {
     @BindView(R.id.iv_right)
     ImageView ivRight;
     @BindView(R.id.viewpager)
-    ViewPager viewpager;
+    MyViewPage viewpager;
     private int getMinutesValue;
     private int getHourValue;
     private int setMinutesValue;
@@ -74,6 +75,7 @@ public class TimeSynchronization extends FragmentActivity {
     private SmallFragment3 smallFragment3;
     private MainDialFragment mainDialFragment;
     private TimeSynchronization.FragmentAdapter mFragmentAdapter;
+    private int item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +103,11 @@ public class TimeSynchronization extends FragmentActivity {
                 butReset.setVisibility(View.VISIBLE);
                 butSynchronization.setVisibility(View.VISIBLE);
                 checkAnalogClock.dismiss();
-//                analogclock.setDialDrawable(R.drawable.page14_biaopan1);
-//                analogclock.setChangeTimeType(1);
+
+                viewpager.setScroll(false);
+                viewpager.setCurrentItem(1);
+//             analogclock.setDialDrawable(R.drawable.page14_biaopan1);
+//             analogclock.setChangeTimeType(1);
             }
 
             @Override
@@ -111,8 +116,11 @@ public class TimeSynchronization extends FragmentActivity {
                 butReset.setVisibility(View.VISIBLE);
                 butSynchronization.setVisibility(View.VISIBLE);
                 checkAnalogClock.dismiss();
-//                analogclock.setDialDrawable(R.drawable.page14_biaopan2);
-//                analogclock.setChangeTimeType(1);
+
+                viewpager.setScroll(false);
+                viewpager.setCurrentItem(2);
+//             analogclock.setDialDrawable(R.drawable.page14_biaopan2);
+//             analogclock.setChangeTimeType(1);
             }
 
             @Override
@@ -121,8 +129,11 @@ public class TimeSynchronization extends FragmentActivity {
                 butReset.setVisibility(View.VISIBLE);
                 butSynchronization.setVisibility(View.VISIBLE);
                 checkAnalogClock.dismiss();
-//                analogclock.setDialDrawable(R.drawable.page14_biaopan3);
-//                analogclock.setChangeTimeType(1);
+
+                viewpager.setScroll(false);
+                viewpager.setCurrentItem(3);
+//             analogclock.setDialDrawable(R.drawable.page14_biaopan3);
+//             analogclock.setChangeTimeType(1);
             }
 
             @Override
@@ -138,49 +149,30 @@ public class TimeSynchronization extends FragmentActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_reduce:  //减时间
-//                getHourValue = analogclock.getHourTimeValue();
-//                getMinutesValue = analogclock.getMinutesTimeValue();
-                if (!isChangeTime) {
-                    setHourValue = getHourValue;
-                    setMinutesValue = getMinutesValue;
-                }
-//                if (analogclock.ChangeTimeType == 1) {
-//                    analogclock.setTimeValue(1, setHourValue);
-//                    setHourValue--;
-//                } else {
-//                    analogclock.setTimeValue(2, setMinutesValue);
-//                    setMinutesValue--;
-//                }
-                isChangeTime = true;
+                 mainDialFragment.ReduceTime();
                 break;
 
             case R.id.but_add://加时间
-//                getHourValue = analogclock.getHourTimeValue();
-//                getMinutesValue = analogclock.getMinutesTimeValue();
-                if (!isChangeTime) {
-                    setHourValue = getHourValue;
-                    setMinutesValue = getMinutesValue;
-                }
-//                if (analogclock.ChangeTimeType == 1) {
-//                    analogclock.setTimeValue(1, setHourValue);
-//                    setHourValue++;
-//                } else {
-//                    analogclock.setTimeValue(2, setMinutesValue);
-//                    setMinutesValue++;
-//                }
-                isChangeTime = true;
+                mainDialFragment.AddTime();
                 break;
 
             case R.id.but_hour:   // 调整时针
                 setImageVisible(2);
-                // analogclock.setChangeTimeType(1);
+                viewpager.setScroll(true);
+                viewpager.setCurrentItem(0);
+                mainDialFragment.setChangeTimeType(1);
+
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 break;
             case R.id.but_muinutes://  调整分针
                 setImageVisible(2);
-                //  analogclock.setChangeTimeType(2);
+                viewpager.setScroll(true);
+                viewpager.setCurrentItem(0);
+
+                mainDialFragment.setChangeTimeType(2);
+
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
@@ -207,26 +199,38 @@ public class TimeSynchronization extends FragmentActivity {
             case R.id.TVTitle:
                 break;
             case R.id.iv_left:
+                item = viewpager.getCurrentItem();
+                item--;
+                viewpager.setCurrentItem(item);
+
                 break;
             case R.id.iv_right:
+                item = viewpager.getCurrentItem();
+                item++;
+                viewpager.setCurrentItem(item);
+
                 break;
         }
     }
 
     private void InitViewPager() {
+
         fragmentsList = new ArrayList<>();
         mainDialFragment = new MainDialFragment();
         smallFragment1 = new SmallFragment1();
         smallFragment2 = new SmallFragment2();
         smallFragment3 = new SmallFragment3();
+
         fragmentsList.add(mainDialFragment);
         fragmentsList.add(smallFragment1);
         fragmentsList.add(smallFragment2);
         fragmentsList.add(smallFragment3);
 
-        mFragmentAdapter = new TimeSynchronization.FragmentAdapter( this.getSupportFragmentManager(), fragmentsList);
+        mFragmentAdapter = new TimeSynchronization.FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
         viewpager.setAdapter(mFragmentAdapter);
         viewpager.setCurrentItem(0);
+        viewpager.setScroll(true);
+
         viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -247,7 +251,6 @@ public class TimeSynchronization extends FragmentActivity {
 
 
     public class FragmentAdapter extends FragmentPagerAdapter {
-
         List<Fragment> fragmentList = new ArrayList<>();
 
         public FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
@@ -265,16 +268,6 @@ public class TimeSynchronization extends FragmentActivity {
             return fragmentList.size();
         }
     }
-
-
-
-
-
-
-
-
-
-
 
     /***
      * @param type 1 是显示  2 是隐藏

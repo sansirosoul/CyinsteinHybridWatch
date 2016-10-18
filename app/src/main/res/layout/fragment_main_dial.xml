@@ -9,6 +9,7 @@
     android:orientation="vertical">
 
     <com.xyy.Gazella.view.AnalogClock
+        android:id="@+id/analogclock"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:dial="@drawable/page12_biaopan"
