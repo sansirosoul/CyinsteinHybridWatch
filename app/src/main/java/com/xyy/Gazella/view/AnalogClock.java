@@ -75,9 +75,9 @@ public class AnalogClock extends View {
         // mSecondHand = a.getDrawable(R.styleable.CustomAnalogClock_hand_second);
 
 
-        if (mDial == null || mHourHand == null || mMinuteHand == null) {
+        if (mDial == null || mMinuteHand == null) {
             mDial = r.getDrawable(R.drawable.page12_biaopan);
-            mHourHand = r.getDrawable(R.drawable.page12_hour_selected);
+           // mHourHand = r.getDrawable(R.drawable.page12_hour_selected);
             mMinuteHand = r.getDrawable(R.drawable.page12_minute_selected);
             mSecondHand = r.getDrawable(R.drawable.appwidget_clock_second);
         }
@@ -264,18 +264,19 @@ public class AnalogClock extends View {
 
         canvas.rotate(mHour / 12.0f * 360.0f, x, y);
 
-        final Drawable hourHand = mHourHand;
-        if (changed) {
-            w = hourHand.getIntrinsicWidth();
-            h = hourHand.getIntrinsicHeight();
-            hourHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y
-                    + (h / 2));
+        if(mHourHand!=null) {
+            final Drawable hourHand = mHourHand;
+            if (changed) {
+                w = hourHand.getIntrinsicWidth();
+                h = hourHand.getIntrinsicHeight();
+                hourHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y
+                        + (h / 2));
+            }
+            hourHand.draw(canvas);
+            canvas.restore();
+
+            canvas.save();
         }
-        hourHand.draw(canvas);
-        canvas.restore();
-
-        canvas.save();
-
         canvas.rotate(mMinutes / 60.0f * 360.0f, x, y);
         final Drawable minuteHand = mMinuteHand;
         if (changed) {

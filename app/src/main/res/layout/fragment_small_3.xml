@@ -10,10 +10,11 @@
     >
 
     <com.xyy.Gazella.view.AnalogClock
+        android:id="@+id/analogclock"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:dial="@drawable/page14_biaopan3"
-        app:hand_hour="@drawable/page12_hour_normal"
         app:hand_minute="@drawable/page12_minute_selected"/>
 
 
