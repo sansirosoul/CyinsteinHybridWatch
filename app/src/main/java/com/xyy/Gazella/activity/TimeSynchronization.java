@@ -65,6 +65,7 @@ public class TimeSynchronization extends BaseActivity {
         butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
         butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
         butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+
         checkAnalogClock.setOnItemClickListener(new CheckAnalogClock.onItemClickListener() {
 
             @Override
