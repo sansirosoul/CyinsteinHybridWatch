@@ -160,8 +160,8 @@ public class TimeSynchronization extends BaseActivity {
             case R.id.but_synchronization:    ///同步
                 break;
             case R.id.btnExit:   // 退出
-                overridePendingTransitionExit(TimeSynchronization.this);
                 TimeSynchronization.this.finish();
+                overridePendingTransitionExit(TimeSynchronization.this);
                 break;
             case R.id.btnOpt:
                 break;

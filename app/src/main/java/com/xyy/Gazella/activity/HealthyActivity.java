@@ -25,7 +25,7 @@ public class HealthyActivity extends FragmentActivity {
     private ViewPager viewPager;
     private ArrayList<Fragment> fragmentsList;
     private SleepFragment sleepFragment;
-    private StepFragment stupFragment;
+    private StepFragment stepFragment;
     private FragmentAdapter mFragmentAdapter;
 
     @Override
@@ -40,8 +40,8 @@ public class HealthyActivity extends FragmentActivity {
         viewPager= (ViewPager) findViewById(viewpager);
         fragmentsList = new ArrayList<>();
         sleepFragment = new SleepFragment();
-        stupFragment = new StepFragment();
-        fragmentsList.add(stupFragment);
+        stepFragment = new StepFragment();
+        fragmentsList.add(stepFragment);
         fragmentsList.add(sleepFragment);
 
         mFragmentAdapter = new FragmentAdapter( this.getSupportFragmentManager(), fragmentsList);

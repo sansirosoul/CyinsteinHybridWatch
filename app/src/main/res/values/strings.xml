@@ -446,6 +446,7 @@
     <string name="launch03">Copyright@2016All Right Reserved</string>
     <string name="searching">正在搜索设备，请稍等…</string>
     <string name="pairing">正在配对，请稍等…</string>
+    <string name="pair_failed">配对失败，请重试！</string>
     <string name="search_devices">搜索到的设备</string>
     <string name="real_msg">* 请填写真实可靠的信息，有助于我们提供有意义的意见给您</string>
     <string name="choose_weight">请选择您的体重</string>
