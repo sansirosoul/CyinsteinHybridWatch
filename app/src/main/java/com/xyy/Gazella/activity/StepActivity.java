@@ -149,6 +149,9 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
             LineData data = new LineData(dataSets);
             mChart.setData(data);
         }
+
+
+
     }
 
 //    @OnClick({R.id.btnExit, R.id.btnOpt, R.id.TVTitle})
