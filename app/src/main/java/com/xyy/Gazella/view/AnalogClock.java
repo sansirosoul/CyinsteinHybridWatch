@@ -327,10 +327,11 @@ public class AnalogClock extends View {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-
+                  int mmintes=(int)mMinutes;
 
                 Tiemvalue = Tiemvalue / 6;
-                if (Tiemvalue == mMinutes||Tiemvalue+1 == mMinutes+1||Tiemvalue +2== mMinutes+2||Tiemvalue+3 == mMinutes+3||Tiemvalue -1== mMinutes-1||Tiemvalue-2 == mMinutes-2||Tiemvalue -3== mMinutes-3)
+                if (Tiemvalue == mmintes||Tiemvalue+1 == mmintes||Tiemvalue +2== mmintes||Tiemvalue+3 == mmintes||Tiemvalue+4 == mmintes||
+                        Tiemvalue -1== mmintes||Tiemvalue-2 == mmintes||Tiemvalue -3== mmintes||Tiemvalue+4 == mmintes)
                     isMove = true;
                 else
                     isMove = false;
