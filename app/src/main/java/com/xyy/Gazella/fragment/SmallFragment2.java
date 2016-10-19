@@ -36,7 +36,6 @@ public class SmallFragment2 extends Fragment {
         analogclock.setChangeTimeType(2);
         analogclock.setTimeValue(2,0);
         return view;
-
     }
 
     public void AddTime() {

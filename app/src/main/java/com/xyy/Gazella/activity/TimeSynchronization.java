@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -98,40 +99,17 @@ public class TimeSynchronization extends FragmentActivity {
 
             @Override
             public void onSmall1Click() {
-                setImageVisible(1);
-                butReset.setVisibility(View.VISIBLE);
-                butSynchronization.setVisibility(View.VISIBLE);
-                checkAnalogClock.dismiss();
-
-                mFragmentAdapter.removeAllFragments();
-
-                fragmentsList.add(smallFragment1);
-                fragmentsList.add(smallFragment2);
-                fragmentsList.add(smallFragment3);
-
-                mFragmentAdapter.notifyDataSetChanged();
-                viewpager.setScroll(false);
-                viewpager.setCurrentItem(1);
+                setSmallItem(0);
             }
 
             @Override
             public void onSmall2Click() {
-                setImageVisible(1);
-                butReset.setVisibility(View.VISIBLE);
-                butSynchronization.setVisibility(View.VISIBLE);
-                checkAnalogClock.dismiss();
-                viewpager.setScroll(false);
-                viewpager.setCurrentItem(2);
+                setSmallItem(1);
             }
 
             @Override
             public void onSmall3Click() {
-                setImageVisible(1);
-                butReset.setVisibility(View.VISIBLE);
-                butSynchronization.setVisibility(View.VISIBLE);
-                checkAnalogClock.dismiss();
-                viewpager.setScroll(false);
-                viewpager.setCurrentItem(3);
+                setSmallItem(2);
             }
             @Override
             public void onCloseClick() {
@@ -146,15 +124,44 @@ public class TimeSynchronization extends FragmentActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_reduce:  //减时间
-                mainDialFragment.ReduceTime();
+                if(fragmentsList.size()>1){
+                    switch (viewpager.getCurrentItem()){
+                        case 0:
+                            smallFragment1.ReduceTime();
+                            break;
+                        case 1:
+                            smallFragment2.ReduceTime();
+                            break;
+                        case 2:
+                            smallFragment3.ReduceTime();
+                            break;
+                    }
+                }else {
+                    mainDialFragment.ReduceTime();
+                }
                 break;
 
             case R.id.but_add://加时间
-                mainDialFragment.AddTime();
+                if(fragmentsList.size()>1){
+                    switch (viewpager.getCurrentItem()){
+                        case 0:
+                            smallFragment1.AddTime();
+                            break;
+                        case 1:
+                            smallFragment2.AddTime();
+                            break;
+                        case 2:
+                            smallFragment3.AddTime();
+                            break;
+                    }
+                }else {
+                    mainDialFragment.AddTime();
+                }
                 break;
 
             case R.id.but_hour:   // 调整时针
                 setImageVisible(2);
+                setFragmentsList(2);
                 viewpager.setScroll(true);
                 viewpager.setCurrentItem(0);
                 mainDialFragment.setChangeTimeType(1);
@@ -166,6 +173,7 @@ public class TimeSynchronization extends FragmentActivity {
                 break;
             case R.id.but_muinutes://  调整分针
                 setImageVisible(2);
+                setFragmentsList(2);
                 viewpager.setScroll(true);
                 viewpager.setCurrentItem(0);
 
@@ -221,40 +229,35 @@ public class TimeSynchronization extends FragmentActivity {
         smallFragment3 = new SmallFragment3();
 
         fragmentsList.add(mainDialFragment);
-        fragmentsList.add(smallFragment1);
-        fragmentsList.add(smallFragment2);
-        fragmentsList.add(smallFragment3);
 
         mFragmentAdapter = new TimeSynchronization.FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
         viewpager.setAdapter(mFragmentAdapter);
         viewpager.setCurrentItem(0);
         viewpager.setScroll(true);
 
-
     }
 
-    public class FragmentAdapter extends FragmentPagerAdapter {
-        List<Fragment> fragmentList = new ArrayList<>();
+    public class FragmentAdapter extends FragmentStatePagerAdapter {
+        List<Fragment> fragmentlist = new ArrayList<>();
 
         public FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
             super(fm);
-            this.fragmentList = fragmentList;
+            this.fragmentlist = fragmentList;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return fragmentList.get(position);
+            return fragmentlist.get(position);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return PagerAdapter.POSITION_NONE;
         }
 
         @Override
         public int getCount() {
-            return fragmentList.size();
-        }
-        public void removeAllFragments(){
-            this.fragmentList.clear();
-        }
-        public void addFragmentsListToAdapter(List<Fragment> fragments) {
-            this.fragmentList.addAll(fragments);
+            return fragmentlist.size();
         }
     }
 
@@ -269,5 +272,38 @@ public class TimeSynchronization extends FragmentActivity {
             ivRight.setVisibility(View.GONE);
             ivLeft.setVisibility(View.GONE);
         }
+    }
+
+    /***
+     * 切换 时分针 小针 Fragment
+     *
+     * @param type 1 是时分针  2是小针
+     */
+
+    private void setFragmentsList(int type) {
+        fragmentsList.clear();
+        if (type == 1) {
+            fragmentsList.add(smallFragment1);
+            fragmentsList.add(smallFragment2);
+            fragmentsList.add(smallFragment3);
+        } else {
+            fragmentsList.add(mainDialFragment);
+        }
+        mFragmentAdapter.notifyDataSetChanged();
+    }
+
+    /***
+     *     设置小针Fragment 位置
+     * @param item
+     */
+    private  void  setSmallItem(int item){
+        setImageVisible(1);
+        butReset.setVisibility(View.VISIBLE);
+        butSynchronization.setVisibility(View.VISIBLE);
+        checkAnalogClock.dismiss();
+
+        setFragmentsList(1);
+        viewpager.setScroll(false);
+        viewpager.setCurrentItem(item);
     }
 }
