@@ -19,10 +19,19 @@
         android:layout_height="25dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="20dp"
         android:background="#00000000"
-        android:gravity="right|center_vertical"
-       />
+        android:gravity="right|center_vertical" />
+
+    <Button
+        android:id="@+id/btnDate"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_toLeftOf="@+id/btnOpt"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="30dp"
+        android:background="#00000000"
+        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/TVTitle"
@@ -32,8 +41,7 @@
         android:layout_centerVertical="true"
         android:text="10/1"
         android:textColor="@color/white"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+        android:textSize="18dp" />
 
     <ImageView
         android:layout_width="match_parent"

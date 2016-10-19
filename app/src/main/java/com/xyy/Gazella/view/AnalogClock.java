@@ -55,7 +55,8 @@ public class AnalogClock extends View {
     private ChangeTimeListener changetimelistener;  //监听时间变换
     private boolean isChangedTime = false;
     private Context mContext;
-    private boolean isMove = false;
+    private boolean isMinutestMove = false;
+    private boolean isHourMove = false;
 
     public AnalogClock(Context context) {
         this(context, null);
@@ -107,6 +108,14 @@ public class AnalogClock extends View {
 
     public void setDialDrawable(int drawable) {
         mDial = r.getDrawable(drawable);
+    }
+
+    public  void setHourDrawable(int drawable){
+        mHourHand = r.getDrawable(drawable);
+    }
+
+    public  void setMinuteDrawable(int drawable){
+        mMinuteHand = r.getDrawable(drawable);
     }
 
     public int getChangeTimeType() {
@@ -331,19 +340,19 @@ public class AnalogClock extends View {
 
                 Tiemvalue = Tiemvalue / 6;
                 if (Tiemvalue == mmintes||Tiemvalue+1 == mmintes||Tiemvalue +2== mmintes||Tiemvalue+3 == mmintes||Tiemvalue+4 == mmintes||
-                        Tiemvalue -1== mmintes||Tiemvalue-2 == mmintes||Tiemvalue -3== mmintes||Tiemvalue+4 == mmintes)
-                    isMove = true;
+                        Tiemvalue -1== mmintes||Tiemvalue-2 == mmintes||Tiemvalue -3== mmintes||Tiemvalue-4 == mmintes)
+                    isMinutestMove = true;
                 else
-                    isMove = false;
+                    isMinutestMove = false;
                 break;
 
             case MotionEvent.ACTION_MOVE:
 
                 if (ChangeTimeType == 1) {  //移动时针
-                    Tiemvalue = Tiemvalue / 30;
-                    mHour = Tiemvalue;
+                        Tiemvalue = Tiemvalue / 30;
+                        mHour = Tiemvalue;
                 } else {
-                    if (isMove) {
+                    if (isMinutestMove) {
                         Tiemvalue = Tiemvalue / 6;
                         mMinutes = Tiemvalue;
                     }
