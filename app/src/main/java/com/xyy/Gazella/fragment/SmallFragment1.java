@@ -28,6 +28,7 @@ public class SmallFragment1 extends Fragment {
     private int setMinutesValue;
     private int setHourValue;
     private boolean isChangeTime = false;
+    private  boolean ismove;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -35,6 +36,7 @@ public class SmallFragment1 extends Fragment {
         ButterKnife.bind(this, view);
         analogclock.setChangeTimeType(2);
         analogclock.setTimeValue(2,0);
+
         return view;
     }
     public void AddTime() {
@@ -71,5 +73,10 @@ public class SmallFragment1 extends Fragment {
             setMinutesValue--;
         }
         isChangeTime = true;
+    }
+
+    private  boolean getIsMove(){
+
+        return ismove;
     }
 }

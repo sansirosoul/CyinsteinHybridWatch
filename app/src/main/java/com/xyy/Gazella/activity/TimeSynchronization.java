@@ -150,7 +150,6 @@ public class TimeSynchronization extends FragmentActivity {
                 break;
 
             case R.id.but_add://加时间
-
                 mainDialFragment.AddTime();
                 break;
 
@@ -230,6 +229,7 @@ public class TimeSynchronization extends FragmentActivity {
         viewpager.setAdapter(mFragmentAdapter);
         viewpager.setCurrentItem(0);
         viewpager.setScroll(true);
+
 
     }
 
