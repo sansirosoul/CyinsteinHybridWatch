@@ -111,7 +111,6 @@ public class TimeSynchronization extends FragmentActivity {
             public void onSmall3Click() {
                 setSmallItem(2);
             }
-
             @Override
             public void onCloseClick() {
                 checkAnalogClock.dismiss();
