@@ -154,6 +154,8 @@ public class TimeSynchronization extends FragmentActivity {
                 mainDialFragment.AddTime();
                 break;
 
+
+
             case R.id.but_hour:   // 调整时针
                 setImageVisible(2);
                 viewpager.setScroll(true);
