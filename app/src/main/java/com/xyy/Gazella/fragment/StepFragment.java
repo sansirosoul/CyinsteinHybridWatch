@@ -21,12 +21,6 @@ import butterknife.OnClick;
  */
 
 public class StepFragment extends Fragment {
-
-
-    @BindView(R.id.image_but)
-    ImageButton imageBut;
-    @BindView(R.id.text)
-    TextView text;
     private View view;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,15 +32,5 @@ public class StepFragment extends Fragment {
     }
 
 
-    @OnClick({R.id.image_but, R.id.text})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.image_but:
-                Intent intent = new Intent(getActivity(), StepActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.text:
-                break;
-        }
-    }
+
 }

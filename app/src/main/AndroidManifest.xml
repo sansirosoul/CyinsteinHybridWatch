@@ -61,10 +61,22 @@
             android:enabled="true" />
        <service android:name="com.xyy.Gazella.services.BluetoothService"></service>
 
-        <activity android:name="com.xyy.Gazella.activity.HealthyActivity" />
-        <activity android:name="com.xyy.Gazella.activity.SleepActivity" />
+        <activity android:name="com.xyy.Gazella.activity.HealthyActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.SleepActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme"/>
         <activity
             android:name="com.xyy.Gazella.activity.StepActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
@@ -109,11 +121,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

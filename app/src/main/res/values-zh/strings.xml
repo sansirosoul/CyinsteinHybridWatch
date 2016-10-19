@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--引导页面-->
     <string name="title_exit">返回</string>
     <string name="skip">跳过配对</string>
     <string name="launch01">欢迎使用健康手表</string>
@@ -19,4 +20,7 @@
     <string name="female">女</string>
     <string name="personalizing">正在进行个人化设置，请稍等...</string>
     <string name="personalized">个人化设置完成，正在跳转...</string>
+
+    <!--健康管理-->
+    <string name="health_manage">健康管理</string>
 </resources>
