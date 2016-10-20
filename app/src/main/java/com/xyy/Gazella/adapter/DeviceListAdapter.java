@@ -1,18 +1,16 @@
 package com.xyy.Gazella.adapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.ysp.smartwatch.R;
-
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.ysp.smartwatch.R;
+
+import java.util.List;
 
 public class DeviceListAdapter extends BaseAdapter {
 
@@ -25,6 +23,8 @@ public class DeviceListAdapter extends BaseAdapter {
 		this.dataList=deviceList;
 		this.mLayoutInflater = LayoutInflater.from(context);
 	}
+
+
 	
 	
 	
