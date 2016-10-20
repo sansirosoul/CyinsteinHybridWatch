@@ -1,10 +1,5 @@
 package com.xyy.Gazella.activity;
 /**连接设备页面**/
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -13,13 +8,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.exchange.android.engine.Uoi;
-import com.juts.framework.exp.JException;
-import com.xyy.Gazella.exchange.ServicesBase;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.BluetoothInstruction;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class ConnectionDevice extends BaseActivity {
@@ -89,6 +86,8 @@ public class ConnectionDevice extends BaseActivity {
 			case -1:// 错误
 				break;
 			}
+
+
 		}
 	};
 	@Override

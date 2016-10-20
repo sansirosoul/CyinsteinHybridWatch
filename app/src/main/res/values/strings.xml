@@ -107,7 +107,6 @@
     <string name="IncomingCallingAlert">Incoming Call Alert</string>
     <string name="Today">Today</string>
     <string name="steps">steps</string>
-    <string name="step">step</string>
     <string name="Steps_title">Steps</string>
     <string name="Distance_title">Distance</string>
     <string name="Calories_title">Calories</string>
@@ -440,6 +439,7 @@
     <string name="mileage">mile age</string>
     <string name="Walked">Walked</string>
 
+    <!--引导页面-->
     <string name="skip">跳过配对</string>
     <string name="launch01">欢迎使用健康手表</string>
     <string name="launch02">开启您的健康之旅</string>
@@ -458,4 +458,11 @@
     <string name="female">女</string>
     <string name="personalizing">正在进行个人化设置，请稍等...</string>
     <string name="personalized">个人化设置完成，正在跳转...</string>
+
+    <!--健康管理-->
+    <string name="health_manage">健康管理</string>
+    <string name="step">计步</string>
+    <string name="sleep">睡眠</string>
+    <string name="click_cirlce">*点击上方圆环即可进入详情界面</string>
+    <string name="over_target">超额完成目标，再接再励哦！</string>
 </resources>
