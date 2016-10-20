@@ -45,6 +45,7 @@ public class StepDayFragment extends Fragment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
+        mChart.setBackgroundColor(Color.rgb(55 ,55, 55));
         XAxis xAxis = mChart.getXAxis();
      //   xAxis.setStartAtZero(true);
       //  xAxis.setSpaceBetweenLabels();
@@ -54,7 +55,9 @@ public class StepDayFragment extends Fragment {
         xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(12);
-        xAxis.setGranularity(5f);
+       // xAxis.setGranularity(50f);
+//        xAxis.setXEntrySpace(10f);
+        xAxis.setAxisLineWidth(10f);
 
         xAxis.setDrawGridLines(false);
 
@@ -134,7 +137,7 @@ public class StepDayFragment extends Fragment {
     private void setChartData() {
 
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 24; i++) {
             float mult = (1000);
             float val = (float) (Math.random() * mult) + mult / 1;
             yVals1.add(new BarEntry(i, val));
@@ -146,14 +149,16 @@ public class StepDayFragment extends Fragment {
             set1.setValues(yVals1);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
-
-
         } else {
             set1 = new BarDataSet(yVals1, "");
             set1.setColor(Color.rgb(255,255,255));
             set1.setDrawValues(false);
+            set1.setBarBorderWidth(10f);
+            set1.setBarBorderColor(Color.rgb(55,55,55));
+           // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
+
             BarData data = new BarData(dataSets);
             mChart.setData(data);
             mChart.setFitBars(true);
