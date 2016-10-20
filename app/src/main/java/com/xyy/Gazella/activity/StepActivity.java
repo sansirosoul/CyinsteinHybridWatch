@@ -11,7 +11,6 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
-import com.prolificinteractive.materialcalendarview.format.TitleFormatter;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -77,25 +76,19 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                     widget.setVisibility(View.GONE);
                     btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
                 } else {
+
+                    ///初始化日历
                     widget.setVisibility(View.VISIBLE);
-                    widget.setTopbarVisible(widget.getTopbarVisible());
                     widget.setBackgroundColor(this.getResources().getColor(R.color.black));
+                    widget.setArrowColor(this.getResources().getColor(R.color.white));
+
+                    widget.setHeaderLinearColor(this.getResources().getColor(R.color.title_gray));
                     widget.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
                     widget.setSelectionColor(this.getResources().getColor(R.color.personalize2));
 
-                    widget.setTitleFormatter(new TitleFormatter() {
-                        @Override
-                        public CharSequence format(CalendarDay day) {
-
-                            return null;
-                        }
-                    });
-
                     widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
                     btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
-
                 }
-
                 break;
         }
     }

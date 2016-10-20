@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_stup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/page17_bg"
+    android:orientation="vertical"
     tools:context="com.xyy.Gazella.activity.StepActivity">
 
     <include
@@ -14,13 +15,16 @@
         android:layout_height="50dp" />
 
 
-
-
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        app:mcv_dateTextAppearance="@style/MaterialCalendarHeadrDay"
+        app:mcv_headerTextAppearance="@style/MaterialCalendarHeadrTitle"
+        app:mcv_leftArrowMask="@drawable/page17_left"
+        app:mcv_rightArrowMask="@drawable/page17_right"
+        app:mcv_selectionColor="@color/title_bg"
+        app:mcv_weekDayTextAppearance="@style/MaterialCalendarHeadrWeek" />
 
     <LinearLayout
         android:layout_width="match_parent"
