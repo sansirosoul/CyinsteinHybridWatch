@@ -134,7 +134,7 @@ public class StepDayFragment extends Fragment {
     private void setChartData() {
 
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
-        for (int i = 0; i < 24; i++) {
+        for (int i = 0; i < 100; i++) {
             float mult = (1000);
             float val = (float) (Math.random() * mult) + mult / 1;
             yVals1.add(new BarEntry(i, val));
