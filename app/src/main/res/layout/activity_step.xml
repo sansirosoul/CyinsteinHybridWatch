@@ -27,21 +27,10 @@
         app:mcv_weekDayTextAppearance="@style/MaterialCalendarHeadrWeek" />
 
 
-    <LinearLayout
-        android:id="@+id/ll_checkdate"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
-
         <LinearLayout
-            android:id="@+id/svTemperatureModel"
+            android:id="@+id/ll_check_date"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
@@ -88,44 +77,12 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:background="#464646"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="15dp"
-                android:src="@drawable/page17_left" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="2016-21-21"
-                android:textColor="@color/white"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="15dp"
-                android:src="@drawable/page17_right" />
-
-        </RelativeLayout>
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6">
+        android:layout_marginTop="10dp"
+        android:layout_weight="9">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"

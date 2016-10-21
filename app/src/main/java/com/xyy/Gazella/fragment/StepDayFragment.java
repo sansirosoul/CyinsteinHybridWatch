@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -27,6 +28,8 @@ import butterknife.ButterKnife;
 public class StepDayFragment extends Fragment {
     @BindView(R.id.chart1)
     BarChart mChart;
+    @BindView(R.id.ll_date)
+    LinearLayout llDate;
     private View view;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,26 +42,24 @@ public class StepDayFragment extends Fragment {
     }
 
     private void initChart() {
-
-
         mChart.setDescription("");
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-        mChart.setBackgroundColor(Color.rgb(55 ,55, 55));
+        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
         XAxis xAxis = mChart.getXAxis();
-     //   xAxis.setStartAtZero(true);
-      //  xAxis.setSpaceBetweenLabels();
+        //   xAxis.setStartAtZero(true);
+        //  xAxis.setSpaceBetweenLabels();
 
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(12);
-       // xAxis.setGranularity(50f);
+        // xAxis.setGranularity(50f);
 //        xAxis.setXEntrySpace(10f);
         xAxis.setAxisLineWidth(10f);
-
+//        xAxis.setGridLineWidth(1);
         xAxis.setDrawGridLines(false);
 
         mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
@@ -70,21 +71,6 @@ public class StepDayFragment extends Fragment {
         mChart.animateY(2500);   //动画
 
         mChart.getLegend().setEnabled(false);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //        mChart.setTouchEnabled(false); // 设置是否可以触摸
@@ -144,18 +130,18 @@ public class StepDayFragment extends Fragment {
         }
         BarDataSet set1;
 
-        if (mChart.getData() != null &&mChart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet)mChart.getData().getDataSetByIndex(0);
+        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(yVals1);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
             set1 = new BarDataSet(yVals1, "");
-            set1.setColor(Color.rgb(255,255,255));
+            set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
             set1.setBarBorderWidth(10f);
-            set1.setBarBorderColor(Color.rgb(55,55,55));
-           // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
+            set1.setBarBorderColor(Color.rgb(55, 55, 55));
+            // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
@@ -164,5 +150,20 @@ public class StepDayFragment extends Fragment {
             mChart.setFitBars(true);
         }
         mChart.invalidate();
+    }
+
+    /***
+     *     设置日期栏是否显示
+     * @param visible
+     */
+
+    public  void setLlDateVisible(int visible){
+        llDate.setVisibility(visible);
+    }
+    public  boolean getLlDateVisible(){
+        if(llDate.getVisibility()==View.VISIBLE)
+            return true;
+        else
+        return  false;
     }
 }
