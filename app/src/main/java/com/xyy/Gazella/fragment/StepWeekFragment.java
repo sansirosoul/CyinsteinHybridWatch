@@ -59,14 +59,17 @@ public class StepWeekFragment extends Fragment {
 
         mChart.setDrawValueAboveBar(false);
         mChart.setHighlightFullBarEnabled(false);
+        mChart.getAxisRight().setEnabled(false);
+        mChart.getAxisLeft().setEnabled(false);
+        mChart.getAxisLeft().setTextType();
 
         YAxis yAxis = mChart.getAxisLeft();
-        yAxis.setSpaceBottom(0);
         yAxis.setTextColor(Color.rgb(255, 255, 255));
-        mChart.getAxisRight().setEnabled(false);
-
+        yAxis.setSpaceBottom(0);
         XAxis xAxis = mChart.getXAxis();
         xAxis.setTextColor(Color.rgb(255, 255, 255));
+
+
         xAxis.setValueFormatter(new axisValueformatter());
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
@@ -104,7 +107,7 @@ public class StepWeekFragment extends Fragment {
             mChart.notifyDataSetChanged();
         } else {
             set1 = new BarDataSet(yVals1, "Statistics Vienna 2014");
-            set1.setBarBorderWidth(10f);
+//            set1.setBarBorderWidth(10f);
             set1.setBarBorderColor(Color.rgb(55,55,55));
             set1.setColors(getColors());
             set1.setStackLabels(new String[]{"Births", "Divorces", "Marriages"});
