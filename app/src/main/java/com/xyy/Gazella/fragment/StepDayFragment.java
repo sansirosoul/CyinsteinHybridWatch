@@ -46,20 +46,22 @@ public class StepDayFragment extends Fragment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
+//        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
         XAxis xAxis = mChart.getXAxis();
         //   xAxis.setStartAtZero(true);
         //  xAxis.setSpaceBetweenLabels();
-
+//        xAxis.resetLabelsToSkip();
+        mChart.refreshDrawableState();
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
+        xAxis.setGridLineWidth(1);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(12);
         // xAxis.setGranularity(50f);
 //        xAxis.setXEntrySpace(10f);
-        xAxis.setAxisLineWidth(10f);
-//        xAxis.setGridLineWidth(1);
+        xAxis.setAxisLineWidth(1f);
+        xAxis.setGridLineWidth(1);
         xAxis.setDrawGridLines(false);
 
         mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
@@ -142,7 +144,10 @@ public class StepDayFragment extends Fragment {
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
             set1.setBarBorderWidth(10f);
-            set1.setBarBorderColor(Color.rgb(55, 55, 55));
+
+//            set1.setBarBorderColor(Color.parseColor("#00FFFFFF"));
+//            set1.setBarBorderColor(Color.alpha(0));
+            set1.setBarBorderColor(Color.rgb(32, 32, 32));
             // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
