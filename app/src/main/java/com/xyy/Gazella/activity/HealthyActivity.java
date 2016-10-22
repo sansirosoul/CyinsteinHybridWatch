@@ -1,13 +1,16 @@
 package com.xyy.Gazella.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.xyy.Gazella.fragment.SleepFragment;
@@ -25,12 +28,16 @@ import static com.ysp.smartwatch.R.id.viewpager;
 
 
 public class HealthyActivity extends FragmentActivity {
-    @BindView(R.id.back)
-    ImageView back;
     @BindView(R.id.step)
     TextView step;
     @BindView(R.id.sleep)
     TextView sleep;
+    @BindView(R.id.btnExit)
+    Button btnExit;
+    @BindView(R.id.btnOpt)
+    Button btnOpt;
+    @BindView(R.id.TVTitle)
+    TextView TVTitle;
     private ViewPager viewPager;
     private ArrayList<Fragment> fragmentsList;
     private SleepFragment sleepFragment;
@@ -42,10 +49,18 @@ public class HealthyActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_healthy);
         ButterKnife.bind(this);
+
+        if(Build.VERSION.SDK_INT >= 19){
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
         InitViewPager();
     }
 
     private void InitViewPager() {
+        TVTitle.setText(getResources().getString(R.string.health_manage));
         viewPager = (ViewPager) findViewById(viewpager);
         fragmentsList = new ArrayList<>();
         sleepFragment = new SleepFragment();
@@ -83,12 +98,9 @@ public class HealthyActivity extends FragmentActivity {
         });
     }
 
-    @OnClick({R.id.back, R.id.step, R.id.sleep})
+    @OnClick({R.id.step, R.id.sleep,R.id.btnExit})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.back:
-                finish();
-                break;
             case R.id.step:
                 step.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed));
                 sleep.setBackground(null);
@@ -99,9 +111,21 @@ public class HealthyActivity extends FragmentActivity {
                 step.setBackground(null);
                 viewPager.setCurrentItem(1);
                 break;
+            case R.id.btnExit:
+                finish();
+                overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
+                break;
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            finish();
+            overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     public class FragmentAdapter extends FragmentPagerAdapter {
 

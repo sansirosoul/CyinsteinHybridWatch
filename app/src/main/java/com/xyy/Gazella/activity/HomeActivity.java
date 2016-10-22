@@ -71,7 +71,9 @@ public class HomeActivity extends BaseActivity {
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.ll_notice:
-
+                Intent noticeIntent = new Intent(HomeActivity.this, NotificationActivty.class);
+                startActivity(noticeIntent);
+                overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case  R.id.ll_healthy:
                 Intent healthIntent = new Intent(HomeActivity.this, HealthyActivity.class);

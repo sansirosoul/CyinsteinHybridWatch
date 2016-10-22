@@ -262,7 +262,6 @@
     <string name="lefttonextlevel">left to next level</string>
     <string name="Youractivitylasted">Your activity lasted</string>
     <string name="MMin">M/min</string>
-    <string name="minute">minute</string>
     <string name="minutes">minutes</string>
     <string name="return1">Back</string>
     <string name="Sync">Sync</string>
@@ -465,4 +464,15 @@
     <string name="sleep">睡眠</string>
     <string name="click_cirlce">*点击上方圆环即可进入详情界面</string>
     <string name="over_target">超额完成目标，再接再励哦！</string>
+    <string name="today_step">今日步数</string>
+    <string name="target">目标:</string>
+    <string name="today_sleep">今日睡眠</string>
+    <string name="sleep_quality">睡眠质量:</string>
+    <string name="hour">小时</string>
+    <string name="minute">分</string>
+
+    <!--通知-->
+    <string name="msg_notify">信息通知</string>
+    <string name="notify_introduce">当您启动消息通知功能后，手表会轻微震动来提醒您。不过此功能长期开启会影响电池的寿命，请问您是否开启？</string>
+    <string name="click_icon">* 您可点击上方图标来选择您要开启的消息通知</string>
 </resources>
