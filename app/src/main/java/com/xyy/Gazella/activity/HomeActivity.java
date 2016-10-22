@@ -36,9 +36,9 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
 
-        Intent  guideIntent = new Intent(HomeActivity.this, GuideShowDialog.class);
-        guideIntent.putExtra("type",2);
-        startActivity(guideIntent);
+//        Intent  guideIntent = new Intent(HomeActivity.this, GuideShowDialog.class);
+//        guideIntent.putExtra("type",2);
+//        startActivity(guideIntent);
 
 
 

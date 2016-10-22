@@ -1,8 +1,11 @@
 package com.xyy.Gazella.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -50,19 +53,60 @@ public class NotificationActivty extends BaseActivity {
         setContentView(R.layout.notification_activity);
         ButterKnife.bind(this);
 
+        if(Build.VERSION.SDK_INT >= 19){
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
+        }
         initView();
     }
 
     private void initView() {
         TVTitle.setText(R.string.msg_notify);
-        email.setEnabled(false);
-        twitter.setEnabled(false);
-        line.setEnabled(false);
-        qq.setEnabled(false);
-        facebook.setEnabled(false);
-        message.setEnabled(false);
-        skype.setEnabled(false);
-        wechat.setEnabled(false);
+        if(all.isChecked()){
+            tel.setEnabled(true);
+        }else{
+            tel.setEnabled(false);
+            email.setEnabled(false);
+            twitter.setEnabled(false);
+            line.setEnabled(false);
+            qq.setEnabled(false);
+            facebook.setEnabled(false);
+            message.setEnabled(false);
+            skype.setEnabled(false);
+            wechat.setEnabled(false);
+        }
+
+        all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    tel.setEnabled(true);
+                }else {
+                    tel.setEnabled(false);
+                    email.setEnabled(false);
+                    twitter.setEnabled(false);
+                    line.setEnabled(false);
+                    qq.setEnabled(false);
+                    facebook.setEnabled(false);
+                    message.setEnabled(false);
+                    skype.setEnabled(false);
+                    wechat.setEnabled(false);
+
+                    tel.setChecked(false);
+                    email.setChecked(false);
+                    twitter.setChecked(false);
+                    line.setChecked(false);
+                    qq.setChecked(false);
+                    facebook.setChecked(false);
+                    message.setChecked(false);
+                    skype.setChecked(false);
+                    wechat.setChecked(false);
+                }
+            }
+        });
     }
 
     @OnClick(R.id.btnExit)

@@ -46,7 +46,11 @@
 
         <!--首页-->
 
-        <activity android:name="com.xyy.Gazella.activity.HomeActivity">
+        <activity android:name="com.xyy.Gazella.activity.HomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -120,12 +124,19 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme">
+
         </activity>
         <activity android:name="com.xyy.Gazella.activity.NotificationActivty"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             />
+        <activity android:name="com.xyy.Gazella.activity.SettingActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme">
+        </activity>
     </application>
 
 </manifest>

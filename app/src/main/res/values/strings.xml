@@ -475,4 +475,6 @@
     <string name="msg_notify">信息通知</string>
     <string name="notify_introduce">当您启动消息通知功能后，手表会轻微震动来提醒您。不过此功能长期开启会影响电池的寿命，请问您是否开启？</string>
     <string name="click_icon">* 您可点击上方图标来选择您要开启的消息通知</string>
+
+    <!--设置-->
 </resources>

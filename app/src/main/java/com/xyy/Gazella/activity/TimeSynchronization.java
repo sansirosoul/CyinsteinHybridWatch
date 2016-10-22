@@ -90,9 +90,9 @@ public class TimeSynchronization extends FragmentActivity {
 
 
 
-        Intent  guideIntent = new Intent(TimeSynchronization.this, GuideShowDialog.class);
-        guideIntent.putExtra("type",1);
-        startActivity(guideIntent);
+//        Intent  guideIntent = new Intent(TimeSynchronization.this, GuideShowDialog.class);
+//        guideIntent.putExtra("type",1);
+//        startActivity(guideIntent);
 
     }
 
