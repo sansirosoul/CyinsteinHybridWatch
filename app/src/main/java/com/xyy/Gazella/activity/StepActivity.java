@@ -51,10 +51,10 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
     Button butWeek;
     @BindView(R.id.button_month)
     Button butMonth;
-    @BindView(R.id.ll_checkdate)
-    LinearLayout llCheckDate;
     @BindView(R.id.viewpager)
     ViewPager viewpager;
+    @BindView(R.id.ll_check_date)
+    LinearLayout llCheckDate;
 
     private ArrayList<Fragment> fragmentsList;
     private StepDayFragment stepDayFragment;
@@ -85,6 +85,12 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
 
     private void initCalendar() {
         widget.setVisibility(View.GONE);
+        widget.setBackgroundColor(this.getResources().getColor(R.color.black));
+        widget.setArrowColor(this.getResources().getColor(R.color.white));
+        widget.setHeaderLinearColor(this.getResources().getColor(R.color.title_gray));
+        widget.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
+        widget.setSelectionColor(this.getResources().getColor(R.color.personalize2));
+        widget.setTileHeight(90);
         widget.setOnDateChangedListener(this);
         widget.setOnMonthChangedListener(this);
     }
@@ -148,20 +154,28 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
                     widget.setVisibility(View.GONE);
                     llCheckDate.setVisibility(View.VISIBLE);
                     btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
+
+                    if(!stepDayFragment.getLlDateVisible())
+                        stepDayFragment.setLlDateVisible(View.VISIBLE);
+                    if(!stepWeekFragment.getLlDateVisible())
+                        stepWeekFragment.setLlDateVisible(View.VISIBLE);
+                    if(!stepMonthFragment.getLlDateVisible())
+                        stepMonthFragment.setLlDateVisible(View.VISIBLE);
+
                 } else {
 
                     ///初始化日历
                     widget.setVisibility(View.VISIBLE);
-                    llCheckDate.setVisibility(View.GONE);
-                    widget.setBackgroundColor(this.getResources().getColor(R.color.black));
-                    widget.setArrowColor(this.getResources().getColor(R.color.white));
-
-                    widget.setHeaderLinearColor(this.getResources().getColor(R.color.title_gray));
-                    widget.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
-                    widget.setSelectionColor(this.getResources().getColor(R.color.personalize2));
-
                     widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
                     btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
+                    llCheckDate.setVisibility(View.GONE);
+
+                    if(stepDayFragment.getLlDateVisible())
+                        stepDayFragment.setLlDateVisible(View.GONE);
+                    if(stepWeekFragment.getLlDateVisible())
+                        stepWeekFragment.setLlDateVisible(View.GONE);
+                    if(stepMonthFragment.getLlDateVisible())
+                        stepMonthFragment.setLlDateVisible(View.GONE);
                 }
                 break;
 
@@ -181,7 +195,7 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
     }
 
     /***
-     * 设置障碍Butnon 背景
+     * 设置Butnon 背景
      *
      * @param type 0day   1 week  2month
      */
@@ -205,7 +219,6 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
                 break;
         }
     }
-
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
@@ -250,5 +263,4 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
             return fragmentList.size();
         }
     }
-
 }
