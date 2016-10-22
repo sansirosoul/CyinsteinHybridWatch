@@ -239,6 +239,7 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
     private String getSelectedDatesString() {
         CalendarDay date = widget.getSelectedDate();
         if (date == null) {
+
             return "";
         }
         return FORMATTER.format(date.getDate());
