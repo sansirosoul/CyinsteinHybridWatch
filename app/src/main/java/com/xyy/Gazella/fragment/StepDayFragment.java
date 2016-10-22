@@ -63,6 +63,8 @@ public class StepDayFragment extends Fragment {
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisRight().setEnabled(false);
 
+
+
         // setting data
         mChart.animateY(2500);   //动画
 
