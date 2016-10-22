@@ -49,12 +49,12 @@ public class StepMonthFragment extends Fragment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-//        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
+
         XAxis xAxis = mChart.getXAxis();
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
-//        xAxis.setValueFormatter(new axisValueformatter());
+
         xAxis.setLabelCount(12);
         xAxis.setAxisLineWidth(1f);
         xAxis.setDrawGridLines(false);
@@ -91,14 +91,11 @@ public class StepMonthFragment extends Fragment {
             set1 = new BarDataSet(yVals1, "");
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
-            set1.setBarBorderWidth(5f);
-//            set1.setBarBorderColor(Color.rgb(55, 55, 55));
-            // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
-            set1.setBarBorderColor(Color.rgb(32, 32, 32));
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
+            data.setBarWidth(0.5f);
             mChart.setData(data);
             mChart.setFitBars(true);
         }

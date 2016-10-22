@@ -3,7 +3,6 @@ package com.xyy.Gazella.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -20,6 +19,7 @@ import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.xyy.Gazella.fragment.StepDayFragment;
 import com.xyy.Gazella.fragment.StepMonthFragment;
 import com.xyy.Gazella.fragment.StepWeekFragment;
+import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
 import java.text.DateFormat;
@@ -31,9 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.ysp.newband.BaseActivity.overridePendingTransitionExit;
-
-public class StepActivity extends FragmentActivity implements OnDateSelectedListener, OnMonthChangedListener {
+public class StepActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
 
     @BindView(R.id.calendarView)
     MaterialCalendarView widget;
@@ -85,7 +83,7 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
 
     private void initCalendar() {
         widget.setVisibility(View.GONE);
-        widget.setBackgroundColor(this.getResources().getColor(R.color.black));
+        widget.setBackgroundColor(this.getResources().getColor(R.color.dataBackgroundColor));
         widget.setArrowColor(this.getResources().getColor(R.color.white));
         widget.setHeaderLinearColor(this.getResources().getColor(R.color.title_gray));
         widget.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
@@ -142,56 +140,70 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
     @OnClick({R.id.button_day, R.id.button_week, R.id.button_month, R.id.btnExit, R.id.btnOpt, R.id.btnDate})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnExit:
+            case R.id.btnExit:  //退出
 
                 StepActivity.this.finish();
                 overridePendingTransitionExit(StepActivity.this);
                 break;
-            case R.id.btnOpt:
+            case R.id.btnOpt:  //分享
                 break;
-            case R.id.btnDate:
+            case R.id.btnDate:  // 显示 隐藏 日历
 
                 if (widget.getVisibility() == View.VISIBLE) {
-                    widget.setVisibility(View.GONE);
-                    llCheckDate.setVisibility(View.VISIBLE);
-                    btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
-
-                    if(!stepDayFragment.getLlDateVisible())
-                        stepDayFragment.setLlDateVisible(View.VISIBLE);
-                    if(!stepWeekFragment.getLlDateVisible())
-                        stepWeekFragment.setLlDateVisible(View.VISIBLE);
-                    if(!stepMonthFragment.getLlDateVisible())
-                        stepMonthFragment.setLlDateVisible(View.VISIBLE);
-
+                    setLlDateVisible(1);
                 } else {
-
-                    ///初始化日历
-                    widget.setVisibility(View.VISIBLE);
-                    widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
-                    btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
-                    llCheckDate.setVisibility(View.GONE);
-
-                    if(stepDayFragment.getLlDateVisible())
-                        stepDayFragment.setLlDateVisible(View.GONE);
-                    if(stepWeekFragment.getLlDateVisible())
-                        stepWeekFragment.setLlDateVisible(View.GONE);
-                    if(stepMonthFragment.getLlDateVisible())
-                        stepMonthFragment.setLlDateVisible(View.GONE);
+                    setLlDateVisible(2);
                 }
                 break;
 
-            case R.id.button_day:
+            case R.id.button_day:   //  日
                 setBtnBackgroundType(0);
                 viewpager.setCurrentItem(0);
                 break;
-            case R.id.button_week:
+            case R.id.button_week:  //  周
                 setBtnBackgroundType(1);
                 viewpager.setCurrentItem(1);
                 break;
-            case R.id.button_month:
+            case R.id.button_month:   // 月
                 setBtnBackgroundType(2);
                 viewpager.setCurrentItem(2);
                 break;
+        }
+    }
+
+    /***
+     *     是否显示 选择日期条  , 日历
+     * @param type     1 是显示  2 是隐藏
+     */
+
+    private  void  setLlDateVisible(int type){
+        if(type==1){
+
+            widget.setVisibility(View.GONE);
+            llCheckDate.setVisibility(View.VISIBLE);
+            btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
+
+            if(!stepDayFragment.getLlDateVisible())
+                stepDayFragment.setLlDateVisible(View.VISIBLE);
+            if(!stepWeekFragment.getLlDateVisible())
+                stepWeekFragment.setLlDateVisible(View.VISIBLE);
+            if(!stepMonthFragment.getLlDateVisible())
+                stepMonthFragment.setLlDateVisible(View.VISIBLE);
+
+        }else {
+
+            //初始化日历
+            widget.setVisibility(View.VISIBLE);
+            widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+            btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
+            llCheckDate.setVisibility(View.GONE);
+
+            if(stepDayFragment.getLlDateVisible())
+                stepDayFragment.setLlDateVisible(View.GONE);
+            if(stepWeekFragment.getLlDateVisible())
+                stepWeekFragment.setLlDateVisible(View.GONE);
+            if(stepMonthFragment.getLlDateVisible())
+                stepMonthFragment.setLlDateVisible(View.GONE);
         }
     }
 

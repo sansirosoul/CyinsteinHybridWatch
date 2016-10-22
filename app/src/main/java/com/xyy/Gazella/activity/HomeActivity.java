@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.xyy.Gazella.utils.GuideShowDialog;
-import com.xyy.Gazella.view.GuideView;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -27,20 +25,13 @@ public class HomeActivity extends BaseActivity {
     @BindView(R.id.ll_healthy)
     LinearLayout llHealthy;
 
-    private  GuideView guideView;
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
-
-
-//        Intent  guideIntent = new Intent(HomeActivity.this, GuideShowDialog.class);
-//        guideIntent.putExtra("type",2);
-//        startActivity(guideIntent);
-
-
 
     }
 

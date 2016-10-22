@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/page17_bg"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
     android:orientation="vertical"
     tools:context="com.xyy.Gazella.activity.StepActivity">
 

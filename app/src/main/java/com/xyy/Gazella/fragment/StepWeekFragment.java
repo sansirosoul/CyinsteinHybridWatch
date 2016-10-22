@@ -46,11 +46,11 @@ public class StepWeekFragment extends Fragment {
     }
 
     private void initChart() {
+
         mChart.setDescription("");
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-//        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
         XAxis xAxis = mChart.getXAxis();
 
         xAxis.setAvoidFirstLastClipping(true);
@@ -61,10 +61,7 @@ public class StepWeekFragment extends Fragment {
 
         xAxis.setValueFormatter(new axisValueformatter());
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        // xAxis.setGranularity(50f);
-//        xAxis.setXEntrySpace(10f);
         xAxis.setAxisLineWidth(1f);
-//        xAxis.setGridLineWidth(1);
         xAxis.setDrawGridLines(false);
 
         mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
@@ -72,10 +69,8 @@ public class StepWeekFragment extends Fragment {
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisRight().setEnabled(false);
 
-
         // setting data
         mChart.animateY(2500);   //动画
-
         mChart.getLegend().setEnabled(false);
 
         setChartData();
@@ -101,15 +96,11 @@ public class StepWeekFragment extends Fragment {
             set1 = new BarDataSet(yVals1, "");
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
-            set1.setBarBorderWidth(10f);
-            set1.setBarShadowColor(Color.parseColor("#00FFFFFF"));
-//            set1.setBarBorderColor(Color.rgb(55, 55, 55));
-            // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
-            set1.setBarBorderWidth(25f);
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
+            data.setBarWidth(0.5f);
             mChart.setData(data);
             mChart.setFitBars(true);
         }
