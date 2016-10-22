@@ -46,9 +46,17 @@
 
         <!--首页-->
 
-        <!--<activity android:name="com.xyy.Gazella.activity.HomeActivity">-->
+        <activity android:name="com.xyy.Gazella.activity.HomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <!--</activity>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" />
         <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" />
@@ -61,29 +69,23 @@
             android:enabled="true" />
        <service android:name="com.xyy.Gazella.services.BluetoothService"></service>
 
-
-        <!--健康管理页面-->
-        <!--<activity android:name="com.xyy.Gazella.activity.HealthyActivity"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/ExampleTheme"/>-->
-
-        <!--&lt;!&ndash;健康管理 - 睡眠页面&ndash;&gt;-->
-        <!--<activity android:name="com.xyy.Gazella.activity.SleepActivity"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/ExampleTheme"/>-->
-
-        <!--健康管理 - 计步页面-->
+        <activity android:name="com.xyy.Gazella.activity.HealthyActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme">
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.SleepActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme"/>
         <activity
             android:name="com.xyy.Gazella.activity.StepActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme" />
-
 
         <!--校时页面-->
         <activity android:name="com.xyy.Gazella.activity.TimeSynchronization"
@@ -117,26 +119,23 @@
             android:theme="@style/ExampleTheme">
 
         </activity>
-
-        <activity android:name="com.xyy.Gazella.utils.GuideShowDialog"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop"
-            android:theme="@style/guidedialogStyle"/>
-
-
-
-        <activity android:name="com.xyy.Gazella.activity.HealthyActivity"
+        <activity android:name="com.xyy.Gazella.activity.StartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.NotificationActivty"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.xyy.Gazella.activity.SettingActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme">
         </activity>
     </application>
 
