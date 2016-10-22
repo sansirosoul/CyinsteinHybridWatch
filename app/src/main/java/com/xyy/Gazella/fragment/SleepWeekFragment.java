@@ -163,7 +163,7 @@ public class SleepWeekFragment extends Fragment {
         llDate.setVisibility(visible);
     }
     public boolean getLlDateVisible() {
-        if (llDate.getVisibility() == View.VISIBLE)
+        if (llDate.getVisibility() == View.VISIBLE&&llDate!=null)
             return true;
         else
             return false;

@@ -106,6 +106,7 @@ public class SleepActivity extends FragmentActivity implements OnDateSelectedLis
 
         mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
         viewpager.setAdapter(mFragmentAdapter);
+        viewpager.setOffscreenPageLimit(3);
         viewpager.setCurrentItem(0);
 
 

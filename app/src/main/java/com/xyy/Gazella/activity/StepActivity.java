@@ -106,6 +106,7 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
 
         mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
         viewpager.setAdapter(mFragmentAdapter);
+        viewpager.setOffscreenPageLimit(3);
         viewpager.setCurrentItem(0);
 
 

@@ -141,7 +141,7 @@ public class StepWeekFragment extends Fragment {
     }
 
     public boolean getLlDateVisible() {
-        if (llDate.getVisibility() == View.VISIBLE)
+        if (llDate.getVisibility() == View.VISIBLE&&llDate!=null)
             return true;
         else
             return false;
