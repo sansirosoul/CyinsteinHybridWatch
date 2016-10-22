@@ -36,9 +36,9 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
 
-        Intent  guideIntent = new Intent(HomeActivity.this, GuideShowDialog.class);
-        guideIntent.putExtra("type",2);
-        startActivity(guideIntent);
+//        Intent  guideIntent = new Intent(HomeActivity.this, GuideShowDialog.class);
+//        guideIntent.putExtra("type",2);
+//        startActivity(guideIntent);
 
 
 
@@ -53,7 +53,9 @@ public class HomeActivity extends BaseActivity {
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.ll_notice:
-
+                Intent noticeIntent = new Intent(HomeActivity.this, NotificationActivty.class);
+                startActivity(noticeIntent);
+                overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case  R.id.ll_healthy:
                 Intent healthIntent = new Intent(HomeActivity.this, HealthyActivity.class);

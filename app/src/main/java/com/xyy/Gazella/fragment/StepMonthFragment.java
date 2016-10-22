@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.ysp.smartwatch.R;
 
@@ -32,6 +34,8 @@ public class StepMonthFragment extends Fragment {
     BarChart mChart;
     private View view;
 
+    private String[] XString = new String[]{"1", "3", "5", "7", "9", "11", "13","15","17","19","21","23",};
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_step_month, container, false);
@@ -45,76 +49,25 @@ public class StepMonthFragment extends Fragment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
+//        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
         XAxis xAxis = mChart.getXAxis();
-        //   xAxis.setStartAtZero(true);
-        //  xAxis.setSpaceBetweenLabels();
-
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+//        xAxis.setValueFormatter(new axisValueformatter());
         xAxis.setLabelCount(12);
-        // xAxis.setGranularity(50f);
-//        xAxis.setXEntrySpace(10f);
-        xAxis.setAxisLineWidth(10f);
-//        xAxis.setGridLineWidth(1);
+        xAxis.setAxisLineWidth(1f);
         xAxis.setDrawGridLines(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
         mChart.getAxisLeft().setAxisLineColor(Color.rgb(255, 255, 255));
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisRight().setEnabled(false);
 
-        // setting data
         mChart.animateY(2500);   //动画
 
         mChart.getLegend().setEnabled(false);
-
-
-//        mChart.setTouchEnabled(false); // 设置是否可以触摸
-//        mChart.setDragEnabled(false);// 是否可以拖拽
-//
-//        // if more than 60 entries are displayed in the chart, no values will be
-//        // drawn
-//        xAxis = mChart.getXAxis();
-//        yAxis = mChart.getAxisLeft();
-//        mChart.setMaxVisibleValueCount(40);
-//
-//        // scaling can now only be done on x- and y-axis separately
-//        mChart.setPinchZoom(false);
-//        mChart.setDrawBarShadow(false);
-//
-//        mChart.setDrawValueAboveBar(false);
-//        mChart.setHighlightFullBarEnabled(false);
-//
-////     leftAxis.setValueFormatter(new MyAxisValueFormatter());
-////     leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-//        mChart.getAxisRight().setEnabled(false);
-//        mChart.getAxisLeft().setEnabled(false);
-//
-//        mChart.setDescription("");
-//        mChart.setDrawGridBackground(true);   //设置图表内格子背景是否显示，默认是false
-//        mChart.setGridBackgroundColor(Color.rgb(55, 55, 55));   //设置背景色
-//        mChart.setDrawBorders(false);     //设置图表内格子外的边框是否显示
-//        mChart.setBorderColor(Color.rgb(236, 228, 126));   //上面的边框颜色
-//        mChart.setBorderWidth(20);       //上面边框的宽度，float类型，dp单位
-//
-//        xAxis.setEnabled(false);    // 不画背景空格
-//        xAxis.setDrawAxisLine(true); //是否绘制坐标轴的线，即含有坐标的那条线，默认是true
-//
-//        yAxis.setSpaceBottom(0);     //  设置 Y距离底部位置
-//        yAxis.setStartAtZero(true);    //设置Y轴坐标是否从0开始
-//        //yAxis.setAxisMaxValue(50);    //设置Y轴坐标最大为多少
-//
-//        xAxis.setTextColor(Color.rgb(255, 255, 255)); //X轴上的刻度的颜色
-//        xAxis.setPosition(XAxis.XAxisPosition.TOP);//把坐标轴放在上下 参数有：TOP, BOTTOM, BOTH_SIDED, TOP_INSIDE or BOTTOM_INSIDE.
-//        xAxis.setTextSize(15); //X轴上的刻度的字的大小 单位dp
-//        xAxis.setGridColor(Color.rgb(255, 255, 255)); //X轴上的刻度竖线的颜色
-//        xAxis.setGridLineWidth(1); //X轴上的刻度竖线的宽 float类型
-//        xAxis.enableGridDashedLine(40, 3, 0); //虚线表示X轴上的刻度竖线(float lineLength, float spaceLength, float phase)三个参数，1.线长，2.虚线间距，3.虚线开始坐标
-
-        // setting data
         setChartData();
 
     }
@@ -122,7 +75,7 @@ public class StepMonthFragment extends Fragment {
     private void setChartData() {
 
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
-        for (int i = 0; i < 24; i++) {
+        for (int i = 0; i < 31; i++) {
             float mult = (1000);
             float val = (float) (Math.random() * mult) + mult / 1;
             yVals1.add(new BarEntry(i, val));
@@ -138,9 +91,10 @@ public class StepMonthFragment extends Fragment {
             set1 = new BarDataSet(yVals1, "");
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
-            set1.setBarBorderWidth(10f);
-            set1.setBarBorderColor(Color.rgb(55, 55, 55));
+            set1.setBarBorderWidth(5f);
+//            set1.setBarBorderColor(Color.rgb(55, 55, 55));
             // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
+            set1.setBarBorderColor(Color.rgb(32, 32, 32));
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
@@ -149,6 +103,20 @@ public class StepMonthFragment extends Fragment {
             mChart.setFitBars(true);
         }
         mChart.invalidate();
+    }
+
+    class axisValueformatter implements AxisValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            //Log.e(Tag, " " + value);
+            return XString[(int) value % XString.length];
+        }
+
+        @Override
+        public int getDecimalDigits() {
+            return 0;
+        }
     }
 
     /***
@@ -162,7 +130,7 @@ public class StepMonthFragment extends Fragment {
     }
 
     public boolean getLlDateVisible() {
-        if (llDate.getVisibility() == View.VISIBLE)
+        if (llDate.getVisibility() == View.VISIBLE&&llDate!=null)
             return true;
         else
             return false;
