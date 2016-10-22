@@ -746,6 +746,11 @@ public class MaterialCalendarView extends ViewGroup {
         title.setTextAppearance(getContext(), resourceId);
     }
 
+    public  void  setHeaderLinearColor(int color){
+        topbar.setBackgroundColor(color);
+    }
+
+
     /**
      * @param resourceId The text appearance resource id.
      */

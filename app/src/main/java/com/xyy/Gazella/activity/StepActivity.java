@@ -1,26 +1,25 @@
 package com.xyy.Gazella.activity;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.Utils;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
-import com.ysp.newband.BaseActivity;
+import com.xyy.Gazella.fragment.StepDayFragment;
+import com.xyy.Gazella.fragment.StepMonthFragment;
+import com.xyy.Gazella.fragment.StepWeekFragment;
 import com.ysp.smartwatch.R;
 
 import java.text.DateFormat;
@@ -30,164 +29,211 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class StepActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
+import static com.ysp.newband.BaseActivity.overridePendingTransitionExit;
+
+public class StepActivity extends FragmentActivity implements OnDateSelectedListener, OnMonthChangedListener {
 
     @BindView(R.id.calendarView)
     MaterialCalendarView widget;
-    private LineChart mChart;
-    private  boolean WidgetType=false;
-    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
+    @BindView(R.id.btnExit)
+    Button btnExit;
+    @BindView(R.id.btnOpt)
+    Button btnOpt;
+    @BindView(R.id.btnDate)
+    Button btnDate;
+    @BindView(R.id.TVTitle)
+    TextView TVTitle;
+    @BindView(R.id.button_day)
+    Button butDay;
+    @BindView(R.id.button_week)
+    Button butWeek;
+    @BindView(R.id.button_month)
+    Button butMonth;
+    @BindView(R.id.viewpager)
+    ViewPager viewpager;
+    @BindView(R.id.ll_check_date)
+    LinearLayout llCheckDate;
 
+    private ArrayList<Fragment> fragmentsList;
+    private StepDayFragment stepDayFragment;
+    private StepWeekFragment stepWeekFragment;
+    private StepMonthFragment stepMonthFragment;
+    private FragmentAdapter mFragmentAdapter;
+
+
+    private boolean WidgetType = false;
+    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_step);
-
         ButterKnife.bind(this);
+        initView();
         initCalendar();
-        initChart();
+        InitViewPager();
+    }
+
+    private void initView() {
+
+        TVTitle.setText("计步详情");
+        btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
+        btnOpt.setBackground(this.getResources().getDrawable(R.drawable.page17_share));
     }
 
     private void initCalendar() {
-
-        widget.setTopbarVisible(!widget.getTopbarVisible());
-        widget.state().edit() .setCalendarDisplayMode(CalendarMode.WEEKS)
-                .commit();
+        widget.setVisibility(View.GONE);
+        widget.setBackgroundColor(this.getResources().getColor(R.color.black));
+        widget.setArrowColor(this.getResources().getColor(R.color.white));
+        widget.setHeaderLinearColor(this.getResources().getColor(R.color.title_gray));
+        widget.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
+        widget.setSelectionColor(this.getResources().getColor(R.color.personalize2));
+        widget.setTileHeight(90);
         widget.setOnDateChangedListener(this);
         widget.setOnMonthChangedListener(this);
     }
 
+    private void InitViewPager() {
+        fragmentsList = new ArrayList<>();
+        stepDayFragment = new StepDayFragment();
+        stepWeekFragment = new StepWeekFragment();
+        stepMonthFragment = new StepMonthFragment();
+        fragmentsList.add(stepDayFragment);
+        fragmentsList.add(stepWeekFragment);
+        fragmentsList.add(stepMonthFragment);
 
-    private void initChart() {
-        mChart = (LineChart) findViewById(R.id.chart1);
-        mChart.setDrawGridBackground(false);
-        mChart.setTouchEnabled(true);
-        mChart.setHighlightPerDragEnabled(false);//能否拖拽高亮线(数据点与坐标的提示线)，默认是true
-        mChart.setHighlightPerTapEnabled(false);
-        // enable scaling and dragging
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(true);
-        mChart.setPinchZoom(true);
+        mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
+        viewpager.setAdapter(mFragmentAdapter);
+        viewpager.setCurrentItem(0);
 
-        // x-axis limit line
-        LimitLine llXAxis = new LimitLine(10f, "Index 10");
-        llXAxis.setLineWidth(4f);
-        llXAxis.enableDashedLine(10f, 10f, 0f);
-        llXAxis.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-        llXAxis.setTextSize(10f);
 
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.enableGridDashedLine(10f, 10f, 0f);
-        mChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        LimitLine ll1 = new LimitLine(150f, "Upper Limit");
-        ll1.setLineWidth(4f);
-        ll1.enableDashedLine(10f, 10f, 0f);
-        ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-        ll1.setTextSize(10f);
-
-        LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
-        ll2.setLineWidth(4f);
-        ll2.enableDashedLine(10f, 10f, 0f);
-        ll2.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-        ll2.setTextSize(10f);
-
-        YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
-        leftAxis.enableGridDashedLine(10f, 10f, 0f);
-        leftAxis.setDrawZeroLine(false);
-        leftAxis.setDrawLimitLinesBehindData(true);
-
-        mChart.getAxisRight().setEnabled(false);
-        mChart.getLegend().setEnabled(false);
-        mChart.setDescription("");  //显示右下角描述
-
-        setData(7, 100);
-        mChart.animateX(2500);
-        mChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM); // 让x轴在下面
-
-        List<ILineDataSet> sets = mChart.getData().getDataSets();
-        for (ILineDataSet iSet : sets) {
-            LineDataSet set = (LineDataSet) iSet;
-            set.setMode(set.getMode() == LineDataSet.Mode.CUBIC_BEZIER ? LineDataSet.Mode.LINEAR : LineDataSet.Mode.CUBIC_BEZIER);
-        }
-    }
-
-    private void setData(int count, float range) {
-        ArrayList<Entry> values = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random() * range) + 3;
-            values.add(new Entry(i, val));
-        }
-
-        LineDataSet set1;
-        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
-            set1 = (LineDataSet) mChart.getData().getDataSetByIndex(0);
-            set1.setValues(values);
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
-        } else {
-            // create a dataset and give it a type
-            set1 = new LineDataSet(values, "DataSet 1");
-            set1.setLineWidth(1f);
-            set1.setDrawCircleHole(false);
-            set1.setValueTextSize(9f);
-            set1.setCubicIntensity(0.3f);
-
-            if (Utils.getSDKInt() >= 18) {
-                // fill drawable only supported on api level 18 and above
-                Drawable drawable = ContextCompat.getDrawable(this, R.drawable.fade_red);
-                set1.setFillDrawable(drawable);
-            } else {
-                set1.setFillColor(Color.BLACK);
             }
-            ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-            dataSets.add(set1); // add the datasets
-            LineData data = new LineData(dataSets);
-            mChart.setData(data);
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                        setBtnBackgroundType(0);
+                        break;
+                    case 1:
+                        setBtnBackgroundType(1);
+                        break;
+                    case 2:
+                        setBtnBackgroundType(2);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+
+    @OnClick({R.id.button_day, R.id.button_week, R.id.button_month, R.id.btnExit, R.id.btnOpt, R.id.btnDate})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnExit:
+
+                StepActivity.this.finish();
+                overridePendingTransitionExit(StepActivity.this);
+                break;
+            case R.id.btnOpt:
+                break;
+            case R.id.btnDate:
+
+                if (widget.getVisibility() == View.VISIBLE) {
+                    widget.setVisibility(View.GONE);
+                    llCheckDate.setVisibility(View.VISIBLE);
+                    btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
+
+                    if(!stepDayFragment.getLlDateVisible())
+                        stepDayFragment.setLlDateVisible(View.VISIBLE);
+                    if(!stepWeekFragment.getLlDateVisible())
+                        stepWeekFragment.setLlDateVisible(View.VISIBLE);
+                    if(!stepMonthFragment.getLlDateVisible())
+                        stepMonthFragment.setLlDateVisible(View.VISIBLE);
+
+                } else {
+
+                    ///初始化日历
+                    widget.setVisibility(View.VISIBLE);
+                    widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+                    btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
+                    llCheckDate.setVisibility(View.GONE);
+
+                    if(stepDayFragment.getLlDateVisible())
+                        stepDayFragment.setLlDateVisible(View.GONE);
+                    if(stepWeekFragment.getLlDateVisible())
+                        stepWeekFragment.setLlDateVisible(View.GONE);
+                    if(stepMonthFragment.getLlDateVisible())
+                        stepMonthFragment.setLlDateVisible(View.GONE);
+                }
+                break;
+
+            case R.id.button_day:
+                setBtnBackgroundType(0);
+                viewpager.setCurrentItem(0);
+                break;
+            case R.id.button_week:
+                setBtnBackgroundType(1);
+                viewpager.setCurrentItem(1);
+                break;
+            case R.id.button_month:
+                setBtnBackgroundType(2);
+                viewpager.setCurrentItem(2);
+                break;
         }
     }
 
-//    @OnClick({R.id.btnExit, R.id.btnOpt, R.id.TVTitle})
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.btnExit:
-//                StepActivity.this.finish();
-//                overridePendingTransitionExit(StepActivity.this);
-//                break;
-//            case R.id.btnOpt:
-//                if (!WidgetType){
-//                    widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS)
-//                            .commit();
-//                    WidgetType=true;
-//                }else {
-//                    widget.state().edit() .setCalendarDisplayMode(CalendarMode.WEEKS)
-//                            .commit();
-//                    WidgetType=false;
-//                }
-//
-//                break;
-//            case R.id.TVTitle:
-//                break;
-//        }
-//    }
+    /***
+     * 设置Butnon 背景
+     *
+     * @param type 0day   1 week  2month
+     */
+
+    private void setBtnBackgroundType(int type) {
+        switch (type) {
+            case 0:
+                butDay.setBackground(this.getResources().getDrawable(R.drawable.step_leftbtn_pressed));
+                butWeek.setBackground(this.getResources().getDrawable(R.drawable.step_inbtn_normal));
+                butMonth.setBackground(this.getResources().getDrawable(R.drawable.step_rightbtn_normal));
+                break;
+            case 1:
+                butDay.setBackground(this.getResources().getDrawable(R.drawable.step_leftbtn_normal));
+                butWeek.setBackground(this.getResources().getDrawable(R.drawable.step_inbtn_pressed));
+                butMonth.setBackground(this.getResources().getDrawable(R.drawable.step_rightbtn_normal));
+                break;
+            case 2:
+                butDay.setBackground(this.getResources().getDrawable(R.drawable.step_leftbtn_normal));
+                butWeek.setBackground(this.getResources().getDrawable(R.drawable.step_inbtn_normal));
+                butMonth.setBackground(this.getResources().getDrawable(R.drawable.step_rightbtn_pressed));
+                break;
+        }
+    }
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-       // TVTitle.setText(getSelectedDatesString());
+        // TVTitle.setText(getSelectedDatesString());
 
-        if (WidgetType){
-            widget.state().edit() .setCalendarDisplayMode(CalendarMode.WEEKS)
+        if (WidgetType) {
+            widget.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS)
                     .commit();
-            WidgetType=false;
+            WidgetType = false;
         }
     }
+
     @Override
     public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
-       // TVTitle.setText(FORMATTER.format(date.getDate()));
+        // TVTitle.setText(FORMATTER.format(date.getDate()));
     }
 
     private String getSelectedDatesString() {
@@ -196,5 +242,25 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
             return "";
         }
         return FORMATTER.format(date.getDate());
+    }
+
+    public class FragmentAdapter extends FragmentPagerAdapter {
+
+        List<Fragment> fragmentList = new ArrayList<>();
+
+        public FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
+            super(fm);
+            this.fragmentList = fragmentList;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
     }
 }

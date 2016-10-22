@@ -1,5 +1,6 @@
 package com.xyy.Gazella.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -18,6 +19,7 @@ import com.xyy.Gazella.fragment.SmallFragment1;
 import com.xyy.Gazella.fragment.SmallFragment2;
 import com.xyy.Gazella.fragment.SmallFragment3;
 import com.xyy.Gazella.utils.CheckAnalogClock;
+import com.xyy.Gazella.utils.GuideShowDialog;
 import com.xyy.Gazella.view.MyViewPage;
 import com.ysp.smartwatch.R;
 
@@ -76,6 +78,7 @@ public class TimeSynchronization extends FragmentActivity {
     private MainDialFragment mainDialFragment;
     private TimeSynchronization.FragmentAdapter mFragmentAdapter;
     private int item;
+    private GuideShowDialog guideShowDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +87,17 @@ public class TimeSynchronization extends FragmentActivity {
         ButterKnife.bind(this);
         InitView();
         InitViewPager();
+
+
+
+        Intent  guideIntent = new Intent(TimeSynchronization.this, GuideShowDialog.class);
+        guideIntent.putExtra("type",1);
+        startActivity(guideIntent);
+
     }
 
     private void InitView() {
+
         TVTitle.setText("智能校时");
         btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
         ivLeft.setVisibility(View.GONE);
@@ -165,6 +176,7 @@ public class TimeSynchronization extends FragmentActivity {
                 viewpager.setScroll(true);
                 viewpager.setCurrentItem(0);
                 mainDialFragment.setChangeTimeType(1);
+                mainDialFragment.setHourDrawable(R.drawable.page12_hour_selected);
 
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));

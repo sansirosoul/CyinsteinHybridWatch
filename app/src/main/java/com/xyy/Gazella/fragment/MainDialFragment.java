@@ -75,4 +75,8 @@ public class MainDialFragment extends Fragment {
         }
         isChangeTime = true;
     }
+
+    public  void  setHourDrawable(int drawable){
+        analogclock.setHourDrawable(drawable);
+    }
 }
