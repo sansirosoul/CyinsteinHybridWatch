@@ -61,16 +61,29 @@
             android:enabled="true" />
        <service android:name="com.xyy.Gazella.services.BluetoothService"></service>
 
-        <activity android:name="com.xyy.Gazella.activity.HealthyActivity" />
-        <activity android:name="com.xyy.Gazella.activity.SleepActivity" />
 
-
-        <!--<activity-->
-            <!--android:name="com.xyy.Gazella.activity.StepActivity"-->
+        <!--健康管理页面-->
+        <!--<activity android:name="com.xyy.Gazella.activity.HealthyActivity"-->
             <!--android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"-->
             <!--android:launchMode="singleTop"-->
             <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/ExampleTheme" />-->
+            <!--android:theme="@style/ExampleTheme"/>-->
+
+        <!--&lt;!&ndash;健康管理 - 睡眠页面&ndash;&gt;-->
+        <!--<activity android:name="com.xyy.Gazella.activity.SleepActivity"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/ExampleTheme"/>-->
+
+        <!--健康管理 - 计步页面-->
+        <activity
+            android:name="com.xyy.Gazella.activity.StepActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme" />
+
 
         <!--校时页面-->
         <activity android:name="com.xyy.Gazella.activity.TimeSynchronization"
@@ -114,7 +127,7 @@
 
 
 
-        <activity android:name="com.xyy.Gazella.activity.StepActivity"
+        <activity android:name="com.xyy.Gazella.activity.HealthyActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
