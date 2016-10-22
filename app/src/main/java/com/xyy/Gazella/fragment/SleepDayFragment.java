@@ -9,13 +9,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -27,18 +26,17 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/11.
  */
 
-public class StepMonthFragment extends Fragment {
-    @BindView(R.id.ll_date)
-    LinearLayout llDate;
+public class SleepDayFragment extends Fragment {
     @BindView(R.id.chart1)
     BarChart mChart;
+    @BindView(R.id.ll_date)
+    LinearLayout llDate;
     private View view;
-
-    private String[] XString = new String[]{"1", "3", "5", "7", "9", "11", "13","15","17","19","21","23",};
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.fragment_step_month, container, false);
+        view = inflater.inflate(R.layout.fragment_sleep_day, container, false);
+
         ButterKnife.bind(this, view);
         initChart();
         return view;
@@ -49,24 +47,27 @@ public class StepMonthFragment extends Fragment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-//        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
+        mChart.setBackground(getResources().getDrawable(R.drawable.page20_tubiao_bg));
+        mChart.setBorderColor(Color.rgb(255, 255, 255));
+//        mChart.setDrawBorders(true);
+
         XAxis xAxis = mChart.getXAxis();
+
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
-//        xAxis.setValueFormatter(new axisValueformatter());
-        xAxis.setLabelCount(12);
-        xAxis.setAxisLineWidth(1f);
-        xAxis.setDrawGridLines(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelCount(10);
+        xAxis.setDrawGridLines(false);
 
         mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
         mChart.getAxisLeft().setAxisLineColor(Color.rgb(255, 255, 255));
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisRight().setEnabled(false);
-
+        mChart.getAxisLeft().setEnabled(false);
+        mChart.getAxisLeft().setSpaceBottom(0);
+        // setting data
         mChart.animateY(2500);   //动画
-
         mChart.getLegend().setEnabled(false);
         setChartData();
 
@@ -74,65 +75,51 @@ public class StepMonthFragment extends Fragment {
 
     private void setChartData() {
 
-        ArrayList<BarEntry> yVals1 = new ArrayList<>();
-        for (int i = 0; i < 31; i++) {
-            float mult = (1000);
-            float val = (float) (Math.random() * mult) + mult / 1;
-            yVals1.add(new BarEntry(i, val));
+        float start = 0f;
+
+        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+
+        for (int i = (int) start; i < start + 7 + 1; i++) {
+            float mult = (7 + 1);
+            float val = (float) (Math.random() * mult);
+            yVals1.add(new BarEntry(i + 1f, val));
         }
+
         BarDataSet set1;
 
-        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
+        if (mChart.getData() != null &&
+                mChart.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(yVals1);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, "");
-            set1.setColor(Color.rgb(255, 255, 255));
-            set1.setDrawValues(false);
-            set1.setBarBorderWidth(5f);
-//            set1.setBarBorderColor(Color.rgb(55, 55, 55));
-            // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
-            set1.setBarBorderColor(Color.rgb(32, 32, 32));
+            set1 = new BarDataSet(yVals1, "The year 2017");
+            set1.setColors(ColorTemplate.MATERIAL_COLORS);
+
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
+            data.setValueTextSize(10f);
+            data.setBarWidth(0.9f);
+
             mChart.setData(data);
-            mChart.setFitBars(true);
-        }
-        mChart.invalidate();
-    }
-
-    class axisValueformatter implements AxisValueFormatter {
-
-        @Override
-        public String getFormattedValue(float value, AxisBase axis) {
-            //Log.e(Tag, " " + value);
-            return XString[(int) value % XString.length];
-        }
-
-        @Override
-        public int getDecimalDigits() {
-            return 0;
         }
     }
 
     /***
-     * 设置日期栏是否显示
-     *
+     *     设置日期栏是否显示
      * @param visible
      */
 
-    public void setLlDateVisible(int visible) {
+    public  void setLlDateVisible(int visible){
         llDate.setVisibility(visible);
     }
-
-    public boolean getLlDateVisible() {
-        if (llDate.getVisibility() == View.VISIBLE)
+    public  boolean getLlDateVisible(){
+        if(llDate.getVisibility()==View.VISIBLE)
             return true;
         else
-            return false;
+        return  false;
     }
 }
