@@ -17,9 +17,9 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
-import com.xyy.Gazella.fragment.StepDayFragment;
-import com.xyy.Gazella.fragment.StepMonthFragment;
-import com.xyy.Gazella.fragment.StepWeekFragment;
+import com.xyy.Gazella.fragment.SleepDayFragment;
+import com.xyy.Gazella.fragment.SleepMonthFragment;
+import com.xyy.Gazella.fragment.SleepWeekFragment;
 import com.ysp.smartwatch.R;
 
 import java.text.DateFormat;
@@ -57,9 +57,9 @@ public class SleepActivity extends FragmentActivity implements OnDateSelectedLis
     LinearLayout llCheckDate;
 
     private ArrayList<Fragment> fragmentsList;
-    private StepDayFragment stepDayFragment;
-    private StepWeekFragment stepWeekFragment;
-    private StepMonthFragment stepMonthFragment;
+    private SleepDayFragment sleepDayFragment;
+    private SleepWeekFragment sleepWeekFragment;
+    private SleepMonthFragment sleepMonthFragment;
     private FragmentAdapter mFragmentAdapter;
 
 
@@ -97,12 +97,12 @@ public class SleepActivity extends FragmentActivity implements OnDateSelectedLis
 
     private void InitViewPager() {
         fragmentsList = new ArrayList<>();
-        stepDayFragment = new StepDayFragment();
-        stepWeekFragment = new StepWeekFragment();
-        stepMonthFragment = new StepMonthFragment();
-        fragmentsList.add(stepDayFragment);
-        fragmentsList.add(stepWeekFragment);
-        fragmentsList.add(stepMonthFragment);
+        sleepDayFragment = new SleepDayFragment();
+        sleepWeekFragment = new SleepWeekFragment();
+        sleepMonthFragment = new SleepMonthFragment();
+        fragmentsList.add(sleepDayFragment);
+        fragmentsList.add(sleepWeekFragment);
+        fragmentsList.add(sleepMonthFragment);
 
         mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
         viewpager.setAdapter(mFragmentAdapter);
@@ -155,12 +155,12 @@ public class SleepActivity extends FragmentActivity implements OnDateSelectedLis
                     llCheckDate.setVisibility(View.VISIBLE);
                     btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
 
-                    if(!stepDayFragment.getLlDateVisible())
-                        stepDayFragment.setLlDateVisible(View.VISIBLE);
-                    if(!stepWeekFragment.getLlDateVisible())
-                        stepWeekFragment.setLlDateVisible(View.VISIBLE);
-                    if(!stepMonthFragment.getLlDateVisible())
-                        stepMonthFragment.setLlDateVisible(View.VISIBLE);
+                    if(! sleepDayFragment.getLlDateVisible())
+                        sleepDayFragment.setLlDateVisible(View.VISIBLE);
+                    if(!sleepWeekFragment.getLlDateVisible())
+                        sleepWeekFragment.setLlDateVisible(View.VISIBLE);
+                    if(!sleepMonthFragment.getLlDateVisible())
+                        sleepMonthFragment.setLlDateVisible(View.VISIBLE);
 
                 } else {
 
@@ -170,12 +170,12 @@ public class SleepActivity extends FragmentActivity implements OnDateSelectedLis
                     btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
                     llCheckDate.setVisibility(View.GONE);
 
-                    if(stepDayFragment.getLlDateVisible())
-                        stepDayFragment.setLlDateVisible(View.GONE);
-                    if(stepWeekFragment.getLlDateVisible())
-                        stepWeekFragment.setLlDateVisible(View.GONE);
-                    if(stepMonthFragment.getLlDateVisible())
-                        stepMonthFragment.setLlDateVisible(View.GONE);
+                    if(sleepDayFragment.getLlDateVisible())
+                        sleepDayFragment.setLlDateVisible(View.GONE);
+                    if(sleepWeekFragment.getLlDateVisible())
+                        sleepWeekFragment.setLlDateVisible(View.GONE);
+                    if(sleepMonthFragment.getLlDateVisible())
+                        sleepMonthFragment.setLlDateVisible(View.GONE);
                 }
                 break;
 

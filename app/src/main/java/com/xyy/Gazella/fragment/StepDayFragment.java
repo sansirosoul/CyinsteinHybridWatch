@@ -56,12 +56,14 @@ public class StepDayFragment extends Fragment {
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
         xAxis.setGridLineWidth(1);
+        xAxis.setGranularity(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(12);
+
         // xAxis.setGranularity(50f);
 //        xAxis.setXEntrySpace(10f);
         xAxis.setAxisLineWidth(1f);
-        xAxis.setGridLineWidth(1);
+        xAxis.setGridLineWidth(10);
         xAxis.setDrawGridLines(false);
 
         mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
@@ -131,7 +133,7 @@ public class StepDayFragment extends Fragment {
             float mult = (1000);
             float val = (float) (Math.random() * mult) + mult / 1;
             yVals1.add(new BarEntry(i, val));
-        }
+            }
         BarDataSet set1;
 
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
@@ -153,6 +155,7 @@ public class StepDayFragment extends Fragment {
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
+            data.setBarWidth(0.9f);
             mChart.setData(data);
             mChart.setFitBars(true);
         }

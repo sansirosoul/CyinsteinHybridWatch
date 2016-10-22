@@ -34,7 +34,7 @@ public class SleepMonthFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        view = inflater.inflate(R.layout.fragment_step_month, container, false);
+        view = inflater.inflate(R.layout.fragment_sleep_month, container, false);
         ButterKnife.bind(this, view);
         initChart();
         return view;

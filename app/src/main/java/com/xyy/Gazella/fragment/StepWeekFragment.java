@@ -50,7 +50,7 @@ public class StepWeekFragment extends Fragment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
+//        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
         XAxis xAxis = mChart.getXAxis();
 
         xAxis.setAvoidFirstLastClipping(true);
@@ -102,7 +102,8 @@ public class StepWeekFragment extends Fragment {
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
             set1.setBarBorderWidth(10f);
-            set1.setBarBorderColor(Color.rgb(55, 55, 55));
+            set1.setBarShadowColor(Color.parseColor("#00FFFFFF"));
+//            set1.setBarBorderColor(Color.rgb(55, 55, 55));
             // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
             set1.setBarBorderWidth(25f);
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
