@@ -1,20 +1,18 @@
 package com.xyy.Gazella.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.xyy.Gazella.fragment.SleepFragment;
 import com.xyy.Gazella.fragment.StepFragment;
+import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -27,7 +25,7 @@ import butterknife.OnClick;
 import static com.ysp.smartwatch.R.id.viewpager;
 
 
-public class HealthyActivity extends FragmentActivity {
+public class HealthyActivity extends BaseActivity {
     @BindView(R.id.step)
     TextView step;
     @BindView(R.id.sleep)
@@ -50,12 +48,6 @@ public class HealthyActivity extends FragmentActivity {
         setContentView(R.layout.activity_healthy);
         ButterKnife.bind(this);
 
-        if(Build.VERSION.SDK_INT >= 19){
-            //透明状态栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //透明导航栏
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
         InitViewPager();
     }
 
