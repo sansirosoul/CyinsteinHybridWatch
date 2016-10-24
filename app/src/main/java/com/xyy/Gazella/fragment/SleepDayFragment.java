@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.ysp.newband.BaseFragment;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/11.
  */
 
-public class SleepDayFragment extends Fragment {
+public class SleepDayFragment extends BaseFragment {
     @BindView(R.id.chart1)
     BarChart mChart;
     @BindView(R.id.ll_date)
@@ -36,6 +37,7 @@ public class SleepDayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_sleep_day, container, false);
+
 
         ButterKnife.bind(this, view);
         initChart();

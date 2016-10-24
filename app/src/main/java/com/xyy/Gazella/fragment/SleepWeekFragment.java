@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.ysp.newband.BaseFragment;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/11.
  */
 
-public class SleepWeekFragment extends Fragment {
+public class SleepWeekFragment extends BaseFragment {
     @BindView(R.id.ll_date)
     LinearLayout llDate;
     @BindView(R.id.chart1)

@@ -14,6 +14,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.ysp.newband.BaseFragment;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/11.
  */
 
-public class StepDayFragment extends Fragment {
+public class StepDayFragment extends BaseFragment {
     @BindView(R.id.chart1)
     BarChart mChart;
     @BindView(R.id.ll_date)
@@ -127,7 +128,6 @@ public class StepDayFragment extends Fragment {
     }
 
     private void setChartData() {
-
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
             float mult = (1000);
@@ -145,22 +145,29 @@ public class StepDayFragment extends Fragment {
             set1 = new BarDataSet(yVals1, "");
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
-            set1.setBarBorderWidth(10f);
 
-//            set1.setBarBorderColor(Color.parseColor("#00FFFFFF"));
-//            set1.setBarBorderColor(Color.alpha(0));
-            set1.setBarBorderColor(Color.rgb(32, 32, 32));
-            // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
-            data.setBarWidth(0.9f);
+//            data.setValueTextSize(10f);
+            data.setBarWidth(0.3f);
+
             mChart.setData(data);
-            mChart.setFitBars(true);
         }
-        mChart.invalidate();
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /***
      *     设置日期栏是否显示

@@ -27,6 +27,12 @@ public class BaseActivity extends ActivityBase {
 		super.onCreate(arg0);
 		ExchangeProxy.setApplicationDefaultErrorHandle(new ExangeErrorHandler());// 设置报错处理handler
 		ExchangeProxy.setProgressModelVisible(false);// 设置弹出框是否显示
+		if(Build.VERSION.SDK_INT >= 19){
+			//透明状态栏
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+			//透明导航栏
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+		}
 		mContext = this;
 	}
 	

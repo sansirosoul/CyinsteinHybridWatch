@@ -28,6 +28,7 @@ android {
         exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LGPL2.1'
         exclude 'META-INF/services/javax.annotation.processing.Processor'
+
     }
 }
 
@@ -42,11 +43,12 @@ dependencies {
     compile files('libs/Juts-Utility.jar')
     compile files('libs/samsung_ble_sdk_200.jar')
     //    compile files('libs/Calend.jar')
-    compile files('libs/MPChartLib.jar')
+    //    compile files('libs/MPChartLib.jar')
     compile 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile project(':Calendarlibrary')
     compile files('libs/wheelview_1.3.3.jar')
+    compile project(':MPChartLib')
 }
