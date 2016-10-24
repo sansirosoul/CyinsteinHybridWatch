@@ -46,7 +46,7 @@
 
         <!--首页-->
 
-        <activity android:name="com.xyy.Gazella.activity.HomeActivity"
+        <activity android:name="com.xyy.Gazella.activity.StartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -104,6 +104,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
+
             android:theme="@style/ExampleTheme" />
 
         <activity android:name="com.xyy.Gazella.activity.PersonActivity"
@@ -119,13 +120,14 @@
             android:theme="@style/ExampleTheme">
 
         </activity>
-        <activity android:name="com.xyy.Gazella.activity.StartActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/ExampleTheme">
+        <!--<activity android:name="com.xyy.Gazella.activity.StartActivity"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/ExampleTheme">-->
 
-        </activity>
+
+        <!--</activity>-->
         <activity android:name="com.xyy.Gazella.activity.NotificationActivty"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"

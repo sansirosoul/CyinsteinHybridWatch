@@ -49,4 +49,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile project(':Calendarlibrary')
     compile files('libs/wheelview_1.3.3.jar')
+
 }
