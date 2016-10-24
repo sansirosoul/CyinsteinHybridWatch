@@ -2,7 +2,6 @@ package com.xyy.Gazella.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.ysp.newband.BaseFragment;
+import com.ysp.newband.BaseFargment;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/11.
  */
 
-public class StepDayFragment extends BaseFragment {
+public class StepDayFragment extends BaseFargment {
     @BindView(R.id.chart1)
     BarChart mChart;
     @BindView(R.id.ll_date)
@@ -34,11 +33,11 @@ public class StepDayFragment extends BaseFragment {
     private View view;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_step_day, container, false);
 
         ButterKnife.bind(this, view);
         initChart();
+        super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
 
@@ -47,11 +46,8 @@ public class StepDayFragment extends BaseFragment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-//        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
         XAxis xAxis = mChart.getXAxis();
-        //   xAxis.setStartAtZero(true);
-        //  xAxis.setSpaceBetweenLabels();
-//        xAxis.resetLabelsToSkip();
+
         mChart.refreshDrawableState();
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
@@ -61,8 +57,6 @@ public class StepDayFragment extends BaseFragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(12);
 
-        // xAxis.setGranularity(50f);
-//        xAxis.setXEntrySpace(10f);
         xAxis.setAxisLineWidth(1f);
         xAxis.setGridLineWidth(10);
         xAxis.setDrawGridLines(false);
@@ -72,11 +66,8 @@ public class StepDayFragment extends BaseFragment {
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisRight().setEnabled(false);
 
-
-
         // setting data
         mChart.animateY(2500);   //动画
-
         mChart.getLegend().setEnabled(false);
 
 
@@ -128,6 +119,7 @@ public class StepDayFragment extends BaseFragment {
     }
 
     private void setChartData() {
+
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
             float mult = (1000);
@@ -145,29 +137,16 @@ public class StepDayFragment extends BaseFragment {
             set1 = new BarDataSet(yVals1, "");
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
-
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
-//            data.setValueTextSize(10f);
-            data.setBarWidth(0.3f);
-
+            data.setBarWidth(0.5f);
             mChart.setData(data);
+            mChart.setFitBars(true);
         }
+        mChart.invalidate();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     /***
      *     设置日期栏是否显示

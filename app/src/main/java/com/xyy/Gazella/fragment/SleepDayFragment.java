@@ -14,8 +14,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
-import com.ysp.newband.BaseFragment;
+import com.xyy.Gazella.view.CreateColor;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/11.
  */
 
-public class SleepDayFragment extends BaseFragment {
+public class SleepDayFragment extends Fragment {
     @BindView(R.id.chart1)
     BarChart mChart;
     @BindView(R.id.ll_date)
@@ -37,7 +36,6 @@ public class SleepDayFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_sleep_day, container, false);
-
 
         ButterKnife.bind(this, view);
         initChart();
@@ -51,7 +49,6 @@ public class SleepDayFragment extends BaseFragment {
         mChart.setDrawGridBackground(false);
         mChart.setBackground(getResources().getDrawable(R.drawable.page20_tubiao_bg));
         mChart.setBorderColor(Color.rgb(255, 255, 255));
-//        mChart.setDrawBorders(true);
 
         XAxis xAxis = mChart.getXAxis();
 
@@ -68,6 +65,7 @@ public class SleepDayFragment extends BaseFragment {
         mChart.getAxisRight().setEnabled(false);
         mChart.getAxisLeft().setEnabled(false);
         mChart.getAxisLeft().setSpaceBottom(0);
+
         // setting data
         mChart.animateY(2500);   //动画
         mChart.getLegend().setEnabled(false);
@@ -77,37 +75,33 @@ public class SleepDayFragment extends BaseFragment {
 
     private void setChartData() {
 
-        float start = 0f;
-
-        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
-
-        for (int i = (int) start; i < start + 7 + 1; i++) {
-            float mult = (7 + 1);
-            float val = (float) (Math.random() * mult);
-            yVals1.add(new BarEntry(i + 1f, val));
+        ArrayList<BarEntry> yVals1 = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            float mult = (1000);
+            float val = (float) (Math.random() * mult) + mult / 1;
+            yVals1.add(new BarEntry(i, val));
         }
-
         BarDataSet set1;
 
-        if (mChart.getData() != null &&
-                mChart.getData().getDataSetCount() > 0) {
+        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(yVals1);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, "The year 2017");
-            set1.setColors(ColorTemplate.MATERIAL_COLORS);
-
+            set1 = new BarDataSet(yVals1, "");
+            set1.setColors(CreateColor.MATERIAL_COLORS);
+             set1.setDrawValues(false);
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
-            data.setValueTextSize(10f);
-            data.setBarWidth(0.9f);
-
+//            data.setBarWidth(0.9f);
             mChart.setData(data);
+            mChart.setFitBars(true);
         }
+        mChart.invalidate();
+
     }
 
     /***

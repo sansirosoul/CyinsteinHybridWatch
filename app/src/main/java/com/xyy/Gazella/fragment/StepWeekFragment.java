@@ -16,7 +16,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.ysp.newband.BaseFragment;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/11.
  */
 
-public class StepWeekFragment extends BaseFragment {
+public class StepWeekFragment extends Fragment {
     @BindView(R.id.chart1)
     BarChart mChart;
     @BindView(R.id.ll_date)
@@ -47,11 +46,11 @@ public class StepWeekFragment extends BaseFragment {
     }
 
     private void initChart() {
+
         mChart.setDescription("");
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-//        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
         XAxis xAxis = mChart.getXAxis();
 
         xAxis.setAvoidFirstLastClipping(true);
@@ -62,10 +61,7 @@ public class StepWeekFragment extends BaseFragment {
 
         xAxis.setValueFormatter(new axisValueformatter());
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        // xAxis.setGranularity(50f);
-//        xAxis.setXEntrySpace(10f);
         xAxis.setAxisLineWidth(1f);
-//        xAxis.setGridLineWidth(1);
         xAxis.setDrawGridLines(false);
 
         mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
@@ -73,10 +69,8 @@ public class StepWeekFragment extends BaseFragment {
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisRight().setEnabled(false);
 
-
         // setting data
         mChart.animateY(2500);   //动画
-
         mChart.getLegend().setEnabled(false);
 
         setChartData();
@@ -84,6 +78,7 @@ public class StepWeekFragment extends BaseFragment {
     }
 
     private void setChartData() {
+
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             float mult = (1000);
@@ -101,16 +96,15 @@ public class StepWeekFragment extends BaseFragment {
             set1 = new BarDataSet(yVals1, "");
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
-
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
-//            data.setValueTextSize(10f);
-            data.setBarWidth(0.3f);
-
+            data.setBarWidth(0.5f);
             mChart.setData(data);
+            mChart.setFitBars(true);
         }
+        mChart.invalidate();
     }
 
     class axisValueformatter implements AxisValueFormatter {

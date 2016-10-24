@@ -79,4 +79,5 @@ public class CheckAnalogClock extends Dialog{
         void onSmall3Click();
         void onCloseClick();
     }
+
 }

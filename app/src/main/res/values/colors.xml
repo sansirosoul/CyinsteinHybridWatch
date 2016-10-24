@@ -20,4 +20,5 @@
     <color name="shadow">#cc222222</color>
     <color name="personalize1">#b6e1ff</color>
     <color name="personalize2">#005ea0</color>
+    <color name="dataBackgroundColor">#1E1E1E</color>
 </resources>

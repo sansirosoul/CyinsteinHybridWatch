@@ -27,6 +27,7 @@ public class BaseActivity extends ActivityBase {
 		super.onCreate(arg0);
 		ExchangeProxy.setApplicationDefaultErrorHandle(new ExangeErrorHandler());// 设置报错处理handler
 		ExchangeProxy.setProgressModelVisible(false);// 设置弹出框是否显示
+
 		if(Build.VERSION.SDK_INT >= 19){
 			//透明状态栏
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -77,6 +78,20 @@ public class BaseActivity extends ActivityBase {
      */
 	public static void overridePendingTransitionExit(Activity at){
 		at.overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
+	}
+
+	public Handler handler = new Handler() {
+		public void handleMessage(Message var1) {
+			Uoi var2 = (Uoi)var1.getData().getSerializable("INPUT_DATA");
+			Uoo var3 = (Uoo)var1.getData().getSerializable("RETURN_DATA");
+			BaseActivity.this.callbackByExchange(var2, var3);
+		}
+	};
+
+	public BaseActivity() {
+	}
+
+	public void callbackByExchange(Uoi var1, Uoo var2) {
 	}
 
 	@Override

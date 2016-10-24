@@ -3,7 +3,6 @@ package com.xyy.Gazella.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -20,6 +19,7 @@ import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.xyy.Gazella.fragment.SleepDayFragment;
 import com.xyy.Gazella.fragment.SleepMonthFragment;
 import com.xyy.Gazella.fragment.SleepWeekFragment;
+import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
 import java.text.DateFormat;
@@ -31,9 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.ysp.newband.BaseActivity.overridePendingTransitionExit;
-
-public class SleepActivity extends FragmentActivity implements OnDateSelectedListener, OnMonthChangedListener {
+public class SleepActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
 
     @BindView(R.id.calendarView)
     MaterialCalendarView widget;
@@ -85,7 +83,7 @@ public class SleepActivity extends FragmentActivity implements OnDateSelectedLis
 
     private void initCalendar() {
         widget.setVisibility(View.GONE);
-        widget.setBackgroundColor(this.getResources().getColor(R.color.black));
+        widget.setBackgroundColor(this.getResources().getColor(R.color.dataBackgroundColor));
         widget.setArrowColor(this.getResources().getColor(R.color.white));
         widget.setHeaderLinearColor(this.getResources().getColor(R.color.title_gray));
         widget.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
@@ -152,31 +150,9 @@ public class SleepActivity extends FragmentActivity implements OnDateSelectedLis
             case R.id.btnDate:
 
                 if (widget.getVisibility() == View.VISIBLE) {
-                    widget.setVisibility(View.GONE);
-                    llCheckDate.setVisibility(View.VISIBLE);
-                    btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
-
-                    if(! sleepDayFragment.getLlDateVisible())
-                        sleepDayFragment.setLlDateVisible(View.VISIBLE);
-                    if(!sleepWeekFragment.getLlDateVisible())
-                        sleepWeekFragment.setLlDateVisible(View.VISIBLE);
-                    if(!sleepMonthFragment.getLlDateVisible())
-                        sleepMonthFragment.setLlDateVisible(View.VISIBLE);
-
+                    setLlDateVisible(1);
                 } else {
-
-                    ///初始化日历
-                    widget.setVisibility(View.VISIBLE);
-                    widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
-                    btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
-                    llCheckDate.setVisibility(View.GONE);
-
-                    if(sleepDayFragment.getLlDateVisible())
-                        sleepDayFragment.setLlDateVisible(View.GONE);
-                    if(sleepWeekFragment.getLlDateVisible())
-                        sleepWeekFragment.setLlDateVisible(View.GONE);
-                    if(sleepMonthFragment.getLlDateVisible())
-                        sleepMonthFragment.setLlDateVisible(View.GONE);
+                    setLlDateVisible(2);
                 }
                 break;
 
@@ -194,6 +170,42 @@ public class SleepActivity extends FragmentActivity implements OnDateSelectedLis
                 break;
         }
     }
+
+    /***
+     *     是否显示 选择日期条  , 日历
+     * @param type     1 是显示  2 是隐藏
+     */
+
+    private  void  setLlDateVisible(int type){
+        if(type==1){
+
+            widget.setVisibility(View.GONE);
+            llCheckDate.setVisibility(View.VISIBLE);
+            btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
+
+            if(! sleepDayFragment.getLlDateVisible())
+                sleepDayFragment.setLlDateVisible(View.VISIBLE);
+            if(!sleepWeekFragment.getLlDateVisible())
+                sleepWeekFragment.setLlDateVisible(View.VISIBLE);
+            if(!sleepMonthFragment.getLlDateVisible())
+                sleepMonthFragment.setLlDateVisible(View.VISIBLE);
+        }else {
+
+            ///初始化日历
+            widget.setVisibility(View.VISIBLE);
+            widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+            btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
+            llCheckDate.setVisibility(View.GONE);
+
+            if(sleepDayFragment.getLlDateVisible())
+                sleepDayFragment.setLlDateVisible(View.GONE);
+            if(sleepWeekFragment.getLlDateVisible())
+                sleepWeekFragment.setLlDateVisible(View.GONE);
+            if(sleepMonthFragment.getLlDateVisible())
+                sleepMonthFragment.setLlDateVisible(View.GONE);
+        }
+    }
+
 
     /***
      * 设置Butnon 背景

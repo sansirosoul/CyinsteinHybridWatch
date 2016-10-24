@@ -16,7 +16,6 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.ysp.newband.BaseFragment;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/11.
  */
 
-public class StepMonthFragment extends BaseFragment {
+public class StepMonthFragment extends Fragment {
     @BindView(R.id.ll_date)
     LinearLayout llDate;
     @BindView(R.id.chart1)
@@ -50,12 +49,12 @@ public class StepMonthFragment extends BaseFragment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-//        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
+
         XAxis xAxis = mChart.getXAxis();
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
-//        xAxis.setValueFormatter(new axisValueformatter());
+
         xAxis.setLabelCount(12);
         xAxis.setAxisLineWidth(1f);
         xAxis.setDrawGridLines(false);
@@ -74,6 +73,7 @@ public class StepMonthFragment extends BaseFragment {
     }
 
     private void setChartData() {
+
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         for (int i = 0; i < 31; i++) {
             float mult = (1000);
@@ -91,16 +91,15 @@ public class StepMonthFragment extends BaseFragment {
             set1 = new BarDataSet(yVals1, "");
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
-
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
-//            data.setValueTextSize(10f);
-            data.setBarWidth(0.3f);
-
+            data.setBarWidth(0.5f);
             mChart.setData(data);
+            mChart.setFitBars(true);
         }
+        mChart.invalidate();
     }
 
     class axisValueformatter implements AxisValueFormatter {
