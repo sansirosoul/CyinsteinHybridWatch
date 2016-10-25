@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -16,12 +18,19 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.smartwatch.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/11.
@@ -32,8 +41,17 @@ public class StepWeekFragment extends Fragment {
     BarChart mChart;
     @BindView(R.id.ll_date)
     LinearLayout llDate;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.iv_right)
+    ImageView ivRight;
     private View view;
     private String[] XString = new String[]{"周一", "周二", "周三", "周四", "周五", "周六", "周七",};
+
+    private HashMap<String, String> weekMap;
+    private Calendar CalendarInstance = Calendar.getInstance();
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +60,14 @@ public class StepWeekFragment extends Fragment {
 
         ButterKnife.bind(this, view);
         initChart();
+        initLldate();
         return view;
+    }
+
+    private void initLldate() {
+        weekMap = new SomeUtills().getWeekdate(CalendarInstance.getTime());
+        if (weekMap != null)
+            tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
     }
 
     private void initChart() {
@@ -132,9 +157,39 @@ public class StepWeekFragment extends Fragment {
     }
 
     public boolean getLlDateVisible() {
-        if (llDate.getVisibility() == View.VISIBLE&&llDate!=null)
+        if (llDate.getVisibility() == View.VISIBLE && llDate != null)
             return true;
         else
             return false;
+    }
+
+    public void setTvDateValue(String date) {
+        tvDate.setText(date);
+    }
+
+    @OnClick({R.id.iv_left, R.id.iv_right})
+    public void onClick(View view) {
+        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy.MM.dd");
+        String strDatre=tvDate.getText().toString();
+        String strings[]=strDatre.split(" ");
+        strDatre= strings[0];
+        Date date= null;
+        try {
+            date = sdf.parse(strDatre);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        switch (view.getId()) {
+            case R.id.iv_left:
+                weekMap = new SomeUtills().getAmountWeekdate(date,0);
+                if (weekMap != null)
+                    tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
+                break;
+            case R.id.iv_right:
+                weekMap = new SomeUtills().getAmountWeekdate(date,1);
+                if (weekMap != null)
+                    tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
+                break;
+        }
     }
 }
