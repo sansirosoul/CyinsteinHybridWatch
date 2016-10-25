@@ -113,6 +113,10 @@ public class SleepDayFragment extends Fragment {
 //            data.setBarWidth(0.9f);
             mChart.setData(data);
             mChart.setFitBars(true);
+
+
+
+
         }
         mChart.invalidate();
 
@@ -143,6 +147,8 @@ public class SleepDayFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_left:
+
+
 
                 break;
             case R.id.iv_right:
