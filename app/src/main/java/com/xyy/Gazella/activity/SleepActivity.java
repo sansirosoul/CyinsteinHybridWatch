@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -100,6 +102,14 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         widget.setVisibility(View.GONE);
         widget.setOnDateChangedListener(this);
         widget.setOnMonthChangedListener(this);
+        widget.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+               boolean f =new SomeUtills().inRangeOfView(v,event);
+                Log.i("TAG",String.valueOf(f));
+                return false;
+            }
+        });
     }
 
     private void InitViewPager() {
@@ -287,5 +297,14 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         public int getCount() {
             return fragmentList.size();
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+       boolean g= new SomeUtills().inRangeOfView(widget,event);
+       boolean gg= new SomeUtills().inRangeOfView(viewpager,event);
+        Log.i("TAG+++++++",String.valueOf(g));
+        Log.i("TAG------",String.valueOf(gg));
+        return super.onTouchEvent(event);
     }
 }

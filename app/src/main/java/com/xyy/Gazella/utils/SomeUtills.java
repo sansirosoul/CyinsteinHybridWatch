@@ -1,5 +1,8 @@
 package com.xyy.Gazella.utils;
 
+import android.view.MotionEvent;
+import android.view.View;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -133,4 +136,16 @@ public class SomeUtills {
         }
         return Date;
     }
+
+    public boolean inRangeOfView(View view, MotionEvent ev){
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int x = location[0];
+        int y = location[1];
+        if(ev.getX() < x || ev.getX() > (x + view.getWidth()) || ev.getY() < y || ev.getY() > (y + view.getHeight())){
+            return false;
+        }
+        return true;
+    }
+
 }

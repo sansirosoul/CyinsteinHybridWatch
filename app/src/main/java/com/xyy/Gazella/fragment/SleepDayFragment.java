@@ -11,10 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.smartwatch.R;
@@ -48,6 +50,7 @@ public class SleepDayFragment extends Fragment {
     private View view;
 
     private String[] xValue = new String[]{"1", "2", "2", "2", "2", "3", "3", "2", "1", "3"};
+    private String[] XString = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",};
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,16 +68,17 @@ public class SleepDayFragment extends Fragment {
     private void initChart() {
         mChart.setDescription("");
         mChart.setPinchZoom(false);
+
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
         mChart.setBackground(getResources().getDrawable(R.drawable.page20_tubiao_bg));
         mChart.setBorderColor(Color.rgb(255, 255, 255));
 
         XAxis xAxis = mChart.getXAxis();
-
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
         xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
+        xAxis.setValueFormatter(new XAxisValue());
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(10, false);
         xAxis.setDrawGridLines(false);
@@ -91,11 +95,10 @@ public class SleepDayFragment extends Fragment {
         mChart.animateY(2500);   //动画
         mChart.getLegend().setEnabled(false);
         setChartData();
-
     }
 
     private void setChartData() {
-        float Sober =8;            //清醒
+        float Sober = 8;            //清醒
         float LightSleep = 9;    //浅睡
         float DeepSleep = 11;   //深睡
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
@@ -105,8 +108,8 @@ public class SleepDayFragment extends Fragment {
         String xValue[] = new String[10];
         for (int i = 0; i < 10; i++) {
             Random random = new Random();
-            int s = random.nextInt(3)%(3-0+1) + 0;
-            xValue[i]=String.valueOf(s);
+            int s = random.nextInt(3) % (3 - 0 + 1) + 0;
+            xValue[i] = String.valueOf(s);
         }
 
         for (int i = 0; i < xValue.length; i++) {
@@ -141,21 +144,40 @@ public class SleepDayFragment extends Fragment {
             set1.setColor(Color.rgb(119, 211, 252));
             set2.setColor(Color.rgb(3, 137, 198));
             set3.setColor(Color.rgb(0, 61, 89));
-        // set1.setColors(CreateColor.MATERIAL_COLORS);
-        set1.setDrawValues(false);
-        set2.setDrawValues(false);
-        set3.setDrawValues(false);
-        ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
-        dataSets.add(set2);
-        dataSets.add(set3);
+            // set1.setColors(CreateColor.MATERIAL_COLORS);
+            set1.setDrawValues(false);
+            set2.setDrawValues(false);
+            set3.setDrawValues(false);
+            set1.setHighlightEnabled(false);
+            set2.setHighlightEnabled(false);
+            set3.setHighlightEnabled(false);
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
+            dataSets.add(set2);
+            dataSets.add(set3);
 
-        BarData data = new BarData(dataSets);
-        mChart.setData(data);
-        mChart.setFitBars(true);
+            BarData data = new BarData(dataSets);
+            mChart.setData(data);
+            mChart.setFitBars(true);
+        }
+        mChart.invalidate();
     }
-    mChart.invalidate();
-}
+
+    class XAxisValue implements AxisValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            //Log.e(Tag, " " + value);
+            return XString[(int) value % XString.length];
+        }
+
+        @Override
+        public int getDecimalDigits() {
+            return 0;
+        }
+    }
+
+
     /***
      * 设置日期栏是否显示
      *
@@ -201,4 +223,5 @@ public class SleepDayFragment extends Fragment {
         this.xValue = xValue;
         setChartData();
     }
+
 }

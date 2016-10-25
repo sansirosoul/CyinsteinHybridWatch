@@ -82,13 +82,17 @@ public class SleepWeekFragment extends Fragment {
         mChart.setDrawValueAboveBar(false);
         mChart.setHighlightFullBarEnabled(false);
         mChart.getAxisRight().setEnabled(false);
+
+
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisLeft().setEnabled(true);
 
         YAxis yAxis = mChart.getAxisLeft();
         yAxis.setTextColor(Color.rgb(255, 255, 255));
         yAxis.setSpaceBottom(0);
+
         XAxis xAxis = mChart.getXAxis();
+
         xAxis.setDrawGridLines(false);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
 
