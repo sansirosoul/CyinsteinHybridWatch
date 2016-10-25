@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -14,10 +15,12 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.CreateColor;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,13 +34,17 @@ public class SleepMonthFragment extends Fragment {
     LinearLayout llDate;
     @BindView(R.id.chart1)
     BarChart mChart;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
     private View view;
+    private Calendar CalendarInstance = Calendar.getInstance();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_sleep_month, container, false);
         ButterKnife.bind(this, view);
         initChart();
+        tvDate.setText(new SomeUtills().getDate(1));
         return view;
     }
 
@@ -93,7 +100,7 @@ public class SleepMonthFragment extends Fragment {
             mChart.notifyDataSetChanged();
         } else {
             set1 = new BarDataSet(yVals1, "");
-            set1.setBarBorderColor(Color.rgb(55,55,55));
+            set1.setBarBorderColor(Color.rgb(55, 55, 55));
             set1.setColors(getColors());
             set1.setDrawValues(false);
 
@@ -134,9 +141,13 @@ public class SleepMonthFragment extends Fragment {
     }
 
     public boolean getLlDateVisible() {
-        if (llDate.getVisibility() == View.VISIBLE&&llDate!=null)
+        if (llDate.getVisibility() == View.VISIBLE && llDate != null)
             return true;
         else
             return false;
+    }
+
+    public void setTvDateValue(String date) {
+        tvDate.setText(date);
     }
 }

@@ -25,6 +25,7 @@ import com.ysp.smartwatch.R;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -63,6 +64,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
     private boolean WidgetType = false;
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
+    private Calendar CalendarInstance = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,13 +84,16 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     }
 
     private void initCalendar() {
-        widget.setVisibility(View.GONE);
         widget.setBackgroundColor(this.getResources().getColor(R.color.dataBackgroundColor));
         widget.setArrowColor(this.getResources().getColor(R.color.white));
         widget.setHeaderLinearColor(this.getResources().getColor(R.color.title_gray));
         widget.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
         widget.setSelectionColor(this.getResources().getColor(R.color.personalize2));
         widget.setTileHeight(90);
+
+        widget.setSelectedDate(CalendarInstance.getTime());
+        widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+        widget.setVisibility(View.GONE);
         widget.setOnDateChangedListener(this);
         widget.setOnMonthChangedListener(this);
     }
@@ -194,7 +199,6 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
             //初始化日历
             widget.setVisibility(View.VISIBLE);
-            widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
             btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
             llCheckDate.setVisibility(View.GONE);
 
@@ -235,12 +239,17 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-        // TVTitle.setText(getSelectedDatesString());
-
-        if (WidgetType) {
-            widget.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS)
-                    .commit();
-            WidgetType = false;
+        setLlDateVisible(1);
+        switch (viewpager.getCurrentItem()){
+            case  0:
+                stepDayFragment.setTvDateValue(getSelectedDatesString());
+                break;
+            case  1:
+                stepWeekFragment.setTvDateValue(getSelectedDatesString());
+                break;
+            case  2:
+                stepMonthFragment.setTvDateValue(getSelectedDatesString());
+                break;
         }
     }
 

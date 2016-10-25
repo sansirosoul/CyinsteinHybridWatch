@@ -19,12 +19,15 @@ import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.xyy.Gazella.fragment.SleepDayFragment;
 import com.xyy.Gazella.fragment.SleepMonthFragment;
 import com.xyy.Gazella.fragment.SleepWeekFragment;
+import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,9 +63,9 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     private SleepMonthFragment sleepMonthFragment;
     private FragmentAdapter mFragmentAdapter;
 
-
-    private boolean WidgetType = false;
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
+    private Calendar CalendarInstance = Calendar.getInstance();
+    private HashMap<String, String> weekMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         initView();
         initCalendar();
         InitViewPager();
+
     }
 
     private void initView() {
@@ -82,13 +86,18 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     }
 
     private void initCalendar() {
-        widget.setVisibility(View.GONE);
+        ///初始化日历
+
         widget.setBackgroundColor(this.getResources().getColor(R.color.dataBackgroundColor));
         widget.setArrowColor(this.getResources().getColor(R.color.white));
         widget.setHeaderLinearColor(this.getResources().getColor(R.color.title_gray));
         widget.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
         widget.setSelectionColor(this.getResources().getColor(R.color.personalize2));
         widget.setTileHeight(90);
+
+        widget.setSelectedDate(CalendarInstance.getTime());
+        widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+        widget.setVisibility(View.GONE);
         widget.setOnDateChangedListener(this);
         widget.setOnMonthChangedListener(this);
     }
@@ -106,7 +115,6 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         viewpager.setAdapter(mFragmentAdapter);
         viewpager.setOffscreenPageLimit(3);
         viewpager.setCurrentItem(0);
-
 
         viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -172,36 +180,34 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     }
 
     /***
-     *     是否显示 选择日期条  , 日历
-     * @param type     1 是显示  2 是隐藏
+     * 是否显示 选择日期条  , 日历
+     *
+     * @param type 1 是显示  2 是隐藏
      */
 
-    private  void  setLlDateVisible(int type){
-        if(type==1){
+    private void setLlDateVisible(int type) {
+        if (type == 1) {
 
             widget.setVisibility(View.GONE);
             llCheckDate.setVisibility(View.VISIBLE);
             btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
 
-            if(! sleepDayFragment.getLlDateVisible())
+            if (!sleepDayFragment.getLlDateVisible())
                 sleepDayFragment.setLlDateVisible(View.VISIBLE);
-            if(!sleepWeekFragment.getLlDateVisible())
+            if (!sleepWeekFragment.getLlDateVisible())
                 sleepWeekFragment.setLlDateVisible(View.VISIBLE);
-            if(!sleepMonthFragment.getLlDateVisible())
+            if (!sleepMonthFragment.getLlDateVisible())
                 sleepMonthFragment.setLlDateVisible(View.VISIBLE);
-        }else {
-
-            ///初始化日历
+        } else {
             widget.setVisibility(View.VISIBLE);
-            widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
             btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
             llCheckDate.setVisibility(View.GONE);
 
-            if(sleepDayFragment.getLlDateVisible())
+            if (sleepDayFragment.getLlDateVisible())
                 sleepDayFragment.setLlDateVisible(View.GONE);
-            if(sleepWeekFragment.getLlDateVisible())
+            if (sleepWeekFragment.getLlDateVisible())
                 sleepWeekFragment.setLlDateVisible(View.GONE);
-            if(sleepMonthFragment.getLlDateVisible())
+            if (sleepMonthFragment.getLlDateVisible())
                 sleepMonthFragment.setLlDateVisible(View.GONE);
         }
     }
@@ -235,12 +241,20 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-        // TVTitle.setText(getSelectedDatesString());
 
-        if (WidgetType) {
-            widget.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS)
-                    .commit();
-            WidgetType = false;
+        setLlDateVisible(1);
+        switch (viewpager.getCurrentItem()) {
+            case 0:
+                sleepDayFragment.setTvDateValue(getSelectedDatesString());
+                break;
+            case 1:
+               weekMap= new SomeUtills().getWeekdate(date.getDate());
+                if(weekMap!=null)
+                sleepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
+                break;
+            case 2:
+                sleepMonthFragment.setTvDateValue(getSelectedDatesString());
+                break;
         }
     }
 
@@ -258,9 +272,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     }
 
     public class FragmentAdapter extends FragmentPagerAdapter {
-
         List<Fragment> fragmentList = new ArrayList<>();
-
         public FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
             super(fm);
             this.fragmentList = fragmentList;

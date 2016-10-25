@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -13,6 +14,7 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.newband.BaseFargment;
 import com.ysp.smartwatch.R;
 
@@ -30,6 +32,8 @@ public class StepDayFragment extends BaseFargment {
     BarChart mChart;
     @BindView(R.id.ll_date)
     LinearLayout llDate;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
     private View view;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +41,8 @@ public class StepDayFragment extends BaseFargment {
 
         ButterKnife.bind(this, view);
         initChart();
+
+        tvDate.setText(new SomeUtills().getDate(0));
         super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
@@ -125,7 +131,7 @@ public class StepDayFragment extends BaseFargment {
             float mult = (1000);
             float val = (float) (Math.random() * mult) + mult / 1;
             yVals1.add(new BarEntry(i, val));
-            }
+        }
         BarDataSet set1;
 
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
@@ -149,17 +155,23 @@ public class StepDayFragment extends BaseFargment {
     }
 
     /***
-     *     设置日期栏是否显示
+     * 设置日期栏是否显示
+     *
      * @param visible
      */
 
-    public  void setLlDateVisible(int visible){
+    public void setLlDateVisible(int visible) {
         llDate.setVisibility(visible);
     }
-    public  boolean getLlDateVisible(){
-        if(llDate.getVisibility()==View.VISIBLE&&llDate!=null)
+
+    public boolean getLlDateVisible() {
+        if (llDate.getVisibility() == View.VISIBLE && llDate != null)
             return true;
         else
-        return  false;
+            return false;
+    }
+
+    public void setTvDateValue(String date) {
+        tvDate.setText(date);
     }
 }

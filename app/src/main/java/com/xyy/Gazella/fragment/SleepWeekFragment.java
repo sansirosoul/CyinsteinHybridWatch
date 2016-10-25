@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -17,10 +18,13 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.CreateColor;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,9 +38,13 @@ public class SleepWeekFragment extends Fragment {
     LinearLayout llDate;
     @BindView(R.id.chart1)
     BarChart mChart;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
     private View view;
+    private HashMap<String, String> weekMap;
+    private Calendar CalendarInstance = Calendar.getInstance();
 
-    private String[] XString=new String[]{"周一","周二","周三","周四","周五","周六","周七",};
+    private String[] XString = new String[]{"周一", "周二", "周三", "周四", "周五", "周六", "周七",};
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -44,7 +52,14 @@ public class SleepWeekFragment extends Fragment {
 
         ButterKnife.bind(this, view);
         initChart();
+        initLldate();
         return view;
+    }
+
+    private void initLldate() {
+        weekMap= new SomeUtills().getWeekdate(CalendarInstance.getTime());
+        if(weekMap!=null)
+            tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
     }
 
     private void initChart() {
@@ -65,6 +80,7 @@ public class SleepWeekFragment extends Fragment {
         yAxis.setTextColor(Color.rgb(255, 255, 255));
         yAxis.setSpaceBottom(0);
         XAxis xAxis = mChart.getXAxis();
+        xAxis.setDrawGridLines(false);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
 
         xAxis.setValueFormatter(new axisValueformatter());
@@ -96,14 +112,14 @@ public class SleepWeekFragment extends Fragment {
             mChart.notifyDataSetChanged();
         } else {
             set1 = new BarDataSet(yVals1, "");
-            set1.setBarBorderColor(Color.rgb(55,55,55));
+            set1.setBarBorderColor(Color.rgb(55, 55, 55));
             set1.setColors(getColors());
             set1.setDrawValues(false);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
             BarData data = new BarData(dataSets);
-            data.setBarWidth(0.9f);
+            data.setBarWidth(0.7f);
             data.setValueTextColor(Color.WHITE);
 
             mChart.setData(data);
@@ -140,7 +156,6 @@ public class SleepWeekFragment extends Fragment {
     }
 
 
-
     /***
      * 设置日期栏是否显示
      *
@@ -150,10 +165,15 @@ public class SleepWeekFragment extends Fragment {
     public void setLlDateVisible(int visible) {
         llDate.setVisibility(visible);
     }
+
     public boolean getLlDateVisible() {
-        if (llDate.getVisibility() == View.VISIBLE&&llDate!=null)
+        if (llDate.getVisibility() == View.VISIBLE && llDate != null)
             return true;
         else
             return false;
+    }
+
+    public void setTvDateValue(String date) {
+        tvDate.setText(date);
     }
 }

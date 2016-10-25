@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -16,6 +17,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -32,15 +34,18 @@ public class StepMonthFragment extends Fragment {
     LinearLayout llDate;
     @BindView(R.id.chart1)
     BarChart mChart;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
     private View view;
 
-    private String[] XString = new String[]{"1", "3", "5", "7", "9", "11", "13","15","17","19","21","23",};
+    private String[] XString = new String[]{"1", "3", "5", "7", "9", "11", "13", "15", "17", "19", "21", "23",};
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_step_month, container, false);
         ButterKnife.bind(this, view);
         initChart();
+        tvDate.setText(new SomeUtills().getDate(1));
         return view;
     }
 
@@ -127,9 +132,13 @@ public class StepMonthFragment extends Fragment {
     }
 
     public boolean getLlDateVisible() {
-        if (llDate.getVisibility() == View.VISIBLE&&llDate!=null)
+        if (llDate.getVisibility() == View.VISIBLE && llDate != null)
             return true;
         else
             return false;
+    }
+
+    public void setTvDateValue(String date) {
+        tvDate.setText(date);
     }
 }
