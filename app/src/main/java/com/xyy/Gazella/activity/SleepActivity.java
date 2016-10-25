@@ -245,7 +245,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         setLlDateVisible(1);
         switch (viewpager.getCurrentItem()) {
             case 0:
-                sleepDayFragment.setTvDateValue(getSelectedDatesString());
+                sleepDayFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 0));
                 break;
             case 1:
                weekMap= new SomeUtills().getWeekdate(date.getDate());
@@ -253,7 +253,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
                 sleepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
                 break;
             case 2:
-                sleepMonthFragment.setTvDateValue(getSelectedDatesString());
+                sleepMonthFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 1));
                 break;
         }
     }

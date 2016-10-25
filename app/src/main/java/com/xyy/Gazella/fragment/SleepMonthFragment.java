@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,11 +20,15 @@ import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.CreateColor;
 import com.ysp.smartwatch.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/11.
@@ -36,15 +41,20 @@ public class SleepMonthFragment extends Fragment {
     BarChart mChart;
     @BindView(R.id.tv_date)
     TextView tvDate;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.iv_right)
+    ImageView ivRight;
     private View view;
     private Calendar CalendarInstance = Calendar.getInstance();
+    private int amount=-1;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_sleep_month, container, false);
         ButterKnife.bind(this, view);
         initChart();
-        tvDate.setText(new SomeUtills().getDate(1));
+        tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(),1));
         return view;
     }
 
@@ -149,5 +159,24 @@ public class SleepMonthFragment extends Fragment {
 
     public void setTvDateValue(String date) {
         tvDate.setText(date);
+    }
+
+    @OnClick({R.id.iv_left, R.id.iv_right})
+    public void onClick(View view) {
+        SimpleDateFormat  sdf =  new SimpleDateFormat("yyyy.MM");
+        Date date= null;
+        try {
+            date = sdf.parse(tvDate.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        switch (view.getId()) {
+            case R.id.iv_left:
+                tvDate.setText(new SomeUtills().getAmountDate(date,1,0));
+                break;
+            case R.id.iv_right:
+                tvDate.setText(new SomeUtills().getAmountDate(date,1,1));
+                break;
+        }
     }
 }

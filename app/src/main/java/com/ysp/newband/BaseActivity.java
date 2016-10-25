@@ -6,16 +6,19 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import com.exchange.android.engine.ExchangeProxy;
-import com.juts.android.ActivityBase;
+import com.exchange.android.engine.Uoi;
+import com.exchange.android.engine.Uoo;
 import com.xyy.Gazella.exchange.ExangeErrorHandler;
 import com.ysp.smartwatch.R;
 
 
-public class BaseActivity extends ActivityBase {
+public class BaseActivity extends FragmentActivity {
 
 	
 	private static final String TAG=BaseActivity.class.getName();

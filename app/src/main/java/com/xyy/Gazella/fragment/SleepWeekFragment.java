@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,12 +23,16 @@ import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.CreateColor;
 import com.ysp.smartwatch.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/11.
@@ -40,6 +45,10 @@ public class SleepWeekFragment extends Fragment {
     BarChart mChart;
     @BindView(R.id.tv_date)
     TextView tvDate;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.iv_right)
+    ImageView ivRight;
     private View view;
     private HashMap<String, String> weekMap;
     private Calendar CalendarInstance = Calendar.getInstance();
@@ -57,8 +66,8 @@ public class SleepWeekFragment extends Fragment {
     }
 
     private void initLldate() {
-        weekMap= new SomeUtills().getWeekdate(CalendarInstance.getTime());
-        if(weekMap!=null)
+        weekMap = new SomeUtills().getWeekdate(CalendarInstance.getTime());
+        if (weekMap != null)
             tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
     }
 
@@ -175,5 +184,31 @@ public class SleepWeekFragment extends Fragment {
 
     public void setTvDateValue(String date) {
         tvDate.setText(date);
+    }
+
+    @OnClick({R.id.iv_left, R.id.iv_right})
+    public void onClick(View view) {
+        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy.MM.dd");
+        String strDatre=tvDate.getText().toString();
+        String strings[]=strDatre.split(" ");
+        strDatre= strings[0];
+        Date date= null;
+        try {
+            date = sdf.parse(strDatre);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        switch (view.getId()) {
+            case R.id.iv_left:
+                weekMap = new SomeUtills().getAmountWeekdate(date,0);
+                if (weekMap != null)
+                    tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
+                break;
+            case R.id.iv_right:
+                weekMap = new SomeUtills().getAmountWeekdate(date,1);
+                if (weekMap != null)
+                    tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
+                break;
+        }
     }
 }

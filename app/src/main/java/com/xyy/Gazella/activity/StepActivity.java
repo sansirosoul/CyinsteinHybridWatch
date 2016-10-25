@@ -15,10 +15,10 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
-import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.xyy.Gazella.fragment.StepDayFragment;
 import com.xyy.Gazella.fragment.StepMonthFragment;
 import com.xyy.Gazella.fragment.StepWeekFragment;
+import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -26,13 +26,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class StepActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
+public class StepActivity extends BaseActivity implements OnDateSelectedListener {
 
     @BindView(R.id.calendarView)
     MaterialCalendarView widget;
@@ -62,9 +63,9 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     private FragmentAdapter mFragmentAdapter;
 
 
-    private boolean WidgetType = false;
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private Calendar CalendarInstance = Calendar.getInstance();
+    private HashMap<String, String> weekMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,6 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
         widget.setVisibility(View.GONE);
         widget.setOnDateChangedListener(this);
-        widget.setOnMonthChangedListener(this);
     }
 
     private void InitViewPager() {
@@ -240,33 +240,21 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         setLlDateVisible(1);
-        switch (viewpager.getCurrentItem()){
-            case  0:
-                stepDayFragment.setTvDateValue(getSelectedDatesString());
+        switch (viewpager.getCurrentItem()) {
+            case 0:
+                stepDayFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 0));
+                stepDayFragment.updateUI(new String[]{});
                 break;
-            case  1:
-                stepWeekFragment.setTvDateValue(getSelectedDatesString());
+            case 1:
+                weekMap= new SomeUtills().getWeekdate(date.getDate());
+                if(weekMap!=null)
+                    stepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
                 break;
-            case  2:
-                stepMonthFragment.setTvDateValue(getSelectedDatesString());
+            case 2:
+                stepMonthFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 1));
                 break;
         }
     }
-
-    @Override
-    public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
-        // TVTitle.setText(FORMATTER.format(date.getDate()));
-    }
-
-    private String getSelectedDatesString() {
-        CalendarDay date = widget.getSelectedDate();
-        if (date == null) {
-
-            return "";
-        }
-        return FORMATTER.format(date.getDate());
-    }
-
     public class FragmentAdapter extends FragmentPagerAdapter {
 
         List<Fragment> fragmentList = new ArrayList<>();
