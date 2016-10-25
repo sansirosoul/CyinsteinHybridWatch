@@ -51,6 +51,7 @@ public class SleepDayFragment extends Fragment {
         initChart();
         tvDate.setText(new SomeUtills().getDate(0));
 
+
         return view;
     }
 
