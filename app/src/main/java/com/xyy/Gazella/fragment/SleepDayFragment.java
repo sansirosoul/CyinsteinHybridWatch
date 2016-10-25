@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +47,7 @@ public class SleepDayFragment extends Fragment {
     ImageView ivRight;
     private View view;
 
-    private String[] xValue = new String[]{"1", "1", "2", "2", "3", "3", "3", "2", "2", "3"};
+    private String[] xValue = new String[]{"1", "2", "2", "2", "2", "3", "3", "2", "1", "3"};
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +84,8 @@ public class SleepDayFragment extends Fragment {
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisRight().setEnabled(false);
         mChart.getAxisLeft().setEnabled(false);
-        mChart.getAxisLeft().setSpaceBottom(0);
+        mChart.getAxisLeft().setAxisMinValue(5);
+//        mChart.getAxisLeft().setSpaceBottom(0);
 
         // setting data
         mChart.animateY(2500);   //动画
@@ -93,21 +95,29 @@ public class SleepDayFragment extends Fragment {
     }
 
     private void setChartData() {
-        float Sober = 50;  //清醒
-        float LightSleep = 100;  //浅睡
-        float DeepSleep = 200;  //深睡
+        float Sober =8;            //清醒
+        float LightSleep = 9;    //浅睡
+        float DeepSleep = 11;   //深睡
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         ArrayList<BarEntry> yVals2 = new ArrayList<>();
         ArrayList<BarEntry> yVals3 = new ArrayList<>();
+
+        String xValue[] = new String[10];
+        for (int i = 0; i < 10; i++) {
+            Random random = new Random();
+            int s = random.nextInt(3)%(3-0+1) + 0;
+            xValue[i]=String.valueOf(s);
+        }
+
         for (int i = 0; i < xValue.length; i++) {
             switch (xValue[i]) {
-                case "1":
+                case "0":
                     yVals1.add(new BarEntry(i, Sober));
                     break;
-                case "2":
+                case "1":
                     yVals2.add(new BarEntry(i, LightSleep));
                     break;
-                case "3":
+                case "2":
                     yVals3.add(new BarEntry(i, DeepSleep));
                     break;
             }
@@ -115,16 +125,16 @@ public class SleepDayFragment extends Fragment {
         BarDataSet set1;
         BarDataSet set2;
         BarDataSet set3;
-//        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
-//            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
-//            set1.setValues(yVals1);
-//            set2 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
-//            set2.setValues(yVals2);
-//            set3 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
-//            set3.setValues(yVals3);
-//            mChart.getData().notifyDataChanged();
-//            mChart.notifyDataSetChanged();
-//        } else {
+        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+            set1.setValues(yVals1);
+            set2 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+            set2.setValues(yVals2);
+            set3 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+            set3.setValues(yVals3);
+            mChart.getData().notifyDataChanged();
+            mChart.notifyDataSetChanged();
+        } else {
             set1 = new BarDataSet(yVals1, "");
             set2 = new BarDataSet(yVals2, "");
             set3 = new BarDataSet(yVals3, "");
@@ -143,16 +153,14 @@ public class SleepDayFragment extends Fragment {
         BarData data = new BarData(dataSets);
         mChart.setData(data);
         mChart.setFitBars(true);
-//    }
+    }
     mChart.invalidate();
 }
-
     /***
      * 设置日期栏是否显示
      *
      * @param visible
      */
-
     public void setLlDateVisible(int visible) {
         llDate.setVisibility(visible);
     }
@@ -180,9 +188,11 @@ public class SleepDayFragment extends Fragment {
         switch (view.getId()) {
             case R.id.iv_left:
                 tvDate.setText(new SomeUtills().getAmountDate(date, 0, 0));
+                updateUI(new String[0]);
                 break;
             case R.id.iv_right:
                 tvDate.setText(new SomeUtills().getAmountDate(date, 0, 1));
+                updateUI(new String[0]);
                 break;
         }
     }
