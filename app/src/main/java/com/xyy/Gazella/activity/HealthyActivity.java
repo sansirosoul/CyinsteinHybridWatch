@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.EdgeEffectCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import com.xyy.Gazella.fragment.StepFragment;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,8 @@ public class HealthyActivity extends BaseActivity {
     private SleepFragment sleepFragment;
     private StepFragment stepFragment;
     private FragmentAdapter mFragmentAdapter;
+    private EdgeEffectCompat leftEdge;
+    private EdgeEffectCompat rightEdge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +58,23 @@ public class HealthyActivity extends BaseActivity {
     private void InitViewPager() {
         TVTitle.setText(getResources().getString(R.string.health_manage));
         viewPager = (ViewPager) findViewById(viewpager);
+
+        //禁用ViewPager左右两侧拉到边界的渐变颜色
+        try {
+            Field leftEdgeField = viewPager.getClass().getDeclaredField("mLeftEdge");
+            Field rightEdgeField = viewPager.getClass().getDeclaredField("mRightEdge");
+            if (leftEdgeField != null && rightEdgeField != null) {
+                leftEdgeField.setAccessible(true);
+                rightEdgeField.setAccessible(true);
+                leftEdge = (EdgeEffectCompat) leftEdgeField.get(viewPager);
+                rightEdge = (EdgeEffectCompat) rightEdgeField.get(viewPager);
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
         fragmentsList = new ArrayList<>();
         sleepFragment = new SleepFragment();
         stepFragment = new StepFragment();
@@ -66,7 +87,12 @@ public class HealthyActivity extends BaseActivity {
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                if (leftEdge != null && rightEdge != null) {
+                    leftEdge.finish();
+                    rightEdge.finish();
+                    leftEdge.setSize(0, 0);
+                    rightEdge.setSize(0, 0);
+                }
             }
 
             @Override

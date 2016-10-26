@@ -20,7 +20,6 @@
     <string name="loading">"\tLoading..."</string>
     <string name="paired">paired</string>
     <string name="scan">Scan</string>
-    <string name="cancel">Cancel</string>
     <string name="unpair">unpair</string>
     <string name="pair">pair</string>
     <string name="Readbsl">Readbsl</string>
@@ -477,4 +476,47 @@
     <string name="click_icon">* 您可点击上方图标来选择您要开启的消息通知</string>
 
     <!--设置-->
+    <string name="setting">设置</string>
+    <string name="watch_setting">手表设置</string>
+    <string name="user_setting">用户设置</string>
+    <string name="update_hardware">更新固件</string>
+    <string name="change_watch">更换手表</string>
+    <string name="rename_watch">重命名手表</string>
+    <string name="clock">闹钟</string>
+    <string name="clean_watchdata">清除手表资料</string>
+    <string name="clean_phonedata">清除手机资料</string>
+    <string name="anti_lost">防丢失功能</string>
+    <string name="ble">蓝牙</string>
+    <string name="bsl">BSL模式</string>
+    <string name="software_setting">软件设置</string>
+    <string name="sport_sleep_target">运动/睡眠目标</string>
+
+    <!--更新固件-->
+    <string name="check_update">检查更新</string>
+    <string name="watch_hardware_ver">手表固件版本</string>
+    <string name="watch_num">手表序列号</string>
+    <string name="app_ver">应用程序版本</string>
+    <string name="notice1">1.更新前请确保手表与手机电量充足，并于更新过程中，请勿任意退出程序；</string>
+    <string name="notice2">2.确保设备蓝牙已开启。</string>
+    <string name="watch_battery">手表当前电量：</string>
+    <string name="is_update">检查到新的固件版本，是否立即更新？</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="check_update1">正在检查固件版本，请稍等…</string>
+
+    <string name="change_watch_details">是否更换到另一只手表，更换之后App将与您的新手表进行同步，而被替换的手表数据，已在上一次同步时被保存。</string>
+    <string name="check_update3">正在为您更新固件版本，该过程可能会花费一点时间，请您耐心等候…</string>
+    <string name="check_update4">固件升级完成，感谢您的耐心等待！</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="warn">警告！</string>
+    <string name="clean_watchdata_details">是否确定要从手表中擦除之前收集的所有数据？此操作不可恢复！</string>
+    <string name="clean_phonedata_details">是否确定要从手机中擦除之前收集的所有数据？此操作不可恢复！</string>
+
+    <!--闹钟-->
+    <string name="edit_clock">编辑闹钟</string>
+    <string name="ring_time">响铃时长</string>
+    <string name="repeat_rate">重复频率</string>
+    <string name="del_clock">删除闹钟</string>
+    <string name="define">自定义</string>
 </resources>
