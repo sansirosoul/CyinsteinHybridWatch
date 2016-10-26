@@ -24,7 +24,8 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llNotice;
     @BindView(R.id.ll_healthy)
     LinearLayout llHealthy;
-
+    @BindView(R.id.ll_settings)
+    LinearLayout llSettings;
 
 
     @Override
@@ -36,7 +37,7 @@ public class HomeActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_time, R.id.ll_notice,R.id.ll_healthy})
+    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy,R.id.ll_settings})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_time:
@@ -49,17 +50,16 @@ public class HomeActivity extends BaseActivity {
                 startActivity(noticeIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
-            case  R.id.ll_healthy:
+            case R.id.ll_healthy:
                 Intent healthIntent = new Intent(HomeActivity.this, HealthyActivity.class);
                 startActivity(healthIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
-
-
-
-
-
-
+            case R.id.ll_settings:
+                Intent settingsIntent = new Intent(HomeActivity.this, TargetActivity.class);
+                startActivity(settingsIntent);
+                overridePendingTransitionEnter(HomeActivity.this);
+                break;
         }
     }
 }
