@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.xyy.Gazella.view.GuideView;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -26,7 +27,10 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llHealthy;
     @BindView(R.id.ll_settings)
     LinearLayout llSettings;
+    @BindView(R.id.ll_introduce)
+    LinearLayout llIntroduce;
 
+    private GuideView guideView;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -35,9 +39,15 @@ public class HomeActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
+
+//        Intent  guideIntent = new Intent(HomeActivity.this, GuideShowDialog.class);
+//        guideIntent.putExtra("type",2);
+//        startActivity(guideIntent);
+
+
     }
 
-    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy,R.id.ll_settings})
+    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings,R.id.ll_introduce})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_time:
@@ -56,10 +66,16 @@ public class HomeActivity extends BaseActivity {
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.ll_settings:
-                Intent settingsIntent = new Intent(HomeActivity.this, TargetActivity.class);
+                Intent settingsIntent = new Intent(HomeActivity.this, SettingActivity.class);
                 startActivity(settingsIntent);
+                overridePendingTransitionEnter(HomeActivity.this);
+                break;
+            case R.id.ll_introduce:
+                Intent helpIntent = new Intent(HomeActivity.this, HelpActivity.class);
+                startActivity(helpIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
         }
     }
+
 }

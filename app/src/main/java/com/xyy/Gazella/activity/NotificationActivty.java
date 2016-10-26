@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -46,6 +47,7 @@ public class NotificationActivty extends BaseActivity {
     ToggleButton skype;
     @BindView(R.id.wechat)
     ToggleButton wechat;
+    private CheckUpdateDialog2 myDialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -79,10 +81,13 @@ public class NotificationActivty extends BaseActivity {
             wechat.setEnabled(false);
         }
 
+        myDialog=new CheckUpdateDialog2(this);
+
         all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
+//                    myDialog.show();
                     tel.setEnabled(true);
                 }else {
                     tel.setEnabled(false);
