@@ -77,22 +77,28 @@ public class SleepWeekFragment extends Fragment {
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
         mChart.setBackground(getResources().getDrawable(R.drawable.page20_tubiao_bg));
-        mChart.setDrawBarShadow(false);
+
 
         mChart.setDrawValueAboveBar(false);
         mChart.setHighlightFullBarEnabled(false);
         mChart.getAxisRight().setEnabled(false);
+
+
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisLeft().setEnabled(true);
 
         YAxis yAxis = mChart.getAxisLeft();
         yAxis.setTextColor(Color.rgb(255, 255, 255));
         yAxis.setSpaceBottom(0);
+
         XAxis xAxis = mChart.getXAxis();
+
         xAxis.setDrawGridLines(false);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
 
         xAxis.setValueFormatter(new axisValueformatter());
+
+        xAxis.setDrawGridLines(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         mChart.getLegend().setEnabled(false);
         setChartData();
