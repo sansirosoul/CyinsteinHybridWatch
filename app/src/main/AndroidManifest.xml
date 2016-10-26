@@ -135,8 +135,36 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/ExampleTheme">
+            >
         </activity>
+        <activity android:name="com.xyy.Gazella.activity.UserSetting"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.UpdateHardware"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.ClockActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name="com.xyy.Gazella.activity.HelpActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name="com.xyy.Gazella.activity.AddClockActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

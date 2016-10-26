@@ -117,24 +117,24 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 overridePendingTransitionExit(PersonActivity.this);
                 break;
             case R.id.go:
-//                if (edName.getText() == null || edName.getText().toString().equals("")) {
-//                    Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
-//                    Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
-//                    Toast.makeText(context, R.string.choose_height, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
-//                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                SharedPreferencesUtils spu = new SharedPreferencesUtils(context);
-//                spu.setUserInfo(edName.getText().toString(),tvBirth.getText().toString(),sex,tvHeight.getText().toString(),tvWeight.getText().toString());
+                if (edName.getText() == null || edName.getText().toString().equals("")) {
+                    Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
+                    Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
+                    Toast.makeText(context, R.string.choose_height, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
+                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                SharedPreferencesUtils spu = new SharedPreferencesUtils(context);
+                spu.setUserInfo(edName.getText().toString(),tvBirth.getText().toString(),sex,tvHeight.getText().toString(),tvWeight.getText().toString());
                 Intent intent = new Intent(context, HomeActivity.class);
                 startActivity(intent);
                 overridePendingTransitionEnter(PersonActivity.this);

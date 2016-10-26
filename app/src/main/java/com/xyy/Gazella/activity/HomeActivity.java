@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.xyy.Gazella.utils.GuideShowDialog;
 import com.xyy.Gazella.view.GuideView;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
@@ -26,8 +25,13 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llNotice;
     @BindView(R.id.ll_healthy)
     LinearLayout llHealthy;
+    @BindView(R.id.ll_settings)
+    LinearLayout llSettings;
+    @BindView(R.id.ll_introduce)
+    LinearLayout llIntroduce;
 
-    private  GuideView guideView;
+    private GuideView guideView;
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -41,10 +45,9 @@ public class HomeActivity extends BaseActivity {
 //        startActivity(guideIntent);
 
 
-
     }
 
-    @OnClick({R.id.ll_time, R.id.ll_notice,R.id.ll_healthy})
+    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings,R.id.ll_introduce})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_time:
@@ -57,17 +60,22 @@ public class HomeActivity extends BaseActivity {
                 startActivity(noticeIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
-            case  R.id.ll_healthy:
+            case R.id.ll_healthy:
                 Intent healthIntent = new Intent(HomeActivity.this, HealthyActivity.class);
                 startActivity(healthIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
-
-
-
-
-
-
+            case R.id.ll_settings:
+                Intent settingsIntent = new Intent(HomeActivity.this, SettingActivity.class);
+                startActivity(settingsIntent);
+                overridePendingTransitionEnter(HomeActivity.this);
+                break;
+            case R.id.ll_introduce:
+                Intent helpIntent = new Intent(HomeActivity.this, HelpActivity.class);
+                startActivity(helpIntent);
+                overridePendingTransitionEnter(HomeActivity.this);
+                break;
         }
     }
+
 }
