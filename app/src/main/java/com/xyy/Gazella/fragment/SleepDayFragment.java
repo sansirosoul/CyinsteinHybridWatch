@@ -115,6 +115,7 @@ public class SleepDayFragment extends Fragment {
         BarDataSet set1;
         BarDataSet set2;
         BarDataSet set3;
+
 //        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
 //            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
 //            set1.setValues(yVals1);
@@ -172,6 +173,10 @@ public class SleepDayFragment extends Fragment {
     public void onClick(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         Date date = null;
+
+
+
+
         try {
             date = sdf.parse(tvDate.getText().toString());
         } catch (ParseException e) {

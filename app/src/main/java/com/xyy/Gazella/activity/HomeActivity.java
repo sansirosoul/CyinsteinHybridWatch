@@ -26,6 +26,7 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llHealthy;
 
 
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
