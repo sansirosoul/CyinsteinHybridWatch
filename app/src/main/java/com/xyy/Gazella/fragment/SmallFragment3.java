@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xyy.Gazella.view.AnalogClock;
+import com.ysp.newband.BaseFragment;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -16,7 +17,7 @@ import butterknife.ButterKnife;
  * Created by Administrator on 2016/10/11.
  */
 
-public class SmallFragment3 extends Fragment {
+public class SmallFragment3 extends BaseFragment {
 
 
     @BindView(R.id.analogclock)

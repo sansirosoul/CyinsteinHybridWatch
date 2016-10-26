@@ -3,7 +3,6 @@ package com.xyy.Gazella.activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,24 +15,25 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
-import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.xyy.Gazella.fragment.StepDayFragment;
 import com.xyy.Gazella.fragment.StepMonthFragment;
 import com.xyy.Gazella.fragment.StepWeekFragment;
+import com.xyy.Gazella.utils.SomeUtills;
+import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.ysp.newband.BaseActivity.overridePendingTransitionExit;
-
-public class StepActivity extends FragmentActivity implements OnDateSelectedListener, OnMonthChangedListener {
+public class StepActivity extends BaseActivity implements OnDateSelectedListener {
 
     @BindView(R.id.calendarView)
     MaterialCalendarView widget;
@@ -63,8 +63,9 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
     private FragmentAdapter mFragmentAdapter;
 
 
-    private boolean WidgetType = false;
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
+    private Calendar CalendarInstance = Calendar.getInstance();
+    private HashMap<String, String> weekMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +85,17 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
     }
 
     private void initCalendar() {
-        widget.setVisibility(View.GONE);
-        widget.setBackgroundColor(this.getResources().getColor(R.color.black));
+        widget.setBackgroundColor(this.getResources().getColor(R.color.dataBackgroundColor));
         widget.setArrowColor(this.getResources().getColor(R.color.white));
         widget.setHeaderLinearColor(this.getResources().getColor(R.color.title_gray));
         widget.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
         widget.setSelectionColor(this.getResources().getColor(R.color.personalize2));
         widget.setTileHeight(90);
+
+        widget.setSelectedDate(CalendarInstance.getTime());
+        widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+        widget.setVisibility(View.GONE);
         widget.setOnDateChangedListener(this);
-        widget.setOnMonthChangedListener(this);
     }
 
     private void InitViewPager() {
@@ -106,6 +109,7 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
 
         mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
         viewpager.setAdapter(mFragmentAdapter);
+        viewpager.setOffscreenPageLimit(3);
         viewpager.setCurrentItem(0);
 
 
@@ -141,56 +145,69 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
     @OnClick({R.id.button_day, R.id.button_week, R.id.button_month, R.id.btnExit, R.id.btnOpt, R.id.btnDate})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnExit:
+            case R.id.btnExit:  //退出
 
                 StepActivity.this.finish();
                 overridePendingTransitionExit(StepActivity.this);
                 break;
-            case R.id.btnOpt:
+            case R.id.btnOpt:  //分享
                 break;
-            case R.id.btnDate:
+            case R.id.btnDate:  // 显示 隐藏 日历
 
                 if (widget.getVisibility() == View.VISIBLE) {
-                    widget.setVisibility(View.GONE);
-                    llCheckDate.setVisibility(View.VISIBLE);
-                    btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
-
-                    if(!stepDayFragment.getLlDateVisible())
-                        stepDayFragment.setLlDateVisible(View.VISIBLE);
-                    if(!stepWeekFragment.getLlDateVisible())
-                        stepWeekFragment.setLlDateVisible(View.VISIBLE);
-                    if(!stepMonthFragment.getLlDateVisible())
-                        stepMonthFragment.setLlDateVisible(View.VISIBLE);
-
+                    setLlDateVisible(1);
                 } else {
-
-                    ///初始化日历
-                    widget.setVisibility(View.VISIBLE);
-                    widget.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
-                    btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
-                    llCheckDate.setVisibility(View.GONE);
-
-                    if(stepDayFragment.getLlDateVisible())
-                        stepDayFragment.setLlDateVisible(View.GONE);
-                    if(stepWeekFragment.getLlDateVisible())
-                        stepWeekFragment.setLlDateVisible(View.GONE);
-                    if(stepMonthFragment.getLlDateVisible())
-                        stepMonthFragment.setLlDateVisible(View.GONE);
+                    setLlDateVisible(2);
                 }
                 break;
 
-            case R.id.button_day:
+            case R.id.button_day:   //  日
                 setBtnBackgroundType(0);
                 viewpager.setCurrentItem(0);
                 break;
-            case R.id.button_week:
+            case R.id.button_week:  //  周
                 setBtnBackgroundType(1);
                 viewpager.setCurrentItem(1);
                 break;
-            case R.id.button_month:
+            case R.id.button_month:   // 月
                 setBtnBackgroundType(2);
                 viewpager.setCurrentItem(2);
                 break;
+        }
+    }
+
+    /***
+     *     是否显示 选择日期条  , 日历
+     * @param type     1 是显示  2 是隐藏
+     */
+
+    private  void  setLlDateVisible(int type){
+        if(type==1){
+
+            widget.setVisibility(View.GONE);
+            llCheckDate.setVisibility(View.VISIBLE);
+            btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
+
+            if(!stepDayFragment.getLlDateVisible())
+                stepDayFragment.setLlDateVisible(View.VISIBLE);
+            if(!stepWeekFragment.getLlDateVisible())
+                stepWeekFragment.setLlDateVisible(View.VISIBLE);
+            if(!stepMonthFragment.getLlDateVisible())
+                stepMonthFragment.setLlDateVisible(View.VISIBLE);
+
+        }else {
+
+            //初始化日历
+            widget.setVisibility(View.VISIBLE);
+            btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
+            llCheckDate.setVisibility(View.GONE);
+
+            if(stepDayFragment.getLlDateVisible())
+                stepDayFragment.setLlDateVisible(View.GONE);
+            if(stepWeekFragment.getLlDateVisible())
+                stepWeekFragment.setLlDateVisible(View.GONE);
+            if(stepMonthFragment.getLlDateVisible())
+                stepMonthFragment.setLlDateVisible(View.GONE);
         }
     }
 
@@ -222,28 +239,22 @@ public class StepActivity extends FragmentActivity implements OnDateSelectedList
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-        // TVTitle.setText(getSelectedDatesString());
-
-        if (WidgetType) {
-            widget.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS)
-                    .commit();
-            WidgetType = false;
+        setLlDateVisible(1);
+        switch (viewpager.getCurrentItem()) {
+            case 0:
+                stepDayFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 0));
+                stepDayFragment.updateUI(new String[]{});
+                break;
+            case 1:
+                weekMap= new SomeUtills().getWeekdate(date.getDate());
+                if(weekMap!=null)
+                    stepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
+                break;
+            case 2:
+                stepMonthFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 1));
+                break;
         }
     }
-
-    @Override
-    public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
-        // TVTitle.setText(FORMATTER.format(date.getDate()));
-    }
-
-    private String getSelectedDatesString() {
-        CalendarDay date = widget.getSelectedDate();
-        if (date == null) {
-            return "";
-        }
-        return FORMATTER.format(date.getDate());
-    }
-
     public class FragmentAdapter extends FragmentPagerAdapter {
 
         List<Fragment> fragmentList = new ArrayList<>();

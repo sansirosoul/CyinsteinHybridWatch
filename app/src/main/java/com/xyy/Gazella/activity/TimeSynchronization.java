@@ -1,9 +1,8 @@
 package com.xyy.Gazella.activity;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
@@ -21,6 +20,7 @@ import com.xyy.Gazella.fragment.SmallFragment3;
 import com.xyy.Gazella.utils.CheckAnalogClock;
 import com.xyy.Gazella.utils.GuideShowDialog;
 import com.xyy.Gazella.view.MyViewPage;
+import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -30,9 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.ysp.newband.BaseActivity.overridePendingTransitionExit;
-
-public class TimeSynchronization extends FragmentActivity {
+public class TimeSynchronization extends BaseActivity {
 
     //    @BindView(R.id.analogclock)
 //    AnalogClock analogclock;
@@ -87,13 +85,6 @@ public class TimeSynchronization extends FragmentActivity {
         ButterKnife.bind(this);
         InitView();
         InitViewPager();
-
-
-
-//        Intent  guideIntent = new Intent(TimeSynchronization.this, GuideShowDialog.class);
-//        guideIntent.putExtra("type",1);
-//        startActivity(guideIntent);
-
     }
 
     private void InitView() {
@@ -125,6 +116,11 @@ public class TimeSynchronization extends FragmentActivity {
             @Override
             public void onCloseClick() {
                 checkAnalogClock.dismiss();
+            }
+        });
+        checkAnalogClock.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
                 butReset.setVisibility(View.VISIBLE);
                 butSynchronization.setVisibility(View.VISIBLE);
             }

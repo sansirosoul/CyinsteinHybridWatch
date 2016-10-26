@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xyy.Gazella.activity.StepActivity;
+import com.ysp.newband.BaseFragment;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -21,7 +22,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/10/11.
  */
 
-public class StepFragment extends Fragment {
+public class StepFragment extends BaseFragment {
     @BindView(R.id.circle)
     ImageView circle;
     @BindView(R.id.step_num)

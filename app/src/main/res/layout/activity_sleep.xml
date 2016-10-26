@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/page20_bg"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
     tools:context="com.xyy.Gazella.activity.StepActivity">
 
     <include

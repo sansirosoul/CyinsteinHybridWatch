@@ -2,11 +2,12 @@ package com.xyy.Gazella.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -14,30 +15,46 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.xyy.Gazella.utils.SomeUtills;
+import com.ysp.newband.BaseFargment;
 import com.ysp.smartwatch.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/11.
  */
 
-public class StepDayFragment extends Fragment {
+public class StepDayFragment extends BaseFargment {
     @BindView(R.id.chart1)
     BarChart mChart;
     @BindView(R.id.ll_date)
     LinearLayout llDate;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.iv_right)
+    ImageView ivRight;
     private View view;
+    private  String [] xValue=new  String []{"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",};
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_step_day, container, false);
 
         ButterKnife.bind(this, view);
         initChart();
+
+        tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 0));
+        super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
 
@@ -46,11 +63,8 @@ public class StepDayFragment extends Fragment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
-//        mChart.setBackgroundColor(Color.rgb(55, 55, 55));
         XAxis xAxis = mChart.getXAxis();
-        //   xAxis.setStartAtZero(true);
-        //  xAxis.setSpaceBetweenLabels();
-//        xAxis.resetLabelsToSkip();
+
         mChart.refreshDrawableState();
         xAxis.setAvoidFirstLastClipping(true);
         xAxis.setTextColor(Color.rgb(255, 255, 255));
@@ -60,8 +74,6 @@ public class StepDayFragment extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setLabelCount(12);
 
-        // xAxis.setGranularity(50f);
-//        xAxis.setXEntrySpace(10f);
         xAxis.setAxisLineWidth(1f);
         xAxis.setGridLineWidth(10);
         xAxis.setDrawGridLines(false);
@@ -70,12 +82,9 @@ public class StepDayFragment extends Fragment {
         mChart.getAxisLeft().setAxisLineColor(Color.rgb(255, 255, 255));
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisRight().setEnabled(false);
-
-
-
+        mChart.getAxisLeft().setSpaceBottom(0);
         // setting data
         mChart.animateY(2500);   //动画
-
         mChart.getLegend().setEnabled(false);
 
 
@@ -128,12 +137,17 @@ public class StepDayFragment extends Fragment {
 
     private void setChartData() {
 
+//        ArrayList<BarEntry> yVals1 = new ArrayList<>();
+//        for (int i = 0; i < xValue.length; i++) {
+//            yVals1.add(new BarEntry(i,  Integer.valueOf(xValue[i])));
+//        }
+
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
-            float mult = (1000);
+            float mult = (10000);
             float val = (float) (Math.random() * mult) + mult / 1;
             yVals1.add(new BarEntry(i, val));
-            }
+        }
         BarDataSet set1;
 
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
@@ -145,35 +159,66 @@ public class StepDayFragment extends Fragment {
             set1 = new BarDataSet(yVals1, "");
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
-            set1.setBarBorderWidth(10f);
-
-//            set1.setBarBorderColor(Color.parseColor("#00FFFFFF"));
-//            set1.setBarBorderColor(Color.alpha(0));
-            set1.setBarBorderColor(Color.rgb(32, 32, 32));
-            // set1.setColors(new int[]{Color.rgb(55, 55, 55)});
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
-            data.setBarWidth(0.9f);
+            data.setBarWidth(0.5f);
             mChart.setData(data);
             mChart.setFitBars(true);
+            mChart.animateY(2500);
         }
         mChart.invalidate();
     }
 
     /***
-     *     设置日期栏是否显示
+     * 设置日期栏是否显示
+     *
      * @param visible
      */
 
-    public  void setLlDateVisible(int visible){
+    public void setLlDateVisible(int visible) {
         llDate.setVisibility(visible);
     }
-    public  boolean getLlDateVisible(){
-        if(llDate.getVisibility()==View.VISIBLE)
+
+    public boolean getLlDateVisible() {
+        if (llDate.getVisibility() == View.VISIBLE && llDate != null)
             return true;
         else
-        return  false;
+            return false;
+    }
+
+    public void setTvDateValue(String date) {
+        tvDate.setText(date);
+    }
+
+    @OnClick({R.id.iv_left, R.id.iv_right})
+    public void onClick(View view) {
+        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy.MM.dd");
+        Date date= null;
+        try {
+            date = sdf.parse(tvDate.getText().toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        switch (view.getId()) {
+            case R.id.iv_left:
+                tvDate.setText(new SomeUtills().getAmountDate(date,0,0));
+                String [] xValue=new  String []{"0","10","20","30","40","50","60","70","80","90","100","110","120","130","140","150","160",
+                        "170","180","190","200","210","220","230",};
+                updateUI(xValue);
+                break;
+            case R.id.iv_right:
+                tvDate.setText(new SomeUtills().getAmountDate(date,0,1));
+                String [] xValues=new  String []{"0","100","200","300","400","500","600","700","800","900","1000","1100","1200","1300","1400",
+                        "1500","1600","1700","1800","1900","2000","2100","2200","2300",};
+                updateUI(xValues);
+                break;
+        }
+    }
+
+    public  void   updateUI(String [] xValue){
+       this.xValue=xValue;
+        setChartData();
     }
 }
