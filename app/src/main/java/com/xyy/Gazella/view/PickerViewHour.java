@@ -3,7 +3,6 @@ package com.xyy.Gazella.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -12,6 +11,8 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +25,14 @@ import java.util.TimerTask;
  * @author chenjing
  * 
  */
-public class PickerView extends View
+public class PickerViewHour extends View
 {
 
 	public static final String TAG = "PickerView";
 	/**
 	 * text之间间距和minTextSize之比
 	 */
-	public static final float MARGIN_ALPHA = 2.8f;
+	public static final float MARGIN_ALPHA = 3f;
 	/**
 	 * 自动回滚到中间的速度
 	 */
@@ -50,7 +51,7 @@ public class PickerView extends View
 	private float mMaxTextAlpha = 255;
 	private float mMinTextAlpha = 120;
 
-	private int mColorText = 0x333333;
+	private int mColorText = 0x515151;
 
 	private int mViewHeight;
 	private int mViewWidth;
@@ -88,13 +89,13 @@ public class PickerView extends View
 
 	};
 
-	public PickerView(Context context)
+	public PickerViewHour(Context context)
 	{
 		super(context);
 		init();
 	}
 
-	public PickerView(Context context, AttributeSet attrs)
+	public PickerViewHour(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 		init();
@@ -216,17 +217,17 @@ public class PickerView extends View
 		Paint.FontMetricsInt fmi = mPaint.getFontMetricsInt();
 		float baseline = (float) (y - (fmi.bottom / 2.0 + fmi.top / 2.0));
 
-
+        mPaint.setColor(getResources().getColor(R.color.edit_clock_blue));
 		canvas.drawText(mDataList.get(mCurrentSelected), x, baseline, mPaint);
 
 		Paint circlePaint = new Paint();
 		circlePaint.setAntiAlias(true); //设置画笔为无锯齿
-		circlePaint.setColor(Color.RED); //设置画笔颜色
+		circlePaint.setColor(getResources().getColor(R.color.edit_clock_blue)); //设置画笔颜色
 		circlePaint.setStrokeWidth((float) 3.0); //线宽
 		circlePaint.setStyle(Paint.Style.STROKE); //空心效果
 		Rect rectCircle = new Rect(3, 3, (int)x, (int)y);
 		RectF rectCircleF = new RectF(rectCircle);
-		canvas.drawCircle(mViewWidth/2,mViewHeight/2,100, circlePaint);
+		canvas.drawCircle(mViewWidth/2,mViewHeight/2,120, circlePaint);
 
 
 		// 绘制上方data
@@ -260,6 +261,7 @@ public class PickerView extends View
 		float y = (float) (mViewHeight / 2.0 + type * d);
 		Paint.FontMetricsInt fmi = mPaint.getFontMetricsInt();
 		float baseline = (float) (y - (fmi.bottom / 2.0 + fmi.top / 2.0));
+		mPaint.setColor(getResources().getColor(R.color.edit_clock_gray));
 		canvas.drawText(mDataList.get(mCurrentSelected + type * position),
 				(float) (mViewWidth / 2.0), baseline, mPaint);
 	}

@@ -12,10 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.xyy.Gazella.activity.AddClockActivity;
 import com.ysp.smartwatch.R;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/26.
@@ -71,6 +69,22 @@ public class ClockDialog2 extends Dialog implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.cancel:
+                dismiss();
+                break;
+            case R.id.btn_once:
+                AddClockActivity.tvRepeatrate.setText("只响一次");
+                dismiss();
+                break;
+            case R.id.btn_every:
+                AddClockActivity.tvRepeatrate.setText("每天");
+                dismiss();
+                break;
+            case R.id.btn15:
+                AddClockActivity.tvRepeatrate.setText("周一到周五");
+                dismiss();
+                break;
+            case R.id.btn67:
+                AddClockActivity.tvRepeatrate.setText("周六、周日");
                 dismiss();
                 break;
             case R.id.btn_define:

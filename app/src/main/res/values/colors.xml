@@ -22,4 +22,6 @@
     <color name="personalize2">#005ea0</color>
     <color name="clock_list_gray">#797979</color>
     <color name="dataBackgroundColor">#1E1E1E</color>
+    <color name="edit_clock_blue">#019de4</color>
+    <color name="edit_clock_gray">#515151</color>
 </resources>

@@ -3,11 +3,11 @@ package com.xyy.Gazella.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -46,7 +46,7 @@ public class UserSetting extends BaseActivity {
     @BindView(R.id.ll_weight)
     LinearLayout llWeight;
     @BindView(R.id.back)
-    ImageView back;
+    RelativeLayout back;
     @BindView(R.id.save)
     ImageView save;
     private Context context;

@@ -5,15 +5,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
 
 import com.ysp.smartwatch.R;
 
@@ -23,28 +18,18 @@ import com.ysp.smartwatch.R;
 
 public class CheckUpdateDialog4 extends Dialog {
     private Context context;
-    private ImageView iv_loading;
 
     public CheckUpdateDialog4(Context context) {
         super(context,R.style.dialog);
         this.context=context;
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Animation animation = AnimationUtils.loadAnimation(context,R.anim.loading_rotate);
-        LinearInterpolator linearInterpolator = new LinearInterpolator();
-        animation.setInterpolator(linearInterpolator);
-        iv_loading.startAnimation(animation);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.check_update_dialog4);
-        iv_loading= (ImageView) findViewById(R.id.iv_loading);
         setDialogAttributes((Activity) context, this, 0, 0, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
 
