@@ -13,6 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:dial="@drawable/page12_biaopan"
-        app:hand_hour="@drawable/page12_hour_normal"
-        app:hand_minute="@drawable/page12_minute_selected"/>
+        app:hand_hour="@drawable/page12_hour_selected"
+        app:hand_minute="@drawable/page12_minute_normal"/>
 </LinearLayout>

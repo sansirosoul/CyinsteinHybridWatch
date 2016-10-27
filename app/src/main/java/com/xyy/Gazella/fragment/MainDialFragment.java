@@ -1,7 +1,6 @@
 package com.xyy.Gazella.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,5 +78,8 @@ public class MainDialFragment extends BaseFragment {
 
     public  void  setHourDrawable(int drawable){
         analogclock.setHourDrawable(drawable);
+    }
+    public  void  setMuinutesDrawable(int drawable){
+        analogclock.setMinuteDrawable(drawable);
     }
 }
