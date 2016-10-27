@@ -26,9 +26,12 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ToggleButton
+            android:id="@+id/tg_sunday"
+            android:textOn=""
+            android:textOff=""
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
+            android:background="@drawable/selector_clock_dialog2"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -50,9 +53,12 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ToggleButton
+            android:id="@+id/tg_monday"
+            android:textOn=""
+            android:textOff=""
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
+            android:background="@drawable/selector_clock_dialog2"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -74,9 +80,12 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ToggleButton
+            android:id="@+id/tg_tuesday"
+            android:textOn=""
+            android:textOff=""
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
+            android:background="@drawable/selector_clock_dialog2"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -98,9 +107,12 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ToggleButton
+            android:id="@+id/tg_wednesday"
+            android:textOn=""
+            android:textOff=""
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
+            android:background="@drawable/selector_clock_dialog2"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -122,9 +134,12 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ToggleButton
+            android:id="@+id/tg_thursday"
+            android:textOn=""
+            android:textOff=""
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
+            android:background="@drawable/selector_clock_dialog2"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -146,9 +161,12 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ToggleButton
+            android:id="@+id/tg_friday"
+            android:textOn=""
+            android:textOff=""
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
+            android:background="@drawable/selector_clock_dialog2"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -170,9 +188,12 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
+        <ToggleButton
+            android:id="@+id/tg_saturday"
+            android:textOn=""
+            android:textOff=""
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
+            android:background="@drawable/selector_clock_dialog2"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -189,6 +210,7 @@
        android:layout_width="match_parent"
        android:layout_weight="1"
        android:layout_height="0dp">
+
        <TextView
            android:id="@+id/cancel"
            android:gravity="center"
@@ -198,12 +220,14 @@
            android:layout_width="0dp"
            android:layout_weight="1"
            android:layout_height="match_parent" />
+
        <View
            android:layout_marginTop="5dp"
            android:layout_marginBottom="5dp"
            android:background="@color/white"
            android:layout_width="1dp"
            android:layout_height="match_parent"/>
+
        <TextView
            android:id="@+id/confirm"
            android:gravity="center"

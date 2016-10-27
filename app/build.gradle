@@ -3,6 +3,8 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "24.0.2"
+    aaptOptions.cruncherEnabled = false  //不检查图片
+    aaptOptions.useNewCruncher = false   //不检查图片
 
     defaultConfig {
         applicationId "com.ysp.smartwatch"
