@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -49,6 +50,8 @@ public class SleepWeekFragment extends Fragment {
     ImageView ivLeft;
     @BindView(R.id.iv_right)
     ImageView ivRight;
+    @BindView(R.id.ll_sleep_week)
+    LinearLayout llSleepWeek;
     private View view;
     private HashMap<String, String> weekMap;
     private Calendar CalendarInstance = Calendar.getInstance();
@@ -102,7 +105,13 @@ public class SleepWeekFragment extends Fragment {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         mChart.getLegend().setEnabled(false);
         setChartData();
-
+        mChart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                new SomeUtills().setCalendarViewGone(0);
+                return false;
+            }
+        });
 
     }
 
@@ -192,13 +201,13 @@ public class SleepWeekFragment extends Fragment {
         tvDate.setText(date);
     }
 
-    @OnClick({R.id.iv_left, R.id.iv_right})
+    @OnClick({R.id.iv_left, R.id.iv_right,R.id.ll_sleep_week})
     public void onClick(View view) {
-        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy.MM.dd");
-        String strDatre=tvDate.getText().toString();
-        String strings[]=strDatre.split(" ");
-        strDatre= strings[0];
-        Date date= null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        String strDatre = tvDate.getText().toString();
+        String strings[] = strDatre.split(" ");
+        strDatre = strings[0];
+        Date date = null;
         try {
             date = sdf.parse(strDatre);
         } catch (ParseException e) {
@@ -206,14 +215,17 @@ public class SleepWeekFragment extends Fragment {
         }
         switch (view.getId()) {
             case R.id.iv_left:
-                weekMap = new SomeUtills().getAmountWeekdate(date,0);
+                weekMap = new SomeUtills().getAmountWeekdate(date, 0);
                 if (weekMap != null)
                     tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
                 break;
             case R.id.iv_right:
-                weekMap = new SomeUtills().getAmountWeekdate(date,1);
+                weekMap = new SomeUtills().getAmountWeekdate(date, 1);
                 if (weekMap != null)
                     tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
+                break;
+            case R.id.ll_sleep_week:
+              new SomeUtills().setCalendarViewGone(0);
                 break;
         }
     }

@@ -4,8 +4,6 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     android:background="#1b1b1b"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="true"
     android:layout_height="match_parent">
    <include
        layout="@layout/connection_title"
