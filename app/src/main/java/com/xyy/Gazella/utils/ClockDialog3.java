@@ -10,8 +10,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.ysp.smartwatch.R;
 
@@ -19,8 +19,9 @@ import com.ysp.smartwatch.R;
  * Created by Administrator on 2016/10/26.
  */
 
-public class ClockDialog3 extends Dialog implements View.OnClickListener{
-    private TextView cancel;
+public class ClockDialog3 extends Dialog implements View.OnClickListener {
+    private ToggleButton tgSunday,tgMonday,tgTuesday,tgWednesday,tgThursday,tgFriday,tgSaturday;
+    private TextView cancel,confirm;
     private Context context;
 
     public ClockDialog3(Context context) {
@@ -36,7 +37,8 @@ public class ClockDialog3 extends Dialog implements View.OnClickListener{
         setDialogAttributes((Activity) context, this, 0.9f, 0.8f, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
 
-        cancel= (TextView) findViewById(R.id.cancel);
+        cancel = (TextView) findViewById(R.id.cancel);
+        confirm=(TextView) findViewById(R.id.confirm);
         cancel.setOnClickListener(this);
     }
 
@@ -56,8 +58,11 @@ public class ClockDialog3 extends Dialog implements View.OnClickListener{
     }
 
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.cancel:
+                dismiss();
+                break;
+            case R.id.confirm:
                 dismiss();
                 break;
         }

@@ -10,8 +10,13 @@ import android.widget.TextView;
 
 import com.xyy.Gazella.utils.ClockDialog1;
 import com.xyy.Gazella.utils.ClockDialog2;
+import com.xyy.Gazella.view.PickerViewHour;
+import com.xyy.Gazella.view.PickerViewMinute;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,7 +28,7 @@ import butterknife.OnClick;
 
 public class AddClockActivity extends BaseActivity {
     @BindView(R.id.cancel)
-    ImageView cancel;
+    RelativeLayout cancel;
     @BindView(R.id.save)
     ImageView save;
     @BindView(R.id.del_clock)
@@ -34,6 +39,10 @@ public class AddClockActivity extends BaseActivity {
     RelativeLayout rlRepeatrate;
     public static TextView tvRingtime;
     public static TextView tvRepeatrate;
+    @BindView(R.id.pv_hour)
+    PickerViewHour pvHour;
+    @BindView(R.id.pv_minute)
+    PickerViewMinute pvMinute;
     private Context context;
 
 
@@ -47,7 +56,42 @@ public class AddClockActivity extends BaseActivity {
     }
 
     private void initView() {
+        tvRingtime= (TextView) findViewById(R.id.tv_ringtime);
+        tvRepeatrate= (TextView) findViewById(R.id.tv_repeatrate);
 
+        List<String> hours = new ArrayList<>();
+        List<String> minutes = new ArrayList<>();
+        for (int i = 0; i < 24; i++) {
+            if (i < 10) {
+                hours.add("0" + i);
+            } else {
+                hours.add("" + i);
+            }
+        }
+        for (int i = 0; i < 60; i++) {
+            if (i < 10) {
+                minutes.add("0" + i);
+            } else {
+                minutes.add("" + i);
+            }
+        }
+
+        pvHour.setData(hours);
+        pvMinute.setData(minutes);
+
+        pvHour.setOnSelectListener(new PickerViewHour.onSelectListener() {
+            @Override
+            public void onSelect(String text) {
+
+            }
+        });
+
+        pvMinute.setOnSelectListener(new PickerViewMinute.onSelectListener() {
+            @Override
+            public void onSelect(String text) {
+
+            }
+        });
     }
 
     @OnClick({R.id.cancel, R.id.save, R.id.del_clock, R.id.rl_ringtime, R.id.rl_repeatrate})

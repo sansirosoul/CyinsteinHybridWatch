@@ -2,17 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/page35_bg"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp">
-        <ImageView
+        <RelativeLayout
             android:id="@+id/cancel"
-            android:layout_marginLeft="10dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/page35_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="50dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/page35_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
         <TextView
             android:layout_centerInParent="true"
             android:text="@string/edit_clock"
@@ -34,9 +40,26 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
     </RelativeLayout>
-    <com.xyy.Gazella.view.PickerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_weight="2"
+        android:layout_height="0dp">
+        <com.xyy.Gazella.view.PickerViewHour
+            android:id="@+id/pv_hour"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+        <com.xyy.Gazella.view.PickerViewMinute
+            android:id="@+id/pv_minute"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+    </LinearLayout>
     <View
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -46,7 +69,8 @@
     <RelativeLayout
         android:id="@+id/rl_ringtime"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_weight="1"
+        android:layout_height="0dp">
         <TextView
             android:layout_marginLeft="20dp"
             android:text="@string/ring_time"
@@ -85,7 +109,8 @@
     <RelativeLayout
         android:id="@+id/rl_repeatrate"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_weight="1"
+        android:layout_height="0dp">
         <TextView
             android:layout_marginLeft="20dp"
             android:text="@string/repeat_rate"
@@ -121,14 +146,20 @@
         android:background="#515151"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
-    <Button
-        android:id="@+id/del_clock"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/page35_btn"
-        android:text="@string/del_clock"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:layout_height="0dp">
+        <Button
+            android:id="@+id/del_clock"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/page35_btn"
+            android:text="@string/del_clock"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

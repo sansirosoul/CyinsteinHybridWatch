@@ -3,9 +3,9 @@
 
     <!-- 背景图 -->
     <item
-        android:id="@android:id/background"
-        android:drawable="@drawable/page41_tag_bg"  android:scaleWidth="100%"/>
-    <!-- 进度度 -->
+    android:id="@android:id/background"
+    android:drawable="@drawable/page41_tag_bg"  android:scaleWidth="100%"/>
+    <!--进度度-->
     <item
         android:id="@android:id/progress"
         android:drawable="@drawable/bar_yellow"  android:scaleWidth="100%"/>

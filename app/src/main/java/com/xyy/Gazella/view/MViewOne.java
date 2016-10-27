@@ -1,16 +1,12 @@
 package com.xyy.Gazella.view;
 
-import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.RadialGradient;
 import android.graphics.RectF;
-import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -31,7 +27,7 @@ public class MViewOne extends View {
 
     private float mCircleXY;
 
-    private float mSweepValue = 0;
+    private float mSweepValue = 0f;
 
     private String mShowText = "0%";
 
@@ -106,10 +102,8 @@ public class MViewOne extends View {
 
 
         canvas.rotate(-90, length / 2, length / 2);
-//        SweepGradient sg = new SweepGradient(length/2,length/2,new int[]{Color.GREEN,Color.YELLOW,Color.RED},null);
         SweepGradient sg = new SweepGradient(length/2,length/2,new int[]{getResources().getColor(R.color.personalize1),getResources().getColor(R.color.personalize2)},null);
         mArcPaint.setShader(sg);
-//        mArcPaint.setColor(getResources().getColor(R.color.personalize1));
         canvas.drawArc(mRectF, 0, mSweepValue, false, mArcPaint);
 
 //        canvas.drawCircle(length/2,length/2,(float)(length * 0.5 / 2),mCirclePaint);
