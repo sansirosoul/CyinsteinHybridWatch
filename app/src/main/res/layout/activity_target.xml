@@ -58,8 +58,8 @@
                 android:minHeight="15dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-
-                android:progressDrawable="@drawable/run_seekbar"
+                android:indeterminateOnly="false"
+                android:progressDrawable="@drawable/target_seekbar"
                 android:thumb="@drawable/page41_sport" />
 
             <TextView
@@ -117,7 +117,7 @@
                 android:minHeight="15dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:progressDrawable="@drawable/run_seekbar"
+                android:progressDrawable="@drawable/target_seekbar"
                 android:thumb="@drawable/page41_sleep" />
 
             <TextView
