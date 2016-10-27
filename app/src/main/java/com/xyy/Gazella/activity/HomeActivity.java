@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
+
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -29,7 +30,7 @@ public class HomeActivity extends BaseActivity {
     @BindView(R.id.ll_introduce)
     LinearLayout llIntroduce;
 
-//    private GuideView guideView;
+
 
     @Override
     protected void onCreate(Bundle arg0) {

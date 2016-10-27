@@ -173,7 +173,7 @@ public class TimeSynchronization extends BaseActivity {
                 viewpager.setCurrentItem(0);
                 mainDialFragment.setChangeTimeType(1);
                 mainDialFragment.setHourDrawable(R.drawable.page12_hour_selected);
-
+                mainDialFragment.setMuinutesDrawable(R.drawable.page12_minute_normal);
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
@@ -186,7 +186,8 @@ public class TimeSynchronization extends BaseActivity {
                 viewpager.setCurrentItem(0);
 
                 mainDialFragment.setChangeTimeType(2);
-
+                mainDialFragment.setMuinutesDrawable(R.drawable.page12_minute_selected);
+                mainDialFragment.setHourDrawable(R.drawable.page12_hour_normal);
                 butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                 butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));

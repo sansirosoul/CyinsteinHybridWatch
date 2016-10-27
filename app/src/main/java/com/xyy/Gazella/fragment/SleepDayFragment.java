@@ -216,6 +216,9 @@ public class SleepDayFragment extends Fragment {
                 tvDate.setText(new SomeUtills().getAmountDate(date, 0, 1));
                 updateUI(new String[0]);
                 break;
+
+
+
         }
     }
 

@@ -108,6 +108,8 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
                boolean f =new SomeUtills().inRangeOfView(v,event);
                 Log.i("TAG",String.valueOf(f));
                 return false;
+
+
             }
         });
     }
