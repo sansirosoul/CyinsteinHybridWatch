@@ -125,6 +125,14 @@ public class AnalogClock extends View {
         return this.ChangeTimeType;
     }
 
+    public  int  getHourValue(){
+        return  (int)mHour;
+    }
+    public  int  getMinuteValue(){
+        return  (int)mMinutes;
+    }
+
+
 
     private void onTimeChanged() {
         mCalendar.setToNow();// 取当前时间

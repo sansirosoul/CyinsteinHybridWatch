@@ -42,37 +42,57 @@ public class MainDialFragment extends BaseFragment {
 
     public void AddTime() {
 
-        getHourValue = analogclock.getHourTimeValue();
-        getMinutesValue = analogclock.getMinutesTimeValue();
-        if (!isChangeTime) {
-            setHourValue = getHourValue;
-            setMinutesValue = getMinutesValue;
-        }
+//        getHourValue = analogclock.getHourTimeValue();
+//        getMinutesValue = analogclock.getMinutesTimeValue();
+//        if (!isChangeTime) {
+//            setHourValue = getHourValue;
+//            setMinutesValue = getMinutesValue;
+//        }
+//        if (analogclock.ChangeTimeType == 1) {
+//            analogclock.setTimeValue(1, setHourValue);
+//            setHourValue++;
+//        } else {
+//            analogclock.setTimeValue(2, setMinutesValue);
+//            setMinutesValue++;
+//        }
         if (analogclock.ChangeTimeType == 1) {
-            analogclock.setTimeValue(1, setHourValue);
-            setHourValue++;
-        } else {
-            analogclock.setTimeValue(2, setMinutesValue);
-            setMinutesValue++;
+            int a = analogclock.getHourValue();
+            a++;
+            analogclock.setTimeValue(2, a);
+        }else {
+            int a = analogclock.getMinuteValue();
+            a++;
+            analogclock.setTimeValue(2, a);
         }
         isChangeTime = true;
     }
 
     public void ReduceTime() {
 
-        getHourValue = analogclock.getHourTimeValue();
-        getMinutesValue = analogclock.getMinutesTimeValue();
-        if (!isChangeTime) {
-            setHourValue = getHourValue;
-            setMinutesValue = getMinutesValue;
-        }
+//        getHourValue = analogclock.getHourTimeValue();
+//        getMinutesValue = analogclock.getMinutesTimeValue();
+//        if (!isChangeTime) {
+//            setHourValue = getHourValue;
+//            setMinutesValue = getMinutesValue;
+//        }
+//        if (analogclock.ChangeTimeType == 1) {
+//            analogclock.setTimeValue(1, setHourValue);
+//            setHourValue--;
+//        } else {
+//            analogclock.setTimeValue(2, setMinutesValue);
+//            setMinutesValue--;
+//        }
         if (analogclock.ChangeTimeType == 1) {
-            analogclock.setTimeValue(1, setHourValue);
-            setHourValue--;
-        } else {
-            analogclock.setTimeValue(2, setMinutesValue);
-            setMinutesValue--;
+            int a = analogclock.getHourValue();
+            a--;
+            analogclock.setTimeValue(2, a);
+        }else {
+            int a = analogclock.getMinuteValue();
+            a--;
+            analogclock.setTimeValue(2, a);
         }
+        isChangeTime = true;
+
         isChangeTime = true;
     }
 
