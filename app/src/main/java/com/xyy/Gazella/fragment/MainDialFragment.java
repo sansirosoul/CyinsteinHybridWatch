@@ -98,4 +98,10 @@ public class MainDialFragment extends BaseFragment {
         super.onStop();
         saveValue=false;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        saveValue=true;
+    }
 }
