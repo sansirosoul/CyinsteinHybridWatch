@@ -333,6 +333,7 @@ public class TimeSynchronization extends BaseActivity {
             butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
             butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
         }
+       float  aa =   PreferenceData.getSelectedHourValue(TimeSynchronization.this);
         mainDialFragment.setHourTimeValue(PreferenceData.getSelectedHourValue(TimeSynchronization.this));
         mainDialFragment.setMuinutesTimeValue(PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this));
     }
