@@ -21,6 +21,7 @@ import com.xyy.Gazella.utils.CheckAnalogClock;
 import com.xyy.Gazella.utils.GuideShowDialog;
 import com.xyy.Gazella.view.MyViewPage;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -167,30 +168,13 @@ public class TimeSynchronization extends BaseActivity {
                 break;
 
             case R.id.but_hour:   // 调整时针
-                setImageVisible(2);
-                setFragmentsList(2);
-                viewpager.setScroll(true);
-                viewpager.setCurrentItem(0);
-                mainDialFragment.setChangeTimeType(1);
-                mainDialFragment.setHourDrawable(R.drawable.page12_hour_selected);
-                mainDialFragment.setMuinutesDrawable(R.drawable.page12_minute_normal);
-                butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
-                butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
-                butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+                setChangeTimeType(1);
 
                 break;
             case R.id.but_muinutes://  调整分针
-                setImageVisible(2);
-                setFragmentsList(2);
-                viewpager.setScroll(true);
-                viewpager.setCurrentItem(0);
 
-                mainDialFragment.setChangeTimeType(2);
-                mainDialFragment.setMuinutesDrawable(R.drawable.page12_minute_selected);
-                mainDialFragment.setHourDrawable(R.drawable.page12_hour_normal);
-                butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
-                butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
-                butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+                setChangeTimeType(2);
+
 
                 break;
             case R.id.but_second:   // 调整小时针
@@ -228,6 +212,7 @@ public class TimeSynchronization extends BaseActivity {
                 break;
         }
     }
+
 
     private void InitViewPager() {
 
@@ -315,5 +300,39 @@ public class TimeSynchronization extends BaseActivity {
         setFragmentsList(1);
         viewpager.setScroll(false);
         viewpager.setCurrentItem(item);
+
+    }
+
+    /***
+     *     1 是 时针  2 分针
+     * @param type
+     */
+    private void setChangeTimeType(int type) {
+        if (type==1) {
+            setImageVisible(2);
+            setFragmentsList(2);
+            viewpager.setScroll(true);
+            viewpager.setCurrentItem(0);
+            mainDialFragment.setChangeTimeType(1);
+            mainDialFragment.setHourDrawable(R.drawable.page12_hour_selected);
+            mainDialFragment.setMuinutesDrawable(R.drawable.page12_minute_normal);
+            butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
+            butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+            butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+        }else {
+            setImageVisible(2);
+            setFragmentsList(2);
+            viewpager.setScroll(true);
+            viewpager.setCurrentItem(0);
+
+            mainDialFragment.setChangeTimeType(2);
+            mainDialFragment.setMuinutesDrawable(R.drawable.page12_minute_selected);
+            mainDialFragment.setHourDrawable(R.drawable.page12_hour_normal);
+            butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+            butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
+            butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+        }
+        mainDialFragment.setHourTimeValue(PreferenceData.getSelectedHourValue(TimeSynchronization.this));
+        mainDialFragment.setMuinutesTimeValue(PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this));
     }
 }
