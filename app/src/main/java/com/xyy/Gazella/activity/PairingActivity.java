@@ -1,14 +1,11 @@
 package com.xyy.Gazella.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
-import android.bluetooth.le.ScanCallback;
-import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,12 +13,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -57,6 +52,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private Context context;
     private LoadingDialog loadingDialog;
     private PairFailedDialog pairFailedDialog;
+    private String deviceName = null;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -260,6 +256,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         loadingDialog.show();
         if(GazelleApplication.mBluetoothService.initialize()){
+            deviceName=devices.get(i).getName();
             GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
             GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
         }
@@ -278,6 +275,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             switch (msg.what){
                 case BluetoothService.STATE_CONNECTED:
                     loadingDialog.dismiss();
+                    GazelleApplication.deviceName=deviceName;
                     Intent intent = new Intent(context,PersonActivity.class);
                     startActivity(intent);
                     overridePendingTransitionEnter(PairingActivity.this);

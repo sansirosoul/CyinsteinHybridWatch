@@ -1,7 +1,5 @@
 package com.ysp.newband;
 
-import java.util.ArrayList;
-
 import android.app.Application;
 import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
@@ -11,9 +9,9 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
+
 import com.xyy.Gazella.BroadcastReceiver.PhoneBroadcastReceiver;
 import com.xyy.Gazella.googlebth.BluetoothLeService;
-
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.model.User;
 
@@ -37,6 +35,7 @@ public class GazelleApplication extends Application {
 	public static boolean isPhoneCall;
 	public static boolean isCall;
 	private static int bandType=1;
+	public static String deviceName = null;
 
 	public static GazelleApplication getInstance() {
 		return instance;

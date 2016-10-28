@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xyy.Gazella.adapter.ClockListAdapter;
@@ -58,7 +57,7 @@ public class ClockActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(context,AddClockActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,2);
                 overridePendingTransitionEnter(ClockActivity.this);
             }
         });
@@ -73,11 +72,28 @@ public class ClockActivity extends BaseActivity {
                 break;
             case R.id.add:
                 Intent intent = new Intent(context,AddClockActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,1);
                 overridePendingTransitionEnter(ClockActivity.this);
                 break;
         }
     }
 
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode){
+            case 1:
+                Clock clock = new Clock();
+                clock.setTime(data.getStringExtra("time"));
+                clock.setRate(data.getStringExtra("repeatrate"));
+                clock.setIsOpen(data.getIntExtra("isOpen",-1));
+                clocks.add(clock);
+                adapter.notifyDataSetChanged();
+                break;
+            case 2:
+
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

@@ -31,7 +31,7 @@ public class ClockListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return clocks.size();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ClockListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         final ViewHoldler v;
         if (convertView == null) {
             v = new ViewHoldler();
@@ -55,21 +55,40 @@ public class ClockListAdapter extends BaseAdapter {
             v.del= (ImageView) convertView.findViewById(R.id.del);
             v.tgBtn=(ToggleButton) convertView.findViewById(R.id.tg_btn);
 
-            v.tgBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(b){
-                        v.time.setTextColor(context.getResources().getColor(R.color.white));
-                    }else{
-                        v.time.setTextColor(context.getResources().getColor(R.color.clock_list_gray));
-                    }
-                }
-            });
-
             convertView.setTag(v);
         }else{
             v= (ViewHoldler) convertView.getTag();
         }
+
+        v.time.setText(clocks.get(position).getTime());
+        v.rate.setText(clocks.get(position).getRate());
+        if (clocks.get(position).getIsOpen()==0){
+            v.time.setTextColor(context.getResources().getColor(R.color.clock_list_gray));
+            v.tgBtn.setChecked(false);
+        }else if(clocks.get(position).getIsOpen()==1){
+            v.time.setTextColor(context.getResources().getColor(R.color.white));
+            v.tgBtn.setChecked(true);
+        }
+
+        v.tgBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    v.time.setTextColor(context.getResources().getColor(R.color.white));
+                }else{
+                    v.time.setTextColor(context.getResources().getColor(R.color.clock_list_gray));
+                }
+            }
+        });
+        v.del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clocks.remove(position);
+                notifyDataSetChanged();
+            }
+        });
+
+
         return convertView;
     }
 
