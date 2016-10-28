@@ -60,6 +60,8 @@ public class ClockListAdapter extends BaseAdapter {
             v= (ViewHoldler) convertView.getTag();
         }
 
+
+
         v.time.setText(clocks.get(position).getTime());
         v.rate.setText(clocks.get(position).getRate());
         if (clocks.get(position).getIsOpen()==0){
