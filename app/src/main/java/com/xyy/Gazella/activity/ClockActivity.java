@@ -83,12 +83,14 @@ public class ClockActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
             case 1:
-                Clock clock = new Clock();
-                clock.setTime(data.getStringExtra("time"));
-                clock.setRate(data.getStringExtra("repeatrate"));
-                clock.setIsOpen(data.getIntExtra("isOpen",-1));
-                clocks.add(clock);
-                adapter.notifyDataSetChanged();
+                if(data!=null){
+                    Clock clock = new Clock();
+                    clock.setTime(data.getStringExtra("time"));
+                    clock.setRate(data.getStringExtra("repeatrate"));
+                    clock.setIsOpen(data.getIntExtra("isOpen",-1));
+                    clocks.add(clock);
+                    adapter.notifyDataSetChanged();
+                }
                 break;
             case 2:
 
