@@ -162,6 +162,7 @@ public class TimeSynchronization extends BaseActivity {
                             smallFragment3.AddTime();
                             break;
                     }
+
                 }else {
                     mainDialFragment.AddTime();
                 }
