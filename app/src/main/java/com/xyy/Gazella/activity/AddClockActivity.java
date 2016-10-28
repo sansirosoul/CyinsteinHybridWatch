@@ -1,10 +1,10 @@
 package com.xyy.Gazella.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,7 +30,7 @@ public class AddClockActivity extends BaseActivity {
     @BindView(R.id.cancel)
     RelativeLayout cancel;
     @BindView(R.id.save)
-    ImageView save;
+    RelativeLayout save;
     @BindView(R.id.del_clock)
     Button delClock;
     @BindView(R.id.rl_ringtime)
@@ -44,6 +44,8 @@ public class AddClockActivity extends BaseActivity {
     @BindView(R.id.pv_minute)
     PickerViewMinute pvMinute;
     private Context context;
+    private String hour="12";
+    private String minute="30";
 
 
 
@@ -85,14 +87,26 @@ public class AddClockActivity extends BaseActivity {
         pvHour.setOnSelectListener(new PickerViewHour.onSelectListener() {
             @Override
             public void onSelect(String text) {
-
+                 hour=text;
+            }
+        });
+        pvHour.setOnScrollListener(new PickerViewHour.onScrollListener() {
+            @Override
+            public void onScroll() {
+                pvMinute.setSelect(false);
             }
         });
 
         pvMinute.setOnSelectListener(new PickerViewMinute.onSelectListener() {
             @Override
             public void onSelect(String text) {
-
+                  minute=text;
+            }
+        });
+        pvMinute.setOnScrollListener(new PickerViewMinute.onScrollListener() {
+            @Override
+            public void onScroll() {
+                pvHour.setSelect(false);
             }
         });
     }
@@ -105,6 +119,13 @@ public class AddClockActivity extends BaseActivity {
                 overridePendingTransitionExit(AddClockActivity.this);
                 break;
             case R.id.save:
+                Intent intent = new Intent();
+                intent.putExtra("time",hour+":"+minute);
+                intent.putExtra("ringtime",tvRingtime.getText().toString());
+                intent.putExtra("repeatrate",tvRepeatrate.getText().toString());
+                intent.putExtra("isOpen",1);
+                setResult(1,intent);
+                finish();
                 break;
             case R.id.del_clock:
                 break;

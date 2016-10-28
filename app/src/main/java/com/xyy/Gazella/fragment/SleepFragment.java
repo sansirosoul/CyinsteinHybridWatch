@@ -2,7 +2,6 @@ package com.xyy.Gazella.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +70,7 @@ public class SleepFragment extends BaseFragment {
             case R.id.circle:
                 Intent intent = new Intent(getActivity(), SleepActivity.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_righttoleft);
                 break;
         }
     }
