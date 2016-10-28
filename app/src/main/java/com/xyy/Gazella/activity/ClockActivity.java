@@ -63,6 +63,8 @@ public class ClockActivity extends BaseActivity {
         });
     }
 
+
+
     @OnClick({R.id.btnExit,R.id.add})
     public void onClick(View view) {
         switch (view.getId()) {
