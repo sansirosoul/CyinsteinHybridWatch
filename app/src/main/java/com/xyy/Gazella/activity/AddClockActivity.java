@@ -53,6 +53,7 @@ public class AddClockActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
+
     }
 
     private void initView() {

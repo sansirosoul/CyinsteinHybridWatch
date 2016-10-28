@@ -304,6 +304,7 @@ public class TimeSynchronization extends BaseActivity {
     /***
      *     设置小针Fragment 位置
      * @param item
+     * 
      */
     private  void  setSmallItem(int item){
         setImageVisible(1);

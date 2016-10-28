@@ -3,8 +3,6 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="true"
     android:layout_height="match_parent">
     <include
         layout="@layout/connection_title"
