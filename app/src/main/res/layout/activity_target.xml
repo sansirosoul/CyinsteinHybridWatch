@@ -167,7 +167,8 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/time_squarebtn_check"
-            android:text="保存" />
+            android:text="保存"
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/but_default"
@@ -176,7 +177,8 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/time_squarebtn_check"
-            android:text="默认值" />
+            android:text="默认值"
+            android:textColor="@color/white"/>
 
     </LinearLayout>
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.xyy.Gazella.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +23,10 @@ public class SmallFragment3 extends BaseFragment {
     AnalogClock analogclock;
     private View view;
 
-    private int getMinutesValue;
-    private int getHourValue;
-    private int setMinutesValue;
-    private int setHourValue;
+    private float getMinutesValue;
+    private float getHourValue;
+    private float setMinutesValue;
+    private float setHourValue;
     private boolean isChangeTime = false;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

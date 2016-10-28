@@ -39,7 +39,7 @@ import butterknife.OnClick;
 public class SleepActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
 
     @BindView(R.id.calendarView)
-    MaterialCalendarView widget;
+ public   MaterialCalendarView widget;
     @BindView(R.id.btnExit)
     Button btnExit;
     @BindView(R.id.btnOpt)
@@ -68,6 +68,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private Calendar CalendarInstance = Calendar.getInstance();
     private HashMap<String, String> weekMap;
+    public static  SleepActivity sleepActivity=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         initView();
         initCalendar();
         InitViewPager();
+        sleepActivity=this;
 
     }
 
@@ -197,7 +199,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
      * @param type 1 是显示  2 是隐藏
      */
 
-    private void setLlDateVisible(int type) {
+    public void setLlDateVisible(int type) {
         if (type == 1) {
 
             widget.setVisibility(View.GONE);
@@ -299,14 +301,5 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         public int getCount() {
             return fragmentList.size();
         }
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-       boolean g= new SomeUtills().inRangeOfView(widget,event);
-       boolean gg= new SomeUtills().inRangeOfView(viewpager,event);
-        Log.i("TAG+++++++",String.valueOf(g));
-        Log.i("TAG------",String.valueOf(gg));
-        return super.onTouchEvent(event);
     }
 }

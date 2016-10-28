@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -45,16 +46,18 @@ public class SleepMonthFragment extends Fragment {
     ImageView ivLeft;
     @BindView(R.id.iv_right)
     ImageView ivRight;
+    @BindView(R.id.ll_sleep_month)
+    LinearLayout llSleepMonth;
     private View view;
     private Calendar CalendarInstance = Calendar.getInstance();
-    private int amount=-1;
+    private int amount = -1;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_sleep_month, container, false);
         ButterKnife.bind(this, view);
         initChart();
-        tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(),1));
+        tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 1));
         return view;
     }
 
@@ -86,6 +89,13 @@ public class SleepMonthFragment extends Fragment {
         mChart.getLegend().setEnabled(false);
 
         setChartData();
+        mChart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                new SomeUtills().setCalendarViewGone(0);
+                return false;
+            }
+        });
 
     }
 
@@ -161,10 +171,10 @@ public class SleepMonthFragment extends Fragment {
         tvDate.setText(date);
     }
 
-    @OnClick({R.id.iv_left, R.id.iv_right})
+    @OnClick({R.id.iv_left, R.id.iv_right,R.id.ll_sleep_month})
     public void onClick(View view) {
-        SimpleDateFormat  sdf =  new SimpleDateFormat("yyyy.MM");
-        Date date= null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM");
+        Date date = null;
         try {
             date = sdf.parse(tvDate.getText().toString());
         } catch (ParseException e) {
@@ -172,10 +182,13 @@ public class SleepMonthFragment extends Fragment {
         }
         switch (view.getId()) {
             case R.id.iv_left:
-                tvDate.setText(new SomeUtills().getAmountDate(date,1,0));
+                tvDate.setText(new SomeUtills().getAmountDate(date, 1, 0));
                 break;
             case R.id.iv_right:
-                tvDate.setText(new SomeUtills().getAmountDate(date,1,1));
+                tvDate.setText(new SomeUtills().getAmountDate(date, 1, 1));
+                break;
+            case R.id.ll_sleep_month:
+                new SomeUtills().setCalendarViewGone(0);
                 break;
         }
     }

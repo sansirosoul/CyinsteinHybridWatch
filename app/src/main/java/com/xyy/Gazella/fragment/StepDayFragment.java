@@ -3,6 +3,7 @@ package com.xyy.Gazella.fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -44,8 +45,10 @@ public class StepDayFragment extends BaseFargment {
     ImageView ivLeft;
     @BindView(R.id.iv_right)
     ImageView ivRight;
+    @BindView(R.id.ll_step_day)
+    LinearLayout llStepDay;
     private View view;
-    private  String [] xValue=new  String []{"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23",};
+    private String[] xValue = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23",};
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_step_day, container, false);
@@ -63,6 +66,13 @@ public class StepDayFragment extends BaseFargment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
+        mChart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                new SomeUtills().setCalendarViewGone(1);
+                return false;
+            }
+        });
         XAxis xAxis = mChart.getXAxis();
 
         mChart.refreshDrawableState();
@@ -133,6 +143,7 @@ public class StepDayFragment extends BaseFargment {
         // setting data
         setChartData();
 
+
     }
 
     private void setChartData() {
@@ -192,10 +203,10 @@ public class StepDayFragment extends BaseFargment {
         tvDate.setText(date);
     }
 
-    @OnClick({R.id.iv_left, R.id.iv_right})
+    @OnClick({R.id.iv_left, R.id.iv_right,R.id.ll_step_day})
     public void onClick(View view) {
-        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy.MM.dd");
-        Date date= null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        Date date = null;
         try {
             date = sdf.parse(tvDate.getText().toString());
         } catch (ParseException e) {
@@ -203,22 +214,25 @@ public class StepDayFragment extends BaseFargment {
         }
         switch (view.getId()) {
             case R.id.iv_left:
-                tvDate.setText(new SomeUtills().getAmountDate(date,0,0));
-                String [] xValue=new  String []{"0","10","20","30","40","50","60","70","80","90","100","110","120","130","140","150","160",
-                        "170","180","190","200","210","220","230",};
+                tvDate.setText(new SomeUtills().getAmountDate(date, 0, 0));
+                String[] xValue = new String[]{"0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160",
+                        "170", "180", "190", "200", "210", "220", "230",};
                 updateUI(xValue);
                 break;
             case R.id.iv_right:
-                tvDate.setText(new SomeUtills().getAmountDate(date,0,1));
-                String [] xValues=new  String []{"0","100","200","300","400","500","600","700","800","900","1000","1100","1200","1300","1400",
-                        "1500","1600","1700","1800","1900","2000","2100","2200","2300",};
+                tvDate.setText(new SomeUtills().getAmountDate(date, 0, 1));
+                String[] xValues = new String[]{"0", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "1100", "1200", "1300", "1400",
+                        "1500", "1600", "1700", "1800", "1900", "2000", "2100", "2200", "2300",};
                 updateUI(xValues);
+                break;
+            case R.id.ll_step_day:
+               new SomeUtills().setCalendarViewGone(1);
                 break;
         }
     }
 
-    public  void   updateUI(String [] xValue){
-       this.xValue=xValue;
+    public void updateUI(String[] xValue) {
+        this.xValue = xValue;
         setChartData();
     }
 }

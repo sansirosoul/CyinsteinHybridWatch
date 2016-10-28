@@ -46,18 +46,14 @@
 
         <!--首页-->
 
-        <activity
-            android:name="com.xyy.Gazella.activity.HomeActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/ExampleTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <!--<activity-->
+            <!--android:name="com.xyy.Gazella.activity.HomeActivity"-->
+            <!--android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/ExampleTheme">-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <!--</activity>-->
 
         <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" />
         <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" />
@@ -126,12 +122,16 @@
 
         </activity>
         <activity
-            android:name="com.xyy.Gazella.activity.StartActivity"
+            android:name="com.xyy.Gazella.activity.HomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.xyy.Gazella.activity.NotificationActivty"
@@ -142,22 +142,22 @@
             android:name="com.xyy.Gazella.activity.SettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.xyy.Gazella.activity.UserSetting"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.xyy.Gazella.activity.UpdateHardware"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.xyy.Gazella.activity.ClockActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.xyy.Gazella.activity.HelpActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"

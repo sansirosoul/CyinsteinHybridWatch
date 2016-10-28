@@ -36,7 +36,7 @@ import butterknife.OnClick;
 public class StepActivity extends BaseActivity implements OnDateSelectedListener {
 
     @BindView(R.id.calendarView)
-    MaterialCalendarView widget;
+   public MaterialCalendarView widget;
     @BindView(R.id.btnExit)
     Button btnExit;
     @BindView(R.id.btnOpt)
@@ -66,6 +66,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private Calendar CalendarInstance = Calendar.getInstance();
     private HashMap<String, String> weekMap;
+    public static  StepActivity stepActivity=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         initView();
         initCalendar();
         InitViewPager();
+        stepActivity=this;
     }
 
     private void initView() {
@@ -181,7 +183,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
      * @param type     1 是显示  2 是隐藏
      */
 
-    private  void  setLlDateVisible(int type){
+    public   void  setLlDateVisible(int type){
         if(type==1){
 
             widget.setVisibility(View.GONE);

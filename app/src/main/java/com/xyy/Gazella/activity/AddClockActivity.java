@@ -48,6 +48,7 @@ public class AddClockActivity extends BaseActivity {
     private String minute="30";
 
 
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -55,6 +56,7 @@ public class AddClockActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
+
     }
 
     private void initView() {
