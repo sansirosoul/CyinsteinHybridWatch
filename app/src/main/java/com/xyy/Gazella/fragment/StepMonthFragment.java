@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -46,6 +47,8 @@ public class StepMonthFragment extends Fragment {
     ImageView ivLeft;
     @BindView(R.id.iv_right)
     ImageView ivRight;
+    @BindView(R.id.ll_step_month)
+    LinearLayout llStepMonth;
     private View view;
 
     private String[] XString = new String[]{"1", "3", "5", "7", "9", "11", "13", "15", "17", "19", "21", "23",};
@@ -84,6 +87,13 @@ public class StepMonthFragment extends Fragment {
 
         mChart.getLegend().setEnabled(false);
         setChartData();
+        mChart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                new SomeUtills().setCalendarViewGone(1);
+                return false;
+            }
+        });
 
     }
 
@@ -151,10 +161,11 @@ public class StepMonthFragment extends Fragment {
     public void setTvDateValue(String date) {
         tvDate.setText(date);
     }
-    @OnClick({R.id.iv_left, R.id.iv_right})
+
+    @OnClick({R.id.iv_left, R.id.iv_right,R.id.ll_step_month})
     public void onClick(View view) {
-        SimpleDateFormat sdf =  new SimpleDateFormat("yyyy.MM");
-        Date date= null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM");
+        Date date = null;
         try {
             date = sdf.parse(tvDate.getText().toString());
         } catch (ParseException e) {
@@ -162,10 +173,13 @@ public class StepMonthFragment extends Fragment {
         }
         switch (view.getId()) {
             case R.id.iv_left:
-                tvDate.setText(new SomeUtills().getAmountDate(date,1,0));
+                tvDate.setText(new SomeUtills().getAmountDate(date, 1, 0));
                 break;
             case R.id.iv_right:
-                tvDate.setText(new SomeUtills().getAmountDate(date,1,1));
+                tvDate.setText(new SomeUtills().getAmountDate(date, 1, 1));
+                break;
+            case R.id.ll_step_month:
+                new SomeUtills().setCalendarViewGone(1);
                 break;
         }
     }

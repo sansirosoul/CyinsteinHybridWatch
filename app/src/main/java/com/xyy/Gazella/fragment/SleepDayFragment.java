@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -47,6 +48,8 @@ public class SleepDayFragment extends Fragment {
     ImageView ivLeft;
     @BindView(R.id.iv_right)
     ImageView ivRight;
+    @BindView(R.id.ll_sleep_day)
+    LinearLayout llSleepDay;
     private View view;
 
     private String[] xValue = new String[]{"1", "2", "2", "2", "2", "3", "3", "2", "1", "3"};
@@ -73,6 +76,13 @@ public class SleepDayFragment extends Fragment {
         mChart.setDrawGridBackground(false);
         mChart.setBackground(getResources().getDrawable(R.drawable.page20_tubiao_bg));
         mChart.setBorderColor(Color.rgb(255, 255, 255));
+        mChart.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                new SomeUtills().setCalendarViewGone(0);
+                return false;
+            }
+        });
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setAvoidFirstLastClipping(true);
@@ -198,7 +208,7 @@ public class SleepDayFragment extends Fragment {
         tvDate.setText(date);
     }
 
-    @OnClick({R.id.iv_left, R.id.iv_right})
+    @OnClick({R.id.iv_left, R.id.iv_right,R.id.ll_sleep_day})
     public void onClick(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         Date date = null;
@@ -216,7 +226,9 @@ public class SleepDayFragment extends Fragment {
                 tvDate.setText(new SomeUtills().getAmountDate(date, 0, 1));
                 updateUI(new String[0]);
                 break;
-
+            case R.id.ll_sleep_day:
+              new SomeUtills().setCalendarViewGone(0);
+                break;
 
 
         }
@@ -226,5 +238,4 @@ public class SleepDayFragment extends Fragment {
         this.xValue = xValue;
         setChartData();
     }
-
 }

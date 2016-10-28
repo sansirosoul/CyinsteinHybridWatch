@@ -3,6 +3,9 @@ package com.xyy.Gazella.utils;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.xyy.Gazella.activity.SleepActivity;
+import com.xyy.Gazella.activity.StepActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,6 +19,7 @@ public class SomeUtills {
 
     private Calendar CalendarInstance = Calendar.getInstance();
     private SimpleDateFormat sdf;
+
 
 
     /***
@@ -148,4 +152,13 @@ public class SomeUtills {
         return true;
     }
 
+    public  void setCalendarViewGone(int type){
+        if(type==0) {
+            if (SleepActivity.sleepActivity.widget.getVisibility() == View.VISIBLE)
+                SleepActivity.sleepActivity.setLlDateVisible(1);
+        }else {
+            if (StepActivity.stepActivity.widget.getVisibility() == View.VISIBLE)
+                StepActivity.stepActivity.setLlDateVisible(1);
+        }
+    }
 }
