@@ -147,11 +147,8 @@
                     android:src="@drawable/page17_time" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="活动时间"
-                    android:layout_centerInParent="true"/>
+                    style="@style/StepTextStyle"
+                    android:text="活动时间" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -211,10 +208,8 @@
                     android:src="@drawable/page17_juli" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="活动时间" />
+                    style="@style/StepTextStyle"
+                    android:text="活动距离" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -266,10 +261,9 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="活动时间" />
+                    style="@style/StepTextStyle"
+                    android:text="热量消耗" />
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"

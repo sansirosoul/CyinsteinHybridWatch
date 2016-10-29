@@ -67,6 +67,8 @@ public class SleepMonthFragment extends Fragment {
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
         mChart.setBackground(getResources().getDrawable(R.drawable.page20_tubiao_bg));
+        mChart.setDoubleTapToZoomEnabled(false);//双击缩放
+
         XAxis xAxis = mChart.getXAxis();
 
         xAxis.setAvoidFirstLastClipping(true);

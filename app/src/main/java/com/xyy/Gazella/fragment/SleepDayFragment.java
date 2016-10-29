@@ -76,6 +76,8 @@ public class SleepDayFragment extends Fragment {
         mChart.setDrawGridBackground(false);
         mChart.setBackground(getResources().getDrawable(R.drawable.page20_tubiao_bg));
         mChart.setBorderColor(Color.rgb(255, 255, 255));
+        mChart.setDoubleTapToZoomEnabled(false);//双击缩放
+
         mChart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

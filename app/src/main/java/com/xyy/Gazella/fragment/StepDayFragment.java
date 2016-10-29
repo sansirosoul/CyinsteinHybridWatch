@@ -66,6 +66,7 @@ public class StepDayFragment extends BaseFargment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
+        mChart.setDoubleTapToZoomEnabled(false);//双击缩放
         mChart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

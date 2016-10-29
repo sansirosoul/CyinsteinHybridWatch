@@ -80,6 +80,7 @@ public class SleepWeekFragment extends Fragment {
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
         mChart.setBackground(getResources().getDrawable(R.drawable.page20_tubiao_bg));
+        mChart.setDoubleTapToZoomEnabled(false);//双击缩放
 
 
         mChart.setDrawValueAboveBar(false);
