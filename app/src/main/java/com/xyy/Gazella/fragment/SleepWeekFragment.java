@@ -2,7 +2,6 @@ package com.xyy.Gazella.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +21,7 @@ import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.CreateColor;
+import com.ysp.newband.BaseFragment;
 import com.ysp.smartwatch.R;
 
 import java.text.ParseException;
@@ -39,7 +39,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/10/11.
  */
 
-public class SleepWeekFragment extends Fragment {
+public class SleepWeekFragment extends BaseFragment {
     @BindView(R.id.ll_date)
     LinearLayout llDate;
     @BindView(R.id.chart1)

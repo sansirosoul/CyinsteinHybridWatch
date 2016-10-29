@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -147,9 +146,9 @@ public class TimeSynchronization extends BaseActivity {
                             smallFragment3.ReduceTime();
                             break;
                     }
-                }else {
+                }else
                     mainDialFragment.ReduceTime();
-                }
+
                 break;
 
             case R.id.but_add://加时间
@@ -165,10 +164,9 @@ public class TimeSynchronization extends BaseActivity {
                             smallFragment3.AddTime();
                             break;
                     }
-
-                }else {
+                }else
                     mainDialFragment.AddTime();
-                }
+
                 break;
 
             case R.id.but_hour:   // 调整时针
@@ -200,8 +198,7 @@ public class TimeSynchronization extends BaseActivity {
                 small2TimeValue=PreferenceData.getSelectedSmall2Value(this);
                 small3TimeValue=PreferenceData.getSelectedSmall3Value(this);
 
-                Log.i(TAG,"HourTimeValue---"+String.valueOf(HourTimeValue)+"Muintes---"+String.valueOf(MuintesTimeValue));
-                Log.i(TAG,"small1TimeValue---"+String.valueOf(small1TimeValue)+"small2TimeValue---"+String.valueOf(small2TimeValue)+"small3TimeValue---"+String.valueOf(small3TimeValue));
+
 
                 break;
             case R.id.btnExit:   // 退出
