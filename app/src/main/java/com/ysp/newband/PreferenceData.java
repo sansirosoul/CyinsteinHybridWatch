@@ -16,6 +16,9 @@ public class PreferenceData implements Serializable{
 
     public static final String SAVE_SELECTED_HOUR_VALUE = "SAVE_SELECTED_HOUR_VALUE";
     public static final String SAVE_SELECTED_MUINUTES_VALUE = "SAVE_SELECTED_MUINUTES_VALUE";
+    public static final String SAVE_SELECTED_SMALL1_VALUE = "SAVE_SELECTED_SMALL1_VALUE";
+    public static final String SAVE_SELECTED_SMALL2_VALUE = "SAVE_SELECTED_SMALL2_VALUE";
+    public static final String SAVE_SELECTED_SMALL3_VALUE = "SAVE_SELECTED_SMALL3_VALUE";
 
 
 
@@ -59,7 +62,7 @@ public class PreferenceData implements Serializable{
     public static float getSelectedMuinutesValue(Context context) {
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        return sharedPreferences.getFloat(SAVE_SELECTED_MUINUTES_VALUE, 1.8f);
+        return sharedPreferences.getFloat(SAVE_SELECTED_MUINUTES_VALUE, 0f);
     }
 
 
@@ -68,7 +71,7 @@ public class PreferenceData implements Serializable{
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(SAVE_SELECTED_MUINUTES_VALUE, account);
+        editor.putInt(SAVE_SELECTED_SMALL1_VALUE, account);
         editor.commit();
     }
 
@@ -76,14 +79,14 @@ public class PreferenceData implements Serializable{
     public static int getSelectedSmall1Value(Context context) {
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(SAVE_SELECTED_MUINUTES_VALUE, 0);
+        return sharedPreferences.getInt(SAVE_SELECTED_SMALL1_VALUE, 0);
     }
     /** 保存选中 小针 (2) 的值*/
     public static void setSelectedSmall2Value(Context context, int account) {
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(SAVE_SELECTED_MUINUTES_VALUE, 0);
+        editor.putInt(SAVE_SELECTED_SMALL2_VALUE, account);
         editor.commit();
     }
 
@@ -91,14 +94,14 @@ public class PreferenceData implements Serializable{
     public static int getSelectedSmall2Value(Context context) {
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(SAVE_SELECTED_MUINUTES_VALUE, 0);
+        return sharedPreferences.getInt(SAVE_SELECTED_SMALL2_VALUE, 0);
     }
     /** 保存选中 小针 (3) 的值*/
     public static void setSelectedSmall3Value(Context context, int account) {
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(SAVE_SELECTED_MUINUTES_VALUE, account);
+        editor.putInt(SAVE_SELECTED_SMALL3_VALUE, account);
         editor.commit();
     }
 
@@ -106,6 +109,6 @@ public class PreferenceData implements Serializable{
     public static int getSelectedSmall3Value(Context context) {
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(SAVE_SELECTED_MUINUTES_VALUE, 0);
+        return sharedPreferences.getInt(SAVE_SELECTED_SMALL3_VALUE, 0);
     }
 }

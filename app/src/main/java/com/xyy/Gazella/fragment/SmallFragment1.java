@@ -1,10 +1,10 @@
 package com.xyy.Gazella.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.xyy.Gazella.view.AnalogClock;
 import com.ysp.newband.BaseFragment;
@@ -28,6 +28,8 @@ public class SmallFragment1 extends BaseFragment {
 
 
     private boolean isChangeTime = false;
+    private  ViewTreeObserver vto;
+    private  boolean saveValue=true;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -35,16 +37,19 @@ public class SmallFragment1 extends BaseFragment {
         ButterKnife.bind(this, view);
         analogclock.setChangeTimeType(2);
         analogclock.setTimeValue(2, 0);
+        analogclock.setTimeValue(2,PreferenceData.getSelectedSmall1Value(getActivity()));
 
-        analogclock.setChangeTimeListener(new AnalogClock.ChangeTimeListener() {
+        vto = analogclock.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
-            public void ChangeTimeListener(int TimeValue) {
+            public boolean onPreDraw() {
+                if(saveValue) {
+                    PreferenceData.setSelectedSmall1Value(getActivity(), (int)analogclock.getMinutesTimeValue());
 
-                Log.i(TAG,String.valueOf(TimeValue));
-                PreferenceData.setSelectedSmall1Value(getActivity(),TimeValue);
+                }
+                return true;
             }
         });
-
         return view;
     }
 
@@ -63,5 +68,17 @@ public class SmallFragment1 extends BaseFragment {
     }
     public  float  getSmall1TimeValue(){
         return  analogclock.getMinutesTimeValue();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        saveValue=false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        saveValue=true;
     }
 }

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -33,6 +34,7 @@ import butterknife.OnClick;
 
 public class TimeSynchronization extends BaseActivity {
 
+    private  static  final  String TAG= TimeSynchronization.class.getName();
     //    @BindView(R.id.analogclock)
 //    AnalogClock analogclock;
     @BindView(R.id.but_reduce)
@@ -75,6 +77,8 @@ public class TimeSynchronization extends BaseActivity {
     private  int small1TimeValue;
     private  int small2TimeValue;
     private  int small3TimeValue;
+    private float HourTimeValue;
+    private float MuintesTimeValue;
     private int item;
     private GuideShowDialog guideShowDialog;
 
@@ -190,17 +194,14 @@ public class TimeSynchronization extends BaseActivity {
                 break;
             case R.id.but_synchronization:    ///同步
 
-//                small1TimeValue =PreferenceData.getSelectedSmall1Value(TimeSynchronization.this);
-//                small2TimeValue =PreferenceData.getSelectedSmall2Value(TimeSynchronization.this);
-//                small3TimeValue =PreferenceData.getSelectedSmall3Value(TimeSynchronization.this);
-//
-//                small3TimeValue=(int)smallFragment1.getSmall1TimeValue();
-//
-//                Log.i("TAG","small1====="+String.valueOf(small1TimeValue));
-//                Log.i("TAG","small2====="+String.valueOf(small2TimeValue));
-//                Log.i("TAG","small3====="+String.valueOf(small3TimeValue));
+                HourTimeValue=PreferenceData.getSelectedHourValue(TimeSynchronization.this);
+                MuintesTimeValue=PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this);
+                small1TimeValue=PreferenceData.getSelectedSmall1Value(this);
+                small2TimeValue=PreferenceData.getSelectedSmall2Value(this);
+                small3TimeValue=PreferenceData.getSelectedSmall3Value(this);
 
-
+                Log.i(TAG,"HourTimeValue---"+String.valueOf(HourTimeValue)+"Muintes---"+String.valueOf(MuintesTimeValue));
+                Log.i(TAG,"small1TimeValue---"+String.valueOf(small1TimeValue)+"small2TimeValue---"+String.valueOf(small2TimeValue)+"small3TimeValue---"+String.valueOf(small3TimeValue));
 
                 break;
             case R.id.btnExit:   // 退出
