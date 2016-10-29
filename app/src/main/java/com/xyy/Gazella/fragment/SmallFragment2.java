@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.xyy.Gazella.view.AnalogClock;
 import com.ysp.newband.BaseFragment;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -35,42 +36,30 @@ public class SmallFragment2 extends BaseFragment {
         ButterKnife.bind(this, view);
         analogclock.setChangeTimeType(2);
         analogclock.setTimeValue(2,0);
+        analogclock.setChangeTimeListener(new AnalogClock.ChangeTimeListener() {
+            @Override
+            public void ChangeTimeListener(int TimeValue) {
+                PreferenceData.setSelectedSmall2Value(getActivity(),TimeValue);
+            }
+        });
         return view;
     }
 
-    public void AddTime() {
 
-        getHourValue = analogclock.getHourTimeValue();
-        getMinutesValue = analogclock.getMinutesTimeValue();
-        if (!isChangeTime) {
-            setHourValue = getHourValue;
-            setMinutesValue = getMinutesValue;
-        }
-        if (analogclock.ChangeTimeType == 1) {
-            analogclock.setTimeValue(1, setHourValue);
-            setHourValue++;
-        } else {
-            analogclock.setTimeValue(2, setMinutesValue);
-            setMinutesValue++;
-        }
+    public void AddTime() {
+        int a = (int) analogclock.getMinutesTimeValue();
+        a++;
+        analogclock.setTimeValue(2, a);
         isChangeTime = true;
     }
 
     public void ReduceTime() {
-
-        getHourValue = analogclock.getHourTimeValue();
-        getMinutesValue = analogclock.getMinutesTimeValue();
-        if (!isChangeTime) {
-            setHourValue = getHourValue;
-            setMinutesValue = getMinutesValue;
-        }
-        if (analogclock.ChangeTimeType == 1) {
-            analogclock.setTimeValue(1, setHourValue);
-            setHourValue--;
-        } else {
-            analogclock.setTimeValue(2, setMinutesValue);
-            setMinutesValue--;
-        }
+        int a = (int) analogclock.getMinutesTimeValue();
+        a--;
+        analogclock.setTimeValue(2, a);
         isChangeTime = true;
+    }
+    public  float  getSmall2TimeValue(){
+        return  analogclock.getMinutesTimeValue();
     }
 }

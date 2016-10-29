@@ -63,10 +63,6 @@ public class TimeSynchronization extends BaseActivity {
     ImageView ivRight;
     @BindView(R.id.viewpager)
     MyViewPage viewpager;
-    private int getMinutesValue;
-    private int getHourValue;
-    private int setMinutesValue;
-    private int setHourValue;
     private boolean isChangeTime = false;
     private CheckAnalogClock checkAnalogClock;
 
@@ -76,6 +72,9 @@ public class TimeSynchronization extends BaseActivity {
     private SmallFragment3 smallFragment3;
     private MainDialFragment mainDialFragment;
     private TimeSynchronization.FragmentAdapter mFragmentAdapter;
+    private  int small1TimeValue;
+    private  int small2TimeValue;
+    private  int small3TimeValue;
     private int item;
     private GuideShowDialog guideShowDialog;
 
@@ -190,6 +189,19 @@ public class TimeSynchronization extends BaseActivity {
             case R.id.but_reset:   /// 重置
                 break;
             case R.id.but_synchronization:    ///同步
+
+//                small1TimeValue =PreferenceData.getSelectedSmall1Value(TimeSynchronization.this);
+//                small2TimeValue =PreferenceData.getSelectedSmall2Value(TimeSynchronization.this);
+//                small3TimeValue =PreferenceData.getSelectedSmall3Value(TimeSynchronization.this);
+//
+//                small3TimeValue=(int)smallFragment1.getSmall1TimeValue();
+//
+//                Log.i("TAG","small1====="+String.valueOf(small1TimeValue));
+//                Log.i("TAG","small2====="+String.valueOf(small2TimeValue));
+//                Log.i("TAG","small3====="+String.valueOf(small3TimeValue));
+
+
+
                 break;
             case R.id.btnExit:   // 退出
                 TimeSynchronization.this.finish();
@@ -333,8 +345,19 @@ public class TimeSynchronization extends BaseActivity {
             butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
             butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
         }
-       float  aa =   PreferenceData.getSelectedHourValue(TimeSynchronization.this);
         mainDialFragment.setHourTimeValue(PreferenceData.getSelectedHourValue(TimeSynchronization.this));
         mainDialFragment.setMuinutesTimeValue(PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this));
+    }
+
+
+    /***
+     *     小针 归0
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceData.setSelectedSmall1Value(TimeSynchronization.this,0);
+        PreferenceData.setSelectedSmall2Value(TimeSynchronization.this,0);
+        PreferenceData.setSelectedSmall3Value(TimeSynchronization.this,0);
     }
 }

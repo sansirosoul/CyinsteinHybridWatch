@@ -71,7 +71,6 @@ public class AddClockActivity extends BaseActivity {
                 hours.add("0" + i);
             } else {
                 hours.add("" + i);
-
             }
         }
         for (int i = 0; i < 60; i++) {
