@@ -53,6 +53,7 @@ public class HomeActivity extends BaseActivity {
                 Intent timeIntent = new Intent(HomeActivity.this, TimeSynchronization.class);
                 startActivity(timeIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
+
                 break;
             case R.id.ll_notice:
                 Intent noticeIntent = new Intent(HomeActivity.this, NotificationActivty.class);
