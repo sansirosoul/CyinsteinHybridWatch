@@ -1,7 +1,5 @@
 package com.ysp.newband;
 
-import java.util.ArrayList;
-
 import android.app.Application;
 import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
@@ -11,9 +9,10 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
-import com.xyy.Gazella.BroadcastReceiver.PhoneBroadcastReceiver;
-import com.xyy.Gazella.googlebth.BluetoothLeService;
 
+import com.xyy.Gazella.BroadcastReceiver.PhoneBroadcastReceiver;
+import com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver;
+import com.xyy.Gazella.googlebth.BluetoothLeService;
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.model.User;
 
@@ -33,10 +32,12 @@ public class GazelleApplication extends Application {
 	public static String UUID;
 	// 来电监听广播
 	public static PhoneBroadcastReceiver phoneBroadcastReceiver;
+	public static PhoneStatReceiver mPhoneStatReceiver;
 	public static IntentFilter intentFoilter;
 	public static boolean isPhoneCall;
 	public static boolean isCall;
 	private static int bandType=1;
+	public static String deviceName = null;
 
 	public static GazelleApplication getInstance() {
 		return instance;
@@ -101,7 +102,9 @@ public class GazelleApplication extends Application {
 	private void phoneRegisterReceiver() {
 		intentFoilter = new IntentFilter();
 		intentFoilter.addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
-		phoneBroadcastReceiver = new PhoneBroadcastReceiver(this);
+//		phoneBroadcastReceiver = new PhoneBroadcastReceiver(this);
+
+		mPhoneStatReceiver=new PhoneStatReceiver();
 	}
 
 	@Override
@@ -113,10 +116,12 @@ public class GazelleApplication extends Application {
 	}
 
 	public static void RegisterReceiver(Context context) {
-		context.registerReceiver(phoneBroadcastReceiver, intentFoilter);
+//		context.registerReceiver(phoneBroadcastReceiver, intentFoilter);
+		context.registerReceiver(mPhoneStatReceiver, intentFoilter);
 	}
 
 	public static void UnRegisterReceiver(Context context) {
-		context.unregisterReceiver(phoneBroadcastReceiver);
-	}	
+//		context.unregisterReceiver(phoneBroadcastReceiver);
+		context.unregisterReceiver(mPhoneStatReceiver);
+	}
 }

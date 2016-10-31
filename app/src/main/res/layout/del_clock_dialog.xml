@@ -7,30 +7,45 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
-            <EditText
-                android:id="@+id/et_name"
-                android:text="ROSEN"
-                android:paddingLeft="10dp"
-                android:background="@null"
-                android:textColor="#7a7a7a"
-                android:textSize="17sp"
+            android:layout_height="45dp">
+            <ImageView
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_centerInParent="true"
-                android:layout_width="match_parent"
+                android:src="@drawable/page39_warming"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <View
-                android:layout_marginTop="5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_below="@+id/et_name"
-                android:background="#7a7a7a"
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:gravity="center_vertical"
+                android:text="@string/warn"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-        </RelativeLayout>
+                android:layout_height="45dp" />
+        </LinearLayout>
+        <View
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#dddddd"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:text="是否确认删除闹钟？"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
         <LinearLayout
             android:orientation="horizontal"
             android:background="@drawable/blue_dialog"
@@ -39,7 +54,7 @@
             <TextView
                 android:id="@+id/cancel"
                 android:gravity="center"
-                android:text="@string/cancel"
+                android:text="@string/no"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:layout_width="0dp"
@@ -54,7 +69,7 @@
             <TextView
                 android:id="@+id/confirm"
                 android:gravity="center"
-                android:text="@string/confirm"
+                android:text="@string/yes"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:layout_width="0dp"

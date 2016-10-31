@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl7"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -26,12 +27,10 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ToggleButton
-            android:id="@+id/tg_sunday"
-            android:textOn=""
-            android:textOff=""
+        <ImageView
+            android:id="@+id/iv7"
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog2"
+            android:background="@drawable/page36_nor"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -42,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl1"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -53,12 +53,10 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ToggleButton
-            android:id="@+id/tg_monday"
-            android:textOn=""
-            android:textOff=""
+        <ImageView
+            android:id="@+id/iv1"
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog2"
+            android:background="@drawable/page36_nor"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -69,6 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl2"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -80,12 +79,10 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ToggleButton
-            android:id="@+id/tg_tuesday"
-            android:textOn=""
-            android:textOff=""
+        <ImageView
+            android:id="@+id/iv2"
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog2"
+            android:background="@drawable/page36_nor"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -96,6 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl3"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -107,12 +105,10 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ToggleButton
-            android:id="@+id/tg_wednesday"
-            android:textOn=""
-            android:textOff=""
+        <ImageView
+            android:id="@+id/iv3"
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog2"
+            android:background="@drawable/page36_nor"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -123,6 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl4"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -134,12 +131,10 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ToggleButton
-            android:id="@+id/tg_thursday"
-            android:textOn=""
-            android:textOff=""
+        <ImageView
+            android:id="@+id/iv4"
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog2"
+            android:background="@drawable/page36_nor"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
@@ -150,6 +145,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl5"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -161,10 +157,8 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ToggleButton
-            android:id="@+id/tg_friday"
-            android:textOn=""
-            android:textOff=""
+        <ImageView
+            android:id="@+id/iv5"
             android:layout_marginRight="20dp"
             android:background="@drawable/selector_clock_dialog2"
             android:layout_centerVertical="true"
@@ -177,6 +171,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl6"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -188,12 +183,10 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <ToggleButton
-            android:id="@+id/tg_saturday"
-            android:textOn=""
-            android:textOff=""
+        <ImageView
+            android:id="@+id/iv6"
             android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog2"
+            android:background="@drawable/page36_nor"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"

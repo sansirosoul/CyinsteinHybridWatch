@@ -99,11 +99,11 @@ public class HealthyActivity extends BaseActivity {
             public void onPageSelected(int position) {
                 switch (position) {
                     case 0:
-                        step.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed));
+                        step.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed_left));
                         sleep.setBackground(null);
                         break;
                     case 1:
-                        sleep.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed));
+                        sleep.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed_right));
                         step.setBackground(null);
                         break;
                 }
@@ -120,12 +120,12 @@ public class HealthyActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.step:
-                step.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed));
+                step.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed_left));
                 sleep.setBackground(null);
                 viewPager.setCurrentItem(0);
                 break;
             case R.id.sleep:
-                sleep.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed));
+                sleep.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed_right));
                 step.setBackground(null);
                 viewPager.setCurrentItem(1);
                 break;

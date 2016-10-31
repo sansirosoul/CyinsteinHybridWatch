@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.xyy.Gazella.view.AnalogClock;
 import com.ysp.newband.BaseFragment;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -23,55 +25,63 @@ public class MainDialFragment extends BaseFragment {
     AnalogClock analogclock;
     private View view;
 
-    private int getMinutesValue;
-    private int getHourValue;
-    private int setMinutesValue;
-    private int setHourValue;
     private boolean isChangeTime = false;
+    private  ViewTreeObserver vto;
+    private  boolean saveValue=true;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_main_dial, container, false);
         ButterKnife.bind(this, view);
+
+
+        vto = analogclock.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                if(saveValue) {
+                    PreferenceData.setSelectedHourValue(getActivity(), analogclock.getHourTimeValue());
+                    PreferenceData.setSelectedMuinutesValue(getActivity(), analogclock.getMinutesTimeValue());
+                }
+                return true;
+            }
+        });
         return view;
     }
 
     public void setChangeTimeType(int ChangeTimeType) {
         analogclock.setChangeTimeType(ChangeTimeType);
     }
+    public  void setHourTimeValue(float value){
+         analogclock.setTimeValue(1,value);
+    }
+    public  void setMuinutesTimeValue(float value){
+         analogclock.setTimeValue(2,value);
+    }
 
     public void AddTime() {
-
-        getHourValue = analogclock.getHourTimeValue();
-        getMinutesValue = analogclock.getMinutesTimeValue();
-        if (!isChangeTime) {
-            setHourValue = getHourValue;
-            setMinutesValue = getMinutesValue;
-        }
         if (analogclock.ChangeTimeType == 1) {
-            analogclock.setTimeValue(1, setHourValue);
-            setHourValue++;
-        } else {
-            analogclock.setTimeValue(2, setMinutesValue);
-            setMinutesValue++;
+            int a = (int)analogclock.getHourTimeValue();
+            a++;
+            analogclock.setTimeValue(1, a);
+        }else {
+            int a = (int)analogclock.getMinutesTimeValue();
+            a++;
+            analogclock.setTimeValue(2, a);
         }
         isChangeTime = true;
+
     }
 
     public void ReduceTime() {
-
-        getHourValue = analogclock.getHourTimeValue();
-        getMinutesValue = analogclock.getMinutesTimeValue();
-        if (!isChangeTime) {
-            setHourValue = getHourValue;
-            setMinutesValue = getMinutesValue;
-        }
         if (analogclock.ChangeTimeType == 1) {
-            analogclock.setTimeValue(1, setHourValue);
-            setHourValue--;
-        } else {
-            analogclock.setTimeValue(2, setMinutesValue);
-            setMinutesValue--;
+            int a =(int) analogclock.getHourTimeValue();
+            a--;
+            analogclock.setTimeValue(1, a);
+        }else {
+            int a = (int)analogclock.getMinutesTimeValue();
+            a--;
+            analogclock.setTimeValue(2, a);
         }
         isChangeTime = true;
     }
@@ -81,5 +91,17 @@ public class MainDialFragment extends BaseFragment {
     }
     public  void  setMuinutesDrawable(int drawable){
         analogclock.setMinuteDrawable(drawable);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        saveValue=false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        saveValue=true;
     }
 }

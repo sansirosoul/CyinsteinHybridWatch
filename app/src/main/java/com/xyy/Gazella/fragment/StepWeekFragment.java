@@ -2,7 +2,6 @@ package com.xyy.Gazella.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.xyy.Gazella.utils.SomeUtills;
+import com.ysp.newband.BaseFragment;
 import com.ysp.smartwatch.R;
 
 import java.text.ParseException;
@@ -37,7 +37,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/10/11.
  */
 
-public class StepWeekFragment extends Fragment {
+public class StepWeekFragment extends BaseFragment {
     @BindView(R.id.chart1)
     BarChart mChart;
     @BindView(R.id.ll_date)
@@ -79,6 +79,8 @@ public class StepWeekFragment extends Fragment {
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
+        mChart.setDoubleTapToZoomEnabled(false);//双击缩放
+
         XAxis xAxis = mChart.getXAxis();
 
         xAxis.setAvoidFirstLastClipping(true);

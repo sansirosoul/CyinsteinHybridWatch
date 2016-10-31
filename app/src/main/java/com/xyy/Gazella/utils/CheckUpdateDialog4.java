@@ -31,7 +31,6 @@ public class CheckUpdateDialog4 extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.check_update_dialog4);
         setDialogAttributes((Activity) context, this, 0, 0, Gravity.CENTER);
-        setCanceledOnTouchOutside(false);
 
     }
 

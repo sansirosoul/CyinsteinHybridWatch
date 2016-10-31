@@ -19,12 +19,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * 滚动选择器 更多详解见博客http://blog.csdn.net/zhongkejingwang/article/details/38513301
- * 
- * @author chenjing
- * 
- */
 public class PickerViewMinute extends View
 {
 
@@ -62,7 +56,9 @@ public class PickerViewMinute extends View
 	 */
 	private float mMoveLen = 0;
 	private boolean isInit = false;
+	private boolean isSelect = false;
 	private onSelectListener mSelectListener;
+	private onScrollListener mScrollListener;
 	private Timer timer;
 	private MyTimerTask mTask;
 
@@ -104,6 +100,10 @@ public class PickerViewMinute extends View
 	public void setOnSelectListener(onSelectListener listener)
 	{
 		mSelectListener = listener;
+	}
+
+	public void setOnScrollListener(onScrollListener listener){
+		mScrollListener=listener;
 	}
 
 	private void performSelect()
@@ -217,12 +217,22 @@ public class PickerViewMinute extends View
 		Paint.FontMetricsInt fmi = mPaint.getFontMetricsInt();
 		float baseline = (float) (y - (fmi.bottom / 2.0 + fmi.top / 2.0));
 
-        mPaint.setColor(getResources().getColor(R.color.white));
+		if(isSelect){
+			if(mScrollListener!=null)
+				mScrollListener.onScroll();
+			mPaint.setColor(getResources().getColor(R.color.edit_clock_blue));
+		}else{
+			mPaint.setColor(getResources().getColor(R.color.white));
+		}
 		canvas.drawText(mDataList.get(mCurrentSelected), x, baseline, mPaint);
 
 		Paint circlePaint = new Paint();
 		circlePaint.setAntiAlias(true); //设置画笔为无锯齿
-		circlePaint.setColor(getResources().getColor(R.color.white)); //设置画笔颜色
+		if(isSelect){
+			circlePaint.setColor(getResources().getColor(R.color.edit_clock_blue)); //设置画笔颜色
+		}else{
+			circlePaint.setColor(getResources().getColor(R.color.white)); //设置画笔颜色
+		}
 		circlePaint.setStrokeWidth((float) 3.0); //线宽
 		circlePaint.setStyle(Paint.Style.STROKE); //空心效果
 		Rect rectCircle = new Rect(3, 3, (int)x, (int)y);
@@ -243,6 +253,11 @@ public class PickerViewMinute extends View
 
 	}
 
+	public void setSelect(boolean flag){
+		isSelect=flag;
+		invalidate();
+	}
+
 	/**
 	 * @param canvas
 	 * @param position
@@ -252,6 +267,7 @@ public class PickerViewMinute extends View
 	 */
 	private void drawOtherText(Canvas canvas, int position, int type)
 	{
+		isSelect=true;
 		float d = (float) (MARGIN_ALPHA * mMinTextSize * position + type
 				* mMoveLen);
 		float scale = parabola(mViewHeight / 4.0f, d);
@@ -367,5 +383,9 @@ public class PickerViewMinute extends View
 	public interface onSelectListener
 	{
 		void onSelect(String text);
+	}
+
+	public interface onScrollListener{
+		void onScroll();
 	}
 }

@@ -28,6 +28,7 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/del"
+        android:focusable="false"
         android:layout_toLeftOf="@+id/tg_btn"
         android:layout_centerVertical="true"
         android:layout_marginRight="25dp"
@@ -46,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <View
-        android:background="#797979"
+        android:background="#2b2b2b"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_alignParentBottom="true"

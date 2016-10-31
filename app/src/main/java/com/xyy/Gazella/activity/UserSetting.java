@@ -12,6 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.xyy.Gazella.utils.CalendarDialog;
+import com.xyy.Gazella.utils.HeightDialog;
+import com.xyy.Gazella.utils.SharedPreferencesUtils;
+import com.xyy.Gazella.utils.WeightDialog;
+import com.xyy.model.User;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -50,6 +55,11 @@ public class UserSetting extends BaseActivity {
     @BindView(R.id.save)
     ImageView save;
     private Context context;
+    private WeightDialog.OnSelectedListener wOnSelectedListener;
+    private HeightDialog.OnSelectedListener hSelectedListener;
+    private CalendarDialog.OnSelectedListener cSelectedListener;
+    private SharedPreferencesUtils preferencesUtils;
+    private int sex = -1;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -61,11 +71,39 @@ public class UserSetting extends BaseActivity {
     }
 
     private void initView() {
+        preferencesUtils = new SharedPreferencesUtils(context);
+        User user = preferencesUtils.getUserInfo();
+        if (user.getName() != null && !user.getName().equals("")){
+            edName.setText(user.getName());
+        }
+        if (user.getBirthday() != null && !user.getBirthday().equals("")){
+            tvBirth.setText(user.getBirthday());
+            tvBirth.setTextColor(context.getResources().getColor(R.color.white));
+        }
+        if (user.getHeight() != null && !user.getHeight().equals("")){
+            tvHeight.setText(user.getHeight());
+            tvHeight.setTextColor(context.getResources().getColor(R.color.white));
+        }
+        if (user.getWeight() != null && !user.getWeight().equals("")){
+            tvWeight.setText(user.getWeight());
+            tvWeight.setTextColor(context.getResources().getColor(R.color.white));
+        }
+        if (user.getSex() != -1) {
+            sex = user.getSex();
+            if (sex == 0) {
+                tgMale.setChecked(true);
+                tgFemale.setChecked(false);
+            }else {
+                tgMale.setChecked(false);
+                tgFemale.setChecked(true);
+            }
+        }
 
         tgMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    sex=0;
                     tgFemale.setChecked(false);
                 }
             }
@@ -75,10 +113,35 @@ public class UserSetting extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    sex=1;
                     tgMale.setChecked(false);
                 }
             }
         });
+
+        wOnSelectedListener = new WeightDialog.OnSelectedListener() {
+            @Override
+            public void onSelected(String text) {
+                tvWeight.setText(text);
+                tvWeight.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        };
+
+        hSelectedListener = new HeightDialog.OnSelectedListener() {
+            @Override
+            public void onSelected(String text) {
+                tvHeight.setText(text);
+                tvHeight.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        };
+
+        cSelectedListener = new CalendarDialog.OnSelectedListener() {
+            @Override
+            public void onSelected(String text) {
+                tvBirth.setText(text);
+                tvBirth.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        };
     }
 
     @OnClick({R.id.back, R.id.head, R.id.ll_birth, R.id.ll_height, R.id.ll_weight, R.id.save})
@@ -105,14 +168,26 @@ public class UserSetting extends BaseActivity {
                     Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                preferencesUtils.setUserInfo(edName.getText().toString(),tvBirth.getText().toString(),sex,tvHeight.getText().toString(),tvWeight.getText().toString());
+                finish();
+                overridePendingTransitionExit(UserSetting.this);
                 break;
             case R.id.head:
                 break;
             case R.id.ll_birth:
+                CalendarDialog calendarDialog = new CalendarDialog(context);
+                calendarDialog.setOnSelectedListener(cSelectedListener);
+                calendarDialog.show();
                 break;
             case R.id.ll_height:
+                HeightDialog heightDialog = new HeightDialog(context);
+                heightDialog.setOnSelectedListener(hSelectedListener);
+                heightDialog.show();
                 break;
             case R.id.ll_weight:
+                WeightDialog weightDialog = new WeightDialog(context);
+                weightDialog.setOnSelectedListener(wOnSelectedListener);
+                weightDialog.show();
                 break;
         }
     }

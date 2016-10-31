@@ -275,8 +275,6 @@ public class AnalogClock extends View {
         }
         dial.draw(canvas);
         canvas.save();
-
-
         canvas.rotate(mHour / 12.0f * 360.0f, x, y);
 
         if (mHourHand != null) {
@@ -372,8 +370,23 @@ public class AnalogClock extends View {
         return true;
     }
 
-    public int getHourTimeValue() {
-        return (int) mHour;
+
+    /***
+     *   获取 时针值
+     * @return
+     */
+
+    public float getHourTimeValue() {
+        return  mHour;
+    }
+
+    /***
+     *    获取分针值
+     * @return
+     */
+
+    public float getMinutesTimeValue() {
+        return mMinutes;
     }
 
     /***
@@ -381,7 +394,7 @@ public class AnalogClock extends View {
      * @param TimeValue 设置时间值
      */
 
-    public void setTimeValue(int TimeType, int TimeValue) {
+    public void setTimeValue(int TimeType, float TimeValue) {
         if (TimeType == 1)
             mHour = TimeValue;
         else
@@ -390,12 +403,6 @@ public class AnalogClock extends View {
         postInvalidate();
 
     }
-
-    public int getMinutesTimeValue() {
-
-        return (int) mMinutes;
-    }
-
 
     public interface ChangeTimeListener {
         void ChangeTimeListener(int TimeValue);

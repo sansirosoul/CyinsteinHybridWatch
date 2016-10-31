@@ -1,13 +1,14 @@
 package com.xyy.Gazella.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.xyy.Gazella.view.AnalogClock;
 import com.ysp.newband.BaseFragment;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -19,65 +20,65 @@ import butterknife.ButterKnife;
 
 public class SmallFragment1 extends BaseFragment {
 
+    private  static  final  String TAG= SmallFragment1.class.getName();
 
     @BindView(R.id.analogclock)
     AnalogClock analogclock;
     private View view;
 
-    private int getMinutesValue;
-    private int getHourValue;
-    private int setMinutesValue;
-    private int setHourValue;
+
     private boolean isChangeTime = false;
-    private  boolean ismove;
+    private  ViewTreeObserver vto;
+    private  boolean saveValue=true;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_small_1, container, false);
         ButterKnife.bind(this, view);
         analogclock.setChangeTimeType(2);
-        analogclock.setTimeValue(2,0);
+        analogclock.setTimeValue(2, 0);
+        analogclock.setTimeValue(2,PreferenceData.getSelectedSmall1Value(getActivity()));
 
+        vto = analogclock.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                if(saveValue) {
+                    PreferenceData.setSelectedSmall1Value(getActivity(), (int)analogclock.getMinutesTimeValue());
+
+                }
+                return true;
+            }
+        });
         return view;
     }
-    public void AddTime() {
 
-        getHourValue = analogclock.getHourTimeValue();
-        getMinutesValue = analogclock.getMinutesTimeValue();
-        if (!isChangeTime) {
-            setHourValue = getHourValue;
-            setMinutesValue = getMinutesValue;
-        }
-        if (analogclock.ChangeTimeType == 1) {
-            analogclock.setTimeValue(1, setHourValue);
-            setHourValue++;
-        } else {
-            analogclock.setTimeValue(2, setMinutesValue);
-            setMinutesValue++;
-        }
+    public void AddTime() {
+        int a = (int) analogclock.getMinutesTimeValue();
+        a++;
+        analogclock.setTimeValue(2, a);
         isChangeTime = true;
     }
 
     public void ReduceTime() {
-
-        getHourValue = analogclock.getHourTimeValue();
-        getMinutesValue = analogclock.getMinutesTimeValue();
-        if (!isChangeTime) {
-            setHourValue = getHourValue;
-            setMinutesValue = getMinutesValue;
-        }
-        if (analogclock.ChangeTimeType == 1) {
-            analogclock.setTimeValue(1, setHourValue);
-            setHourValue--;
-        } else {
-            analogclock.setTimeValue(2, setMinutesValue);
-            setMinutesValue--;
-        }
+        int a = (int) analogclock.getMinutesTimeValue();
+        a--;
+        analogclock.setTimeValue(2, a);
         isChangeTime = true;
     }
+    public  float  getSmall1TimeValue(){
+        return  analogclock.getMinutesTimeValue();
+    }
 
-    private  boolean getIsMove(){
+    @Override
+    public void onStop() {
+        super.onStop();
+        saveValue=false;
+    }
 
-        return ismove;
+    @Override
+    public void onResume() {
+        super.onResume();
+        saveValue=true;
     }
 }
