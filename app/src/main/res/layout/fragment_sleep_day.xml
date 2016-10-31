@@ -115,7 +115,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_weight="1"
@@ -157,7 +157,8 @@
             <LinearLayout
                 android:id="@+id/ll_sleep_bata"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9"
                 android:orientation="vertical">
 
             <RelativeLayout
@@ -225,7 +226,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:background="#4A4A4A" />
             </RelativeLayout>
 
@@ -294,7 +295,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:background="#4A4A4A" />
             </RelativeLayout>
 
@@ -363,7 +364,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:background="#4A4A4A" />
 
                 <RelativeLayout
@@ -431,7 +432,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/ll_sleep"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="5dp"
                         android:background="#4A4A4A" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -501,7 +502,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:background="#4A4A4A" />
             </RelativeLayout>
 
