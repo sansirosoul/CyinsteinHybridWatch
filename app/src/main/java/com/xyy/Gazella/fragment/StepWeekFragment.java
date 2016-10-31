@@ -107,6 +107,7 @@ public class StepWeekFragment extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 new SomeUtills().setCalendarViewGone(1);
+
                 return false;
             }
         });

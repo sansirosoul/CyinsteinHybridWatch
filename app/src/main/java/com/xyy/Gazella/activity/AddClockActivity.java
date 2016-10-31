@@ -81,6 +81,7 @@ public class AddClockActivity extends BaseActivity {
         pvHour.setData(hours);
         pvMinute.setData(minutes);
 
+
         pvHour.setOnSelectListener(new PickerViewHour.onSelectListener() {
             @Override
             public void onSelect(String text) {
