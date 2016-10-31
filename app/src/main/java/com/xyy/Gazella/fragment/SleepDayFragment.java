@@ -1,7 +1,9 @@
 package com.xyy.Gazella.fragment;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,6 +58,7 @@ public class SleepDayFragment extends BaseFragment {
     private String[] XString = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",};
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_sleep_day, container, false);
@@ -63,6 +66,7 @@ public class SleepDayFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         initChart();
         tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 0));
+
 
         return view;
     }

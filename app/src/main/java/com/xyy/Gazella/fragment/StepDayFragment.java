@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -30,6 +32,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.ysp.smartwatch.R.id.ll_step_day;
+
 /**
  * Created by Administrator on 2016/10/11.
  */
@@ -45,20 +49,45 @@ public class StepDayFragment extends BaseFargment {
     ImageView ivLeft;
     @BindView(R.id.iv_right)
     ImageView ivRight;
-    @BindView(R.id.ll_step_day)
+    @BindView(ll_step_day)
     LinearLayout llStepDay;
+    @BindView(R.id.scrollView_step_day)
+    ScrollView scrollViewStepDay;
+    @BindView(R.id.ll_sleep_statistics)
+    LinearLayout llSleepStatistics;
     private View view;
     private String[] xValue = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23",};
+    private ViewTreeObserver vtoChart;
+    private int wChatr;
+    private int hChatr;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_step_day, container, false);
 
         ButterKnife.bind(this, view);
         initChart();
+        initView();
 
         tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 0));
         super.onCreateView(inflater, container, savedInstanceState);
         return view;
+    }
+
+    private void initView() {
+        vtoChart = mChart.getViewTreeObserver();
+        vtoChart.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                final ViewGroup.LayoutParams params = mChart.getLayoutParams();
+                params.width = mChart.getWidth();
+                params.height = mChart.getHeight();
+
+                wChatr = params.width;
+                hChatr = params.height;
+                return true;
+            }
+        });
     }
 
     private void initChart() {
@@ -204,7 +233,7 @@ public class StepDayFragment extends BaseFargment {
         tvDate.setText(date);
     }
 
-    @OnClick({R.id.iv_left, R.id.iv_right,R.id.ll_step_day})
+    @OnClick({R.id.iv_left, R.id.iv_right, ll_step_day})
     public void onClick(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         Date date = null;
@@ -226,8 +255,8 @@ public class StepDayFragment extends BaseFargment {
                         "1500", "1600", "1700", "1800", "1900", "2000", "2100", "2200", "2300",};
                 updateUI(xValues);
                 break;
-            case R.id.ll_step_day:
-               new SomeUtills().setCalendarViewGone(1);
+            case ll_step_day:
+                new SomeUtills().setCalendarViewGone(1);
                 break;
         }
     }
@@ -235,5 +264,18 @@ public class StepDayFragment extends BaseFargment {
     public void updateUI(String[] xValue) {
         this.xValue = xValue;
         setChartData();
+    }
+
+    public void setScrollViewStepDay(boolean type) {
+        if (type) {
+            llSleepStatistics.setVisibility(View.VISIBLE);
+        } else {
+            llSleepStatistics.setVisibility(View.GONE);
+        }
+        scrollViewStepDay.setFillViewport(type);
+        ViewGroup.LayoutParams lp = mChart.getLayoutParams();
+        lp.width = wChatr;
+        lp.height = hChatr;
+        mChart.setLayoutParams(lp);
     }
 }

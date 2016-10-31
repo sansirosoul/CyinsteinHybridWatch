@@ -36,7 +36,7 @@ import butterknife.OnClick;
 public class StepActivity extends BaseActivity implements OnDateSelectedListener {
 
     @BindView(R.id.calendarView)
-   public MaterialCalendarView widget;
+    public MaterialCalendarView widget;
     @BindView(R.id.btnExit)
     Button btnExit;
     @BindView(R.id.btnOpt)
@@ -66,7 +66,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private Calendar CalendarInstance = Calendar.getInstance();
     private HashMap<String, String> weekMap;
-    public static  StepActivity stepActivity=null;
+    public static StepActivity stepActivity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         initView();
         initCalendar();
         InitViewPager();
-        stepActivity=this;
+        stepActivity = this;
     }
 
     private void initView() {
@@ -179,36 +179,39 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     }
 
     /***
-     *     是否显示 选择日期条  , 日历
-     * @param type     1 是显示  2 是隐藏
+     * 是否显示 选择日期条  , 日历
+     *
+     * @param type 1 是显示  2 是隐藏
      */
 
-    public   void  setLlDateVisible(int type){
-        if(type==1){
+    public void setLlDateVisible(int type) {
+        if (type == 1) {
 
             widget.setVisibility(View.GONE);
             llCheckDate.setVisibility(View.VISIBLE);
             btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
 
-            if(!stepDayFragment.getLlDateVisible())
+            if (!stepDayFragment.getLlDateVisible())
                 stepDayFragment.setLlDateVisible(View.VISIBLE);
-            if(!stepWeekFragment.getLlDateVisible())
+            stepDayFragment.setScrollViewStepDay(true);
+            if (!stepWeekFragment.getLlDateVisible())
                 stepWeekFragment.setLlDateVisible(View.VISIBLE);
-            if(!stepMonthFragment.getLlDateVisible())
+            if (!stepMonthFragment.getLlDateVisible())
                 stepMonthFragment.setLlDateVisible(View.VISIBLE);
 
-        }else {
+        } else {
 
             //初始化日历
             widget.setVisibility(View.VISIBLE);
             btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
             llCheckDate.setVisibility(View.GONE);
 
-            if(stepDayFragment.getLlDateVisible())
+            if (stepDayFragment.getLlDateVisible())
                 stepDayFragment.setLlDateVisible(View.GONE);
-            if(stepWeekFragment.getLlDateVisible())
+                stepDayFragment.setScrollViewStepDay(false);
+            if (stepWeekFragment.getLlDateVisible())
                 stepWeekFragment.setLlDateVisible(View.GONE);
-            if(stepMonthFragment.getLlDateVisible())
+            if (stepMonthFragment.getLlDateVisible())
                 stepMonthFragment.setLlDateVisible(View.GONE);
         }
     }
@@ -248,8 +251,8 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 stepDayFragment.updateUI(new String[]{});
                 break;
             case 1:
-                weekMap= new SomeUtills().getWeekdate(date.getDate());
-                if(weekMap!=null)
+                weekMap = new SomeUtills().getWeekdate(date.getDate());
+                if (weekMap != null)
                     stepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
                 break;
             case 2:
@@ -257,6 +260,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 break;
         }
     }
+
     public class FragmentAdapter extends FragmentPagerAdapter {
 
         List<Fragment> fragmentList = new ArrayList<>();

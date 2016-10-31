@@ -62,6 +62,7 @@ public class SmallFragment1 extends BaseFragment {
 
     public void ReduceTime() {
         int a = (int) analogclock.getMinutesTimeValue();
+        if(a==0)a=60;
         a--;
         analogclock.setTimeValue(2, a);
         isChangeTime = true;

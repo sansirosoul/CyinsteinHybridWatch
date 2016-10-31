@@ -25,10 +25,6 @@ public class SmallFragment2 extends BaseFragment {
     AnalogClock analogclock;
     private View view;
 
-    private float getMinutesValue;
-    private float getHourValue;
-    private float setMinutesValue;
-    private float setHourValue;
     private boolean isChangeTime = false;
 
     private  ViewTreeObserver vto;
@@ -65,6 +61,7 @@ public class SmallFragment2 extends BaseFragment {
 
     public void ReduceTime() {
         int a = (int) analogclock.getMinutesTimeValue();
+        if(a==0)a=60;
         a--;
         analogclock.setTimeValue(2, a);
         isChangeTime = true;
