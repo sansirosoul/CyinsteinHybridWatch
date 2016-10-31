@@ -11,24 +11,27 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
-import com.xyy.Gazella.activity.AddClockActivity;
 import com.ysp.smartwatch.R;
-
-import butterknife.BindView;
-import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2016/10/26.
  */
 
 public class ClockDialog1 extends Dialog implements View.OnClickListener{
-    private Button cancel,btn5,btn10,btn15,btn20,btn25,btn30;
+    private Button cancel;
+    private RelativeLayout rl5,rl10,rl15,rl20,rl25,rl30;
+    public ImageView iv5,iv10,iv15,iv20,iv25,iv30;
     private Context context;
+    private String ringtime;
+    private OnClickListener mOnClickListener;
 
-    public ClockDialog1(Context context) {
+    public ClockDialog1(Context context,String ringtime) {
         super(context, R.style.dialog);
         this.context = context;
+        this.ringtime=ringtime;
     }
 
     @Override
@@ -40,20 +43,46 @@ public class ClockDialog1 extends Dialog implements View.OnClickListener{
         setCanceledOnTouchOutside(false);
 
         cancel= (Button) findViewById(R.id.cancel);
-        btn5= (Button) findViewById(R.id.btn5);
-        btn10= (Button) findViewById(R.id.btn10);
-        btn15= (Button) findViewById(R.id.btn15);
-        btn20= (Button) findViewById(R.id.btn20);
-        btn25= (Button) findViewById(R.id.btn25);
-        btn30= (Button) findViewById(R.id.btn30);
+        rl5= (RelativeLayout) findViewById(R.id.rl5);
+        rl10= (RelativeLayout) findViewById(R.id.rl10);
+        rl15= (RelativeLayout) findViewById(R.id.rl15);
+        rl20= (RelativeLayout) findViewById(R.id.rl20);
+        rl25= (RelativeLayout) findViewById(R.id.rl25);
+        rl30= (RelativeLayout) findViewById(R.id.rl30);
+
+        iv5= (ImageView) findViewById(R.id.iv5);
+        iv10= (ImageView) findViewById(R.id.iv10);
+        iv15= (ImageView) findViewById(R.id.iv15);
+        iv20= (ImageView) findViewById(R.id.iv20);
+        iv25= (ImageView) findViewById(R.id.iv25);
+        iv30= (ImageView) findViewById(R.id.iv30);
 
         cancel.setOnClickListener(this);
-        btn5.setOnClickListener(this);
-        btn10.setOnClickListener(this);
-        btn15.setOnClickListener(this);
-        btn20.setOnClickListener(this);
-        btn25.setOnClickListener(this);
-        btn30.setOnClickListener(this);
+        rl5.setOnClickListener(this);
+        rl10.setOnClickListener(this);
+        rl15.setOnClickListener(this);
+        rl20.setOnClickListener(this);
+        rl25.setOnClickListener(this);
+        rl30.setOnClickListener(this);
+
+        if(ringtime.equals("5分钟")){
+            iv5.setBackgroundResource(R.drawable.page36_sel);
+        }
+        if(ringtime.equals("10分钟")){
+            iv10.setBackgroundResource(R.drawable.page36_sel);
+        }
+        if(ringtime.equals("15分钟")){
+            iv15.setBackgroundResource(R.drawable.page36_sel);
+        }
+        if(ringtime.equals("20分钟")){
+            iv20.setBackgroundResource(R.drawable.page36_sel);
+        }
+        if(ringtime.equals("25分钟")){
+            iv25.setBackgroundResource(R.drawable.page36_sel);
+        }
+        if(ringtime.equals("30分钟")){
+            iv30.setBackgroundResource(R.drawable.page36_sel);
+        }
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,
@@ -76,30 +105,38 @@ public class ClockDialog1 extends Dialog implements View.OnClickListener{
             case R.id.cancel:
                 dismiss();
                 break;
-            case R.id.btn5:
-                AddClockActivity.tvRingtime.setText("5分钟");
+            case R.id.rl5:
+                mOnClickListener.onClick("5分钟");
                 dismiss();
                 break;
-            case R.id.btn10:
-                AddClockActivity.tvRingtime.setText("10分钟");
+            case R.id.rl10:
+                mOnClickListener.onClick("10分钟");
                 dismiss();
                 break;
-            case R.id.btn15:
-                AddClockActivity.tvRingtime.setText("15分钟");
+            case R.id.rl15:
+                mOnClickListener.onClick("15分钟");
                 dismiss();
                 break;
-            case R.id.btn20:
-                AddClockActivity.tvRingtime.setText("20分钟");
+            case R.id.rl20:
+                mOnClickListener.onClick("20分钟");
                 dismiss();
                 break;
-            case R.id.btn25:
-                AddClockActivity.tvRingtime.setText("25分钟");
+            case R.id.rl25:
+                mOnClickListener.onClick("25分钟");
                 dismiss();
                 break;
-            case R.id.btn30:
-                AddClockActivity.tvRingtime.setText("30分钟");
+            case R.id.rl30:
+                mOnClickListener.onClick("30分钟");
                 dismiss();
                 break;
         }
+    }
+
+    public void setOnClickListener(OnClickListener listener){
+        this.mOnClickListener=listener;
+    }
+
+    public interface OnClickListener{
+        public void onClick(String text);
     }
 }

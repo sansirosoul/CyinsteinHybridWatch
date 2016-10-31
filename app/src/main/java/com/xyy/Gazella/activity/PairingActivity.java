@@ -47,7 +47,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private BluetoothLeScanner bluetoothLeScanner;
     private List<BluetoothDevice> devices = new ArrayList<>();
     private static final int REQUEST_ENABLE_BT = 1;
-    private RelativeLayout searchLayout;
+    private RelativeLayout searchLayout,bgLayout;
     private  LinearLayout pairingLayout;
     private Context context;
     private LoadingDialog loadingDialog;
@@ -97,6 +97,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                         if(!devices.contains(bluetoothDevice)){
                             searchLayout.setVisibility(View.GONE);
                             pairingLayout.setVisibility(View.VISIBLE);
+                            bgLayout.setBackgroundResource(R.drawable.page3_bg);
                             devices.add(bluetoothDevice);
                             deviceListAdapter.notifyDataSetChanged();
                         }
@@ -202,6 +203,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
         searchLayout.setVisibility(View.VISIBLE);
         pairingLayout.setVisibility(View.GONE);
+        bgLayout.setBackgroundResource(R.drawable.page2_background);
 
         mayRequestLocation();
 
@@ -246,6 +248,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
         searchLayout= (RelativeLayout) findViewById(R.id.search_layout);
         pairingLayout=(LinearLayout) findViewById(R.id.pairing_layout);
+        bgLayout= (RelativeLayout) findViewById(R.id.bg_layout);
 
         loadingDialog=new LoadingDialog(context);
         pairFailedDialog=new PairFailedDialog(context);

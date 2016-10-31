@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.xyy.Gazella.utils.CalendarDialog;
@@ -51,6 +52,9 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     public static TextView tvBirth;
     public static TextView tvHeight;
     public static TextView tvWeight;
+    private WeightDialog.OnSelectedListener wOnSelectedListener;
+    private HeightDialog.OnSelectedListener hSelectedListener;
+    private CalendarDialog.OnSelectedListener cSelectedListener;
 
     private Context context;
 
@@ -91,6 +95,29 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
+        wOnSelectedListener = new WeightDialog.OnSelectedListener() {
+            @Override
+            public void onSelected(String text) {
+                tvWeight.setText(text);
+                tvWeight.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        };
+
+        hSelectedListener = new HeightDialog.OnSelectedListener() {
+            @Override
+            public void onSelected(String text) {
+                tvHeight.setText(text);
+                tvHeight.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        };
+
+        cSelectedListener = new CalendarDialog.OnSelectedListener() {
+            @Override
+            public void onSelected(String text) {
+                tvBirth.setText(text);
+                tvBirth.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        };
     }
 
 
@@ -99,16 +126,19 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.ll_birth:
                 CalendarDialog calendarDialog = new CalendarDialog(context);
+                calendarDialog.setOnSelectedListener(cSelectedListener);
                 calendarDialog.show();
                 break;
             case R.id.head:
                 break;
             case R.id.ll_height:
                 HeightDialog heightDialog = new HeightDialog(context);
+                heightDialog.setOnSelectedListener(hSelectedListener);
                 heightDialog.show();
                 break;
             case R.id.ll_weight:
                 WeightDialog weightDialog = new WeightDialog(context);
+                weightDialog.setOnSelectedListener(wOnSelectedListener);
                 weightDialog.show();
                 break;
             case R.id.back:
@@ -116,22 +146,22 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 overridePendingTransitionExit(PersonActivity.this);
                 break;
             case R.id.go:
-//                if (edName.getText() == null || edName.getText().toString().equals("")) {
-//                    Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
-//                    Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
-//                    Toast.makeText(context, R.string.choose_height, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
-//                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+                if (edName.getText() == null || edName.getText().toString().equals("")) {
+                    Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
+                    Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
+                    Toast.makeText(context, R.string.choose_height, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
+                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 SharedPreferencesUtils spu = new SharedPreferencesUtils(context);
                 spu.setUserInfo(edName.getText().toString(),tvBirth.getText().toString(),sex,tvHeight.getText().toString(),tvWeight.getText().toString());
                 Intent intent = new Intent(context, HomeActivity.class);

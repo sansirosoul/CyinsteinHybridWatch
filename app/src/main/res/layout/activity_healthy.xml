@@ -61,7 +61,7 @@
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/step"
-                android:background="@drawable/health_btn_pressed"
+                android:background="@drawable/health_btn_pressed_left"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"

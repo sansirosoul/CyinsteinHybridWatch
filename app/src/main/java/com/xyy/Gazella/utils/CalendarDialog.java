@@ -9,10 +9,7 @@ import android.view.Window;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
-import com.xyy.Gazella.activity.PersonActivity;
 import com.ysp.smartwatch.R;
-
-import butterknife.BindView;
 
 /**
  * Created by Administrator on 2016/10/17.
@@ -21,6 +18,7 @@ import butterknife.BindView;
 public class CalendarDialog extends Dialog {
     MaterialCalendarView cal;
     private Context context;
+    private OnSelectedListener mSelectedListener;
 
     public CalendarDialog(Context context) {
         super(context, R.style.dialog);
@@ -38,11 +36,18 @@ public class CalendarDialog extends Dialog {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 if(selected){
-                    PersonActivity.tvBirth.setText(date.getYear()+" - "+date.getMonth()+" - "+date.getDay());
-                    PersonActivity.tvBirth.setTextColor(context.getResources().getColor(R.color.white));
+                    mSelectedListener.onSelected(date.getYear()+" - "+(date.getMonth()+1)+" - "+date.getDay());
                     dismiss();
                 }
             }
         });
+    }
+
+    public void setOnSelectedListener(OnSelectedListener listener){
+        this.mSelectedListener=listener;
+    }
+
+    public interface OnSelectedListener{
+        public void onSelected(String text);
     }
 }

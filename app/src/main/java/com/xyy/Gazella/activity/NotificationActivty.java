@@ -11,6 +11,7 @@ import android.widget.ToggleButton;
 
 import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -109,6 +110,17 @@ public class NotificationActivty extends BaseActivity {
                     message.setChecked(false);
                     skype.setChecked(false);
                     wechat.setChecked(false);
+                }
+            }
+        });
+
+        tel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    GazelleApplication.RegisterReceiver(NotificationActivty.this);
+                }else{
+                    GazelleApplication.UnRegisterReceiver(NotificationActivty.this);
                 }
             }
         });
