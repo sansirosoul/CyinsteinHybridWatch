@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.xyy.Gazella.view.AnalogClock;
 import com.ysp.newband.BaseFragment;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -29,48 +31,57 @@ public class SmallFragment3 extends BaseFragment {
     private float setHourValue;
     private boolean isChangeTime = false;
 
+    private  ViewTreeObserver vto;
+    private  boolean saveValue=true;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_small_3, container, false);
         ButterKnife.bind(this, view);
         analogclock.setChangeTimeType(2);
         analogclock.setTimeValue(2,0);
+        analogclock.setTimeValue(2,PreferenceData.getSelectedSmall3Value(getActivity()));
+        vto = analogclock.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                if(saveValue) {
+                    PreferenceData.setSelectedSmall3Value(getActivity(), (int)analogclock.getMinutesTimeValue());
+
+                }
+                return true;
+            }
+        });
         return view;
     }
 
-    public void AddTime() {
 
-        getHourValue = analogclock.getHourTimeValue();
-        getMinutesValue = analogclock.getMinutesTimeValue();
-        if (!isChangeTime) {
-            setHourValue = getHourValue;
-            setMinutesValue = getMinutesValue;
-        }
-        if (analogclock.ChangeTimeType == 1) {
-            analogclock.setTimeValue(1, setHourValue);
-            setHourValue++;
-        } else {
-            analogclock.setTimeValue(2, setMinutesValue);
-            setMinutesValue++;
-        }
+    public void AddTime() {
+        int a = (int) analogclock.getMinutesTimeValue();
+        a++;
+        analogclock.setTimeValue(2, a);
         isChangeTime = true;
     }
 
     public void ReduceTime() {
-
-        getHourValue = analogclock.getHourTimeValue();
-        getMinutesValue = analogclock.getMinutesTimeValue();
-        if (!isChangeTime) {
-            setHourValue = getHourValue;
-            setMinutesValue = getMinutesValue;
-        }
-        if (analogclock.ChangeTimeType == 1) {
-            analogclock.setTimeValue(1, setHourValue);
-            setHourValue--;
-        } else {
-            analogclock.setTimeValue(2, setMinutesValue);
-            setMinutesValue--;
-        }
+        int a = (int) analogclock.getMinutesTimeValue();
+        a--;
+        analogclock.setTimeValue(2, a);
         isChangeTime = true;
+    }
+    public  float  getSmall3TimeValue(){
+        return  analogclock.getMinutesTimeValue();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        saveValue=false;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        saveValue=true;
     }
 }

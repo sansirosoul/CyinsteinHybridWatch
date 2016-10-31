@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -54,6 +53,7 @@ public class HomeActivity extends BaseActivity {
                 Intent timeIntent = new Intent(HomeActivity.this, TimeSynchronization.class);
                 startActivity(timeIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
+
                 break;
             case R.id.ll_notice:
                 Intent noticeIntent = new Intent(HomeActivity.this, NotificationActivty.class);

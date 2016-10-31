@@ -33,6 +33,7 @@ import butterknife.OnClick;
 
 public class TimeSynchronization extends BaseActivity {
 
+    private  static  final  String TAG= TimeSynchronization.class.getName();
     //    @BindView(R.id.analogclock)
 //    AnalogClock analogclock;
     @BindView(R.id.but_reduce)
@@ -63,10 +64,6 @@ public class TimeSynchronization extends BaseActivity {
     ImageView ivRight;
     @BindView(R.id.viewpager)
     MyViewPage viewpager;
-    private int getMinutesValue;
-    private int getHourValue;
-    private int setMinutesValue;
-    private int setHourValue;
     private boolean isChangeTime = false;
     private CheckAnalogClock checkAnalogClock;
 
@@ -76,6 +73,11 @@ public class TimeSynchronization extends BaseActivity {
     private SmallFragment3 smallFragment3;
     private MainDialFragment mainDialFragment;
     private TimeSynchronization.FragmentAdapter mFragmentAdapter;
+    private  int small1TimeValue;
+    private  int small2TimeValue;
+    private  int small3TimeValue;
+    private float HourTimeValue;
+    private float MuintesTimeValue;
     private int item;
     private GuideShowDialog guideShowDialog;
 
@@ -144,9 +146,9 @@ public class TimeSynchronization extends BaseActivity {
                             smallFragment3.ReduceTime();
                             break;
                     }
-                }else {
+                }else
                     mainDialFragment.ReduceTime();
-                }
+
                 break;
 
             case R.id.but_add://加时间
@@ -162,10 +164,9 @@ public class TimeSynchronization extends BaseActivity {
                             smallFragment3.AddTime();
                             break;
                     }
-
-                }else {
+                }else
                     mainDialFragment.AddTime();
-                }
+
                 break;
 
             case R.id.but_hour:   // 调整时针
@@ -190,6 +191,15 @@ public class TimeSynchronization extends BaseActivity {
             case R.id.but_reset:   /// 重置
                 break;
             case R.id.but_synchronization:    ///同步
+
+                HourTimeValue=PreferenceData.getSelectedHourValue(TimeSynchronization.this);
+                MuintesTimeValue=PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this);
+                small1TimeValue=PreferenceData.getSelectedSmall1Value(this);
+                small2TimeValue=PreferenceData.getSelectedSmall2Value(this);
+                small3TimeValue=PreferenceData.getSelectedSmall3Value(this);
+
+
+
                 break;
             case R.id.btnExit:   // 退出
                 TimeSynchronization.this.finish();
@@ -333,8 +343,19 @@ public class TimeSynchronization extends BaseActivity {
             butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
             butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
         }
-       float  aa =   PreferenceData.getSelectedHourValue(TimeSynchronization.this);
         mainDialFragment.setHourTimeValue(PreferenceData.getSelectedHourValue(TimeSynchronization.this));
         mainDialFragment.setMuinutesTimeValue(PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this));
+    }
+
+
+    /***
+     *     小针 归0
+     */
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceData.setSelectedSmall1Value(TimeSynchronization.this,0);
+        PreferenceData.setSelectedSmall2Value(TimeSynchronization.this,0);
+        PreferenceData.setSelectedSmall3Value(TimeSynchronization.this,0);
     }
 }

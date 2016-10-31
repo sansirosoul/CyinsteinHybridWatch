@@ -275,8 +275,6 @@ public class AnalogClock extends View {
         }
         dial.draw(canvas);
         canvas.save();
-
-
         canvas.rotate(mHour / 12.0f * 360.0f, x, y);
 
         if (mHourHand != null) {
