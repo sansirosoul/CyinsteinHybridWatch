@@ -4,12 +4,11 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.ysp.smartwatch.R;
+
+import static com.ysp.smartwatch.R.id.iv_loading;
 
 /**
  * Created by Administrator on 2016/10/14.
@@ -17,7 +16,7 @@ import com.ysp.smartwatch.R;
 
 public class LoadingDialog extends Dialog {
     private Context context;
-    private ImageView iv_loading;
+    private ProgressBar ivLoading;
 
     public LoadingDialog(Context context) {
         super(context,R.style.dialog);
@@ -27,10 +26,10 @@ public class LoadingDialog extends Dialog {
     @Override
     protected void onStart() {
         super.onStart();
-        Animation animation = AnimationUtils.loadAnimation(context,R.anim.loading_rotate);
-        LinearInterpolator linearInterpolator = new LinearInterpolator();
-        animation.setInterpolator(linearInterpolator);
-        iv_loading.startAnimation(animation);
+//        Animation animation = AnimationUtils.loadAnimation(context,R.anim.loading_rotate);
+//        LinearInterpolator linearInterpolator = new LinearInterpolator();
+//        animation.setInterpolator(linearInterpolator);
+//        iv_loading.startAnimation(animation);
     }
 
     @Override
@@ -38,7 +37,7 @@ public class LoadingDialog extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.loading_dialog);
-        iv_loading= (ImageView) findViewById(R.id.iv_loading);
+        ivLoading= (ProgressBar) findViewById(iv_loading);
         setCanceledOnTouchOutside(false);
     }
 }
