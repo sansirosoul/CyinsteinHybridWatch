@@ -112,6 +112,8 @@ public class EditClockActivity extends BaseActivity {
         });
     }
 
+
+
     @OnClick({R.id.cancel, R.id.save, R.id.del_clock, R.id.rl_ringtime, R.id.rl_repeatrate})
     public void onClick(View view) {
         switch (view.getId()) {
