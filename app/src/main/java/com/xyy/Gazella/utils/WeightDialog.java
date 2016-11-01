@@ -8,12 +8,13 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
-import com.xyy.Gazella.activity.PersonActivity;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -26,7 +27,9 @@ import java.util.List;
 public class WeightDialog extends Dialog {
     private WheelView wheelView;
     private Context context;
-
+    private TextView confirm;
+    private String weight;
+    private OnSelectedListener mSelectedListener;
 
     public WeightDialog(Context context) {
         super(context, R.style.dialog);
@@ -39,7 +42,17 @@ public class WeightDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.weight_dialog);
         setDialogAttributes((Activity) context,this,0.8f,0, Gravity.CENTER);
+        setCanceledOnTouchOutside(false);
         wheelView= (WheelView) findViewById(R.id.wheelview);
+        confirm= (TextView) findViewById(R.id.confirm);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSelectedListener.onSelected(weight);
+                dismiss();
+            }
+        });
 
         List<String> list = new ArrayList<>();
         for (int i = 30;i<101;i++){
@@ -53,8 +66,7 @@ public class WeightDialog extends Dialog {
         wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
             @Override
             public void onItemSelected(int i, Object o) {
-                PersonActivity.tvWeight.setText(o+"");
-                PersonActivity.tvWeight.setTextColor(context.getResources().getColor(R.color.white));
+                weight=o+"";
             }
         });
     }
@@ -72,5 +84,13 @@ public class WeightDialog extends Dialog {
             p.width = (int) (mPoint.x * widthP);
         dialog.getWindow().setAttributes(p);
         dialog.getWindow().setGravity(gravity);
+    }
+
+    public void setOnSelectedListener(OnSelectedListener listener){
+        this.mSelectedListener=listener;
+    }
+
+    public interface OnSelectedListener{
+        public void onSelected(String text);
     }
 }

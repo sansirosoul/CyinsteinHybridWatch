@@ -7,31 +7,40 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.ysp.smartwatch.R;
 
 /**
- * Created by Administrator on 2016/10/14.
+ * Created by Administrator on 2016/10/24.
  */
 
-public class CheckUpdateDialog4 extends Dialog {
+public class DelClockDialog extends Dialog implements View.OnClickListener{
+    private TextView cancel;
+    private TextView confirm;
     private Context context;
+    private OnClickListener mOnClickListener;
 
-    public CheckUpdateDialog4(Context context) {
+    public DelClockDialog(Context context) {
         super(context,R.style.dialog);
-        this.context=context;
+        this.context = context;
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.check_update_dialog4);
-        setDialogAttributes((Activity) context, this, 0, 0, Gravity.CENTER);
+        setContentView(R.layout.del_clock_dialog);
+        setDialogAttributes((Activity) context, this, 0.8f, 0, Gravity.CENTER);
+        setCanceledOnTouchOutside(false);
 
+        cancel= (TextView) findViewById(R.id.cancel);
+        confirm= (TextView) findViewById(R.id.confirm);
+        cancel.setOnClickListener(this);
+        confirm.setOnClickListener(this);
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,
@@ -47,5 +56,25 @@ public class CheckUpdateDialog4 extends Dialog {
             p.width = (int) (mPoint.x * widthP);
         dialog.getWindow().setAttributes(p);
         dialog.getWindow().setGravity(gravity);
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.cancel:
+                dismiss();
+                break;
+            case R.id.confirm:
+                mOnClickListener.isDel();
+                dismiss();
+                break;
+        }
+    }
+
+    public void setOnClickListener(OnClickListener listener){
+        this.mOnClickListener=listener;
+    }
+
+    public interface OnClickListener{
+        void isDel();
     }
 }

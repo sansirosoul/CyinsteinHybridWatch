@@ -7,12 +7,13 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.wx.wheelview.adapter.ArrayWheelAdapter;
 import com.wx.wheelview.widget.WheelView;
-import com.xyy.Gazella.activity.PersonActivity;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class HeightDialog extends Dialog {
     private Context context;
 
     private WheelView wheelView;
+    private TextView confirm;
+    private String height;
+    private OnSelectedListener mSelectedListener;
 
     public HeightDialog(Context context) {
         super(context,R.style.dialog);
@@ -39,7 +43,17 @@ public class HeightDialog extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.height_dialog);
         setDialogAttributes((Activity) context,this,0.8f,0, Gravity.CENTER);
-       wheelView= (WheelView) findViewById(R.id.wheelview);
+        setCanceledOnTouchOutside(false);
+        wheelView= (WheelView) findViewById(R.id.wheelview);
+        confirm= (TextView) findViewById(R.id.confirm);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSelectedListener.onSelected(height);
+                dismiss();
+            }
+        });
 
         List<String> list = new ArrayList<>();
         for (int i = 150;i<201;i++){
@@ -53,8 +67,7 @@ public class HeightDialog extends Dialog {
         wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
             @Override
             public void onItemSelected(int i, Object o) {
-                PersonActivity.tvHeight.setText(o+"");
-                PersonActivity.tvHeight.setTextColor(context.getResources().getColor(R.color.white));
+                height=o+"";
             }
         });
     }
@@ -74,4 +87,11 @@ public class HeightDialog extends Dialog {
         dialog.getWindow().setGravity(gravity);
     }
 
+    public void setOnSelectedListener(OnSelectedListener listener){
+        this.mSelectedListener=listener;
+    }
+
+    public interface OnSelectedListener{
+        public void onSelected(String text);
+    }
 }

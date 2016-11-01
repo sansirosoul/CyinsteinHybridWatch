@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-
-    android:id="@+id/scrollView_sleep_day"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:id="@+id/scrollView"
     android:orientation="vertical">
-
-
 
     <LinearLayout
         android:id="@+id/ll_sleep_day"
@@ -117,7 +115,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_weight="1"
@@ -155,6 +153,13 @@
 
 
             </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sleep_bata"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9"
+                android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -221,7 +226,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:background="#4A4A4A" />
             </RelativeLayout>
 
@@ -290,7 +295,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:background="#4A4A4A" />
             </RelativeLayout>
 
@@ -359,7 +364,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:background="#4A4A4A" />
 
                 <RelativeLayout
@@ -427,7 +432,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@+id/ll_sleep"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="5dp"
                         android:background="#4A4A4A" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -497,7 +502,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:background="#4A4A4A" />
             </RelativeLayout>
 
@@ -563,9 +568,7 @@
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-
-
     </LinearLayout>
-
 </ScrollView>

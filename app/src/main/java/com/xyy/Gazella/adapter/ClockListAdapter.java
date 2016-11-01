@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.xyy.Gazella.utils.DelClockDialog;
 import com.xyy.model.Clock;
 import com.ysp.smartwatch.R;
 
@@ -82,11 +83,20 @@ public class ClockListAdapter extends BaseAdapter {
                 }
             }
         });
+
+        final DelClockDialog.OnClickListener onClickListener = new DelClockDialog.OnClickListener() {
+            @Override
+            public void isDel() {
+                clocks.remove(position);
+                notifyDataSetChanged();
+            }
+        };
         v.del.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clocks.remove(position);
-                notifyDataSetChanged();
+                DelClockDialog dialog = new DelClockDialog(context);
+                dialog.setOnClickListener(onClickListener);
+                dialog.show();
             }
         });
 

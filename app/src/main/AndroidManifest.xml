@@ -99,7 +99,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme" />
+        <activity
+            android:name="com.xyy.Gazella.activity.StartActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme" >
 
+        </activity>
         <activity
             android:name="com.xyy.Gazella.activity.PairingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"

@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
-import com.xyy.Gazella.activity.AddClockActivity;
 import com.ysp.smartwatch.R;
+
 
 /**
  * Created by Administrator on 2016/10/26.
@@ -21,11 +23,17 @@ import com.ysp.smartwatch.R;
 
 public class ClockDialog2 extends Dialog implements View.OnClickListener{
     private Context context;
-    private Button cancel,btnOnce,btnEvery,btn15,btn67,btnDefine;
+    private Button cancel;
+    private RelativeLayout rlOnce,rlEvery,rl15,rl67,rlDefine;
+    private ImageView ivOnce,ivEvery,iv15,iv67;
+    private OnClickListener mOnClickListener;
+    private ClockDialog3.OnClickListener onClickListener;
+    private String repeatrate;
 
-    public ClockDialog2(Context context) {
+    public ClockDialog2(Context context,String repeatrate) {
         super(context, R.style.dialog);
         this.context = context;
+        this.repeatrate=repeatrate;
     }
 
     @Override
@@ -37,18 +45,43 @@ public class ClockDialog2 extends Dialog implements View.OnClickListener{
         setCanceledOnTouchOutside(false);
 
         cancel= (Button) findViewById(R.id.cancel);
-        btnOnce= (Button) findViewById(R.id.btn_once);
-        btnEvery= (Button) findViewById(R.id.btn_every);
-        btn15= (Button) findViewById(R.id.btn15);
-        btn67= (Button) findViewById(R.id.btn67);
-        btnDefine= (Button) findViewById(R.id.btn_define);
+        rlOnce= (RelativeLayout) findViewById(R.id.rl_once);
+        rlEvery= (RelativeLayout) findViewById(R.id.rl_every);
+        rl15= (RelativeLayout) findViewById(R.id.rl15);
+        rl67= (RelativeLayout) findViewById(R.id.rl67);
+        rlDefine= (RelativeLayout) findViewById(R.id.rl_define);
+
+        ivOnce= (ImageView) findViewById(R.id.iv_once);
+        ivEvery=(ImageView) findViewById(R.id.iv_every);
+        iv15=(ImageView) findViewById(R.id.iv15);
+        iv67=(ImageView) findViewById(R.id.iv67);
 
         cancel.setOnClickListener(this);
-        btnOnce.setOnClickListener(this);
-        btnEvery.setOnClickListener(this);
-        btn15.setOnClickListener(this);
-        btn67.setOnClickListener(this);
-        btnDefine.setOnClickListener(this);
+        rlOnce.setOnClickListener(this);
+        rlEvery.setOnClickListener(this);
+        rl15.setOnClickListener(this);
+        rl67.setOnClickListener(this);
+        rlDefine.setOnClickListener(this);
+
+        onClickListener = new ClockDialog3.OnClickListener() {
+            @Override
+            public void onClick(String text) {
+                mOnClickListener.onClick(text);
+            }
+        };
+
+        if(repeatrate.equals("只响一次")){
+            ivOnce.setBackgroundResource(R.drawable.page36_sel);
+        }
+        if(repeatrate.equals("每天")){
+            ivEvery.setBackgroundResource(R.drawable.page36_sel);
+        }
+        if(repeatrate.equals("周一到周五")){
+            iv15.setBackgroundResource(R.drawable.page36_sel);
+        }
+        if(repeatrate.equals("周六、周日")){
+            iv67.setBackgroundResource(R.drawable.page36_sel);
+        }
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,
@@ -71,27 +104,36 @@ public class ClockDialog2 extends Dialog implements View.OnClickListener{
             case R.id.cancel:
                 dismiss();
                 break;
-            case R.id.btn_once:
-                AddClockActivity.tvRepeatrate.setText("只响一次");
+            case R.id.rl_once:
+                mOnClickListener.onClick("只响一次");
                 dismiss();
                 break;
-            case R.id.btn_every:
-                AddClockActivity.tvRepeatrate.setText("每天");
+            case R.id.rl_every:
+                mOnClickListener.onClick("每天");
                 dismiss();
                 break;
-            case R.id.btn15:
-                AddClockActivity.tvRepeatrate.setText("周一到周五");
+            case R.id.rl15:
+                mOnClickListener.onClick("周一到周五");
                 dismiss();
                 break;
-            case R.id.btn67:
-                AddClockActivity.tvRepeatrate.setText("周六、周日");
+            case R.id.rl67:
+                mOnClickListener.onClick("周六、周日");
                 dismiss();
                 break;
-            case R.id.btn_define:
+            case R.id.rl_define:
                 ClockDialog3 clockDialog3 = new ClockDialog3(context);
+                clockDialog3.setOnClickListener(onClickListener);
                 clockDialog3.show();
                 dismiss();
                 break;
         }
+    }
+
+    public void setOnClickListener(OnClickListener listener){
+        this.mOnClickListener=listener;
+    }
+
+    public interface OnClickListener{
+        public void onClick(String text);
     }
 }

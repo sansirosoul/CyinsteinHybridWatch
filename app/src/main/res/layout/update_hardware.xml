@@ -72,6 +72,7 @@
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp">
@@ -120,11 +121,13 @@
         android:text="@string/check_update"
         android:textColor="@color/white"
         android:textSize="17sp"
-        android:background="@drawable/page27_btn"
+        android:background="@drawable/time_squarebtn_check"
         android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"

@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import com.xyy.Gazella.adapter.ClockListAdapter;
 import com.xyy.Gazella.view.ListViewForScrollView;
@@ -27,17 +25,17 @@ import butterknife.OnClick;
  */
 
 public class ClockActivity extends BaseActivity {
-    @BindView(R.id.btnExit)
-    Button btnExit;
-    @BindView(R.id.TVTitle)
-    TextView TVTitle;
     @BindView(R.id.listview)
     ListViewForScrollView listview;
+    @BindView(R.id.back)
+    RelativeLayout back;
     @BindView(R.id.add)
-    ImageView add;
+    RelativeLayout add;
     private Context context;
     private List<Clock> clocks = new ArrayList<>();
     private ClockListAdapter adapter;
+    public final static int REQUEST_ADD = 1;
+    public final static int REQUEST_EDIT = 2;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -46,35 +44,39 @@ public class ClockActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
+
     }
 
     private void initView() {
-        TVTitle.setText(R.string.clock);
+        Clock clock = new Clock();
+        clock.setTime("07:00");
+        clock.setRate("只响一次");
+        clock.setIsOpen(0);
+        clocks.add(clock);
         adapter = new ClockListAdapter(context, clocks);
         listview.setAdapter(adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(context,AddClockActivity.class);
-                startActivityForResult(intent,2);
+                Intent intent = new Intent(context, AddClockActivity.class);
+                startActivityForResult(intent, REQUEST_EDIT);
                 overridePendingTransitionEnter(ClockActivity.this);
             }
         });
     }
 
 
-
-    @OnClick({R.id.btnExit,R.id.add})
+    @OnClick({R.id.back, R.id.add})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnExit:
+            case R.id.back:
                 finish();
                 overridePendingTransitionExit(ClockActivity.this);
                 break;
             case R.id.add:
-                Intent intent = new Intent(context,AddClockActivity.class);
-                startActivityForResult(intent,1);
+                Intent intent = new Intent(context, AddClockActivity.class);
+                startActivityForResult(intent, REQUEST_ADD);
                 overridePendingTransitionEnter(ClockActivity.this);
                 break;
         }
@@ -83,19 +85,21 @@ public class ClockActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
-            case 1:
-                if(data!=null){
+        switch (requestCode) {
+            case REQUEST_ADD:
+                if (data != null) {
                     Clock clock = new Clock();
                     clock.setTime(data.getStringExtra("time"));
                     clock.setRate(data.getStringExtra("repeatrate"));
-                    clock.setIsOpen(data.getIntExtra("isOpen",-1));
+                    clock.setIsOpen(data.getIntExtra("isOpen", -1));
                     clocks.add(clock);
                     adapter.notifyDataSetChanged();
                 }
                 break;
-            case 2:
+            case REQUEST_EDIT:
+                if (data != null) {
 
+                }
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);

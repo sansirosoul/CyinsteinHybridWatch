@@ -26,7 +26,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/10/26.
  */
 
-public class AddClockActivity extends BaseActivity {
+public class EditClockActivity extends BaseActivity {
     @BindView(R.id.cancel)
     RelativeLayout cancel;
     @BindView(R.id.save)
@@ -46,8 +46,8 @@ public class AddClockActivity extends BaseActivity {
     private Context context;
     private String hour="12";
     private String minute="30";
-    private ClockDialog1.OnClickListener onClickListener1;
-    private ClockDialog2.OnClickListener onClickListener2;
+
+
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -56,6 +56,8 @@ public class AddClockActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
+
+
     }
 
     private void initView() {
@@ -69,6 +71,7 @@ public class AddClockActivity extends BaseActivity {
                 hours.add("0" + i);
             } else {
                 hours.add("" + i);
+
             }
         }
         for (int i = 0; i < 60; i++) {
@@ -81,7 +84,6 @@ public class AddClockActivity extends BaseActivity {
 
         pvHour.setData(hours);
         pvMinute.setData(minutes);
-
 
         pvHour.setOnSelectListener(new PickerViewHour.onSelectListener() {
             @Override
@@ -108,21 +110,6 @@ public class AddClockActivity extends BaseActivity {
                 pvHour.setSelect(false);
             }
         });
-
-        onClickListener1 = new ClockDialog1.OnClickListener() {
-            @Override
-            public void onClick(String text) {
-                tvRingtime.setText(text);
-            }
-        };
-
-        onClickListener2 = new ClockDialog2.OnClickListener() {
-            @Override
-            public void onClick(String text) {
-                tvRepeatrate.setText(text);
-            }
-        };
-
     }
 
     @OnClick({R.id.cancel, R.id.save, R.id.del_clock, R.id.rl_ringtime, R.id.rl_repeatrate})
@@ -130,7 +117,7 @@ public class AddClockActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.cancel:
                 finish();
-                overridePendingTransitionExit(AddClockActivity.this);
+                overridePendingTransitionExit(EditClockActivity.this);
                 break;
             case R.id.save:
                 Intent intent = new Intent();
@@ -143,16 +130,14 @@ public class AddClockActivity extends BaseActivity {
                 break;
             case R.id.del_clock:
                 finish();
-                overridePendingTransitionExit(AddClockActivity.this);
+                overridePendingTransitionExit(EditClockActivity.this);
                 break;
             case R.id.rl_ringtime:
                 ClockDialog1 clockDialog1 = new ClockDialog1(context,tvRingtime.getText().toString());
-                clockDialog1.setOnClickListener(onClickListener1);
                 clockDialog1.show();
                 break;
             case R.id.rl_repeatrate:
                 ClockDialog2 clockDialog2 = new ClockDialog2(context,tvRepeatrate.getText().toString());
-                clockDialog2.setOnClickListener(onClickListener2);
                 clockDialog2.show();
                 break;
         }

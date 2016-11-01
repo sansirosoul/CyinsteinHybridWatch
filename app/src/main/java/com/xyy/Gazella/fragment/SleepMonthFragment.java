@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -48,17 +50,41 @@ public class SleepMonthFragment extends BaseFragment {
     ImageView ivRight;
     @BindView(R.id.ll_sleep_month)
     LinearLayout llSleepMonth;
+    @BindView(R.id.ll_sleep_bata)
+    LinearLayout llSleepBata;
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
     private View view;
     private Calendar CalendarInstance = Calendar.getInstance();
     private int amount = -1;
+
+    private int widthChart = 0;
+    private int heightChatr = 0;
+    private ViewGroup.LayoutParams params;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_sleep_month, container, false);
         ButterKnife.bind(this, view);
         initChart();
+        initView();
         tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 1));
         return view;
+    }
+
+    private void initView() {
+        params = mChart.getLayoutParams();
+        ViewTreeObserver vto = mChart.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                heightChatr = mChart.getHeight();
+                widthChart = mChart.getWidth();
+
+                return true;
+            }
+        });
+
     }
 
     private void initChart() {
@@ -159,7 +185,16 @@ public class SleepMonthFragment extends BaseFragment {
      */
 
     public void setLlDateVisible(int visible) {
+        if (visible == View.VISIBLE) {
+            scrollView.setFillViewport(true);
+        } else {
+            scrollView.setFillViewport(false);
+            params.height = heightChatr;
+            params.width = widthChart;
+            mChart.setLayoutParams(params);
+        }
         llDate.setVisibility(visible);
+        llSleepBata.setVisibility(visible);
     }
 
     public boolean getLlDateVisible() {
@@ -173,7 +208,7 @@ public class SleepMonthFragment extends BaseFragment {
         tvDate.setText(date);
     }
 
-    @OnClick({R.id.iv_left, R.id.iv_right,R.id.ll_sleep_month})
+    @OnClick({R.id.iv_left, R.id.iv_right, R.id.ll_sleep_month})
     public void onClick(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM");
         Date date = null;

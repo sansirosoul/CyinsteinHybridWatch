@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -10,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
 
         <LinearLayout
             android:id="@+id/ll_date"
@@ -127,211 +129,13 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/ll_sleep_bata"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:layout_weight="9"
+                    android:orientation="vertical">
 
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="35dp"
-                        android:src="@drawable/page17_time" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="睡眠时长" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_sleep"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginRight="15dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1"
-                            android:textColor="@color/personalize2"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="小时"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="23"
-                            android:textColor="@color/personalize2"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="分钟"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@+id/ll_sleep"
-                        android:layout_marginTop="8dp"
-                        android:background="#4A4A4A" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="35dp"
-                        android:src="@drawable/page20_qianshui_icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="浅睡时长" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_sleep"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginRight="15dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1"
-                            android:textColor="@color/personalize2"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="小时"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="23"
-                            android:textColor="@color/personalize2"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="分钟"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@+id/ll_sleep"
-                        android:layout_marginTop="8dp"
-                        android:background="#4A4A4A" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="35dp"
-                        android:src="@drawable/page20_shushui_icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="熟睡时长" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_sleep"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginRight="15dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1"
-                            android:textColor="@color/personalize2"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="小时"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="23"
-                            android:textColor="@color/personalize2"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="分钟"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
-
-                    </LinearLayout>
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@+id/ll_sleep"
-                        android:layout_marginTop="8dp"
-                        android:background="#4A4A4A" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -401,139 +205,347 @@
                             android:layout_marginTop="8dp"
                             android:background="#4A4A4A" />
                     </RelativeLayout>
-                </RelativeLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="35dp"
-                        android:src="@drawable/page20_qingxingshichang" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="清醒时长" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_sleep"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
-                        android:layout_marginRight="15dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1"
-                            android:textColor="@color/personalize2"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="小时"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="23"
-                            android:textColor="@color/personalize2"
-                            android:textSize="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="分钟"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
-
-                    </LinearLayout>
-
-                    <ImageView
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@+id/ll_sleep"
-                        android:layout_marginTop="8dp"
-                        android:background="#4A4A4A" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="35dp"
-                        android:src="@drawable/page20_qingxingcishu" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="清醒次数" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_sleep"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerInParent="true"
+                        android:layout_height="0dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
+                        android:layout_weight="1"
                         android:orientation="horizontal">
 
-                        <TextView
+
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1"
-                            android:textColor="@color/personalize2"
-                            android:textSize="15dp" />
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:src="@drawable/page20_qianshui_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="小时"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
+                            android:layout_centerInParent="true"
+                            android:text="浅睡时长" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_sleep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="15dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1"
+                                android:textColor="@color/personalize2"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="小时"
+                                android:textColor="@color/white"
+                                android:textSize="10dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="23"
+                                android:textColor="@color/personalize2"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="分钟"
+                                android:textColor="@color/white"
+                                android:textSize="10dp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@+id/ll_sleep"
+                            android:layout_marginTop="8dp"
+                            android:background="#4A4A4A" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:src="@drawable/page20_shushui_icon" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="23"
-                            android:textColor="@color/personalize2"
-                            android:textSize="15dp" />
+                            android:layout_centerInParent="true"
+                            android:text="熟睡时长" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_sleep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="15dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1"
+                                android:textColor="@color/personalize2"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="小时"
+                                android:textColor="@color/white"
+                                android:textSize="10dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="23"
+                                android:textColor="@color/personalize2"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="分钟"
+                                android:textColor="@color/white"
+                                android:textSize="10dp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@+id/ll_sleep"
+                            android:layout_marginTop="8dp"
+                            android:background="#4A4A4A" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="35dp"
+                                android:src="@drawable/page17_time" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="睡眠时长" />
+
+                            <LinearLayout
+                                android:id="@+id/ll_sleep"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerInParent="true"
+                                android:layout_marginRight="15dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="1"
+                                    android:textColor="@color/personalize2"
+                                    android:textSize="15dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="小时"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="23"
+                                    android:textColor="@color/personalize2"
+                                    android:textSize="15dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="分钟"
+                                    android:textColor="@color/white"
+                                    android:textSize="10dp" />
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_below="@+id/ll_sleep"
+                                android:layout_marginTop="8dp"
+                                android:background="#4A4A4A" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:src="@drawable/page20_qingxingshichang" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="分钟"
-                            android:textColor="@color/white"
-                            android:textSize="10dp" />
+                            android:layout_centerInParent="true"
+                            android:text="清醒时长" />
 
-                    </LinearLayout>
-                </RelativeLayout>
+                        <LinearLayout
+                            android:id="@+id/ll_sleep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="15dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1"
+                                android:textColor="@color/personalize2"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="小时"
+                                android:textColor="@color/white"
+                                android:textSize="10dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="23"
+                                android:textColor="@color/personalize2"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="分钟"
+                                android:textColor="@color/white"
+                                android:textSize="10dp" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_below="@+id/ll_sleep"
+                            android:layout_marginTop="8dp"
+                            android:background="#4A4A4A" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="35dp"
+                            android:src="@drawable/page20_qingxingcishu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="清醒次数" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_sleep"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="15dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1"
+                                android:textColor="@color/personalize2"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="小时"
+                                android:textColor="@color/white"
+                                android:textSize="10dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="23"
+                                android:textColor="@color/personalize2"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="分钟"
+                                android:textColor="@color/white"
+                                android:textSize="10dp" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 </ScrollView>

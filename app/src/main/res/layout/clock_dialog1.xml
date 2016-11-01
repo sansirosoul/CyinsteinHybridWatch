@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl5"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -26,8 +27,8 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn5"
+        <ImageView
+            android:id="@+id/iv5"
             android:layout_marginRight="20dp"
             android:background="@drawable/selector_clock_dialog"
             android:layout_centerVertical="true"
@@ -40,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl10"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -51,8 +53,8 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn10"
+        <ImageView
+            android:id="@+id/iv10"
             android:layout_marginRight="20dp"
             android:background="@drawable/selector_clock_dialog"
             android:layout_centerVertical="true"
@@ -65,6 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl15"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -76,8 +79,8 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn15"
+        <ImageView
+            android:id="@+id/iv15"
             android:layout_marginRight="20dp"
             android:background="@drawable/selector_clock_dialog"
             android:layout_centerVertical="true"
@@ -90,6 +93,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl20"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -101,8 +105,8 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn20"
+        <ImageView
+            android:id="@+id/iv20"
             android:layout_marginRight="20dp"
             android:background="@drawable/selector_clock_dialog"
             android:layout_centerVertical="true"
@@ -114,7 +118,9 @@
         android:background="#dddddd"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
+
     <RelativeLayout
+        android:id="@+id/rl25"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -126,8 +132,8 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn25"
+        <ImageView
+            android:id="@+id/iv25"
             android:layout_marginRight="20dp"
             android:background="@drawable/selector_clock_dialog"
             android:layout_centerVertical="true"
@@ -135,11 +141,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+
     <View
         android:background="#dddddd"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
     <RelativeLayout
+        android:id="@+id/rl30"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -151,8 +159,8 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn30"
+        <ImageView
+            android:id="@+id/iv30"
             android:layout_marginRight="20dp"
             android:background="@drawable/selector_clock_dialog"
             android:layout_centerVertical="true"
