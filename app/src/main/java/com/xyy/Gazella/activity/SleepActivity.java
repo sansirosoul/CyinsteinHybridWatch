@@ -1,12 +1,17 @@
 package com.xyy.Gazella.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,6 +38,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.xyy.Gazella.activity.StepActivity.UPDATEUI;
 
 public class SleepActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
 
@@ -187,32 +194,70 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
      * @param type 1 是显示  2 是隐藏
      */
 
+    private Animation loadImageAnimation;
+
     public void setLlDateVisible(int type) {
+
         if (type == 1) {
 
-            widget.setVisibility(View.GONE);
-            llCheckDate.setVisibility(View.VISIBLE);
-            btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
+            loadImageAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
+            widget.startAnimation(loadImageAnimation);
 
-            if (!sleepDayFragment.getLlDateVisible())
-                sleepDayFragment.setLlDateVisible(View.VISIBLE);
-            if (!sleepWeekFragment.getLlDateVisible())
-                sleepWeekFragment.setLlDateVisible(View.VISIBLE);
-            if (!sleepMonthFragment.getLlDateVisible())
-                sleepMonthFragment.setLlDateVisible(View.VISIBLE);
+            new Thread(){
+                @Override
+                public void run() {
+                    try {
+                        sleep(300);
+                        UIhandler.sendEmptyMessage(UPDATEUI);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
         } else {
+
+            loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_down);
+            loadImageAnimation.setFillAfter(!loadImageAnimation.getFillAfter());
+            widget.startAnimation(loadImageAnimation);
+
+            //初始化日历
             widget.setVisibility(View.VISIBLE);
             btnDate.setBackground(this.getResources().getDrawable(R.drawable.page23_selected_rili));
             llCheckDate.setVisibility(View.GONE);
 
             if (sleepDayFragment.getLlDateVisible())
                 sleepDayFragment.setLlDateVisible(View.GONE);
+
             if (sleepWeekFragment.getLlDateVisible())
                 sleepWeekFragment.setLlDateVisible(View.GONE);
             if (sleepMonthFragment.getLlDateVisible())
                 sleepMonthFragment.setLlDateVisible(View.GONE);
+
         }
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler UIhandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case UPDATEUI:
+
+                    widget.setVisibility(View.GONE);
+                    llCheckDate.setVisibility(View.VISIBLE);
+                    btnDate.setBackground(getResources().getDrawable(R.drawable.page17_rili));
+
+                    if (!sleepDayFragment.getLlDateVisible())
+                        sleepDayFragment.setLlDateVisible(View.VISIBLE);
+
+                    if (!sleepWeekFragment.getLlDateVisible())
+                        sleepWeekFragment.setLlDateVisible(View.VISIBLE);
+                    if (!sleepMonthFragment.getLlDateVisible())
+                        sleepMonthFragment.setLlDateVisible(View.VISIBLE);
+
+                    break;
+            }
+        }
+    };
 
 
     /***
