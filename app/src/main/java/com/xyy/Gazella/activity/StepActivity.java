@@ -213,6 +213,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 stepWeekFragment.setLlDateVisible(View.GONE);
             if (stepMonthFragment.getLlDateVisible())
                 stepMonthFragment.setLlDateVisible(View.GONE);
+
         }
     }
 
