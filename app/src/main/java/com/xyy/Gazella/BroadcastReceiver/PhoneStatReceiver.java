@@ -19,6 +19,7 @@ public class PhoneStatReceiver extends BroadcastReceiver {
         if(intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)){
             //如果是去电（拨出）
             System.out.println("拨出");
+
         } else{
             //查了下android文档，貌似没有专门用于接收来电的action,所以，非去电即来电
             System.out.println("来电");
