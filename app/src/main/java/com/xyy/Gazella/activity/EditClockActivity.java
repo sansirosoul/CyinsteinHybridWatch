@@ -129,8 +129,6 @@ public class EditClockActivity extends BaseActivity {
                 intent.putExtra("isOpen",1);
                 setResult(1,intent);
                 finish();
-
-
                 break;
             case R.id.del_clock:
                 finish();
