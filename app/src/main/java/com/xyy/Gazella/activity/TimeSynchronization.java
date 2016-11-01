@@ -200,6 +200,7 @@ public class TimeSynchronization extends BaseActivity {
 
 
 
+
                 break;
             case R.id.btnExit:   // 退出
                 TimeSynchronization.this.finish();

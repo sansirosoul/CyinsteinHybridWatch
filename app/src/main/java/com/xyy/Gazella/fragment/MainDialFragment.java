@@ -76,10 +76,12 @@ public class MainDialFragment extends BaseFragment {
     public void ReduceTime() {
         if (analogclock.ChangeTimeType == 1) {
             int a =(int) analogclock.getHourTimeValue();
+            if(a==0)a=60;
             a--;
             analogclock.setTimeValue(1, a);
         }else {
             int a = (int)analogclock.getMinutesTimeValue();
+            if(a==0)a=60;
             a--;
             analogclock.setTimeValue(2, a);
         }

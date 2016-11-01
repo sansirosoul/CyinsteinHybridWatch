@@ -6,8 +6,10 @@ package com.xyy.Gazella.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
@@ -28,7 +30,7 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llSettings;
     @BindView(R.id.ll_introduce)
     LinearLayout llIntroduce;
-
+    private long mExitTime = 0;
 
 
     @Override
@@ -39,14 +41,9 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
 
-//        Intent  guideIntent = new Intent(HomeActivity.this, GuideShowDialog.class);
-//        guideIntent.putExtra("type",2);
-//        startActivity(guideIntent);
-
-
     }
 
-    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings,R.id.ll_introduce})
+    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_time:
@@ -78,4 +75,17 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
