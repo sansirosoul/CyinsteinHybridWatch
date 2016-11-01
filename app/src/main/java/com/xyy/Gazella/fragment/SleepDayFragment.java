@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -50,7 +52,14 @@ public class SleepDayFragment extends BaseFragment {
     ImageView ivRight;
     @BindView(R.id.ll_sleep_day)
     LinearLayout llSleepDay;
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
+    @BindView(R.id.ll_sleep_bata)
+    LinearLayout llSleepBata;
     private View view;
+    private int widthChart = 0;
+    private int heightChatr = 0;
+    private ViewGroup.LayoutParams params;
 
     private String[] xValue = new String[]{"1", "2", "2", "2", "2", "3", "3", "2", "1", "3"};
     private String[] XString = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",};
@@ -62,9 +71,25 @@ public class SleepDayFragment extends BaseFragment {
 
         ButterKnife.bind(this, view);
         initChart();
+        initView();
         tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 0));
 
         return view;
+    }
+
+    private void initView() {
+        params = mChart.getLayoutParams();
+        ViewTreeObserver vto = mChart.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                heightChatr = mChart.getHeight();
+                widthChart = mChart.getWidth();
+
+                return true;
+            }
+        });
+
     }
 
 
@@ -196,7 +221,16 @@ public class SleepDayFragment extends BaseFragment {
      * @param visible
      */
     public void setLlDateVisible(int visible) {
+        if (visible == View.VISIBLE) {
+            scrollView.setFillViewport(true);
+        } else {
+            scrollView.setFillViewport(false);
+            params.height = heightChatr;
+            params.width = widthChart;
+            mChart.setLayoutParams(params);
+        }
         llDate.setVisibility(visible);
+        llSleepBata.setVisibility(visible);
     }
 
     public boolean getLlDateVisible() {
@@ -206,11 +240,12 @@ public class SleepDayFragment extends BaseFragment {
             return false;
     }
 
+
     public void setTvDateValue(String date) {
         tvDate.setText(date);
     }
 
-    @OnClick({R.id.iv_left, R.id.iv_right,R.id.ll_sleep_day})
+    @OnClick({R.id.iv_left, R.id.iv_right, R.id.ll_sleep_day})
     public void onClick(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         Date date = null;
@@ -229,7 +264,7 @@ public class SleepDayFragment extends BaseFragment {
                 updateUI(new String[0]);
                 break;
             case R.id.ll_sleep_day:
-              new SomeUtills().setCalendarViewGone(0);
+                new SomeUtills().setCalendarViewGone(0);
                 break;
         }
     }
@@ -238,4 +273,6 @@ public class SleepDayFragment extends BaseFragment {
         this.xValue = xValue;
         setChartData();
     }
+
+
 }

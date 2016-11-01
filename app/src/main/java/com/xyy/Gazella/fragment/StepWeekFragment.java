@@ -6,8 +6,10 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -50,11 +52,19 @@ public class StepWeekFragment extends BaseFragment {
     ImageView ivRight;
     @BindView(R.id.ll_step_week)
     LinearLayout llStepWeek;
+    @BindView(R.id.ll_setp_bata)
+    LinearLayout llSetpBata;
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
     private View view;
     private String[] XString = new String[]{"周一", "周二", "周三", "周四", "周五", "周六", "周七",};
 
     private HashMap<String, String> weekMap;
     private Calendar CalendarInstance = Calendar.getInstance();
+
+    private int widthChart = 0;
+    private int heightChatr = 0;
+    private ViewGroup.LayoutParams params;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +74,7 @@ public class StepWeekFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         initChart();
         initLldate();
+        initView();
         return view;
     }
 
@@ -71,6 +82,21 @@ public class StepWeekFragment extends BaseFragment {
         weekMap = new SomeUtills().getWeekdate(CalendarInstance.getTime());
         if (weekMap != null)
             tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
+    }
+
+    private void initView() {
+        params = mChart.getLayoutParams();
+        ViewTreeObserver vto = mChart.getViewTreeObserver();
+        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                heightChatr = mChart.getHeight();
+                widthChart = mChart.getWidth();
+
+                return true;
+            }
+        });
+
     }
 
     private void initChart() {
@@ -109,6 +135,7 @@ public class StepWeekFragment extends BaseFragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 new SomeUtills().setCalendarViewGone(1);
+
                 return false;
             }
         });
@@ -166,7 +193,16 @@ public class StepWeekFragment extends BaseFragment {
      */
 
     public void setLlDateVisible(int visible) {
+        if (visible == View.VISIBLE) {
+            scrollView.setFillViewport(true);
+        } else {
+            scrollView.setFillViewport(false);
+            params.height = heightChatr;
+            params.width = widthChart;
+            mChart.setLayoutParams(params);
+        }
         llDate.setVisibility(visible);
+        llSetpBata.setVisibility(visible);
     }
 
     public boolean getLlDateVisible() {
@@ -180,7 +216,7 @@ public class StepWeekFragment extends BaseFragment {
         tvDate.setText(date);
     }
 
-    @OnClick({R.id.iv_left, R.id.iv_right,R.id.ll_step_week})
+    @OnClick({R.id.iv_left, R.id.iv_right, R.id.ll_step_week})
     public void onClick(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         String strDatre = tvDate.getText().toString();
@@ -204,7 +240,7 @@ public class StepWeekFragment extends BaseFragment {
                     tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
                 break;
             case R.id.ll_step_week:
-              new SomeUtills().setCalendarViewGone(1);
+                new SomeUtills().setCalendarViewGone(1);
                 break;
         }
     }
