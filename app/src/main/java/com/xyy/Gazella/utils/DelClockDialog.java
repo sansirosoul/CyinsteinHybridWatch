@@ -67,6 +67,8 @@ public class DelClockDialog extends Dialog implements View.OnClickListener{
                 mOnClickListener.isDel();
                 dismiss();
                 break;
+
+
         }
     }
 
