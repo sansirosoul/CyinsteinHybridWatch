@@ -112,6 +112,8 @@ public class EditClockActivity extends BaseActivity {
         });
     }
 
+
+
     @OnClick({R.id.cancel, R.id.save, R.id.del_clock, R.id.rl_ringtime, R.id.rl_repeatrate})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -127,6 +129,8 @@ public class EditClockActivity extends BaseActivity {
                 intent.putExtra("isOpen",1);
                 setResult(1,intent);
                 finish();
+
+
                 break;
             case R.id.del_clock:
                 finish();
