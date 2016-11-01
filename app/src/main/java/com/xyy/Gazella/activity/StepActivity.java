@@ -193,7 +193,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
             if (!stepDayFragment.getLlDateVisible())
                 stepDayFragment.setLlDateVisible(View.VISIBLE);
-            stepDayFragment.setScrollViewStepDay(true);
+
             if (!stepWeekFragment.getLlDateVisible())
                 stepWeekFragment.setLlDateVisible(View.VISIBLE);
             if (!stepMonthFragment.getLlDateVisible())
@@ -208,7 +208,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
             if (stepDayFragment.getLlDateVisible())
                 stepDayFragment.setLlDateVisible(View.GONE);
-                stepDayFragment.setScrollViewStepDay(false);
+
             if (stepWeekFragment.getLlDateVisible())
                 stepWeekFragment.setLlDateVisible(View.GONE);
             if (stepMonthFragment.getLlDateVisible())
