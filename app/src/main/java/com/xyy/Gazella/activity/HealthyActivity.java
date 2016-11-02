@@ -75,6 +75,7 @@ public class HealthyActivity extends BaseActivity {
             e.printStackTrace();
         }
 
+
         fragmentsList = new ArrayList<>();
         sleepFragment = new SleepFragment();
         stepFragment = new StepFragment();
