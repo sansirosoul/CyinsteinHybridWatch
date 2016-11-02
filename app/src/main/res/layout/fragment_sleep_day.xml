@@ -196,8 +196,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
-                        android:textColor="@color/personalize2"
-                        android:textSize="15dp" />
+                        android:textColor="@color/text_bg"
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -210,8 +210,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="23"
-                        android:textColor="@color/personalize2"
-                        android:textSize="15dp" />
+                        android:textColor="@color/text_bg"
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -227,7 +227,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
                     android:layout_marginTop="5dp"
-                    android:background="#4A4A4A" />
+                    android:background="#444444" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -265,8 +265,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
-                        android:textColor="@color/personalize2"
-                        android:textSize="15dp" />
+                        android:textColor="@color/text_bg"
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -279,8 +279,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="23"
-                        android:textColor="@color/personalize2"
-                        android:textSize="15dp" />
+                        android:textColor="@color/text_bg"
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -296,7 +296,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
                     android:layout_marginTop="5dp"
-                    android:background="#4A4A4A" />
+                    android:background="#444444" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -334,8 +334,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
-                        android:textColor="@color/personalize2"
-                        android:textSize="15dp" />
+                        android:textColor="@color/text_bg"
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -348,8 +348,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="23"
-                        android:textColor="@color/personalize2"
-                        android:textSize="15dp" />
+                        android:textColor="@color/text_bg"
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -365,7 +365,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
                     android:layout_marginTop="5dp"
-                    android:background="#4A4A4A" />
+                    android:background="#444444" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -433,7 +433,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/ll_sleep"
                         android:layout_marginTop="5dp"
-                        android:background="#4A4A4A" />
+                        android:background="#444444" />
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -472,8 +472,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
-                        android:textColor="@color/personalize2"
-                        android:textSize="15dp" />
+                        android:textColor="@color/text_bg"
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -486,8 +486,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="23"
-                        android:textColor="@color/personalize2"
-                        android:textSize="15dp" />
+                        android:textColor="@color/text_bg"
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -503,7 +503,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/ll_sleep"
                     android:layout_marginTop="5dp"
-                    android:background="#4A4A4A" />
+                    android:background="#444444" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -541,8 +541,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1"
-                        android:textColor="@color/personalize2"
-                        android:textSize="15dp" />
+                        android:textColor="@color/text_bg"
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -555,8 +555,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="23"
-                        android:textColor="@color/personalize2"
-                        android:textSize="15dp" />
+                        android:textColor="@color/text_bg"
+                        android:textSize="23dp" />
 
                     <TextView
                         android:layout_width="wrap_content"

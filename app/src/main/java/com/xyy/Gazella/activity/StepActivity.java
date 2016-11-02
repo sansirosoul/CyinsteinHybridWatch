@@ -1,12 +1,17 @@
 package com.xyy.Gazella.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,6 +66,8 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     private StepWeekFragment stepWeekFragment;
     private StepMonthFragment stepMonthFragment;
     private FragmentAdapter mFragmentAdapter;
+
+    public static final int UPDATEUI = 1001;
 
 
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
@@ -183,23 +190,31 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
      *
      * @param type 1 是显示  2 是隐藏
      */
+    private Animation loadImageAnimation;
 
     public void setLlDateVisible(int type) {
+
         if (type == 1) {
 
-            widget.setVisibility(View.GONE);
-            llCheckDate.setVisibility(View.VISIBLE);
-            btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
+            loadImageAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
+            widget.startAnimation(loadImageAnimation);
 
-            if (!stepDayFragment.getLlDateVisible())
-                stepDayFragment.setLlDateVisible(View.VISIBLE);
-
-            if (!stepWeekFragment.getLlDateVisible())
-                stepWeekFragment.setLlDateVisible(View.VISIBLE);
-            if (!stepMonthFragment.getLlDateVisible())
-                stepMonthFragment.setLlDateVisible(View.VISIBLE);
-
+            new Thread(){
+                @Override
+                public void run() {
+                    try {
+                        sleep(300);
+                        UIhandler.sendEmptyMessage(UPDATEUI);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
         } else {
+
+            loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_down);
+            loadImageAnimation.setFillAfter(!loadImageAnimation.getFillAfter());
+            widget.startAnimation(loadImageAnimation);
 
             //初始化日历
             widget.setVisibility(View.VISIBLE);
@@ -216,6 +231,30 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
         }
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler UIhandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case UPDATEUI:
+
+                    widget.setVisibility(View.GONE);
+                    llCheckDate.setVisibility(View.VISIBLE);
+                    btnDate.setBackground(getResources().getDrawable(R.drawable.page17_rili));
+
+                    if (!stepDayFragment.getLlDateVisible())
+                        stepDayFragment.setLlDateVisible(View.VISIBLE);
+
+                    if (!stepWeekFragment.getLlDateVisible())
+                        stepWeekFragment.setLlDateVisible(View.VISIBLE);
+                    if (!stepMonthFragment.getLlDateVisible())
+                        stepMonthFragment.setLlDateVisible(View.VISIBLE);
+
+                    break;
+            }
+        }
+    };
+
 
     /***
      * 设置Butnon 背景

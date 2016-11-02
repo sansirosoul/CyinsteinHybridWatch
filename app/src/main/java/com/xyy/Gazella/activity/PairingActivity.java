@@ -28,6 +28,7 @@ import com.xyy.Gazella.adapter.DeviceListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.LoadingDialog;
 import com.xyy.Gazella.utils.PairFailedDialog;
+import com.xyy.Gazella.view.AnalogClock;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
@@ -35,11 +36,16 @@ import com.ysp.smartwatch.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Administrator on 2016/10/12.
  */
 
 public class PairingActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
+    @BindView(R.id.clock)
+    AnalogClock clock;
     private ListView listView;
     private Button skip;
     private DeviceListAdapter deviceListAdapter;
@@ -47,17 +53,19 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private BluetoothLeScanner bluetoothLeScanner;
     private List<BluetoothDevice> devices = new ArrayList<>();
     private static final int REQUEST_ENABLE_BT = 1;
-    private RelativeLayout searchLayout,bgLayout;
-    private  LinearLayout pairingLayout;
+    private RelativeLayout searchLayout, bgLayout;
+    private LinearLayout pairingLayout;
     private Context context;
     private LoadingDialog loadingDialog;
     private PairFailedDialog pairFailedDialog;
     private String deviceName = null;
+    private int count;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.pairing_activity);
+        ButterKnife.bind(this);
 
         initView();
         initBluetooth();
@@ -77,7 +85,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         // 检查设备上是否支持蓝牙
         if (bluetoothAdapter == null) {
             Toast.makeText(this, "不支持蓝牙", Toast.LENGTH_SHORT).show();
-           // finish();
+            // finish();
             return;
         }
     }
@@ -88,13 +96,16 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(bluetoothDevice.getName() != null&&(bluetoothDevice.getName().equals("Watch")
+                    if (bluetoothDevice.getName() != null && (bluetoothDevice.getName().equals("Watch")
                             || bluetoothDevice.getName().equals("Partner")
                             || bluetoothDevice.getName().equals("Band")
                             || bluetoothDevice.getName().equals("Felix") || bluetoothDevice
-                            .getName().equals("Nova"))){
-                        Log.d("=====",bluetoothDevice.getAddress());
-                        if(!devices.contains(bluetoothDevice)){
+                            .getName().equals("Nova"))) {
+                        Log.d("=====", bluetoothDevice.getAddress());
+                        if (!devices.contains(bluetoothDevice)) {
+                            searchLayout.setVisibility(View.GONE);
+                            pairingLayout.setVisibility(View.VISIBLE);
+                            bgLayout.setBackgroundResource(R.drawable.page3_bg);
                             devices.add(bluetoothDevice);
                             deviceListAdapter.notifyDataSetChanged();
                         }
@@ -106,17 +117,18 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     };
 
     //sdk6.0以上获取蓝牙权限
-    private static final int REQUEST_FINE_LOCATION=0;
+    private static final int REQUEST_FINE_LOCATION = 0;
+
     private void mayRequestLocation() {
         if (Build.VERSION.SDK_INT >= 23) {
-            int checkCallPhonePermission = ContextCompat.checkSelfPermission(context,Manifest.permission.ACCESS_COARSE_LOCATION);
-            if(checkCallPhonePermission != PackageManager.PERMISSION_GRANTED){
-                Log.d("===========","没有蓝牙权限");
+            int checkCallPhonePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION);
+            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                Log.d("===========", "没有蓝牙权限");
                 //请求蓝牙权限
-                ActivityCompat.requestPermissions(this ,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},REQUEST_FINE_LOCATION);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_FINE_LOCATION);
                 return;
-            }else{
-                Log.d("===========","有蓝牙权限");
+            } else {
+                Log.d("===========", "有蓝牙权限");
 //                scanDevices();
                 devices.clear();
                 bluetoothAdapter.startLeScan(leScanCallback);
@@ -141,7 +153,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 //                   scanDevices();
                     devices.clear();
                     bluetoothAdapter.startLeScan(leScanCallback);
-                } else{
+                } else {
                     // The user disallowed the requested permission.
 
                 }
@@ -203,15 +215,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         pairingLayout.setVisibility(View.GONE);
         bgLayout.setBackgroundResource(R.drawable.page2_background);
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                searchLayout.setVisibility(View.GONE);
-                pairingLayout.setVisibility(View.VISIBLE);
-                bgLayout.setBackgroundResource(R.drawable.page3_bg);
-            }
-        },1000);
-
         mayRequestLocation();
 
     }
@@ -219,7 +222,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     protected void onPause() {
         super.onPause();
-        if(bluetoothAdapter!=null){
+        if (bluetoothAdapter != null) {
 //            if(bluetoothLeScanner!=null){
 //                bluetoothLeScanner.stopScan(scanCallback);
 //            }
@@ -243,7 +246,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     }
 
     private void initView() {
-        context=this;
+        context = this;
         listView = (ListView) findViewById(R.id.listview);
         skip = (Button) findViewById(R.id.skip);
 
@@ -253,24 +256,38 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         listView.setOnItemClickListener(this);
         skip.setOnClickListener(this);
 
-        searchLayout= (RelativeLayout) findViewById(R.id.search_layout);
-        pairingLayout=(LinearLayout) findViewById(R.id.pairing_layout);
-        bgLayout= (RelativeLayout) findViewById(R.id.bg_layout);
+        searchLayout = (RelativeLayout) findViewById(R.id.search_layout);
+        pairingLayout = (LinearLayout) findViewById(R.id.pairing_layout);
+        bgLayout = (RelativeLayout) findViewById(R.id.bg_layout);
 
-        loadingDialog=new LoadingDialog(context);
-        pairFailedDialog=new PairFailedDialog(context);
+        loadingDialog = new LoadingDialog(context);
+        pairFailedDialog = new PairFailedDialog(context);
+
+        clock.setDialDrawable(R.drawable.page2_biaopan);
+        clock.setTimeValue(2, 0);
+        mHandler.post(runnable);
     }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            count++;
+            mHandler.sendEmptyMessage(1001);
+            mHandler.postDelayed(this, 50);
+
+        }
+    };
 
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         loadingDialog.show();
-        if(GazelleApplication.mBluetoothService.initialize()){
-            deviceName=devices.get(i).getName();
+        if (GazelleApplication.mBluetoothService.initialize()) {
+            deviceName = devices.get(i).getName();
             GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
             GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
         }
-        if(bluetoothAdapter!=null){
+        if (bluetoothAdapter != null) {
 //            if(bluetoothLeScanner!=null){
 //                bluetoothLeScanner.stopScan(scanCallback);
 //            }
@@ -278,20 +295,24 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         }
     }
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case BluetoothService.STATE_CONNECTED:
                     loadingDialog.dismiss();
-                    GazelleApplication.deviceName=deviceName;
-                    Intent intent = new Intent(context,PersonActivity.class);
+                    GazelleApplication.deviceName = deviceName;
+                    Intent intent = new Intent(context, PersonActivity.class);
                     startActivity(intent);
                     overridePendingTransitionEnter(PairingActivity.this);
                     break;
                 case BluetoothService.STATE_DISCONNECTED:
                     pairFailedDialog.show();
+                    break;
+                case 1001:
+
+                    clock.setTimeValue(2,count);
                     break;
                 default:
                     break;
@@ -303,13 +324,13 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.skip:
-                if(bluetoothAdapter!=null){
+                if (bluetoothAdapter != null) {
 //                    if(bluetoothLeScanner!=null){
 //                        bluetoothLeScanner.stopScan(scanCallback);
 //                    }
                     bluetoothAdapter.stopLeScan(leScanCallback);
                 }
-                Intent intent = new Intent(context,PersonActivity.class);
+                Intent intent = new Intent(context, PersonActivity.class);
                 startActivity(intent);
                 overridePendingTransitionEnter(PairingActivity.this);
                 break;
