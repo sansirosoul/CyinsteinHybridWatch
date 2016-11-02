@@ -59,6 +59,7 @@ public class StepDayFragment extends BaseFargment {
     private int widthChart = 0;
     private int heightChatr = 0;
     private ViewGroup.LayoutParams params;
+    private  int count=145631;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_step_day, container, false);
@@ -83,6 +84,18 @@ public class StepDayFragment extends BaseFargment {
                 return true;
             }
         });
+
+//
+//        SpannableString styledText = new SpannableString("你今天走了" + count + "步，比昨天多走了"+count+"步！");
+//        styledText.setSpan(new TextAppearanceSpan(mContext,
+//                R.style.StepText), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        styledText.setSpan(new TextAppearanceSpan(mContext,
+//                        R.style.countTextViewZero),
+//                getTimeLabel(timeType).length() + 2, String.valueOf(count)
+//                        .length() + getTimeLabel(timeType).length() + 2,
+//                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        mTitle.setText(styledText, TextView.BufferType.SPANNABLE);
+
 
     }
 
