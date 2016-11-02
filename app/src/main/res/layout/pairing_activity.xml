@@ -12,7 +12,7 @@
         android:id="@+id/pairing_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/page3_bg"
+        android:background="@drawable/page3_background"
         android:orientation="vertical"
         android:visibility="gone">
 

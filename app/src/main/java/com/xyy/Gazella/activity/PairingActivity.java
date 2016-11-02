@@ -105,7 +105,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                         if (!devices.contains(bluetoothDevice)) {
                             searchLayout.setVisibility(View.GONE);
                             pairingLayout.setVisibility(View.VISIBLE);
-                            bgLayout.setBackgroundResource(R.drawable.page3_bg);
+                            bgLayout.setBackgroundResource(R.drawable.page3_background);
                             devices.add(bluetoothDevice);
                             deviceListAdapter.notifyDataSetChanged();
                         }
