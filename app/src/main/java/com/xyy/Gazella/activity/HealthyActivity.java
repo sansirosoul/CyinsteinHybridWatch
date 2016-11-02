@@ -51,7 +51,7 @@ public class HealthyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_healthy);
         ButterKnife.bind(this);
-
+        btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         InitViewPager();
     }
 

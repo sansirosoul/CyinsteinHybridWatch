@@ -61,7 +61,7 @@ public class PersonalizeActivity extends BaseActivity {
             if (cur != 100) {
                 cur++;
                 handler.sendEmptyMessage(1);
-                handler.postDelayed(this, 50);
+                handler.post(this);
             }else{
                 text.setText(getResources().getText(R.string.personalized));
             }

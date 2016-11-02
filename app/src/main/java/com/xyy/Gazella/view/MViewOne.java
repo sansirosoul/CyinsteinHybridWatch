@@ -1,5 +1,6 @@
 package com.xyy.Gazella.view;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Interpolator;
 
 import com.ysp.smartwatch.R;
 
@@ -129,4 +131,23 @@ public class MViewOne extends View {
         invalidate();
     }
 
+    public void setValue(float value) {
+        value=(float) (360.0 * (value / 100.0));
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(mSweepValue, value);
+        valueAnimator.setDuration(2000);
+        valueAnimator.setInterpolator(new Interpolator() {
+            @Override
+            public float getInterpolation(float v) {
+                return 1-(1-v)*(1-v)*(1-v);
+            }
+        });
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                mSweepValue = (float) valueAnimator.getAnimatedValue();
+                invalidate();
+            }
+        });
+        valueAnimator.start();
+    }
 }

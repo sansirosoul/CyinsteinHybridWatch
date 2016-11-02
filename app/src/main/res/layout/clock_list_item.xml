@@ -26,15 +26,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <ImageView
+    <RelativeLayout
         android:id="@+id/del"
-        android:focusable="false"
         android:layout_toLeftOf="@+id/tg_btn"
         android:layout_centerVertical="true"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/page34_del"
+        android:layout_marginRight="35dp"
+        android:padding="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+        <ImageView
+            android:focusable="false"
+            android:background="@drawable/page34_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
     <ToggleButton
         android:focusable="false"
         android:id="@+id/tg_btn"

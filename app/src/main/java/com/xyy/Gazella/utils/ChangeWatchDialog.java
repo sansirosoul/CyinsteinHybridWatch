@@ -3,6 +3,7 @@ package com.xyy.Gazella.utils;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -63,6 +64,9 @@ public class ChangeWatchDialog extends Dialog implements View.OnClickListener{
                 dismiss();
                 break;
             case R.id.confirm:
+                dismiss();
+                Intent intent = new Intent(context,ChangeWatchList.class);
+                context.startActivity(intent);
                 break;
         }
     }

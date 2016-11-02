@@ -95,9 +95,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                             .getName().equals("Nova"))){
                         Log.d("=====",bluetoothDevice.getAddress());
                         if(!devices.contains(bluetoothDevice)){
-                            searchLayout.setVisibility(View.GONE);
-                            pairingLayout.setVisibility(View.VISIBLE);
-                            bgLayout.setBackgroundResource(R.drawable.page3_bg);
                             devices.add(bluetoothDevice);
                             deviceListAdapter.notifyDataSetChanged();
                         }
@@ -205,6 +202,15 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         searchLayout.setVisibility(View.VISIBLE);
         pairingLayout.setVisibility(View.GONE);
         bgLayout.setBackgroundResource(R.drawable.page2_background);
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                searchLayout.setVisibility(View.GONE);
+                pairingLayout.setVisibility(View.VISIBLE);
+                bgLayout.setBackgroundResource(R.drawable.page3_bg);
+            }
+        },1000);
 
         mayRequestLocation();
 

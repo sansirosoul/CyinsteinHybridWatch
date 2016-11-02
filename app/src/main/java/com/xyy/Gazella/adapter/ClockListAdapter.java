@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -53,7 +53,7 @@ public class ClockListAdapter extends BaseAdapter {
             convertView= LayoutInflater.from(context).inflate(R.layout.clock_list_item,null);
             v.time= (TextView) convertView.findViewById(R.id.time);
             v.rate=(TextView) convertView.findViewById(R.id.rate);
-            v.del= (ImageView) convertView.findViewById(R.id.del);
+            v.del= (RelativeLayout) convertView.findViewById(R.id.del);
             v.tgBtn=(ToggleButton) convertView.findViewById(R.id.tg_btn);
 
             convertView.setTag(v);
@@ -106,7 +106,7 @@ public class ClockListAdapter extends BaseAdapter {
 
     public class ViewHoldler {
         TextView time,rate;
-        ImageView del;
+        RelativeLayout del;
         ToggleButton tgBtn;
     }
 }
