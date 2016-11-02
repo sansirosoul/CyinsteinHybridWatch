@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/Calendarlibrary/Calendarlibrary.iml" filepath="$PROJECT_DIR$/Calendarlibrary/Calendarlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/Partner.iml" filepath="$PROJECT_DIR$/Partner.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pickerview/pickerview.iml" filepath="$PROJECT_DIR$/pickerview/pickerview.iml" />
     </modules>
   </component>
 </project>

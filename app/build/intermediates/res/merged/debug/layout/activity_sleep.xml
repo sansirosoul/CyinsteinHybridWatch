@@ -1,44 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_sleep"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.xyy.Gazella.activity.SleepActivity">
+    android:background="@drawable/page20_bg"
+    android:clipToPadding="true"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.xyy.Gazella.activity.StepActivity">
 
     <LinearLayout
+        android:id="@+id/activity_stup"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/image_but"
-            android:layout_width="0dp"
+        <include
+            layout="@layout/connection_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:mcv_dateTextAppearance="@style/MaterialCalendarHeadrDay"
+            app:mcv_headerTextAppearance="@style/MaterialCalendarHeadrTitle"
+            app:mcv_leftArrowMask="@drawable/page17_left"
+            app:mcv_rightArrowMask="@drawable/page17_right"
+            app:mcv_selectionColor="@color/title_bg"
+            app:mcv_weekDayTextAppearance="@style/MaterialCalendarHeadrWeek" />
 
+
+        <LinearLayout
+            android:id="@+id/ll_check_date"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:src="@drawable/hillmassion" />
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/photo_frame"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/image_but"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:src="@drawable/hillmassion" />
+            <Button
+                android:id="@+id/button_day"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/step_leftbtn_pressed"
+                android:button="@null"
+                android:gravity="center"
+                android:text="日"
+                android:textColor="@color/white" />
 
-        <ImageButton
-            android:id="@+id/image_but"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:src="@drawable/hillmassion" />
+            <Button
+                android:id="@+id/button_week"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/step_inbtn_normal"
+                android:button="@null"
+                android:gravity="center"
+                android:text="周" />
 
+            <Button
+                android:id="@+id/button_month"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/step_rightbtn_normal"
+                android:button="@null"
+                android:gravity="center"
+                android:text="月" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="9">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
     </LinearLayout>
-
-
-</RelativeLayout>
+</ScrollView>
