@@ -316,7 +316,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     pairFailedDialog.show();
                     break;
                 case 1001:
-
                     clock.setTimeValue(2, count);
                     if (count == 180 && devices.size() == 0) {
                         bluetoothAdapter.stopLeScan(leScanCallback);
