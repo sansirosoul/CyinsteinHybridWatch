@@ -100,11 +100,11 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (bluetoothDevice.getName() != null && (bluetoothDevice.getName().equals("Watch")
-                            || bluetoothDevice.getName().equals("Partner")
-                            || bluetoothDevice.getName().equals("Band")
-                            || bluetoothDevice.getName().equals("Felix") || bluetoothDevice
-                            .getName().equals("Nova"))) {
+//                    if (bluetoothDevice.getName() != null && (bluetoothDevice.getName().equals("Watch")
+//                            || bluetoothDevice.getName().equals("Partner")
+//                            || bluetoothDevice.getName().equals("Band")
+//                            || bluetoothDevice.getName().equals("Felix") || bluetoothDevice
+//                            .getName().equals("Nova"))) {
                         Log.d("=====", bluetoothDevice.getAddress());
                         if (!devices.contains(bluetoothDevice)) {
                             searchLayout.setVisibility(View.GONE);
@@ -112,7 +112,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                             bgLayout.setBackgroundResource(R.drawable.page3_bg);
                             devices.add(bluetoothDevice);
                             deviceListAdapter.notifyDataSetChanged();
-                        }
+                        //}
                     }
                 }
             });
@@ -329,15 +329,12 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                         myDialog.setBtnlListener(new CheckUpdateDialog2.setBtnlListener() {
                             @Override
                             public void onCancelListener() {
+                                myDialog.dismiss();
                                 isRun=true;
                                 count=0;
                                 bluetoothAdapter.startLeScan(leScanCallback);
-                                myDialog.dismiss();
                                 mHandler.post(runnable);
-
-
                             }
-
                             @Override
                             public void onConfirm() {
                                 Intent intent = new Intent(context, PersonActivity.class);
