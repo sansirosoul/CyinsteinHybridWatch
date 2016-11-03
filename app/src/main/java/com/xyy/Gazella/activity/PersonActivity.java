@@ -201,6 +201,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 SharedPreferencesUtils spu = new SharedPreferencesUtils(context);
                 spu.setUserInfo(edName.getText().toString(),tvBirth.getText().toString(),sex,tvHeight.getText().toString(),tvWeight.getText().toString());
                 Intent intent = new Intent(context, PersonalizeActivity.class);
+                PersonActivity.this.finish();
                 startActivity(intent);
                 overridePendingTransitionEnter(PersonActivity.this);
 

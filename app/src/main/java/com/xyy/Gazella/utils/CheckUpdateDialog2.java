@@ -19,9 +19,13 @@ import com.ysp.smartwatch.R;
  */
 
 public class CheckUpdateDialog2 extends Dialog implements View.OnClickListener{
-    private TextView cancel;
-    private TextView confirm;
+    public TextView cancel;
+    public TextView confirm;
+    public TextView tvContext;
+
     private Context context;
+
+    public    setBtnlListener  setBtnlListener;
 
     public CheckUpdateDialog2(Context context) {
         super(context,R.style.dialog);
@@ -38,6 +42,7 @@ public class CheckUpdateDialog2 extends Dialog implements View.OnClickListener{
 
         cancel= (TextView) findViewById(R.id.cancel);
         confirm= (TextView) findViewById(R.id.confirm);
+        tvContext= (TextView) findViewById(R.id.tv_context);
         cancel.setOnClickListener(this);
         confirm.setOnClickListener(this);
     }
@@ -60,13 +65,40 @@ public class CheckUpdateDialog2 extends Dialog implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cancel:
+                if(setBtnlListener!=null){
+                    setBtnlListener.onCancelListener();
+                    break;
+                }else
                 dismiss();
                 break;
             case R.id.confirm:
-                dismiss();
-                CheckUpdateDialog3 dialog3 = new CheckUpdateDialog3(context);
-                dialog3.show();
+                if (setBtnlListener!=null){
+                    setBtnlListener.onConfirm();
+                    break;
+                }else {
+                    dismiss();
+                    CheckUpdateDialog3 dialog3 = new CheckUpdateDialog3(context);
+                    dialog3.show();
+                }
                 break;
         }
+    }
+
+    public  void  setTvContext(String str){
+        tvContext.setText(str);
+    }
+    public  void  setCancel(String str){
+        cancel.setText(str);
+    }
+    public  void  setConfirm(String str){
+        confirm.setText(str);
+    }
+    public void setBtnlListener(setBtnlListener listener) {
+        this.setBtnlListener = listener;
+    }
+
+    public  interface  setBtnlListener{
+        void  onCancelListener();
+        void  onConfirm();
     }
 }

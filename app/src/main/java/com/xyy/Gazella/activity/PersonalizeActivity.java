@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.xyy.Gazella.view.MViewOne;
@@ -26,7 +29,18 @@ public class PersonalizeActivity extends BaseActivity {
     MViewOne circle;
     @BindView(R.id.text)
     TextView text;
+    @BindView(R.id.text_name)
+    TextView textName;
+    @BindView(R.id.text_sex)
+    TextView textSex;
+    @BindView(R.id.text_Birth)
+    TextView textBirth;
+    @BindView(R.id.text_height)
+    TextView textHeight;
+    @BindView(R.id.text_weight)
+    TextView textWeight;
     private int cur = 0;
+    private Animation loadImageAnimation;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -35,6 +49,9 @@ public class PersonalizeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         handler.post(runnable);
+         loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_down);
+        loadImageAnimation.setFillAfter(!loadImageAnimation.getFillAfter());
+
     }
 
     Handler handler = new Handler() {
@@ -44,12 +61,40 @@ public class PersonalizeActivity extends BaseActivity {
                 case 1:
                     num.setText(cur + "%");
                     circle.setProgress((float) cur);
-                    if(cur==100){
-                        Intent intent = new Intent(PersonalizeActivity.this,HomeActivity.class);
-                        startActivity(intent);
-                        finish();
-                        overridePendingTransitionEnter(PersonalizeActivity.this);
+                    switch (cur) {
+                        case 10:
+                            textName.setVisibility(View.VISIBLE);
+                            textName.startAnimation(loadImageAnimation);
+                            break;
+                        case 20:
+                            textSex.setVisibility(View.VISIBLE);
+                            textSex.startAnimation(loadImageAnimation);
+                            break;
+                        case 40:
+                            textBirth.setVisibility(View.VISIBLE);
+                            textBirth.startAnimation(loadImageAnimation);
+                            break;
+                        case 60:
+                            textHeight.setVisibility(View.VISIBLE);
+                            textHeight.startAnimation(loadImageAnimation);
+                            break;
+                        case 80:
+                            textWeight.setVisibility(View.VISIBLE);
+                            textWeight.startAnimation(loadImageAnimation);
+                            break;
+                        case 100:
+                            Intent intent = new Intent(PersonalizeActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                            finish();
+                            overridePendingTransitionEnter(PersonalizeActivity.this);
+                            break;
                     }
+//                    if(cur==100){
+//                        Intent intent = new Intent(PersonalizeActivity.this,HomeActivity.class);
+//                        startActivity(intent);
+//                        finish();
+//                        overridePendingTransitionEnter(PersonalizeActivity.this);
+//                    }
                     break;
             }
         }
@@ -62,7 +107,7 @@ public class PersonalizeActivity extends BaseActivity {
                 cur++;
                 handler.sendEmptyMessage(1);
                 handler.post(this);
-            }else{
+            } else {
                 text.setText(getResources().getText(R.string.personalized));
             }
         }
