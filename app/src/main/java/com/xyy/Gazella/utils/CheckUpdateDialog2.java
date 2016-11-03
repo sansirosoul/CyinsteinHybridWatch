@@ -67,14 +67,12 @@ public class CheckUpdateDialog2 extends Dialog implements View.OnClickListener{
             case R.id.cancel:
                 if(setBtnlListener!=null){
                     setBtnlListener.onCancelListener();
-                    break;
                 }else
                 dismiss();
                 break;
             case R.id.confirm:
                 if (setBtnlListener!=null){
                     setBtnlListener.onConfirm();
-                    break;
                 }else {
                     dismiss();
                     CheckUpdateDialog3 dialog3 = new CheckUpdateDialog3(context);

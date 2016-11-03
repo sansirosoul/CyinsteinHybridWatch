@@ -331,9 +331,10 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                             public void onCancelListener() {
                                 isRun=true;
                                 count=0;
-                                mHandler.post(runnable);
                                 bluetoothAdapter.startLeScan(leScanCallback);
                                 myDialog.dismiss();
+                                mHandler.post(runnable);
+
 
                             }
 
