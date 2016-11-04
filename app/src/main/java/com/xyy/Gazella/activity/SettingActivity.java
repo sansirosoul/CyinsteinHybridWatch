@@ -60,8 +60,13 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.setting_activity);
         ButterKnife.bind(this);
 
+        initView();
         context = this;
         TVTitle.setText(R.string.setting);
+    }
+
+    private void initView() {
+
     }
 
     @OnClick({R.id.btnExit, R.id.rl_user_setting, R.id.rl_update_hardware, R.id.rl_change_watch, R.id.rl_rename_watch, R.id.rl_clock, R.id.rl_clean_phone, R.id.rl_clean_watch, R.id.rl_anti_lost, R.id.rl_ble, R.id.rl_update_bsl, R.id.rl_target})
@@ -90,7 +95,7 @@ public class SettingActivity extends BaseActivity {
                 renameWatchDialog.show();
                 break;
             case R.id.rl_clock:
-                Intent clockIntent = new Intent(context,ClockActivity.class);
+                Intent clockIntent = new Intent(context, ClockActivity.class);
                 startActivity(clockIntent);
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
@@ -103,7 +108,7 @@ public class SettingActivity extends BaseActivity {
                 cleanPhoneData.show();
                 break;
             case R.id.rl_target:
-                Intent targetIntent = new Intent(context,TargetActivity.class);
+                Intent targetIntent = new Intent(context, TargetActivity.class);
                 startActivity(targetIntent);
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;

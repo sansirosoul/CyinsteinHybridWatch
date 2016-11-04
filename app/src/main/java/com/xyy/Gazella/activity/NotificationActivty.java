@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.xyy.Gazella.utils.CheckUpdateDialog2;
+import com.xyy.Gazella.view.SwitchView;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
@@ -29,7 +30,7 @@ public class NotificationActivty extends BaseActivity {
     @BindView(R.id.TVTitle)
     TextView TVTitle;
     @BindView(R.id.all)
-    ToggleButton all;
+    SwitchView all;
     @BindView(R.id.tel)
     ToggleButton tel;
     @BindView(R.id.email)
@@ -56,7 +57,7 @@ public class NotificationActivty extends BaseActivity {
         setContentView(R.layout.notification_activity);
         ButterKnife.bind(this);
 
-        if(Build.VERSION.SDK_INT >= 19){
+        if (Build.VERSION.SDK_INT >= 19) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //透明导航栏
@@ -68,9 +69,9 @@ public class NotificationActivty extends BaseActivity {
 
     private void initView() {
         TVTitle.setText(R.string.msg_notify);
-        if(all.isChecked()){
+        if (all.isOpened()) {
             tel.setEnabled(true);
-        }else{
+        } else {
             tel.setEnabled(false);
             email.setEnabled(false);
             twitter.setEnabled(false);
@@ -82,44 +83,84 @@ public class NotificationActivty extends BaseActivity {
             wechat.setEnabled(false);
         }
 
-        myDialog=new CheckUpdateDialog2(this);
+        myDialog = new CheckUpdateDialog2(this);
 
-        all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        all.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-//                    myDialog.show();
-                    tel.setEnabled(true);
-                }else {
-                    tel.setEnabled(false);
-                    email.setEnabled(false);
-                    twitter.setEnabled(false);
-                    line.setEnabled(false);
-                    qq.setEnabled(false);
-                    facebook.setEnabled(false);
-                    message.setEnabled(false);
-                    skype.setEnabled(false);
-                    wechat.setEnabled(false);
+            public void onClick(View view) {
 
-                    tel.setChecked(false);
-                    email.setChecked(false);
-                    twitter.setChecked(false);
-                    line.setChecked(false);
-                    qq.setChecked(false);
-                    facebook.setChecked(false);
-                    message.setChecked(false);
-                    skype.setChecked(false);
-                    wechat.setChecked(false);
-                }
             }
         });
+
+        all.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
+            @Override
+            public void toggleToOn(SwitchView view) {
+                all.setOpened(true);
+
+                tel.setEnabled(true);
+            }
+
+            @Override
+            public void toggleToOff(SwitchView view) {
+                all.setOpened(false);
+
+                tel.setEnabled(false);
+                email.setEnabled(false);
+                twitter.setEnabled(false);
+                line.setEnabled(false);
+                qq.setEnabled(false);
+                facebook.setEnabled(false);
+                message.setEnabled(false);
+                skype.setEnabled(false);
+                wechat.setEnabled(false);
+                tel.setChecked(false);
+                email.setChecked(false);
+                twitter.setChecked(false);
+                line.setChecked(false);
+                qq.setChecked(false);
+                facebook.setChecked(false);
+                message.setChecked(false);
+                skype.setChecked(false);
+                wechat.setChecked(false);
+            }
+        });
+
+//        all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                if(b){
+////                    myDialog.show();
+//                    tel.setEnabled(true);
+//                }else {
+//                    tel.setEnabled(false);
+//                    email.setEnabled(false);
+//                    twitter.setEnabled(false);
+//                    line.setEnabled(false);
+//                    qq.setEnabled(false);
+//                    facebook.setEnabled(false);
+//                    message.setEnabled(false);
+//                    skype.setEnabled(false);
+//                    wechat.setEnabled(false);
+//
+//                    tel.setChecked(false);
+//                    email.setChecked(false);
+//                    twitter.setChecked(false);
+//                    line.setChecked(false);
+//                    qq.setChecked(false);
+//                    facebook.setChecked(false);
+//                    message.setChecked(false);
+//                    skype.setChecked(false);
+//                    wechat.setChecked(false);
+//                }
+//            }
+//        });
 
         tel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
+                if (b) {
                     GazelleApplication.RegisterReceiver(NotificationActivty.this);
-                }else{
+                } else {
                     GazelleApplication.UnRegisterReceiver(NotificationActivty.this);
                 }
             }

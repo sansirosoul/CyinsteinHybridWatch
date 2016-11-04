@@ -1,9 +1,6 @@
 package com.xyy.Gazella.activity;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -38,8 +35,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.xyy.Gazella.activity.StepActivity.UPDATEUI;
 
 public class SleepActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
 
@@ -203,17 +198,32 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
             loadImageAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
             widget.startAnimation(loadImageAnimation);
 
-            new Thread(){
+            loadImageAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
-                public void run() {
-                    try {
-                        sleep(300);
-                        UIhandler.sendEmptyMessage(UPDATEUI);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                public void onAnimationStart(Animation animation) {
+
                 }
-            }.start();
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    widget.setVisibility(View.GONE);
+                    llCheckDate.setVisibility(View.VISIBLE);
+                    btnDate.setBackground(getResources().getDrawable(R.drawable.page17_rili));
+
+                    if (!sleepDayFragment.getLlDateVisible())
+                        sleepDayFragment.setLlDateVisible(View.VISIBLE);
+
+                    if (!sleepWeekFragment.getLlDateVisible())
+                        sleepWeekFragment.setLlDateVisible(View.VISIBLE);
+                    if (!sleepMonthFragment.getLlDateVisible())
+                        sleepMonthFragment.setLlDateVisible(View.VISIBLE);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
         } else {
 
             loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_down);
@@ -235,30 +245,6 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
 
         }
     }
-
-    @SuppressLint("HandlerLeak")
-    private Handler UIhandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case UPDATEUI:
-
-                    widget.setVisibility(View.GONE);
-                    llCheckDate.setVisibility(View.VISIBLE);
-                    btnDate.setBackground(getResources().getDrawable(R.drawable.page17_rili));
-
-                    if (!sleepDayFragment.getLlDateVisible())
-                        sleepDayFragment.setLlDateVisible(View.VISIBLE);
-
-                    if (!sleepWeekFragment.getLlDateVisible())
-                        sleepWeekFragment.setLlDateVisible(View.VISIBLE);
-                    if (!sleepMonthFragment.getLlDateVisible())
-                        sleepMonthFragment.setLlDateVisible(View.VISIBLE);
-
-                    break;
-            }
-        }
-    };
-
 
     /***
      * 设置Butnon 背景

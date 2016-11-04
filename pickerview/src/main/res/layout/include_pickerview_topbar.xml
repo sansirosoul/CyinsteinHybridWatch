@@ -3,7 +3,7 @@
     android:id="@+id/pickerview_bg_topbar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Top_bg">
+    android:background="@drawable/btu_frame">
 
     <Button
         android:id="@+id/btnCancel"
