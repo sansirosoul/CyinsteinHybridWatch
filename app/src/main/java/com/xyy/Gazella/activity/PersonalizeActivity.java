@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
@@ -49,7 +48,7 @@ public class PersonalizeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         handler.post(runnable);
-         loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_down);
+         loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in_lefttoright);
         loadImageAnimation.setFillAfter(!loadImageAnimation.getFillAfter());
 
     }
@@ -63,24 +62,24 @@ public class PersonalizeActivity extends BaseActivity {
                     circle.setProgress((float) cur);
                     switch (cur) {
                         case 10:
-                            textName.setVisibility(View.VISIBLE);
-                            textName.startAnimation(loadImageAnimation);
+//                            textName.setVisibility(View.VISIBLE);
+//                            textName.startAnimation(loadImageAnimation);
                             break;
                         case 20:
-                            textSex.setVisibility(View.VISIBLE);
-                            textSex.startAnimation(loadImageAnimation);
+//                            textSex.setVisibility(View.VISIBLE);
+//                            textSex.startAnimation(loadImageAnimation);
                             break;
                         case 40:
-                            textBirth.setVisibility(View.VISIBLE);
-                            textBirth.startAnimation(loadImageAnimation);
+//                            textBirth.setVisibility(View.VISIBLE);
+//                            textBirth.startAnimation(loadImageAnimation);
                             break;
                         case 60:
-                            textHeight.setVisibility(View.VISIBLE);
-                            textHeight.startAnimation(loadImageAnimation);
+//                            textHeight.setVisibility(View.VISIBLE);
+//                            textHeight.startAnimation(loadImageAnimation);
                             break;
                         case 80:
-                            textWeight.setVisibility(View.VISIBLE);
-                            textWeight.startAnimation(loadImageAnimation);
+//                            textWeight.setVisibility(View.VISIBLE);
+//                            textWeight.startAnimation(loadImageAnimation);
                             break;
                         case 100:
                             Intent intent = new Intent(PersonalizeActivity.this, HomeActivity.class);
