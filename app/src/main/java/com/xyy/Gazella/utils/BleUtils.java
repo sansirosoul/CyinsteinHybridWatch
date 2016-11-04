@@ -171,7 +171,6 @@ public class BleUtils {
         GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
     }
 
-
     //mode=1 on    mode=2  off
     public void setAntiLost(BluetoothGattCharacteristic characteristic,int mode){
         vaue[0]=0x48;
