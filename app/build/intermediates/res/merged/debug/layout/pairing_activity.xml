@@ -1,88 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bg_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/pairing_layout"
-        android:background="@drawable/page3_bg"
-        android:orientation="vertical"
-        android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/page3_background"
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <RelativeLayout
             android:id="@+id/top"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_above="@+id/view"
+                android:gravity="center"
                 android:text="@string/search_devices"
                 android:textColor="@color/white"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:textSize="20sp" />
+
             <View
                 android:id="@+id/view"
-                android:layout_alignParentBottom="true"
-                android:background="#0279a8"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"/>
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#0279a8" />
         </RelativeLayout>
+
         <RelativeLayout
-            android:layout_weight="10"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="10">
+
             <ListView
                 android:id="@+id/listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:divider="@null"
-                android:scrollbars="none"
                 android:listSelector="@color/transparent"
-                android:layout_centerInParent="true" />
+                android:scrollbars="none" />
         </RelativeLayout>
 
         <Button
             android:id="@+id/skip"
-            android:background="@drawable/page3_btn"
             android:layout_width="match_parent"
-            android:layout_weight="1"
             android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/page3_btn"
             android:text="@string/skip"
-            android:textSize="18sp"
             android:textColor="@color/white"
-            android:layout_alignParentBottom="true"
-            />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <RelativeLayout
-        android:visibility="gone"
-        android:background="@drawable/page2_background"
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:background="@drawable/page2_bg"
+        android:visibility="visible">
 
-            <ImageView
-                android:id="@+id/clock"
-                android:src="@drawable/page2_clock"
-                android:layout_marginTop="150dp"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:layout_below="@+id/clock"
-                android:layout_marginTop="60dp"
-                android:text="@string/searching"
-                android:textSize="15sp"
-                android:textColor="@color/white"
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+        <!--<ImageView-->
+        <!--android:id="@+id/clock"-->
+        <!--android:src="@drawable/page2_clock"-->
+        <!--android:layout_marginTop="150dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_height="wrap_content" />-->
+
+        <com.xyy.Gazella.view.AnalogClock
+            android:id="@+id/clock"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+           android:layout_centerHorizontal="true"
+            android:layout_marginTop="120dp"
+            app:dial="@drawable/page2_biaopan"
+            app:hand_minute="@drawable/page2_fangdajing" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/clock"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="30dp"
+            android:text="@string/searching"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 

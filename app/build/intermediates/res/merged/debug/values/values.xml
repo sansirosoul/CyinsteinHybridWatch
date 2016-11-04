@@ -12,6 +12,8 @@
     <bool name="abc_config_allowActionMenuItemTextWithIcon">false</bool>
     <bool name="abc_config_closeDialogWhenTouchOutside">true</bool>
     <bool name="abc_config_showMenuShortcutsWhenKeyboardPresent">false</bool>
+    <bool name="pickerview_customTextSize">false</bool>
+    <color name="Top_bg">#0E9EDF</color>
     <color name="abc_input_method_navigation_guard">@android:color/black</color>
     <color name="abc_search_url_text_normal">#7fa87f</color>
     <color name="abc_search_url_text_pressed">@android:color/black</color>
@@ -22,6 +24,7 @@
     <color name="background_floating_material_light">@android:color/white</color>
     <color name="background_material_dark">@color/material_grey_850</color>
     <color name="background_material_light">@color/material_grey_50</color>
+    <color name="bgColor_overlay">#60000000</color>
     <color name="black">#000000</color>
     <color name="blue">#0279A8</color>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
@@ -32,10 +35,14 @@
     <color name="bright_foreground_material_light">@android:color/black</color>
     <color name="button_material_dark">#ff5a595b</color>
     <color name="button_material_light">#ffd6d7d7</color>
+    <color name="clock_list_gray">#797979</color>
+    <color name="dataBackgroundColor">#1E1E1E</color>
     <color name="dim_foreground_disabled_material_dark">#80bebebe</color>
     <color name="dim_foreground_disabled_material_light">#80323232</color>
     <color name="dim_foreground_material_dark">#ffbebebe</color>
     <color name="dim_foreground_material_light">#ff323232</color>
+    <color name="edit_clock_blue">#019de4</color>
+    <color name="edit_clock_gray">#515151</color>
     <color name="foreground_material_dark">@android:color/white</color>
     <color name="foreground_material_light">@android:color/black</color>
     <color name="gray">#9D9D9D</color>
@@ -60,6 +67,15 @@
     <color name="material_grey_850">#ff303030</color>
     <color name="material_grey_900">#ff212121</color>
     <color name="orange">#FF7F00</color>
+    <color name="personalize1">#b6e1ff</color>
+    <color name="personalize2">#005ea0</color>
+    <color name="pickerview_bg_topbar">#f5f5f5</color>
+    <color name="pickerview_timebtn_nor">#057dff</color>
+    <color name="pickerview_timebtn_pre">#c2daf5</color>
+    <color name="pickerview_topbar_title">#000000</color>
+    <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
+    <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+    <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
     <color name="primary_dark_material_dark">@android:color/black</color>
     <color name="primary_dark_material_light">@color/material_grey_600</color>
     <color name="primary_material_dark">@color/material_grey_900</color>
@@ -75,11 +91,15 @@
     <color name="secondary_text_default_material_light">#8a000000</color>
     <color name="secondary_text_disabled_material_dark">#36ffffff</color>
     <color name="secondary_text_disabled_material_light">#24000000</color>
+    <color name="shadow">#cc222222</color>
     <color name="switch_thumb_disabled_material_dark">#ff616161</color>
     <color name="switch_thumb_disabled_material_light">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_dark">#ffbdbdbd</color>
     <color name="switch_thumb_normal_material_light">#fff1f1f1</color>
+    <color name="text_bg">#0E9DDF</color>
     <color name="title_bg">#0088FF</color>
+    <color name="title_gray">#494848</color>
+    <color name="title_linear">#0e9edf</color>
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
     <color name="whitea">#E6E8FA </color>
@@ -115,6 +135,7 @@
     <declare-styleable name="View"><attr format="dimension" name="paddingStart"/><attr format="dimension" name="paddingEnd"/><attr name="android:focusable"/><attr format="reference" name="theme"/><attr name="android:theme"/></declare-styleable>
     <declare-styleable name="ViewBackgroundHelper"><attr name="android:background"/><attr format="color" name="backgroundTint"/><attr name="backgroundTintMode"><enum name="src_over" value="3"/><enum name="src_in" value="5"/><enum name="src_atop" value="9"/><enum name="multiply" value="14"/><enum name="screen" value="15"/></attr></declare-styleable>
     <declare-styleable name="ViewStubCompat"><attr name="android:layout"/><attr name="android:inflatedId"/><attr name="android:id"/></declare-styleable>
+    <declare-styleable name="pickerview"><attr name="pickerview_gravity"><enum name="center" value="17"/><enum name="left" value="3"/><enum name="right" value="5"/></attr><attr format="dimension" name="pickerview_textSize"/><attr format="color" name="pickerview_textColorOut"/><attr format="color" name="pickerview_textColorCenter"/><attr format="color" name="pickerview_dividerColor"/></declare-styleable>
     <dimen name="abc_action_bar_content_inset_material">16dp</dimen>
     <dimen name="abc_action_bar_default_height_material">56dp</dimen>
     <dimen name="abc_action_bar_default_padding_end_material">0dp</dimen>
@@ -200,6 +221,12 @@
     <dimen name="notification_large_icon_height">64dp</dimen>
     <dimen name="notification_large_icon_width">64dp</dimen>
     <dimen name="notification_subtext_size">12dp</dimen>
+    <dimen name="pickerview_textsize">20sp</dimen>
+    <dimen name="pickerview_topbar_btn_textsize">20sp</dimen>
+    <dimen name="pickerview_topbar_height">44dp</dimen>
+    <dimen name="pickerview_topbar_paddingleft">10dp</dimen>
+    <dimen name="pickerview_topbar_paddingright">30dp</dimen>
+    <dimen name="pickerview_topbar_title_textsize">21sp</dimen>
     <drawable name="notification_template_icon_bg">#3333B5E5</drawable>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
@@ -214,6 +241,7 @@
     <integer name="abc_config_activityDefaultDur">220</integer>
     <integer name="abc_config_activityShortDur">150</integer>
     <integer name="abc_max_action_buttons">2</integer>
+    <integer name="animation_default_duration">300</integer>
     <integer name="cancel_button_image_alpha">127</integer>
     <integer name="status_bar_notification_info_maxnum">999</integer>
     <string name="About">about</string>
@@ -521,7 +549,9 @@
     <string name="aboutstring5">watch and its related applications are not supposed to use for diagnosis, treatment, or precaution against disease or illness. If you want to change exercise and sleep habits, make sure to seek medical advice first; or, damage or injury may occur.</string>
     <string name="action_settings">Settings</string>
     <string name="activityRecord">Activity Record</string>
+    <string name="anti_lost">防丢失功能</string>
     <string name="app_name">WatchConnect</string>
+    <string name="app_ver">应用程序版本</string>
     <string name="areyousuretoexit">Are you sure to exit?</string>
     <string name="band_type2_guide1_title1">Tap the watch face on the watch 2 times, LEDs will indicate the current time. The content lit LED indicates the hour and the flashing LED indicates the minute. When the hour and minute are on same position(i.e.03:15;04:20) The LED will first lit to indicate the hour and then flash to indicate the minute.</string>
     <string name="band_type2_guide1_title2">After indicating the current time, the LEDs will lit up one after another starting from the 12 o’clock position to indicate the percentage of exercise goal met. All LED lit indicating 100%</string>
@@ -530,16 +560,35 @@
     <string name="band_type3_guide1_title2">2. Press Sync icon on APK to sync pedometer data to your smartphone or tablet. While data is syncing, LED indicator will keep lightenling-on.</string>
     <string name="band_type3_guide1_title3">3. After data synced, LED indicator will go back to flashing-status for another 30 seconds then turn-off automatically, if theres no other interruption.</string>
     <string name="band_type3_guide1_title4">4. Blinking, red LED signals low battery level. Insert a new battery.</string>
+    <string name="ble">蓝牙</string>
     <string name="bluetooth">Bluetooth</string>
+    <string name="bsl">BSL模式</string>
     <string name="calendar">Calendar</string>
     <string name="calories">Cal</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">取消</string>
+    <string name="change_watch">更换手表</string>
+    <string name="change_watch_details">是否更换到另一只手表，更换之后App将与您的新手表进行同步，而被替换的手表数据，已在上一次同步时被保存。</string>
     <string name="charging">days</string>
+    <string name="check_update">检查更新</string>
+    <string name="check_update1">正在检查固件版本，请稍等…</string>
+    <string name="check_update3">正在为您更新固件版本，该过程可能会花费一点时间，请您耐心等候…</string>
+    <string name="check_update4">固件升级完成，感谢您的耐心等待！</string>
+    <string name="choose_birth">请选择您的出生年月</string>
+    <string name="choose_height">请选择您的身高</string>
+    <string name="choose_weight">请选择您的体重</string>
+    <string name="clean_phonedata">清除手机资料</string>
+    <string name="clean_phonedata_details">是否确定要从手机中擦除之前收集的所有数据？此操作不可恢复！</string>
+    <string name="clean_watchdata">清除手表资料</string>
+    <string name="clean_watchdata_details">是否确定要从手表中擦除之前收集的所有数据？此操作不可恢复！</string>
     <string name="clearAPPdata">Remove the mobile data</string>
     <string name="clearAppdata2">Are you sure you want to erase data of mobile phone collected form?This operation is not reversible!</string>
+    <string name="click_cirlce">*点击上方圆环即可进入详情界面</string>
+    <string name="click_icon">* 您可点击上方图标来选择您要开启的消息通知</string>
+    <string name="clock">闹钟</string>
     <string name="cm">cm</string>
     <string name="cm2">ft/in</string>
     <string name="complete">Done</string>
+    <string name="confirm">确定</string>
     <string name="connect">Connect</string>
     <string name="connect_or_disconnect">Connect/Disconnect</string>
     <string name="connected">Connected</string>
@@ -550,6 +599,8 @@
     <string name="days">days</string>
     <string name="dayslift">days left</string>
     <string name="deepsleep">Deep sleep</string>
+    <string name="define">自定义</string>
+    <string name="del_clock">删除闹钟</string>
     <string name="deletealarm">Are you sure to delete the choosed alarm ?</string>
     <string name="device">Device</string>
     <string name="device_not_support">The device does not support Bluetooth 4.0</string>
@@ -557,40 +608,67 @@
     <string name="disconnected">Not connected</string>
     <string name="discoverService">discover Remote LE Services</string>
     <string name="distance">Distance</string>
+    <string name="edit_clock">编辑闹钟</string>
     <string name="everyMondaytofriday">Every Monday to Friday</string>
     <string name="everyday">Everyday</string>
     <string name="exercise">Exercise</string>
+    <string name="female">女</string>
     <string name="gostep">step</string>
     <string name="gosteps">steps</string>
     <string name="h">h</string>
+    <string name="health_manage">健康管理</string>
     <string name="homepageweight">Weight/BMI</string>
+    <string name="hour">小时</string>
     <string name="hours">Hours</string>
     <string name="information">Providing accurate information helps Watch to give you meaningful feedbacks.</string>
+    <string name="input_name">请输入您的昵称</string>
     <string name="inputweight">Wrist Watch remind you to input the weight!</string>
+    <string name="is_update">检查到新的固件版本，是否立即更新？</string>
+    <string name="launch01">欢迎使用健康手表</string>
+    <string name="launch02">开启您的健康之旅</string>
+    <string name="launch03">Copyright@2016All Right Reserved</string>
     <string name="lefttonextlevel">left to next level</string>
     <string name="lightsleep">Light sleep</string>
     <string name="loading">"\tLoading..."</string>
     <string name="m">m</string>
+    <string name="male">男</string>
     <string name="martsleepwindow">Sleep window</string>
     <string name="medalDay">Time</string>
     <string name="meters">meters</string>
     <string name="mileage">mile age</string>
     <string name="min">min</string>
-    <string name="minute">minute</string>
+    <string name="minute">分</string>
     <string name="minutes">minutes</string>
+    <string name="msg_notify">信息通知</string>
     <string name="nap">Nap</string>
     <string name="napRecord">Nap Record</string>
     <string name="next">Next</string>
+    <string name="no">否</string>
     <string name="no_ble_devices">No LE devices found.</string>
     <string name="no_device">&amp;lt;Select a device&amp;gt;</string>
+    <string name="notice1">1.更新前请确保手表与手机电量充足，并于更新过程中，请勿任意退出程序；</string>
+    <string name="notice2">2.确保设备蓝牙已开启。</string>
     <string name="notification">registerNotification</string>
     <string name="notification1">sss</string>
+    <string name="notify_introduce">当您启动消息通知功能后，手表会轻微震动来提醒您。不过此功能长期开启会影响电池的寿命，请问您是否开启？</string>
     <string name="off">Off</string>
+    <string name="over_target">超额完成目标，再接再励哦！</string>
     <string name="pair">pair</string>
+    <string name="pair_failed">配对失败，请重试！</string>
     <string name="pair_or_unpair">Pair/Unpair</string>
     <string name="paired">paired</string>
-    <string name="personalizing">Pairing complete, starting personalization</string>
+    <string name="pairing">正在配对，请稍等…</string>
+    <string name="personalized">个人化设置完成，正在跳转...</string>
+    <string name="personalizing">正在进行个人化设置，请稍等...</string>
     <string name="personalizingiscomplete">Thank you, personalization is completed</string>
+    <string name="pickerview_cancel">取消</string>
+    <string name="pickerview_day">日</string>
+    <string name="pickerview_hours">时</string>
+    <string name="pickerview_minutes">分</string>
+    <string name="pickerview_month">月</string>
+    <string name="pickerview_seconds">秒</string>
+    <string name="pickerview_submit">确定</string>
+    <string name="pickerview_year">年</string>
     <string name="popup_message">Device Quit , Do you want to quit this Application?</string>
     <string name="popup_no">NO</string>
     <string name="popup_title">QUIT HRP Collector?</string>
@@ -599,17 +677,30 @@
     <string name="readChar">readChar</string>
     <string name="readDisValues">readDisValues</string>
     <string name="readHrsValues">readHrsValues</string>
+    <string name="real_msg">* 请填写真实可靠的信息，有助于我们提供有意义的意见给您</string>
     <string name="refresh">discoverCharacteristics</string>
     <string name="removeBond">Remove Bond</string>
+    <string name="rename_watch">重命名手表</string>
+    <string name="repeat_rate">重复频率</string>
     <string name="replaceband">This is the using Cyband,no need to change</string>
     <string name="resetEE">Send Command</string>
     <string name="return1">Back</string>
+    <string name="ring_time">响铃时长</string>
     <string name="sband">\'s band</string>
     <string name="scan">Scan</string>
     <string name="scanning">Scanning </string>
+    <string name="search_devices">搜索到的设备</string>
+    <string name="searching">正在搜索设备，请稍等…</string>
     <string name="select_device">Select a device</string>
+    <string name="setting">设置</string>
+    <string name="sex">性别</string>
     <string name="shared">Below contents will be shared to your friends</string>
+    <string name="skip">跳过配对</string>
+    <string name="sleep">睡眠</string>
+    <string name="sleep_quality">睡眠质量:</string>
     <string name="sleeptime">h</string>
+    <string name="software_setting">软件设置</string>
+    <string name="sport_sleep_target">运动/睡眠目标</string>
     <string name="start_type2_title1">    Step 1: Open mobilephone\'s bluetooth.</string>
     <string name="start_type2_title2">    Step 2: Choose wristband\'s type, open wristband\'s bluetooth.</string>
     <string name="start_type2_title3">Wristband with 12pcs LED:</string>
@@ -620,9 +711,10 @@
     <string name="statistics">Statistics</string>
     <string name="status">Status</string>
     <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="step">step</string>
+    <string name="step">计步</string>
     <string name="steps">steps</string>
     <string name="stridelength">Stride length</string>
+    <string name="target">目标:</string>
     <string name="text1">Watch Preview</string>
     <string name="text10">Nap mode</string>
     <string name="text11">Before you have a short break, switch over to Nap mode and the watch will test your sleep quality and alert you by vibrating when the set time is up. The Moon LED is orange on.</string>
@@ -643,6 +735,8 @@
     <string name="text9">In Exercise mode, the Sun LED is red on and the watch records exercise information.</string>
     <string name="time">time</string>
     <string name="tims">times</string>
+    <string name="today_sleep">今日睡眠</string>
+    <string name="today_step">今日步数</string>
     <string name="unpair">unpair</string>
     <string name="update1">Please charge when the phone battery is low !</string>
     <string name="update10">Failure burning!</string>
@@ -656,19 +750,27 @@
     <string name="update7">Upgrading the firmware, please wait patiently. </string>
     <string name="update8">The current version is the latest. </string>
     <string name="update9">Success for upgrading firmware, the device will be re-started. </string>
+    <string name="update_hardware">更新固件</string>
     <string name="updatetips1">Before updating, please make sure the device and watch are full charge. Please don’t exit the program randomly during the update process. </string>
     <string name="updatetips2">Press the button till the blue light is blinking, then switch to Bluetooth mode and prepare for firmware updating. </string>
     <string name="updatetips2_type2">Tap twice to activate your pedometer BT. LED indicator will keep flashing.</string>
     <string name="updatetips2_type3">Tap the watch watch surface 3 times to turn on the bluetooth module and prepare for firmware updating, one of the LEDs will flash.</string>
     <string name="updatetips3">Check for updates</string>
+    <string name="user_setting">用户设置</string>
     <string name="walkstep">step</string>
     <string name="walksteps">steps</string>
+    <string name="warn">警告！</string>
     <string name="warning">Warning!</string>
+    <string name="watch_battery">手表当前电量：</string>
+    <string name="watch_hardware_ver">手表固件版本</string>
+    <string name="watch_num">手表序列号</string>
+    <string name="watch_setting">手表设置</string>
     <string name="welcometogazella">Welcome to Gazella</string>
     <string name="writeClientConfig">writeClientConfigDesc</string>
     <string name="writeHRMnoti">HrmNoti</string>
     <string name="writehrcp">writeControlPoint</string>
     <string name="year">Year</string>
+    <string name="yes">是</string>
     <string name="youslept">You slept</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
@@ -1634,11 +1736,24 @@
         <item name="android:scaleType">center</item>
     </style>
     <style name="ExampleTheme" parent="android:Theme.Holo">
-        <item name="android:editTextColor">#000000</item>
-        <item name="android:textCursorDrawable">@null</item>
-        <item name="android:windowActionBar">false</item>
+        <!--<item name="android:editTextColor">#000000</item>-->
+        <!--<item name="android:textCursorDrawable">@null</item>-->
+        <!--<item name="android:windowActionBar">false</item>-->
         <item name="android:windowTitleSize">50dp</item>
-        <!--<item name="android:background">@color/black</item>设置背景-->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    <style name="MaterialCalendarHeadrDay" parent="android:TextAppearance.DeviceDefault.Small">
+
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="MaterialCalendarHeadrTitle" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <style name="MaterialCalendarHeadrWeek" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/title_bg</item>
     </style>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
@@ -1783,6 +1898,15 @@
     <style name="RtlUnderlay.Widget.AppCompat.ActionButton.Overflow" parent="Base.Widget.AppCompat.ActionButton">
         <item name="android:paddingLeft">@dimen/abc_action_bar_overflow_padding_start_material</item>
         <item name="android:paddingRight">@dimen/abc_action_bar_overflow_padding_end_material</item>
+    </style>
+    <style name="StepTextStyle" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:layout_weight">3</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
     </style>
     <style name="TextAppearance.AppCompat" parent="Base.TextAppearance.AppCompat"/>
     <style name="TextAppearance.AppCompat.Body1" parent="Base.TextAppearance.AppCompat.Body1"/>
@@ -1990,4 +2114,32 @@
     <style name="Widget.AppCompat.TextView.SpinnerItem" parent="Base.Widget.AppCompat.TextView.SpinnerItem"/>
     <style name="Widget.AppCompat.Toolbar" parent="Base.Widget.AppCompat.Toolbar"/>
     <style name="Widget.AppCompat.Toolbar.Button.Navigation" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation"/>
+    <style name="activity_dlalog_style" parent="@android:style/Theme.Dialog">
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowEnterAnimation">@anim/zoomin</item>
+        <item name="android:windowExitAnimation">@anim/zoomout</item>
+    </style>
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@drawable/mydialog</item>
+    </style>
+    <style name="guidedialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 </resources>

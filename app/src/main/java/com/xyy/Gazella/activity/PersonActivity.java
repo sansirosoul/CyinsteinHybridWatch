@@ -2,6 +2,7 @@ package com.xyy.Gazella.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ParseException;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -13,12 +14,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
 import com.xyy.Gazella.utils.SharedPreferencesUtils;
 import com.xyy.Gazella.utils.WeightDialog;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,6 +62,12 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     private CalendarDialog.OnSelectedListener cSelectedListener;
 
     private Context context;
+
+    private   TimePickerView pvTime;
+    private   Date date;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+    private HeightDialog heightDialog;
+    private  WeightDialog weightDialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -117,6 +129,37 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 tvBirth.setTextColor(context.getResources().getColor(R.color.white));
             }
         };
+
+        try {
+            date = sdf.parse("1990.1.1");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        pvTime = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
+        //控制时间范围
+        Calendar calendar = Calendar.getInstance();
+        pvTime.setRange(calendar.get(Calendar.YEAR) - 100, calendar.get(Calendar.YEAR)+100);//要在setTime 之前才有效果
+        pvTime.setTime(date);
+        pvTime.setCancelable(true);
+        pvTime.setCyclic(true);
+
+        //时间选择后回调
+        pvTime.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date) {
+                tvBirth.setText(sdf.format(date));
+            }
+        });
+
+        heightDialog = new HeightDialog(context);
+        heightDialog.setOnSelectedListener(hSelectedListener);
+
+        weightDialog = new WeightDialog(context);
+        weightDialog.setOnSelectedListener(wOnSelectedListener);
+
     }
 
 
@@ -124,20 +167,14 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_birth:
-                CalendarDialog calendarDialog = new CalendarDialog(context);
-                calendarDialog.setOnSelectedListener(cSelectedListener);
-                calendarDialog.show();
+                pvTime.show();
                 break;
             case R.id.head:
                 break;
             case R.id.ll_height:
-                HeightDialog heightDialog = new HeightDialog(context);
-                heightDialog.setOnSelectedListener(hSelectedListener);
                 heightDialog.show();
                 break;
             case R.id.ll_weight:
-                WeightDialog weightDialog = new WeightDialog(context);
-                weightDialog.setOnSelectedListener(wOnSelectedListener);
                 weightDialog.show();
                 break;
             case R.id.back:
@@ -161,9 +198,11 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 //                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
-                SharedPreferencesUtils spu = new SharedPreferencesUtils(context);
+                SharedPreferencesUtils spu = new SharedPreferencesUtils(
+                        context);
                 spu.setUserInfo(edName.getText().toString(),tvBirth.getText().toString(),sex,tvHeight.getText().toString(),tvWeight.getText().toString());
-                Intent intent = new Intent(context, HomeActivity.class);
+                Intent intent = new Intent(context, PersonalizeActivity.class);
+                PersonActivity.this.finish();
                 startActivity(intent);
                 overridePendingTransitionEnter(PersonActivity.this);
 
