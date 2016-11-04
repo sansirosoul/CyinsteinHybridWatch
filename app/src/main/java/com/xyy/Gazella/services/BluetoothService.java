@@ -1,7 +1,5 @@
 package com.xyy.Gazella.services;
 
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -21,6 +19,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
+
+import java.util.List;
 
 @SuppressLint("NewApi")
 public class BluetoothService extends Service {
@@ -45,6 +45,8 @@ public class BluetoothService extends Service {
 	}
 
 	private final IBinder mBinder = new LocalBinder();
+
+
 
 	public class LocalBinder extends Binder {
 		public BluetoothService getService() {
@@ -98,7 +100,7 @@ public class BluetoothService extends Service {
 			return false;
 		}
 
-		// Previously connected device. Try to reconnect. (��ǰ���ӵ��豸�� ������������)
+		// Previously connected device. Try to reconnect.
 		if (mBluetoothDeviceAddress != null
 				&& address.equals(mBluetoothDeviceAddress)
 				&& mBluetoothGatt != null) {

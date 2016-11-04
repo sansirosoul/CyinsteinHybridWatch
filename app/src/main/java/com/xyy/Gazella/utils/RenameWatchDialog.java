@@ -10,8 +10,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
 /**
@@ -21,6 +23,7 @@ import com.ysp.smartwatch.R;
 public class RenameWatchDialog extends Dialog implements View.OnClickListener{
     private TextView cancel;
     private TextView confirm;
+    private EditText etName;
     private Context context;
 
     public RenameWatchDialog(Context context) {
@@ -40,6 +43,11 @@ public class RenameWatchDialog extends Dialog implements View.OnClickListener{
         confirm= (TextView) findViewById(R.id.confirm);
         cancel.setOnClickListener(this);
         confirm.setOnClickListener(this);
+
+        etName= (EditText) findViewById(R.id.et_name);
+        if(GazelleApplication.deviceName!=null){
+            etName.setText(GazelleApplication.deviceName);
+        }
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,

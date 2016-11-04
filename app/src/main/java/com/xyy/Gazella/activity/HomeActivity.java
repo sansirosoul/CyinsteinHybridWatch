@@ -4,6 +4,7 @@ package com.xyy.Gazella.activity;
  * 主页
  */
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -31,7 +32,8 @@ public class HomeActivity extends BaseActivity {
     @BindView(R.id.ll_introduce)
     LinearLayout llIntroduce;
     private long mExitTime = 0;
-
+    private BluetoothAdapter bluetoothAdapter;
+    private static final int REQUEST_ENABLE_BT = 1;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -39,8 +41,6 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
-
-
     }
 
     @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce})
