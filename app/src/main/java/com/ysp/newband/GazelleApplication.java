@@ -38,6 +38,7 @@ public class GazelleApplication extends Application {
 	public static boolean isCall;
 	private static int bandType=1;
 	public static String deviceName = null;
+	public static String deviceAddress = null;
 
 	public static GazelleApplication getInstance() {
 		return instance;

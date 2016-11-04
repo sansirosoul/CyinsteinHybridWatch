@@ -59,6 +59,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private LoadingDialog loadingDialog;
     private PairFailedDialog pairFailedDialog;
     private String deviceName = null;
+    private BluetoothDevice device;
     private int count;
 
     @Override
@@ -85,7 +86,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         // 检查设备上是否支持蓝牙
         if (bluetoothAdapter == null) {
             Toast.makeText(this, "不支持蓝牙", Toast.LENGTH_SHORT).show();
-            // finish();
+             finish();
             return;
         }
     }
@@ -96,11 +97,12 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (bluetoothDevice.getName() != null && (bluetoothDevice.getName().equals("Watch")
-                            || bluetoothDevice.getName().equals("Partner")
-                            || bluetoothDevice.getName().equals("Band")
-                            || bluetoothDevice.getName().equals("Felix") || bluetoothDevice
-                            .getName().equals("Nova"))) {
+                    if(bluetoothDevice.getName() != null){
+//                    if (bluetoothDevice.getName() != null && (bluetoothDevice.getName().equals("Watch")
+//                            || bluetoothDevice.getName().equals("Partner")
+//                            || bluetoothDevice.getName().equals("Band")
+//                            || bluetoothDevice.getName().equals("Felix") || bluetoothDevice
+//                            .getName().equals("Nova"))) {
                         Log.d("=====", bluetoothDevice.getAddress());
                         if (!devices.contains(bluetoothDevice)) {
                             searchLayout.setVisibility(View.GONE);
@@ -118,7 +120,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
     //sdk6.0以上获取蓝牙权限
     private static final int REQUEST_FINE_LOCATION = 0;
-
     private void mayRequestLocation() {
         if (Build.VERSION.SDK_INT >= 23) {
             int checkCallPhonePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -155,7 +156,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     bluetoothAdapter.startLeScan(leScanCallback);
                 } else {
                     // The user disallowed the requested permission.
-
+                    mayRequestLocation();
                 }
                 break;
 
@@ -283,6 +284,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         loadingDialog.show();
         if (GazelleApplication.mBluetoothService.initialize()) {
+            device=devices.get(i);
             deviceName = devices.get(i).getName();
             GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
             GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
@@ -302,7 +304,8 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             switch (msg.what) {
                 case BluetoothService.STATE_CONNECTED:
                     loadingDialog.dismiss();
-                    GazelleApplication.deviceName = deviceName;
+                    GazelleApplication.deviceName = device.getName();
+                    GazelleApplication.deviceAddress=device.getAddress();
                     Intent intent = new Intent(context, PersonActivity.class);
                     startActivity(intent);
                     overridePendingTransitionEnter(PairingActivity.this);

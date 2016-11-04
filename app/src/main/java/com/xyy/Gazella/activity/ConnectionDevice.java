@@ -100,6 +100,7 @@ public class ConnectionDevice extends BaseActivity {
 	    app.getUser().setUUID(DeviceRess);
 	    GazelleApplication.UUID=DeviceRess;
 	    ConnectionDevice(mHandler);
+
 	}
 	
 	class MyTask extends AsyncTask<Object, Object, Object> {
