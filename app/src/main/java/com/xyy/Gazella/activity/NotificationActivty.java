@@ -159,7 +159,8 @@ public class NotificationActivty extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    GazelleApplication.RegisterReceiver(NotificationActivty.this);
+                    GazelleApplication.RegisterReceiver(NotificationActivty
+                            .this);
                 } else {
                     GazelleApplication.UnRegisterReceiver(NotificationActivty.this);
                 }

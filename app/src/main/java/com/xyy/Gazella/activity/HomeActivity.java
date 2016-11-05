@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -20,6 +21,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity {
+
+    private  static  String TAG=HomeActivity.class.getName();
 
     @BindView(R.id.ll_time)
     LinearLayout llTime;
@@ -50,6 +53,8 @@ public class HomeActivity extends BaseActivity {
                 Intent timeIntent = new Intent(HomeActivity.this, TimeSynchronization.class);
                 startActivity(timeIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
+
+                Logger.t(TAG).i("TStr========================");
 
                 break;
             case R.id.ll_notice:

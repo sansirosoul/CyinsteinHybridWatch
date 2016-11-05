@@ -35,7 +35,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/ll_f"
+                android:id="@+id/ll_time"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -44,7 +44,6 @@
                 android:gravity="center">
 
                 <LinearLayout
-                    android:id="@+id/ll_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

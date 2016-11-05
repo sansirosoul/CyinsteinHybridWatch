@@ -10,6 +10,8 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.telephony.TelephonyManager;
 
+import com.orhanobut.logger.LogLevel;
+import com.orhanobut.logger.Logger;
 import com.xyy.Gazella.BroadcastReceiver.PhoneBroadcastReceiver;
 import com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver;
 import com.xyy.Gazella.googlebth.BluetoothLeService;
@@ -40,6 +42,7 @@ public class GazelleApplication extends Application {
 	public static String deviceName = null;
 	public static String deviceAddress = null;
 
+
 	public static GazelleApplication getInstance() {
 		return instance;
 	}
@@ -47,6 +50,9 @@ public class GazelleApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		initLogger();
+
 		phoneRegisterReceiver();
 
 //		CrashHandler crashHandler = CrashHandler.getInstance();
@@ -124,5 +130,9 @@ public class GazelleApplication extends Application {
 	public static void UnRegisterReceiver(Context context) {
 //		context.unregisterReceiver(phoneBroadcastReceiver);
 		context.unregisterReceiver(mPhoneStatReceiver);
+	}
+
+	private void initLogger() {
+		Logger.init("smartwatch").methodCount(2).methodOffset(0).logLevel(LogLevel.FULL).hideThreadInfo();
 	}
 }
