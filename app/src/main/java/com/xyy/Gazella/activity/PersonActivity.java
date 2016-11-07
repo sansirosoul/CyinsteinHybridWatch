@@ -77,6 +77,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         ButterKnife.bind(this);
         context = this;
         initView();
+
     }
 
 
