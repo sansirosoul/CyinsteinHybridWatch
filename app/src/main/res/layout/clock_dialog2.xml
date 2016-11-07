@@ -1,158 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="@string/repeat_rate"
         android:textColor="@color/black"
-        android:textSize="18sp"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp" />
+        android:textSize="18sp" />
+
     <View
-        android:background="#dddddd"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="#dddddd" />
+
     <RelativeLayout
         android:id="@+id/rl_once"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:text="只响一次"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/iv_once"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_clock_dialog" />
     </RelativeLayout>
+
     <View
-        android:background="#dddddd"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="#dddddd" />
+
     <RelativeLayout
         android:id="@+id/rl_every"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:text="每天"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/iv_every"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_clock_dialog" />
     </RelativeLayout>
+
     <View
-        android:background="#dddddd"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="#dddddd" />
+
     <RelativeLayout
         android:id="@+id/rl15"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:text="周一到周五"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/iv15"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_clock_dialog" />
     </RelativeLayout>
+
     <View
-        android:background="#dddddd"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="#dddddd" />
+
     <RelativeLayout
         android:id="@+id/rl67"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:text="周六、周日"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/iv67"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_clock_dialog" />
     </RelativeLayout>
+
     <View
-        android:background="#dddddd"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="#dddddd" />
+
     <RelativeLayout
         android:id="@+id/rl_define"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
             android:text="自定义"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textSize="18sp" />
+
         <ImageView
             android:id="@+id/iv_define"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/selector_clock_dialog"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/selector_clock_dialog" />
     </RelativeLayout>
+
     <View
-        android:background="#dddddd"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="#dddddd" />
+
     <Button
         android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/page36_btn"
         android:text="@string/cancel"
         android:textColor="@color/white"
-        android:textSize="18sp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/page36_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:textSize="18sp" />
 </LinearLayout>

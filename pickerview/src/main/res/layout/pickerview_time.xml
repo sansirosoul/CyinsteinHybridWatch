@@ -11,7 +11,7 @@
         android:id="@+id/timepicker"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@drawable/layout_frame"
         android:orientation="horizontal">
 
         <com.bigkoo.pickerview.lib.WheelView

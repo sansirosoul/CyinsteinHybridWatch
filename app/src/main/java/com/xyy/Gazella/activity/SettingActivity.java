@@ -60,8 +60,13 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.setting_activity);
         ButterKnife.bind(this);
 
+        initView();
         context = this;
         TVTitle.setText(R.string.setting);
+
+    }
+
+    private void initView() {
 
     }
 
@@ -91,7 +96,7 @@ public class SettingActivity extends BaseActivity {
                 renameWatchDialog.show();
                 break;
             case R.id.rl_clock:
-                Intent clockIntent = new Intent(context,ClockActivity.class);
+                Intent clockIntent = new Intent(context, ClockActivity.class);
                 startActivity(clockIntent);
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
@@ -104,7 +109,7 @@ public class SettingActivity extends BaseActivity {
                 cleanPhoneData.show();
                 break;
             case R.id.rl_target:
-                Intent targetIntent = new Intent(context,TargetActivity.class);
+                Intent targetIntent = new Intent(context, TargetActivity.class);
                 startActivity(targetIntent);
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
