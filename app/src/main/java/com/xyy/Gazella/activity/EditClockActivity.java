@@ -64,6 +64,7 @@ public class EditClockActivity extends BaseActivity {
         tvRingtime= (TextView) findViewById(R.id.tv_ringtime);
         tvRepeatrate= (TextView) findViewById(R.id.tv_repeatrate);
 
+
         List<String> hours = new ArrayList<>();
         List<String> minutes = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
@@ -129,6 +130,7 @@ public class EditClockActivity extends BaseActivity {
                 intent.putExtra("isOpen",1);
                 setResult(1,intent);
                 finish();
+                overridePendingTransitionEnter(EditClockActivity.this);
                 break;
             case R.id.del_clock:
                 finish();

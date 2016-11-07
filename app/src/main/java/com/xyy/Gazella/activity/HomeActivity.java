@@ -7,17 +7,23 @@ package com.xyy.Gazella.activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.xyy.Gazella.services.BluetoothService;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.ysp.newband.GazelleApplication.mBluetoothService;
 
 public class HomeActivity extends BaseActivity {
 
@@ -41,7 +47,29 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
+
+        mBluetoothService.setActivityHandler(handler);
     }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case BluetoothService.STATE_DISCONNECTED:
+                    if(GazelleApplication.deviceAddress!=null){
+                        mBluetoothService.close();
+                        if(mBluetoothService.initialize()){
+                            mBluetoothService.connect(GazelleApplication.deviceAddress);
+                        }
+                    }
+                    break;
+                case BluetoothService.STATE_CONNECTED:
+                    System.out.println("==============");
+                    break;
+            }
+        }
+    };
 
     @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce})
     public void onClick(View view) {

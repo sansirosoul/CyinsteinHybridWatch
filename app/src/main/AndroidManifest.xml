@@ -32,7 +32,7 @@
         android:name="com.ysp.newband.GazelleApplication"
         android:allowBackup="true"
         android:alwaysRetainTaskState="true"
-        android:icon="@drawable/hillmassion"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:persistent="true"
         android:supportsRtl="true"
@@ -153,6 +153,11 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.xyy.Gazella.activity.AddClockActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.xyy.Gazella.activity.EditClockActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />

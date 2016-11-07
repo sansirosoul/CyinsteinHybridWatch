@@ -1,6 +1,7 @@
 package com.xyy.Gazella.activity;
 
 import android.content.Context;
+import android.net.ParseException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
 import com.xyy.Gazella.utils.SharedPreferencesUtils;
@@ -19,6 +21,10 @@ import com.xyy.Gazella.utils.WeightDialog;
 import com.xyy.model.User;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +66,9 @@ public class UserSetting extends BaseActivity {
     private CalendarDialog.OnSelectedListener cSelectedListener;
     private SharedPreferencesUtils preferencesUtils;
     private int sex = -1;
+    private TimePickerView pvTime;
+    private Date date;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -76,15 +85,15 @@ public class UserSetting extends BaseActivity {
         if (user.getName() != null && !user.getName().equals("")){
             edName.setText(user.getName());
         }
-        if(!tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
+        if(!user.getBirthday().equals(getResources().getString(R.string.choose_birth))){
             tvBirth.setText(user.getBirthday());
             tvBirth.setTextColor(context.getResources().getColor(R.color.white));
         }
-        if(!tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
+        if(!user.getHeight().equals(getResources().getString(R.string.choose_height))){
             tvHeight.setText(user.getHeight());
             tvHeight.setTextColor(context.getResources().getColor(R.color.white));
         }
-        if(!tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
+        if(!user.getWeight().equals(getResources().getString(R.string.choose_weight))){
             tvWeight.setText(user.getWeight());
             tvWeight.setTextColor(context.getResources().getColor(R.color.white));
         }
@@ -142,6 +151,31 @@ public class UserSetting extends BaseActivity {
                 tvBirth.setTextColor(context.getResources().getColor(R.color.white));
             }
         };
+
+        try {
+            date = sdf.parse("1990.1.1");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        pvTime = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
+        //控制时间范围
+        Calendar calendar = Calendar.getInstance();
+        pvTime.setRange(calendar.get(Calendar.YEAR) - 100, calendar.get(Calendar.YEAR)+100);//要在setTime 之前才有效果
+        pvTime.setTime(date);
+        pvTime.setCancelable(true);
+        pvTime.setCyclic(true);
+
+        //时间选择后回调
+        pvTime.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener() {
+            @Override
+            public void onTimeSelect(Date date) {
+                tvBirth.setText(sdf.format(date));
+                tvBirth.setTextColor(context.getResources().getColor(R.color.white));
+            }
+        });
     }
 
     @OnClick({R.id.back, R.id.head, R.id.ll_birth, R.id.ll_height, R.id.ll_weight, R.id.save})
@@ -156,8 +190,16 @@ public class UserSetting extends BaseActivity {
                     Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(edName.getText().toString().length()>20){
+                    Toast.makeText(context, R.string.name_too_long, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (tvBirth.getText().equals(getResources().getString(R.string.choose_birth))) {
                     Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(sex==-1){
+                    Toast.makeText(context, R.string.choose_sex, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (tvHeight.getText().equals(getResources().getString(R.string.choose_height))) {
@@ -175,9 +217,7 @@ public class UserSetting extends BaseActivity {
             case R.id.head:
                 break;
             case R.id.ll_birth:
-                CalendarDialog calendarDialog = new CalendarDialog(context);
-                calendarDialog.setOnSelectedListener(cSelectedListener);
-                calendarDialog.show();
+                pvTime.show();
                 break;
             case R.id.ll_height:
                 HeightDialog heightDialog = new HeightDialog(context);

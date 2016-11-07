@@ -21,6 +21,7 @@ import android.os.Message;
 import android.util.Log;
 
 import java.util.List;
+import java.util.UUID;
 
 @SuppressLint("NewApi")
 public class BluetoothService extends Service {
@@ -228,5 +229,21 @@ public class BluetoothService extends Service {
 			return null;
 
 		return mBluetoothGatt.getServices();
+	}
+
+	public BluetoothGattCharacteristic getWriteCharacteristic(){
+		if (mBluetoothGatt == null)
+			return null;
+		BluetoothGattService service = mBluetoothGatt.getService(UUID.fromString("6e400001-b5a3-f393-e0a9-e50e24dcca9e"));
+		BluetoothGattCharacteristic characteristic = service.getCharacteristic(UUID.fromString("6e400002-b5a3-f393-e0a9-e50e24dcca9e"));
+		return characteristic;
+	}
+
+	public BluetoothGattCharacteristic getNotifyCharacteristic(){
+		if (mBluetoothGatt == null)
+			return null;
+		BluetoothGattService service = mBluetoothGatt.getService(UUID.fromString("6e400001-b5a3-f393-e0a9-e50e24dcca9e"));
+		BluetoothGattCharacteristic characteristic = service.getCharacteristic(UUID.fromString("6e400003-b5a3-f393-e0a9-e50e24dcca9e"));
+		return characteristic;
 	}
 }

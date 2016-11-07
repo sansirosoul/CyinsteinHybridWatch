@@ -48,7 +48,7 @@ public class ClockActivity extends BaseActivity {
     }
 
     private void initView() {
-        Clock clock = new Clock();
+        final Clock clock = new Clock();
         clock.setTime("07:00");
         clock.setRate("只响一次");
         clock.setIsOpen(0);
@@ -59,7 +59,8 @@ public class ClockActivity extends BaseActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(context, AddClockActivity.class);
+                Intent intent = new Intent(context, EditClockActivity.class);
+                intent.putExtra("time",clocks.get(i).getTime());
                 startActivityForResult(intent, REQUEST_EDIT);
                 overridePendingTransitionEnter(ClockActivity.this);
             }

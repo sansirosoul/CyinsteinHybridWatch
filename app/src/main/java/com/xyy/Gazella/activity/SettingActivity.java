@@ -62,6 +62,7 @@ public class SettingActivity extends BaseActivity {
 
         context = this;
         TVTitle.setText(R.string.setting);
+
     }
 
     @OnClick({R.id.btnExit, R.id.rl_user_setting, R.id.rl_update_hardware, R.id.rl_change_watch, R.id.rl_rename_watch, R.id.rl_clock, R.id.rl_clean_phone, R.id.rl_clean_watch, R.id.rl_anti_lost, R.id.rl_ble, R.id.rl_update_bsl, R.id.rl_target})

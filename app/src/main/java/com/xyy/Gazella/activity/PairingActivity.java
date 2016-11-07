@@ -59,7 +59,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private Context context;
     private LoadingDialog loadingDialog;
     private PairFailedDialog pairFailedDialog;
-    private String deviceName = null;
+    private BluetoothDevice device;
     private int count;
     private CheckUpdateDialog2 myDialog;
 
@@ -109,7 +109,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                         if (!devices.contains(bluetoothDevice)) {
                             searchLayout.setVisibility(View.GONE);
                             pairingLayout.setVisibility(View.VISIBLE);
-                            bgLayout.setBackgroundResource(R.drawable.page3_bg);
+                            bgLayout.setBackgroundResource(R.drawable.page3_background);
                             devices.add(bluetoothDevice);
                             deviceListAdapter.notifyDataSetChanged();
                         //}
@@ -216,7 +216,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
         searchLayout.setVisibility(View.VISIBLE);
         pairingLayout.setVisibility(View.GONE);
-        bgLayout.setBackgroundResource(R.drawable.page2_background);
+        bgLayout.setBackgroundResource(R.drawable.page2_bg);
 
         mayRequestLocation();
 
@@ -286,8 +286,9 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         loadingDialog.show();
+        GazelleApplication.mBluetoothService.close();
         if (GazelleApplication.mBluetoothService.initialize()) {
-            deviceName = devices.get(i).getName();
+            device = devices.get(i);
             GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
             GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
         }
@@ -306,14 +307,17 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             switch (msg.what) {
                 case BluetoothService.STATE_CONNECTED:
                     loadingDialog.dismiss();
-                    GazelleApplication.deviceName = deviceName;
+                    GazelleApplication.deviceAddress=device.getAddress();
+                    GazelleApplication.deviceName=device.getName();
                     Intent intent = new Intent(context, PersonActivity.class);
                     startActivity(intent);
                     PairingActivity.this.finish();
                     overridePendingTransitionEnter(PairingActivity.this);
                     break;
                 case BluetoothService.STATE_DISCONNECTED:
-                    pairFailedDialog.show();
+                    if(GazelleApplication.deviceAddress==null){
+                        pairFailedDialog.show();
+                    }
                     break;
                 case 1001:
                     clock.setTimeValue(2, count);

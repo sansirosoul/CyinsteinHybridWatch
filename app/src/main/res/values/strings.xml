@@ -450,7 +450,9 @@
     <string name="choose_weight">请选择您的体重</string>
     <string name="choose_height">请选择您的身高</string>
     <string name="choose_birth">请选择您的出生年月</string>
+    <string name="choose_sex">请选择您的性别</string>
     <string name="input_name">请输入您的昵称</string>
+    <string name="name_too_long">您的昵称太长</string>
     <string name="sex">性别</string>
     <string name="male">男</string>
     <string name="female">女</string>

@@ -40,6 +40,7 @@ public class PersonalizeActivity extends BaseActivity {
     TextView textWeight;
     private int cur = 0;
     private Animation loadImageAnimation;
+    private MViewOne.OnProgressListener listener;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -47,16 +48,34 @@ public class PersonalizeActivity extends BaseActivity {
         setContentView(R.layout.personalize_activity);
         ButterKnife.bind(this);
 
-        handler.post(runnable);
+//        handler.post(runnable);
          loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in_lefttoright);
         loadImageAnimation.setFillAfter(!loadImageAnimation.getFillAfter());
 
+        listener = new MViewOne.OnProgressListener() {
+            @Override
+            public void onProgress(int progress) {
+                num.setText(progress+"%");
+                if(progress==100){
+                    text.setText(getResources().getText(R.string.personalized));
+                    handler.sendEmptyMessage(2);
+                }
+            }
+        };
+        circle.setOnProgressListener(listener);
+        circle.setValue(100);
     }
 
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case 2:
+                    Intent intent = new Intent(PersonalizeActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                    overridePendingTransitionEnter(PersonalizeActivity.this);
+                    break;
                 case 1:
                     num.setText(cur + "%");
                     circle.setProgress((float) cur);
@@ -82,10 +101,10 @@ public class PersonalizeActivity extends BaseActivity {
 //                            textWeight.startAnimation(loadImageAnimation);
                             break;
                         case 100:
-                            Intent intent = new Intent(PersonalizeActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                            finish();
-                            overridePendingTransitionEnter(PersonalizeActivity.this);
+//                            Intent intent = new Intent(PersonalizeActivity.this, HomeActivity.class);
+//                            startActivity(intent);
+//                            finish();
+//                            overridePendingTransitionEnter(PersonalizeActivity.this);
                             break;
                     }
 //                    if(cur==100){
