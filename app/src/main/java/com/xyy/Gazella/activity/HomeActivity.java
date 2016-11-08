@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -20,6 +21,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity {
+
+    private  static  String TAG=HomeActivity.class.getName();
 
     @BindView(R.id.ll_time)
     LinearLayout llTime;
@@ -42,28 +45,28 @@ public class HomeActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
-        mBluetoothService.setActivityHandler(handler);
+       // mBluetoothService.setActivityHandler(handler);
     }
 
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case BluetoothService.STATE_DISCONNECTED:
-                    if(GazelleApplication.deviceAddress!=null){
-                        mBluetoothService.close();
-                        if(mBluetoothService.initialize()){
-                            mBluetoothService.connect(GazelleApplication.deviceAddress);
-                        }
-                    }
-                    break;
-                case BluetoothService.STATE_CONNECTED:
-                    System.out.println("==============");
-                    break;
-            }
-        }
-    };
+//    Handler handler = new Handler(){
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            switch (msg.what){
+//                case BluetoothService.STATE_DISCONNECTED:
+//                    if(GazelleApplication.deviceAddress!=null){
+//                        mBluetoothService.close();
+//                        if(mBluetoothService.initialize()){
+//                            mBluetoothService.connect(GazelleApplication.deviceAddress);
+//                        }
+//                    }
+//                    break;
+//                case BluetoothService.STATE_CONNECTED:
+//                    System.out.println("==============");
+//                    break;
+//            }
+//        }
+//    };
 
     @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce})
     public void onClick(View view) {
@@ -73,7 +76,7 @@ public class HomeActivity extends BaseActivity {
                 startActivity(timeIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
 
-                Logger.t(TAG).i("TStr========================");
+               Logger.t(TAG).i("TStr========================");
                 break;
             case R.id.ll_notice:
                 Intent noticeIntent = new Intent(HomeActivity.this, NotificationActivty.class);
