@@ -33,7 +33,7 @@ import butterknife.OnClick;
 
 public class TimeSynchronization extends BaseActivity {
 
-    private  static  final  String TAG= TimeSynchronization.class.getName();
+    private static final String TAG = TimeSynchronization.class.getName();
     //    @BindView(R.id.analogclock)
 //    AnalogClock analogclock;
     @BindView(R.id.but_reduce)
@@ -50,8 +50,6 @@ public class TimeSynchronization extends BaseActivity {
     Button butReset;
     @BindView(R.id.but_synchronization)
     Button butSynchronization;
-    @BindView(R.id.activity_time_synchronization)
-    LinearLayout activityTimeSynchronization;
     @BindView(R.id.btnExit)
     Button btnExit;
     @BindView(R.id.btnOpt)
@@ -64,6 +62,8 @@ public class TimeSynchronization extends BaseActivity {
     ImageView ivRight;
     @BindView(R.id.viewpager)
     MyViewPage viewpager;
+    @BindView(R.id.activity_time_synchronization)
+    LinearLayout activityTimeSynchronization;
     private boolean isChangeTime = false;
     private CheckAnalogClock checkAnalogClock;
 
@@ -72,10 +72,10 @@ public class TimeSynchronization extends BaseActivity {
     private SmallFragment2 smallFragment2;
     private SmallFragment3 smallFragment3;
     private MainDialFragment mainDialFragment;
-    private TimeSynchronization.FragmentAdapter mFragmentAdapter;
-    private  int small1TimeValue;
-    private  int small2TimeValue;
-    private  int small3TimeValue;
+    private FragmentAdapter mFragmentAdapter;
+    private int small1TimeValue;
+    private int small2TimeValue;
+    private int small3TimeValue;
     private float HourTimeValue;
     private float MuintesTimeValue;
     private int item;
@@ -116,6 +116,7 @@ public class TimeSynchronization extends BaseActivity {
             public void onSmall3Click() {
                 setSmallItem(2);
             }
+
             @Override
             public void onCloseClick() {
                 checkAnalogClock.dismiss();
@@ -134,8 +135,8 @@ public class TimeSynchronization extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_reduce:  //减时间
-                if(fragmentsList.size()>1){
-                    switch (viewpager.getCurrentItem()){
+                if (fragmentsList.size() > 1) {
+                    switch (viewpager.getCurrentItem()) {
                         case 0:
                             smallFragment1.ReduceTime();
                             break;
@@ -146,14 +147,14 @@ public class TimeSynchronization extends BaseActivity {
                             smallFragment3.ReduceTime();
                             break;
                     }
-                }else
+                } else
                     mainDialFragment.ReduceTime();
 
                 break;
 
             case R.id.but_add://加时间
-                if(fragmentsList.size()>1){
-                    switch (viewpager.getCurrentItem()){
+                if (fragmentsList.size() > 1) {
+                    switch (viewpager.getCurrentItem()) {
                         case 0:
                             smallFragment1.AddTime();
                             break;
@@ -164,7 +165,7 @@ public class TimeSynchronization extends BaseActivity {
                             smallFragment3.AddTime();
                             break;
                     }
-                }else
+                } else
                     mainDialFragment.AddTime();
 
                 break;
@@ -192,14 +193,11 @@ public class TimeSynchronization extends BaseActivity {
                 break;
             case R.id.but_synchronization:    ///同步
 
-                HourTimeValue=PreferenceData.getSelectedHourValue(TimeSynchronization.this);
-                MuintesTimeValue=PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this);
-                small1TimeValue=PreferenceData.getSelectedSmall1Value(this);
-                small2TimeValue=PreferenceData.getSelectedSmall2Value(this);
-                small3TimeValue=PreferenceData.getSelectedSmall3Value(this);
-
-
-
+                HourTimeValue = PreferenceData.getSelectedHourValue(TimeSynchronization.this);
+                MuintesTimeValue = PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this);
+                small1TimeValue = PreferenceData.getSelectedSmall1Value(this);
+                small2TimeValue = PreferenceData.getSelectedSmall2Value(this);
+                small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
 
                 break;
             case R.id.btnExit:   // 退出
@@ -236,7 +234,7 @@ public class TimeSynchronization extends BaseActivity {
 
         fragmentsList.add(mainDialFragment);
 
-        mFragmentAdapter = new TimeSynchronization.FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
+        mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
         viewpager.setAdapter(mFragmentAdapter);
         viewpager.setCurrentItem(0);
         viewpager.setScroll(true);
@@ -299,11 +297,11 @@ public class TimeSynchronization extends BaseActivity {
     }
 
     /***
-     *     设置小针Fragment 位置
+     * 设置小针Fragment 位置
+     *
      * @param item
-     * 
      */
-    private  void  setSmallItem(int item){
+    private void setSmallItem(int item) {
         setImageVisible(1);
         butReset.setVisibility(View.VISIBLE);
         butSynchronization.setVisibility(View.VISIBLE);
@@ -316,11 +314,12 @@ public class TimeSynchronization extends BaseActivity {
     }
 
     /***
-     *     1 是 时针  2 分针
+     * 1 是 时针  2 分针
+     *
      * @param type
      */
     private void setChangeTimeType(int type) {
-        if (type==1) {
+        if (type == 1) {
             setImageVisible(2);
             setFragmentsList(2);
             viewpager.setScroll(true);
@@ -331,7 +330,7 @@ public class TimeSynchronization extends BaseActivity {
             butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
             butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
             butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
-        }else {
+        } else {
             setImageVisible(2);
             setFragmentsList(2);
             viewpager.setScroll(true);
@@ -350,13 +349,16 @@ public class TimeSynchronization extends BaseActivity {
 
 
     /***
-     *     小针 归0
+     * 小针 归0
      */
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        PreferenceData.setSelectedSmall1Value(TimeSynchronization.this,0);
-        PreferenceData.setSelectedSmall2Value(TimeSynchronization.this,0);
-        PreferenceData.setSelectedSmall3Value(TimeSynchronization.this,0);
+        PreferenceData.setSelectedSmall1Value(TimeSynchronization.this, 0);
+        PreferenceData.setSelectedSmall2Value(TimeSynchronization.this, 0);
+        PreferenceData.setSelectedSmall3Value(TimeSynchronization.this, 0);
     }
+
+
+
 }

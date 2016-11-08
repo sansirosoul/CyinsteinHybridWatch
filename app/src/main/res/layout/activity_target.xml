@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
+    android:background="@drawable/page12_bg"
     android:orientation="vertical"
     tools:context="com.xyy.Gazella.activity.TargetActivity">
 
@@ -22,6 +23,7 @@
         android:layout_margin="10dp"
         android:drawableLeft="@drawable/page41_xiaotieshi"
         android:drawablePadding="10dp"
+        android:textColor="@color/white"
         android:text="智能手表建议你每晚睡眠7-9小时，同时步行10000步作为日常锻炼计划" />
 
     <LinearLayout
@@ -44,6 +46,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/white"
                 android:text="12315步" />
 
             <SeekBar
@@ -68,6 +71,7 @@
                 android:layout_above="@id/target_run_SeekBar"
                 android:layout_alignLeft="@id/target_run_SeekBar"
                 android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
                 android:text="运动" />
 
             <TextView
@@ -78,6 +82,7 @@
                 android:layout_marginTop="10dp"
                 android:drawableBottom="@drawable/target_back"
                 android:drawablePadding="10dp"
+                android:textColor="@color/white"
                 android:text="建议值" />
 
             <ImageView
@@ -103,6 +108,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:textColor="@color/white"
                 android:text="8时36分" />
 
             <SeekBar
@@ -126,6 +132,7 @@
                 android:layout_above="@id/target_run_SeekBar"
                 android:layout_alignLeft="@id/target_run_SeekBar"
                 android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
                 android:text="睡眠" />
 
             <TextView
@@ -137,6 +144,7 @@
                 android:layout_toLeftOf="@+id/target_walk_text"
                 android:drawableBottom="@drawable/target_back"
                 android:drawablePadding="10dp"
+                android:textColor="@color/white"
                 android:text="建议值" />
 
             <ImageView

@@ -123,6 +123,9 @@ public class StepWeekFragment extends BaseFragment {
         mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
         mChart.getAxisLeft().setAxisLineColor(Color.rgb(255, 255, 255));
         mChart.getAxisLeft().setDrawGridLines(false);
+        mChart.getAxisLeft().setMaxWidth(35f);
+        mChart.getAxisLeft().setMinWidth(35f);
+        mChart.getAxisLeft().setLabelCount(6, true);
         mChart.getAxisRight().setEnabled(false);
 
         // setting data

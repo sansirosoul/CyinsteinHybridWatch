@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_stup"
+    android:id="@+id/activity_step"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/page17_bg"
@@ -64,6 +64,7 @@
                 android:background="@drawable/step_inbtn_normal"
                 android:button="@null"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="周" />
 
             <Button
@@ -76,6 +77,7 @@
                 android:background="@drawable/step_rightbtn_normal"
                 android:button="@null"
                 android:gravity="center"
+                android:textColor="@color/white"
                 android:text="月" />
 
         </LinearLayout>

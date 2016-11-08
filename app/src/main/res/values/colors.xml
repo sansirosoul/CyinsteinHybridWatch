@@ -27,4 +27,9 @@
     <color name="edit_clock_blue">#019de4</color>
     <color name="edit_clock_gray">#515151</color>
     <color name="theme_blue">#0d98d6</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
 </resources>

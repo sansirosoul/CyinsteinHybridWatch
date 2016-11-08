@@ -82,6 +82,24 @@
                 android:text="恭喜,今日目标达成"
                 android:textColor="@color/title_bg" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:gravity="center"
+                android:text="步"
+                android:textSize="10dp"
+                android:textColor="@color/white" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:text="时"
+                android:textSize="10dp"
+                android:textColor="@color/white" />
+
         </FrameLayout>
 
 
@@ -98,12 +116,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:orientation="horizontal">
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:textColor="@color/white"
                     android:text="你今天走了" />
 
                 <TextView
@@ -116,11 +138,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="步,  " />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="比昨天多走了" />
 
                 <TextView
@@ -128,11 +152,13 @@
                     android:layout_height="wrap_content"
                     android:text="12315"
                     android:textColor="@color/text_bg"
+
                     android:textSize="20dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="步!" />
 
             </LinearLayout>

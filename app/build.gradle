@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 23
@@ -31,6 +33,11 @@ android {
         exclude 'META-INF/LGPL2.1'
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
+    sourceSets{
+        main{
+            java.srcDirs=['src/main/java','src/main/java-gen']
+        }
+    }
 }
 
 dependencies {
@@ -50,8 +57,8 @@ dependencies {
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.android.support:appcompat-v7:23.4.0'
     compile project(':Calendarlibrary')
-    //    compile files('libs/wheelview_1.3.3.jar')
     compile project(':pickerview')
+    compile 'com.orhanobut:logger:1.15'
+    compile 'org.greenrobot:greendao:3.1.1'
     compile project(':WheelViewLibrary')
-    compile files('libs/wheelview_1.3.3.jar')
 }

@@ -1,14 +1,26 @@
 package com.xyy.Gazella.utils;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.os.Environment;
 import android.view.View;
+import android.view.WindowManager;
 
+import com.orhanobut.logger.Logger;
 import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.activity.StepActivity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+
+import static android.content.ContentValues.TAG;
+
 
 /**
  * Created by Administrator on 2016/10/24.
@@ -146,6 +158,34 @@ public class SomeUtills {
         }else {
             if (StepActivity.stepActivity.widget.getVisibility() == View.VISIBLE)
                 StepActivity.stepActivity.setLlDateVisible(1);
+        }
+    }
+    public void setCompress(Activity activity , int layout) {
+
+        View rootView = activity.findViewById(layout);
+
+        WindowManager wm = activity.getWindowManager();
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+
+        Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(newb);
+
+        rootView.draw(canvas);
+
+        File file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
+
+        FileOutputStream f = null;
+        try {
+            f = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
+        if (b) {
+            //截图成功
+            Logger.t(TAG).i(String.valueOf(activity)+"==截图成功\n" + file.getPath() );
         }
     }
 }
