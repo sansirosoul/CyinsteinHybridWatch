@@ -105,6 +105,8 @@
                         android:drawableLeft="@drawable/page20_qingxing"
                         android:drawablePadding="5dp"
                         android:paddingLeft="35dp"
+                        android:textColor="@color/white"
+
                         android:text="清醒" />
 
                     <TextView
@@ -114,6 +116,8 @@
                         android:drawableLeft="@drawable/page20_qianshui"
                         android:drawablePadding="5dp"
                         android:paddingLeft="35dp"
+                        android:textColor="@color/white"
+
                         android:text="浅睡" />
 
                     <TextView
@@ -124,6 +128,8 @@
                         android:drawableLeft="@drawable/page20_shushui"
                         android:drawablePadding="5dp"
                         android:paddingRight="35dp"
+                        android:textColor="@color/white"
+
                         android:text="熟睡" />
 
 
@@ -157,6 +163,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:textColor="@color/white"
+
                             android:text="睡眠时长" />
 
                         <LinearLayout
@@ -226,6 +234,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:textColor="@color/white"
+
                             android:text="浅睡时长" />
 
                         <LinearLayout
@@ -295,6 +305,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
+                            android:textColor="@color/white"
+
                             android:text="熟睡时长" />
 
                         <LinearLayout
@@ -362,6 +374,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+
                                 android:layout_centerInParent="true"
                                 android:text="睡眠时长" />
 
@@ -432,6 +446,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+
                             android:layout_centerInParent="true"
                             android:text="清醒时长" />
 
@@ -501,6 +517,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+
                             android:layout_centerInParent="true"
                             android:text="清醒次数" />
 
