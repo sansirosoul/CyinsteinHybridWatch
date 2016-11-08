@@ -43,6 +43,7 @@ public class ChangeWatchList extends BaseActivity {
     private static final int REQUEST_ENABLE_BT = 1;
     private LoadingDialog loadingDialog;
     private PairFailedDialog pairFailedDialog;
+    private BluetoothDevice device;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -60,7 +61,9 @@ public class ChangeWatchList extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 loadingDialog.show();
+                GazelleApplication.mBluetoothService.close();
                 if(GazelleApplication.mBluetoothService.initialize()){
+                    device=devices.get(i);
                     GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
                     GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
                 }
@@ -202,6 +205,8 @@ public class ChangeWatchList extends BaseActivity {
             switch (msg.what){
                 case BluetoothService.STATE_CONNECTED:
                     loadingDialog.dismiss();
+                    GazelleApplication.deviceAddress=device.getAddress();
+                    GazelleApplication.deviceName=device.getName();
                     finish();
                     break;
                 case BluetoothService.STATE_DISCONNECTED:

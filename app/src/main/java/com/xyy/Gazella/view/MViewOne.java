@@ -35,6 +35,8 @@ public class MViewOne extends View {
 
     private RectF mRectF;
 
+    private  OnProgressListener listener;
+
     public MViewOne(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
@@ -134,20 +136,30 @@ public class MViewOne extends View {
     public void setValue(float value) {
         value=(float) (360.0 * (value / 100.0));
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(mSweepValue, value);
-        valueAnimator.setDuration(2000);
+        valueAnimator.setDuration(1000);
         valueAnimator.setInterpolator(new Interpolator() {
             @Override
             public float getInterpolation(float v) {
-                return 1-(1-v)*(1-v)*(1-v);
+                return v;
+//                return 1-(1-v)*(1-v)*(1-v);
             }
         });
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 mSweepValue = (float) valueAnimator.getAnimatedValue();
+                listener.onProgress((int)(100*(mSweepValue/360)));
                 invalidate();
             }
         });
         valueAnimator.start();
+    }
+
+    public void setOnProgressListener(OnProgressListener listener){
+        this.listener=listener;
+    }
+
+    public interface OnProgressListener{
+        void onProgress(int progress);
     }
 }

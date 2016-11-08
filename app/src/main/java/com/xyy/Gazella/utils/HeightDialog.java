@@ -12,12 +12,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.wx.wheelview.adapter.ArrayWheelAdapter;
-import com.wx.wheelview.widget.WheelView;
+import com.jp.wheelview.WheelView;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/17.
@@ -27,9 +25,9 @@ public class HeightDialog extends Dialog {
 
     private Context context;
 
-    private WheelView wheelView;
+    private WheelView wheelView1,wheelView2;
     private TextView confirm;
-    private String height;
+    private String height,unit;
     private OnSelectedListener mSelectedListener;
 
     public HeightDialog(Context context) {
@@ -44,33 +42,62 @@ public class HeightDialog extends Dialog {
         setContentView(R.layout.height_dialog);
         setDialogAttributes((Activity) context,this,0.8f,0, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
-        wheelView= (WheelView) findViewById(R.id.wheelview);
-        confirm= (TextView) findViewById(R.id.confirm);
+        initView();
+    }
 
+    private void initView() {
+        confirm= (TextView) findViewById(R.id.confirm);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSelectedListener.onSelected(height);
+                mSelectedListener.onSelected(height+unit);
                 dismiss();
             }
         });
 
-        List<String> list = new ArrayList<>();
-        for (int i = 150;i<201;i++){
-            list.add(i+"cm");
-        }
-        wheelView.setWheelAdapter(new ArrayWheelAdapter(context));
-        wheelView.setWheelData(list);
-        wheelView.setSkin(WheelView.Skin.Holo);
-        wheelView.setLoop(true);
+        wheelView1= (WheelView) findViewById(R.id.wheelview1);
+        wheelView2= (WheelView) findViewById(R.id.wheelview2);
 
-        wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 80;i<250;i++){
+            list.add(i+"");
+        }
+        ArrayList<String> list2 = new ArrayList<>();
+        list2.add("cm");
+
+        wheelView1.setData(list);
+        wheelView1.setDefault((int)Math.floor(list.size()/2));
+        height=wheelView1.getItemText((int)Math.floor(list.size()/2));
+
+        wheelView2.setData(list2);
+        wheelView2.setDefault(0);
+        unit=wheelView2.getItemText(0);
+
+        wheelView1.setOnSelectListener(new WheelView.OnSelectListener() {
             @Override
-            public void onItemSelected(int i, Object o) {
-                height=o+"";
+            public void endSelect(int id, String text) {
+                height=text;
+            }
+
+            @Override
+            public void selecting(int id, String text) {
+
             }
         });
+        wheelView2.setOnSelectListener(new WheelView.OnSelectListener() {
+            @Override
+            public void endSelect(int id, String text) {
+                unit=text;
+            }
+
+            @Override
+            public void selecting(int id, String text) {
+
+            }
+        });
+
     }
+
 
     public void setDialogAttributes(Activity context, final Dialog dialog,
                                     float widthP, float heightP, int gravity) {

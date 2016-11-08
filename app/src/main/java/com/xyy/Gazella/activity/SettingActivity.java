@@ -63,6 +63,7 @@ public class SettingActivity extends BaseActivity {
         initView();
         context = this;
         TVTitle.setText(R.string.setting);
+
     }
 
     private void initView() {

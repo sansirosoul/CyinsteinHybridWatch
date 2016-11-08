@@ -12,6 +12,7 @@ public class BleUtils {
     private byte ck_a,ck_b;
     private byte[] vaue = new byte[20];
 
+    //获取手表序列号
     public void getDeviceSN(BluetoothGattCharacteristic characteristic){
         vaue[0]=0x48;
         vaue[1]=0x59;
@@ -33,6 +34,7 @@ public class BleUtils {
         GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
     }
 
+    //打开通知
      public void sendMessage(BluetoothGattCharacteristic characteristic,int type){
          vaue[0]=0x48;
          vaue[1]=0x59;
@@ -127,6 +129,29 @@ public class BleUtils {
         vaue[8]=(byte)mode;
     }
 
+    //获取固件版本
+    public void getFWVer(BluetoothGattCharacteristic characteristic){
+        vaue[0]=0x48;
+        vaue[1]=0x59;
+
+        vaue[2]=0x07;
+        vaue[3]=0x05;
+
+        vaue[4]=0x00;
+        vaue[5]=0x00;
+
+        for (int i = 2;i<6;i++){
+            ck_a= (byte) (ck_a+vaue[i]);
+            ck_b=(byte) (ck_b+ck_a);
+        }
+        vaue[6]=ck_a;
+        vaue[7]=ck_b;
+
+        characteristic.setValue(vaue);
+        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+    }
+
+    //获取设备名称
     public void getDeviceName(BluetoothGattCharacteristic characteristic){
         vaue[0]=0x48;
         vaue[1]=0x59;
@@ -171,7 +196,7 @@ public class BleUtils {
         GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
     }
 
-    //mode=1 on    mode=2  off
+    //防丢失功能   mode=1 开    mode=2  关
     public void setAntiLost(BluetoothGattCharacteristic characteristic,int mode){
         vaue[0]=0x48;
         vaue[1]=0x59;
@@ -194,4 +219,146 @@ public class BleUtils {
         characteristic.setValue(vaue);
         GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
     }
+
+    //清除手表数据
+    public void eraseWatchData(BluetoothGattCharacteristic characteristic){
+        vaue[0]=0x48;
+        vaue[1]=0x59;
+
+        vaue[2]=0x07;
+        vaue[3]=0x0e;
+
+        vaue[4]=0x00;
+        vaue[5]=0x00;
+
+        for (int i = 2;i<6;i++){
+            ck_a= (byte) (ck_a+vaue[i]);
+            ck_b=(byte) (ck_b+ck_a);
+        }
+        vaue[6]=ck_a;
+        vaue[7]=ck_b;
+
+        characteristic.setValue(vaue);
+        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+    }
+
+    //获取手表电量
+    public void getBatteryValue(BluetoothGattCharacteristic characteristic){
+        vaue[0]=0x48;
+        vaue[1]=0x59;
+
+        vaue[2]=0x07;
+        vaue[3]=0x13;
+
+        vaue[4]=0x00;
+        vaue[5]=0x00;
+
+        for (int i = 2;i<6;i++){
+            ck_a= (byte) (ck_a+vaue[i]);
+            ck_b=(byte) (ck_b+ck_a);
+        }
+        vaue[6]=ck_a;
+        vaue[7]=ck_b;
+
+        characteristic.setValue(vaue);
+        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+    }
+
+    //校准时针   direction：1  向前   2  向后  stepCount：0~180
+    public void adjHourHand(BluetoothGattCharacteristic characteristic,int direction,int stepCount){
+        vaue[0]=0x48;
+        vaue[1]=0x59;
+
+        vaue[2]=0x07;
+        vaue[3]=0x14;
+
+        vaue[4]=0x02;
+        vaue[5]=0x00;
+
+        vaue[6]= (byte) direction;
+        vaue[7]=(byte) stepCount;
+
+        for (int i = 2;i<8;i++){
+            ck_a= (byte) (ck_a+vaue[i]);
+            ck_b=(byte) (ck_b+ck_a);
+        }
+        vaue[8]=ck_a;
+        vaue[9]=ck_b;
+
+        characteristic.setValue(vaue);
+        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+    }
+
+    //校准分针
+    public void adjMinuteHand(BluetoothGattCharacteristic characteristic,int direction,int stepCount){
+        vaue[0]=0x48;
+        vaue[1]=0x59;
+
+        vaue[2]=0x07;
+        vaue[3]=0x15;
+
+        vaue[4]=0x02;
+        vaue[5]=0x00;
+
+        vaue[6]= (byte) direction;
+        vaue[7]=(byte) stepCount;
+
+        for (int i = 2;i<8;i++){
+            ck_a= (byte) (ck_a+vaue[i]);
+            ck_b=(byte) (ck_b+ck_a);
+        }
+        vaue[8]=ck_a;
+        vaue[9]=ck_b;
+
+        characteristic.setValue(vaue);
+        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+    }
+
+    //校准秒针
+    public void adjSecondHand(BluetoothGattCharacteristic characteristic,int direction,int stepCount){
+        vaue[0]=0x48;
+        vaue[1]=0x59;
+
+        vaue[2]=0x07;
+        vaue[3]=0x16;
+
+        vaue[4]=0x02;
+        vaue[5]=0x00;
+
+        vaue[6]= (byte) direction;
+        vaue[7]=(byte) stepCount;
+
+        for (int i = 2;i<8;i++){
+            ck_a= (byte) (ck_a+vaue[i]);
+            ck_b=(byte) (ck_b+ck_a);
+        }
+        vaue[8]=ck_a;
+        vaue[9]=ck_b;
+
+        characteristic.setValue(vaue);
+        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+    }
+
+    // 关闭手表蓝牙
+    public void terminateBle(BluetoothGattCharacteristic characteristic){
+        vaue[0]=0x48;
+        vaue[1]=0x59;
+
+        vaue[2]=0x07;
+        vaue[3]= (byte) 0xee;
+
+        vaue[4]=0x00;
+        vaue[5]=0x00;
+
+        for (int i = 2;i<6;i++){
+            ck_a= (byte) (ck_a+vaue[i]);
+            ck_b=(byte) (ck_b+ck_a);
+        }
+        vaue[6]=ck_a;
+        vaue[7]=ck_b;
+
+        characteristic.setValue(vaue);
+        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+    }
+
 }

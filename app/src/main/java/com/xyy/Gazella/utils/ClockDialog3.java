@@ -97,7 +97,7 @@ public class ClockDialog3 extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.confirm:
-
+                 mOnClickListener.onClick("自定义");
                 dismiss();
                 break;
             case R.id.rl1:

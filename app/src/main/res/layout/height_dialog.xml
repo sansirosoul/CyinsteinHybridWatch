@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-     <com.wx.wheelview.widget.WheelView
-         android:id="@+id/wheelview"
-         android:layout_margin="10dp"
+     <LinearLayout
+         android:orientation="horizontal"
          android:layout_width="match_parent"
-         android:layout_height="wrap_content"/>
+         android:layout_height="wrap_content">
+          <com.jp.wheelview.WheelView
+              android:id="@+id/wheelview1"
+              app:noEmpty="true"
+              app:normalTextColor="@color/black"
+              app:normalTextSize="14sp"
+              app:selectedTextColor="@color/theme_blue"
+              app:selectedTextSize="20sp"
+              app:unitHeight="50dp"
+              app:itemNumber="3"
+              app:lineColor="@color/theme_blue"
+              app:lineHeight="1dp"
+              android:layout_margin="10dp"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"/>
+          <com.jp.wheelview.WheelView
+              android:id="@+id/wheelview2"
+              app:noEmpty="true"
+              app:normalTextColor="@color/black"
+              app:normalTextSize="14sp"
+              app:selectedTextColor="@color/theme_blue"
+              app:selectedTextSize="18sp"
+              app:unitHeight="50dp"
+              app:itemNumber="3"
+              app:lineColor="@color/theme_blue"
+              app:lineHeight="1dp"
+              android:layout_margin="10dp"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"/>
+     </LinearLayout>
      <TextView
          android:id="@+id/confirm"
          android:text="@string/confirm"

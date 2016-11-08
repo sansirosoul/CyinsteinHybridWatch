@@ -13,22 +13,21 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.wx.wheelview.adapter.ArrayWheelAdapter;
-import com.wx.wheelview.widget.WheelView;
+import com.jp.wheelview.WheelView;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Created by Administrator on 2016/10/17.
  */
 
 public class WeightDialog extends Dialog {
-    private WheelView wheelView;
+    private WheelView wheelView1,wheelView2;
     private Context context;
     private TextView confirm;
-    private String weight;
+    private String weight,unit;
     private OnSelectedListener mSelectedListener;
 
     public WeightDialog(Context context) {
@@ -43,30 +42,51 @@ public class WeightDialog extends Dialog {
         setContentView(R.layout.weight_dialog);
         setDialogAttributes((Activity) context,this,0.8f,0, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
-        wheelView= (WheelView) findViewById(R.id.wheelview);
+        wheelView1= (WheelView) findViewById(R.id.wheelview1);
+        wheelView2= (WheelView) findViewById(R.id.wheelview2);
         confirm= (TextView) findViewById(R.id.confirm);
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mSelectedListener.onSelected(weight);
+                mSelectedListener.onSelected(weight+unit);
                 dismiss();
             }
         });
 
-        List<String> list = new ArrayList<>();
-        for (int i = 30;i<101;i++){
-            list.add(i+"kg");
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 15;i<151;i++){
+            list.add(i+"");
         }
-        wheelView.setWheelAdapter(new ArrayWheelAdapter(context));
-        wheelView.setWheelData(list);
-        wheelView.setSkin(WheelView.Skin.Holo);
-        wheelView.setLoop(true);
-
-        wheelView.setOnWheelItemSelectedListener(new WheelView.OnWheelItemSelectedListener() {
+        wheelView1.setData(list);
+        wheelView1.setDefault((int)Math.floor(list.size()/2));
+        weight=wheelView1.getItemText((int)Math.floor(list.size()/2));
+        ArrayList<String> list2 = new ArrayList<>();
+        list2.add("kg");
+        wheelView2.setData(list2);
+        wheelView2.setDefault(0);
+        unit=wheelView2.getItemText(0);
+        wheelView1.setOnSelectListener(new WheelView.OnSelectListener() {
             @Override
-            public void onItemSelected(int i, Object o) {
-                weight=o+"";
+            public void endSelect(int id, String text) {
+                weight=text;
+            }
+
+            @Override
+            public void selecting(int id, String text) {
+
+            }
+        });
+
+        wheelView2.setOnSelectListener(new WheelView.OnSelectListener() {
+            @Override
+            public void endSelect(int id, String text) {
+                unit=text;
+            }
+
+            @Override
+            public void selecting(int id, String text) {
+
             }
         });
     }

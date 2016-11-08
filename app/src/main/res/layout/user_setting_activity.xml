@@ -63,7 +63,9 @@
         <LinearLayout
             android:layout_gravity="center_horizontal"
             android:background="@drawable/page5_toumingbg"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
@@ -81,11 +83,15 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:singleLine="true"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:textColorHint="#525252"
                 android:hint="@string/input_name"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
@@ -94,7 +100,9 @@
             android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/page5_toumingbg"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_height="0dp"
             android:layout_weight="1" >
             <ImageView
@@ -118,7 +126,9 @@
             android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/page5_toumingbg"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_height="0dp"
             android:layout_weight="1"
             >
@@ -194,7 +204,9 @@
             android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/page5_toumingbg"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_height="0dp"
             android:layout_weight="1"
             >
@@ -220,7 +232,9 @@
             android:layout_marginTop="15dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/page5_toumingbg"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_height="0dp"
             android:layout_weight="1"
             >

@@ -140,6 +140,7 @@ public class AddClockActivity extends BaseActivity {
                 intent.putExtra("isOpen",1);
                 setResult(1,intent);
                 finish();
+                overridePendingTransitionEnter(AddClockActivity.this);
                 break;
             case R.id.del_clock:
                 finish();

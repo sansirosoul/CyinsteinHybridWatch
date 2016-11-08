@@ -26,4 +26,5 @@
     <color name="dataBackgroundColor">#1E1E1E</color>
     <color name="edit_clock_blue">#019de4</color>
     <color name="edit_clock_gray">#515151</color>
+    <color name="theme_blue">#0d98d6</color>
 </resources>

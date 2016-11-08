@@ -195,7 +195,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
         if (type == 1) {
 
-            loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
+            loadImageAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
             widget.startAnimation(loadImageAnimation);
             loadImageAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -244,7 +244,6 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
         }
     }
-
     /***
      * 设置Butnon 背景
      *

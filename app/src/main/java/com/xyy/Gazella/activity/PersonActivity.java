@@ -77,6 +77,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         ButterKnife.bind(this);
         context = this;
         initView();
+
     }
 
 
@@ -151,6 +152,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onTimeSelect(Date date) {
                 tvBirth.setText(sdf.format(date));
+                tvBirth.setTextColor(context.getResources().getColor(R.color.white));
             }
         });
 
@@ -178,6 +180,8 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 weightDialog.show();
                 break;
             case R.id.back:
+                Intent backIntent = new Intent(context, PairingActivity.class);
+                startActivity(backIntent);
                 finish();
                 overridePendingTransitionExit(PersonActivity.this);
                 break;
@@ -188,6 +192,10 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 //                }
 //                if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
 //                    Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                if(sex==-1){
+//                    Toast.makeText(context, R.string.choose_sex, Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
 //                if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
