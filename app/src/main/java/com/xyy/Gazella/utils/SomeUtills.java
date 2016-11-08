@@ -19,7 +19,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-import static com.wx.wheelview.common.WheelConstants.TAG;
+import static android.content.ContentValues.TAG;
+
 
 /**
  * Created by Administrator on 2016/10/24.

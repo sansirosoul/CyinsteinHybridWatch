@@ -7,7 +7,8 @@ import org.greenrobot.greendao.generator.Schema;
 
 public class MyClass {
     public static void main(String[] args) {
-        //生成数据库的实体类 xxEntity 对应的是 数据库的表
+        //生成数据库的实体类 对应的是 数据库的表
+
         Schema schema = new Schema(1, "com.partner.entity");
         addStudent(schema);
         schema.setDefaultJavaPackageDao("com.partner.dao");
