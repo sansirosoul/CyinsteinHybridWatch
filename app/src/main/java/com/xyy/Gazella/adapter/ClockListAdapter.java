@@ -77,8 +77,10 @@ public class ClockListAdapter extends BaseAdapter {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
+                    clocks.get(position).setIsOpen(1);
                     v.time.setTextColor(context.getResources().getColor(R.color.white));
                 }else{
+                    clocks.get(position).setIsOpen(0);
                     v.time.setTextColor(context.getResources().getColor(R.color.clock_list_gray));
                 }
             }

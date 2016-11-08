@@ -46,7 +46,9 @@ public class EditClockActivity extends BaseActivity {
     private Context context;
     private String hour="12";
     private String minute="30";
-
+    private int isOpen = 0;
+    private ClockDialog1.OnClickListener onClickListener1;
+    private ClockDialog2.OnClickListener onClickListener2;
 
 
     @Override
@@ -86,6 +88,15 @@ public class EditClockActivity extends BaseActivity {
         pvHour.setData(hours);
         pvMinute.setData(minutes);
 
+        tvRingtime.setText(getIntent().getStringExtra("ringtime"));
+        tvRepeatrate.setText(getIntent().getStringExtra("rate"));
+        isOpen=getIntent().getIntExtra("isOpen",-1);
+        String[] ss = getIntent().getStringExtra("time").split(":");
+        hour=ss[0];
+        minute=ss[1];
+        pvHour.setSelected(hour);
+        pvMinute.setSelected(minute);
+
         pvHour.setOnSelectListener(new PickerViewHour.onSelectListener() {
             @Override
             public void onSelect(String text) {
@@ -111,6 +122,20 @@ public class EditClockActivity extends BaseActivity {
                 pvHour.setSelect(false);
             }
         });
+
+        onClickListener1 = new ClockDialog1.OnClickListener() {
+            @Override
+            public void onClick(String text) {
+                tvRingtime.setText(text);
+            }
+        };
+
+        onClickListener2 = new ClockDialog2.OnClickListener() {
+            @Override
+            public void onClick(String text) {
+                tvRepeatrate.setText(text);
+            }
+        };
     }
 
 
@@ -127,21 +152,27 @@ public class EditClockActivity extends BaseActivity {
                 intent.putExtra("time",hour+":"+minute);
                 intent.putExtra("ringtime",tvRingtime.getText().toString());
                 intent.putExtra("repeatrate",tvRepeatrate.getText().toString());
-                intent.putExtra("isOpen",1);
+                intent.putExtra("isOpen",isOpen);
+                intent.putExtra("result","edit");
                 setResult(1,intent);
                 finish();
                 overridePendingTransitionEnter(EditClockActivity.this);
                 break;
             case R.id.del_clock:
+                Intent delIntent = new Intent();
+                delIntent.putExtra("result","del");
+                setResult(1,delIntent);
                 finish();
-                overridePendingTransitionExit(EditClockActivity.this);
+                overridePendingTransitionEnter(EditClockActivity.this);
                 break;
             case R.id.rl_ringtime:
                 ClockDialog1 clockDialog1 = new ClockDialog1(context,tvRingtime.getText().toString());
+                clockDialog1.setOnClickListener(onClickListener1);
                 clockDialog1.show();
                 break;
             case R.id.rl_repeatrate:
                 ClockDialog2 clockDialog2 = new ClockDialog2(context,tvRepeatrate.getText().toString());
+                clockDialog2.setOnClickListener(onClickListener2);
                 clockDialog2.show();
                 break;
         }
