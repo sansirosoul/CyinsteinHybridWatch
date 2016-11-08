@@ -157,6 +157,8 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 overridePendingTransitionExit(StepActivity.this);
                 break;
             case R.id.btnOpt:  //分享
+
+                new SomeUtills().setCompress(stepActivity, R.id.activity_step);
                 break;
             case R.id.btnDate:  // 显示 隐藏 日历
 
@@ -193,7 +195,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
         if (type == 1) {
 
-            loadImageAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
+            loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
             widget.startAnimation(loadImageAnimation);
             loadImageAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -242,6 +244,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
         }
     }
+
     /***
      * 设置Butnon 背景
      *

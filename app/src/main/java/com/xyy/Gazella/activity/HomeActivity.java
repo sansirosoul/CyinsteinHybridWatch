@@ -42,7 +42,6 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_home);
-
         ButterKnife.bind(this);
     }
 
@@ -55,7 +54,6 @@ public class HomeActivity extends BaseActivity {
                 overridePendingTransitionEnter(HomeActivity.this);
 
                 Logger.t(TAG).i("TStr========================");
-
                 break;
             case R.id.ll_notice:
                 Intent noticeIntent = new Intent(HomeActivity.this, NotificationActivty.class);

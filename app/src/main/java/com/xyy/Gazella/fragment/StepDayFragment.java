@@ -132,7 +132,13 @@ public class StepDayFragment extends BaseFargment {
         mChart.getAxisLeft().setAxisLineColor(Color.rgb(255, 255, 255));
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisRight().setEnabled(false);
+
         mChart.getAxisLeft().setSpaceBottom(0);
+        mChart.getAxisLeft().setMaxWidth(35f);
+        mChart.getAxisLeft().setMinWidth(35f);
+        mChart.getAxisLeft().setStartAtZero(false);
+
+        mChart.getAxisLeft().setLabelCount(6, true);
         // setting data
         mChart.animateY(2500);   //动画
         mChart.getLegend().setEnabled(false);

@@ -110,7 +110,9 @@ public class StepMonthFragment extends BaseFragment {
         mChart.getAxisLeft().setAxisLineColor(Color.rgb(255, 255, 255));
         mChart.getAxisLeft().setDrawGridLines(false);
         mChart.getAxisRight().setEnabled(false);
-
+        mChart.getAxisLeft().setMaxWidth(35f);
+        mChart.getAxisLeft().setMinWidth(35f);
+        mChart.getAxisLeft().setLabelCount(6, true);
         mChart.animateY(2500);   //动画
 
         mChart.getLegend().setEnabled(false);

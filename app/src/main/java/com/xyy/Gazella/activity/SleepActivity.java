@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -39,7 +40,7 @@ import butterknife.OnClick;
 public class SleepActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
 
     @BindView(R.id.calendarView)
- public   MaterialCalendarView widget;
+    public MaterialCalendarView widget;
     @BindView(R.id.btnExit)
     Button btnExit;
     @BindView(R.id.btnOpt)
@@ -58,6 +59,11 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     ViewPager viewpager;
     @BindView(R.id.ll_check_date)
     LinearLayout llCheckDate;
+    @BindView(R.id.sleepActivity)
+    ScrollView SlsleepActivity;
+
+
+    private  static  String TAG=SleepActivity.class.getName();
 
     private ArrayList<Fragment> fragmentsList;
     private SleepDayFragment sleepDayFragment;
@@ -68,7 +74,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private Calendar CalendarInstance = Calendar.getInstance();
     private HashMap<String, String> weekMap;
-    public static  SleepActivity sleepActivity=null;
+    public static SleepActivity sleepActivity = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +84,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         initView();
         initCalendar();
         InitViewPager();
-        sleepActivity=this;
+        sleepActivity = this;
 
     }
 
@@ -158,6 +164,9 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
                 overridePendingTransitionExit(SleepActivity.this);
                 break;
             case R.id.btnOpt:
+
+                new SomeUtills().setCompress(sleepActivity, R.id.sleepActivity);
+
                 break;
             case R.id.btnDate:
 
@@ -195,7 +204,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
 
         if (type == 1) {
 
-            loadImageAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
+            loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
             widget.startAnimation(loadImageAnimation);
 
             loadImageAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -281,9 +290,9 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
                 sleepDayFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 0));
                 break;
             case 1:
-               weekMap= new SomeUtills().getWeekdate(date.getDate());
-                if(weekMap!=null)
-                sleepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
+                weekMap = new SomeUtills().getWeekdate(date.getDate());
+                if (weekMap != null)
+                    sleepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
                 break;
             case 2:
                 sleepMonthFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 1));
@@ -306,6 +315,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
 
     public class FragmentAdapter extends FragmentPagerAdapter {
         List<Fragment> fragmentList = new ArrayList<>();
+
         public FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
             super(fm);
             this.fragmentList = fragmentList;
