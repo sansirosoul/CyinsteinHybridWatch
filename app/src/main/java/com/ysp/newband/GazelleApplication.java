@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.support.multidex.MultiDex;
 import android.telephony.TelephonyManager;
 
 import com.orhanobut.logger.LogLevel;
@@ -134,5 +135,10 @@ public class GazelleApplication extends Application {
 
 	private void initLogger() {
 		Logger.init("smartwatch").methodCount(2).methodOffset(0).logLevel(LogLevel.FULL).hideThreadInfo();
+	}
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(base);
+		MultiDex.install(this);
 	}
 }
