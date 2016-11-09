@@ -36,6 +36,7 @@ public class ClockActivity extends BaseActivity {
     private ClockListAdapter adapter;
     public final static int REQUEST_ADD = 1;
     public final static int REQUEST_EDIT = 2;
+    private int position = 0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -51,6 +52,7 @@ public class ClockActivity extends BaseActivity {
         final Clock clock = new Clock();
         clock.setTime("07:00");
         clock.setRate("只响一次");
+        clock.setRingtime("5分钟");
         clock.setIsOpen(0);
         clocks.add(clock);
         adapter = new ClockListAdapter(context, clocks);
@@ -61,6 +63,10 @@ public class ClockActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(context, EditClockActivity.class);
                 intent.putExtra("time",clocks.get(i).getTime());
+                intent.putExtra("ringtime",clocks.get(i).getRingtime());
+                intent.putExtra("rate",clocks.get(i).getRate());
+                intent.putExtra("isOpen",clocks.get(i).getIsOpen());
+                position=i;
                 startActivityForResult(intent, REQUEST_EDIT);
                 overridePendingTransitionEnter(ClockActivity.this);
             }
@@ -91,6 +97,7 @@ public class ClockActivity extends BaseActivity {
                 if (data != null) {
                     Clock clock = new Clock();
                     clock.setTime(data.getStringExtra("time"));
+                    clock.setRingtime(data.getStringExtra("ringtime"));
                     clock.setRate(data.getStringExtra("repeatrate"));
                     clock.setIsOpen(data.getIntExtra("isOpen", -1));
                     clocks.add(clock);
@@ -99,7 +106,17 @@ public class ClockActivity extends BaseActivity {
                 break;
             case REQUEST_EDIT:
                 if (data != null) {
-
+                    if(data.getStringExtra("result").equals("del")){
+                        clocks.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }else if(data.getStringExtra("result").equals("edit")){
+                        Clock clock = clocks.get(position);
+                        clock.setTime(data.getStringExtra("time"));
+                        clock.setRingtime(data.getStringExtra("ringtime"));
+                        clock.setRate(data.getStringExtra("repeatrate"));
+                        clock.setIsOpen(data.getIntExtra("isOpen", -1));
+                        adapter.notifyDataSetChanged();
+                    }
                 }
                 break;
         }
