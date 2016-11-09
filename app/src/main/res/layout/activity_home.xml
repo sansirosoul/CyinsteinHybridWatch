@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:background="@drawable/page_time"
+                android:background="@drawable/home_time_bg"
                 android:gravity="center">
 
                 <LinearLayout
@@ -78,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:background="@drawable/page_notification"
+                    android:background="@drawable/home_notice_bg"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -116,7 +116,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:background="@drawable/page_health_management"
+                    android:background="@drawable/home_health_bg"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -141,7 +141,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/page_setting">
+           >
 
                 <LinearLayout
                     android:id="@+id/ll_settings"
@@ -149,6 +149,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:background="@drawable/home_settings_bg"
                     android:orientation="vertical">
 
                     <ImageView
@@ -185,7 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:background="@drawable/page_help"
+                    android:background="@drawable/home_introduce_bg"
                     android:gravity="center"
                     android:orientation="vertical">
 

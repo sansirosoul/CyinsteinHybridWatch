@@ -32,4 +32,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="v21color">#0088FF</color>
+
 </resources>
