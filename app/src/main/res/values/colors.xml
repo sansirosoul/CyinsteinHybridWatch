@@ -33,5 +33,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="v21color">#0088FF</color>
+    <color name="v21color_bg">#2B2B2B</color>
 
 </resources>
