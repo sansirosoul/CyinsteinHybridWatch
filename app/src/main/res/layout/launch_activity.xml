@@ -16,7 +16,7 @@
     <Button
         android:id="@+id/start"
         android:layout_below="@+id/text"
-        android:background="@drawable/page1_btn"
+        android:background="@drawable/launch_ripple_bg"
         android:layout_marginTop="50dp"
         android:text="@string/launch02"
         android:textColor="@color/white"
