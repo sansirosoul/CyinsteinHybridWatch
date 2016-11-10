@@ -3,6 +3,7 @@ package com.xyy.Gazella.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xyy.Gazella.utils.CheckUpdateDialog1;
@@ -20,7 +21,7 @@ import butterknife.OnClick;
 public class UpdateHardware extends BaseActivity {
 
     @BindView(R.id.btnExit)
-    Button btnExit;
+    LinearLayout btnExit;
     @BindView(R.id.TVTitle)
     TextView TVTitle;
     @BindView(R.id.watch_ver)

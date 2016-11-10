@@ -6,7 +6,7 @@
             <item android:drawable="@color/v21color_bg" />
 
             <item
-                android:drawable="@color/red"
+                android:drawable="@color/edit_clock_gray"
                 android:state_pressed="true"/>
         </selector>
     </item>

@@ -9,6 +9,7 @@ import android.support.v4.widget.EdgeEffectCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xyy.Gazella.fragment.SleepFragment;
@@ -33,7 +34,7 @@ public class HealthyActivity extends BaseActivity {
     @BindView(R.id.sleep)
     TextView sleep;
     @BindView(R.id.btnExit)
-    Button btnExit;
+    LinearLayout btnExit;
     @BindView(R.id.btnOpt)
     Button btnOpt;
     @BindView(R.id.TVTitle)

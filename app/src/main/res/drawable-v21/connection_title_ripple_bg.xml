@@ -3,10 +3,10 @@
     android:color="@color/edit_clock_gray">
     <item>
         <selector>
-            <item android:drawable="@drawable/page12_back" />
+            <item android:drawable="@color/transparent" />
 
             <item
-                android:drawable="@drawable/page12_back"
+                android:drawable="@color/edit_clock_gray"
                 android:state_pressed="true"/>
         </selector>
     </item>

@@ -43,7 +43,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     @BindView(R.id.calendarView)
     public MaterialCalendarView widget;
     @BindView(R.id.btnExit)
-    Button btnExit;
+    LinearLayout btnExit;
     @BindView(R.id.btnOpt)
     Button btnOpt;
     @BindView(R.id.btnDate)
