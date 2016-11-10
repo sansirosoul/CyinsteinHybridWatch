@@ -9,13 +9,15 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
         android:background="@drawable/connection_title_ripple_bg">
 
-        <Button
+        <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@drawable/page12_back" />
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:src="@drawable/page12_back" />
 
     </LinearLayout>
 
