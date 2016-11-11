@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.orhanobut.logger.Logger;
+import com.partner.entity.Partner;
 import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.activity.StepActivity;
+import com.xyy.Gazella.dbmanager.CommonUtils;
 import com.ysp.smartwatch.R;
 
 import java.io.File;
@@ -208,5 +210,19 @@ public class SomeUtills {
          // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         oks.setImagePath("/sdcard/share.png");//确保SDcard下面存在此张图片
         oks.show(activity);
+    }
+
+    private CommonUtils mCommonUtils;
+
+    public  void  setPartnerData(){
+        Partner partner = new Partner();
+        partner.setType("1");
+        partner.setDate("2016.11.11");
+        partner.setTime("10");
+        partner.setSleep("8");
+        partner.setLightsleep("1");
+        partner.setSleeping("2");
+        partner.setAwake("3");
+        mCommonUtils.insertPartner(partner);
     }
 }
