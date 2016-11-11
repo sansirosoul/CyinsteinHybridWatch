@@ -129,7 +129,7 @@ public class SleepMonthFragment extends BaseFragment {
     private void setChartData() {
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         for (int i = 0; i < 31; i++) {
-            float mult = (30);
+            float mult = (300);
             float val1 = (float) (Math.random() * mult) + mult / 3;
             float val2 = (float) (Math.random() * mult) + mult / 3;
             float val3 = (float) (Math.random() * mult) + mult / 3;
