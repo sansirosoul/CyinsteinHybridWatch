@@ -3,7 +3,7 @@
     android:color="@color/edit_clock_gray">
     <item>
         <selector>
-            <item android:drawable="@color/transparent" />
+            <item android:drawable="@color/v21color_bg" />
 
             <item
                 android:drawable="@color/edit_clock_gray"

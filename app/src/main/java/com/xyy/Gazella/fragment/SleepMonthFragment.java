@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -45,9 +44,9 @@ public class SleepMonthFragment extends BaseFragment {
     @BindView(R.id.tv_date)
     TextView tvDate;
     @BindView(R.id.iv_left)
-    ImageView ivLeft;
+    LinearLayout ivLeft;
     @BindView(R.id.iv_right)
-    ImageView ivRight;
+    LinearLayout ivRight;
     @BindView(R.id.ll_sleep_month)
     LinearLayout llSleepMonth;
     @BindView(R.id.ll_sleep_bata)
@@ -130,7 +129,7 @@ public class SleepMonthFragment extends BaseFragment {
     private void setChartData() {
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         for (int i = 0; i < 31; i++) {
-            float mult = (30);
+            float mult = (300);
             float val1 = (float) (Math.random() * mult) + mult / 3;
             float val2 = (float) (Math.random() * mult) + mult / 3;
             float val3 = (float) (Math.random() * mult) + mult / 3;

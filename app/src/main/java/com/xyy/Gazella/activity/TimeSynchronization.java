@@ -51,7 +51,7 @@ public class TimeSynchronization extends BaseActivity {
     @BindView(R.id.but_synchronization)
     Button butSynchronization;
     @BindView(R.id.btnExit)
-    Button btnExit;
+    LinearLayout btnExit;
     @BindView(R.id.btnOpt)
     Button btnOpt;
     @BindView(R.id.TVTitle)

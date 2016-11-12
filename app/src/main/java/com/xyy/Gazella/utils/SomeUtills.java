@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.orhanobut.logger.Logger;
+import com.partner.entity.Partner;
 import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.activity.StepActivity;
+import com.xyy.Gazella.dbmanager.CommonUtils;
+import com.ysp.smartwatch.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,6 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import static android.content.ContentValues.TAG;
 
@@ -30,7 +36,7 @@ public class SomeUtills {
 
     private Calendar CalendarInstance = Calendar.getInstance();
     private SimpleDateFormat sdf;
-
+    private OnekeyShare oks;
 
 
     /***
@@ -42,7 +48,7 @@ public class SomeUtills {
 
     public HashMap<String, String> getWeekdate(Date calendar) {
         HashMap<String, String> weekMap = new HashMap<>();
-         sdf = new SimpleDateFormat("yyyy.MM.dd");
+        sdf = new SimpleDateFormat("yyyy.MM.dd");
 //        Calendar c = Calendar.getInstance();
         CalendarInstance.setTime(calendar);
         // 今天是一周中的第几天
@@ -65,23 +71,25 @@ public class SomeUtills {
      * 获取 下周天数
      *
      * @param calendar
-     * @param amount      0是上周   1是下周
+     * @param amount   0是上周   1是下周
      * @return
      */
 
     public HashMap<String, String> getAmountWeekdate(Date calendar, int amount) {
         HashMap<String, String> weekMap = new HashMap<>();
-         sdf = new SimpleDateFormat("yyyy.MM.dd");
+        sdf = new SimpleDateFormat("yyyy.MM.dd");
         CalendarInstance.setTime(calendar);
         // 今天是一周中的第几天
         int dayOfWeek = CalendarInstance.get(Calendar.DAY_OF_WEEK);
-        if(amount==0){
-        if (CalendarInstance.getFirstDayOfWeek() == Calendar.SUNDAY) {
-            CalendarInstance.add(Calendar.DAY_OF_MONTH, -7);
-        }} else {
+        if (amount == 0) {
+            if (CalendarInstance.getFirstDayOfWeek() == Calendar.SUNDAY) {
+                CalendarInstance.add(Calendar.DAY_OF_MONTH, -7);
+            }
+        } else {
             if (CalendarInstance.getFirstDayOfWeek() == Calendar.SUNDAY) {
                 CalendarInstance.add(Calendar.DAY_OF_MONTH, 7);
-            }}
+            }
+        }
         // 计算一周开始的日期
         CalendarInstance.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
         for (int i = 1; i <= 7; i++) {
@@ -151,16 +159,18 @@ public class SomeUtills {
         }
         return Date;
     }
-    public  void setCalendarViewGone(int type){
-        if(type==0) {
+
+    public void setCalendarViewGone(int type) {
+        if (type == 0) {
             if (SleepActivity.sleepActivity.widget.getVisibility() == View.VISIBLE)
                 SleepActivity.sleepActivity.setLlDateVisible(1);
-        }else {
+        } else {
             if (StepActivity.stepActivity.widget.getVisibility() == View.VISIBLE)
                 StepActivity.stepActivity.setLlDateVisible(1);
         }
     }
-    public void setCompress(Activity activity , int layout) {
+
+    public void setCompress(Activity activity, int layout) {
 
         View rootView = activity.findViewById(layout);
 
@@ -185,7 +195,34 @@ public class SomeUtills {
         boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
         if (b) {
             //截图成功
-            Logger.t(TAG).i(String.valueOf(activity)+"==截图成功\n" + file.getPath() );
+            Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
+            showShare(activity);
         }
+    }
+
+    private void showShare(Activity activity) {
+        ShareSDK.initSDK(activity);
+        oks = new OnekeyShare();
+      //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+        oks.setTitle(activity.getResources().getString(R.string.app_name));
+        oks.setText(activity.getResources().getString(R.string.app_name));
+         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        oks.setImagePath("/sdcard/share.png");//确保SDcard下面存在此张图片
+        oks.show(activity);
+    }
+
+    private CommonUtils mCommonUtils;
+
+    public  void  setPartnerData(){
+        Partner partner = new Partner();
+        partner.setType("1");
+        partner.setDate("2016.11.11");
+        partner.setTime("10");
+        partner.setSleep("8");
+        partner.setLightsleep("1");
+        partner.setSleeping("2");
+        partner.setAwake("3");
+        mCommonUtils.insertPartner(partner);
     }
 }

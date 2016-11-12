@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -44,9 +43,9 @@ public class StepDayFragment extends BaseFargment {
     @BindView(R.id.tv_date)
     TextView tvDate;
     @BindView(R.id.iv_left)
-    ImageView ivLeft;
+    LinearLayout ivLeft;
     @BindView(R.id.iv_right)
-    ImageView ivRight;
+    LinearLayout ivRight;
     @BindView(R.id.ll_step_day)
     LinearLayout llStepDay;
     @BindView(R.id.ll_setp_bata)

@@ -3,14 +3,13 @@
     android:id="@+id/pickerview_bg_topbar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/btu_frame">
+    >
 
     <Button
         android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:background="@android:color/transparent"
-        android:gravity="center_vertical|left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/btu_frame"
         android:paddingLeft="@dimen/pickerview_topbar_paddingleft"
         android:paddingRight="@dimen/pickerview_topbar_paddingright"
         android:text="@string/pickerview_cancel"
@@ -33,9 +32,9 @@
     <Button
         android:id="@id/btnSubmit"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:background="@android:color/transparent"
+        android:background="@drawable/btu_frame"
         android:paddingLeft="@dimen/pickerview_topbar_paddingright"
         android:paddingRight="@dimen/pickerview_topbar_paddingleft"
         android:text="@string/pickerview_submit"
