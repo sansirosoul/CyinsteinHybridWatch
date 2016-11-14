@@ -1,1 +1,1 @@
-include ':app', 'Calendarlibrary', ':pickerview', 'WheelViewLibrary', ':greendaolibs'
+include ':app', 'Calendarlibrary', ':pickerview', 'WheelViewLibrary', ':greendaolibs', ':PhotoPicker'
