@@ -125,15 +125,13 @@ public class CommonUtils {
     /**
      * 使用查询构建器进行查询
      */
-    public void queryByBuilder() {
+    public List<Partner> queryByBuilder(String Type,String Data) {
         //使用查询构建器
         QueryBuilder<Partner> queryBuilder = mDaoManager.getSession().queryBuilder(Partner.class);
         //这些条件是 逻辑与
-        queryBuilder.where(PartnerDao.Properties.Type.like("john"));
-        List<Partner> list = queryBuilder.where(PartnerDao.Properties.Id.le(4)).list();
-        for (Partner s : list) {
-            Log.i("MainActivity", s.getId() + "");
-        }
+        queryBuilder.where(PartnerDao.Properties.Type.like(Type));
+        List<Partner> list = queryBuilder.where(PartnerDao.Properties.Date.le(Data)).list();
+        return  list;
     }
 
 }

@@ -16,7 +16,7 @@ import org.greenrobot.greendao.query.QueryBuilder;
  */
 public class DaoManager {
     private static final String TAG = "DaoManager";
-    private static final String DB_NAME = "mydb.sqlite";//数据库名称
+    private static final String DB_NAME = "partner.sqlite";//数据库名称
 
     private volatile static DaoManager manager;//多线程访问声明为单例模式
 
