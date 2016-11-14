@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.orhanobut.logger.Logger;
 import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
 import com.xyy.Gazella.utils.SharedPreferencesUtils;
@@ -25,16 +26,22 @@ import com.ysp.smartwatch.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.iwf.photopicker.PhotoPicker;
+import me.iwf.photopicker.PhotoPreview;
 
 /**
  * Created by Administrator on 2016/10/12.
  */
 
 public class PersonActivity extends BaseActivity implements View.OnClickListener {
+
+    private  static  String TAG=PersonActivity.class.getName();
+
     @BindView(R.id.ll_birth)
     LinearLayout llBirth;
     @BindView(R.id.tg_male)
@@ -172,6 +179,11 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 pvTime.show();
                 break;
             case R.id.head:
+                PhotoPicker.builder()
+                        .setShowCamera(true)
+                        .setPhotoCount(1)
+                        .start(this);
+
                 break;
             case R.id.ll_height:
                 heightDialog.show();
@@ -217,5 +229,23 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == RESULT_OK &&
+                (requestCode == PhotoPicker.REQUEST_CODE || requestCode == PhotoPreview.REQUEST_CODE)) {
+
+            List<String> photos = null;
+            if (data != null) {
+                photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+            }
+            Logger.t(TAG).i("PHOTOS==="+String.valueOf(photos));
+
+            if (photos != null) {
+                Logger.t(TAG).i("PHOTOS>>>>>"+String.valueOf(photos));
+
+            }
+
+        }
+    }
 }

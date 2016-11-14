@@ -198,7 +198,7 @@ public class SomeUtills {
         boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
         if (b) {
             //截图成功
-            Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
+        //    Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
             showShare(activity);
         }
     }
