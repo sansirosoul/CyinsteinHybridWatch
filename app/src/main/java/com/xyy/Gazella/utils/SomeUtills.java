@@ -1,6 +1,7 @@
 package com.xyy.Gazella.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Environment;
@@ -21,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -37,6 +39,7 @@ public class SomeUtills {
     private Calendar CalendarInstance = Calendar.getInstance();
     private SimpleDateFormat sdf;
     private OnekeyShare oks;
+    private CommonUtils mCommonUtils;
 
 
     /***
@@ -195,7 +198,7 @@ public class SomeUtills {
         boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
         if (b) {
             //截图成功
-            Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
+        //    Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
             showShare(activity);
         }
     }
@@ -212,11 +215,14 @@ public class SomeUtills {
         oks.show(activity);
     }
 
-    private CommonUtils mCommonUtils;
-
-    public  void  setPartnerData(){
+    /***
+     *     插入数据到数据库
+     * @param context
+     */
+    public  void  setPartnerData(Context context){
+        mCommonUtils = new CommonUtils(context);
         Partner partner = new Partner();
-        partner.setType("1");
+        partner.setType("3");
         partner.setDate("2016.11.11");
         partner.setTime("10");
         partner.setSleep("8");
@@ -224,5 +230,50 @@ public class SomeUtills {
         partner.setSleeping("2");
         partner.setAwake("3");
         mCommonUtils.insertPartner(partner);
+    }
+
+    /***
+     *      查询数据库全部数据
+     * @param context
+     */
+    public  void  getPartnerData(Context context){
+        mCommonUtils = new CommonUtils(context);
+        List<Partner> partner = mCommonUtils.listAll();
+        for (int i = 0; i < partner.size(); i++) {
+
+            Partner o = partner.get(i);
+            Logger.t(TAG).i("数据总数== "+String.valueOf(partner.size())+"\n"
+                                    + "第几条数据== "+String.valueOf(i)+"\n"
+                                    +"Awake== "+o.getAwake()+"\n"
+                                    +"Sleep== "+o.getSleep()+"\n"
+                                    +"Data== "+o.getDate()+"\n"
+                                    +"Type== "+o.getType()+"\n"
+                                    +"LightSleep== "+o.getLightsleep()+"\n"
+                                    +"Time== "+o.getTime()+"\n"
+                                    +"Id== "+o.getId()+"\n"
+                                    +"Sleeping== "+o.getSleeping());
+        }
+    }
+
+
+    /***
+     *    查询特定条件数据
+     * @param context
+     */
+    public  void  getPartnerTypeData(Context context){
+        mCommonUtils = new CommonUtils(context);
+      List<Partner> list =  mCommonUtils.queryByBuilder("3","2016.11.11");
+        for (Partner o : list) {
+            Logger.t(TAG).i("数据总数== "+String.valueOf(list.size())+"\n"
+                    + "第几条数据== "+String.valueOf(o)+"\n"
+                    +"Awake== "+o.getAwake()+"\n"
+                    +"Sleep== "+o.getSleep()+"\n"
+                    +"Data== "+o.getDate()+"\n"
+                    +"Type== "+o.getType()+"\n"
+                    +"LightSleep== "+o.getLightsleep()+"\n"
+                    +"Time== "+o.getTime()+"\n"
+                    +"Id== "+o.getId()+"\n"
+                    +"Sleeping== "+o.getSleeping());
+        }
     }
 }
