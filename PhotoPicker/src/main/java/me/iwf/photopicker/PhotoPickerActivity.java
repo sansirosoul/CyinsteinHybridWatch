@@ -44,7 +44,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
   private int columnNumber = DEFAULT_COLUMN_NUMBER;
   private ArrayList<String> originalPhotos = null;
 
-
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 

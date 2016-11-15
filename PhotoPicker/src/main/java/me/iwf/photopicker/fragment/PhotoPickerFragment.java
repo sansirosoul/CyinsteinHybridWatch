@@ -2,6 +2,7 @@ package me.iwf.photopicker.fragment;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -21,14 +22,15 @@ import android.widget.Button;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.kevin.crop.UCrop;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.iwf.photopicker.PhotoPicker;
-import me.iwf.photopicker.PhotoPickerActivity;
 import me.iwf.photopicker.R;
+import me.iwf.photopicker.activity.CropActivity;
 import me.iwf.photopicker.adapter.PhotoGridAdapter;
 import me.iwf.photopicker.adapter.PopupDirectoryListAdapter;
 import me.iwf.photopicker.entity.Photo;
@@ -71,6 +73,10 @@ public class PhotoPickerFragment extends Fragment {
   private final static String EXTRA_ORIGIN = "origin";
   private ListPopupWindow listPopupWindow;
   private RequestManager mGlideRequestManager;
+
+
+  // 剪切后图像文件
+  private Uri mDestinationUri;
 
   public static PhotoPickerFragment newInstance(boolean showCamera, boolean showGif,
       boolean previewEnable, int column, int maxCount, ArrayList<String> originalPhotos) {
@@ -120,6 +126,7 @@ public class PhotoPickerFragment extends Fragment {
         });
 
     captureManager = new ImageCaptureManager(getActivity());
+    mDestinationUri = Uri.fromFile(new File(getActivity().getCacheDir(), "cropImage.jpeg"));
   }
 
 
@@ -167,11 +174,11 @@ public class PhotoPickerFragment extends Fragment {
 
         int[] screenLocation = new int[2];
         v.getLocationOnScreen(screenLocation);
-        ImagePagerFragment imagePagerFragment =
-            ImagePagerFragment.newInstance(photos, index, screenLocation, v.getWidth(),
+        ImagePagerFragment imagePagerFragment =ImagePagerFragment.newInstance(photos, index, screenLocation, v.getWidth(),
                 v.getHeight());
+            startCropActivity(photos.get(position));
 
-        ((PhotoPickerActivity) getActivity()).addImagePagerFragment(imagePagerFragment);
+//        ((PhotoPickerActivity) getActivity()).addImagePagerFragment(imagePagerFragment);
       }
     });
 
@@ -214,6 +221,20 @@ public class PhotoPickerFragment extends Fragment {
     });
 
     return rootView;
+  }
+
+  /**
+   * 裁剪图片方法实现
+   *
+   * @param uri
+   */
+  public void startCropActivity(String uri) {
+    uri="file:///"+uri;
+    UCrop.of(Uri.parse(uri), mDestinationUri)
+            .withAspectRatio(1, 1)
+            .withMaxResultSize(512, 512)
+            .withTargetActivity(CropActivity.class)
+            .start(getActivity(),this);
   }
 
   private void openCamera() {
