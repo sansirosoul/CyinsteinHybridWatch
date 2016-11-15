@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 
+import me.iwf.photopicker.fragment.PhotoPickerFragment;
 import me.iwf.photopicker.utils.PermissionsUtils;
 
 /**
@@ -28,7 +30,7 @@ public class PhotoPicker {
   public final static String EXTRA_GRID_COLUMN     = "column";
   public final static String EXTRA_ORIGINAL_PHOTOS = "ORIGINAL_PHOTOS";
   public final static String EXTRA_PREVIEW_ENABLED = "PREVIEW_ENABLED";
-
+  public PhotoPickerFragment.OnPictureSelectedListener mOnPictureSelectedListener;
   public static PhotoPickerBuilder builder() {
     return new PhotoPickerBuilder();
   }
@@ -128,5 +130,14 @@ public class PhotoPicker {
       mPickerOptionsBundle.putBoolean(EXTRA_PREVIEW_ENABLED, previewEnabled);
       return this;
     }
+//    public PhotoPickerBuilder setPreviewListener(final PhotoPickerFragment.OnPictureSelectedListener  mOnPictureSelectedListener) {
+//      setPreviewListener(new PhotoPickerFragment.OnPictureSelectedListener() {
+//        @Override
+//        public void onPictureSelected(Uri fileUri, Bitmap bitmap) {
+//          mOnPictureSelectedListener.onPictureSelected(fileUri,bitmap);
+//        }
+//      });
+//      return this;
+//    }
   }
 }

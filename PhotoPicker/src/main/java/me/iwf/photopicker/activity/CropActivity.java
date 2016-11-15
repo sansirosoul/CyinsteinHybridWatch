@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kevin.crop.UCrop;
 import com.kevin.crop.util.BitmapLoadUtils;
@@ -37,6 +39,8 @@ public class CropActivity extends Activity {
 //     FloatingActionButton mSaveFab;
 
     private Uri mOutputUri;
+    private TextView tvSave;
+    private ImageView ivBg;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,12 +48,26 @@ public class CropActivity extends Activity {
         setContentView(R.layout.activity_crop);
 
         mUCropView=(UCropView)findViewById(R.id.weixin_act_ucrop);
+        tvSave=(TextView)findViewById(R.id.tv_save);
+        ivBg=(ImageView)findViewById(R.id.iv_bg);
 //        mSaveFab=(FloatingActionButton)findViewById(R.id.crop_act_save_fab);
 
         mGestureCropImageView = mUCropView.getCropImageView();
         mOverlayView = mUCropView.getOverlayView();
         initCropView();
+        tvSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cropAndSaveImage();
+            }
+        });
 
+        ivBg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
 //    @Override
@@ -94,6 +112,9 @@ public class CropActivity extends Activity {
     }
 
     private void setImageData(Intent intent) {
+        if (mUCropView.getVisibility()==View.GONE) {
+            mUCropView.setVisibility(View.VISIBLE);
+        }
         Uri inputUri = intent.getParcelableExtra(UCrop.EXTRA_INPUT_URI);
         mOutputUri = intent.getParcelableExtra(UCrop.EXTRA_OUTPUT_URI);
 
