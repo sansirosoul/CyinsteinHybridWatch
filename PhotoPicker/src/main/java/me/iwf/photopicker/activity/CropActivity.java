@@ -94,6 +94,9 @@ public class CropActivity extends Activity {
     }
 
     private void setImageData(Intent intent) {
+        if (mUCropView.getVisibility()==View.GONE) {
+            mUCropView.setVisibility(View.VISIBLE);
+        }
         Uri inputUri = intent.getParcelableExtra(UCrop.EXTRA_INPUT_URI);
         mOutputUri = intent.getParcelableExtra(UCrop.EXTRA_OUTPUT_URI);
 

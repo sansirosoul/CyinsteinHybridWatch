@@ -87,7 +87,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
         int total = selectedItemCount + (isCheck ? -1 : 1);
 
-        menuDoneItem.setEnabled(total > 0);
+//        menuDoneItem.setEnabled(total > 0);
 
         if (maxCount <= 1) {
           List<String> photos = pickerFragment.getPhotoGridAdapter().getSelectedPhotos();
@@ -103,7 +103,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
               LENGTH_LONG).show();
           return false;
         }
-        menuDoneItem.setTitle(getString(R.string.__picker_done_with_count, total, maxCount));
+//        menuDoneItem.setTitle(getString(R.string.__picker_done_with_count, total, maxCount));
         return true;
       }
     });
@@ -142,13 +142,13 @@ public class PhotoPickerActivity extends AppCompatActivity {
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     if (!menuIsInflated) {
       getMenuInflater().inflate(R.menu.__picker_menu_picker, menu);
-      menuDoneItem = menu.findItem(R.id.done);
+//      menuDoneItem = menu.findItem(R.id.done);
       if (originalPhotos != null && originalPhotos.size() > 0) {
-        menuDoneItem.setEnabled(true);
-        menuDoneItem.setTitle(
-                getString(R.string.__picker_done_with_count, originalPhotos.size(), maxCount));
+//        menuDoneItem.setEnabled(true);
+//        menuDoneItem.setTitle(
+//                getString(R.string.__picker_done_with_count, originalPhotos.size(), maxCount));
       } else {
-        menuDoneItem.setEnabled(false);
+//        menuDoneItem.setEnabled(false);
       }
       menuIsInflated = true;
       return true;

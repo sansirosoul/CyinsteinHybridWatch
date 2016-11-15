@@ -176,7 +176,7 @@ public class PhotoPickerFragment extends Fragment {
         v.getLocationOnScreen(screenLocation);
         ImagePagerFragment imagePagerFragment =ImagePagerFragment.newInstance(photos, index, screenLocation, v.getWidth(),
                 v.getHeight());
-            startCropActivity(photos.get(position));
+            startCropActivity(photos.get(index));
 
 //        ((PhotoPickerActivity) getActivity()).addImagePagerFragment(imagePagerFragment);
       }
