@@ -57,6 +57,8 @@ public class AddClockActivity extends BaseActivity {
         context = this;
         initView();
 
+
+
     }
 
     private void initView() {
