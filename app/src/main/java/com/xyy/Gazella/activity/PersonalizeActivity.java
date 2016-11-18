@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.xyy.Gazella.view.MViewOne;
@@ -49,8 +48,8 @@ public class PersonalizeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
 //        handler.post(runnable);
-         loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in_lefttoright);
-        loadImageAnimation.setFillAfter(!loadImageAnimation.getFillAfter());
+//         loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.in_lefttoright);
+//        loadImageAnimation.setFillAfter(!loadImageAnimation.getFillAfter());
 
         listener = new MViewOne.OnProgressListener() {
             @Override

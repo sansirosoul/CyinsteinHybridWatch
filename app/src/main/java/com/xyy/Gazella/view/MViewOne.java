@@ -136,7 +136,7 @@ public class MViewOne extends View {
     public void setValue(float value) {
         value=(float) (360.0 * (value / 100.0));
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(mSweepValue, value);
-        valueAnimator.setDuration(1000);
+        valueAnimator.setDuration(100);
         valueAnimator.setInterpolator(new Interpolator() {
             @Override
             public float getInterpolation(float v) {
