@@ -7,6 +7,7 @@ android {
     buildToolsVersion "24.0.2"
     aaptOptions.cruncherEnabled = false  //不检查图片
     aaptOptions.useNewCruncher = false   //不检查图片
+
     defaultConfig {
         applicationId "com.ysp.smartwatch"
         minSdkVersion 18
@@ -37,6 +38,10 @@ android {
         main{
             java.srcDirs=['src/main/java','src/main/java-gen']
         }
+    }
+
+    dexOptions{
+        jumboMode true;
     }
     lintOptions {
         checkReleaseBuilds false
@@ -70,4 +75,5 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile project(':PhotoPicker')
     compile project(':sharesdk')
+    compile 'no.nordicsemi.android:dfu:0.6.3'
 }
