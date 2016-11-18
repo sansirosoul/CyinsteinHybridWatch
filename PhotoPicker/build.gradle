@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+  compileSdkVersion 23
+  buildToolsVersion "24.0.2"
+
+  defaultConfig {
+    minSdkVersion 18
+    targetSdkVersion 23
+  }
+}
+//apply from: '../gradle/gradle-mvn-push.gradle'
+//ext {
+//  supportLibVersion = "24.2.1"
+//}
+dependencies {
+  compile "com.android.support:support-v4:23.0.1"
+  compile "com.android.support:appcompat-v7:23.0.1"
+  compile "com.android.support:design:23.0.1"
+  compile "com.android.support:recyclerview-v7:23.0.1"
+  compile "com.android.support:support-annotations:24.2.1"
+  compile "com.nineoldandroids:library:2.4.0"
+  compile "com.github.bumptech.glide:glide:3.7.0"
+  // 图像剪切
+  compile('com.kevin:crop:1.0.2') {
+    // 如果已经引入 support:appcompat-v7 可以加上这句话
+    exclude group: 'com.android.support', module: 'appcompat-v7'
+  }
+}
+

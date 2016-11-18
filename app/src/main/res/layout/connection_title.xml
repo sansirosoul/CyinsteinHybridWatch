@@ -4,14 +4,22 @@
     android:layout_height="match_parent"
     android:gravity="right">
 
-    <Button
+    <LinearLayout
         android:id="@+id/btnExit"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/page12_back"
-        android:paddingLeft="15dp" />
+        android:background="@drawable/connection_title_ripple_bg">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:src="@drawable/page12_back" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnOpt"
@@ -27,9 +35,9 @@
         android:id="@+id/btnDate"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_toLeftOf="@+id/btnOpt"
         android:layout_centerVertical="true"
         android:layout_marginRight="30dp"
+        android:layout_toLeftOf="@+id/btnOpt"
         android:background="#00000000"
         android:textColor="@color/white" />
 

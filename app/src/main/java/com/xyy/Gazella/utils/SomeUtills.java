@@ -1,15 +1,20 @@
 package com.xyy.Gazella.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Environment;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.orhanobut.logger.Logger;
+import com.partner.entity.Partner;
 import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.activity.StepActivity;
+import com.xyy.Gazella.dbmanager.CommonUtils;
+import com.ysp.smartwatch.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,6 +23,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
 
 import static android.content.ContentValues.TAG;
 
@@ -30,7 +41,7 @@ public class SomeUtills {
 
     private Calendar CalendarInstance = Calendar.getInstance();
     private SimpleDateFormat sdf;
-
+    private CommonUtils mCommonUtils;
 
 
     /***
@@ -42,7 +53,7 @@ public class SomeUtills {
 
     public HashMap<String, String> getWeekdate(Date calendar) {
         HashMap<String, String> weekMap = new HashMap<>();
-         sdf = new SimpleDateFormat("yyyy.MM.dd");
+        sdf = new SimpleDateFormat("yyyy.MM.dd");
 //        Calendar c = Calendar.getInstance();
         CalendarInstance.setTime(calendar);
         // 今天是一周中的第几天
@@ -65,23 +76,25 @@ public class SomeUtills {
      * 获取 下周天数
      *
      * @param calendar
-     * @param amount      0是上周   1是下周
+     * @param amount   0是上周   1是下周
      * @return
      */
 
     public HashMap<String, String> getAmountWeekdate(Date calendar, int amount) {
         HashMap<String, String> weekMap = new HashMap<>();
-         sdf = new SimpleDateFormat("yyyy.MM.dd");
+        sdf = new SimpleDateFormat("yyyy.MM.dd");
         CalendarInstance.setTime(calendar);
         // 今天是一周中的第几天
         int dayOfWeek = CalendarInstance.get(Calendar.DAY_OF_WEEK);
-        if(amount==0){
-        if (CalendarInstance.getFirstDayOfWeek() == Calendar.SUNDAY) {
-            CalendarInstance.add(Calendar.DAY_OF_MONTH, -7);
-        }} else {
+        if (amount == 0) {
+            if (CalendarInstance.getFirstDayOfWeek() == Calendar.SUNDAY) {
+                CalendarInstance.add(Calendar.DAY_OF_MONTH, -7);
+            }
+        } else {
             if (CalendarInstance.getFirstDayOfWeek() == Calendar.SUNDAY) {
                 CalendarInstance.add(Calendar.DAY_OF_MONTH, 7);
-            }}
+            }
+        }
         // 计算一周开始的日期
         CalendarInstance.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
         for (int i = 1; i <= 7; i++) {
@@ -151,16 +164,18 @@ public class SomeUtills {
         }
         return Date;
     }
-    public  void setCalendarViewGone(int type){
-        if(type==0) {
+
+    public void setCalendarViewGone(int type) {
+        if (type == 0) {
             if (SleepActivity.sleepActivity.widget.getVisibility() == View.VISIBLE)
                 SleepActivity.sleepActivity.setLlDateVisible(1);
-        }else {
+        } else {
             if (StepActivity.stepActivity.widget.getVisibility() == View.VISIBLE)
                 StepActivity.stepActivity.setLlDateVisible(1);
         }
     }
-    public void setCompress(Activity activity , int layout) {
+
+    public void setCompress(Activity activity, int layout) {
 
         View rootView = activity.findViewById(layout);
 
@@ -185,7 +200,121 @@ public class SomeUtills {
         boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
         if (b) {
             //截图成功
-            Logger.t(TAG).i(String.valueOf(activity)+"==截图成功\n" + file.getPath() );
+        //    Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
+            showShare(activity);
+        }
+    }
+
+    public void showShare(final Activity activity) {
+        ShareSDK.initSDK(activity);
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+// 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+
+        oks.setTitle("标题");
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+//        oks.setTitleUrl("http://www.cyinstein.com");
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText("我是分享文本");
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        oks.setImagePath(Environment.getExternalStorageDirectory() + "/" + "userImage.png");//确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("http://www.cyinstein.com");
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+        oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(activity.getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("http://www.cyinstein.com");
+//        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+        oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
+            @Override
+            public void onShare(Platform platform, cn.sharesdk.framework.Platform.ShareParams paramsToShare) {
+                if ("QZone".equals(platform.getName())) {
+                    paramsToShare.setTitle(null);
+                    paramsToShare.setTitleUrl(null);
+                }
+                if ("SinaWeibo".equals(platform.getName())) {
+                    paramsToShare.setUrl(null);
+                    paramsToShare.setText("http://www.cyinstein.com");
+                }
+                if ("Wechat".equals(platform.getName())) {
+                    Bitmap imageData = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ssdk_logo);
+                    paramsToShare.setImageData(imageData);
+                }
+                if ("WechatMoments".equals(platform.getName())) {
+                    Bitmap imageData = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ssdk_logo);
+                    paramsToShare.setImageData(imageData);
+                }
+            }
+        });
+        // 启动分享GUI
+        oks.show(activity);
+    }
+
+    /***
+     *     插入数据到数据库
+     * @param context
+     */
+    public  void  setPartnerData(Context context){
+        mCommonUtils = new CommonUtils(context);
+        Partner partner = new Partner();
+        partner.setType("3");
+        partner.setDate("2016.11.11");
+        partner.setTime("10");
+        partner.setSleep("8");
+        partner.setLightsleep("1");
+        partner.setSleeping("2");
+        partner.setAwake("3");
+        mCommonUtils.insertPartner(partner);
+    }
+
+    /***
+     *      查询数据库全部数据
+     * @param context
+     */
+    public  void  getPartnerData(Context context){
+        mCommonUtils = new CommonUtils(context);
+        List<Partner> partner = mCommonUtils.listAll();
+        for (int i = 0; i < partner.size(); i++) {
+
+            Partner o = partner.get(i);
+            Logger.t(TAG).i("数据总数== "+String.valueOf(partner.size())+"\n"
+                                    + "第几条数据== "+String.valueOf(i)+"\n"
+                                    +"Awake== "+o.getAwake()+"\n"
+                                    +"Sleep== "+o.getSleep()+"\n"
+                                    +"Data== "+o.getDate()+"\n"
+                                    +"Type== "+o.getType()+"\n"
+                                    +"LightSleep== "+o.getLightsleep()+"\n"
+                                    +"Time== "+o.getTime()+"\n"
+                                    +"Id== "+o.getId()+"\n"
+                                    +"Sleeping== "+o.getSleeping());
+        }
+    }
+
+
+    /***
+     *    查询特定条件数据
+     * @param context
+     */
+    public  void  getPartnerTypeData(Context context){
+        mCommonUtils = new CommonUtils(context);
+      List<Partner> list =  mCommonUtils.queryByBuilder("3","2016.11.11");
+        for (Partner o : list) {
+            Logger.t(TAG).i("数据总数== "+String.valueOf(list.size())+"\n"
+                    + "第几条数据== "+String.valueOf(o)+"\n"
+                    +"Awake== "+o.getAwake()+"\n"
+                    +"Sleep== "+o.getSleep()+"\n"
+                    +"Data== "+o.getDate()+"\n"
+                    +"Type== "+o.getType()+"\n"
+                    +"LightSleep== "+o.getLightsleep()+"\n"
+                    +"Time== "+o.getTime()+"\n"
+                    +"Id== "+o.getId()+"\n"
+                    +"Sleeping== "+o.getSleeping());
         }
     }
 }

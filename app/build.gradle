@@ -7,11 +7,11 @@ android {
     buildToolsVersion "24.0.2"
     aaptOptions.cruncherEnabled = false  //不检查图片
     aaptOptions.useNewCruncher = false   //不检查图片
-
     defaultConfig {
         applicationId "com.ysp.smartwatch"
         minSdkVersion 18
         targetSdkVersion 23
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -38,6 +38,12 @@ android {
             java.srcDirs=['src/main/java','src/main/java-gen']
         }
     }
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
 }
 
 dependencies {
@@ -61,4 +67,7 @@ dependencies {
     compile 'com.orhanobut:logger:1.15'
     compile 'org.greenrobot:greendao:3.1.1'
     compile project(':WheelViewLibrary')
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile project(':PhotoPicker')
+    compile project(':sharesdk')
 }

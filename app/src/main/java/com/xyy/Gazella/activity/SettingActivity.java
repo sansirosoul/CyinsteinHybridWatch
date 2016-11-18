@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,7 +28,7 @@ public class SettingActivity extends BaseActivity {
 
 
     @BindView(R.id.btnExit)
-    Button btnExit;
+    LinearLayout btnExit;
     @BindView(R.id.TVTitle)
     TextView TVTitle;
     @BindView(R.id.rl_user_setting)

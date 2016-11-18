@@ -7,12 +7,16 @@
 
     <style name="AppTheme" parent="AppBaseTheme" type="text/css"></style>
 
-    <style name="ExampleTheme" parent="android:Theme.Holo">
-        <!--<item name="android:editTextColor">#000000</item>-->
-        <!--<item name="android:textCursorDrawable">@null</item>-->
-        <!--<item name="android:windowActionBar">false</item>-->
-        <item name="android:windowTitleSize">50dp</item>
+    <style name="ExampleTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowTitleSize">30dp</item>
         <item name="android:windowNoTitle">true</item>
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+
     </style>
     <style name="dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item><!--边框-->
@@ -75,6 +79,16 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="actionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@android:color/primary_text_light</item>
+        <item name="actionBarSize">32dip</item>
+    </style>
 
+    <style name="customTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="actionBarTheme">@style/actionBarTheme</item>
+        <item name="colorPrimary">#FFA500</item>
+        <item name="actionBarSize">32dip</item>
+        <item name="colorPrimaryDark">#CCa500</item>
+    </style>
 
 </resources>

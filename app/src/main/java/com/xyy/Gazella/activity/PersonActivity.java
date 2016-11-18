@@ -2,26 +2,31 @@ package com.xyy.Gazella.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.ParseException;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.kevin.crop.UCrop;
 import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
 import com.xyy.Gazella.utils.SharedPreferencesUtils;
 import com.xyy.Gazella.utils.WeightDialog;
+import com.xyy.Gazella.view.RoundImageView;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,12 +34,16 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.iwf.photopicker.PhotoPicker;
 
 /**
  * Created by Administrator on 2016/10/12.
  */
 
 public class PersonActivity extends BaseActivity implements View.OnClickListener {
+
+    private  static  String TAG=PersonActivity.class.getName();
+
     @BindView(R.id.ll_birth)
     LinearLayout llBirth;
     @BindView(R.id.tg_male)
@@ -50,7 +59,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.go)
     Button go;
     @BindView(R.id.head)
-    ImageView head;
+    RoundImageView head;
     @BindView(R.id.ed_name)
     EditText edName;
 
@@ -162,6 +171,12 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         weightDialog = new WeightDialog(context);
         weightDialog.setOnSelectedListener(wOnSelectedListener);
 
+
+        File f=new File(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
+       if(!f.exists())
+           head.setBackground(getResources().getDrawable(R.drawable.page5_head_portrait));
+        else
+           head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
     }
 
 
@@ -172,6 +187,11 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 pvTime.show();
                 break;
             case R.id.head:
+                PhotoPicker.builder()
+                        .setShowCamera(true)
+                        .setPhotoCount(1)
+                        .start(this);
+
                 break;
             case R.id.ll_height:
                 heightDialog.show();
@@ -217,5 +237,12 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
-
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1000 &&data!=null) {
+            Uri resultUri = UCrop.getOutput(data);
+            if(resultUri!=null)
+            head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
+        }
+    }
 }

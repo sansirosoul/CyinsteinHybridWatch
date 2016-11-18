@@ -3,8 +3,8 @@ package com.xyy.Gazella.dbmanager;
 import android.content.Context;
 import android.util.Log;
 
-import com.partner.dao.StudentDao;
-import com.partner.entity.Student;
+import com.partner.dao.PartnerDao;
+import com.partner.entity.Partner;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -24,23 +24,23 @@ public class CommonUtils {
     /**
      * 完成对数据库表的插入操作-->并且会检测数据库是否存在,不存在自己创建,
      */
-    public boolean insertStudent(Student student) {
+    public boolean insertPartner(Partner Partner) {
         boolean flag = false;
-        flag = mDaoManager.getSession().insert(student) != -1;//不等于-1是true 否则是false
-        Log.i("MainActivity", "insertStudent: " + flag);
+        flag = mDaoManager.getSession().insert(Partner) != -1;//不等于-1是true 否则是false
+        Log.i("MainActivity", "insertPartner: " + flag);
         return flag;
     }
 
     /**
      * 同时插入多条记录
      */
-    public boolean insertMultStudent(final List<Student> students) {
+    public boolean insertMultPartner(final List<Partner> Partners) {
         boolean flag = false;
         try {
             mDaoManager.getSession().runInTx(new Runnable() {
                 @Override
                 public void run() {
-                    for (Student s : students) {
+                    for (Partner s : Partners) {
                         mDaoManager.getSession().insertOrReplace(s);
                     }
                 }
@@ -49,37 +49,37 @@ public class CommonUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("MainActivity", "insertMultStudent: " + flag);
+        Log.d("MainActivity", "insertMultPartner: " + flag);
         return false;
     }
 
     /**
      * 修改指定记录
      */
-    public boolean uoDateStudent(Student student) {
+    public boolean uoDatePartner(Partner Partner) {
         boolean flag = false;
         try {
-            mDaoManager.getSession().update(student);
+            mDaoManager.getSession().update(Partner);
             flag = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i("MainActivity", "uoDateStudent: " + flag);
+        Log.i("MainActivity", "uoDatePartner: " + flag);
         return flag;
     }
 
     /**
      * 删除指定记录
      */
-    public boolean deleteStudent(Student student) {
+    public boolean deletePartner(Partner Partner) {
         boolean flag = false;
         try {
-            mDaoManager.getSession().delete(student);
+            mDaoManager.getSession().delete(Partner);
             flag = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.i("MainActivity", "deleteStudent: " + flag);
+        Log.i("MainActivity", "deletePartner: " + flag);
         return flag;
     }
 
@@ -89,7 +89,7 @@ public class CommonUtils {
     public boolean deleteAll() {
         boolean flag = false;
         try {
-            mDaoManager.getSession().deleteAll(Student.class);
+            mDaoManager.getSession().deleteAll(Partner.class);
             flag = true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,23 +101,23 @@ public class CommonUtils {
     /**
      * 查询 某一个表 的 所有记录
      */
-    public List<Student> listAll() {
-        return mDaoManager.getSession().loadAll(Student.class);
+    public List<Partner> listAll() {
+        return mDaoManager.getSession().loadAll(Partner.class);
     }
 
     /**
      * 按照主键查询某一个 表 中 的单行记录
      */
-    public Student listOneStudent(long key) {
-        return mDaoManager.getSession().load(Student.class, key);
+    public Partner listOnePartner(long key) {
+        return mDaoManager.getSession().load(Partner.class, key);
     }
 
     /**
      * 按照sql语句进行查询
      */
     public void queryBySql() {
-        List<Student> list = mDaoManager.getSession().queryRaw(Student.class, "where name like ? and _id<=?", new String[]{"%jo%", "4"});
-        for (Student s : list) {
+        List<Partner> list = mDaoManager.getSession().queryRaw(Partner.class, "where name like ? and _id<=?", new String[]{"%jo%", "4"});
+        for (Partner s : list) {
             Log.i("MainActivity", s.getId() + "");
         }
     }
@@ -125,15 +125,13 @@ public class CommonUtils {
     /**
      * 使用查询构建器进行查询
      */
-    public void queryByBuilder() {
+    public List<Partner> queryByBuilder(String Type,String Data) {
         //使用查询构建器
-        QueryBuilder<Student> queryBuilder = mDaoManager.getSession().queryBuilder(Student.class);
+        QueryBuilder<Partner> queryBuilder = mDaoManager.getSession().queryBuilder(Partner.class);
         //这些条件是 逻辑与
-        queryBuilder.where(StudentDao.Properties.Name.like("john"));
-        List<Student> list = queryBuilder.where(StudentDao.Properties.Id.le(4)).list();
-        for (Student s : list) {
-            Log.i("MainActivity", s.getId() + "");
-        }
+        queryBuilder.where(PartnerDao.Properties.Type.like(Type));
+        List<Partner> list = queryBuilder.where(PartnerDao.Properties.Date.le(Data)).list();
+        return  list;
     }
 
 }

@@ -42,7 +42,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     @BindView(R.id.calendarView)
     public MaterialCalendarView widget;
     @BindView(R.id.btnExit)
-    Button btnExit;
+    LinearLayout btnExit;
     @BindView(R.id.btnOpt)
     Button btnOpt;
     @BindView(R.id.btnDate)
@@ -63,7 +63,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     ScrollView SlsleepActivity;
 
 
-    private  static  String TAG=SleepActivity.class.getName();
+    private static String TAG = SleepActivity.class.getName();
 
     private ArrayList<Fragment> fragmentsList;
     private SleepDayFragment sleepDayFragment;
@@ -85,7 +85,6 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         initCalendar();
         InitViewPager();
         sleepActivity = this;
-
     }
 
     private void initView() {
@@ -165,7 +164,8 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
                 break;
             case R.id.btnOpt:
 
-                new SomeUtills().setCompress(sleepActivity, R.id.sleepActivity);
+//             new SomeUtills().setCompress(sleepActivity, R.id.sleepActivity);
+                 new SomeUtills().showShare(this);
 
                 break;
             case R.id.btnDate:
