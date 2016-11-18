@@ -55,6 +55,7 @@ public class BleTest extends Activity {
         mBluetoothService.setActivityHandler(handler);
         writeCharacteristic = GazelleApplication.mBluetoothService.getWriteCharacteristic();
 
+
         notifyCharacteristic = GazelleApplication.mBluetoothService.getNotifyCharacteristic();
         GazelleApplication.mBluetoothService.setCharacteristicNotification(notifyCharacteristic,true);
     }
