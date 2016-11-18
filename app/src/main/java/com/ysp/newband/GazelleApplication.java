@@ -40,12 +40,19 @@ public class GazelleApplication extends Application {
 	public static boolean isPhoneCall;
 	public static boolean isCall;
 	private static int bandType=1;
+	public static boolean isBleConnected = false;
+	public static boolean isDfu=false;
 	public static String deviceName = null;
 	public static String deviceAddress = null;
 
 
 	public static GazelleApplication getInstance() {
 		return instance;
+	}
+
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(base);
 	}
 
 	@Override

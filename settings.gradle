@@ -1,1 +1,1 @@
-include ':app', ':sharesdk', 'Calendarlibrary', ':pickerview', 'WheelViewLibrary', ':greendaolibs', ':PhotoPicker'
+include ':app', ':sharesdk', 'Calendarlibrary', ':pickerview', 'WheelViewLibrary', ':greendaolibs', ':PhotoPicker',':dfu'

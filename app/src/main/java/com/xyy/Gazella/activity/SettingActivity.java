@@ -12,6 +12,7 @@ import com.xyy.Gazella.utils.ChangeWatchDialog;
 import com.xyy.Gazella.utils.CleanPhoneData;
 import com.xyy.Gazella.utils.CleanWatchData;
 import com.xyy.Gazella.utils.RenameWatchDialog;
+import com.xyy.Gazella.view.SwitchView;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -52,6 +53,8 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout rlUpdateBsl;
     @BindView(R.id.rl_target)
     RelativeLayout rlTarget;
+    @BindView(R.id.switch_ble)
+    SwitchView switchBle;
     private Context context;
 
     @Override
@@ -67,7 +70,17 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void initView() {
+         switchBle.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
+             @Override
+             public void toggleToOn(SwitchView view) {
 
+             }
+
+             @Override
+             public void toggleToOff(SwitchView view) {
+
+             }
+         });
     }
 
     @OnClick({R.id.btnExit, R.id.rl_user_setting, R.id.rl_update_hardware, R.id.rl_change_watch, R.id.rl_rename_watch, R.id.rl_clock, R.id.rl_clean_phone, R.id.rl_clean_watch, R.id.rl_anti_lost, R.id.rl_ble, R.id.rl_update_bsl, R.id.rl_target})

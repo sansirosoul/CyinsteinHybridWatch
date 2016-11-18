@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.xyy.Gazella.adapter.ClockListAdapter;
 import com.xyy.Gazella.view.ListViewForScrollView;
@@ -49,7 +50,7 @@ public class ClockActivity extends BaseActivity {
     }
 
     private void initView() {
-        final Clock clock = new Clock();
+        Clock clock = new Clock();
         clock.setTime("07:00");
         clock.setRate("只响一次");
         clock.setRingtime("5分钟");
@@ -62,11 +63,11 @@ public class ClockActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(context, EditClockActivity.class);
-                intent.putExtra("time",clocks.get(i).getTime());
-                intent.putExtra("ringtime",clocks.get(i).getRingtime());
-                intent.putExtra("rate",clocks.get(i).getRate());
-                intent.putExtra("isOpen",clocks.get(i).getIsOpen());
-                position=i;
+                intent.putExtra("time", clocks.get(i).getTime());
+                intent.putExtra("ringtime", clocks.get(i).getRingtime());
+                intent.putExtra("rate", clocks.get(i).getRate());
+                intent.putExtra("isOpen", clocks.get(i).getIsOpen());
+                position = i;
                 startActivityForResult(intent, REQUEST_EDIT);
                 overridePendingTransitionEnter(ClockActivity.this);
             }
@@ -82,9 +83,13 @@ public class ClockActivity extends BaseActivity {
                 overridePendingTransitionExit(ClockActivity.this);
                 break;
             case R.id.add:
-                Intent intent = new Intent(context, AddClockActivity.class);
-                startActivityForResult(intent, REQUEST_ADD);
-                overridePendingTransitionEnter(ClockActivity.this);
+                if (clocks.size() == 8) {
+                    Toast.makeText(context, "闹钟数量已达上限", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(context, AddClockActivity.class);
+                    startActivityForResult(intent, REQUEST_ADD);
+                    overridePendingTransitionEnter(ClockActivity.this);
+                }
                 break;
         }
     }
@@ -106,10 +111,10 @@ public class ClockActivity extends BaseActivity {
                 break;
             case REQUEST_EDIT:
                 if (data != null) {
-                    if(data.getStringExtra("result").equals("del")){
+                    if (data.getStringExtra("result").equals("del")) {
                         clocks.remove(position);
                         adapter.notifyDataSetChanged();
-                    }else if(data.getStringExtra("result").equals("edit")){
+                    } else if (data.getStringExtra("result").equals("edit")) {
                         Clock clock = clocks.get(position);
                         clock.setTime(data.getStringExtra("time"));
                         clock.setRingtime(data.getStringExtra("ringtime"));

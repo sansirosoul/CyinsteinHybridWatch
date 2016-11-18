@@ -5,10 +5,19 @@ package com.xyy.model;
  */
 
 public class Clock {
+    public int id;
     public String time;
     public String rate;
     public int isOpen;//闹钟是否开启 0否 1是
     public String ringtime;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getRingtime() {
         return ringtime;

@@ -25,6 +25,7 @@ public class RenameWatchDialog extends Dialog implements View.OnClickListener{
     private TextView confirm;
     private EditText etName;
     private Context context;
+    private BleUtils bleUtils;
 
     public RenameWatchDialog(Context context) {
         super(context,R.style.dialog);
@@ -38,6 +39,8 @@ public class RenameWatchDialog extends Dialog implements View.OnClickListener{
         setContentView(R.layout.rename_watch_dialog);
         setDialogAttributes((Activity) context, this, 0.8f, 0, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
+
+        bleUtils=new BleUtils();
 
         cancel= (TextView) findViewById(R.id.cancel);
         confirm= (TextView) findViewById(R.id.confirm);
@@ -71,6 +74,10 @@ public class RenameWatchDialog extends Dialog implements View.OnClickListener{
                 dismiss();
                 break;
             case R.id.confirm:
+                if(!etName.getText().toString().equals("")){
+                    dismiss();
+
+                }
                 break;
         }
     }

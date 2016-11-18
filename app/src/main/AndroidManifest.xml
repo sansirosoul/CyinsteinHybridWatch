@@ -138,7 +138,7 @@
             android:theme="@style/ExampleTheme">
         </activity>
 
-        首页
+        <!--首页-->
         <activity
             android:name="com.xyy.Gazella.activity.HomeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
@@ -248,6 +248,13 @@
 
 
 
+
+
+        <activity
+            android:name="com.xyy.Gazella.activity.BleTest"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
