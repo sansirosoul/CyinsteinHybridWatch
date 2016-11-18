@@ -27,6 +27,8 @@ public class ClockDialog3 extends Dialog implements View.OnClickListener {
     private ImageView iv1,iv2,iv3,iv4,iv5,iv6,iv7;
     private boolean flag1,flag2,flag3,flag4,flag5,flag6,flag7 = false;
     private OnClickListener mOnClickListener;
+    private StringBuilder stringBuilder = new StringBuilder("周");
+    private String[] selectStr = new String[7];
 
     public ClockDialog3(Context context) {
         super(context, R.style.dialog);
@@ -97,70 +99,103 @@ public class ClockDialog3 extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.confirm:
-                 mOnClickListener.onClick("自定义");
-                dismiss();
+                 for (String s : selectStr){
+                     if(s!=null){
+                         if(stringBuilder.toString().endsWith("周")){
+                             stringBuilder.append(s);
+                         }else{
+                             stringBuilder.append(" "+s);
+                         }
+                     }
+                 }
+                if(!stringBuilder.toString().equals("周")){
+                    if(stringBuilder.toString().equals("周一 二 三 四 五 六 日")){
+                        mOnClickListener.onClick("每天");
+                    }else if(stringBuilder.toString().equals("周一 二 三 四 五")){
+                        mOnClickListener.onClick("周一到周五");
+                    }else if(stringBuilder.toString().equals("周六 日")){
+                        mOnClickListener.onClick("周六、周日");
+                    }else{
+                        mOnClickListener.onClick(stringBuilder.toString());
+                    }
+                    dismiss();
+                }
                 break;
             case R.id.rl1:
                 if (flag1){
                     iv1.setBackgroundResource(R.drawable.page36_nor);
                     flag1=false;
+                    selectStr[0]=null;
                 }else{
                     iv1.setBackgroundResource(R.drawable.page36_sel);
                     flag1=true;
+                    selectStr[0]="一";
                 }
                 break;
             case R.id.rl2:
                 if (flag2){
                     iv2.setBackgroundResource(R.drawable.page36_nor);
                     flag2=false;
+                    selectStr[1]=null;
                 }else{
                     iv2.setBackgroundResource(R.drawable.page36_sel);
                     flag2=true;
+                    selectStr[1]="二";
                 }
                 break;
             case R.id.rl3:
                 if (flag3){
                     iv3.setBackgroundResource(R.drawable.page36_nor);
                     flag3=false;
+                    selectStr[2]=null;
                 }else{
                     iv3.setBackgroundResource(R.drawable.page36_sel);
                     flag3=true;
+                    selectStr[2]="三";
                 }
                 break;
             case R.id.rl4:
                 if (flag4){
                     iv4.setBackgroundResource(R.drawable.page36_nor);
                     flag4=false;
+                    selectStr[3]=null;
                 }else{
                     iv4.setBackgroundResource(R.drawable.page36_sel);
                     flag4=true;
+                    selectStr[3]="四";
                 }
                 break;
             case R.id.rl5:
                 if (flag5){
                     iv5.setBackgroundResource(R.drawable.page36_nor);
                     flag5=false;
+                    selectStr[4]=null;
                 }else{
                     iv5.setBackgroundResource(R.drawable.page36_sel);
                     flag5=true;
+                    selectStr[4]="五";
                 }
                 break;
             case R.id.rl6:
                 if (flag6){
                     iv6.setBackgroundResource(R.drawable.page36_nor);
                     flag6=false;
+                    selectStr[5]=null;
                 }else{
                     iv6.setBackgroundResource(R.drawable.page36_sel);
                     flag6=true;
+                    selectStr[5]="六";
                 }
                 break;
             case R.id.rl7:
                 if (flag7){
                     iv7.setBackgroundResource(R.drawable.page36_nor);
                     flag7=false;
+                    selectStr[6]=null;
                 }else{
                     iv7.setBackgroundResource(R.drawable.page36_sel);
                     flag7=true;
+                    selectStr[6]="日";
                 }
                 break;
         }

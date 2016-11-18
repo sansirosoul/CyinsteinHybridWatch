@@ -48,6 +48,7 @@
             android:name="com.xyy.Gazella.googlebth.BluetoothLeService"
             android:enabled="true" />
         <service android:name="com.xyy.Gazella.services.BluetoothService"></service>
+        <service android:name="com.xyy.Gazella.services.DfuService"></service>
 
         <!--健康管理页面-->
         <activity
@@ -178,6 +179,13 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:theme="@style/dialog"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name="com.xyy.Gazella.activity.BleTest"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
     </application>
 

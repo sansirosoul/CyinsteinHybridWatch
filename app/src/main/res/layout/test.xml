@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn1"
+                android:text="获取序列号"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn2"
+                android:text="消息提示"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn3"
+                android:text="设置手机时间和日期"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn4"
+                android:text="设置闹铃"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn5"
+                android:text="获取固件版本"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <Button
+                android:id="@+id/btn6"
+                android:text="修改设备名称"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <Button
+                android:id="@+id/btn7"
+                android:text="获取设备名称"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn8"
+                android:text="设置系统类型"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn9"
+                android:text="获取当天总计步值"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

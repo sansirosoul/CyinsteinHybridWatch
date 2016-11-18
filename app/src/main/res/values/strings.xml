@@ -488,6 +488,7 @@
     <string name="clean_watchdata">清除手表资料</string>
     <string name="clean_phonedata">清除手机资料</string>
     <string name="anti_lost">防丢失功能</string>
+    <string name="search_watch">寻找手表</string>
     <string name="ble">蓝牙</string>
     <string name="bsl">BSL模式</string>
     <string name="software_setting">软件设置</string>
@@ -517,7 +518,7 @@
 
     <!--闹钟-->
     <string name="edit_clock">编辑闹钟</string>
-    <string name="ring_time">响铃时长</string>
+    <string name="ring_time">贪睡时间</string>
     <string name="repeat_rate">重复频率</string>
     <string name="del_clock">删除闹钟</string>
     <string name="define">自定义</string>

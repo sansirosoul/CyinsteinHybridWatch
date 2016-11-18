@@ -100,19 +100,14 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-//                    if (bluetoothDevice.getName() != null && (bluetoothDevice.getName().equals("Watch")
-//                            || bluetoothDevice.getName().equals("Partner")
-//                            || bluetoothDevice.getName().equals("Band")
-//                            || bluetoothDevice.getName().equals("Felix") || bluetoothDevice
-//                            .getName().equals("Nova"))) {
-                        Log.d("=====", bluetoothDevice.getAddress());
+                    if (bluetoothDevice.getName() != null ) {
                         if (!devices.contains(bluetoothDevice)) {
                             searchLayout.setVisibility(View.GONE);
                             pairingLayout.setVisibility(View.VISIBLE);
                             bgLayout.setBackgroundResource(R.drawable.page3_background);
                             devices.add(bluetoothDevice);
                             deviceListAdapter.notifyDataSetChanged();
-                        //}
+                        }
                     }
                 }
             });
@@ -158,7 +153,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     bluetoothAdapter.startLeScan(leScanCallback);
                 } else {
                     // The user disallowed the requested permission.
-
+                    mayRequestLocation();
                 }
                 break;
 
@@ -286,6 +281,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         loadingDialog.show();
+        GazelleApplication.mBluetoothService.disconnect();
         GazelleApplication.mBluetoothService.close();
         if (GazelleApplication.mBluetoothService.initialize()) {
             device = devices.get(i);
@@ -307,6 +303,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             switch (msg.what) {
                 case BluetoothService.STATE_CONNECTED:
                     loadingDialog.dismiss();
+                    GazelleApplication.isBleConnected=true;
                     GazelleApplication.deviceAddress=device.getAddress();
                     GazelleApplication.deviceName=device.getName();
                     Intent intent = new Intent(context, PersonActivity.class);
@@ -316,6 +313,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     break;
                 case BluetoothService.STATE_DISCONNECTED:
                     if(GazelleApplication.deviceAddress==null){
+                        loadingDialog.dismiss();
                         pairFailedDialog.show();
                     }
                     break;

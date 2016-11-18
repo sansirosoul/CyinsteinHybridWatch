@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
-                android:id="@+id/watch_num"
+                android:id="@+id/watch_sn"
                 android:text="123456789"
                 android:textSize="17sp"
                 android:textColor="@color/white"

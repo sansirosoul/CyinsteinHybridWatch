@@ -277,14 +277,14 @@
                 android:layout_height="50dp">
                <ImageView
                    android:id="@+id/iv8"
-                   android:src="@drawable/page25_fangdiushi"
+                   android:src="@drawable/page25_search"
                    android:layout_marginLeft="20dp"
                    android:layout_centerVertical="true"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content" />
                <TextView
                    android:layout_toRightOf="@+id/iv8"
-                   android:text="@string/anti_lost"
+                   android:text="@string/search_watch"
                    android:textSize="17sp"
                    android:textColor="@color/white"
                    android:layout_marginLeft="15dp"
@@ -300,16 +300,25 @@
                    <!--android:layout_marginRight="10dp"-->
                    <!--android:layout_width="wrap_content"-->
                    <!--android:layout_height="wrap_content" />-->
-               <com.xyy.Gazella.view.SwitchView
-                   android:id="@+id/v_switch"
-                   android:layout_width="45dip"
+               <!--<com.xyy.Gazella.view.SwitchView-->
+                   <!--android:id="@+id/v_switch"-->
+                   <!--android:layout_width="45dip"-->
+                   <!--android:layout_height="wrap_content"-->
+                   <!--android:layout_alignParentRight="true"-->
+                   <!--android:layout_centerVertical="true"-->
+                   <!--android:layout_marginRight="10dp"-->
+                   <!--app:primaryColor="#257BB6"-->
+                   <!--app:primaryColorDark="#252525"-->
+                   <!--app:isOpened="false"/>-->
+               <Button
+                   android:id="@+id/search_wacth"
+                   android:background="@drawable/selector_search_watch"
+                   android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_alignParentRight="true"
                    android:layout_centerVertical="true"
                    android:layout_marginRight="10dp"
-                   app:primaryColor="#257BB6"
-                   app:primaryColorDark="#252525"
-                   app:isOpened="false"/>
+                   />
             </RelativeLayout>
             <View
                 android:background="#2c2c2c"
@@ -352,7 +361,7 @@
                    <!--android:layout_width="wrap_content"-->
                    <!--android:layout_height="wrap_content" />-->
                <com.xyy.Gazella.view.SwitchView
-                   android:id="@+id/v_switch"
+                   android:id="@+id/switch_ble"
                    android:layout_width="45dip"
                    android:layout_height="wrap_content"
                    android:layout_alignParentRight="true"
