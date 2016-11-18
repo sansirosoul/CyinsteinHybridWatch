@@ -60,10 +60,10 @@
     <SinaWeibo
         Id="1"
         SortId="1"
-        AppKey="568898243"
-        AppSecret="38a4f8204cc784f81f9f0daaf31e02e3"
-        RedirectUrl="http://www.sharesdk.cn"
-        ShareByAppClient="true"
+        AppKey="4158774254"
+        AppSecret="a53bd053b35e7ce107dce925a48ea10e"
+        RedirectUrl="http://www.cyinstein.com"
+        ShareByAppClient="false"
         Enable="true" />
 
     <TencentWeibo
@@ -120,25 +120,27 @@
 	<QQ
         Id="7"
         SortId="7"
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
-        ShareByAppClient="true"
+        AppId="1104475505"
+        AppKey="mqE3iGPaxsasbysL "
+		ShareByAppClient="true"
         Enable="true" />
     
     <Facebook
         Id="8"
         SortId="8"
-        ConsumerKey="107704292745179"
-        ConsumerSecret="38053202e1a5fe26c80c753071f0b573"
+        ConsumerKey="246616012423533"
+        ConsumerSecret="56234f98ae158b1e91c46ae52f1dbbe2"
         RedirectUrl="http://mob.com"
+		ShareByAppClient="true"
         Enable="true" />
 
     <Twitter
         Id="9"
         SortId="9"
-        ConsumerKey="LRBM0H75rWrU9gNHvlEAA2aOy"
-        ConsumerSecret="gbeWsZvA9ELJSdoBzJ5oLKX0TU09UOwrzdGfo9Tg7DjyGuMe8G"
+        ConsumerKey="R8tmnhl2qFhigrzHoarPGD8J5 "
+        ConsumerSecret="Z8hBXUMqrARKRbprWcMm7dLDZmtZjsmsMeIlhOzln1Tdh2gUNz"
         CallbackUrl="http://mob.com"
+		ShareByAppClient="true"
         Enable="true" />
     
     <Renren
@@ -206,9 +208,10 @@
     <LinkedIn
     	Id="20"
         SortId="20"
-        ApiKey="ejo5ibkye3vo"
-        SecretKey="cC7B2jpxITqPLZ5M" 
+        ApiKey="817d5omltkthkx"
+        SecretKey="t17mSY3xvNsoxw9u"
         RedirectUrl="http://sharesdk.cn"
+		ShareByAppClient="true"
         Enable="true" />
     
      <GooglePlus
@@ -244,8 +247,8 @@
     <Tumblr
         Id="25"
         SortId="25"
-        OAuthConsumerKey="2QUXqO9fcgGdtGG1FcvML6ZunIQzAEL8xY6hIaxdJnDti2DYwM"
-		SecretKey="3Rt0sPFj7u2g39mEVB3IBpOzKnM3JnTtxX2bao2JKk4VV1gtNo"
+        OAuthConsumerKey="iDSU9YFPuYRXV4QDX2QZHt68kEbzyWV03apTuOImXKDSMachLs"
+		SecretKey="TbFqMRAYRyfDOVzITkeRBWKSHvYa1OwP1icjXrYRbVdzZhn9BE"
 		CallbackUrl="http://sharesdk.cn"
         Enable="true" />
  
@@ -266,8 +269,8 @@
     <Instagram 
     	Id="28"
         SortId="28"
-        ClientId="ff68e3216b4f4f989121aa1c2962d058"
-		ClientSecret="1b2e82f110264869b3505c3fe34e31a1"
+        ClientId="7ed9b4e1c8c346d7a949195586bb3af3 "
+		ClientSecret="6735027169204276ae4166cf9dc75a9a"
 		RedirectUri="http://sharesdk.cn"
         Enable="true" />
     
@@ -313,7 +316,7 @@
 	<KakaoTalk
 	    Id="33"
         SortId="33"
-        AppKey="48d3f524e4a636b08d81b3ceb50f1003"
+        AppKey="16b8d35ef8d305e8cfcbe09043bc47f3 "
         Enable="true" />
 	
 	<KakaoStory

@@ -36,7 +36,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.sharesdk.framework.ShareSDK;
 
 public class SleepActivity extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
 
@@ -86,7 +85,6 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         initCalendar();
         InitViewPager();
         sleepActivity = this;
-        ShareSDK.initSDK(SleepActivity.this);
     }
 
     private void initView() {
@@ -166,7 +164,8 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
                 break;
             case R.id.btnOpt:
 
-             new SomeUtills().setCompress(sleepActivity, R.id.sleepActivity);
+//             new SomeUtills().setCompress(sleepActivity, R.id.sleepActivity);
+                 new SomeUtills().showShare(this);
 
                 break;
             case R.id.btnDate:

@@ -157,8 +157,8 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 overridePendingTransitionExit(StepActivity.this);
                 break;
             case R.id.btnOpt:  //分享
-
-                new SomeUtills().setCompress(stepActivity, R.id.activity_step);
+                new SomeUtills().showShare(this);
+//                new SomeUtills().setCompress(stepActivity, R.id.activity_step);
                 break;
             case R.id.btnDate:  // 显示 隐藏 日历
 
