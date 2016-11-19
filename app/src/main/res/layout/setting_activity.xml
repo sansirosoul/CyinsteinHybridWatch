@@ -272,7 +272,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <RelativeLayout
-                android:id="@+id/rl_anti_lost"
+                android:id="@+id/rl_search_watch"
+                android:background="@drawable/selector_setting_rl"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
                <ImageView
@@ -310,15 +311,13 @@
                    <!--app:primaryColor="#257BB6"-->
                    <!--app:primaryColorDark="#252525"-->
                    <!--app:isOpened="false"/>-->
-               <Button
-                   android:id="@+id/search_wacth"
-                   android:background="@drawable/selector_search_watch"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_alignParentRight="true"
+               <ImageView
+                   android:src="@drawable/page25_step"
+                   android:layout_marginRight="30dp"
                    android:layout_centerVertical="true"
-                   android:layout_marginRight="10dp"
-                   />
+                   android:layout_alignParentRight="true"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
             </RelativeLayout>
             <View
                 android:background="#2c2c2c"
@@ -327,13 +326,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <RelativeLayout
-                android:id="@+id/rl_ble"
+                android:id="@+id/rl_close_bluetooth"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
 
                <TextView
                    android:layout_toRightOf="@+id/iv9"
-                   android:text="@string/ble"
+                   android:text="@string/close_bluetooth"
                    android:textSize="17sp"
                    android:textColor="@color/white"
                    android:layout_marginLeft="15dp"
@@ -360,16 +359,13 @@
                    <!--android:layout_marginRight="10dp"-->
                    <!--android:layout_width="wrap_content"-->
                    <!--android:layout_height="wrap_content" />-->
-               <com.xyy.Gazella.view.SwitchView
-                   android:id="@+id/switch_ble"
-                   android:layout_width="45dip"
-                   android:layout_height="wrap_content"
-                   android:layout_alignParentRight="true"
+               <ImageView
+                   android:src="@drawable/page25_step"
+                   android:layout_marginRight="30dp"
                    android:layout_centerVertical="true"
-                   android:layout_marginRight="10dp"
-                   app:primaryColor="#257BB6"
-                   app:primaryColorDark="#252525"
-                   app:isOpened="true"/>
+                   android:layout_alignParentRight="true"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" />
             </RelativeLayout>
             <View
                 android:background="#2c2c2c"
@@ -383,14 +379,14 @@
                 android:layout_height="50dp">
                <ImageView
                    android:id="@+id/iv10"
-                   android:src="@drawable/page25_bsl"
+                   android:src="@drawable/page25_zhendong"
                    android:layout_marginLeft="20dp"
                    android:layout_centerVertical="true"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content" />
                <TextView
                    android:layout_toRightOf="@+id/iv10"
-                   android:text="@string/bsl"
+                   android:text="手机消息震动提醒"
                    android:textSize="17sp"
                    android:textColor="@color/white"
                    android:layout_marginLeft="15dp"
@@ -416,7 +412,7 @@
                    android:layout_marginRight="10dp"
                    app:primaryColor="#257BB6"
                    app:primaryColorDark="#252525"
-                   app:isOpened="false"/>
+                   app:isOpened="true"/>
 
             </RelativeLayout>
          </LinearLayout>
