@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,82 +21,176 @@
             android:layout_centerInParent="true"
             android:background="@drawable/page16_sleep"
             android:scaleType="centerInside" />
+
+
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/ll_NumberProgressBar"
             android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_gravity="center_horizontal"
+                android:textSize="15dp"
+                android:text="正在同步"/>
+
+            <com.xyy.Gazella.view.NumberProgressBar
+                android:id="@+id/numberbar"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="95dp"
+                android:layout_marginLeft="95dp"
+                app:progress_current="0"
+                android:layout_marginTop="10dp"
+                style="@style/NumberProgressBar_Relax_Blue"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:layout_gravity="center_horizontal"
+                android:textSize="12dp"
+                android:text="11月1号更新完成"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:textSize="12dp"
+                android:layout_gravity="center_horizontal"
+                android:text="11月2号更新完成"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:textSize="12dp"
+                android:layout_gravity="center_horizontal"
+                android:text="11月3号更新完成"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:layout_gravity="center_horizontal"
+                android:textSize="12dp"
+                android:text="11月4号更新完成"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:textSize="12dp"
+                android:layout_gravity="center_horizontal"
+                android:text="11月5号更新完成"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:textSize="12dp"
+                android:layout_gravity="center_horizontal"
+                android:text="11月6号更新完成"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray"
+                android:textSize="12dp"
+                android:layout_gravity="center_horizontal"
+                android:text="11月7号更新完成"/>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/ll_quality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:text="@string/today_sleep"
                 android:textColor="@color/white"
-                android:textSize="19sp"
-                android:layout_gravity="center_horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="19sp" />
+
             <LinearLayout
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/tv_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="12"
                     android:textColor="#0e9edf"
                     android:textSize="55sp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textStyle="bold" />
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/hour"
                     android:textColor="@color/white"
                     android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="30"
                     android:textColor="#0e9edf"
                     android:textSize="55sp"
-                    android:textStyle="bold"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_min" />
-                <TextView
                     android:text="@string/minute"
                     android:textColor="@color/white"
                     android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:background="@drawable/target_bg"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:orientation="horizontal"
                 android:layout_width="145dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/target_bg"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
                 <TextView
-                    android:text="@string/sleep_quality"
-                    android:textColor="@color/white"
-                    android:textSize="19sp"
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/textView" />
+                    android:text="@string/sleep_quality"
+                    android:textColor="@color/white"
+                    android:textSize="19sp" />
 
                 <TextView
                     android:id="@+id/quality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="一般"
                     android:textColor="@color/white"
-                    android:textSize="19sp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="19sp" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -101,8 +199,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textColor="#959595"
-        android:text="@string/click_cirlce" />
+        android:text="@string/click_cirlce"
+        android:textColor="#959595" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -122,10 +220,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
             android:background="#444444" />
 
         <LinearLayout
@@ -167,10 +265,11 @@
                 android:background="#444444" />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
@@ -199,10 +298,11 @@
                 android:background="#444444" />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"

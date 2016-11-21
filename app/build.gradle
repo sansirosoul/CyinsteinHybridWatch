@@ -70,4 +70,5 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile project(':PhotoPicker')
     compile project(':sharesdk')
+    compile project(':dfu')
 }

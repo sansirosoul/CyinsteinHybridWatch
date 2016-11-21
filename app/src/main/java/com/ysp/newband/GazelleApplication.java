@@ -50,10 +50,6 @@ public class GazelleApplication extends Application {
 		return instance;
 	}
 
-	@Override
-	protected void attachBaseContext(Context base) {
-		super.attachBaseContext(base);
-	}
 
 	@Override
 	public void onCreate() {

@@ -230,6 +230,8 @@ public class SomeUtills {
         oks.setSite(activity.getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("http://www.cyinstein.com");
+
+
 //        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
         oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
             @Override
