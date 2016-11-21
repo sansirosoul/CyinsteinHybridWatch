@@ -71,4 +71,5 @@ dependencies {
     compile project(':PhotoPicker')
     compile project(':sharesdk')
     compile project(':dfu')
+    compile 'no.nordicsemi.android:dfu:0.6.3'
 }

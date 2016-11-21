@@ -86,8 +86,6 @@ public class HomeActivity extends BaseActivity {
         }
     };
 
-
-
     @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce})
     public void onClick(View view) {
         switch (view.getId()) {
