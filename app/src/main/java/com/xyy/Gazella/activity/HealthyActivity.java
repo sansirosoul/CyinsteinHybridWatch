@@ -118,7 +118,7 @@ public class HealthyActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.step, R.id.sleep,R.id.btnExit})
+    @OnClick({R.id.step, R.id.sleep, R.id.btnExit,R.id.btnOpt})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.step:
@@ -135,12 +135,18 @@ public class HealthyActivity extends BaseActivity {
                 finish();
                 overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
                 break;
+            case R.id.btnOpt:
+                if (viewPager.getCurrentItem() == 0)
+                    stepFragment.setSynchronization();
+                else
+                    sleepFragment.setSynchronization();
+                break;
         }
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             finish();
             overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
         }

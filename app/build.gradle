@@ -7,7 +7,6 @@ android {
     buildToolsVersion "24.0.2"
     aaptOptions.cruncherEnabled = false  //不检查图片
     aaptOptions.useNewCruncher = false   //不检查图片
-
     defaultConfig {
         applicationId "com.ysp.smartwatch"
         minSdkVersion 18
@@ -39,17 +38,15 @@ android {
             java.srcDirs=['src/main/java','src/main/java-gen']
         }
     }
-
-    dexOptions{
-        jumboMode true;
-    }
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
     }
+
 }
+
 
 dependencies {
     compile files('libs/commons-httpclient.jar')
@@ -61,7 +58,7 @@ dependencies {
     compile files('libs/Juts-Sqlite-Jdbc-Driver.jar')
     compile files('libs/Juts-Utility.jar')
     compile files('libs/samsung_ble_sdk_200.jar')
-    //    compile files('libs/Calend.jar')
+    // compile files('libs/Calend.jar')
     compile files('libs/MPChartLib.jar')
     compile 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.jakewharton:butterknife:8.4.0'
@@ -75,5 +72,8 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile project(':PhotoPicker')
     compile project(':sharesdk')
-    compile 'no.nordicsemi.android:dfu:0.6.3'
+    compile project(':dfu')
+    compile 'com.trello:rxlifecycle:1.0'
+    compile 'com.trello:rxlifecycle-components:1.0'
+    compile project(':rxandroidble')
 }

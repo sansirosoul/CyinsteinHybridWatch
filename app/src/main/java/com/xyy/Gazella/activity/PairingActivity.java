@@ -356,9 +356,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         switch (view.getId()) {
             case R.id.skip:
                 if (bluetoothAdapter != null) {
-//                    if(bluetoothLeScanner!=null){
-//                        bluetoothLeScanner.stopScan(scanCallback);
-//                    }
                     bluetoothAdapter.stopLeScan(leScanCallback);
                 }
                 Intent intent = new Intent(context, PersonActivity.class);

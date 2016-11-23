@@ -63,7 +63,7 @@
         AppKey="4158774254"
         AppSecret="a53bd053b35e7ce107dce925a48ea10e"
         RedirectUrl="http://www.cyinstein.com"
-        ShareByAppClient="false"
+        ShareByAppClient="true"
         Enable="true" />
 
     <TencentWeibo
@@ -96,8 +96,8 @@
     <Wechat
         Id="4"
         SortId="4"
-        AppId="wx4868b35061f87885"
-        AppSecret="64020361b8ec4c99936c0e3999a9f249"
+        AppId="wxa9fb9c5fafa90bc8"
+        AppSecret="e8be74036d0e6df3855f63c15f34ef2d"
         BypassApproval="false"
         Enable="true" />
     
@@ -120,11 +120,20 @@
 	<QQ
         Id="7"
         SortId="7"
-        AppId="1104475505"
-        AppKey="mqE3iGPaxsasbysL "
+        AppId="1105839806"
+        AppKey="CCO4EAMy7nzauloR"
 		ShareByAppClient="true"
         Enable="true" />
-    
+
+
+	<!--<QQ-->
+        <!--Id="7"-->
+        <!--SortId="7"-->
+        <!--AppId="1105749607"-->
+        <!--AppKey="wvOTvtL1TdXRPCBm "-->
+		<!--ShareByAppClient="true"-->
+        <!--Enable="true" />-->
+
     <Facebook
         Id="8"
         SortId="8"

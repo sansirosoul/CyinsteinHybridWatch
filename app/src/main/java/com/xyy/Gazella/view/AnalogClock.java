@@ -19,6 +19,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.orhanobut.logger.Logger;
 import com.ysp.smartwatch.R;
 
 public class AnalogClock extends View {
@@ -333,7 +334,9 @@ public class AnalogClock extends View {
         int rx = (int) event.getX() - x;
         int ry = -((int) event.getY() - y);
         Point point = new Point(rx, ry);
-        int Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
+        double Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
+
+        Logger.t(TAG).i(String.valueOf(Tiemvalue));
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -350,16 +353,17 @@ public class AnalogClock extends View {
             case MotionEvent.ACTION_MOVE:
 
                 if (ChangeTimeType == 1) {  //移动时针
-                        Tiemvalue = Tiemvalue / 30;
-                        mHour = Tiemvalue;
+                    double valuea = Tiemvalue / 30;
+                        mHour = (float) valuea;
+                    Logger.t(TAG).i(String.valueOf("mHour=="+mHour+"\n"+"Tiemvalue=="+valuea));
                 } else {
                     if (isMinutestMove) {
                         Tiemvalue = Tiemvalue / 6;
-                        mMinutes = Tiemvalue;
+                        mMinutes =(int) Tiemvalue;
                     }
                 }
                 if (changetimelistener != null)
-                    changetimelistener.ChangeTimeListener(Tiemvalue);
+                    changetimelistener.ChangeTimeListener((int)Tiemvalue);
                 isChangedTime = true;
                 postInvalidate();
                 break;
