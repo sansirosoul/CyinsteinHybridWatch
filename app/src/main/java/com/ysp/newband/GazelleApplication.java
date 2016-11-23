@@ -13,6 +13,8 @@ import android.telephony.TelephonyManager;
 
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+import com.polidea.rxandroidble.RxBleClient;
+import com.polidea.rxandroidble.internal.RxBleLog;
 import com.xyy.Gazella.BroadcastReceiver.PhoneBroadcastReceiver;
 import com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver;
 import com.xyy.Gazella.googlebth.BluetoothLeService;
@@ -45,12 +47,19 @@ public class GazelleApplication extends Application {
 	public static String deviceName = null;
 	public static String deviceAddress = null;
 
+	private RxBleClient rxBleClient;
+
+
+
 
 	public static GazelleApplication getInstance() {
 		return instance;
 	}
 
-
+	public static RxBleClient getRxBleClient(Context context) {
+		GazelleApplication application = (GazelleApplication) context.getApplicationContext();
+		return application.rxBleClient;
+	}
 
 	@Override
 	public void onCreate() {
@@ -59,6 +68,9 @@ public class GazelleApplication extends Application {
 		initLogger();
 
 		phoneRegisterReceiver();
+
+		rxBleClient = RxBleClient.create(this);
+		RxBleClient.setLogLevel(RxBleLog.DEBUG);
 
 //		CrashHandler crashHandler = CrashHandler.getInstance();
 //		crashHandler.init(getApplicationContext());

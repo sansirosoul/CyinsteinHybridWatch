@@ -73,6 +73,7 @@ public class BaseActivity extends FragmentActivity {
      */
 	public static void overridePendingTransitionEnter(Activity at){
 		at.overridePendingTransition(R.anim.in_from_right, R.anim.out_righttoleft);
+
 	}
 
 	/***

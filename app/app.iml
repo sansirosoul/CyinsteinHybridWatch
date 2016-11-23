@@ -84,22 +84,26 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.4.0/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/multidex-instrumentation/1.0.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/multidex/1.0.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.0.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.jakewharton.rxbinding/rxbinding/0.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.jakewharton/butterknife/8.4.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.kevin/crop/1.0.2/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.orhanobut/logger/1.15/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.trello/rxlifecycle-android/1.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.trello/rxlifecycle-components/1.0/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/io.reactivex/rxandroid/1.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
@@ -116,41 +120,75 @@
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="googleBLE" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-24.2.1" level="project" />
-    <orderEntry type="library" exported="" name="support-compat-24.2.1" level="project" />
-    <orderEntry type="library" exported="" name="support-fragment-24.2.1" level="project" />
-    <orderEntry type="library" exported="" name="Juts-Android-Exchange-Engine140313" level="project" />
-    <orderEntry type="library" exported="" name="fileupload" level="project" />
-    <orderEntry type="library" exported="" name="animated-vector-drawable-23.4.0" level="project" />
-    <orderEntry type="library" exported="" name="recyclerview-v7-23.0.1" level="project" />
-    <orderEntry type="library" exported="" name="auto-common-0.6" level="project" />
-    <orderEntry type="library" exported="" name="greendao-3.1.1" level="project" />
-    <orderEntry type="library" exported="" name="support-vector-drawable-23.4.0" level="project" />
-    <orderEntry type="library" exported="" name="butterknife-compiler-8.4.0" level="project" />
-    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
-    <orderEntry type="library" exported="" name="Juts-License" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-23.4.0" level="project" />
+    <orderEntry type="library" exported="" name="retrolambda-2.3.0" level="project" />
+    <orderEntry type="library" exported="" name="rxlifecycle-components-1.0" level="project" />
+    <orderEntry type="library" exported="" name="asm-commons-5.0.1" level="project" />
+    <orderEntry type="library" exported="" name="rxlifecycle-android-1.0" level="project" />
+    <orderEntry type="library" exported="" name="rxlifecycle-1.0" level="project" />
+    <orderEntry type="library" exported="" name="asm-5.0.1" level="project" />
+    <orderEntry type="library" exported="" name="shadows-core-3.0" level="project" />
+    <orderEntry type="library" exported="" name="support-fragment-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="support-core-ui-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="support-core-utils-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="samsung_ble_sdk_200" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="multidex-instrumentation-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="support-media-compat-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="guava-18.0" level="project" />
-    <orderEntry type="library" exported="" name="support-core-ui-24.2.1" level="project" />
-    <orderEntry type="library" exported="" name="gson-2.5" level="project" />
-    <orderEntry type="library" exported="" name="commons-httpclient" level="project" />
+    <orderEntry type="library" exported="" name="icu4j-53.1" level="project" />
     <orderEntry type="library" exported="" name="auto-service-1.0-rc2" level="project" />
-    <orderEntry type="library" exported="" name="support-core-utils-24.2.1" level="project" />
+    <orderEntry type="library" exported="" name="robolectric-resources-3.0" level="project" />
+    <orderEntry type="library" exported="" name="rxjava-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="design-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="Juts-Sqlite-Jdbc-Driver" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-24.2.1" level="project" />
-    <orderEntry type="library" exported="" name="javapoet-1.7.0" level="project" />
-    <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="crop-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="sqlite4java-0.282" level="project" />
+    <orderEntry type="library" exported="" name="asm-tree-5.0.1" level="project" />
+    <orderEntry type="library" exported="" name="animated-vector-drawable-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="spock-core-1.0-groovy-2.4" level="project" />
     <orderEntry type="library" exported="" name="greendao-api-3.1.1" level="project" />
-    <orderEntry type="library" exported="" name="MPChartLib" level="project" />
-    <orderEntry type="library" exported="" name="logger-1.15" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-25.0.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-annotations-8.4.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-8.4.0" level="project" />
+    <orderEntry type="library" exported="" name="robolectric-3.0" level="project" />
+    <orderEntry type="library" exported="" name="maven-ant-tasks-2.1.3" level="project" />
+    <orderEntry type="library" exported="" name="robospock-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="ant-1.8.0" level="project" />
+    <orderEntry type="library" exported="" name="jsr305-3.0.1" level="project" />
+    <orderEntry type="library" exported="" name="accessibility-test-framework-1.0" level="project" />
+    <orderEntry type="library" exported="" name="ant-launcher-1.8.0" level="project" />
+    <orderEntry type="library" exported="" name="Juts-Android-Exchange-Engine140313" level="project" />
+    <orderEntry type="library" exported="" name="cglib-nodep-3.2.4" level="project" />
+    <orderEntry type="library" exported="" name="fileupload" level="project" />
+    <orderEntry type="library" exported="" name="recyclerview-v7-23.0.1" level="project" />
+    <orderEntry type="library" exported="" name="groovy-2.4.7-grooid" level="project" />
+    <orderEntry type="library" exported="" name="auto-common-0.6" level="project" />
+    <orderEntry type="library" exported="" name="asm-util-5.0.1" level="project" />
+    <orderEntry type="library" exported="" name="greendao-3.1.1" level="project" />
+    <orderEntry type="library" exported="" name="bcprov-jdk16-1.46" level="project" />
+    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
+    <orderEntry type="library" exported="" name="butterknife-compiler-8.4.0" level="project" />
+    <orderEntry type="library" exported="" name="Juts-License" level="project" />
+    <orderEntry type="library" exported="" name="objenesis-2.4" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="groovy-all-2.4.1" level="project" />
+    <orderEntry type="library" exported="" name="gson-2.5" level="project" />
+    <orderEntry type="library" exported="" name="commons-httpclient" level="project" />
+    <orderEntry type="library" exported="" name="robolectric-annotations-3.0" level="project" />
+    <orderEntry type="library" exported="" name="rxandroid-1.2.1" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="support-media-compat-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="asm-analysis-5.0.1" level="project" />
+    <orderEntry type="library" exported="" name="javapoet-1.7.0" level="project" />
+    <orderEntry type="library" exported="" name="robolectric-utils-3.0" level="project" />
+    <orderEntry type="library" exported="" name="support-compat-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="multidex-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="crop-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="rxbinding-0.4.0" level="project" />
+    <orderEntry type="library" exported="" name="vtd-xml-2.11" level="project" />
+    <orderEntry type="library" exported="" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="MPChartLib" level="project" />
+    <orderEntry type="library" exported="" name="support-vector-drawable-25.0.0" level="project" />
+    <orderEntry type="library" exported="" name="junit-4.12" level="project" />
+    <orderEntry type="library" exported="" name="logger-1.15" level="project" />
     <orderEntry type="library" exported="" name="Juts-Framework140305" level="project" />
     <orderEntry type="library" exported="" name="Juts-Utility" level="project" />
     <orderEntry type="module" module-name="WheelViewLibrary" exported="" />
@@ -159,8 +197,14 @@
     <orderEntry type="module" module-name="pickerview" exported="" />
     <orderEntry type="module" module-name="PhotoPicker" exported="" />
     <orderEntry type="module" module-name="sharesdk" exported="" />
-    <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
+    <orderEntry type="module" module-name="rxandroidble" exported="" />
+    <orderEntry type="library" exported="" name="support-annotations-24.2.1" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-24.2.1" level="project" />
+    <orderEntry type="library" exported="" name="support-compat-24.2.1" level="project" />
+    <orderEntry type="library" exported="" name="support-media-compat-24.2.1" level="project" />
+    <orderEntry type="library" exported="" name="support-fragment-24.2.1" level="project" />
+    <orderEntry type="library" exported="" name="support-core-ui-24.2.1" level="project" />
+    <orderEntry type="library" exported="" name="support-core-utils-24.2.1" level="project" />
     <orderEntry type="library" exported="" name="support-v4-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.0.1" level="project" />

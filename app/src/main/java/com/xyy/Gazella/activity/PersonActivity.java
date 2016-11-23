@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -42,7 +43,7 @@ import me.iwf.photopicker.PhotoPicker;
 
 public class PersonActivity extends BaseActivity implements View.OnClickListener {
 
-    private  static  String TAG=PersonActivity.class.getName();
+    private static String TAG = PersonActivity.class.getName();
 
     @BindView(R.id.ll_birth)
     LinearLayout llBirth;
@@ -72,11 +73,11 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
     private Context context;
 
-    private   TimePickerView pvTime;
-    private   Date date;
+    private TimePickerView pvTime;
+    private Date date;
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
     private HeightDialog heightDialog;
-    private  WeightDialog weightDialog;
+    private WeightDialog weightDialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -91,17 +92,18 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
 
     private int sex = -1;
+
     private void initView() {
-        tvHeight= (TextView) findViewById(R.id.tv_height);
-        tvWeight= (TextView) findViewById(R.id.tv_weight);
-        tvBirth= (TextView) findViewById(R.id.tv_birth);
+        tvHeight = (TextView) findViewById(R.id.tv_height);
+        tvWeight = (TextView) findViewById(R.id.tv_weight);
+        tvBirth = (TextView) findViewById(R.id.tv_birth);
 
         tgMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     tgFemale.setChecked(false);
-                    sex=0;
+                    sex = 0;
                 }
             }
         });
@@ -111,7 +113,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
                     tgMale.setChecked(false);
-                    sex=1;
+                    sex = 1;
                 }
             }
         });
@@ -151,7 +153,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         pvTime = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
         //控制时间范围
         Calendar calendar = Calendar.getInstance();
-        pvTime.setRange(calendar.get(Calendar.YEAR) - 100, calendar.get(Calendar.YEAR)+100);//要在setTime 之前才有效果
+        pvTime.setRange(calendar.get(Calendar.YEAR) - 100, calendar.get(Calendar.YEAR) + 100);//要在setTime 之前才有效果
         pvTime.setTime(date);
         pvTime.setCancelable(true);
         pvTime.setCyclic(true);
@@ -171,12 +173,11 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         weightDialog = new WeightDialog(context);
         weightDialog.setOnSelectedListener(wOnSelectedListener);
 
-
-        File f=new File(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
-       if(!f.exists())
-           head.setBackground(getResources().getDrawable(R.drawable.page5_head_portrait));
+        File f = new File(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
+        if (!f.exists())
+            head.setBackground(getResources().getDrawable(R.drawable.page5_head_portrait));
         else
-           head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
+            head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
     }
 
 
@@ -184,9 +185,16 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_birth:
+                //隐藏软健盘
+                View v = getCurrentFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
                 pvTime.show();
                 break;
             case R.id.head:
+
                 PhotoPicker.builder()
                         .setShowCamera(true)
                         .setPhotoCount(1)
@@ -228,21 +236,22 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 //                }
                 SharedPreferencesUtils spu = new SharedPreferencesUtils(
                         context);
-                spu.setUserInfo(edName.getText().toString(),tvBirth.getText().toString(),sex,tvHeight.getText().toString(),tvWeight.getText().toString());
+                spu.setUserInfo(edName.getText().toString(), tvBirth.getText().toString(), sex, tvHeight.getText().toString(), tvWeight.getText().toString());
                 Intent intent = new Intent(context, HomeActivity.class);
                 PersonActivity.this.finish();
                 startActivity(intent);
                 overridePendingTransitionEnter(PersonActivity.this);
-
                 break;
         }
     }
-    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 1000 &&data!=null) {
+        if (resultCode == 1000 && data != null) {
             Uri resultUri = UCrop.getOutput(data);
-            if(resultUri!=null)
-            head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
+            if (resultUri != null)
+                head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
         }
     }
 }

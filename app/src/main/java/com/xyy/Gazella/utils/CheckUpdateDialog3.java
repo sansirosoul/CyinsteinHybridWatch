@@ -9,6 +9,8 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.Window;
@@ -16,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.xyy.Gazella.services.DfuService;
+import com.xyy.Gazella.view.NumberProgressBar;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
@@ -32,6 +35,24 @@ import static com.ysp.newband.GazelleApplication.mBluetoothService;
 public class CheckUpdateDialog3 extends Dialog {
     private Context context;
     private BluetoothAdapter mBluetoothAdapter;
+    private NumberProgressBar numberbar;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1001:
+                    if(numberbar.getProgress()==100) {
+                        numberbar.setProgress(0);
+
+                    }else {
+                        numberbar.incrementProgressBy(1);
+                    }
+                    break;
+            }
+        }
+    };
 
     public CheckUpdateDialog3(Context context) {
         super(context, R.style.dialog);
@@ -69,7 +90,17 @@ public class CheckUpdateDialog3 extends Dialog {
             mBluetoothAdapter = bluetoothManager.getAdapter();
             mBluetoothAdapter.startLeScan(leScanCallback);
         }
+        numberbar=(NumberProgressBar)findViewById(R.id.numberbar);
+        mHandler.post(runnable);
     }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            mHandler.sendEmptyMessage(1001);
+            mHandler.postDelayed(this, 100);
+        }
+    };
 
     BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
         @Override
