@@ -132,7 +132,6 @@ public class BleTest extends Activity {
                             }
                         }
                     }
-
                     break;
                 case BluetoothService.WRITE_SUCCESS:
                     notify.setText("");
