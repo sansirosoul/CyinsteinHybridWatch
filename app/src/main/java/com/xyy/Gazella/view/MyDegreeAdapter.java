@@ -64,10 +64,10 @@ public class MyDegreeAdapter {
 	 * 
 	 * 获得点所在角度（点与坐标轴原点连线与Y正半轴的顺时针夹角）单位为度数
 	 */
-	public static int GetRadianByPos(Point point){
+	public static double GetRadianByPos(Point point){
 		double dAngle = GetRadianByPosEx(point);
 		
-		return (int) (dAngle * (360 / (2 * PI)));
+		return (double) (dAngle * (360 / (2 * PI)));
 	}
 	
 	/**

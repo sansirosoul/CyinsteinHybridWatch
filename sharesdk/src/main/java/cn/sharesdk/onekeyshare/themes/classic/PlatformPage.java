@@ -8,9 +8,6 @@
 
 package cn.sharesdk.onekeyshare.themes.classic;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +16,13 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.mob.tools.gui.MobViewPager;
+import com.mob.tools.utils.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import cn.sharesdk.framework.CustomPlatform;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.Platform.ShareParams;
@@ -26,9 +30,6 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.CustomerLogo;
 import cn.sharesdk.onekeyshare.OnekeySharePage;
 import cn.sharesdk.onekeyshare.OnekeyShareThemeImpl;
-
-import com.mob.tools.gui.MobViewPager;
-import com.mob.tools.utils.R;
 
 /** 九宫格的抽象类 */
 public abstract class PlatformPage extends OnekeySharePage {
@@ -48,7 +49,7 @@ public abstract class PlatformPage extends OnekeySharePage {
 	}
 
 	public void onCreate() {
-		activity.getWindow().setBackgroundDrawable(new ColorDrawable(0x4c000000));
+		activity.getWindow().setBackgroundDrawable(new ColorDrawable(0x00000000));
 		initAnims();
 
 		LinearLayout llPage = new LinearLayout(activity);
@@ -198,5 +199,4 @@ public abstract class PlatformPage extends OnekeySharePage {
 		llPanel.setVisibility(View.GONE);
 		return true;
 	}
-
 }

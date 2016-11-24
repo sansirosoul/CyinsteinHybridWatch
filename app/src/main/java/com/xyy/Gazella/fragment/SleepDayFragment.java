@@ -276,6 +276,4 @@ public class SleepDayFragment extends BaseFragment {
         this.xValue = xValue;
         setChartData();
     }
-
-
 }
