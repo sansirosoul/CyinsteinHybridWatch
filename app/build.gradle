@@ -94,8 +94,5 @@ dependencies {
     compile project(':PhotoPicker')
     compile project(':sharesdk')
     compile project(':dfu')
-//    compile 'com.trello:rxlifecycle:1.0'
-//    compile 'com.trello:rxlifecycle-components:1.0'
-//    compile project(':rxandroidble')
     compile "com.polidea.rxandroidble:rxandroidble:1.0.2"
 }
