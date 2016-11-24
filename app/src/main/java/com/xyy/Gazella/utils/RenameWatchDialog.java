@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.xyy.Gazella.activity.HomeActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
@@ -75,8 +76,9 @@ public class RenameWatchDialog extends Dialog implements View.OnClickListener{
                 break;
             case R.id.confirm:
                 if(!etName.getText().toString().equals("")){
+                    BleUtils bleUtils = new BleUtils();
+                    bleUtils.setDeviceName(HomeActivity.writeCharacteristic,etName.getText().toString());
                     dismiss();
-
                 }
                 break;
         }

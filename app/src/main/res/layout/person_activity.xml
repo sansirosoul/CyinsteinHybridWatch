@@ -54,6 +54,7 @@
                 android:hint="@string/input_name"
                 android:textColor="@color/white"
                 android:textSize="15sp"
+                android:paddingRight="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_height="wrap_content" />
         </LinearLayout>

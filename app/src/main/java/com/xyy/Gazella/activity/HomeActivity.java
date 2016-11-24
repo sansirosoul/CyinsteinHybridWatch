@@ -5,6 +5,7 @@ package com.xyy.Gazella.activity;
  */
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +44,7 @@ public class HomeActivity extends BaseActivity {
     private long mExitTime = 0;
     private BluetoothAdapter bluetoothAdapter;
     private static final int REQUEST_ENABLE_BT = 1;
+    public static BluetoothGattCharacteristic writeCharacteristic,notifyCharacteristic;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -53,6 +55,11 @@ public class HomeActivity extends BaseActivity {
 
         if(GazelleApplication.isBleConnected){
             mBluetoothService.setActivityHandler(handler);
+            writeCharacteristic = GazelleApplication.mBluetoothService.getWriteCharacteristic();
+
+            notifyCharacteristic = GazelleApplication.mBluetoothService.getNotifyCharacteristic();
+            if (notifyCharacteristic != null)
+                GazelleApplication.mBluetoothService.setCharacteristicNotification(notifyCharacteristic, true);
         }else{
             if(GazelleApplication.deviceAddress!=null){
                 GazelleApplication.mBluetoothService.disconnect();
@@ -71,16 +78,25 @@ public class HomeActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what){
                 case BluetoothService.STATE_DISCONNECTED:
-                    if(GazelleApplication.deviceAddress!=null){
+                    if(!GazelleApplication.isDfu){
+                        if(GazelleApplication.deviceAddress!=null){
                             GazelleApplication.mBluetoothService.disconnect();
                             mBluetoothService.close();
                             if(mBluetoothService.initialize()){
                                 mBluetoothService.connect(GazelleApplication.deviceAddress);
+                            }
                         }
                     }
                     break;
                 case BluetoothService.STATE_CONNECTED:
                     GazelleApplication.isBleConnected=true;
+                    break;
+                case BluetoothService.SERVICES_DISCOVERED:
+                    writeCharacteristic = GazelleApplication.mBluetoothService.getWriteCharacteristic();
+
+                    notifyCharacteristic = GazelleApplication.mBluetoothService.getNotifyCharacteristic();
+                    if (notifyCharacteristic != null)
+                        GazelleApplication.mBluetoothService.setCharacteristicNotification(notifyCharacteristic, true);
                     break;
             }
         }

@@ -75,8 +75,10 @@ public class CheckUpdateDialog3 extends Dialog {
         @Override
         public void onLeScan(final BluetoothDevice bluetoothDevice, int i, byte[] bytes) {
             if (bluetoothDevice.getName().equals("DfuTarg")) {
-                new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v02).start(context, DfuService.class);
+                System.out.println("OTA is starting..."+bluetoothDevice.getAddress());
+                    GazelleApplication.isDfu=true;
                 mBluetoothAdapter.stopLeScan(this);
+                new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00042).start(context, DfuService.class);
             }
         }
     };
@@ -85,12 +87,12 @@ public class CheckUpdateDialog3 extends Dialog {
     private DfuProgressListener mDfuProgressListener = new DfuProgressListener() {
         @Override
         public void onDeviceConnecting(String deviceAddress) {
-
+            System.out.println("onDeviceConnecting");
         }
 
         @Override
         public void onDeviceConnected(String deviceAddress) {
-
+            System.out.println("onDeviceConnected");
         }
 
         @Override
@@ -145,11 +147,13 @@ public class CheckUpdateDialog3 extends Dialog {
 
         @Override
         public void onDfuAborted(String deviceAddress) {
-
+            GazelleApplication.isDfu = false;
+            System.out.println("onDfuAborted");
         }
 
         @Override
         public void onError(String deviceAddress, int error, int errorType, String message) {
+            GazelleApplication.isDfu = false;
             Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
             dismiss();
         }

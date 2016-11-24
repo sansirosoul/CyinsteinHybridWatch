@@ -1,12 +1,15 @@
 package com.xyy.Gazella.activity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.ParseException;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,14 +17,17 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.kevin.crop.UCrop;
 import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
 import com.xyy.Gazella.utils.SharedPreferencesUtils;
 import com.xyy.Gazella.utils.WeightDialog;
+import com.xyy.Gazella.view.RoundImageView;
 import com.xyy.model.User;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,6 +35,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.iwf.photopicker.PhotoPicker;
 
 /**
  * Created by Administrator on 2016/10/25.
@@ -37,7 +44,7 @@ import butterknife.OnClick;
 public class UserSetting extends BaseActivity {
 
     @BindView(R.id.head)
-    ImageView head;
+    RoundImageView head;
     @BindView(R.id.ed_name)
     EditText edName;
     @BindView(R.id.tv_birth)
@@ -59,7 +66,7 @@ public class UserSetting extends BaseActivity {
     @BindView(R.id.back)
     RelativeLayout back;
     @BindView(R.id.save)
-    ImageView save;
+    RelativeLayout save;
     private Context context;
     private WeightDialog.OnSelectedListener wOnSelectedListener;
     private HeightDialog.OnSelectedListener hSelectedListener;
@@ -84,6 +91,7 @@ public class UserSetting extends BaseActivity {
         User user = preferencesUtils.getUserInfo();
         if (user.getName() != null && !user.getName().equals("")){
             edName.setText(user.getName());
+            edName.setSelection(user.getName().length());
         }
         if(!user.getBirthday().equals(getResources().getString(R.string.choose_birth))){
             tvBirth.setText(user.getBirthday());
@@ -97,6 +105,13 @@ public class UserSetting extends BaseActivity {
             tvWeight.setText(user.getWeight());
             tvWeight.setTextColor(context.getResources().getColor(R.color.white));
         }
+
+        File f=new File(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
+        if(!f.exists())
+            head.setBackground(getResources().getDrawable(R.drawable.page5_head_portrait));
+        else
+            head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
+
         if (user.getSex() != -1) {
             sex = user.getSex();
             if (sex == 0) {
@@ -215,6 +230,10 @@ public class UserSetting extends BaseActivity {
                 overridePendingTransitionExit(UserSetting.this);
                 break;
             case R.id.head:
+                PhotoPicker.builder()
+                        .setShowCamera(true)
+                        .setPhotoCount(1)
+                        .start(this);
                 break;
             case R.id.ll_birth:
                 pvTime.show();
@@ -229,6 +248,15 @@ public class UserSetting extends BaseActivity {
                 weightDialog.setOnSelectedListener(wOnSelectedListener);
                 weightDialog.show();
                 break;
+        }
+    }
+
+    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1000 &&data!=null) {
+            Uri resultUri = UCrop.getOutput(data);
+            if(resultUri!=null)
+                head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
         }
     }
 }
