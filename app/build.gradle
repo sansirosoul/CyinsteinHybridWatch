@@ -95,4 +95,6 @@ dependencies {
     compile project(':sharesdk')
     compile project(':dfu')
     compile "com.polidea.rxandroidble:rxandroidble:1.0.2"
+    compile 'com.trello:rxlifecycle:0.3.0'
+    compile 'com.trello:rxlifecycle-components:0.3.0'
 }

@@ -131,7 +131,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/ExampleTheme"></activity>
+            android:theme="@style/ExampleTheme" />
 
         <!-- &lt;!&ndash;首页&ndash;&gt; -->
 
@@ -141,8 +141,15 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme" />
+        <activity
+            android:name="com.xyy.Gazella.activity.RxAndroidTestActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme" />
 
-        <activity android:name="com.xyy.Gazella.activity.RxAndroidTestActivity"
+        <activity
+            android:name="com.xyy.Gazella.activity.RxAndroidTestActivityDeviceActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -191,8 +198,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
-
 
         <!-- 帮助页面 -->
         <activity
@@ -249,6 +254,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
