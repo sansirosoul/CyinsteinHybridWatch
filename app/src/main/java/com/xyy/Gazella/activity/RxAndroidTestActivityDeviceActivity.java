@@ -58,12 +58,6 @@ public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
     }
 
     private void connect() {
-//        connectionSubscription = bleDevice.establishConnection(this, false)
-////                .compose(bindUntilEvent(PAUSE))
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .doOnUnsubscribe(this::clearSubscription)
-//                .subscribe(this::onConnectionReceived, this::onConnectionFailure);
-
         bleDevice.establishConnection(this, false)
                 .flatMap(new Func1<RxBleConnection, Observable<RxBleDeviceServices>>() {
                     @Override

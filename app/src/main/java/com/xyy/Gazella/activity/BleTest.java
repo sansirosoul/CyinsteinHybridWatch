@@ -77,6 +77,29 @@ public class BleTest extends Activity {
                     break;
                 case BluetoothService.NOTIFY_SUCCESS:
 
+                    if (msg.obj != null) {
+                        byte[] data = (byte[]) msg.obj;
+
+                        if (bleUtils.returnDeviceSN(data) != null) {
+//                            notify.setText(bleUtils.returnDeviceSN(data));
+                        } else if (bleUtils.returnBatteryValue(data) != null) {
+//                            notify.setText(bleUtils.returnBatteryValue(data));
+                        } else if (bleUtils.returnDeviceName(data) != null) {
+//                            notify.setText(bleUtils.returnDeviceName(data));
+                        } else {
+                            if (data != null && data.length > 0) {
+                                final StringBuilder stringBuilder = new StringBuilder(
+                                        data.length);
+                                for (byte byteChar : data)
+                                    stringBuilder.append(String.format("%02X ", byteChar));
+
+//                                notify.setText(stringBuilder.toString());
+                            }
+                        }
+                    }
+
+
+
                     break;
             }
         }

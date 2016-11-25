@@ -91,6 +91,9 @@ public class RxAndroidTestActivity extends AppCompatActivity {
                         intent.putExtra("EXTRA_NAME",deviceList.get(i).getName());
                         intent.putExtra("EXTRA_MAC_ADDRESS", deviceList.get(i).getAddress());
                         startActivity(intent);
+                        if (isScanning()) {
+                            subscription.unsubscribe();
+                        }
                     }
                 });
             }
