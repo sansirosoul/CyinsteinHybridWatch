@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.polidea.rxandroidble.RxBleClient;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
+
+import rx.Subscription;
 
 /**
  * Created by Administrator on 2016/10/14.
@@ -16,10 +20,14 @@ public class LaunchActivity extends BaseActivity {
     private Button start;
     private byte ck_a,ck_b;
 
+    private RxBleClient rxBleClient;
+    private Subscription scanSubscription;
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.launch_activity);
+        rxBleClient = GazelleApplication.getRxBleClient(this);
 
         start= (Button) findViewById(R.id.start);
                 start.setOnClickListener(new View.OnClickListener() {

@@ -306,7 +306,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     GazelleApplication.isBleConnected=true;
                     GazelleApplication.deviceAddress=device.getAddress();
                     GazelleApplication.deviceName=device.getName();
-                    Intent intent = new Intent(context, PersonActivity.class);
+                    Intent intent = new Intent(context, BleTest.class);
                     startActivity(intent);
                     PairingActivity.this.finish();
                     overridePendingTransitionEnter(PairingActivity.this);
@@ -338,7 +338,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                             }
                             @Override
                             public void onConfirm() {
-                                Intent intent = new Intent(context, PersonActivity.class);
+                                Intent intent = new Intent(context, BleTest.class);
                                 startActivity(intent);
                                 PairingActivity.this.finish();
                                 overridePendingTransitionEnter(PairingActivity.this);
@@ -358,7 +358,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                 if (bluetoothAdapter != null) {
                     bluetoothAdapter.stopLeScan(leScanCallback);
                 }
-                Intent intent = new Intent(context, PersonActivity.class);
+                Intent intent = new Intent(context, BleTest.class);
                 startActivity(intent);
                 PairingActivity.this.finish();
                 overridePendingTransitionEnter(PairingActivity.this);

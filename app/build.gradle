@@ -1,6 +1,21 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'android-apt'
+
+
+repositories {
+    mavenLocal()
+}
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.3.1'
+    }
+}
 
 android {
     compileSdkVersion 23
@@ -45,8 +60,14 @@ android {
         abortOnError false
     }
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
-
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 
 dependencies {
     compile files('libs/commons-httpclient.jar')
@@ -73,7 +94,7 @@ dependencies {
     compile project(':PhotoPicker')
     compile project(':sharesdk')
     compile project(':dfu')
-    compile 'com.trello:rxlifecycle:1.0'
-    compile 'com.trello:rxlifecycle-components:1.0'
-    compile project(':rxandroidble')
+    compile "com.polidea.rxandroidble:rxandroidble:1.0.2"
+    compile 'com.trello:rxlifecycle:0.3.0'
+    compile 'com.trello:rxlifecycle-components:0.3.0'
 }
