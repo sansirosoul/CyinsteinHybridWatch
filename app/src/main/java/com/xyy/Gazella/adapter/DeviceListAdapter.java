@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.polidea.rxandroidble.RxBleScanResult;
 import com.ysp.smartwatch.R;
 
 import java.util.List;
@@ -24,7 +25,21 @@ public class DeviceListAdapter extends BaseAdapter {
 		this.mLayoutInflater = LayoutInflater.from(context);
 	}
 
+	public void clearScanResults() {
+		dataList.clear();
+		notifyDataSetChanged();
+	}
 
+	public void addScanResult(RxBleScanResult bleScanResult) {
+		for (int i = 0; i < dataList.size(); i++) {
+			if (dataList.get(i).getAddress().equals(bleScanResult.getBleDevice().getMacAddress())) {
+				dataList.set(i, bleScanResult.getBleDevice().getBluetoothDevice());
+				return;
+			}
+		}
+		dataList.add(bleScanResult.getBleDevice().getBluetoothDevice());
+		notifyDataSetChanged();
+	}
 	
 	
 	
