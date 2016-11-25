@@ -8,7 +8,7 @@
     <style name="AppTheme" parent="AppBaseTheme" type="text/css"></style>
 
     <style name="ExampleTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowTitleSize">30dp</item>

@@ -21,7 +21,6 @@ public class BleUtils {
     private byte ck_a, ck_b;
     private byte[] value;
 
-
     //获取手表序列号
     public void getDeviceSN(BluetoothGattCharacteristic characteristic) {
         if(characteristic==null){
@@ -49,6 +48,29 @@ public class BleUtils {
 
         characteristic.setValue(value);
         GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+    }
+
+    public byte[] getDeviceSN2() {
+        value = new byte[7];
+        ck_a = 0;
+        ck_b = 0;
+
+        value[0] = 0x48;
+        value[1] = 0x59;
+
+        value[2] = 0x07;
+        value[3] = 0x00;
+
+        value[4] = 0x00;
+
+        for (int i = 2; i < 5; i++) {
+            ck_a = (byte) (ck_a + value[i]);
+            ck_b = (byte) (ck_b + ck_a);
+        }
+        value[5] = ck_a;
+        value[6] = ck_b;
+
+        return value;
     }
 
     //返回手表序列号

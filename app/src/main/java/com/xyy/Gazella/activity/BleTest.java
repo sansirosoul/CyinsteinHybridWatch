@@ -2,6 +2,7 @@ package com.xyy.Gazella.activity;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.polidea.rxandroidble.RxBleConnection;
+import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.BleUtils;
 import com.ysp.newband.GazelleApplication;
@@ -18,6 +21,7 @@ import com.ysp.smartwatch.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 import static com.ysp.newband.GazelleApplication.mBluetoothService;
 
@@ -79,12 +83,16 @@ public class BleTest extends Activity {
     Button btn22;
     @BindView(R.id.btn23)
     Button btn23;
+    private RxBleDevice rxBleDevice;
+    private Observable<RxBleConnection> connectionObservable;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
         ButterKnife.bind(this);
+        context = this;
         bleUtils = new BleUtils();
         mBluetoothService.setActivityHandler(handler);
         writeCharacteristic = GazelleApplication.mBluetoothService.getWriteCharacteristic();
@@ -92,6 +100,15 @@ public class BleTest extends Activity {
         notifyCharacteristic = GazelleApplication.mBluetoothService.getNotifyCharacteristic();
         if (notifyCharacteristic != null)
             GazelleApplication.mBluetoothService.setCharacteristicNotification(notifyCharacteristic, true);
+
+//        rxBleDevice = GazelleApplication.getRxBleClient(context).getBleDevice(GazelleApplication.deviceAddress);
+//        connectionObservable = rxBleDevice.establishConnection(context, false);
+//        connectionObservable.subscribe(rxBleConnection -> {
+//            Log.d(getClass().getSimpleName(), "Hey, connection has been established!");
+//        },throwable -> {
+//            System.out.println(throwable);
+//        });
+
     }
 
     Handler handler = new Handler() {
@@ -116,12 +133,11 @@ public class BleTest extends Activity {
 
                         if (bleUtils.returnDeviceSN(data) != null) {
                             notify.setText(bleUtils.returnDeviceSN(data));
-                        } else if(bleUtils.returnBatteryValue(data)!=null){
+                        } else if (bleUtils.returnBatteryValue(data) != null) {
                             notify.setText(bleUtils.returnBatteryValue(data));
-                        }else if(bleUtils.returnDeviceName(data)!=null){
+                        } else if (bleUtils.returnDeviceName(data) != null) {
                             notify.setText(bleUtils.returnDeviceName(data));
-                        }
-                        else {
+                        } else {
                             if (data != null && data.length > 0) {
                                 final StringBuilder stringBuilder = new StringBuilder(
                                         data.length);
@@ -159,15 +175,57 @@ public class BleTest extends Activity {
         }
     };
 
+
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
             R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
                 bleUtils.getDeviceSN(writeCharacteristic);
+//                connectionObservable
+//                        .flatMap(rxBleConnection -> rxBleConnection.writeCharacteristic(UUID.fromString(BluetoothService.writeUUID), bleUtils.getDeviceSN2()))
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(
+//                                characteristicValue -> {
+//                                    // Characteristic value confirmed.
+//                                    System.out.println("Write success");
+//                                    handler.obtainMessage(BluetoothService.WRITE_SUCCESS, characteristicValue).sendToTarget();
+//                                },
+//                                throwable -> {
+//                                    // Handle an error here.
+//                                    System.out.println("write" + throwable);
+//                                }
+//                        );
                 break;
             case R.id.btn2:
                 bleUtils.sendMessage(writeCharacteristic, 1, 0, 0, 0, 0, 0);
+//                connectionObservable
+//                        .flatMap(rxBleConnection -> rxBleConnection.setupNotification(UUID.fromString(BluetoothService.notifyUUID)))
+//                        .doOnNext(notificationObservable -> {
+//                            // Notification has been set up
+//                            System.out.println("Notification has been set up");
+//                        })
+//                        .flatMap(notificationObservable -> notificationObservable) // <-- Notification has been set up, now observe value changes.
+//                        .subscribe(
+//                                bytes -> {
+//                                    System.out.println("noyify===========");
+//                                    // Given characteristic has been changes, here is the value.
+//                                    final byte[] data = bytes;
+//                                    if (data != null && data.length > 0) {
+//                                        final StringBuilder stringBuilder = new StringBuilder(
+//                                                data.length);
+//                                        for (byte byteChar : data)
+//                                            stringBuilder.append(String.format("%02X ", byteChar));
+//
+//                                        notify.setText(stringBuilder.toString());
+//
+//                                    }
+//                                },
+//                                throwable -> {
+//                                    // Handle an error here.
+//                                    System.out.println("notify==========" + throwable);
+//                                }
+//                        );
                 break;
             case R.id.btn3:
                 bleUtils.setWatchDateAndTime(writeCharacteristic, 1, 2016, 11, 22, 8, 0, 0);
@@ -200,28 +258,28 @@ public class BleTest extends Activity {
                 bleUtils.getBatteryValue(writeCharacteristic);
                 break;
             case R.id.btn13:
-                bleUtils.adjHourHand(writeCharacteristic,1,1);
+                bleUtils.adjHourHand(writeCharacteristic, 1, 1);
                 break;
             case R.id.btn14:
-                bleUtils.adjMinuteHand(writeCharacteristic,1,1);
+                bleUtils.adjMinuteHand(writeCharacteristic, 1, 1);
                 break;
             case R.id.btn15:
-                bleUtils.adjSecondHand(writeCharacteristic,1,1);
+                bleUtils.adjSecondHand(writeCharacteristic, 1, 1);
                 break;
             case R.id.btn16:
-                bleUtils.adjMsgHand(writeCharacteristic,1,1);
+                bleUtils.adjMsgHand(writeCharacteristic, 1, 1);
                 break;
             case R.id.btn17:
-                bleUtils.adjStepHand(writeCharacteristic,1,1);
+                bleUtils.adjStepHand(writeCharacteristic, 1, 1);
                 break;
             case R.id.btn18:
                 bleUtils.resetHand(writeCharacteristic);
                 break;
             case R.id.btn19:
-                bleUtils.getStepData(writeCharacteristic,1);
+                bleUtils.getStepData(writeCharacteristic, 1);
                 break;
             case R.id.btn20:
-                bleUtils.setWatchShake(writeCharacteristic,1,0,0);
+                bleUtils.setWatchShake(writeCharacteristic, 1, 0, 0);
                 break;
             case R.id.btn21:
                 bleUtils.getAlarms(writeCharacteristic);
