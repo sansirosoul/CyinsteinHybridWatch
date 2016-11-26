@@ -25,10 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 
 public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
@@ -65,13 +62,10 @@ public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
         bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(extra_mac_address);
         deviceList = new ArrayList<RxBleDeviceServices>();
         adapter = new RxAndroidAdapterTestActivity(this, deviceList);
-//        connect();
 
         bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(extra_mac_address);
         connectionObservable = bleDevice
                 .establishConnection(this, false)
-//                .takeUntil(disconnectTriggerSubject)
-                // .compose(bindUntilEvent(PAUSE))
                 .doOnUnsubscribe(new Action0() {
                     @Override
                     public void call() {
@@ -81,59 +75,8 @@ public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
                 .compose(new ConnectionSharingAdapter());
 
     }
-
-    private void connect() {
-        bleDevice.establishConnection(this, false)
-                .flatMap(new Func1<RxBleConnection, Observable<RxBleDeviceServices>>() {
-                    @Override
-                    public Observable<RxBleDeviceServices> call(RxBleConnection rxBleConnection) {
-                        return rxBleConnection.discoverServices();
-                    }
-                })
-                .first() // Disconnect automatically after discovery
-//                .compose(bindUntilEvent(PAUSE))
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnUnsubscribe(new Action0() {
-                    @Override
-                    public void call() {
-//                        updateUI();
-                    }
-                })
-                .subscribe(new Action1<RxBleDeviceServices>() {
-                    @Override
-                    public void call(RxBleDeviceServices rxBleDeviceServices) {
-                        tvConnect.setText("Connection OK");
-                        deviceList.add(rxBleDeviceServices);
-                        adapter.notifyDataSetChanged();
-
-                        Logger.t(TAG).e(String.valueOf(rxBleDeviceServices));
-//                        adapter.swapScanResult(rxBleDeviceServices);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        onConnectionFailure(throwable);
-                    }
-                });
-
-
-    }
-
-
     private void clearSubscription() {
         connectionSubscription = null;
-    }
-
-    private void onConnectionReceived(RxBleConnection connection) {
-        //noinspection ConstantConditions
-        tvConnect.setText("Connection OK");
-//        Snackbar.make(findViewById(android.R.id.content), "Connection received", Snackbar.LENGTH_SHORT).show();
-    }
-
-    private void onConnectionFailure(Throwable throwable) {
-        //noinspection ConstantConditions
-        tvConnect.setText("Connection error: " + throwable);
-//        Snackbar.make(findViewById(android.R.id.content), "Connection error: " + throwable, Snackbar.LENGTH_SHORT).show();
     }
 
     @OnClick({R.id.tv_in, R.id.butt})
@@ -142,8 +85,6 @@ public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
             case R.id.tv_in:
                 break;
             case R.id.butt:
-
-
                 connectionObservable.flatMap(rxBleConnection -> rxBleConnection.readCharacteristic(UUID.fromString(ReadUUID))
                         .doOnNext(bytes -> {
                             // Process read data.
@@ -154,11 +95,6 @@ public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
                             // Written data.
                             Logger.t(TAG).e("222222222222222>>>>>>>>  "+new String(writeBytes));
                         });
-
-
-
-
-
                 break;
         }
     }
