@@ -1,7 +1,6 @@
 package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +12,7 @@ import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.RxBleDeviceServices;
 import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.utils.HexString;
+import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
@@ -25,10 +25,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscription;
-import rx.functions.Action0;
+import rx.android.schedulers.AndroidSchedulers;
 
 
-public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
+public class RxAndroidTestActivityDeviceActivity extends BaseActivity {
 
     private static String TAG = RxAndroidTestActivityDeviceActivity.class.getName();
     @BindView(R.id.tv_connect)
@@ -66,12 +66,7 @@ public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
         bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(extra_mac_address);
         connectionObservable = bleDevice
                 .establishConnection(this, false)
-                .doOnUnsubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        clearSubscription();
-                    }
-                })
+                .doOnUnsubscribe(this::clearSubscription)
                 .compose(new ConnectionSharingAdapter());
 
     }
@@ -86,14 +81,22 @@ public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
                 break;
             case R.id.butt:
                 connectionObservable.flatMap(rxBleConnection -> rxBleConnection.readCharacteristic(UUID.fromString(ReadUUID))
+                        .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(bytes -> {
-                            // Process read data.
+                            // 返回数据
                             Logger.t(TAG).e("111111111>>>>>>>>  "+new String(bytes));
-                        })
+                            tvConnect.setText(new String(bytes));
+                        }).doOnError(throwable -> {
+                            // 返回数据 失败
+                            Logger.t(TAG).e("222222222>>>>>>>>  "+throwable.toString());
+                        }).observeOn(AndroidSchedulers.mainThread())
                         .flatMap(bytes -> rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), getInputBytes())))
-                        .subscribe(writeBytes -> {
-                            // Written data.
-                            Logger.t(TAG).e("222222222222222>>>>>>>>  "+new String(writeBytes));
+                        .doOnError(throwable -> {
+                            // 写入数据 失败
+                            Logger.t(TAG).e("3333333333>>>>>>>>  "+throwable.toString());
+                        }).subscribe(writeBytes -> {
+                            // 写入数据
+                            Logger.t(TAG).e("4444444444>>>>>>>>  "+new String(writeBytes));
                         });
                 break;
         }
