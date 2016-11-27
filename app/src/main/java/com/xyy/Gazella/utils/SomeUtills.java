@@ -325,9 +325,10 @@ public class SomeUtills {
     public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 
-    public void WriteCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
+    public String[] WriteCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
+        final String[] returStr = {null};
 
-        final String[] ff = {null};
+
         connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
                     @Override
@@ -340,24 +341,26 @@ public class SomeUtills {
                     @Override
                     public void call(byte[] bytes) {
                         Logger.t(TAG).e("写入数据>>>>>>  " + HexString.bytesToHex(bytes));
-                        ReadCharacteristic(connectionObservable).subscribe(new Action1<byte[]>() {
+                        ReadCharacteristic(connectionObservable).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
                             @Override
                             public void call(byte[] bytes) {
                                 Logger.t(TAG).e("返回数据>>>>>>  " + HexString.bytesToHex(bytes));
-                                ff[0] = HexString.bytesToHex(bytes);
+                                returStr[0] =HexString.bytesToHex(bytes);
                             }
                         }, new Action1<Throwable>() {
                             @Override
                             public void call(Throwable throwable) {
-
+                                Logger.t(TAG).e("返回数据失败>>>>>>  " + throwable.toString());
                             }
                         });
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        Logger.t(TAG).e("写入数据失败>>>>>>  " + throwable.toString());
                     }
                 });
+        return  returStr;
     }
 
     public Observable<byte[]> ReadCharacteristic(Observable<RxBleConnection> connectionObservable) {
@@ -368,4 +371,16 @@ public class SomeUtills {
             }
         });
     }
+    public Observable<byte[]> Write2Characteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
+        return connectionObservable.flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
+            @Override
+            public Observable<byte[]> call(RxBleConnection rxBleConnection) {
+                return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
+            }
+        });
+    }
+
+
+
+
 }
