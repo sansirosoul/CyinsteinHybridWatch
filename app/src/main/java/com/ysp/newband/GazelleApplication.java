@@ -105,7 +105,7 @@ public class GazelleApplication extends Application {
 //		bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
 
-		Bugtags.start("5f1b2bd5c0e6fcb208661ab9651ddce0", this, Bugtags.BTGInvocationEventBubble);
+		Bugtags.start("5f1b2bd5c0e6fcb208661ab9651ddce0", this, Bugtags.BTGInvocationEventNone );
 	}
 
 	public  int getWatchType() {
