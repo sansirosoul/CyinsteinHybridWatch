@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'android-apt'
+apply plugin: 'com.bugtags.library.plugin'
 
 
 repositories {
@@ -27,6 +28,10 @@ android {
         minSdkVersion 18
         targetSdkVersion 23
         multiDexEnabled true
+        ndk {
+            // 设置支持的 SO 库构架，一般而言，取你所有的库支持的构架的`交集`。
+            abiFilters 'armeabi'// 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+        }
     }
 
     buildTypes {
@@ -68,6 +73,17 @@ android {
 configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
+bugtags {
+    //自动上传符号表功能配置，如果需要根据 build varint 配置，请参考帮助中心->符号表->Android 符号表->配置自动上传符号表
+    appKey "5f1b2bd5c0e6fcb208661ab9651ddce0"  //这里是你的 appKey
+    appSecret "414e96789f29fc0a3b11bdd7cf0f3668"    //这里是你的 appSecret，管理员在设置页可以查看
+    mappingUploadEnabled true
+
+    //网络跟踪功能配置(企业版)
+    trackingNetworkEnabled true
+}
+
+
 
 dependencies {
     compile files('libs/commons-httpclient.jar')
@@ -97,4 +113,5 @@ dependencies {
     compile "com.polidea.rxandroidble:rxandroidble:1.0.2"
     compile 'com.trello:rxlifecycle:0.3.0'
     compile 'com.trello:rxlifecycle-components:0.3.0'
+    compile 'com.bugtags.library:bugtags-lib:latest.integration'
 }
