@@ -83,7 +83,8 @@ public class RxAndroidTestActivityDeviceActivity extends BaseActivity {
                 break;
             case R.id.butt:
 
-                Write(GET_SN,tvIn.getText().toString(),connectionObservable,true);
+                Write(GET_SN,tvIn.getText().toString(),connectionObservable);
+
 
                 break;
         }

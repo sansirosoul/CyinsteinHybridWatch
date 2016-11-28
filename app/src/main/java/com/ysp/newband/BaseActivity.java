@@ -19,7 +19,6 @@ import com.exchange.android.engine.Uoo;
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.exchange.ExangeErrorHandler;
-import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.HexString;
 import com.ysp.smartwatch.R;
 
@@ -56,63 +55,8 @@ public class BaseActivity extends FragmentActivity {
         }
         mContext = this;
 
-
-
-
     }
 
-    protected void Write(int type, String writeString, Observable<RxBleConnection> connectionObservable, boolean dialogTag) {
-        CommonDialog dialog1 = new CommonDialog(this);
-//        dialog1.setTvContext("获取数据");
-        if (dialogTag) {
-            dialog1.show();
-        }
-        connectionObservable
-                .flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
-                    @Override
-                    public Observable<byte[]> call(RxBleConnection rxBleConnection) {
-                        return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<byte[]>() {
-                    @Override
-                    public void call(byte[] bytes) {
-                        Logger.t(TAG).e("写入数据>>>>>>  " + HexString.bytesToHex(bytes));
-//                        if (dialog1.isShowing()) {
-//                            dialog1.dismiss();
-//                        }
-
-//                        ReadCharacteristic(writeString,connectionObservable).observeOn(AndroidSchedulers.mainThread())
-//                                .subscribe(new Action1<byte[]>() {
-//                                    @Override
-//                                    public void call(byte[] bytes) {
-//                                        Logger.t(TAG).e("返回数据>>>>>>  " + HexString.bytesToHex(bytes));
-//                                        if (dialog1.isShowing()) {
-//                                            dialog1.dismiss();
-//                                        }
-//                                        onReadReturn(type, bytes);
-//                                    }
-//                                }, new Action1<Throwable>() {
-//                                    @Override
-//                                    public void call(Throwable throwable) {
-//                                        if (dialog1.isShowing()) {
-//                                            dialog1.dismiss();
-//                                        }
-//                                        onReadReturnFailed();
-//                                    }
-//                                });
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Logger.t(TAG).e("写入数据失败>>>>>>  " + throwable.toString());
-                        if (dialog1.isShowing()) {
-                            dialog1.dismiss();
-                        }
-                    }
-                });
-    }
 
     private Observable<byte[]> WiterCharacteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
         return connectionObservable
@@ -122,12 +66,32 @@ public class BaseActivity extends FragmentActivity {
                         return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
                     }
                 });
+    }
 
+    private Observable<byte[]> NotifyCharacteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
+        return connectionObservable
+                .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
+                    @Override
+                    public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
+                        return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
+                    }
+                }).doOnNext(new Action1<Observable<byte[]>>() {
+                    @Override
+                    public void call(Observable<byte[]> observable) {
+                        Logger.t(TAG).e("开始接收通知  >>>>>>  ");
+                    }
+                }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
+                    @Override
+                    public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
+                        return notificationObservable;
+                    }
+                });
     }
 
 
 
-    protected void Read(int type,String writeString,Observable<RxBleConnection> connectionObservable) {
+
+    protected void Write(int type,String writeString,Observable<RxBleConnection> connectionObservable) {
           connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                     @Override
@@ -157,7 +121,8 @@ public class BaseActivity extends FragmentActivity {
                     public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
                         return notificationObservable;
                     }
-                }).subscribe(new Action1<byte[]>() {
+                }).
+                  subscribe(new Action1<byte[]>() {
               @Override
               public void call(byte[] bytes) {
                   Logger.t(TAG).e("接收数据  >>>>>>  "+HexString.bytesToHex(bytes)+"\n"+">>>>>>>>"+new String(bytes));
