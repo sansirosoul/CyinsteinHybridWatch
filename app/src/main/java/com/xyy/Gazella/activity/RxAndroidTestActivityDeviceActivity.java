@@ -18,14 +18,12 @@ import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
 
 
 public class RxAndroidTestActivityDeviceActivity extends BaseActivity {
@@ -75,7 +73,7 @@ public class RxAndroidTestActivityDeviceActivity extends BaseActivity {
     @Override
     protected void onReadReturn(int type, byte[] bytes) {
         if(type==GET_SN){
-
+            Logger.t(TAG).e("返回数据>>>>>>  " + new String(bytes)+"\n"+"TYPE"+String.valueOf(GET_SN));
         }
     }
 
@@ -114,24 +112,24 @@ public class RxAndroidTestActivityDeviceActivity extends BaseActivity {
 //                    }
 //                });
 
-                connectionObservable.flatMap(rxBleConnection -> rxBleConnection.readCharacteristic(UUID.fromString(ReadUUID))
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext(bytes -> {
-                            // 返回数据
-                            Logger.t(TAG).e("返回数据>>>>>>>>  "+new String(bytes));
-                            tvConnect.setText(new String(bytes));
-                        }).doOnError(throwable -> {
-                            // 返回数据 失败
-                            Logger.t(TAG).e("返回数据 失败>>>>>>>>  "+throwable.toString());
-                        }).observeOn(AndroidSchedulers.mainThread())
-                        .flatMap(bytes -> rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), getInputBytes())))
-                        .doOnError(throwable -> {
-                            // 写入数据 失败
-                            Logger.t(TAG).e("写入数据 失败>>>>>>>>  "+throwable.toString());
-                        }).subscribe(writeBytes -> {
-                            // 写入数据
-                            Logger.t(TAG).e("写入数据>>>>>>>>  "+HexString.bytesToHex(writeBytes));
-                        });
+//                connectionObservable.flatMap(rxBleConnection -> rxBleConnection.readCharacteristic(UUID.fromString(ReadUUID))
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .doOnNext(bytes -> {
+//                            // 返回数据
+//                            Logger.t(TAG).e("返回数据>>>>>>>>  "+new String(bytes));
+//                            tvConnect.setText(new String(bytes));
+//                        }).doOnError(throwable -> {
+//                            // 返回数据 失败
+//                            Logger.t(TAG).e("返回数据 失败>>>>>>>>  "+throwable.toString());
+//                        }).observeOn(AndroidSchedulers.mainThread())
+//                        .flatMap(bytes -> rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), getInputBytes())))
+//                        .doOnError(throwable -> {
+//                            // 写入数据 失败
+//                            Logger.t(TAG).e("写入数据 失败>>>>>>>>  "+throwable.toString());
+//                        }).subscribe(writeBytes -> {
+//                            // 写入数据
+//                            Logger.t(TAG).e("写入数据>>>>>>>>  "+HexString.bytesToHex(writeBytes));
+//                        });
 
                 break;
         }
