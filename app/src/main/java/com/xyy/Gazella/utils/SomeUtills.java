@@ -10,6 +10,7 @@ import android.view.WindowManager;
 
 import com.orhanobut.logger.Logger;
 import com.partner.entity.Partner;
+import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.dbmanager.CommonUtils;
@@ -23,9 +24,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 import static android.content.ContentValues.TAG;
 
@@ -71,6 +77,7 @@ public class SomeUtills {
 
     /***
      * 获取 下周天数
+     *
      * @param calendar
      * @param amount   0是上周   1是下周
      * @return
@@ -196,7 +203,7 @@ public class SomeUtills {
         boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
         if (b) {
             //截图成功
-        //    Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
+            //    Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
             showShare(activity);
         }
     }
@@ -205,9 +212,9 @@ public class SomeUtills {
         ShareSDK.initSDK(activity);
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
-         oks.disableSSOWhenAuthorize();
+        oks.disableSSOWhenAuthorize();
 
-         // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
         //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
 
@@ -253,10 +260,11 @@ public class SomeUtills {
     }
 
     /***
-     *     插入数据到数据库
+     * 插入数据到数据库
+     *
      * @param context
      */
-    public  void  setPartnerData(Context context){
+    public void setPartnerData(Context context) {
         mCommonUtils = new CommonUtils(context);
         Partner partner = new Partner();
         partner.setType("3");
@@ -270,44 +278,109 @@ public class SomeUtills {
     }
 
     /***
-     *      查询数据库全部数据
+     * 查询数据库全部数据
+     *
      * @param context
      */
-    public  void  getPartnerData(Context context){
+    public void getPartnerData(Context context) {
         mCommonUtils = new CommonUtils(context);
         List<Partner> partner = mCommonUtils.listAll();
         for (int i = 0; i < partner.size(); i++) {
             Partner o = partner.get(i);
-            Logger.t(TAG).i("数据总数== "+String.valueOf(partner.size())+"\n"
-                                    + "第几条数据== "+String.valueOf(i)+"\n"
-                                    +"Awake== "+o.getAwake()+"\n"
-                                    +"Sleep== "+o.getSleep()+"\n"
-                                    +"Data== "+o.getDate()+"\n"
-                                    +"Type== "+o.getType()+"\n"
-                                    +"LightSleep== "+o.getLightsleep()+"\n"
-                                    +"Time== "+o.getTime()+"\n"
-                                    +"Id== "+o.getId()+"\n"
-                                    +"Sleeping== "+o.getSleeping());
+            Logger.t(TAG).i("数据总数== " + String.valueOf(partner.size()) + "\n"
+                    + "第几条数据== " + String.valueOf(i) + "\n"
+                    + "Awake== " + o.getAwake() + "\n"
+                    + "Sleep== " + o.getSleep() + "\n"
+                    + "Data== " + o.getDate() + "\n"
+                    + "Type== " + o.getType() + "\n"
+                    + "LightSleep== " + o.getLightsleep() + "\n"
+                    + "Time== " + o.getTime() + "\n"
+                    + "Id== " + o.getId() + "\n"
+                    + "Sleeping== " + o.getSleeping());
         }
     }
+
     /***
-     *    查询特定条件数据
+     * 查询特定条件数据
+     *
      * @param context
      */
-    public  void  getPartnerTypeData(Context context){
+    public void getPartnerTypeData(Context context) {
         mCommonUtils = new CommonUtils(context);
-      List<Partner> list =  mCommonUtils.queryByBuilder("3","2016.11.11");
+        List<Partner> list = mCommonUtils.queryByBuilder("3", "2016.11.11");
         for (Partner o : list) {
-            Logger.t(TAG).i("数据总数== "+String.valueOf(list.size())+"\n"
-                    + "第几条数据== "+String.valueOf(o)+"\n"
-                    +"Awake== "+o.getAwake()+"\n"
-                    +"Sleep== "+o.getSleep()+"\n"
-                    +"Data== "+o.getDate()+"\n"
-                    +"Type== "+o.getType()+"\n"
-                    +"LightSleep== "+o.getLightsleep()+"\n"
-                    +"Time== "+o.getTime()+"\n"
-                    +"Id== "+o.getId()+"\n"
-                    +"Sleeping== "+o.getSleeping());
+            Logger.t(TAG).i("数据总数== " + String.valueOf(list.size()) + "\n"
+                    + "第几条数据== " + String.valueOf(o) + "\n"
+                    + "Awake== " + o.getAwake() + "\n"
+                    + "Sleep== " + o.getSleep() + "\n"
+                    + "Data== " + o.getDate() + "\n"
+                    + "Type== " + o.getType() + "\n"
+                    + "LightSleep== " + o.getLightsleep() + "\n"
+                    + "Time== " + o.getTime() + "\n"
+                    + "Id== " + o.getId() + "\n"
+                    + "Sleeping== " + o.getSleeping());
         }
     }
+
+    public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
+    public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+
+    public String[] WriteCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
+        final String[] returStr = {null};
+
+
+        connectionObservable
+                .flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
+                    @Override
+                    public Observable<byte[]> call(RxBleConnection rxBleConnection) {
+                        return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<byte[]>() {
+                    @Override
+                    public void call(byte[] bytes) {
+                        Logger.t(TAG).e("写入数据>>>>>>  " + HexString.bytesToHex(bytes));
+                        ReadCharacteristic(connectionObservable).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
+                            @Override
+                            public void call(byte[] bytes) {
+                                Logger.t(TAG).e("返回数据>>>>>>  " + HexString.bytesToHex(bytes));
+                                returStr[0] =HexString.bytesToHex(bytes);
+                            }
+                        }, new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                Logger.t(TAG).e("返回数据失败>>>>>>  " + throwable.toString());
+                            }
+                        });
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Logger.t(TAG).e("写入数据失败>>>>>>  " + throwable.toString());
+                    }
+                });
+        return  returStr;
+    }
+
+    public Observable<byte[]> ReadCharacteristic(Observable<RxBleConnection> connectionObservable) {
+        return connectionObservable.flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
+            @Override
+            public Observable<byte[]> call(RxBleConnection rxBleConnection) {
+                return rxBleConnection.readCharacteristic(UUID.fromString(ReadUUID));
+            }
+        });
+    }
+    public Observable<byte[]> Write2Characteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
+        return connectionObservable.flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
+            @Override
+            public Observable<byte[]> call(RxBleConnection rxBleConnection) {
+                return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
+            }
+        });
+    }
+
+
+
+
 }

@@ -1,14 +1,18 @@
 package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.RxBleDeviceServices;
+import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
+import com.xyy.Gazella.utils.HexString;
+import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
@@ -17,30 +21,33 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 
-public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
+public class RxAndroidTestActivityDeviceActivity extends BaseActivity {
 
     private static String TAG = RxAndroidTestActivityDeviceActivity.class.getName();
     @BindView(R.id.tv_connect)
     TextView tvConnect;
-    @BindView(R.id.list_item)
-    ListView listItem;
+    @BindView(R.id.tv_in)
+    EditText tvIn;
+    @BindView(R.id.butt)
+    Button butt;
     private String extra_name;
     private String extra_mac_address;
 
-    private RxBleDevice bleDevice;
 
     private Subscription connectionSubscription;
     private RxAndroidAdapterTestActivity adapter;
     private List<RxBleDeviceServices> deviceList;
 
+    private Observable<RxBleConnection> connectionObservable;
+    private RxBleDevice bleDevice;
+
+    public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
+    public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,62 +59,82 @@ public class RxAndroidTestActivityDeviceActivity extends AppCompatActivity {
 
         bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(extra_mac_address);
         deviceList = new ArrayList<RxBleDeviceServices>();
-        adapter = new RxAndroidAdapterTestActivity(this, deviceList);
-        listItem.setAdapter(adapter);
-        connect();
+
+        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(extra_mac_address);
+        connectionObservable = bleDevice
+                .establishConnection(this, false)
+                .doOnUnsubscribe(this::clearSubscription)
+                .compose(new ConnectionSharingAdapter());
     }
-
-    private void connect() {
-        bleDevice.establishConnection(this, false)
-                .flatMap(new Func1<RxBleConnection, Observable<RxBleDeviceServices>>() {
-                    @Override
-                    public Observable<RxBleDeviceServices> call(RxBleConnection rxBleConnection) {
-                        return rxBleConnection.discoverServices();
-                    }
-                })
-                .first() // Disconnect automatically after discovery
-//                .compose(bindUntilEvent(PAUSE))
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnUnsubscribe(new Action0() {
-                    @Override
-                    public void call() {
-//                        updateUI();
-                    }
-                })
-                .subscribe(new Action1<RxBleDeviceServices>() {
-                    @Override
-                    public void call(RxBleDeviceServices rxBleDeviceServices) {
-                        tvConnect.setText("Connection OK");
-                        deviceList.add(rxBleDeviceServices);
-                        adapter.notifyDataSetChanged();
-
-                        Logger.t(TAG).e(String.valueOf(rxBleDeviceServices));
-//                        adapter.swapScanResult(rxBleDeviceServices);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        onConnectionFailure(throwable);
-                    }
-                });
-
-
-    }
-
-
     private void clearSubscription() {
         connectionSubscription = null;
     }
 
-    private void onConnectionReceived(RxBleConnection connection) {
-        //noinspection ConstantConditions
-        tvConnect.setText("Connection OK");
-//        Snackbar.make(findViewById(android.R.id.content), "Connection received", Snackbar.LENGTH_SHORT).show();
+    @Override
+    protected void onReadReturn(int type, byte[] bytes) {
+        if(type==GET_SN){
+            Logger.t(TAG).e("返回数据>>>>>>  " + new String(bytes)+"\n"+"TYPE"+String.valueOf(GET_SN));
+        }
     }
 
-    private void onConnectionFailure(Throwable throwable) {
-        //noinspection ConstantConditions
-        tvConnect.setText("Connection error: " + throwable);
-//        Snackbar.make(findViewById(android.R.id.content), "Connection error: " + throwable, Snackbar.LENGTH_SHORT).show();
+    @OnClick({R.id.tv_in, R.id.butt})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_in:
+                break;
+            case R.id.butt:
+
+                Write(GET_SN,tvIn.getText().toString(),connectionObservable);
+
+
+
+
+//                SomeUtills utils= new SomeUtills();
+//                utils.Write2Characteristic(tvIn.getText().toString(),connectionObservable).subscribe(new Action1<byte[]>() {
+//                    @Override
+//                    public void call(byte[] bytes) {
+//                        utils.ReadCharacteristic(connectionObservable).subscribe(new Action1<byte[]>() {
+//                            @Override
+//                            public void call(byte[] bytes) {
+//
+//                            }
+//                        }, new Action1<Throwable>() {
+//                            @Override
+//                            public void call(Throwable throwable) {
+//
+//                            }
+//                        });
+//                    }
+//                }, new Action1<Throwable>() {
+//                    @Override
+//                    public void call(Throwable throwable) {
+//
+//                    }
+//                });
+
+//                connectionObservable.flatMap(rxBleConnection -> rxBleConnection.readCharacteristic(UUID.fromString(ReadUUID))
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .doOnNext(bytes -> {
+//                            // 返回数据
+//                            Logger.t(TAG).e("返回数据>>>>>>>>  "+new String(bytes));
+//                            tvConnect.setText(new String(bytes));
+//                        }).doOnError(throwable -> {
+//                            // 返回数据 失败
+//                            Logger.t(TAG).e("返回数据 失败>>>>>>>>  "+throwable.toString());
+//                        }).observeOn(AndroidSchedulers.mainThread())
+//                        .flatMap(bytes -> rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), getInputBytes())))
+//                        .doOnError(throwable -> {
+//                            // 写入数据 失败
+//                            Logger.t(TAG).e("写入数据 失败>>>>>>>>  "+throwable.toString());
+//                        }).subscribe(writeBytes -> {
+//                            // 写入数据
+//                            Logger.t(TAG).e("写入数据>>>>>>>>  "+HexString.bytesToHex(writeBytes));
+//                        });
+
+                break;
+        }
+    }
+    private byte[] getInputBytes() {
+        return HexString.hexToBytes(tvIn.getText().toString());
     }
 }
