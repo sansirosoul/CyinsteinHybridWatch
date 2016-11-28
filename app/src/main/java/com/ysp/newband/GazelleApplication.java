@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.support.multidex.MultiDex;
 import android.telephony.TelephonyManager;
 
+import com.bugtags.library.Bugtags;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleClient;
@@ -102,6 +103,9 @@ public class GazelleApplication extends Application {
 //		Intent bindIntent = new Intent(this, BluetoothLeService.class);
 //		startService(bindIntent);
 //		bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+
+
+		Bugtags.start("5f1b2bd5c0e6fcb208661ab9651ddce0", this, Bugtags.BTGInvocationEventNone );
 	}
 
 	public  int getWatchType() {

@@ -9,113 +9,197 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 
+import com.bugtags.library.Bugtags;
 import com.exchange.android.engine.ExchangeProxy;
 import com.exchange.android.engine.Uoi;
 import com.exchange.android.engine.Uoo;
+import com.orhanobut.logger.Logger;
+import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.exchange.ExangeErrorHandler;
+import com.xyy.Gazella.utils.HexString;
 import com.ysp.smartwatch.R;
+
+import java.util.UUID;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 
 public class BaseActivity extends FragmentActivity {
 
-	
-	private static final String TAG=BaseActivity.class.getName();
 
-	public static Context mContext;
-		
-	@Override
-	protected void onCreate(Bundle arg0) {
-		super.onCreate(arg0);
-		ExchangeProxy.setApplicationDefaultErrorHandle(new ExangeErrorHandler());// 设置报错处理handler
-		ExchangeProxy.setProgressModelVisible(false);// 设置弹出框是否显示
+    private static final String TAG = BaseActivity.class.getName();
 
-		if(Build.VERSION.SDK_INT >= 19){
-			//透明状态栏
-			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-			//透明导航栏
-			getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-		}
-		mContext = this;
-	}
-	
-	protected void ConnectionDevice(Handler mHandler) {				
-		if (GazelleApplication.CONNECTED == -1) {
-			if (GazelleApplication.getInstance().mService != null) {
-				GazelleApplication.getInstance().mService.initialize();
-				GazelleApplication.getInstance().mService.setActivityHandler(mHandler);
-				GazelleApplication.getInstance().mService.registe(GazelleApplication.UUID);
-			}
-		} else {
-			GazelleApplication.getInstance().mService.setActivityHandler(mHandler);
-		}	
-	}
+    public static Context mContext;
+    public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
+    public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+    public final int GET_SN = 10001;
 
-	/** 回退键*/
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			animfinish();
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+    @Override
+    protected void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+        ExchangeProxy.setApplicationDefaultErrorHandle(new ExangeErrorHandler());// 设置报错处理handler
+        ExchangeProxy.setProgressModelVisible(false);// 设置弹出框是否显示
 
-	public void animfinish() {
-		mContext = null;
-		finish();
-		overridePendingTransitionExit(this);
-	}
+        if (Build.VERSION.SDK_INT >= 19) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+        mContext = this;
+    }
 
-	/***
-	 *    进入页面调用  从左到右进入
-	 * @param at
+    protected void Write(int type, String writeString, Observable<RxBleConnection> connectionObservable) {
+        connectionObservable
+                .flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
+                    @Override
+                    public Observable<byte[]> call(RxBleConnection rxBleConnection) {
+                        return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<byte[]>() {
+                    @Override
+                    public void call(byte[] bytes) {
+                        Logger.t(TAG).e("写入数据>>>>>>  " + HexString.bytesToHex(bytes));
+                        ReadCharacteristic(connectionObservable).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
+                            @Override
+                            public void call(byte[] bytes) {
+                                Logger.t(TAG).e("返回数据>>>>>>  " + HexString.bytesToHex(bytes));
+                                onReadReturn(type, bytes);
+                            }
+                        }, new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                Logger.t(TAG).e("返回数据失败>>>>>>  " + throwable.toString());
+                                onReadReturnFailed();
+                            }
+                        });
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Logger.t(TAG).e("写入数据失败>>>>>>  " + throwable.toString());
+                    }
+                });
+    }
+
+    private Observable<byte[]> ReadCharacteristic(Observable<RxBleConnection> connectionObservable) {
+        return connectionObservable.flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
+            @Override
+            public Observable<byte[]> call(RxBleConnection rxBleConnection) {
+                return rxBleConnection.readCharacteristic(UUID.fromString(ReadUUID));
+            }
+        });
+    }
+
+    protected void onReadReturn(int type, byte[] bytes) {
+
+    }
+
+    protected void onReadReturnFailed() {
+    }
+
+
+    protected void ConnectionDevice(Handler mHandler) {
+        if (GazelleApplication.CONNECTED == -1) {
+            if (GazelleApplication.getInstance().mService != null) {
+                GazelleApplication.getInstance().mService.initialize();
+                GazelleApplication.getInstance().mService.setActivityHandler(mHandler);
+                GazelleApplication.getInstance().mService.registe(GazelleApplication.UUID);
+            }
+        } else {
+            GazelleApplication.getInstance().mService.setActivityHandler(mHandler);
+        }
+    }
+
+    /**
+     * 回退键
      */
-	public static void overridePendingTransitionEnter(Activity at){
-		at.overridePendingTransition(R.anim.in_from_right, R.anim.out_righttoleft);
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            animfinish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
-	}
+    public void animfinish() {
+        mContext = null;
+        finish();
+        overridePendingTransitionExit(this);
+    }
 
-	/***
-	 *  退出页面调用 从右到左退出
-	 * @param at
+    /***
+     * 进入页面调用  从左到右进入
+     *
+     * @param at
      */
-	public static void overridePendingTransitionExit(Activity at){
-		at.overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
-	}
+    public static void overridePendingTransitionEnter(Activity at) {
+        at.overridePendingTransition(R.anim.in_from_right, R.anim.out_righttoleft);
 
-	public Handler handler = new Handler() {
-		public void handleMessage(Message var1) {
-			Uoi var2 = (Uoi)var1.getData().getSerializable("INPUT_DATA");
-			Uoo var3 = (Uoo)var1.getData().getSerializable("RETURN_DATA");
-			BaseActivity.this.callbackByExchange(var2, var3);
-		}
-	};
+    }
 
-	public BaseActivity() {
-	}
+    /***
+     * 退出页面调用 从右到左退出
+     *
+     * @param at
+     */
+    public static void overridePendingTransitionExit(Activity at) {
+        at.overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
+    }
 
-	public void callbackByExchange(Uoi var1, Uoo var2) {
-	}
+    public Handler handler = new Handler() {
+        public void handleMessage(Message var1) {
+            Uoi var2 = (Uoi) var1.getData().getSerializable("INPUT_DATA");
+            Uoo var3 = (Uoo) var1.getData().getSerializable("RETURN_DATA");
+            BaseActivity.this.callbackByExchange(var2, var3);
+        }
+    };
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-	}
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-	@Override
-	protected void onStop() {
-		super.onStop();
-	}
+    public BaseActivity() {
+    }
+
+    public void callbackByExchange(Uoi var1, Uoo var2) {
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Bugtags.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Bugtags.onResume(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        Bugtags.onDispatchTouchEvent(this, event);
+        return super.dispatchTouchEvent(event);
+    }
 }

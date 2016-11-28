@@ -33,7 +33,7 @@ public class LaunchActivity extends BaseActivity {
                 start.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(LaunchActivity.this,PairingActivity.class);
+                        Intent intent = new Intent(LaunchActivity.this,RxAndroidTestActivity.class);
                         startActivity(intent);
                         overridePendingTransitionEnter(LaunchActivity.this);
                         finish();
