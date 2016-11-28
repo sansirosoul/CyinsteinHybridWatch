@@ -101,6 +101,7 @@ public class BleTest extends Activity {
         if (notifyCharacteristic != null)
             GazelleApplication.mBluetoothService.setCharacteristicNotification(notifyCharacteristic, true);
 
+
 //        rxBleDevice = GazelleApplication.getRxBleClient(context).getBleDevice(GazelleApplication.deviceAddress);
 //        connectionObservable = rxBleDevice.establishConnection(context, false);
 //        connectionObservable.subscribe(rxBleConnection -> {
