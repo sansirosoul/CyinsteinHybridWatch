@@ -49,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:overScrollMode="never"
                 android:divider="@null"
                 android:listSelector="@color/transparent"
                 android:scrollbars="none" />

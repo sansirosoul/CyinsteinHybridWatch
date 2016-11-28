@@ -1,0 +1,165 @@
+-injars 'E:\workspace\Partner\app\build\intermediates\transforms\jarMerging\debug\jars\1\1f\combined.jar'
+-outjars 'E:\workspace\Partner\app\build\intermediates\multi-dex\debug\componentClasses.jar'
+
+-libraryjars 'C:\Users\Administrator\AppData\Local\Android\Sdk\build-tools\24.0.2\lib\shrinkedAndroid.jar'
+
+-forceprocessing
+-dontoptimize
+-dontobfuscate
+-dontusemixedcaseclassnames
+-dontpreverify
+-dontnote **,com.android.tools.fd.**,android.support.multidex.MultiDexExtractor
+-dontwarn **
+-printconfiguration 'E:\workspace\Partner\app\build\intermediates\multi-dex\debug\components.flags'
+
+
+-keep class com.ysp.newband.GazelleApplication {
+    <init>();
+    void attachBaseContext(android.content.Context);
+}
+
+-keep class com.xyy.Gazella.activity.DeviceListActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.ConnectionDevice {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.SetUesrDataActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.BroadcastReceiver.PhoneService {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.googlebth.BluetoothLeService {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.services.BluetoothService {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.HealthyActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.SleepActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.StepActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.TimeSynchronization {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.LaunchActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.StartActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.PairingActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.PersonActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.PersonalizeActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.HomeActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.NotificationActivty {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.SettingActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.UserSetting {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.UpdateHardware {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.ClockActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.AddClockActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.EditClockActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.TargetActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.HelpActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.utils.ChangeWatchList {
+    <init>();
+}
+
+-keep class me.iwf.photopicker.PhotoPickerActivity {
+    <init>();
+}
+
+-keep class me.iwf.photopicker.PhotoPagerActivity {
+    <init>();
+}
+
+-keep class com.mob.tools.MobUIShell {
+    <init>();
+}
+
+-keep class com.com.ysp.smartwatch.wxapi.WXEntryActivity {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.activity.BleTest {
+    <init>();
+}
+
+-keep class android.support.v4.content.FileProvider {
+    <init>();
+}
+
+-keep class me.iwf.photopicker.activity.CropActivity {
+    <init>();
+}
+
+-keep public class * extends android.app.backup.BackupAgent {
+    <init>();
+}
+
+-keep public class * extends java.lang.annotation.Annotation {
+    <fields>;
+    <methods>;
+}
+
+-keep class com.android.tools.fd.** {
+    <fields>;
+    <methods>;
+}

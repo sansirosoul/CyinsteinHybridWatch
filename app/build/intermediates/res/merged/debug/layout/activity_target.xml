@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_target"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/page12_bg"
+    android:orientation="vertical"
+    tools:context="com.xyy.Gazella.activity.TargetActivity">
+
+
+    <include
+        layout="@layout/connection_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:drawableLeft="@drawable/page41_xiaotieshi"
+        android:drawablePadding="10dp"
+        android:textColor="@color/white"
+        android:text="智能手表建议你每晚睡眠7-9小时，同时步行10000步作为日常锻炼计划" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/target_walk_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:text="12315步" />
+
+            <SeekBar
+                android:id="@+id/target_run_SeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:max="200"
+                android:maxHeight="15dp"
+                android:minHeight="15dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:indeterminateOnly="false"
+                android:progressDrawable="@drawable/target_seekbar"
+                android:thumb="@drawable/page41_sport" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/target_run_SeekBar"
+                android:layout_alignLeft="@id/target_run_SeekBar"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
+                android:text="运动" />
+
+            <TextView
+                android:id="@+id/targettext2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:drawableBottom="@drawable/target_back"
+                android:drawablePadding="10dp"
+                android:textColor="@color/white"
+                android:text="建议值" />
+
+            <ImageView
+                android:id="@+id/target_im2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/page42_sport"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/target_walk_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:text="8时36分" />
+
+            <SeekBar
+                android:id="@+id/target_run_SeekBar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:max="200"
+                android:maxHeight="15dp"
+                android:minHeight="15dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:progressDrawable="@drawable/target_seekbar"
+                android:thumb="@drawable/page41_sleep" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/target_run_SeekBar"
+                android:layout_alignLeft="@id/target_run_SeekBar"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
+                android:text="睡眠" />
+
+            <TextView
+                android:id="@+id/targettext2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="35dp"
+                android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@+id/target_walk_text"
+                android:drawableBottom="@drawable/target_back"
+                android:drawablePadding="10dp"
+                android:textColor="@color/white"
+                android:text="建议值" />
+
+            <ImageView
+                android:id="@+id/target_im2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/page42_sleep"
+                android:layout_centerVertical="true"
+                android:layout_alignEnd="@+id/targettext2" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/but_save"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/time_squarebtn_check"
+            android:text="保存"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/but_default"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/time_squarebtn_check"
+            android:text="默认值"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+</LinearLayout>
