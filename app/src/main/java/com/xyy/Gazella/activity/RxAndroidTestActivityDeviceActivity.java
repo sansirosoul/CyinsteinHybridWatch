@@ -60,7 +60,6 @@ public class RxAndroidTestActivityDeviceActivity extends BaseActivity {
         bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(extra_mac_address);
         deviceList = new ArrayList<RxBleDeviceServices>();
 
-        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(extra_mac_address);
         connectionObservable = bleDevice
                 .establishConnection(this, false)
                 .doOnUnsubscribe(this::clearSubscription)
@@ -84,52 +83,7 @@ public class RxAndroidTestActivityDeviceActivity extends BaseActivity {
                 break;
             case R.id.butt:
 
-                Write(GET_SN,tvIn.getText().toString(),connectionObservable);
-
-
-
-
-//                SomeUtills utils= new SomeUtills();
-//                utils.Write2Characteristic(tvIn.getText().toString(),connectionObservable).subscribe(new Action1<byte[]>() {
-//                    @Override
-//                    public void call(byte[] bytes) {
-//                        utils.ReadCharacteristic(connectionObservable).subscribe(new Action1<byte[]>() {
-//                            @Override
-//                            public void call(byte[] bytes) {
-//
-//                            }
-//                        }, new Action1<Throwable>() {
-//                            @Override
-//                            public void call(Throwable throwable) {
-//
-//                            }
-//                        });
-//                    }
-//                }, new Action1<Throwable>() {
-//                    @Override
-//                    public void call(Throwable throwable) {
-//
-//                    }
-//                });
-
-//                connectionObservable.flatMap(rxBleConnection -> rxBleConnection.readCharacteristic(UUID.fromString(ReadUUID))
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .doOnNext(bytes -> {
-//                            // 返回数据
-//                            Logger.t(TAG).e("返回数据>>>>>>>>  "+new String(bytes));
-//                            tvConnect.setText(new String(bytes));
-//                        }).doOnError(throwable -> {
-//                            // 返回数据 失败
-//                            Logger.t(TAG).e("返回数据 失败>>>>>>>>  "+throwable.toString());
-//                        }).observeOn(AndroidSchedulers.mainThread())
-//                        .flatMap(bytes -> rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), getInputBytes())))
-//                        .doOnError(throwable -> {
-//                            // 写入数据 失败
-//                            Logger.t(TAG).e("写入数据 失败>>>>>>>>  "+throwable.toString());
-//                        }).subscribe(writeBytes -> {
-//                            // 写入数据
-//                            Logger.t(TAG).e("写入数据>>>>>>>>  "+HexString.bytesToHex(writeBytes));
-//                        });
+                Write(GET_SN,tvIn.getText().toString(),connectionObservable,true);
 
                 break;
         }
