@@ -109,6 +109,7 @@ public class BleTest extends BaseActivity {
         connectionObservable = bleDevice
                 .establishConnection(this, false)
                 .compose(new ConnectionSharingAdapter());
+
         Notify(GET_SN,connectionObservable);
 
 //        writeCharacteristic=GazelleApplication.mBluetoothService.getWriteCharacteristic();
