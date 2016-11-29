@@ -8,6 +8,7 @@ import android.widget.Button;
 import com.polidea.rxandroidble.RxBleClient;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import rx.Subscription;
@@ -33,8 +34,16 @@ public class LaunchActivity extends BaseActivity {
                 start.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(LaunchActivity.this,RxAndroidTestActivity.class);
-                        startActivity(intent);
+                      String address=  PreferenceData.getAddressValue(LaunchActivity.this);
+                        if(address.equals("")||address==null) {
+                            //跳转到扫描页面
+                            Intent intent = new Intent(LaunchActivity.this, PairingActivity.class);
+                            startActivity(intent);
+                        }else {
+                            //跳转到首页
+                            Intent intent = new Intent(LaunchActivity.this, HomeActivity.class);
+                            startActivity(intent);
+                        }
                         overridePendingTransitionEnter(LaunchActivity.this);
                         finish();
                     }

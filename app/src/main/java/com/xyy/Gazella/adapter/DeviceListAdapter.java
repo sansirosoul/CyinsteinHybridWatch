@@ -40,7 +40,10 @@ public class DeviceListAdapter extends BaseAdapter {
 		dataList.add(bleScanResult.getBleDevice().getBluetoothDevice());
 		notifyDataSetChanged();
 	}
-	
+
+	public BluetoothDevice getItemAtPosition(int childAdapterPosition) {
+		return dataList.get(childAdapterPosition);
+	}
 	
 	
 	@Override

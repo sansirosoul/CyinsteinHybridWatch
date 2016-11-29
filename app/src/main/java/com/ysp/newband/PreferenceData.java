@@ -19,6 +19,7 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_SELECTED_SMALL1_VALUE = "SAVE_SELECTED_SMALL1_VALUE";
     public static final String SAVE_SELECTED_SMALL2_VALUE = "SAVE_SELECTED_SMALL2_VALUE";
     public static final String SAVE_SELECTED_SMALL3_VALUE = "SAVE_SELECTED_SMALL3_VALUE";
+    public static final String SAVE_ADDRESS_VALUE = "SAVE_ADDRESS_VALUE";
 
 
 
@@ -110,5 +111,21 @@ public class PreferenceData implements Serializable{
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(SAVE_SELECTED_SMALL3_VALUE, 0);
+    }
+
+    /** 保存选中  设备的Address 的值*/
+    public static void setAddressValue(Context context, String account) {
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SAVE_ADDRESS_VALUE, account);
+        editor.commit();
+    }
+
+    /** 获取选中 设备的Address 的值**/
+    public static String getAddressValue(Context context) {
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(SAVE_ADDRESS_VALUE,"");
     }
 }

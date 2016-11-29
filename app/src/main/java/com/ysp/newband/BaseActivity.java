@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -18,6 +19,7 @@ import com.exchange.android.engine.Uoi;
 import com.exchange.android.engine.Uoo;
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
+import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.exchange.ExangeErrorHandler;
 import com.xyy.Gazella.utils.HexString;
 import com.ysp.smartwatch.R;
@@ -25,6 +27,7 @@ import com.ysp.smartwatch.R;
 import java.util.UUID;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -38,8 +41,11 @@ public class BaseActivity extends FragmentActivity {
     public static Context mContext;
     public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+    private Observable<RxBleConnection> connectionObservable;
 
     public final int GET_SN = 10001;
+    public  boolean  isNotify=false;
+    private Subscription connectionSubscription;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -54,11 +60,115 @@ public class BaseActivity extends FragmentActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         mContext = this;
-
+    }
+    //连接蓝牙
+    protected  void  ConnectionBle(RxBleDevice bleDevice){
+        connectionSubscription = bleDevice.establishConnection(this,true)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnUnsubscribe(this::clearSubscription)
+                .subscribe(this::onConnectionReceived, this::onConnectionFailure);
     }
 
+    protected void  initBle(RxBleDevice bleDevice){
+        if (isConnected(bleDevice)){
+            BleStateChangesListener(bleDevice);    //监听蓝牙状态
+            //连接
+            if(isNotify){
+                //可以接收通知
+            }else {
+                // 注册接收通知
+                NotificationObservable();
+            }
+        }else {
+            //断开
+            ConnectionBle(bleDevice);
+        }
+    }
 
-    private Observable<byte[]> WiterCharacteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
+    private  void  NotificationObservable(){
+        connectionObservable
+                .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
+                    @Override
+                    public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
+                        return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
+                    }
+                }).doOnNext(new Action1<Observable<byte[]>>() {
+            @Override
+            public void call(Observable<byte[]> observable) {
+                Logger.t(TAG).e("开始接收通知  >>>>>>  ");
+                isNotify=true;
+            }
+        }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
+            @Override
+            public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
+                return notificationObservable;
+            }
+        }).subscribe(new Action1<byte[]>() {
+                    @Override
+                    public void call(byte[] bytes) {
+                        Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
+                        onReadReturn(bytes);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
+                    }
+                });
+    }
+    /**清除连接订阅*/
+    private void clearSubscription() {
+        connectionSubscription = null;
+    }
+    /**连接成功*/
+    private void onConnectionReceived(RxBleConnection connection) {
+        //noinspection ConstantConditions
+        Snackbar.make(findViewById(android.R.id.content), "连接成功 ", Snackbar.LENGTH_SHORT).show();
+    }
+    /**连接失败*/
+    private void onConnectionFailure(Throwable throwable) {
+        //noinspection ConstantConditions
+        Snackbar.make(findViewById(android.R.id.content), "连接失败 : " + throwable, Snackbar.LENGTH_SHORT).show();
+    }
+
+    /**写入数据到蓝牙**/
+    private void  WriterBleData(String writeString){
+        WiterCharacteristic(writeString, connectionObservable).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<byte[]>() {
+                    @Override
+                    public void call(byte[] bytes) {
+                        Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
+                    }
+                });
+    }
+
+    /***监听蓝牙状态变换 */
+    protected void BleStateChangesListener(RxBleDevice bleDevice) {
+        bleDevice.observeConnectionStateChanges()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<RxBleConnection.RxBleConnectionState>() {
+                    @Override
+                    public void call(RxBleConnection.RxBleConnectionState rxBleConnectionState) {
+                        if (rxBleConnectionState== RxBleConnection.RxBleConnectionState.CONNECTING
+                                || rxBleConnectionState== RxBleConnection.RxBleConnectionState.CONNECTED) {
+                            //连接
+                            Logger.t(TAG).e("蓝牙状态变换>>>>>>>>>  " + rxBleConnectionState.toString());
+                            isNotify=true;
+                        } else {
+                            //断开
+                            Logger.t(TAG).e("蓝牙状态变换>>>>>>>>>   " + rxBleConnectionState.toString());
+                            isNotify=false;
+                        }
+                    }
+                });
+    }
+
+    private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
         return connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
                     @Override
@@ -68,8 +178,8 @@ public class BaseActivity extends FragmentActivity {
                 });
     }
 
-    private Observable<byte[]> NotifyCharacteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
-        return connectionObservable
+    private void NotifyCharacteristic() {
+         connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                     @Override
                     public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
@@ -79,6 +189,7 @@ public class BaseActivity extends FragmentActivity {
                     @Override
                     public void call(Observable<byte[]> observable) {
                         Logger.t(TAG).e("开始接收通知  >>>>>>  ");
+                         isNotify=true;      //可以接收通知
                     }
                 }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
                     @Override
@@ -87,73 +198,23 @@ public class BaseActivity extends FragmentActivity {
                     }
                 });
     }
-
-
-
-
-    protected void Write(int type,String writeString,Observable<RxBleConnection> connectionObservable) {
-          connectionObservable
-                .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
-                    @Override
-                    public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
-                        return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
-                    }
-                }).doOnNext(new Action1<Observable<byte[]>>() {
-                    @Override
-                    public void call(Observable<byte[]> observable) {
-                        Logger.t(TAG).e("开始接收通知  >>>>>>  ");
-
-                        WiterCharacteristic(writeString,connectionObservable).observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Action1<byte[]>() {
-                                    @Override
-                                    public void call(byte[] bytes) {
-                                        Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
-                                    }
-                                }, new Action1<Throwable>() {
-                                    @Override
-                                    public void call(Throwable throwable) {
-                                        Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
-                                    }
-                                });
-                    }
-                }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
-                    @Override
-                    public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
-                        return notificationObservable;
-                    }
-                }).
-                  subscribe(new Action1<byte[]>() {
-              @Override
-              public void call(byte[] bytes) {
-                  Logger.t(TAG).e("接收数据  >>>>>>  "+HexString.bytesToHex(bytes)+"\n"+">>>>>>>>"+new String(bytes));
-                  onReadReturn(type, bytes);
-              }
-          }, new Action1<Throwable>() {
-              @Override
-              public void call(Throwable throwable) {
-                  Logger.t(TAG).e("接收数据失败 >>>>>>  "+throwable.toString());
-              }
-          });
+    /**查看蓝牙连接状态   连接 :true     断开 :false*/
+    private boolean isConnected(RxBleDevice bleDevice) {
+        if (bleDevice.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
+                || bleDevice.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED) {
+            return true;
+        } else {
+            return false;
+        }
     }
-
-    protected void onReadReturn(int type, byte[] bytes) {
+    protected void onReadReturn(byte[] bytes) {
+    }
+    protected void onBleStateChangesListener(String type) {
     }
 
     protected void onReadReturnFailed() {
     }
 
-
-    protected void ConnectionDevice(Handler mHandler) {
-        if (GazelleApplication.CONNECTED == -1) {
-            if (GazelleApplication.getInstance().mService != null) {
-                GazelleApplication.getInstance().mService.initialize();
-                GazelleApplication.getInstance().mService.setActivityHandler(mHandler);
-                GazelleApplication.getInstance().mService.registe(GazelleApplication.UUID);
-            }
-        } else {
-            GazelleApplication.getInstance().mService.setActivityHandler(mHandler);
-        }
-    }
 
     /**
      * 回退键
