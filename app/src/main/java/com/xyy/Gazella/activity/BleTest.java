@@ -6,6 +6,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.polidea.rxandroidble.RxBleConnection;
@@ -14,6 +17,7 @@ import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
+import com.xyy.model.StepData;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
@@ -49,10 +53,8 @@ public class BleTest extends BaseActivity {
     Button btn8;
     @BindView(R.id.btn9)
     Button btn9;
-    @BindView(R.id.write)
+    @BindView(R.id.writetext)
     TextView write;
-    @BindView(R.id.notify)
-    TextView notify;
     @BindView(R.id.btn10)
     Button btn10;
     @BindView(R.id.btn11)
@@ -81,8 +83,20 @@ public class BleTest extends BaseActivity {
     Button btn22;
     @BindView(R.id.btn23)
     Button btn23;
+    @BindView(R.id.notifytext)
+    TextView notify;
+    @BindView(R.id.forward)
+    RadioButton forward;
+    @BindView(R.id.back)
+    RadioButton back;
+    @BindView(R.id.radiogroup)
+    RadioGroup radiogroup;
+    @BindView(R.id.step)
+    EditText step;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
+    private static final String TAG = BleTest.class.getName();
+    private int direction = 0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -95,10 +109,22 @@ public class BleTest extends BaseActivity {
         connectionObservable = bleDevice
                 .establishConnection(this, false)
                 .compose(new ConnectionSharingAdapter());
+        Notify(GET_SN,connectionObservable);
 
 //        writeCharacteristic=GazelleApplication.mBluetoothService.getWriteCharacteristic();
 //        notifyCharacteristic=GazelleApplication.mBluetoothService.getNotifyCharacteristic();
 //        if(notifyCharacteristic!=null)GazelleApplication.mBluetoothService.setCharacteristicNotification(notifyCharacteristic,true);
+
+        radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if(i==forward.getId()){
+                    direction=1;
+                }else if(i==back.getId()){
+                    direction=2;
+                }
+            }
+        });
     }
 
     Handler handler = new Handler() {
@@ -132,12 +158,28 @@ public class BleTest extends BaseActivity {
     @Override
     protected void onReadReturn(int type, byte[] bytes) {
         super.onReadReturn(type, bytes);
-        notify.setText(HexString.bytesToHex(bytes));
+        if (type == GET_SN) {
+            if(bleUtils.returnTodayStep(bytes)!=null){
+                StepData  data = bleUtils.returnTodayStep(bytes);
+                notify.setText(data.getYear()+"-"+data.getMonth()+"-"+data.getDay()+"步数"+data.getStep());
+            }else if(bleUtils.returnDeviceSN(bytes)!=null){
+                notify.setText(bleUtils.returnDeviceSN(bytes));
+            }else if(bleUtils.returnFWVer(bytes)!=null){
+                notify.setText(bleUtils.returnFWVer(bytes));
+            }else if(bleUtils.returnBatteryValue(bytes)!=null){
+                notify.setText(bleUtils.returnBatteryValue(bytes));
+            }
+            else{
+                notify.setText(HexString.bytesToHex(bytes));
+            }
+        }
     }
 
     @Override
     protected void onWriteReturn(int type, byte[] bytes) {
         super.onWriteReturn(type, bytes);
+
+
         write.setText(HexString.bytesToHex(bytes));
         notify.setText("");
     }
@@ -183,19 +225,19 @@ public class BleTest extends BaseActivity {
                 Write(GET_SN, bleUtils.getBatteryValue(), connectionObservable);
                 break;
             case R.id.btn13:
-                Write(GET_SN, bleUtils.adjHourHand(1, 1), connectionObservable);
+                Write(GET_SN, bleUtils.adjHourHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn14:
-                Write(GET_SN, bleUtils.adjMinuteHand(1, 1), connectionObservable);
+                Write(GET_SN, bleUtils.adjMinuteHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn15:
-                Write(GET_SN, bleUtils.adjSecondHand(1, 1), connectionObservable);
+                Write(GET_SN, bleUtils.adjSecondHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn16:
-                Write(GET_SN, bleUtils.adjMsgHand(1, 1), connectionObservable);
+                Write(GET_SN, bleUtils.adjMsgHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn17:
-                Write(GET_SN, bleUtils.adjStepHand(1, 1), connectionObservable);
+                Write(GET_SN, bleUtils.adjStepHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn18:
                 Write(GET_SN, bleUtils.resetHand(), connectionObservable);

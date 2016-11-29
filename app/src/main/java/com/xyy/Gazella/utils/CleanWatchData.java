@@ -12,7 +12,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.xyy.Gazella.activity.HomeActivity;
 import com.ysp.smartwatch.R;
 
 /**
@@ -64,8 +63,6 @@ public class CleanWatchData extends Dialog implements View.OnClickListener{
                 dismiss();
                 break;
             case R.id.confirm:
-                BleUtils bleUtils = new BleUtils();
-                bleUtils.eraseWatchData(HomeActivity.writeCharacteristic);
                 dismiss();
                 break;
         }

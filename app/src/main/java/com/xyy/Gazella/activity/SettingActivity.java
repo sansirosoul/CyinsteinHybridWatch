@@ -21,7 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.xyy.Gazella.activity.HomeActivity.writeCharacteristic;
 
 /**
  * Created by Administrator on 2016/10/22.
@@ -131,10 +130,10 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_search_watch:
-                bleUtils.setWatchShake(writeCharacteristic, 1, 0, 0);
+
                 break;
             case R.id.rl_close_bluetooth:
-                bleUtils.terminateBle(writeCharacteristic);
+
                 break;
         }
     }

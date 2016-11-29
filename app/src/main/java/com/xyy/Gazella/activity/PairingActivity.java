@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
+import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.adapter.DeviceListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.CheckUpdateDialog2;
@@ -120,7 +121,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
     //sdk6.0以上获取蓝牙权限
     private static final int REQUEST_FINE_LOCATION = 0;
-
     private void mayRequestLocation() {
         if (Build.VERSION.SDK_INT >= 23) {
             int checkCallPhonePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -132,13 +132,13 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             } else {
                 Log.d("===========", "有蓝牙权限");
                 devices.clear();
-//                scanDevices();
-                bluetoothAdapter.startLeScan(leScanCallback);
+                scanDevices();
+//                bluetoothAdapter.startLeScan(leScanCallback);
             }
         } else {
             devices.clear();
-//           scanDevices();
-            bluetoothAdapter.startLeScan(leScanCallback);
+            scanDevices();
+//            bluetoothAdapter.startLeScan(leScanCallback);
         }
     }
 
@@ -151,10 +151,9 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // The requested permission is granted.
-
                     devices.clear();
-//                   scanDevices();
-                    bluetoothAdapter.startLeScan(leScanCallback);
+                    scanDevices();
+//                    bluetoothAdapter.startLeScan(leScanCallback);
                 } else {
                     // The user disallowed the requested permission.
                     mayRequestLocation();
@@ -187,6 +186,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                         },
                         throwable -> {
                             // Handle an error here.
+                            Log.d("==========","Scan error :"+throwable);
                         }
                 );
     }
@@ -211,13 +211,13 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     protected void onPause() {
         super.onPause();
-        if (bluetoothAdapter != null) {
-//            if(bluetoothLeScanner!=null){
-//                bluetoothLeScanner.stopScan(scanCallback);
-//            }
-            bluetoothAdapter.stopLeScan(leScanCallback);
-        }
-//        scanSubscription.unsubscribe();
+//        if (bluetoothAdapter != null) {
+////            if(bluetoothLeScanner!=null){
+////                bluetoothLeScanner.stopScan(scanCallback);
+////            }
+//            bluetoothAdapter.stopLeScan(leScanCallback);
+//        }
+        scanSubscription.unsubscribe();
     }
 
     @Override
@@ -273,39 +273,42 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         loadingDialog.show();
-        GazelleApplication.mBluetoothService.disconnect();
-        GazelleApplication.mBluetoothService.close();
-        if (GazelleApplication.mBluetoothService.initialize()) {
-            device = devices.get(i);
-            GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
-            GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
-        }
-        if (bluetoothAdapter != null) {
-//            if(bluetoothLeScanner!=null){
-//                bluetoothLeScanner.stopScan(scanCallback);
-//            }
-            bluetoothAdapter.stopLeScan(leScanCallback);
-        }
+//        GazelleApplication.mBluetoothService.disconnect();
+//        GazelleApplication.mBluetoothService.close();
+//        if (GazelleApplication.mBluetoothService.initialize()) {
+//            device = devices.get(i);
+//            GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
+//            GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
+//        }
+//        if (bluetoothAdapter != null) {
+////            if(bluetoothLeScanner!=null){
+////                bluetoothLeScanner.stopScan(scanCallback);
+////            }
+//            bluetoothAdapter.stopLeScan(leScanCallback);
+//        }
 
-//        scanSubscription.unsubscribe();
-//        device = devices.get(i);
-//        RxBleDevice rxBleDevice = rxBleClient.getBleDevice(device.getAddress());
-//        connectionSubscription = rxBleDevice.establishConnection(context, false) // <-- autoConnect flag
-//                .subscribe(
-//                        rxBleConnection -> {
-//                            // All GATT operations are done through the rxBleConnection.
-//                            loadingDialog.dismiss();
-//                            connectionSubscription.unsubscribe();
-//                            GazelleApplication.deviceAddress=device.getAddress();
-//                            Intent intent = new Intent(context, BleTest.class);
-//                            startActivity(intent);
-//                            PairingActivity.this.finish();
-//                            overridePendingTransitionEnter(PairingActivity.this);
-//                        },
-//                        throwable -> {
-//                            // Handle an error here.
-//                        }
-//                );
+        scanSubscription.unsubscribe();
+        device = devices.get(i);
+        RxBleDevice rxBleDevice = rxBleClient.getBleDevice(device.getAddress());
+        connectionSubscription = rxBleDevice.establishConnection(context, false) // <-- autoConnect flag
+                .subscribe(
+                        rxBleConnection -> {
+                            // All GATT operations are done through the rxBleConnection.
+                            loadingDialog.dismiss();
+                            connectionSubscription.unsubscribe();
+                            GazelleApplication.deviceAddress=device.getAddress();
+                            Intent intent = new Intent(context, BleTest.class);
+                            startActivity(intent);
+                            PairingActivity.this.finish();
+                            overridePendingTransitionEnter(PairingActivity.this);
+                        },
+                        throwable -> {
+                            // Handle an error here.
+                            Log.d("========","Connection error: "+throwable);
+                            loadingDialog.dismiss();
+                            pairFailedDialog.show();
+                        }
+                );
     }
 
     Handler mHandler = new Handler() {
@@ -345,8 +348,8 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                                 myDialog.dismiss();
                                 isRun=true;
                                 count=0;
-                                bluetoothAdapter.startLeScan(leScanCallback);
-//                                scanDevices();
+//                                bluetoothAdapter.startLeScan(leScanCallback);
+                                scanDevices();
                                 mHandler.post(runnable);
                             }
                             @Override
@@ -368,10 +371,10 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.skip:
-                if (bluetoothAdapter != null) {
-                    bluetoothAdapter.stopLeScan(leScanCallback);
-                }
-//                scanSubscription.unsubscribe();
+//                if (bluetoothAdapter != null) {
+//                    bluetoothAdapter.stopLeScan(leScanCallback);
+//                }
+                scanSubscription.unsubscribe();
                 Intent intent = new Intent(context, PersonActivity.class);
                 startActivity(intent);
                 PairingActivity.this.finish();

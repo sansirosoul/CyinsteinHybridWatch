@@ -3,14 +3,13 @@ package com.xyy.Gazella.activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.xyy.Gazella.services.BluetoothService;
+import com.polidea.rxandroidble.RxBleConnection;
+import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckUpdateDialog1;
 import com.ysp.newband.BaseActivity;
@@ -19,9 +18,8 @@ import com.ysp.smartwatch.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
-import static com.xyy.Gazella.activity.HomeActivity.writeCharacteristic;
-import static com.ysp.newband.GazelleApplication.mBluetoothService;
 
 /**
  * Created by Administrator on 2016/10/25.
@@ -44,6 +42,8 @@ public class UpdateHardware extends BaseActivity {
     @BindView(R.id.battery)
     TextView battery;
     private BleUtils bleUtils;
+    private Observable<RxBleConnection> connectionObservable;
+    private RxBleDevice bleDevice;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -60,32 +60,27 @@ public class UpdateHardware extends BaseActivity {
         }
 
         bleUtils = new BleUtils();
-        mBluetoothService.setActivityHandler(mHandler);
-        bleUtils.getDeviceSN(writeCharacteristic);
-        bleUtils.getFWVer(writeCharacteristic);
-        bleUtils.getBatteryValue(writeCharacteristic);
+//        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(GazelleApplication.deviceAddress);
+//        connectionObservable = bleDevice
+//                .establishConnection(this, false)
+//                .compose(new ConnectionSharingAdapter());
+//
+//        Write(GET_SN,bleUtils.getDeviceSN(),connectionObservable);
+//        Write(GET_SN,bleUtils.getFWVer(),connectionObservable);
+//        Write(GET_SN,bleUtils.getBatteryValue(),connectionObservable);
     }
 
-    Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case BluetoothService.NOTIFY_SUCCESS:
-                    if(msg.obj!=null){
-                        byte[] data = (byte[]) msg.obj;
-                        if(bleUtils.returnDeviceSN(data)!=null){
-                            watchSN.setText(bleUtils.returnDeviceSN(data));
-                        }else if(bleUtils.returnFWVer(data)!=null){
-                            watchVer.setText(bleUtils.returnFWVer(data));
-                        }else if(bleUtils.returnBatteryValue(data)!=null){
-                            battery.setText(bleUtils.returnBatteryValue(data)+"%");
-                        }
-                    }
-                    break;
-            }
+    @Override
+    protected void onReadReturn(int type, byte[] bytes) {
+        super.onReadReturn(type, bytes);
+        if(bleUtils.returnDeviceSN(bytes)!=null){
+            watchSN.setText(bleUtils.returnDeviceSN(bytes));
+        }else if(bleUtils.returnFWVer(bytes)!=null){
+            watchVer.setText(bleUtils.returnFWVer(bytes));
+        }else if(bleUtils.returnBatteryValue(bytes)!=null){
+            battery.setText(bleUtils.returnBatteryValue(bytes)+"%");
         }
-    };
+    }
 
     @OnClick({R.id.btnExit, R.id.update})
     public void onClick(View view) {
