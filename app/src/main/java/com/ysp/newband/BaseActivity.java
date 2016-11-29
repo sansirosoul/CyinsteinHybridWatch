@@ -54,9 +54,7 @@ public class BaseActivity extends FragmentActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         mContext = this;
-
     }
-
 
     private Observable<byte[]> WiterCharacteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
         return connectionObservable
@@ -68,7 +66,7 @@ public class BaseActivity extends FragmentActivity {
                 });
     }
 
-    private Observable<byte[]> NotifyCharacteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
+    private Observable<byte[]> NotifyCharacteristic(Observable<RxBleConnection> connectionObservable) {
         return connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                     @Override
@@ -87,8 +85,6 @@ public class BaseActivity extends FragmentActivity {
                     }
                 });
     }
-
-
 
 
     protected void Write(int type,String writeString,Observable<RxBleConnection> connectionObservable) {
@@ -179,7 +175,6 @@ public class BaseActivity extends FragmentActivity {
      */
     public static void overridePendingTransitionEnter(Activity at) {
         at.overridePendingTransition(R.anim.in_from_right, R.anim.out_righttoleft);
-
     }
 
     /***
@@ -234,7 +229,6 @@ public class BaseActivity extends FragmentActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-
         Bugtags.onDispatchTouchEvent(this, event);
         return super.dispatchTouchEvent(event);
     }
