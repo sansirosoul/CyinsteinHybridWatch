@@ -298,5 +298,6 @@ public class BaseActivity extends FragmentActivity {
 
         Bugtags.onDispatchTouchEvent(this, event);
         return super.dispatchTouchEvent(event);
+
     }
 }
