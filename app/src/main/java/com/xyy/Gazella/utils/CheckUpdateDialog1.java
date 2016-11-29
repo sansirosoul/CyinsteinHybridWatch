@@ -11,20 +11,25 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.ysp.smartwatch.R;
+
+import butterknife.BindView;
 
 /**
  * Created by Administrator on 2016/10/14.
  */
 
 public class CheckUpdateDialog1 extends Dialog {
+    @BindView(R.id.tv_context)
+    TextView tvContext;
     private Context context;
     private ProgressBar iv_loading;
 
     public CheckUpdateDialog1(Context context) {
-        super(context,R.style.dialog);
-        this.context=context;
+        super(context, R.style.dialog);
+        this.context = context;
     }
 
     @Override
@@ -41,7 +46,7 @@ public class CheckUpdateDialog1 extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.check_update_dialog1);
-        iv_loading= (ProgressBar) findViewById(R.id.iv_loading);
+        iv_loading = (ProgressBar) findViewById(R.id.iv_loading);
         setDialogAttributes((Activity) context, this, 0, 0, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
 
@@ -49,10 +54,10 @@ public class CheckUpdateDialog1 extends Dialog {
             @Override
             public void run() {
                 dismiss();
-                CheckUpdateDialog2 dialog2= new CheckUpdateDialog2(context);
+                CheckUpdateDialog2 dialog2 = new CheckUpdateDialog2(context);
                 dialog2.show();
             }
-        },1000);
+        }, 1000);
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,
