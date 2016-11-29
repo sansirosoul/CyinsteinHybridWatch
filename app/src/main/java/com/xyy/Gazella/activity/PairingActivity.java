@@ -264,7 +264,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         if (isScanning()) {
             subscription.unsubscribe();
         }
-        device = devices.get(i);
+        device = deviceListAdapter.getItemAtPosition(i);
         bleDevice = rxBleClient.getBleDevice(device.getAddress());
         connectionSubscription = bleDevice.establishConnection(PairingActivity.this, true)
                 .observeOn(AndroidSchedulers.mainThread())

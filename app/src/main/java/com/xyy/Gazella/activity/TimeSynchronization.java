@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.fragment.MainDialFragment;
 import com.xyy.Gazella.fragment.SmallFragment1;
 import com.xyy.Gazella.fragment.SmallFragment2;
@@ -21,6 +22,7 @@ import com.xyy.Gazella.utils.CheckAnalogClock;
 import com.xyy.Gazella.utils.GuideShowDialog;
 import com.xyy.Gazella.view.MyViewPage;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
@@ -80,12 +82,15 @@ public class TimeSynchronization extends BaseActivity {
     private float MuintesTimeValue;
     private int item;
     private GuideShowDialog guideShowDialog;
+    private RxBleDevice bleDevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_synchronization);
         ButterKnife.bind(this);
+        bleDevice = GazelleApplication.getRxBleClient(TimeSynchronization.this).getBleDevice(PreferenceData.getAddressValue(this));
+        initBle(bleDevice);
         InitView();
         InitViewPager();
     }
