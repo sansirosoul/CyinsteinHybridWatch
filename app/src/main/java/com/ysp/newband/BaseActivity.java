@@ -295,11 +295,7 @@ public class BaseActivity extends FragmentActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-
         Bugtags.onDispatchTouchEvent(this, event);
         return super.dispatchTouchEvent(event);
-
-
-
     }
 }
