@@ -144,6 +144,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             case REQUEST_FINE_LOCATION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     devices.clear();
+                    StatrScanBleDeviceTime();
                     ScanBleDevice();
                 } else {
                     // The user disallowed the requested permission.
@@ -302,7 +303,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     }
 
                     @Override
-                    public void onNext( Long aLong) {
+                    public void onNext(Long aLong) {
 
                         Logger.t(TAG).e(String.valueOf(aLong));
 
@@ -360,7 +361,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         pairFailedDialog.show();
     }
 
-    /***取消搜索*/
+    /***是否在搜索*/
     private boolean isScanning() {
         return subscription != null;
     }
