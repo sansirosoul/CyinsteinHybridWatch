@@ -170,8 +170,6 @@ public class BaseActivity extends FragmentActivity {
     protected void onReadReturnFailed() {
     }
 
-
-
     protected void ConnectionDevice(Handler mHandler) {
         if (GazelleApplication.CONNECTED == -1) {
             if (GazelleApplication.getInstance().mService != null) {
