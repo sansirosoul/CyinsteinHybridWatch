@@ -38,7 +38,7 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        return value;
+       return value;
     }
 
     //返回手表序列号
@@ -49,7 +49,7 @@ public class BleUtils {
             for (int i = 0; i < bytes1.length; i++) {
                 bytes1[i] = bytes[2 + i];
             }
-            deviceSN = new String(bytes1);
+                deviceSN = new String(bytes1);
         }
         return deviceSN;
     }
@@ -352,7 +352,7 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        return value;
+       return value;
     }
 
     //返回当天总计步值
@@ -360,10 +360,10 @@ public class BleUtils {
         StepData data = null;
         if (bytes[0] == 0x07 && bytes[1] == 0x0C) {
             data = new StepData();
-            data.setYear((bytes[2] & 0xFF) + 2000);
+            data.setYear((bytes[2] & 0xFF)+2000);
             data.setMonth(bytes[3] & 0xFF);
             data.setDay(bytes[4] & 0xFF);
-            int step = (bytes[8] & 0xFF) + ((bytes[7] & 0xFF) << 8) + ((bytes[6] & 0xFF) << 16) + ((bytes[5] & 0xFF) << 24);
+            int step = (bytes[8] & 0xFF) + ((bytes[7] & 0xFF) << 8) +((bytes[6] & 0xFF) << 16) + ( (bytes[5] & 0xFF) << 24);
             data.setStep(step);
         }
         return data;
@@ -373,7 +373,7 @@ public class BleUtils {
     /*
     num:
     0x00表示当天的睡眠数据，0x01表示前一天，依次类推，0x06表示之前6天的睡眠数据，由于手表最多只能保存7天的睡眠数据，因此取值范围0x00-0x06；*/
-    public byte[] getSleepData(int num) {
+    public byte[] getSleepData( int num) {
         value = new byte[8];
         ck_a = 0;
         ck_b = 0;
@@ -394,7 +394,7 @@ public class BleUtils {
         value[6] = ck_a;
         value[7] = ck_b;
 
-        return value;
+      return value;
     }
 
     //返回睡眠数据
@@ -457,7 +457,7 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        return value;
+       return value;
     }
 
     //返回手表电量
@@ -472,7 +472,7 @@ public class BleUtils {
     //校准时针
     /*	direction 方向	0x01=正向，0x02=逆向
     stepCount	步进值	Value=1-180步*/
-    public byte[] adjHourHand(int direction, int stepCount) {
+    public byte[] adjHourHand( int direction, int stepCount) {
         value = new byte[9];
         ck_a = 0;
         ck_b = 0;
@@ -499,7 +499,7 @@ public class BleUtils {
     }
 
     //校准分针
-    public byte[] adjMinuteHand(int direction, int stepCount) {
+    public byte[] adjMinuteHand( int direction, int stepCount) {
         value = new byte[9];
         ck_a = 0;
         ck_b = 0;
@@ -526,7 +526,7 @@ public class BleUtils {
     }
 
     //校准秒针
-    public byte[] adjSecondHand(int direction, int stepCount) {
+    public byte[] adjSecondHand( int direction, int stepCount) {
         value = new byte[9];
         ck_a = 0;
         ck_b = 0;
@@ -549,11 +549,11 @@ public class BleUtils {
         value[7] = ck_a;
         value[8] = ck_b;
 
-        return value;
+      return value;
     }
 
     //校准信息提示针
-    public byte[] adjMsgHand(int direction, int stepCount) {
+    public byte[] adjMsgHand( int direction, int stepCount) {
         value = new byte[9];
         ck_a = 0;
         ck_b = 0;
@@ -580,7 +580,7 @@ public class BleUtils {
     }
 
     //校准计步针
-    public byte[] adjStepHand(int direction, int stepCount) {
+    public byte[] adjStepHand( int direction, int stepCount) {
         value = new byte[9];
         ck_a = 0;
         ck_b = 0;
@@ -603,7 +603,7 @@ public class BleUtils {
         value[7] = ck_a;
         value[8] = ck_b;
 
-        return value;
+       return value;
     }
 
     //指针重置模式
@@ -627,7 +627,7 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        return value;
+      return value;
     }
 
     //获取24小时计步数据
@@ -676,7 +676,7 @@ public class BleUtils {
    /* mode	震动类型	0x00=关震动，大于0x00开震动
     interval	震动间隔时间	0-255秒
     time	震动次数	0-255次*/
-    public byte[] setWatchShake(int mode, int interval, int time) {
+    public byte[] setWatchShake( int mode, int interval, int time) {
         value = new byte[10];
         ck_a = 0;
         ck_b = 0;
@@ -699,7 +699,7 @@ public class BleUtils {
         value[8] = ck_a;
         value[9] = ck_b;
 
-        return value;
+       return value;
     }
 
     //获取闹铃信息
@@ -723,7 +723,7 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        return value;
+       return value;
     }
 
     //返回闹钟信息
@@ -733,63 +733,43 @@ public class BleUtils {
             clock.setId(bytes[3]);
             String hour = null;
             String minute = null;
-            if (bytes[4] < 10) {
-                hour = "0" + bytes[4];
+            if(bytes[4]<10){
+                hour="0"+bytes[4];
             }
-            if (bytes[5] < 10) {
-                minute = "0" + bytes[5];
+            if(bytes[5]<10){
+                minute="0"+bytes[5];
             }
-            clock.setTime(hour + ":" + minute);
-//            if (bytes[6] == 1) {
-//                clock.setSnoozeTime("5分钟");
-//            } else if (bytes[6] == 2) {
-//                clock.setSnoozeTime("10分钟");
-//            } else if (bytes[6] == 3) {
-//                clock.setSnoozeTime("15分钟");
-//            } else if (bytes[6] == 4) {
-//                clock.setSnoozeTime("20分钟");
-//            } else if (bytes[6] == 5) {
-//                clock.setSnoozeTime("25分钟");
-//            } else if (bytes[6] == 6) {
-//                clock.setSnoozeTime("30分钟");
-//            }
+            clock.setTime(hour+":"+minute);
+            if(bytes[6]==1){
+                clock.setRingtime("5分钟");
+            }else if(bytes[6]==2){
+                clock.setRingtime("10分钟");
+            }else if(bytes[6]==3){
+                clock.setRingtime("15分钟");
+            }else if(bytes[6]==4){
+                clock.setRingtime("20分钟");
+            }else if(bytes[6]==5){
+                clock.setRingtime("25分钟");
+            }else if(bytes[6]==6){
+                clock.setRingtime("30分钟");
+            }
 
-            if (bytes[7] == 0) {
+            if(bytes[7]==0){
                 clock.setIsOpen(0);
-            } else {
+            }else {
                 clock.setIsOpen(1);
-                if (bytes[7] == 1) {
-                    clock.setRate("只响一次");
-                } else if (bytes[7] == 2) {
-                    clock.setRate("每天");
-                } else if (bytes[7] == 3) {
-                    clock.setRate("周一到周五");
-                } else if (bytes[7] == 4) {
-//                    String str = byte2bits(bytes[8]);
-//                    StringBuilder stringBuilder = new StringBuilder("周");
-//                    for (int i = 0; i < str.length(); i++) {
-//                        if (i == 0) {
-//                            if(stringBuilder)
-//                            stringBuilder.append(str.substring(i, i + 1));
-//                        } else {
-//                            stringBuilder.append(" " + str.substring(i, i + 1));
-//                        }
-//
-//                    }
-//                    clock.setRate(stringBuilder.toString());
+                if(bytes[7]==1){
+                    clock.setRingtime("只响一次");
+                }else if(bytes[7]==2){
+                    clock.setRingtime("每天");
+                }else if(bytes[7]==3){
+                    clock.setRingtime("周一到周五");
+                }else if(bytes[7]==4){
+
                 }
             }
         }
         return clock;
-    }
-
-    //将字节转换二进制字符串
-    public static String byte2bits(byte b) {
-        int z = b;
-        z |= 256;
-        String str = Integer.toBinaryString(z);
-        int len = str.length();
-        return str.substring(len - 8, len);
     }
 
     //发送蓝牙连接状态

@@ -52,7 +52,6 @@ public class GazelleApplication extends Application {
 
 
 
-
 	public static GazelleApplication getInstance() {
 		return instance;
 	}
@@ -77,6 +76,7 @@ public class GazelleApplication extends Application {
 //		crashHandler.init(getApplicationContext());
 
 		user = new User();
+
 	//	alarmClockList = new ArrayList<AlarmClock>();
 		instance = this;
 		mServiceConnection = new ServiceConnection() {

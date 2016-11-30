@@ -210,7 +210,7 @@ public class ChangeWatchList extends BaseActivity {
                     finish();
                     break;
                 case BluetoothService.STATE_DISCONNECTED:
-//                    pairFailedDialog.show();
+                    pairFailedDialog.show();
                     break;
                 default:
                     break;

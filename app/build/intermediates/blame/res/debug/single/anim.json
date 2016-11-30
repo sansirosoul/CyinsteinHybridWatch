@@ -1,0 +1,118 @@
+[
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\btn_down.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\btn_down.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\btn_up.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\btn_up.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\design_snackbar_in.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.0.1\\res\\anim\\design_snackbar_in.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_slide_in_top.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\crop_fade_in.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\Partner\\PhotoPicker\\unspecified\\res\\anim\\crop_fade_in.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\slide_out_bottom.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.bigkoo\\pickerview\\2.1.1\\res\\anim\\slide_out_bottom.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\slide_in_bottom.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.bigkoo\\pickerview\\2.1.1\\res\\anim\\slide_in_bottom.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\in_lefttoright.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\in_lefttoright.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_enter.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_popup_enter.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\push_right_in.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\push_right_in.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\push_left_out.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\push_left_out.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\zoomout.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\zoomout.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\out_to_left.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\out_to_left.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\design_snackbar_out.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.0.1\\res\\anim\\design_snackbar_out.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_bottom.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_fade_out.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\design_fab_out.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.0.1\\res\\anim\\design_fab_out.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\design_fab_in.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\design\\23.0.1\\res\\anim\\design_fab_in.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_exit.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_popup_exit.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\out_righttoleft.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\out_righttoleft.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\push_left_in.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\push_left_in.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\push_right_out.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\push_right_out.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\zoomin.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\zoomin.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\in_from_right.xml",
+        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\anim\\in_from_right.xml"
+    },
+    {
+        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
+        "source": "E:\\workspace\\Partner\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\anim\\abc_slide_out_top.xml"
+    }
+]

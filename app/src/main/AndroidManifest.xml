@@ -209,6 +209,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
         <activity
+            android:name="com.xyy.Gazella.utils.CheckUpdateDialog3"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+        <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity

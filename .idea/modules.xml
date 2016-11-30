@@ -4,8 +4,13 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Calendarlibrary/Calendarlibrary.iml" filepath="$PROJECT_DIR$/Calendarlibrary/Calendarlibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/Partner.iml" filepath="$PROJECT_DIR$/Partner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" filepath="$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WheelViewLibrary/WheelViewLibrary.iml" filepath="$PROJECT_DIR$/WheelViewLibrary/WheelViewLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dfu/dfu.iml" filepath="$PROJECT_DIR$/dfu/dfu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/greendaolibs/greendaolibs.iml" filepath="$PROJECT_DIR$/greendaolibs/greendaolibs.iml" />
       <module fileurl="file://$PROJECT_DIR$/pickerview/pickerview.iml" filepath="$PROJECT_DIR$/pickerview/pickerview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sharesdk/sharesdk.iml" filepath="$PROJECT_DIR$/sharesdk/sharesdk.iml" />
     </modules>
   </component>
 </project>
