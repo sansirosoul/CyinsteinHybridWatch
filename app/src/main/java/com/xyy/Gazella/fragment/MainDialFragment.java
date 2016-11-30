@@ -38,6 +38,9 @@ public class MainDialFragment extends BaseFragment {
     private RxBleDevice bleDevice;
     private Observable<RxBleConnection> connectionObservable;
     private  BleUtils bleUtils;
+    private  int  laoTime;
+    private  int  newTime;
+    private  int  conut=0;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -62,9 +65,17 @@ public class MainDialFragment extends BaseFragment {
             @Override
             public void ChangeTimeListener(int TimeValue) {
                 Logger.t(TAG).e("改变时间>>>>  "+String.valueOf(TimeValue/2));
-               int  laoTime= TimeValue/2;
-
-                Write(bleUtils.adjMinuteHand(1,(TimeValue/2)), TimeSynchronization.install.connectionObservable);
+               if(conut==0){
+                   laoTime = TimeValue / 2;
+                   Write(bleUtils.adjMinuteHand(1,(laoTime)), TimeSynchronization.install.connectionObservable);
+               }else {
+                   laoTime=newTime;
+                   newTime=TimeValue/2;
+                   if(newTime>laoTime){
+                       Write(bleUtils.adjMinuteHand(1,(newTime-laoTime)), TimeSynchronization.install.connectionObservable);
+                   }
+               }
+                conut++;
             }
         });
         return view;
