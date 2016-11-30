@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/write"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_height="40dp" />
+    <TextView
+        android:id="@+id/notify"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_height="40dp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn1"
+                android:text="获取序列号"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn2"
+                android:text="消息提示"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn3"
+                android:text="设置手机时间和日期"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn4"
+                android:text="设置闹铃"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn5"
+                android:text="获取固件版本"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <Button
+                android:id="@+id/btn6"
+                android:text="修改设备名称"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+
+            <Button
+                android:id="@+id/btn7"
+                android:text="获取设备名称"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn8"
+                android:text="设置系统类型"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn9"
+                android:text="获取当天总计步值"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn10"
+                android:text="获取睡眠数据"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn11"
+                android:text="清除手表数据"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+            android:id="@+id/btn12"
+            android:text="获取电池信息"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn13"
+                android:text="校准时针"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn14"
+                android:text="校准分针"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn15"
+                android:text="校准秒针"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn16"
+                android:text="校准信息提示针"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn17"
+                android:text="校准计步针"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn18"
+                android:text="指针重置模式"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn19"
+                android:text="获取24小时计步数据"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn20"
+                android:text="手表震动"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn21"
+                android:text="获取闹铃信息"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn22"
+                android:text="发送蓝牙连接状态"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+            <Button
+                android:id="@+id/btn23"
+                android:text="断开蓝牙连接"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

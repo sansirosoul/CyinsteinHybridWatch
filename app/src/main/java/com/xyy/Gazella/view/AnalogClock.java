@@ -276,7 +276,7 @@ public class AnalogClock extends View {
         }
         dial.draw(canvas);
         canvas.save();
-        canvas.rotate(mHour / 12.0f * 360.0f, x, y);
+        canvas.rotate(mHour / 60.0f * 360.0f, x, y);
 
         if (mHourHand != null) {
             final Drawable hourHand = mHourHand;
@@ -288,38 +288,22 @@ public class AnalogClock extends View {
             }
             hourHand.draw(canvas);
             canvas.restore();
-
             canvas.save();
         }
         canvas.rotate(mMinutes / 60.0f * 360.0f, x, y);
         final Drawable minuteHand = mMinuteHand;
-
         if (changed) {
             w = minuteHand.getIntrinsicWidth();
             h = minuteHand.getIntrinsicHeight();
-            minuteHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y
-                    + (h / 2));
+            minuteHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y+ (h / 2));
         }
         minuteHand.draw(canvas);
         canvas.restore();
-
         canvas.save();
-
         canvas.rotate(mSecond / 60.0f * 360.0f, x, y);
-//        final Drawable secondHand = mSecondHand;
-//        if (changed) {
-//            w = secondHand.getIntrinsicWidth();
-//            h = secondHand.getIntrinsicHeight();
-//            secondHand.setBounds(x - (w / 2), y - (h / 2), x + (w / 2), y
-//                    + (h / 2));
-//        }
-//        secondHand.draw(canvas);
-//        canvas.restore();
-
         if (scaled) {
             canvas.restore();
         }
-
     }
 
     private void updateContentDescription(Time time) {
@@ -353,7 +337,7 @@ public class AnalogClock extends View {
             case MotionEvent.ACTION_MOVE:
 
                 if (ChangeTimeType == 1) {  //移动时针
-                    double valuea = Tiemvalue / 30;
+                    double valuea = Tiemvalue / 6;
                         mHour = (float) valuea;
                     Logger.t(TAG).i(String.valueOf("mHour=="+mHour+"\n"+"Tiemvalue=="+valuea));
                 } else {
@@ -361,8 +345,7 @@ public class AnalogClock extends View {
                         Tiemvalue = Tiemvalue / 6;
                         mMinutes =(int) Tiemvalue;
                     }
-                }
-                if (changetimelistener != null)
+                }if (changetimelistener != null)
                     changetimelistener.ChangeTimeListener((int)Tiemvalue);
                 isChangedTime = true;
                 postInvalidate();

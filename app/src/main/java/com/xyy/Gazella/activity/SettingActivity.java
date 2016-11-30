@@ -8,16 +8,19 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ChangeWatchDialog;
 import com.xyy.Gazella.utils.CleanPhoneData;
 import com.xyy.Gazella.utils.CleanWatchData;
 import com.xyy.Gazella.utils.RenameWatchDialog;
+import com.xyy.Gazella.view.SwitchView;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 
 /**
  * Created by Administrator on 2016/10/22.
@@ -50,7 +53,10 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout rlSearchWatch;
     @BindView(R.id.rl_close_bluetooth)
     RelativeLayout rlCloseBluetooth;
+    @BindView(R.id.v_switch)
+    SwitchView vSwitch;
     private Context context;
+    private BleUtils bleUtils;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -58,17 +64,29 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.setting_activity);
         ButterKnife.bind(this);
 
-        initView();
         context = this;
         TVTitle.setText(R.string.setting);
-
+        initView();
     }
 
     private void initView() {
+        bleUtils = new BleUtils();
 
+        vSwitch.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
+            @Override
+            public void toggleToOn(SwitchView view) {
+
+            }
+
+            @Override
+            public void toggleToOff(SwitchView view) {
+
+            }
+        });
     }
 
-    @OnClick({R.id.btnExit, R.id.rl_user_setting, R.id.rl_update_hardware, R.id.rl_change_watch, R.id.rl_rename_watch, R.id.rl_clock, R.id.rl_clean_phone, R.id.rl_clean_watch, R.id.rl_search_watch, R.id.rl_close_bluetooth, R.id.rl_update_bsl, R.id.rl_target})
+    @OnClick({R.id.btnExit, R.id.rl_user_setting, R.id.rl_update_hardware, R.id.rl_change_watch, R.id.rl_rename_watch, R.id.rl_clock, R.id.rl_clean_phone,
+            R.id.rl_clean_watch, R.id.rl_search_watch, R.id.rl_close_bluetooth, R.id.rl_update_bsl, R.id.rl_target})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnExit:
@@ -111,7 +129,12 @@ public class SettingActivity extends BaseActivity {
                 startActivity(targetIntent);
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
+            case R.id.rl_search_watch:
 
+                break;
+            case R.id.rl_close_bluetooth:
+
+                break;
         }
     }
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_time_synchronization"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+
+    <com.xyy.Gazella.view.AnalogClock
+        android:id="@+id/analogclock"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:dial="@drawable/page14_biaopan2"
+        app:hand_minute="@drawable/page12_minute_selected"/>
+
+
+
+</LinearLayout>

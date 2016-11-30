@@ -19,8 +19,8 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
-import java.util.UUID;
 
 @SuppressLint("NewApi")
 public class BluetoothService extends Service {
@@ -36,12 +36,12 @@ public class BluetoothService extends Service {
 
     private Handler mActivityHandler = null;
 
-    public static final int STATE_DISCONNECTED = 0;
-    public static final int STATE_CONNECTED = 1;
-    public static final int SERVICES_DISCOVERED = 2;
-    public static final int READ_SUCCESS = 3;
-    public static final int WRITE_SUCCESS = 4;
-    public static final int NOTIFY_SUCCESS = 5;
+    public static final int STATE_DISCONNECTED = 2000;
+    public static final int STATE_CONNECTED = 2001;
+    public static final int SERVICES_DISCOVERED = 2002;
+    public static final int READ_SUCCESS = 2003;
+    public static final int WRITE_SUCCESS = 2004;
+    public static final int NOTIFY_SUCCESS = 2005;
 
     public void setActivityHandler(Handler mHandler) {
         mActivityHandler = mHandler;
@@ -103,17 +103,17 @@ public class BluetoothService extends Service {
         }
 
         // Previously connected device. Try to reconnect.
-        if (mBluetoothDeviceAddress != null
-                && address.equals(mBluetoothDeviceAddress)
-                && mBluetoothGatt != null) {
-            Log.d(TAG,
-                    "Trying to use an existing mBluetoothGatt for connection.");
-            if (mBluetoothGatt.connect()) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+//        if (mBluetoothDeviceAddress != null
+//                && address.equals(mBluetoothDeviceAddress)
+//                && mBluetoothGatt != null) {
+//            Log.d(TAG,
+//                    "Trying to use an existing mBluetoothGatt for connection.");
+//            if (mBluetoothGatt.connect()) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
 
         final BluetoothDevice device = mBluetoothAdapter
                 .getRemoteDevice(address);
@@ -140,7 +140,7 @@ public class BluetoothService extends Service {
         public void onConnectionStateChange(BluetoothGatt gatt, int status,
                                             int newState) {
             System.out.println("=======status:" + status);
-            if(status==133){
+            if (status==133){
                 connect(mBluetoothDeviceAddress);
             }
             if (newState == BluetoothProfile.STATE_CONNECTED) {
@@ -160,7 +160,10 @@ public class BluetoothService extends Service {
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                mActivityHandler.obtainMessage(SERVICES_DISCOVERED).sendToTarget();
+                Log.w(TAG, "onServicesDiscovered successed " );
+
+                Message msg = Message.obtain(mActivityHandler, SERVICES_DISCOVERED);
+                msg.sendToTarget();
             } else {
                 Log.w(TAG, "onServicesDiscovered received: " + status);
             }
@@ -175,13 +178,16 @@ public class BluetoothService extends Service {
                 for (byte byteChar : data)
                     stringBuilder.append(String.format("%02X ", byteChar));
 
-                System.out.println("notify" + new String(data) + "\n"
-                        + stringBuilder.toString());
+                try {
+                    System.out.println("notify" + new String(data,"ascii") + "\n"
+                            + stringBuilder.toString());
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
 
                 Message msg = Message.obtain(mActivityHandler, NOTIFY_SUCCESS, characteristic.getValue());
                 msg.sendToTarget();
-            }
-        }
+            }        }
 
         ;
 
@@ -204,7 +210,7 @@ public class BluetoothService extends Service {
 
                 System.out.println("write" + stringBuilder.toString());
             }
-            Message msg = Message.obtain(mActivityHandler, WRITE_SUCCESS);
+            Message msg = Message.obtain(mActivityHandler, WRITE_SUCCESS,characteristic.getValue());
             msg.sendToTarget();
         }
 
@@ -265,18 +271,42 @@ public class BluetoothService extends Service {
     }
 
     public BluetoothGattCharacteristic getWriteCharacteristic() {
+        BluetoothGattCharacteristic gattCharacteristic = null;
         if (mBluetoothGatt == null)
             return null;
-        BluetoothGattService service = mBluetoothGatt.getService(UUID.fromString(serviceUUID));
-        BluetoothGattCharacteristic characteristic = service.getCharacteristic(UUID.fromString(writeUUID));
-        return characteristic;
+        List<BluetoothGattService> services = mBluetoothGatt.getServices();
+        for (int i = 0; i<services.size();i++){
+            BluetoothGattService service = services.get(i);
+            if(service.getUuid().toString().equals(serviceUUID)){
+                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+                for(int j = 0; j<characteristics.size();j++){
+                    BluetoothGattCharacteristic characteristic = characteristics.get(j);
+                    if(characteristic.getUuid().toString().equals(writeUUID)){
+                        gattCharacteristic=characteristic;
+                    }
+                }
+            }
+        }
+        return gattCharacteristic;
     }
 
     public BluetoothGattCharacteristic getNotifyCharacteristic() {
+        BluetoothGattCharacteristic gattCharacteristic = null;
         if (mBluetoothGatt == null)
             return null;
-        BluetoothGattService service = mBluetoothGatt.getService(UUID.fromString(serviceUUID));
-        BluetoothGattCharacteristic characteristic = service.getCharacteristic(UUID.fromString(notifyUUID));
-        return characteristic;
+        List<BluetoothGattService> services = mBluetoothGatt.getServices();
+        for (int i = 0; i<services.size();i++){
+            BluetoothGattService service = services.get(i);
+            if(service.getUuid().toString().equals(serviceUUID)){
+                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+                for(int j = 0; j<characteristics.size();j++){
+                    BluetoothGattCharacteristic characteristic = characteristics.get(j);
+                    if(characteristic.getUuid().toString().equals(notifyUUID)){
+                        gattCharacteristic=characteristic;
+                    }
+                }
+            }
+        }
+        return gattCharacteristic;
     }
 }

@@ -10,8 +10,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Calendarlibrary" />
+            <option value="$PROJECT_DIR$/PhotoPicker" />
+            <option value="$PROJECT_DIR$/WheelViewLibrary" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/dfu" />
+            <option value="$PROJECT_DIR$/greendaolibs" />
             <option value="$PROJECT_DIR$/pickerview" />
+            <option value="$PROJECT_DIR$/sharesdk" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

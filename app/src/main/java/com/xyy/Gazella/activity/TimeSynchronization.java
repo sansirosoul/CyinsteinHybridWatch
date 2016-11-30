@@ -13,14 +13,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+import com.polidea.rxandroidble.RxBleConnection;
+import com.polidea.rxandroidble.RxBleDevice;
+import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.fragment.MainDialFragment;
 import com.xyy.Gazella.fragment.SmallFragment1;
 import com.xyy.Gazella.fragment.SmallFragment2;
 import com.xyy.Gazella.fragment.SmallFragment3;
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckAnalogClock;
 import com.xyy.Gazella.utils.GuideShowDialog;
 import com.xyy.Gazella.view.MyViewPage;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
@@ -30,6 +36,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 public class TimeSynchronization extends BaseActivity {
 
@@ -80,14 +87,26 @@ public class TimeSynchronization extends BaseActivity {
     private float MuintesTimeValue;
     private int item;
     private GuideShowDialog guideShowDialog;
+    private RxBleDevice bleDevice;
+    public Observable<RxBleConnection> connectionObservable;
+    private  BleUtils bleUtils;
+    public  static  TimeSynchronization install;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_synchronization);
         ButterKnife.bind(this);
+        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(PreferenceData.getAddressValue(this));
+        if(bleDevice!=null){
+            connectionObservable = bleDevice.establishConnection(this, false)
+                    .compose(new ConnectionSharingAdapter());
+            Notify(GET_SN,connectionObservable);
+            bleUtils = new BleUtils();
+        }
         InitView();
         InitViewPager();
+        install=this;
     }
 
     private void InitView() {
@@ -190,6 +209,17 @@ public class TimeSynchronization extends BaseActivity {
 
                 break;
             case R.id.but_reset:   /// 重置
+
+              int MainDiaHourTime =  mainDialFragment.getHourTimeValue();
+              int MainDiaMuinutesTime =  mainDialFragment.getMuinutesTimeValue();
+                Logger.t(TAG).e(String.valueOf(MainDiaHourTime));
+                Logger.t(TAG).e(String.valueOf(MainDiaMuinutesTime));
+
+
+
+
+                Write(bleUtils.resetHand(), connectionObservable);
+
                 break;
             case R.id.but_synchronization:    ///同步
 

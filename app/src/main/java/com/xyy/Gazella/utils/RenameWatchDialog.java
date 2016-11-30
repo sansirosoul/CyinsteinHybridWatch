@@ -76,7 +76,6 @@ public class RenameWatchDialog extends Dialog implements View.OnClickListener{
             case R.id.confirm:
                 if(!etName.getText().toString().equals("")){
                     dismiss();
-
                 }
                 break;
         }

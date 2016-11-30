@@ -56,7 +56,7 @@ public class BaseActivity extends FragmentActivity {
         mContext = this;
     }
 
-    private Observable<byte[]> WiterCharacteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
+    private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
         return connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
                     @Override
@@ -64,80 +64,111 @@ public class BaseActivity extends FragmentActivity {
                         return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
                     }
                 });
+
     }
 
-    private Observable<byte[]> NotifyCharacteristic(Observable<RxBleConnection> connectionObservable) {
-        return connectionObservable
-                .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
+
+    protected void Write( byte[] bytes, Observable<RxBleConnection> connectionObservable) {
+        WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<byte[]>() {
                     @Override
-                    public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
-                        return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
+                    public void call(byte[] bytes) {
+                        Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
+                        onWriteReturn(bytes);
                     }
-                }).doOnNext(new Action1<Observable<byte[]>>() {
+                }, new Action1<Throwable>() {
                     @Override
-                    public void call(Observable<byte[]> observable) {
-                        Logger.t(TAG).e("开始接收通知  >>>>>>  ");
-                    }
-                }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
-                    @Override
-                    public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
-                        return notificationObservable;
+                    public void call(Throwable throwable) {
+                        Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
                     }
                 });
+
+
+//        connectionObservable
+//                .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
+//                    @Override
+//                    public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
+//                        return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
+//                    }
+//                }).doOnNext(new Action1<Observable<byte[]>>() {
+//            @Override
+//            public void call(Observable<byte[]> observable) {
+//                Logger.t(TAG).e("开始接收通知  >>>>>>  ");
+//
+//                WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(new Action1<byte[]>() {
+//                            @Override
+//                            public void call(byte[] bytes) {
+//                                Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
+//                                onWriteReturn(type,bytes);
+//                            }
+//                        }, new Action1<Throwable>() {
+//                            @Override
+//                            public void call(Throwable throwable) {
+//                                Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
+//                            }
+//                        });
+//            }
+//        }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
+//            @Override
+//            public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
+//                return notificationObservable;
+//            }
+//        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
+//            @Override
+//            public void call(byte[] bytes) {
+//                Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
+//                onReadReturn(type, bytes);
+//            }
+//        }, new Action1<Throwable>() {
+//            @Override
+//            public void call(Throwable throwable) {
+//                Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
+//            }
+//        });
     }
 
-
-    protected void Write(int type,String writeString,Observable<RxBleConnection> connectionObservable) {
-          connectionObservable
+    protected void Notify(int type,Observable<RxBleConnection> connectionObservable){
+        connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                     @Override
                     public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
                         return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
                     }
                 }).doOnNext(new Action1<Observable<byte[]>>() {
-                    @Override
-                    public void call(Observable<byte[]> observable) {
-                        Logger.t(TAG).e("开始接收通知  >>>>>>  ");
+            @Override
+            public void call(Observable<byte[]> observable) {
+                Logger.t(TAG).e("开始接收通知  >>>>>>  ");
 
-                        WiterCharacteristic(writeString,connectionObservable).observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Action1<byte[]>() {
-                                    @Override
-                                    public void call(byte[] bytes) {
-                                        Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
-                                    }
-                                }, new Action1<Throwable>() {
-                                    @Override
-                                    public void call(Throwable throwable) {
-                                        Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
-                                    }
-                                });
-                    }
-                }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
-                    @Override
-                    public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
-                        return notificationObservable;
-                    }
-                }).
-                  subscribe(new Action1<byte[]>() {
-              @Override
-              public void call(byte[] bytes) {
-                  Logger.t(TAG).e("接收数据  >>>>>>  "+HexString.bytesToHex(bytes)+"\n"+">>>>>>>>"+new String(bytes));
-                  onReadReturn(type, bytes);
-              }
-          }, new Action1<Throwable>() {
-              @Override
-              public void call(Throwable throwable) {
-                  Logger.t(TAG).e("接收数据失败 >>>>>>  "+throwable.toString());
-              }
-          });
+            }
+        }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
+            @Override
+            public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
+                return notificationObservable;
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
+            @Override
+            public void call(byte[] bytes) {
+                Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
+                onReadReturn(type, bytes);
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
+            }
+        });
     }
 
     protected void onReadReturn(int type, byte[] bytes) {
     }
 
-    protected void onReadReturnFailed() {
+    protected void onWriteReturn( byte[] bytes) {
+
     }
 
+    protected void onReadReturnFailed() {
+    }
 
     protected void ConnectionDevice(Handler mHandler) {
         if (GazelleApplication.CONNECTED == -1) {
@@ -175,6 +206,7 @@ public class BaseActivity extends FragmentActivity {
      */
     public static void overridePendingTransitionEnter(Activity at) {
         at.overridePendingTransition(R.anim.in_from_right, R.anim.out_righttoleft);
+
     }
 
     /***
@@ -229,6 +261,7 @@ public class BaseActivity extends FragmentActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+
         Bugtags.onDispatchTouchEvent(this, event);
         return super.dispatchTouchEvent(event);
     }

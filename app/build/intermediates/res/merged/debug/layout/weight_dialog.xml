@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+     <LinearLayout
+         android:orientation="horizontal"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+          <com.jp.wheelview.WheelView
+              android:id="@+id/wheelview1"
+              app:normalTextColor="@color/black"
+              app:normalTextSize="14sp"
+              app:selectedTextColor="@color/theme_blue"
+              app:selectedTextSize="20sp"
+              app:unitHeight="50dp"
+              app:itemNumber="3"
+              app:lineColor="@color/theme_blue"
+              android:layout_margin="10dp"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"/>
+          <com.jp.wheelview.WheelView
+              android:id="@+id/wheelview2"
+              app:normalTextColor="@color/black"
+              app:normalTextSize="14sp"
+              app:selectedTextColor="@color/theme_blue"
+              app:selectedTextSize="18sp"
+              app:unitHeight="50dp"
+              app:itemNumber="3"
+              app:lineColor="@color/theme_blue"
+              android:layout_margin="10dp"
+              android:layout_weight="1"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"/>
+     </LinearLayout>
+     <TextView
+         android:id="@+id/confirm"
+         android:text="@string/confirm"
+         android:textSize="18sp"
+         android:textColor="@color/white"
+         android:gravity="center"
+         android:background="@drawable/blue_dialog"
+         android:layout_width="match_parent"
+         android:layout_height="50dp" />
+</LinearLayout>

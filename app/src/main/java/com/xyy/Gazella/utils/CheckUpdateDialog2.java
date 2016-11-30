@@ -3,6 +3,7 @@ package com.xyy.Gazella.utils;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
@@ -75,8 +76,8 @@ public class CheckUpdateDialog2 extends Dialog implements View.OnClickListener{
                     setBtnlListener.onConfirm();
                 }else {
                     dismiss();
-                    CheckUpdateDialog3 dialog3 = new CheckUpdateDialog3(context);
-                    dialog3.show();
+                    Intent intent = new Intent(context,CheckUpdateDialog3.class);
+                    context.startActivity(intent);
                 }
                 break;
         }

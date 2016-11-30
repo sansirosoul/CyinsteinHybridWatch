@@ -63,6 +63,7 @@ public class CleanWatchData extends Dialog implements View.OnClickListener{
                 dismiss();
                 break;
             case R.id.confirm:
+                dismiss();
                 break;
         }
     }
