@@ -18,7 +18,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.xyy.Gazella.utils.SomeUtills;
-import com.ysp.newband.BaseFargment;
+import com.ysp.newband.BaseFragment;
 import com.ysp.smartwatch.R;
 
 import java.text.ParseException;
@@ -35,7 +35,7 @@ import butterknife.OnClick;
  * Created by Administrator on 2016/10/11.
  */
 
-public class StepDayFragment extends BaseFargment {
+public class StepDayFragment extends BaseFragment {
     @BindView(R.id.chart1)
     BarChart mChart;
     @BindView(R.id.ll_date)

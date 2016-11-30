@@ -59,10 +59,7 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar">
-        <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" />
-        <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" />
         <!-- <activity android:name="com.xyy.Gazella.activity.HomeActivity"></activity> -->
-        <activity android:name="com.xyy.Gazella.activity.SetUesrDataActivity" />
 
         <service android:name="com.xyy.Gazella.BroadcastReceiver.PhoneService" />
         <service

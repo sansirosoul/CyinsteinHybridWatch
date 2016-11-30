@@ -6,11 +6,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.RxBleDeviceServices;
-import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.utils.HexString;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
@@ -60,21 +58,23 @@ public class RxAndroidTestActivityDeviceActivity extends BaseActivity {
         bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(extra_mac_address);
         deviceList = new ArrayList<RxBleDeviceServices>();
 
-        connectionObservable = bleDevice
-                .establishConnection(this, false)
-                .doOnUnsubscribe(this::clearSubscription)
-                .compose(new ConnectionSharingAdapter());
+
     }
     private void clearSubscription() {
         connectionSubscription = null;
     }
 
-    @Override
-    protected void onReadReturn(int type, byte[] bytes) {
-        if(type==GET_SN){
-            Logger.t(TAG).e("返回数据>>>>>>  " + new String(bytes)+"\n"+"TYPE"+String.valueOf(GET_SN));
-        }
-    }
+//    @Override
+//    protected void onReadReturn( byte[] bytes) {
+//            Logger.t(TAG).e("返回数据>>>>>>  " + new String(bytes)+"\n"+"TYPE"+String.valueOf(GET_SN));
+//
+//    }
+//
+//    @Override
+//    protected void onBleStateChangesListener(String type) {
+//        super.onBleStateChangesListener(type);
+//        Logger.t(TAG).e("蓝牙状态变换>>>>>>>>>>>>>>>  " + type);
+//    }
 
     @OnClick({R.id.tv_in, R.id.butt})
     public void onClick(View view) {
@@ -83,7 +83,7 @@ public class RxAndroidTestActivityDeviceActivity extends BaseActivity {
                 break;
             case R.id.butt:
 
-                Write(GET_SN,tvIn.getText().toString(),connectionObservable);
+//                Write(GET_SN,tvIn.getText().toString(),connectionObservable);
 
 
                 break;

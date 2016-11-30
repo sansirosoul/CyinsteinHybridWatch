@@ -34,6 +34,7 @@ import com.xyy.Gazella.utils.PairFailedDialog;
 import com.xyy.Gazella.view.AnalogClock;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -297,7 +298,9 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                             loadingDialog.dismiss();
                             connectionSubscription.unsubscribe();
                             GazelleApplication.deviceAddress=device.getAddress();
-                            Intent intent = new Intent(context, BleTest.class);
+                            PreferenceData.setAddressValue(PairingActivity.this,device.getAddress());
+//                            Intent intent = new Intent(context, BleTest.class);
+                            Intent intent = new Intent(context, PersonActivity.class);
                             startActivity(intent);
                             PairingActivity.this.finish();
                             overridePendingTransitionEnter(PairingActivity.this);
@@ -321,7 +324,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     GazelleApplication.isBleConnected=true;
                     GazelleApplication.deviceAddress=device.getAddress();
                     GazelleApplication.deviceName=device.getName();
-                    Intent intent = new Intent(context, BleTest.class);
+                    Intent intent = new Intent(context, PersonActivity.class);
                     startActivity(intent);
                     PairingActivity.this.finish();
                     overridePendingTransitionEnter(PairingActivity.this);

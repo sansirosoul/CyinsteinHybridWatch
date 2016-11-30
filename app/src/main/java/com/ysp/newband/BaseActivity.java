@@ -68,13 +68,13 @@ public class BaseActivity extends FragmentActivity {
     }
 
 
-    protected void Write(int type, byte[] bytes, Observable<RxBleConnection> connectionObservable) {
+    protected void Write( byte[] bytes, Observable<RxBleConnection> connectionObservable) {
         WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<byte[]>() {
                     @Override
                     public void call(byte[] bytes) {
                         Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
-                        onWriteReturn(type,bytes);
+                        onWriteReturn(bytes);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -163,14 +163,12 @@ public class BaseActivity extends FragmentActivity {
     protected void onReadReturn(int type, byte[] bytes) {
     }
 
-    protected void onWriteReturn(int type, byte[] bytes) {
+    protected void onWriteReturn( byte[] bytes) {
 
     }
 
     protected void onReadReturnFailed() {
     }
-
-
 
     protected void ConnectionDevice(Handler mHandler) {
         if (GazelleApplication.CONNECTED == -1) {

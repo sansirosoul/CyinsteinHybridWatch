@@ -22,8 +22,6 @@ import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
-import java.util.Calendar;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -170,9 +168,7 @@ public class BleTest extends BaseActivity {
             }else if(bleUtils.returnFWVer(bytes)!=null){
                 notify.setText(bleUtils.returnFWVer(bytes));
             }else if(bleUtils.returnBatteryValue(bytes)!=null){
-                notify.setText(bleUtils.returnBatteryValue(bytes)+"%");
-            }else if(bleUtils.returnDeviceName(bytes)!=null){
-                notify.setText(bleUtils.returnDeviceName(bytes));
+                notify.setText(bleUtils.returnBatteryValue(bytes));
             }
             else{
                 notify.setText(HexString.bytesToHex(bytes));
@@ -181,8 +177,8 @@ public class BleTest extends BaseActivity {
     }
 
     @Override
-    protected void onWriteReturn(int type, byte[] bytes) {
-        super.onWriteReturn(type, bytes);
+    protected void onWriteReturn( byte[] bytes) {
+        super.onWriteReturn( bytes);
 
 
         write.setText(HexString.bytesToHex(bytes));
@@ -194,78 +190,73 @@ public class BleTest extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
-                Write(GET_SN, bleUtils.getDeviceSN(), connectionObservable);
+                Write( bleUtils.getDeviceSN(), connectionObservable);
                 break;
             case R.id.btn2:
-                Write(GET_SN, bleUtils.sendMessage(1, 0, 0, 0, 0, 0), connectionObservable);
+                Write( bleUtils.sendMessage(1, 0, 0, 0, 0, 0), connectionObservable);
                 break;
             case R.id.btn3:
-                Calendar calendar = Calendar.getInstance();
-                System.out.println(calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DAY_OF_MONTH)+"-"
-                        +calendar.get(Calendar.HOUR_OF_DAY)+"-"+calendar.get(Calendar.MINUTE)+"-"+calendar.get(Calendar.SECOND));
-                Write(GET_SN, bleUtils.setWatchDateAndTime(1, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH),
-                        calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND)), connectionObservable);
+                Write( bleUtils.setWatchDateAndTime(1, 2016, 11, 28, 12, 0, 0), connectionObservable);
                 break;
             case R.id.btn4:
-                Write(GET_SN, bleUtils.setWatchAlarm(0, 0, 12, 0, 1, 1, ""), connectionObservable);
+                Write( bleUtils.setWatchAlarm(0, 0, 12, 0, 1, 1, ""), connectionObservable);
                 break;
             case R.id.btn5:
-                Write(GET_SN, bleUtils.getFWVer(), connectionObservable);
+                Write( bleUtils.getFWVer(), connectionObservable);
                 break;
             case R.id.btn6:
-                Write(GET_SN, bleUtils.setDeviceName("CT003"), connectionObservable);
+                Write( bleUtils.setDeviceName("aaa"), connectionObservable);
                 break;
             case R.id.btn7:
-                Write(GET_SN, bleUtils.getDeviceName(), connectionObservable);
+                Write( bleUtils.getDeviceName(), connectionObservable);
                 break;
             case R.id.btn8:
-                Write(GET_SN, bleUtils.setSystemType(), connectionObservable);
+                Write( bleUtils.setSystemType(), connectionObservable);
                 break;
             case R.id.btn9:
-                Write(GET_SN, bleUtils.getTodayStep(), connectionObservable);
+                Write(bleUtils.getTodayStep(), connectionObservable);
                 break;
             case R.id.btn10:
-                Write(GET_SN, bleUtils.getSleepData(1), connectionObservable);
+                Write( bleUtils.getSleepData(1), connectionObservable);
                 break;
             case R.id.btn11:
-                Write(GET_SN, bleUtils.eraseWatchData(), connectionObservable);
+                Write(bleUtils.eraseWatchData(), connectionObservable);
                 break;
             case R.id.btn12:
-                Write(GET_SN, bleUtils.getBatteryValue(), connectionObservable);
+                Write(bleUtils.getBatteryValue(), connectionObservable);
                 break;
             case R.id.btn13:
-                Write(GET_SN, bleUtils.adjHourHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
+                Write( bleUtils.adjHourHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn14:
-                Write(GET_SN, bleUtils.adjMinuteHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
+                Write(bleUtils.adjMinuteHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn15:
-                Write(GET_SN, bleUtils.adjSecondHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
+                Write( bleUtils.adjSecondHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn16:
-                Write(GET_SN, bleUtils.adjMsgHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
+                Write( bleUtils.adjMsgHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn17:
-                Write(GET_SN, bleUtils.adjStepHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
+                Write(bleUtils.adjStepHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn18:
-                Write(GET_SN, bleUtils.resetHand(), connectionObservable);
+                Write( bleUtils.resetHand(), connectionObservable);
                 break;
             case R.id.btn19:
-                Write(GET_SN, bleUtils.getStepData(1), connectionObservable);
+                Write( bleUtils.getStepData(1), connectionObservable);
                 break;
             case R.id.btn20:
-                Write(GET_SN, bleUtils.setWatchShake(1, 0, 0), connectionObservable);
+                Write( bleUtils.setWatchShake(1, 0, 0), connectionObservable);
                 break;
             case R.id.btn21:
-                Write(GET_SN, bleUtils.getAlarms(), connectionObservable);
+                Write( bleUtils.getAlarms(), connectionObservable);
                 break;
             case R.id.btn22:
-                Write(GET_SN, bleUtils.setBleConnect(), connectionObservable);
+                Write(bleUtils.setBleConnect(), connectionObservable);
                 break;
             case R.id.btn23:
-                Write(GET_SN, bleUtils.terminateBle(), connectionObservable);
+                Write(bleUtils.terminateBle(), connectionObservable);
                 break;
         }
     }
