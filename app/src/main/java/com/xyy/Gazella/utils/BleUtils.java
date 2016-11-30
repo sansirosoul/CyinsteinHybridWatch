@@ -1,12 +1,10 @@
 package com.xyy.Gazella.utils;
 
-import android.bluetooth.BluetoothGattCharacteristic;
-
 import com.xyy.model.Clock;
 import com.xyy.model.SleepData;
 import com.xyy.model.StepData;
-import com.ysp.newband.GazelleApplication;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
@@ -15,12 +13,12 @@ import java.util.ArrayList;
  */
 
 public class BleUtils {
+    private String TAG = BleUtils.class.getName();
     private byte ck_a, ck_b;
     private byte[] value;
 
-
     //获取手表序列号
-    public void getDeviceSN(BluetoothGattCharacteristic characteristic) {
+    public byte[] getDeviceSN() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -40,8 +38,7 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //返回手表序列号
@@ -50,7 +47,7 @@ public class BleUtils {
         if (bytes[0] == 0x07 && bytes[1] == 0x00) {
             byte[] bytes1 = new byte[16];
             for (int i = 0; i < bytes1.length; i++) {
-                bytes1[0] = bytes[2 + i];
+                bytes1[i] = bytes[2 + i];
             }
             deviceSN = new String(bytes1);
         }
@@ -65,7 +62,7 @@ public class BleUtils {
     mail	邮件提醒	0x00=关  0x01=开
     msg	消息提示提醒	0x00=关  0x01=开
     shake	是否开启震动	0x00=关  0x01=开*/
-    public void sendMessage(BluetoothGattCharacteristic characteristic, int flight, int phone, int sms, int mail, int msg, int shake) {
+    public byte[] sendMessage(int flight, int phone, int sms, int mail, int msg, int shake) {
         value = new byte[13];
         ck_a = 0;
         ck_b = 0;
@@ -92,8 +89,7 @@ public class BleUtils {
         value[11] = ck_a;
         value[12] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //设置手表日期和时间
@@ -104,7 +100,7 @@ public class BleUtils {
             hour	时钟数值	0-23
             minute	分钟数值	0-59
             second	秒钟数值	0-59*/
-    public void setWatchDateAndTime(BluetoothGattCharacteristic characteristic, int mode, int year, int month, int day, int hour, int minute, int second) {
+    public byte[] setWatchDateAndTime(int mode, int year, int month, int day, int hour, int minute, int second) {
         value = new byte[14];
         ck_a = 0;
         ck_b = 0;
@@ -132,8 +128,7 @@ public class BleUtils {
         value[12] = ck_a;
         value[13] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
 
@@ -146,7 +141,7 @@ public class BleUtils {
         ringmode	响铃模式	0x00=off，0x01=一次，0x02=每天，0x03=周一-周五，0x04=自定义模式
         custom	自定义模式	Bit7=Not Care，Bit6=Sunday, Bit5=Saturday, Bit4=Friday, Bit3=Thursday, Bit2=Wednesday, Bit1=Tuesday, Bit0=Monday\
         byteStr   二进制字符串*/
-    public void setWatchAlarm(BluetoothGattCharacteristic characteristic, int mode, int id, int hour, int minute, int snoozeTime, int ringMode, String byteStr) {
+    public byte[] setWatchAlarm(int mode, int id, int hour, int minute, int snoozeTime, int ringMode, String byteStr) {
         value = new byte[14];
         ck_a = 0;
         ck_b = 0;
@@ -174,8 +169,7 @@ public class BleUtils {
         value[12] = ck_a;
         value[13] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     /**
@@ -203,7 +197,7 @@ public class BleUtils {
     }
 
     //获取固件版本
-    public void getFWVer(BluetoothGattCharacteristic characteristic) {
+    public byte[] getFWVer() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -224,8 +218,7 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //返回固件版本
@@ -234,7 +227,7 @@ public class BleUtils {
         if (bytes[0] == 0x07 && bytes[1] == 0x05) {
             byte[] bytes1 = new byte[5];
             for (int i = 0; i < bytes1.length; i++) {
-                bytes1[0] = bytes[2 + i];
+                bytes1[i] = bytes[2 + i];
                 FWVer = new String(bytes1);
             }
         }
@@ -242,7 +235,7 @@ public class BleUtils {
     }
 
     //修改设备名称
-    public void setDeviceName(BluetoothGattCharacteristic characteristic, String deviceName) {
+    public byte[] setDeviceName(String deviceName) {
         value = new byte[20];
         ck_a = 0;
         ck_b = 0;
@@ -255,9 +248,14 @@ public class BleUtils {
 
         value[4] = 0x0D;
 
-        byte[] bytes = deviceName.getBytes();
-        for (int i = 0; i < bytes.length; i++) {
-            value[5 + i] = bytes[i];
+        byte[] bytes;
+        try {
+            bytes = deviceName.getBytes("ascii");
+            for (int i = 0; i < bytes.length; i++) {
+                value[5 + i] = bytes[i];
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
         for (int i = 2; i < 18; i++) {
@@ -267,12 +265,11 @@ public class BleUtils {
         value[18] = ck_a;
         value[19] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //获取设备名称
-    public void getDeviceName(BluetoothGattCharacteristic characteristic) {
+    public byte[] getDeviceName() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -292,8 +289,7 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //返回设备名称
@@ -302,7 +298,7 @@ public class BleUtils {
         if (bytes[0] == 0x07 && bytes[1] == 0x08) {
             byte[] bytes1 = new byte[13];
             for (int i = 0; i < bytes1.length; i++) {
-                bytes1[0] = bytes[2 + i];
+                bytes1[i] = bytes[2 + i];
                 deviceName = new String(bytes1);
             }
         }
@@ -311,7 +307,7 @@ public class BleUtils {
     }
 
     //设置系统类型
-    public void setSystemType(BluetoothGattCharacteristic characteristic) {
+    public byte[] setSystemType() {
         value = new byte[8];
         ck_a = 0;
         ck_b = 0;
@@ -332,12 +328,11 @@ public class BleUtils {
         value[6] = ck_a;
         value[7] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //获取当天总计步值
-    public void getTodayStep(BluetoothGattCharacteristic characteristic) {
+    public byte[] getTodayStep() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -357,18 +352,18 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //返回当天总计步值
     public StepData returnTodayStep(byte[] bytes) {
-        StepData data = new StepData();
+        StepData data = null;
         if (bytes[0] == 0x07 && bytes[1] == 0x0C) {
-            data.setYear(bytes[2] & 0xFF + 2000);
+            data = new StepData();
+            data.setYear((bytes[2] & 0xFF) + 2000);
             data.setMonth(bytes[3] & 0xFF);
             data.setDay(bytes[4] & 0xFF);
-            int step = bytes[8] & 0xFF + (bytes[7] & 0xFF) << 8 + (bytes[6] & 0xFF) << 16 + (bytes[5] & 0xFF) << 24;
+            int step = (bytes[8] & 0xFF) + ((bytes[7] & 0xFF) << 8) + ((bytes[6] & 0xFF) << 16) + ((bytes[5] & 0xFF) << 24);
             data.setStep(step);
         }
         return data;
@@ -378,7 +373,7 @@ public class BleUtils {
     /*
     num:
     0x00表示当天的睡眠数据，0x01表示前一天，依次类推，0x06表示之前6天的睡眠数据，由于手表最多只能保存7天的睡眠数据，因此取值范围0x00-0x06；*/
-    public void getSleepData(BluetoothGattCharacteristic characteristic, int num) {
+    public byte[] getSleepData(int num) {
         value = new byte[8];
         ck_a = 0;
         ck_b = 0;
@@ -399,8 +394,7 @@ public class BleUtils {
         value[6] = ck_a;
         value[7] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //返回睡眠数据
@@ -419,7 +413,7 @@ public class BleUtils {
     }
 
     //清除手表数据
-    public void eraseWatchData(BluetoothGattCharacteristic characteristic) {
+    public byte[] eraseWatchData() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -439,12 +433,11 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //获取手表电量
-    public void getBatteryValue(BluetoothGattCharacteristic characteristic) {
+    public byte[] getBatteryValue() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -464,8 +457,7 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //返回手表电量
@@ -480,7 +472,7 @@ public class BleUtils {
     //校准时针
     /*	direction 方向	0x01=正向，0x02=逆向
     stepCount	步进值	Value=1-180步*/
-    public void adjHourHand(BluetoothGattCharacteristic characteristic, int direction, int stepCount) {
+    public byte[] adjHourHand(int direction, int stepCount) {
         value = new byte[9];
         ck_a = 0;
         ck_b = 0;
@@ -503,12 +495,11 @@ public class BleUtils {
         value[7] = ck_a;
         value[8] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //校准分针
-    public void adjMinuteHand(BluetoothGattCharacteristic characteristic, int direction, int stepCount) {
+    public byte[] adjMinuteHand(int direction, int stepCount) {
         value = new byte[9];
         ck_a = 0;
         ck_b = 0;
@@ -531,12 +522,11 @@ public class BleUtils {
         value[7] = ck_a;
         value[8] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //校准秒针
-    public void adjSecondHand(BluetoothGattCharacteristic characteristic, int direction, int stepCount) {
+    public byte[] adjSecondHand(int direction, int stepCount) {
         value = new byte[9];
         ck_a = 0;
         ck_b = 0;
@@ -559,12 +549,11 @@ public class BleUtils {
         value[7] = ck_a;
         value[8] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //校准信息提示针
-    public void adjMsgHand(BluetoothGattCharacteristic characteristic, int direction, int stepCount) {
+    public byte[] adjMsgHand(int direction, int stepCount) {
         value = new byte[9];
         ck_a = 0;
         ck_b = 0;
@@ -587,12 +576,11 @@ public class BleUtils {
         value[7] = ck_a;
         value[8] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //校准计步针
-    public void adjStepHand(BluetoothGattCharacteristic characteristic, int direction, int stepCount) {
+    public byte[] adjStepHand(int direction, int stepCount) {
         value = new byte[9];
         ck_a = 0;
         ck_b = 0;
@@ -615,12 +603,11 @@ public class BleUtils {
         value[7] = ck_a;
         value[8] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //指针重置模式
-    public void resetHand(BluetoothGattCharacteristic characteristic) {
+    public byte[] resetHand() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -640,12 +627,11 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //获取24小时计步数据
-    public void getStepData(BluetoothGattCharacteristic characteristic, int num) {
+    public byte[] getStepData(int num) {
         value = new byte[8];
         ck_a = 0;
         ck_b = 0;
@@ -666,8 +652,7 @@ public class BleUtils {
         value[6] = ck_a;
         value[7] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //返回24小时计步数据
@@ -691,7 +676,7 @@ public class BleUtils {
    /* mode	震动类型	0x00=关震动，大于0x00开震动
     interval	震动间隔时间	0-255秒
     time	震动次数	0-255次*/
-    public void setWatchShake(BluetoothGattCharacteristic characteristic, int mode, int interval, int time) {
+    public byte[] setWatchShake(int mode, int interval, int time) {
         value = new byte[10];
         ck_a = 0;
         ck_b = 0;
@@ -714,12 +699,11 @@ public class BleUtils {
         value[8] = ck_a;
         value[9] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //获取闹铃信息
-    public void getAlarms(BluetoothGattCharacteristic characteristic) {
+    public byte[] getAlarms() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -739,8 +723,7 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     //返回闹钟信息
@@ -750,47 +733,67 @@ public class BleUtils {
             clock.setId(bytes[3]);
             String hour = null;
             String minute = null;
-            if(bytes[4]<10){
-                hour="0"+bytes[4];
+            if (bytes[4] < 10) {
+                hour = "0" + bytes[4];
             }
-            if(bytes[5]<10){
-                minute="0"+bytes[5];
+            if (bytes[5] < 10) {
+                minute = "0" + bytes[5];
             }
-            clock.setTime(hour+":"+minute);
-            if(bytes[6]==1){
-                clock.setRingtime("5分钟");
-            }else if(bytes[6]==2){
-                clock.setRingtime("10分钟");
-            }else if(bytes[6]==3){
-                clock.setRingtime("15分钟");
-            }else if(bytes[6]==4){
-                clock.setRingtime("20分钟");
-            }else if(bytes[6]==5){
-                clock.setRingtime("25分钟");
-            }else if(bytes[6]==6){
-                clock.setRingtime("30分钟");
-            }
+            clock.setTime(hour + ":" + minute);
+//            if (bytes[6] == 1) {
+//                clock.setSnoozeTime("5分钟");
+//            } else if (bytes[6] == 2) {
+//                clock.setSnoozeTime("10分钟");
+//            } else if (bytes[6] == 3) {
+//                clock.setSnoozeTime("15分钟");
+//            } else if (bytes[6] == 4) {
+//                clock.setSnoozeTime("20分钟");
+//            } else if (bytes[6] == 5) {
+//                clock.setSnoozeTime("25分钟");
+//            } else if (bytes[6] == 6) {
+//                clock.setSnoozeTime("30分钟");
+//            }
 
-            if(bytes[7]==0){
+            if (bytes[7] == 0) {
                 clock.setIsOpen(0);
-            }else {
+            } else {
                 clock.setIsOpen(1);
-                if(bytes[7]==1){
-                    clock.setRingtime("只响一次");
-                }else if(bytes[7]==2){
-                    clock.setRingtime("每天");
-                }else if(bytes[7]==3){
-                    clock.setRingtime("周一到周五");
-                }else if(bytes[7]==4){
-
+                if (bytes[7] == 1) {
+                    clock.setRate("只响一次");
+                } else if (bytes[7] == 2) {
+                    clock.setRate("每天");
+                } else if (bytes[7] == 3) {
+                    clock.setRate("周一到周五");
+                } else if (bytes[7] == 4) {
+//                    String str = byte2bits(bytes[8]);
+//                    StringBuilder stringBuilder = new StringBuilder("周");
+//                    for (int i = 0; i < str.length(); i++) {
+//                        if (i == 0) {
+//                            if(stringBuilder)
+//                            stringBuilder.append(str.substring(i, i + 1));
+//                        } else {
+//                            stringBuilder.append(" " + str.substring(i, i + 1));
+//                        }
+//
+//                    }
+//                    clock.setRate(stringBuilder.toString());
                 }
             }
         }
         return clock;
     }
 
+    //将字节转换二进制字符串
+    public static String byte2bits(byte b) {
+        int z = b;
+        z |= 256;
+        String str = Integer.toBinaryString(z);
+        int len = str.length();
+        return str.substring(len - 8, len);
+    }
+
     //发送蓝牙连接状态
-    public void setBleConnect(BluetoothGattCharacteristic characteristic) {
+    public byte[] setBleConnect() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -810,12 +813,11 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
     // 断开蓝牙连接
-    public void terminateBle(BluetoothGattCharacteristic characteristic) {
+    public byte[] terminateBle() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -835,13 +837,12 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 
 
     //蓝牙OTA固件更新
-    public void startDfu(BluetoothGattCharacteristic characteristic) {
+    public byte[] startDfu() {
         value = new byte[7];
         ck_a = 0;
         ck_b = 0;
@@ -861,7 +862,6 @@ public class BleUtils {
         value[5] = ck_a;
         value[6] = ck_b;
 
-        characteristic.setValue(value);
-        GazelleApplication.mBluetoothService.writeCharateristic(characteristic);
+        return value;
     }
 }

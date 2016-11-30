@@ -13,11 +13,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
+import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.fragment.MainDialFragment;
 import com.xyy.Gazella.fragment.SmallFragment1;
 import com.xyy.Gazella.fragment.SmallFragment2;
 import com.xyy.Gazella.fragment.SmallFragment3;
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckAnalogClock;
 import com.xyy.Gazella.utils.GuideShowDialog;
 import com.xyy.Gazella.view.MyViewPage;
@@ -32,6 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 public class TimeSynchronization extends BaseActivity {
 
@@ -83,14 +87,21 @@ public class TimeSynchronization extends BaseActivity {
     private int item;
     private GuideShowDialog guideShowDialog;
     private RxBleDevice bleDevice;
+    private Observable<RxBleConnection> connectionObservable;
+    private  BleUtils bleUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_synchronization);
         ButterKnife.bind(this);
-        bleDevice = GazelleApplication.getRxBleClient(TimeSynchronization.this).getBleDevice(PreferenceData.getAddressValue(this));
-        initBle(bleDevice);
+        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(PreferenceData.getAddressValue(this));
+        if(bleDevice!=null){
+            connectionObservable = bleDevice.establishConnection(this, false)
+                    .compose(new ConnectionSharingAdapter());
+            Notify(GET_SN,connectionObservable);
+            bleUtils = new BleUtils();
+        }
         InitView();
         InitViewPager();
     }
@@ -195,6 +206,9 @@ public class TimeSynchronization extends BaseActivity {
 
                 break;
             case R.id.but_reset:   /// 重置
+
+                Write(GET_SN, bleUtils.resetHand(), connectionObservable);
+
                 break;
             case R.id.but_synchronization:    ///同步
 

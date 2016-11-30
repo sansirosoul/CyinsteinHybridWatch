@@ -5,7 +5,6 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -16,7 +15,6 @@ import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.ysp.newband.GazelleApplication.mBluetoothService;
 
@@ -105,36 +103,36 @@ public class BleTest extends Activity {
         }
     };
 
-    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn1:
-                bleUtils.getDeviceSN(writeCharacteristic);
-                break;
-            case R.id.btn2:
-                bleUtils.sendMessage(writeCharacteristic, 1, 0, 0, 0, 0, 0);
-                break;
-            case R.id.btn3:
-                bleUtils.setWatchDateAndTime(writeCharacteristic, 1, 2016, 11, 24, 8, 0, 0);
-                break;
-            case R.id.btn4:
-
-                break;
-            case R.id.btn5:
-                bleUtils.getFWVer(writeCharacteristic);
-                break;
-            case R.id.btn6:
-                bleUtils.setDeviceName(writeCharacteristic, "aaa");
-                break;
-            case R.id.btn7:
-                bleUtils.getDeviceName(writeCharacteristic);
-                break;
-            case R.id.btn8:
-                bleUtils.setSystemType(writeCharacteristic);
-                break;
-            case R.id.btn9:
-                bleUtils.getTodayStep(writeCharacteristic);
-                break;
-        }
-    }
+//    @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9})
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.btn1:
+//                bleUtils.getDeviceSN(writeCharacteristic);
+//                break;
+//            case R.id.btn2:
+//                bleUtils.sendMessage(writeCharacteristic, 1, 0, 0, 0, 0, 0);
+//                break;
+//            case R.id.btn3:
+//                bleUtils.setWatchDateAndTime(writeCharacteristic, 1, 2016, 11, 24, 8, 0, 0);
+//                break;
+//            case R.id.btn4:
+//
+//                break;
+//            case R.id.btn5:
+//                bleUtils.getFWVer(writeCharacteristic);
+//                break;
+//            case R.id.btn6:
+//                bleUtils.setDeviceName(writeCharacteristic, "aaa");
+//                break;
+//            case R.id.btn7:
+//                bleUtils.getDeviceName(writeCharacteristic);
+//                break;
+//            case R.id.btn8:
+//                bleUtils.setSystemType(writeCharacteristic);
+//                break;
+//            case R.id.btn9:
+//                bleUtils.getTodayStep(writeCharacteristic);
+//                break;
+//        }
+//    }
 }

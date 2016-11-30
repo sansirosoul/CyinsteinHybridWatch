@@ -84,7 +84,7 @@ public class CheckUpdateDialog3 extends Dialog {
         if (GazelleApplication.deviceAddress != null && GazelleApplication.isBleConnected == true) {
             BluetoothGattCharacteristic characteristic = GazelleApplication.mBluetoothService.getWriteCharacteristic();
             BleUtils utils = new BleUtils();
-            utils.startDfu(characteristic);
+//            utils.startDfu(characteristic);
 
             final BluetoothManager bluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
             mBluetoothAdapter = bluetoothManager.getAdapter();

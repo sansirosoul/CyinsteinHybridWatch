@@ -64,10 +64,14 @@ public class MainDialFragment extends BaseFragment {
             int a = (int)analogclock.getHourTimeValue();
             a++;
             analogclock.setTimeValue(1, a);
+
+
+
         }else {
             int a = (int)analogclock.getMinutesTimeValue();
             a++;
             analogclock.setTimeValue(2, a);
+
         }
         isChangeTime = true;
 
