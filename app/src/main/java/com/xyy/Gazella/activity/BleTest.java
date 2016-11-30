@@ -22,6 +22,8 @@ import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
+import java.util.Calendar;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -168,7 +170,9 @@ public class BleTest extends BaseActivity {
             }else if(bleUtils.returnFWVer(bytes)!=null){
                 notify.setText(bleUtils.returnFWVer(bytes));
             }else if(bleUtils.returnBatteryValue(bytes)!=null){
-                notify.setText(bleUtils.returnBatteryValue(bytes));
+                notify.setText(bleUtils.returnBatteryValue(bytes)+"%");
+            }else if(bleUtils.returnDeviceName(bytes)!=null){
+                notify.setText(bleUtils.returnDeviceName(bytes));
             }
             else{
                 notify.setText(HexString.bytesToHex(bytes));
@@ -196,7 +200,12 @@ public class BleTest extends BaseActivity {
                 Write(GET_SN, bleUtils.sendMessage(1, 0, 0, 0, 0, 0), connectionObservable);
                 break;
             case R.id.btn3:
-                Write(GET_SN, bleUtils.setWatchDateAndTime(1, 2016, 11, 28, 12, 0, 0), connectionObservable);
+                Calendar calendar = Calendar.getInstance();
+                System.out.println(calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DAY_OF_MONTH)+"-"
+                        +calendar.get(Calendar.HOUR_OF_DAY)+"-"+calendar.get(Calendar.MINUTE)+"-"+calendar.get(Calendar.SECOND));
+                Write(GET_SN, bleUtils.setWatchDateAndTime(1, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH),
+                        calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND)), connectionObservable);
                 break;
             case R.id.btn4:
                 Write(GET_SN, bleUtils.setWatchAlarm(0, 0, 12, 0, 1, 1, ""), connectionObservable);
@@ -205,7 +214,7 @@ public class BleTest extends BaseActivity {
                 Write(GET_SN, bleUtils.getFWVer(), connectionObservable);
                 break;
             case R.id.btn6:
-                Write(GET_SN, bleUtils.setDeviceName("aaa"), connectionObservable);
+                Write(GET_SN, bleUtils.setDeviceName("CT003"), connectionObservable);
                 break;
             case R.id.btn7:
                 Write(GET_SN, bleUtils.getDeviceName(), connectionObservable);

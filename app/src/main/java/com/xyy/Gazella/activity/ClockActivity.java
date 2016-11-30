@@ -53,7 +53,7 @@ public class ClockActivity extends BaseActivity {
         Clock clock = new Clock();
         clock.setTime("07:00");
         clock.setRate("只响一次");
-        clock.setRingtime("5分钟");
+        clock.setSnoozeTime("5分钟");
         clock.setIsOpen(0);
         clocks.add(clock);
         adapter = new ClockListAdapter(context, clocks);
@@ -64,7 +64,7 @@ public class ClockActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(context, EditClockActivity.class);
                 intent.putExtra("time", clocks.get(i).getTime());
-                intent.putExtra("ringtime", clocks.get(i).getRingtime());
+                intent.putExtra("snooze", clocks.get(i).getSnoozeTime());
                 intent.putExtra("rate", clocks.get(i).getRate());
                 intent.putExtra("isOpen", clocks.get(i).getIsOpen());
                 position = i;
@@ -102,8 +102,8 @@ public class ClockActivity extends BaseActivity {
                 if (data != null) {
                     Clock clock = new Clock();
                     clock.setTime(data.getStringExtra("time"));
-                    clock.setRingtime(data.getStringExtra("ringtime"));
-                    clock.setRate(data.getStringExtra("repeatrate"));
+                    clock.setSnoozeTime(data.getStringExtra("snooze"));
+                    clock.setRate(data.getStringExtra("rate"));
                     clock.setIsOpen(data.getIntExtra("isOpen", -1));
                     clocks.add(clock);
                     adapter.notifyDataSetChanged();
@@ -117,8 +117,8 @@ public class ClockActivity extends BaseActivity {
                     } else if (data.getStringExtra("result").equals("edit")) {
                         Clock clock = clocks.get(position);
                         clock.setTime(data.getStringExtra("time"));
-                        clock.setRingtime(data.getStringExtra("ringtime"));
-                        clock.setRate(data.getStringExtra("repeatrate"));
+                        clock.setSnoozeTime(data.getStringExtra("snooze"));
+                        clock.setRate(data.getStringExtra("rate"));
                         clock.setIsOpen(data.getIntExtra("isOpen", -1));
                         adapter.notifyDataSetChanged();
                     }

@@ -59,11 +59,12 @@ public class UpdateHardware extends BaseActivity {
             e.printStackTrace();
         }
 
-        bleUtils = new BleUtils();
+//        bleUtils = new BleUtils();
 //        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(GazelleApplication.deviceAddress);
 //        connectionObservable = bleDevice
 //                .establishConnection(this, false)
 //                .compose(new ConnectionSharingAdapter());
+//        Notify(GET_SN,connectionObservable);
 //
 //        Write(GET_SN,bleUtils.getDeviceSN(),connectionObservable);
 //        Write(GET_SN,bleUtils.getFWVer(),connectionObservable);

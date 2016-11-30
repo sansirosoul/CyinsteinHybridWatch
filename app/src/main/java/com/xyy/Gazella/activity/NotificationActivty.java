@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.xyy.Gazella.view.SwitchView;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
@@ -49,7 +48,6 @@ public class NotificationActivty extends BaseActivity {
     ToggleButton skype;
     @BindView(R.id.wechat)
     ToggleButton wechat;
-    private CheckUpdateDialog2 myDialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -83,7 +81,6 @@ public class NotificationActivty extends BaseActivity {
             wechat.setEnabled(false);
         }
 
-        myDialog = new CheckUpdateDialog2(this);
 
         all.setOnClickListener(new View.OnClickListener() {
             @Override

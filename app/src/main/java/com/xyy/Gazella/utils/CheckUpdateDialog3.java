@@ -1,16 +1,12 @@
 package com.xyy.Gazella.utils;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.graphics.Point;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Display;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
@@ -83,7 +79,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
                                 BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
                                 if (bluetoothDevice.getName().equals("DfuTarg")) {
                                     System.out.println("OTA is starting..."+bluetoothDevice.getAddress());
-                                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00042).start(context, DfuService.class);
+                                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00046).start(context, DfuService.class);
                                     scanSubscription.unsubscribe();
                                 }
                             },
@@ -99,6 +95,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.check_update_dialog3);
+        setFinishOnTouchOutside(false);
         context=this;
         bleUtils = new BleUtils();
 
@@ -170,14 +167,14 @@ public class CheckUpdateDialog3 extends BaseActivity {
         @Override
         public void onDfuCompleted(String deviceAddress) {
             finish();
-            CheckUpdateDialog4 dialog4 = new CheckUpdateDialog4(context);
-            dialog4.show();
+            Intent intent = new Intent(context,CheckUpdateDialog4.class);
+            startActivity(intent);
         }
 
         @Override
         public void onDfuAborted(String deviceAddress) {
-            GazelleApplication.isDfu = false;
-            System.out.println("onDfuAborted");
+            Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
+            finish();
         }
 
         @Override
@@ -188,19 +185,4 @@ public class CheckUpdateDialog3 extends BaseActivity {
         }
     };
 
-    public void setDialogAttributes(Activity context, final Dialog dialog,
-                                    float widthP, float heightP, int gravity) {
-
-        Display d = context.getWindowManager().getDefaultDisplay();
-        WindowManager.LayoutParams p = dialog.getWindow().getAttributes();
-
-        Point mPoint = new Point();
-        d.getSize(mPoint);
-        if (heightP != 0)
-            p.height = (int) (mPoint.y * heightP);
-        if (widthP != 0)
-            p.width = (int) (mPoint.x * widthP);
-        dialog.getWindow().setAttributes(p);
-        dialog.getWindow().setGravity(gravity);
-    }
 }

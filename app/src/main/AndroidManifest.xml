@@ -70,6 +70,9 @@
             android:enabled="true" />
         <service android:name="com.xyy.Gazella.services.BluetoothService" />
 
+        <!--空中升级service-->
+        <service android:name="com.xyy.Gazella.services.DfuService"/>
+
         <!-- 健康管理页面 -->
         <activity
             android:name="com.xyy.Gazella.activity.HealthyActivity"
@@ -205,18 +208,28 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
+        <!--更换手表-->
         <activity
             android:name="com.xyy.Gazella.utils.ChangeWatchList"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
+        <!--空中升级-->
         <activity
             android:name="com.xyy.Gazella.utils.CheckUpdateDialog3"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
+        <activity
+            android:name="com.xyy.Gazella.utils.CheckUpdateDialog4"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
