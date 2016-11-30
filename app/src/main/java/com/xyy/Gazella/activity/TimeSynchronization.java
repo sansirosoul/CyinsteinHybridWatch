@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -34,11 +35,14 @@ import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.Subscription;
+import rx.functions.Action1;
 
 public class TimeSynchronization extends BaseActivity {
 
@@ -444,5 +448,16 @@ private boolean isRun=true;
             super.handleMessage(msg);
         }
     };
+
+    Subscription scanSubscription;
+    private  void  setcc(){
+        scanSubscription=Observable.interval(3, 3, TimeUnit.SECONDS).subscribe(new Action1<Long>() {
+            @Override
+            public void call(Long aLong) {
+                Log.d("SampleCreateActivity", "interval");
+            }
+        });
+    }
+
 
 }
