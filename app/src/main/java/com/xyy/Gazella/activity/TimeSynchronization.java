@@ -2,6 +2,8 @@ package com.xyy.Gazella.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -89,24 +91,26 @@ public class TimeSynchronization extends BaseActivity {
     private GuideShowDialog guideShowDialog;
     private RxBleDevice bleDevice;
     public Observable<RxBleConnection> connectionObservable;
-    private  BleUtils bleUtils;
-    public  static  TimeSynchronization install;
+    private BleUtils bleUtils;
+    public static TimeSynchronization install;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_synchronization);
         ButterKnife.bind(this);
-        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(PreferenceData.getAddressValue(this));
-        if(bleDevice!=null){
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals(""))
+            bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
+        if (bleDevice != null) {
             connectionObservable = bleDevice.establishConnection(this, false)
                     .compose(new ConnectionSharingAdapter());
-            Notify(GET_SN,connectionObservable);
+            Notify(GET_SN, connectionObservable);
             bleUtils = new BleUtils();
         }
         InitView();
         InitViewPager();
-        install=this;
+        install = this;
     }
 
     private void InitView() {
@@ -168,7 +172,6 @@ public class TimeSynchronization extends BaseActivity {
                     }
                 } else
                     mainDialFragment.ReduceTime();
-
                 break;
 
             case R.id.but_add://加时间
@@ -210,15 +213,15 @@ public class TimeSynchronization extends BaseActivity {
                 break;
             case R.id.but_reset:   /// 重置
 
-              int MainDiaHourTime =  mainDialFragment.getHourTimeValue();
-              int MainDiaMuinutesTime =  mainDialFragment.getMuinutesTimeValue();
-                Logger.t(TAG).e(String.valueOf(MainDiaHourTime));
-                Logger.t(TAG).e(String.valueOf(MainDiaMuinutesTime));
+                int MainDiaHourTime = mainDialFragment.getHourTimeValue();
+                int MainDiaMuinutesTime = mainDialFragment.getMuinutesTimeValue();
+                Logger.t(TAG).e("MainDiaHourTime>>>>>>>   " + String.valueOf(MainDiaHourTime));
+                Logger.t(TAG).e("MainDiaMuinutesTime>>>>>>>  " + String.valueOf(MainDiaMuinutesTime));
 
-
-
-
-                Write(bleUtils.resetHand(), connectionObservable);
+                mHandler.post(runnable);
+                mHandler.post(runnable2);
+                if (isconnectionObservable())
+                    Write(bleUtils.resetHand(), connectionObservable);
 
                 break;
             case R.id.but_synchronization:    ///同步
@@ -389,6 +392,57 @@ public class TimeSynchronization extends BaseActivity {
         PreferenceData.setSelectedSmall3Value(TimeSynchronization.this, 0);
     }
 
+    private boolean isconnectionObservable() {
+        if (connectionObservable != null)
+            return true;
+        else
+            return false;
+    }
+private boolean isRun=true;
+    private  int count;
+    private  int count2=60;
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (isRun) {
+                count++;
+                mHandler.sendEmptyMessage(1001);
+                mHandler.postDelayed(this, 50);
+            }
+        }
+    };
+    Runnable runnable2 = new Runnable() {
+        @Override
+        public void run() {
+            if (isRun) {
+                count2--;
+                mHandler.sendEmptyMessage(1002);
+                mHandler.postDelayed(this, 50);
+            }
+        }
+    };
 
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1001:
+                    if(count>60){
+                        handler.post(runnable);
+                    }else {
+                        mainDialFragment.setMuinutesTimeValue(count);
+                    }
+                    break;
+                case 1002:
+                    if(count2<0){
+                        handler.post(runnable);
+                    }else {
+                        mainDialFragment.setHourTimeValue(count2);
+                    }
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
 }

@@ -42,13 +42,15 @@ public class MainDialFragment extends BaseFragment {
     private int newTime;
     private int conut = 0;
 
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_main_dial, container, false);
         ButterKnife.bind(this, view);
 
         bleUtils = new BleUtils();
-
+        if(isconnectionObservable())
+        connectionObservable=TimeSynchronization.install.connectionObservable;
         vto = analogclock.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -64,13 +66,16 @@ public class MainDialFragment extends BaseFragment {
         analogclock.setChangeTimeListener(new AnalogClock.ChangeTimeListener() {
             @Override
             public void ChangeTimeListener(int TimeValue) {
-                int senTime = 0;
+                int senTime ;
                 if (conut == 0) {
                     laoTime = TimeValue / 2;
-                    if (analogclock.ChangeTimeType == 1)
-                        Write(bleUtils.adjHourHand(1, (laoTime)), TimeSynchronization.install.connectionObservable);
-                    else
-                        Write(bleUtils.adjMinuteHand(1, (laoTime)), TimeSynchronization.install.connectionObservable);
+                    if (analogclock.ChangeTimeType == 1) {
+                        if (isconnectionObservable())
+                            Write(bleUtils.adjHourHand(1, (laoTime)), connectionObservable);
+                    }else {
+                        if (isconnectionObservable())
+                            Write(bleUtils.adjMinuteHand(1, (laoTime)), connectionObservable);
+                    }
                 } else {
                     laoTime = newTime;
                     newTime = TimeValue / 2;
@@ -79,25 +84,25 @@ public class MainDialFragment extends BaseFragment {
                             Logger.t(TAG).e("newTime>>>>>>    " + String.valueOf(newTime) + "\n" + "laoTime>>>>>>>    " + String.valueOf(laoTime));
                             senTime = newTime - laoTime;
                             Logger.t(TAG).e("senTime>>>>>>    " + String.valueOf(senTime));
-                            if(senTime!=0)
-                            Write(bleUtils.adjHourHand(1, senTime), TimeSynchronization.install.connectionObservable);
+                            if(senTime!=0&&isconnectionObservable())
+                            Write(bleUtils.adjHourHand(1, senTime), connectionObservable);
                         } else {
                             senTime = laoTime - newTime;
                             Logger.t(TAG).e("senTime>>>>>>    " + String.valueOf(senTime));
-                            if(senTime!=0)
-                            Write(bleUtils.adjHourHand(2, senTime), TimeSynchronization.install.connectionObservable);
+                            if(senTime!=0&&isconnectionObservable())
+                            Write(bleUtils.adjHourHand(2, senTime), connectionObservable);
                         }
                     } else {
                         if (newTime > laoTime) {
                             senTime = newTime - laoTime;
                             Logger.t(TAG).e("senTime>>>>>>    " + String.valueOf(senTime));
-                            if(senTime!=0)
-                            Write(bleUtils.adjMinuteHand(1, senTime), TimeSynchronization.install.connectionObservable);
+                            if(senTime!=0&&isconnectionObservable())
+                            Write(bleUtils.adjMinuteHand(1, senTime), connectionObservable);
                         }else {
                             senTime = laoTime - newTime;
                             Logger.t(TAG).e("senTime>>>>>>    " + String.valueOf(senTime));
-                            if(senTime!=0)
-                            Write(bleUtils.adjMinuteHand(2, senTime), TimeSynchronization.install.connectionObservable);
+                            if(senTime!=0&&isconnectionObservable())
+                            Write(bleUtils.adjMinuteHand(2, senTime), connectionObservable);
                         }
                     }
                 }
@@ -132,13 +137,15 @@ public class MainDialFragment extends BaseFragment {
             int a = (int) analogclock.getHourTimeValue();
             a++;
             analogclock.setTimeValue(1, a);
-            Write(bleUtils.adjHourHand(1, 1), TimeSynchronization.install.connectionObservable);
+            if(isconnectionObservable())
+            Write(bleUtils.adjHourHand(1, 1), connectionObservable);
 
         } else {
             int a = (int) analogclock.getMinutesTimeValue();
             a++;
             analogclock.setTimeValue(2, a);
-            Write(bleUtils.adjMinuteHand(1, 1), TimeSynchronization.install.connectionObservable);
+            if(isconnectionObservable())
+            Write(bleUtils.adjMinuteHand(1, 1), connectionObservable);
         }
         isChangeTime = true;
     }
@@ -149,16 +156,16 @@ public class MainDialFragment extends BaseFragment {
             if (a == 0) a = 60;
             a--;
             analogclock.setTimeValue(1, a);
-
-            Write(bleUtils.adjHourHand(2, 1), TimeSynchronization.install.connectionObservable);
+            if(isconnectionObservable())
+            Write(bleUtils.adjHourHand(2, 1), connectionObservable);
 
         } else {
             int a = (int) analogclock.getMinutesTimeValue();
             if (a == 0) a = 60;
             a--;
             analogclock.setTimeValue(2, a);
-
-            Write(bleUtils.adjMinuteHand(2, 1), TimeSynchronization.install.connectionObservable);
+            if(isconnectionObservable())
+            Write(bleUtils.adjMinuteHand(2, 1), connectionObservable);
 
         }
         isChangeTime = true;
@@ -182,5 +189,12 @@ public class MainDialFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         saveValue = true;
+    }
+
+    private  boolean  isconnectionObservable(){
+        if(TimeSynchronization.install.connectionObservable!=null)
+            return  true;
+        else
+            return false;
     }
 }
