@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
@@ -87,8 +88,9 @@ public class TimeSynchronization extends BaseActivity {
     private int item;
     private GuideShowDialog guideShowDialog;
     private RxBleDevice bleDevice;
-    private Observable<RxBleConnection> connectionObservable;
+    public Observable<RxBleConnection> connectionObservable;
     private  BleUtils bleUtils;
+    public  static  TimeSynchronization install;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,7 @@ public class TimeSynchronization extends BaseActivity {
         }
         InitView();
         InitViewPager();
+        install=this;
     }
 
     private void InitView() {
@@ -207,7 +210,15 @@ public class TimeSynchronization extends BaseActivity {
                 break;
             case R.id.but_reset:   /// 重置
 
-                Write(GET_SN, bleUtils.resetHand(), connectionObservable);
+              int MainDiaHourTime =  mainDialFragment.getHourTimeValue();
+              int MainDiaMuinutesTime =  mainDialFragment.getMuinutesTimeValue();
+                Logger.t(TAG).e(String.valueOf(MainDiaHourTime));
+                Logger.t(TAG).e(String.valueOf(MainDiaMuinutesTime));
+
+
+
+
+                Write(bleUtils.resetHand(), connectionObservable);
 
                 break;
             case R.id.but_synchronization:    ///同步

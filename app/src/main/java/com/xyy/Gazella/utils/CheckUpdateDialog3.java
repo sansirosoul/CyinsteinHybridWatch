@@ -72,9 +72,9 @@ public class CheckUpdateDialog3 extends BaseActivity {
     }
 
     @Override
-    protected void onWriteReturn(int type, byte[] bytes) {
-        super.onWriteReturn(type, bytes);
-        if(type==GET_SN){
+    protected void onWriteReturn( byte[] bytes) {
+        super.onWriteReturn(bytes);
+
             rxBleClient = GazelleApplication.getRxBleClient(this);
             scanSubscription = rxBleClient.scanBleDevices()
                     .subscribe(
@@ -92,7 +92,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
                                 Log.d("==========","Scan error :"+throwable);
                             }
                     );
-        }
+
     }
 
     @Override
@@ -110,7 +110,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
                 .establishConnection(context, false)
                 .compose(new ConnectionSharingAdapter());
 
-        Write(GET_SN,bleUtils.startDfu(),connectionObservable);
+        Write(bleUtils.startDfu(),connectionObservable);
     }
 
     Runnable runnable = new Runnable() {

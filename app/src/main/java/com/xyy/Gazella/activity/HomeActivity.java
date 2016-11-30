@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -51,8 +50,6 @@ public class HomeActivity extends BaseActivity {
                 Intent timeIntent = new Intent(HomeActivity.this, TimeSynchronization.class);
                 startActivity(timeIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
-
-               Logger.t(TAG).i("TStr========================");
                 break;
             case R.id.ll_notice:
                 Intent noticeIntent = new Intent(HomeActivity.this, NotificationActivty.class);
