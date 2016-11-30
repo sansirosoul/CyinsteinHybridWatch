@@ -99,8 +99,6 @@ public class BaseActivity extends FragmentActivity {
                     public void call(Observable<byte[]> observable) {
                         Logger.t(TAG).e("开始接收通知  >>>>>>  ");
 
-
-
                         WiterCharacteristic(writeString,connectionObservable).observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Action1<byte[]>() {
                                     @Override
