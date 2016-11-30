@@ -67,12 +67,23 @@ public class MainDialFragment extends BaseFragment {
                 Logger.t(TAG).e("改变时间>>>>  "+String.valueOf(TimeValue/2));
                if(conut==0){
                    laoTime = TimeValue / 2;
-                   Write(bleUtils.adjMinuteHand(1,(laoTime)), TimeSynchronization.install.connectionObservable);
+                   if (analogclock.ChangeTimeType == 1)
+                       Write(bleUtils.adjHourHand(1,(laoTime)), TimeSynchronization.install.connectionObservable);
+                   else
+                       Write(bleUtils.adjMinuteHand(1,(laoTime)), TimeSynchronization.install.connectionObservable);
                }else {
-                   laoTime=newTime;
-                   newTime=TimeValue/2;
-                   if(newTime>laoTime){
-                       Write(bleUtils.adjMinuteHand(1,(newTime-laoTime)), TimeSynchronization.install.connectionObservable);
+                   laoTime = newTime;
+                   newTime = TimeValue / 2;
+                   if (analogclock.ChangeTimeType == 1) {
+                       if (newTime > laoTime)
+                           Write(bleUtils.adjHourHand(1, (newTime - laoTime)), TimeSynchronization.install.connectionObservable);
+                       else
+                           Write(bleUtils.adjHourHand(2, (laoTime - newTime)), TimeSynchronization.install.connectionObservable);
+                   }else {
+                       if (newTime > laoTime)
+                           Write(bleUtils.adjMinuteHand(1, (newTime - laoTime)), TimeSynchronization.install.connectionObservable);
+                       else
+                           Write(bleUtils.adjMinuteHand(2, (laoTime - newTime)), TimeSynchronization.install.connectionObservable);
                    }
                }
                 conut++;
@@ -101,14 +112,12 @@ public class MainDialFragment extends BaseFragment {
     public void AddTime() {
         if (analogclock.ChangeTimeType == 1) {
             int a = (int)analogclock.getHourTimeValue();
-            Logger.t(TAG).e("HourTimeValue>>>>>>>  "+String.valueOf(a));
             a++;
             analogclock.setTimeValue(1, a);
             Write( bleUtils.adjHourHand(1, 1), TimeSynchronization.install.connectionObservable);
 
         }else {
             int a = (int)analogclock.getMinutesTimeValue();
-            Logger.t(TAG).e("MinutesTimeValue>>>>>>>  "+String.valueOf(a));
             a++;
             analogclock.setTimeValue(2, a);
             Write(bleUtils.adjMinuteHand(1, 1), TimeSynchronization.install.connectionObservable);
