@@ -27,7 +27,6 @@ public class BaseFragment extends Fragment {
     private static final String TAG = BaseFragment.class.getName();
     public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
-    public final int GET_SN = 10001;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
