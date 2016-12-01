@@ -268,6 +268,10 @@ public class TimeSynchronization extends BaseActivity {
 
                 break;
             case R.id.but_reset:   /// 重置
+                if (isClickSynchronization) {
+                    showToatst(TimeSynchronization.this,"请先点击同步按键");
+                    break;
+                }
                 if (isconnectionObservable())
                     Write(bleUtils.resetHand(), connectionObservable);
                 mHandler.post(runnable);
