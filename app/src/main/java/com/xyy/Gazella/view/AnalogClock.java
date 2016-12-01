@@ -325,26 +325,31 @@ public class AnalogClock extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                   int mmintes=(int)mMinutes;
+                int mmhour=(int)mHour;
 
-                Tiemvalue = Tiemvalue / 6;
-                if (Tiemvalue == mmintes||Tiemvalue+1 == mmintes||Tiemvalue +2== mmintes||Tiemvalue+3 == mmintes||Tiemvalue+4 == mmintes||
-                        Tiemvalue -1== mmintes||Tiemvalue-2 == mmintes||Tiemvalue -3== mmintes||Tiemvalue-4 == mmintes)
+                int Tiemva =(int) Tiemvalue / 6;
+                if (Tiemva == mmintes||Tiemva+1 == mmintes||Tiemva +2== mmintes||Tiemva+3 == mmintes||Tiemva+4 == mmintes||
+                        Tiemva -1== mmintes||Tiemva-2 == mmintes||Tiemva -3== mmintes||Tiemvalue-4 == mmintes)
                     isMinutestMove = true;
                 else
                     isMinutestMove = false;
+
+                if (Tiemva == mmhour||Tiemva+1 == mmhour||Tiemva +2== mmhour||Tiemva+3 == mmhour||Tiemva+4 == mmhour||
+                        Tiemva -1== mmhour||Tiemva-2 == mmhour||Tiemva -3== mmhour||Tiemvalue-4 == mmintes)
+                    isHourMove = true;
+                else
+                    isHourMove = false;
+
                 break;
 
             case MotionEvent.ACTION_MOVE:
 
                 if (ChangeTimeType == 1) {  //移动时针
-                    double valuea = Tiemvalue / 6;
-                        mHour = (float) valuea;
-                    Logger.t(TAG).i(String.valueOf("mHour=="+mHour+"\n"+"Tiemvalue=="+valuea));
+                    if(isHourMove)
+                        mHour = (int) Tiemvalue / 6;
                 } else {
-                    if (isMinutestMove) {
-                        Tiemvalue = Tiemvalue / 6;
-                        mMinutes =(int) Tiemvalue;
-                    }
+                    if (isMinutestMove)
+                        mMinutes =(int) Tiemvalue / 6;
                 }if (changetimelistener != null)
                     changetimelistener.ChangeTimeListener((int)Tiemvalue);
                 isChangedTime = true;
