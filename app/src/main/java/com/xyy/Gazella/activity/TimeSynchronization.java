@@ -488,6 +488,9 @@ public class TimeSynchronization extends BaseActivity {
                         count = 0;
                         count2 = 60;
                         isRun = false;
+
+
+
                     } else {
                         mainDialFragment.setMuinutesTimeValue(count);
                         mainDialFragment.setHourTimeValue(count2);
