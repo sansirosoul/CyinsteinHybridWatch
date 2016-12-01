@@ -71,8 +71,8 @@ public class UpdateHardware extends BaseActivity {
     }
 
     @Override
-    protected void onReadReturn(int type, byte[] bytes) {
-        super.onReadReturn(type, bytes);
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn( bytes);
         if(bleUtils.returnDeviceSN(bytes)!=null){
             watchSN.setText(bleUtils.returnDeviceSN(bytes));
         }else if(bleUtils.returnFWVer(bytes)!=null){

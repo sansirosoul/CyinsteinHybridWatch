@@ -19,7 +19,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.orhanobut.logger.Logger;
 import com.ysp.smartwatch.R;
 
 public class AnalogClock extends View {
@@ -82,7 +81,7 @@ public class AnalogClock extends View {
             mDial = r.getDrawable(R.drawable.page12_biaopan);
             // mHourHand = r.getDrawable(R.drawable.page12_hour_selected);
             mMinuteHand = r.getDrawable(R.drawable.page12_minute_selected);
-          //  mSecondHand = r.getDrawable(R.drawable.appwidget_clock_second);
+            //  mSecondHand = r.getDrawable(R.drawable.appwidget_clock_second);
 
 
 
@@ -319,12 +318,9 @@ public class AnalogClock extends View {
         int ry = -((int) event.getY() - y);
         Point point = new Point(rx, ry);
         double Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
-
-        Logger.t(TAG).i(String.valueOf(Tiemvalue));
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                  int mmintes=(int)mMinutes;
+                int mmintes=(int)mMinutes;
                 int mmhour=(int)mHour;
 
                 int Tiemva =(int) Tiemvalue / 6;
@@ -351,7 +347,7 @@ public class AnalogClock extends View {
                     if (isMinutestMove)
                         mMinutes =(int) Tiemvalue / 6;
                 }if (changetimelistener != null)
-                    changetimelistener.ChangeTimeListener((int)Tiemvalue);
+                changetimelistener.ChangeTimeListener((int)mMinutes,(int)mHour);
                 isChangedTime = true;
                 postInvalidate();
                 break;
@@ -397,6 +393,6 @@ public class AnalogClock extends View {
     }
 
     public interface ChangeTimeListener {
-        void ChangeTimeListener(int TimeValue);
+        void ChangeTimeListener(int TimeValue,int mHour);
     }
 }

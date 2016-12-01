@@ -128,7 +128,7 @@ public class BaseActivity extends FragmentActivity {
 //        });
     }
 
-    protected void Notify(int type,Observable<RxBleConnection> connectionObservable){
+    protected void Notify(Observable<RxBleConnection> connectionObservable){
         connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                     @Override
@@ -139,7 +139,7 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void call(Observable<byte[]> observable) {
                 Logger.t(TAG).e("开始接收通知  >>>>>>  ");
-
+                onNotifyReturn(0);
             }
         }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
             @Override
@@ -150,17 +150,20 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void call(byte[] bytes) {
                 Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
-                onReadReturn(type, bytes);
+                onReadReturn(bytes);
             }
         }, new Action1<Throwable>() {
             @Override
             public void call(Throwable throwable) {
                 Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
+                onNotifyReturn(1);
             }
         });
     }
 
-    protected void onReadReturn(int type, byte[] bytes) {
+    protected void onReadReturn( byte[] bytes) {
+    }
+    protected void onNotifyReturn(int type) {
     }
 
     protected void onWriteReturn( byte[] bytes) {

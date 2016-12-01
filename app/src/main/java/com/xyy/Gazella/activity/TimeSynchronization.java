@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
@@ -26,6 +25,7 @@ import com.xyy.Gazella.fragment.SmallFragment2;
 import com.xyy.Gazella.fragment.SmallFragment3;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckAnalogClock;
+import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.GuideShowDialog;
 import com.xyy.Gazella.view.MyViewPage;
 import com.ysp.newband.BaseActivity;
@@ -35,14 +35,13 @@ import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.Subscription;
-import rx.functions.Action1;
+import rx.subjects.PublishSubject;
+
 
 public class TimeSynchronization extends BaseActivity {
 
@@ -97,6 +96,16 @@ public class TimeSynchronization extends BaseActivity {
     public Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public static TimeSynchronization install;
+    private CommonDialog dialog;
+    private Time mCalendar;
+    public int hour;
+    public int minute;
+    private int second;
+    private int myear;
+    private int month;
+    private int mday;
+    private int HourDay;
+    private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,14 +116,50 @@ public class TimeSynchronization extends BaseActivity {
         if (address != null && !address.equals(""))
             bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
         if (bleDevice != null) {
-            connectionObservable = bleDevice.establishConnection(this, false)
+            connectionObservable = bleDevice
+                    .establishConnection(this, false)
+//                    .takeUntil(disconnectTriggerSubject)
+//                    .doOnUnsubscribe(this::clearSubscription)
                     .compose(new ConnectionSharingAdapter());
-            Notify(GET_SN, connectionObservable);
+
+            Notify(connectionObservable);
             bleUtils = new BleUtils();
         }
         InitView();
         InitViewPager();
+        initTime();
         install = this;
+        dialog = new CommonDialog(TimeSynchronization.this);
+        dialog.show();
+
+    }
+
+    @Override
+    protected void onNotifyReturn(int type) {
+        if (type == 0) {              //可以接收通知
+            if (dialog.isShowing())
+                dialog.dismiss();
+        } else {
+            if (dialog.isShowing()) {
+                dialog.setTvContext("没有搜索蓝牙");
+            }
+        }
+        super.onNotifyReturn(type);
+    }
+
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+
+        super.onReadReturn(bytes);
+
+    }
+
+    private void clearSubscription() {
+        connectionObservable = null;
+    }
+
+    private void triggerDisconnect() {
+        disconnectTriggerSubject.onNext(null);
     }
 
     private void InitView() {
@@ -216,16 +261,10 @@ public class TimeSynchronization extends BaseActivity {
 
                 break;
             case R.id.but_reset:   /// 重置
-
-                int MainDiaHourTime = mainDialFragment.getHourTimeValue();
-                int MainDiaMuinutesTime = mainDialFragment.getMuinutesTimeValue();
-                Logger.t(TAG).e("MainDiaHourTime>>>>>>>   " + String.valueOf(MainDiaHourTime));
-                Logger.t(TAG).e("MainDiaMuinutesTime>>>>>>>  " + String.valueOf(MainDiaMuinutesTime));
-
-                mHandler.post(runnable);
-                mHandler.post(runnable2);
                 if (isconnectionObservable())
                     Write(bleUtils.resetHand(), connectionObservable);
+                mHandler.post(runnable);
+                isRun = true;
 
                 break;
             case R.id.but_synchronization:    ///同步
@@ -235,6 +274,11 @@ public class TimeSynchronization extends BaseActivity {
                 small1TimeValue = PreferenceData.getSelectedSmall1Value(this);
                 small2TimeValue = PreferenceData.getSelectedSmall2Value(this);
                 small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
+
+                Write(bleUtils.setWatchDateAndTime(1, myear, month, mday, hour, minute, second), connectionObservable);
+//                setSynchronizationTime();
+                mHandler.post(SynchronizationTime);
+                SynchronizationTimeRun = true;
 
                 break;
             case R.id.btnExit:   // 退出
@@ -402,46 +446,75 @@ public class TimeSynchronization extends BaseActivity {
         else
             return false;
     }
-private boolean isRun=true;
-    private  int count;
-    private  int count2=60;
+
+    private boolean isRun = true;
+    private boolean SynchronizationTimeRun = true;
+    private boolean HourCount = true;
+    private boolean MuinutesCount = true;
+    private int count;
+    private int count2 = 60;
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
             if (isRun) {
                 count++;
+                count2--;
                 mHandler.sendEmptyMessage(1001);
                 mHandler.postDelayed(this, 50);
             }
         }
     };
-    Runnable runnable2 = new Runnable() {
+    Runnable SynchronizationTime = new Runnable() {
         @Override
         public void run() {
-            if (isRun) {
-                count2--;
+            if (SynchronizationTimeRun) {
+                if (MuinutesCount)
+                    count++;
+                if (HourCount)
+                    count2--;
                 mHandler.sendEmptyMessage(1002);
                 mHandler.postDelayed(this, 50);
             }
         }
     };
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 1001:
-                    if(count>60){
+                    if (count > 60 && count2 < 0) {
                         handler.post(runnable);
-                    }else {
+                        count = 0;
+                        count2 = 60;
+                        isRun = false;
+
+
+
+                    } else {
                         mainDialFragment.setMuinutesTimeValue(count);
+                        mainDialFragment.setHourTimeValue(count2);
+                        isRun = true;
                     }
                     break;
                 case 1002:
-                    if(count2<0){
-                        handler.post(runnable);
-                    }else {
-                        mainDialFragment.setHourTimeValue(count2);
+                    if (count2 < HourDay)
+                        HourCount = false;
+                    if (count > minute)
+                        MuinutesCount = false;
+                    if (count2 < HourDay && count > minute) {
+                        handler.post(SynchronizationTime);
+                        count = 0;
+                        count2 = 60;
+                        SynchronizationTimeRun = false;
+                    } else {
+                        if (HourCount)
+                            mainDialFragment.setHourTimeValue(count2);
+                        if (MuinutesCount)
+                            mainDialFragment.setMuinutesTimeValue(count);
+                        SynchronizationTimeRun = true;
+                        MuinutesCount = true;
+                        HourCount = true;
                     }
                     break;
             }
@@ -449,14 +522,24 @@ private boolean isRun=true;
         }
     };
 
-    Subscription scanSubscription;
-    private  void  setcc(){
-        scanSubscription=Observable.interval(3, 3, TimeUnit.SECONDS).subscribe(new Action1<Long>() {
-            @Override
-            public void call(Long aLong) {
-                Log.d("SampleCreateActivity", "interval");
-            }
-        });
-    }
+    private void initTime() {
+        mCalendar = new Time();
+        mCalendar.setToNow();// 取当前时间
+        hour = mCalendar.hour;
+        minute = mCalendar.minute;
+        second = mCalendar.second;
+        myear = mCalendar.year;
+        month = mCalendar.month;
+        mday = mCalendar.monthDay;
+        if (hour >= 12)
+            HourDay = hour - 12;
+        else
+            HourDay = hour;
 
+        int count = HourDay;
+        HourDay=0;
+        for (int i = 0; i < count; i++) {
+            HourDay += 5;
+        }
+    }
 }
