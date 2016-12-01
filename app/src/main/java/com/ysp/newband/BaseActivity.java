@@ -128,7 +128,7 @@ public class BaseActivity extends FragmentActivity {
 //        });
     }
 
-    protected void Notify(int type,Observable<RxBleConnection> connectionObservable){
+    protected void Notify(Observable<RxBleConnection> connectionObservable){
         connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                     @Override
@@ -150,7 +150,7 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void call(byte[] bytes) {
                 Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
-                onReadReturn(type, bytes);
+                onReadReturn(bytes);
             }
         }, new Action1<Throwable>() {
             @Override
@@ -160,7 +160,7 @@ public class BaseActivity extends FragmentActivity {
         });
     }
 
-    protected void onReadReturn(int type, byte[] bytes) {
+    protected void onReadReturn(byte[] bytes) {
     }
 
     protected void onWriteReturn( byte[] bytes) {

@@ -273,7 +273,6 @@
                 android:layout_height="1dp"/>
             <RelativeLayout
                 android:id="@+id/rl_search_watch"
-                android:background="@drawable/selector_setting_rl"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
                <ImageView
@@ -404,15 +403,16 @@
                     <!--android:layout_width="wrap_content"-->
                     <!--android:layout_height="wrap_content" />-->
                <com.xyy.Gazella.view.SwitchView
-                   android:id="@+id/v_switch"
-                   android:layout_width="45dip"
-                   android:layout_height="wrap_content"
-                   android:layout_alignParentRight="true"
-                   android:layout_centerVertical="true"
-                   android:layout_marginRight="10dp"
-                   app:primaryColor="#257BB6"
-                   app:primaryColorDark="#252525"
-                   app:isOpened="true"/>
+               android:id="@+id/v_switch"
+               android:layout_width="45dip"
+               android:layout_height="wrap_content"
+               android:layout_alignParentRight="true"
+               android:layout_centerVertical="true"
+               android:layout_marginRight="10dp"
+               app:primaryColor="#257BB6"
+               app:primaryColorDark="#252525"
+               app:isOpened="false"/>
+
 
             </RelativeLayout>
          </LinearLayout>

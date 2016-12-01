@@ -10,9 +10,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
-import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
-import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
+import com.xyy.Gazella.activity.SettingActivity;
 import com.xyy.Gazella.services.DfuService;
 import com.xyy.Gazella.view.NumberProgressBar;
 import com.ysp.newband.BaseActivity;
@@ -22,7 +21,6 @@ import com.ysp.smartwatch.R;
 import no.nordicsemi.android.dfu.DfuProgressListener;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
-import rx.Observable;
 import rx.Subscription;
 
 /**
@@ -32,7 +30,6 @@ import rx.Subscription;
 public class CheckUpdateDialog3 extends BaseActivity {
     private Context context;
     private NumberProgressBar numberbar;
-    private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private BleUtils bleUtils;
     private RxBleClient rxBleClient;
@@ -44,10 +41,10 @@ public class CheckUpdateDialog3 extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1001:
-                    if(numberbar.getProgress()==100) {
+                    if (numberbar.getProgress() == 100) {
                         numberbar.setProgress(0);
 
-                    }else {
+                    } else {
                         numberbar.incrementProgressBy(1);
                     }
                     break;
@@ -68,26 +65,26 @@ public class CheckUpdateDialog3 extends BaseActivity {
     }
 
     @Override
-    protected void onWriteReturn( byte[] bytes) {
+    protected void onWriteReturn(byte[] bytes) {
         super.onWriteReturn(bytes);
 
-            rxBleClient = GazelleApplication.getRxBleClient(this);
-            scanSubscription = rxBleClient.scanBleDevices()
-                    .subscribe(
-                            rxBleScanResult -> {
-                                // Process scan result here.
-                                BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
-                                if (bluetoothDevice.getName().equals("DfuTarg")) {
-                                    System.out.println("OTA is starting..."+bluetoothDevice.getAddress());
-                                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00046).start(context, DfuService.class);
-                                    scanSubscription.unsubscribe();
-                                }
-                            },
-                            throwable -> {
-                                // Handle an error here.
-                                Log.d("==========","Scan error :"+throwable);
+        rxBleClient = GazelleApplication.getRxBleClient(this);
+        scanSubscription = rxBleClient.scanBleDevices()
+                .subscribe(
+                        rxBleScanResult -> {
+                            // Process scan result here.
+                            BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
+                            if (bluetoothDevice.getName().equals("DfuTarg")) {
+                                System.out.println("OTA is starting..." + bluetoothDevice.getAddress());
+                                new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00047).start(context, DfuService.class);
+                                scanSubscription.unsubscribe();
                             }
-                    );
+                        },
+                        throwable -> {
+                            // Handle an error here.
+                            Log.d("==========", "Scan error :" + throwable);
+                        }
+                );
 
     }
 
@@ -96,18 +93,13 @@ public class CheckUpdateDialog3 extends BaseActivity {
         super.onCreate(arg0);
         setContentView(R.layout.check_update_dialog3);
         setFinishOnTouchOutside(false);
-        context=this;
+        context = this;
         bleUtils = new BleUtils();
 
-        numberbar=(NumberProgressBar)findViewById(R.id.numberbar);
+        numberbar = (NumberProgressBar) findViewById(R.id.numberbar);
 //        mHandler.post(runnable);
 
-        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(GazelleApplication.deviceAddress);
-        connectionObservable = bleDevice
-                .establishConnection(context, false)
-                .compose(new ConnectionSharingAdapter());
-
-        Write(bleUtils.startDfu(),connectionObservable);
+        Write(bleUtils.startDfu(), SettingActivity.connectionObservable);
     }
 
     Runnable runnable = new Runnable() {
@@ -146,7 +138,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onProgressChanged(String deviceAddress, int percent, float speed, float avgSpeed, int currentPart, int partsTotal) {
-              numberbar.setProgress(percent);
+            numberbar.setProgress(percent);
         }
 
         @Override
@@ -167,7 +159,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
         @Override
         public void onDfuCompleted(String deviceAddress) {
             finish();
-            Intent intent = new Intent(context,CheckUpdateDialog4.class);
+            Intent intent = new Intent(context, CheckUpdateDialog4.class);
             startActivity(intent);
         }
 

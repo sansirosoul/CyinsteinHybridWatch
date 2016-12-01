@@ -198,6 +198,21 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+        <activity android:name="com.xyy.Gazella.utils.CleanWatchData"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+        <activity android:name="com.xyy.Gazella.utils.RenameWatchDialog"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+        <activity android:name="com.xyy.Gazella.utils.ChangeWatchDialog"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
 
         <!-- 帮助页面 -->
         <activity

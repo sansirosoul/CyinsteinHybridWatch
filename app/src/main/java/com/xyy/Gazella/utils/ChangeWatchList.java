@@ -20,14 +20,18 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.polidea.rxandroidble.RxBleClient;
 import com.xyy.Gazella.adapter.ChangeWatchListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Subscription;
 
 /**
  * Created by Administrator on 2016/11/2.
@@ -44,51 +48,59 @@ public class ChangeWatchList extends BaseActivity {
     private LoadingDialog loadingDialog;
     private PairFailedDialog pairFailedDialog;
     private BluetoothDevice device;
+    private RxBleClient rxBleClient;
+    private Subscription scanSubscription;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.change_watch_list);
+        rxBleClient = GazelleApplication.getRxBleClient(this);
         initView();
         initBluetooth();
     }
 
     private void initView() {
         setFinishOnTouchOutside(false);
-        context=this;
-        listView= (ListView) findViewById(R.id.listview);
+        context = this;
+        listView = (ListView) findViewById(R.id.listview);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                loadingDialog.show();
-                GazelleApplication.mBluetoothService.close();
-                if(GazelleApplication.mBluetoothService.initialize()){
-                    device=devices.get(i);
-                    GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
-                    GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
-                }
-                if(bluetoothAdapter!=null){
-                    bluetoothAdapter.stopLeScan(leScanCallback);
-                }
-            }
-        });
+//                loadingDialog.show();
+                scanSubscription.unsubscribe();
+//                GazelleApplication.mBluetoothService.close();
+//                if (GazelleApplication.mBluetoothService.initialize()) {
+//                    device = devices.get(i);
+//                    GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
+//                    GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
+//                }
+//                if (bluetoothAdapter != null) {
+//                    bluetoothAdapter.stopLeScan(leScanCallback);
+//                }
 
-        deviceListAdapter = new ChangeWatchListAdapter(context,devices);
-        listView.setAdapter(deviceListAdapter);
-
-        cancel= (Button) findViewById(R.id.cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(bluetoothAdapter!=null){
-                    bluetoothAdapter.stopLeScan(leScanCallback);
-                }
+                PreferenceData.setAddressValue(context, devices.get(i).getAddress());
                 finish();
             }
         });
 
-        loadingDialog=new LoadingDialog(context);
-        pairFailedDialog=new PairFailedDialog(context);
+        deviceListAdapter = new ChangeWatchListAdapter(context, devices);
+        listView.setAdapter(deviceListAdapter);
+
+        cancel = (Button) findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                if (bluetoothAdapter != null) {
+//                    bluetoothAdapter.stopLeScan(leScanCallback);
+//                }
+                scanSubscription.unsubscribe();
+                finish();
+            }
+        });
+
+        loadingDialog = new LoadingDialog(context);
+        pairFailedDialog = new PairFailedDialog(context);
     }
 
     @Override
@@ -104,12 +116,13 @@ public class ChangeWatchList extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(bluetoothAdapter!=null){
-//            if(bluetoothLeScanner!=null){
-//                bluetoothLeScanner.stopScan(scanCallback);
-//            }
-            bluetoothAdapter.stopLeScan(leScanCallback);
-        }
+//        if (bluetoothAdapter != null) {
+////            if(bluetoothLeScanner!=null){
+////                bluetoothLeScanner.stopScan(scanCallback);
+////            }
+//            bluetoothAdapter.stopLeScan(leScanCallback);
+//    }
+        scanSubscription.unsubscribe();
     }
 
     private void initBluetooth() {
@@ -137,13 +150,13 @@ public class ChangeWatchList extends BaseActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(bluetoothDevice.getName() != null&&(bluetoothDevice.getName().equals("Watch")
+                    if (bluetoothDevice.getName() != null && (bluetoothDevice.getName().equals("Watch")
                             || bluetoothDevice.getName().equals("Partner")
                             || bluetoothDevice.getName().equals("Band")
                             || bluetoothDevice.getName().equals("Felix") || bluetoothDevice
-                            .getName().equals("Nova"))){
-                        Log.d("=====",bluetoothDevice.getAddress());
-                        if(!devices.contains(bluetoothDevice)){
+                            .getName().equals("Nova"))) {
+                        Log.d("=====", bluetoothDevice.getAddress());
+                        if (!devices.contains(bluetoothDevice)) {
                             devices.add(bluetoothDevice);
                             deviceListAdapter.notifyDataSetChanged();
                         }
@@ -155,26 +168,52 @@ public class ChangeWatchList extends BaseActivity {
     };
 
     //sdk6.0以上获取蓝牙权限
-    private static final int REQUEST_FINE_LOCATION=0;
+    private static final int REQUEST_FINE_LOCATION = 0;
+
     private void mayRequestLocation() {
         if (Build.VERSION.SDK_INT >= 23) {
             int checkCallPhonePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION);
-            if(checkCallPhonePermission != PackageManager.PERMISSION_GRANTED){
-                Log.d("===========","没有蓝牙权限");
+            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                Log.d("===========", "没有蓝牙权限");
                 //请求蓝牙权限
-                ActivityCompat.requestPermissions(this ,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},REQUEST_FINE_LOCATION);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_FINE_LOCATION);
                 return;
-            }else{
-                Log.d("===========","有蓝牙权限");
-//                scanDevices();
+            } else {
+                Log.d("===========", "有蓝牙权限");
                 devices.clear();
-                bluetoothAdapter.startLeScan(leScanCallback);
+                scanDevices();
+//                bluetoothAdapter.startLeScan(leScanCallback);
             }
         } else {
-//           scanDevices();
             devices.clear();
-            bluetoothAdapter.startLeScan(leScanCallback);
+            scanDevices();
+//            bluetoothAdapter.startLeScan(leScanCallback);
         }
+    }
+
+    private void scanDevices() {
+        scanSubscription = rxBleClient.scanBleDevices()
+                .subscribe(
+                        rxBleScanResult -> {
+                            // Process scan result here.
+                            BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (bluetoothDevice.getName() != null) {
+                                        if (!devices.contains(bluetoothDevice)) {
+                                            devices.add(bluetoothDevice);
+                                            deviceListAdapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                }
+                            });
+                        },
+                        throwable -> {
+                            // Handle an error here.
+                            Log.d("==========", "Scan error :" + throwable);
+                        }
+                );
     }
 
     @Override
@@ -186,10 +225,10 @@ public class ChangeWatchList extends BaseActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // The requested permission is granted.
 
-//                   scanDevices();
+                    scanDevices();
                     devices.clear();
-                    bluetoothAdapter.startLeScan(leScanCallback);
-                } else{
+//                    bluetoothAdapter.startLeScan(leScanCallback);
+                } else {
                     // The user disallowed the requested permission.
 
                 }
@@ -198,15 +237,16 @@ public class ChangeWatchList extends BaseActivity {
         }
     }
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case BluetoothService.STATE_CONNECTED:
                     loadingDialog.dismiss();
-                    GazelleApplication.deviceAddress=device.getAddress();
-                    GazelleApplication.deviceName=device.getName();
+                    GazelleApplication.deviceAddress = device.getAddress();
+                    GazelleApplication.deviceName = device.getName();
+                    PreferenceData.setAddressValue(context, device.getAddress());
                     finish();
                     break;
                 case BluetoothService.STATE_DISCONNECTED:
@@ -217,4 +257,5 @@ public class ChangeWatchList extends BaseActivity {
             }
         }
     };
+
 }

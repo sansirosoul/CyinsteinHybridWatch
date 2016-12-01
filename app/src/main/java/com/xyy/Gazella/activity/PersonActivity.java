@@ -21,10 +21,10 @@ import com.bigkoo.pickerview.TimePickerView;
 import com.kevin.crop.UCrop;
 import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
-import com.xyy.Gazella.utils.SharedPreferencesUtils;
 import com.xyy.Gazella.utils.WeightDialog;
 import com.xyy.Gazella.view.RoundImageView;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.io.File;
@@ -234,9 +234,8 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 //                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
-                SharedPreferencesUtils spu = new SharedPreferencesUtils(
-                        context);
-                spu.setUserInfo(edName.getText().toString(), tvBirth.getText().toString(), sex, tvHeight.getText().toString(), tvWeight.getText().toString());
+                PreferenceData.setUserInfo(context,edName.getText().toString(), tvBirth.getText().toString(), sex,
+                        tvHeight.getText().toString(), tvWeight.getText().toString());
                 Intent intent = new Intent(context, HomeActivity.class);
                 PersonActivity.this.finish();
                 startActivity(intent);

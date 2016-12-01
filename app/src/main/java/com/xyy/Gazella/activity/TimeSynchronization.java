@@ -101,7 +101,7 @@ public class TimeSynchronization extends BaseActivity {
         if(bleDevice!=null){
             connectionObservable = bleDevice.establishConnection(this, false)
                     .compose(new ConnectionSharingAdapter());
-            Notify(GET_SN,connectionObservable);
+            Notify(connectionObservable);
             bleUtils = new BleUtils();
         }
         InitView();

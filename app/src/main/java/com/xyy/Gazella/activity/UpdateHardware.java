@@ -8,8 +8,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.polidea.rxandroidble.RxBleConnection;
-import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckUpdateDialog1;
 import com.ysp.newband.BaseActivity;
@@ -18,7 +16,8 @@ import com.ysp.smartwatch.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
+
+import static com.xyy.Gazella.activity.SettingActivity.connectionObservable;
 
 
 /**
@@ -42,8 +41,6 @@ public class UpdateHardware extends BaseActivity {
     @BindView(R.id.battery)
     TextView battery;
     private BleUtils bleUtils;
-    private Observable<RxBleConnection> connectionObservable;
-    private RxBleDevice bleDevice;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -59,21 +56,17 @@ public class UpdateHardware extends BaseActivity {
             e.printStackTrace();
         }
 
-//        bleUtils = new BleUtils();
-//        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(GazelleApplication.deviceAddress);
-//        connectionObservable = bleDevice
-//                .establishConnection(this, false)
-//                .compose(new ConnectionSharingAdapter());
-//        Notify(GET_SN,connectionObservable);
-//
-//        Write(GET_SN,bleUtils.getDeviceSN(),connectionObservable);
-//        Write(GET_SN,bleUtils.getFWVer(),connectionObservable);
-//        Write(GET_SN,bleUtils.getBatteryValue(),connectionObservable);
+        bleUtils = new BleUtils();
+        Notify(connectionObservable);
+
+        Write(bleUtils.getDeviceSN(),connectionObservable);
+        Write(bleUtils.getFWVer(),connectionObservable);
+        Write(bleUtils.getBatteryValue(),connectionObservable);
     }
 
     @Override
-    protected void onReadReturn(int type, byte[] bytes) {
-        super.onReadReturn(type, bytes);
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
         if(bleUtils.returnDeviceSN(bytes)!=null){
             watchSN.setText(bleUtils.returnDeviceSN(bytes));
         }else if(bleUtils.returnFWVer(bytes)!=null){
