@@ -40,7 +40,7 @@ public class MainDialFragment extends BaseFragment {
     private BleUtils bleUtils;
     private int laoTime;
     private int newTime;
-    private int conut = 0;
+    private boolean conut = true;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -51,6 +51,8 @@ public class MainDialFragment extends BaseFragment {
         bleUtils = new BleUtils();
         if(isconnectionObservable())
         connectionObservable=TimeSynchronization.install.connectionObservable;
+        analogclock.setTimeValue(1,TimeSynchronization.install.hour);
+        analogclock.setTimeValue(2,TimeSynchronization.install.minute);
         vto = analogclock.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -65,21 +67,22 @@ public class MainDialFragment extends BaseFragment {
 
         analogclock.setChangeTimeListener(new AnalogClock.ChangeTimeListener() {
             @Override
-            public void ChangeTimeListener(int TimeValue) {
+            public void ChangeTimeListener(int mMinutes,int mHour) {
                 int senTime ;
-                if (conut == 0) {
-                    laoTime = TimeValue / 2;
+                if (conut ) {
                     if (analogclock.ChangeTimeType == 1) {
+                        laoTime = mHour ;
                         if (isconnectionObservable())
                             Write(bleUtils.adjHourHand(1, (laoTime)), connectionObservable);
                     }else {
+                        laoTime = mMinutes ;
                         if (isconnectionObservable())
                             Write(bleUtils.adjMinuteHand(1, (laoTime)), connectionObservable);
                     }
                 } else {
-                    laoTime = newTime;
-                    newTime = TimeValue / 2;
                     if (analogclock.ChangeTimeType == 1) {
+                        laoTime = newTime;
+                        newTime = mHour;
                         if (newTime > laoTime) {
                             Logger.t(TAG).e("newTime>>>>>>    " + String.valueOf(newTime) + "\n" + "laoTime>>>>>>>    " + String.valueOf(laoTime));
                             senTime = newTime - laoTime;
@@ -87,12 +90,15 @@ public class MainDialFragment extends BaseFragment {
                             if(senTime!=0&&isconnectionObservable())
                             Write(bleUtils.adjHourHand(1, senTime), connectionObservable);
                         } else {
+
                             senTime = laoTime - newTime;
                             Logger.t(TAG).e("senTime>>>>>>    " + String.valueOf(senTime));
                             if(senTime!=0&&isconnectionObservable())
                             Write(bleUtils.adjHourHand(2, senTime), connectionObservable);
                         }
                     } else {
+                        laoTime = newTime;
+                        newTime = mMinutes ;
                         if (newTime > laoTime) {
                             senTime = newTime - laoTime;
                             Logger.t(TAG).e("senTime>>>>>>    " + String.valueOf(senTime));
@@ -106,7 +112,7 @@ public class MainDialFragment extends BaseFragment {
                         }
                     }
                 }
-                conut++;
+                conut=false;
             }
         });
         return view;

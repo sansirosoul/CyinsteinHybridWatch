@@ -64,13 +64,6 @@
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/greendao" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/jni" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/rs" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/res" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/assets" type="java-test-resource" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/aidl" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/jni" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/src/test/rs" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/res" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/resources" type="java-test-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/assets" type="java-test-resource" />
@@ -78,6 +71,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/jni" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/rs" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
@@ -119,7 +119,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 23 Platform (2)" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="googleBLE" level="project" />
     <orderEntry type="library" exported="" name="support-v4-24.2.1" level="project" />
@@ -135,8 +135,8 @@
     <orderEntry type="library" exported="" name="rxlifecycle-components-0.5.0" level="project" />
     <orderEntry type="library" exported="" name="greendao-3.1.1" level="project" />
     <orderEntry type="library" exported="" name="support-vector-drawable-23.4.0" level="project" />
-    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
     <orderEntry type="library" exported="" name="butterknife-compiler-8.4.0" level="project" />
+    <orderEntry type="library" exported="" name="glide-3.7.0" level="project" />
     <orderEntry type="library" exported="" name="Juts-License" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.4.0" level="project" />
     <orderEntry type="library" exported="" name="samsung_ble_sdk_200" level="project" />
@@ -190,8 +190,8 @@
     <orderEntry type="library" exported="" name="MobTools-2016.1107.1809" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Moments-2.7.10" level="project" />
     <orderEntry type="library" exported="" name="MobCommons-2016.1107.1809" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Instagram-2.7.10" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Linkedin-2.7.10" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Instagram-2.7.10" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Kakao-Core-2.7.10" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Core-2.7.10" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Facebook-2.7.10" level="project" />
@@ -200,8 +200,8 @@
     <orderEntry type="library" exported="" name="ShareSDK-Wechat-Favorite-2.7.10" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Line-2.7.10" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Twitter-2.7.10" level="project" />
-    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.7.10" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-WhatsApp-2.7.10" level="project" />
+    <orderEntry type="library" exported="" name="ShareSDK-Wechat-Core-2.7.10" level="project" />
     <orderEntry type="library" exported="" name="ShareSDK-Email-2.7.10" level="project" />
   </component>
 </module>

@@ -110,7 +110,7 @@ public class BleTest extends BaseActivity {
                 .establishConnection(this, false)
                 .compose(new ConnectionSharingAdapter());
 
-        Notify(GET_SN,connectionObservable);
+        Notify(connectionObservable);
 
 //        writeCharacteristic=GazelleApplication.mBluetoothService.getWriteCharacteristic();
 //        notifyCharacteristic=GazelleApplication.mBluetoothService.getNotifyCharacteristic();
@@ -157,9 +157,9 @@ public class BleTest extends BaseActivity {
     };
 
     @Override
-    protected void onReadReturn(int type, byte[] bytes) {
-        super.onReadReturn(type, bytes);
-        if (type == GET_SN) {
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn( bytes);
+
             if(bleUtils.returnTodayStep(bytes)!=null){
                 StepData  data = bleUtils.returnTodayStep(bytes);
                 notify.setText(data.getYear()+"-"+data.getMonth()+"-"+data.getDay()+"步数"+data.getStep());
@@ -173,7 +173,6 @@ public class BleTest extends BaseActivity {
             else{
                 notify.setText(HexString.bytesToHex(bytes));
             }
-        }
     }
 
     @Override
