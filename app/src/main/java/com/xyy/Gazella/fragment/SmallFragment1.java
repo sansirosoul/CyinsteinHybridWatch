@@ -76,11 +76,11 @@ public class SmallFragment1 extends BaseFragment {
                     if (newTime > laoTime) {
                         senTime = newTime - laoTime;
                         if (senTime != 0 && isconnectionObservable())
-                            Write(bleUtils.adjSecondHand(1, senTime), connectionObservable);
+                            Write(bleUtils.adjSecondHand(1, 1), connectionObservable);
                     } else {
                         senTime = laoTime - newTime;
                         if (senTime != 0 && isconnectionObservable())
-                            Write(bleUtils.adjSecondHand(2, senTime), connectionObservable);
+                            Write(bleUtils.adjSecondHand(2, 1), connectionObservable);
                     }
                 }
                 conut = false;

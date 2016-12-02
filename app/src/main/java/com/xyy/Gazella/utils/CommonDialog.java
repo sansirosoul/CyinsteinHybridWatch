@@ -30,7 +30,7 @@ public class CommonDialog  extends Dialog {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.check_update_dialog1);
+        setContentView(R.layout.commdialog);
         iv_loading = (ProgressBar) findViewById(R.id.iv_loading);
         tvContext=(TextView)findViewById(R.id.tv_context);
 

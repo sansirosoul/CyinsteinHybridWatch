@@ -83,11 +83,11 @@ public class MainDialFragment extends BaseFragment {
                         if (newTime > laoTime) {
                             senTime = newTime - laoTime;
                             if(senTime!=0&&isconnectionObservable())
-                            Write(bleUtils.adjHourHand(1, senTime), connectionObservable);
+                            Write(bleUtils.adjHourHand(1, 1), connectionObservable);
                         } else {
                             senTime = laoTime - newTime;
                             if(senTime!=0&&isconnectionObservable())
-                            Write(bleUtils.adjHourHand(2, senTime), connectionObservable);
+                            Write(bleUtils.adjHourHand(2, 1), connectionObservable);
                         }
                     } else {
                         laoTime = newTime;
@@ -95,11 +95,11 @@ public class MainDialFragment extends BaseFragment {
                         if (newTime > laoTime) {
                             senTime = newTime - laoTime;
                             if(senTime!=0&&isconnectionObservable())
-                            Write(bleUtils.adjMinuteHand(1, senTime), connectionObservable);
+                            Write(bleUtils.adjMinuteHand(1, 1), connectionObservable);
                         }else {
                             senTime = laoTime - newTime;
                             if(senTime!=0&&isconnectionObservable())
-                            Write(bleUtils.adjMinuteHand(2, senTime), connectionObservable);
+                            Write(bleUtils.adjMinuteHand(2, 1), connectionObservable);
                         }
                     }
                 }

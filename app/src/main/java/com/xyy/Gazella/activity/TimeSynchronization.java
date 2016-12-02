@@ -111,7 +111,7 @@ public class TimeSynchronization extends BaseActivity {
     private int mday;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private boolean isClickSynchronization = false;
-    private  boolean  isShwoSynchronization = false;
+    private boolean isShwoSynchronization = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -253,13 +253,14 @@ public class TimeSynchronization extends BaseActivity {
                 if (!isShwoSynchronization()) {
                     setChangeTimeType(1);
                 }
+                mainDialFragment.conut = true;
                 break;
             case R.id.but_muinutes://  调整分针
                 if (!isShwoSynchronization()) {
 
                     setChangeTimeType(2);
                 }
-
+                mainDialFragment.conut = true;
                 break;
             case R.id.but_second:   // 调整小时针
                 if (!isShwoSynchronization()) {
@@ -270,6 +271,7 @@ public class TimeSynchronization extends BaseActivity {
                     butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
                     butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
                 }
+                mainDialFragment.conut = true;
                 break;
             case R.id.but_reset:   /// 重置
                 if (isClickSynchronization) {
@@ -282,6 +284,7 @@ public class TimeSynchronization extends BaseActivity {
                 isRun = true;
                 tvHint.setText("第二步: 调整表盘指针将手表时,分针拨至12点整 后点击同步按键");
                 isClickSynchronization = true;
+                isShwoSynchronization = true;
                 break;
             case R.id.but_synchronization:    ///同步
                 if (!isClickSynchronization) {
@@ -569,13 +572,13 @@ public class TimeSynchronization extends BaseActivity {
         }
     }
 
-    private  boolean isShwoSynchronization(){
-        if (!isClickSynchronization&&!isShwoSynchronization) {
+    private boolean isShwoSynchronization() {
+        if (!isClickSynchronization && !isShwoSynchronization) {
             showToatst(TimeSynchronization.this, "请先点击同步按键");
-            isShwoSynchronization=true;
-          return   true;
-        }else {
-            return   false;
+            isShwoSynchronization = true;
+            return true;
+        } else {
+            return false;
         }
     }
 }
