@@ -67,6 +67,9 @@
             android:enabled="true" />
         <service android:name="com.xyy.Gazella.services.BluetoothService" />
 
+        <!--空中升级service-->
+        <service android:name="com.xyy.Gazella.services.DfuService"/>
+
         <!-- 健康管理页面 -->
         <activity
             android:name="com.xyy.Gazella.activity.HealthyActivity"
@@ -95,6 +98,18 @@
             android:theme="@style/ExampleTheme" />
         <!-- 起动页面 -->
         <activity
+            android:name="com.xyy.Gazella.activity.StartActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.xyy.Gazella.activity.LaunchActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
@@ -106,11 +121,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.xyy.Gazella.activity.PairingActivity"
@@ -151,7 +162,7 @@
         <activity
             android:name="com.xyy.Gazella.activity.SettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.xyy.Gazella.activity.UserSetting"
@@ -183,6 +194,21 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+        <activity android:name="com.xyy.Gazella.utils.CleanWatchData"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+        <activity android:name="com.xyy.Gazella.utils.RenameWatchDialog"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+        <activity android:name="com.xyy.Gazella.utils.ChangeWatchDialog"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
 
         <!-- 帮助页面 -->
         <activity
@@ -190,18 +216,28 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
+        <!--更换手表-->
         <activity
             android:name="com.xyy.Gazella.utils.ChangeWatchList"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
+        <!--空中升级-->
         <activity
             android:name="com.xyy.Gazella.utils.CheckUpdateDialog3"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
+        <activity
+            android:name="com.xyy.Gazella.utils.CheckUpdateDialog4"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

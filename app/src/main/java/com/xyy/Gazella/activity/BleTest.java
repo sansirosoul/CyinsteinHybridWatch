@@ -20,7 +20,10 @@ import com.xyy.Gazella.utils.HexString;
 import com.xyy.model.StepData;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -104,14 +107,13 @@ public class BleTest extends BaseActivity {
         setContentView(R.layout.test);
         ButterKnife.bind(this);
         bleUtils = new BleUtils();
-
-        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(GazelleApplication.deviceAddress);
+        String address = PreferenceData.getAddressValue(this);
+        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
         connectionObservable = bleDevice
                 .establishConnection(this, false)
                 .compose(new ConnectionSharingAdapter());
 
         Notify(connectionObservable);
-
 //        writeCharacteristic=GazelleApplication.mBluetoothService.getWriteCharacteristic();
 //        notifyCharacteristic=GazelleApplication.mBluetoothService.getNotifyCharacteristic();
 //        if(notifyCharacteristic!=null)GazelleApplication.mBluetoothService.setCharacteristicNotification(notifyCharacteristic,true);
@@ -158,8 +160,7 @@ public class BleTest extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        super.onReadReturn( bytes);
-
+        super.onReadReturn(bytes);
             if(bleUtils.returnTodayStep(bytes)!=null){
                 StepData  data = bleUtils.returnTodayStep(bytes);
                 notify.setText(data.getYear()+"-"+data.getMonth()+"-"+data.getDay()+"步数"+data.getStep());
@@ -168,7 +169,7 @@ public class BleTest extends BaseActivity {
             }else if(bleUtils.returnFWVer(bytes)!=null){
                 notify.setText(bleUtils.returnFWVer(bytes));
             }else if(bleUtils.returnBatteryValue(bytes)!=null){
-                notify.setText(bleUtils.returnBatteryValue(bytes));
+                notify.setText(bleUtils.returnBatteryValue(bytes)+"%");
             }
             else{
                 notify.setText(HexString.bytesToHex(bytes));
@@ -176,8 +177,8 @@ public class BleTest extends BaseActivity {
     }
 
     @Override
-    protected void onWriteReturn( byte[] bytes) {
-        super.onWriteReturn( bytes);
+    protected void onWriteReturn(byte[] bytes) {
+        super.onWriteReturn(bytes);
 
 
         write.setText(HexString.bytesToHex(bytes));
@@ -192,31 +193,36 @@ public class BleTest extends BaseActivity {
                 Write( bleUtils.getDeviceSN(), connectionObservable);
                 break;
             case R.id.btn2:
-                Write( bleUtils.sendMessage(1, 0, 0, 0, 0, 0), connectionObservable);
+                Write(bleUtils.sendMessage(1, 0, 0, 0, 0, 0), connectionObservable);
                 break;
             case R.id.btn3:
-                Write( bleUtils.setWatchDateAndTime(1, 2016, 11, 28, 12, 0, 0), connectionObservable);
+                Calendar calendar = Calendar.getInstance();
+                System.out.println(calendar.get(Calendar.YEAR)+"-"+calendar.get(Calendar.MONTH)+"-"+calendar.get(Calendar.DAY_OF_MONTH)+"-"
+                        +calendar.get(Calendar.HOUR_OF_DAY)+"-"+calendar.get(Calendar.MINUTE)+"-"+calendar.get(Calendar.SECOND));
+                Write(bleUtils.setWatchDateAndTime(1, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH)+1, calendar.get(Calendar.DAY_OF_MONTH),
+                        calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND)), connectionObservable);
                 break;
             case R.id.btn4:
                 Write( bleUtils.setWatchAlarm(0, 0, 12, 0, 1, 1, ""), connectionObservable);
                 break;
             case R.id.btn5:
-                Write( bleUtils.getFWVer(), connectionObservable);
+                Write(bleUtils.getFWVer(), connectionObservable);
                 break;
             case R.id.btn6:
-                Write( bleUtils.setDeviceName("aaa"), connectionObservable);
+                Write(bleUtils.setDeviceName("CT003"), connectionObservable);
                 break;
             case R.id.btn7:
                 Write( bleUtils.getDeviceName(), connectionObservable);
                 break;
             case R.id.btn8:
-                Write( bleUtils.setSystemType(), connectionObservable);
+                Write(bleUtils.setSystemType(), connectionObservable);
                 break;
             case R.id.btn9:
-                Write(bleUtils.getTodayStep(), connectionObservable);
+                Write( bleUtils.getTodayStep(), connectionObservable);
                 break;
             case R.id.btn10:
-                Write( bleUtils.getSleepData(1), connectionObservable);
+                Write(bleUtils.getSleepData(1), connectionObservable);
                 break;
             case R.id.btn11:
                 Write(bleUtils.eraseWatchData(), connectionObservable);
@@ -234,7 +240,7 @@ public class BleTest extends BaseActivity {
                 Write( bleUtils.adjSecondHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn16:
-                Write( bleUtils.adjMsgHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
+                Write(bleUtils.adjMsgHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 break;
             case R.id.btn17:
                 Write(bleUtils.adjStepHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
@@ -243,10 +249,10 @@ public class BleTest extends BaseActivity {
                 Write( bleUtils.resetHand(), connectionObservable);
                 break;
             case R.id.btn19:
-                Write( bleUtils.getStepData(1), connectionObservable);
+                Write(bleUtils.getStepData(1), connectionObservable);
                 break;
             case R.id.btn20:
-                Write( bleUtils.setWatchShake(1, 0, 0), connectionObservable);
+                Write(bleUtils.setWatchShake(1, 0, 0), connectionObservable);
                 break;
             case R.id.btn21:
                 Write( bleUtils.getAlarms(), connectionObservable);

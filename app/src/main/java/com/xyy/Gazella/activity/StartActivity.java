@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.ysp.newband.BaseActivity;
-import com.ysp.newband.GazelleApplication;
 import com.ysp.smartwatch.R;
 
 
@@ -20,13 +19,15 @@ public class StartActivity extends BaseActivity {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				if(GazelleApplication.deviceAddress==null){
-					Intent intent = new Intent(StartActivity.this,LaunchActivity.class);
-					startActivity(intent);
-				}else{
-					Intent intent = new Intent(StartActivity.this,HomeActivity.class);
-					startActivity(intent);
-				}
+//				if(GazelleApplication.deviceAddress==null){
+//					Intent intent = new Intent(StartActivity.this,LaunchActivity.class);
+//					startActivity(intent);
+//				}else{
+//					Intent intent = new Intent(StartActivity.this,HomeActivity.class);
+//					startActivity(intent);
+//				}
+				Intent intent = new Intent(StartActivity.this,LaunchActivity.class);
+				startActivity(intent);
 				overridePendingTransitionEnter(StartActivity.this);
 				finish();
 			}

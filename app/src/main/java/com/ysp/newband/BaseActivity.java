@@ -8,14 +8,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bugtags.library.Bugtags;
 import com.exchange.android.engine.ExchangeProxy;
@@ -73,7 +68,7 @@ public class BaseActivity extends FragmentActivity {
     }
 
 
-    protected void Write(byte[] bytes, Observable<RxBleConnection> connectionObservable) {
+    protected void Write( byte[] bytes, Observable<RxBleConnection> connectionObservable) {
         WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<byte[]>() {
                     @Override
@@ -133,7 +128,7 @@ public class BaseActivity extends FragmentActivity {
 //        });
     }
 
-    protected void Notify(Observable<RxBleConnection> connectionObservable) {
+    protected void Notify(Observable<RxBleConnection> connectionObservable){
         connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                     @Override
@@ -144,7 +139,7 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void call(Observable<byte[]> observable) {
                 Logger.t(TAG).e("开始接收通知  >>>>>>  ");
-                onNotifyReturn(0);
+
             }
         }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
             @Override
@@ -161,7 +156,6 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void call(Throwable throwable) {
                 Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
-                onNotifyReturn(1);
             }
         });
     }
@@ -169,10 +163,7 @@ public class BaseActivity extends FragmentActivity {
     protected void onReadReturn(byte[] bytes) {
     }
 
-    protected void onNotifyReturn(int type) {
-    }
-
-    protected void onWriteReturn(byte[] bytes) {
+    protected void onWriteReturn( byte[] bytes) {
 
     }
 
@@ -273,17 +264,5 @@ public class BaseActivity extends FragmentActivity {
 
         Bugtags.onDispatchTouchEvent(this, event);
         return super.dispatchTouchEvent(event);
-    }
-
-    protected void showToatst(Context context, String tvStr) {
-        Toast result = new Toast(context);
-        LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflate.inflate(R.layout.toast, null);
-        TextView textView = (TextView) v.findViewById(R.id.tv_context);
-        textView.setText(tvStr);
-        result.setView(v);
-        result.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-        result.show();
-
     }
 }

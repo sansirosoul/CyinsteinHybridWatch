@@ -3,6 +3,8 @@ package com.ysp.newband;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.xyy.model.User;
+
 import java.io.Serializable;
 
 /**
@@ -20,7 +22,7 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_SELECTED_SMALL2_VALUE = "SAVE_SELECTED_SMALL2_VALUE";
     public static final String SAVE_SELECTED_SMALL3_VALUE = "SAVE_SELECTED_SMALL3_VALUE";
     public static final String SAVE_ADDRESS_VALUE = "SAVE_ADDRESS_VALUE";
-
+    public static final String SAVE_USER_VALUE = "SAVE_USER_VALUE";
 
 
 
@@ -127,5 +129,30 @@ public class PreferenceData implements Serializable{
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(SAVE_ADDRESS_VALUE,"");
+    }
+
+    //保存个人信息
+    public static void setUserInfo(Context context,String name, String birth, int sex, String height, String weight) {
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("name", name).commit();
+        editor.putString("birth", birth).commit();
+        editor.putInt("sex", sex).commit();
+        editor.putString("height", height).commit();
+        editor.putString("weight", weight).commit();
+    }
+
+    //获取个人信息
+    public static User getUserInfo(Context context) {
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        User user = new User();
+        user.setName(sharedPreferences.getString("name", null));
+        user.setBirthday(sharedPreferences.getString("birth", null));
+        user.setSex(sharedPreferences.getInt("sex", -1));
+        user.setHeight(sharedPreferences.getString("height", null));
+        user.setWeight(sharedPreferences.getString("weight", null));
+        return user;
     }
 }

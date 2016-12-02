@@ -25,6 +25,7 @@ import com.xyy.Gazella.utils.WeightDialog;
 import com.xyy.Gazella.view.RoundImageView;
 import com.xyy.model.User;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.io.File;
@@ -87,8 +88,7 @@ public class UserSetting extends BaseActivity {
     }
 
     private void initView() {
-        preferencesUtils = new SharedPreferencesUtils(context);
-        User user = preferencesUtils.getUserInfo();
+        User user = PreferenceData.getUserInfo(context);
         if (user.getName() != null && !user.getName().equals("")){
             edName.setText(user.getName());
             edName.setSelection(user.getName().length());
@@ -225,7 +225,8 @@ public class UserSetting extends BaseActivity {
                     Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                preferencesUtils.setUserInfo(edName.getText().toString(),tvBirth.getText().toString(),sex,tvHeight.getText().toString(),tvWeight.getText().toString());
+                PreferenceData.setUserInfo(context,edName.getText().toString(),tvBirth.getText().toString(),
+                        sex,tvHeight.getText().toString(),tvWeight.getText().toString());
                 finish();
                 overridePendingTransitionExit(UserSetting.this);
                 break;

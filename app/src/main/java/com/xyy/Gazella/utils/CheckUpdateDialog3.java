@@ -1,22 +1,17 @@
 package com.xyy.Gazella.utils;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.graphics.Point;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.Display;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
-import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
-import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
+import com.xyy.Gazella.activity.SettingActivity;
 import com.xyy.Gazella.services.DfuService;
 import com.xyy.Gazella.view.NumberProgressBar;
 import com.ysp.newband.BaseActivity;
@@ -26,7 +21,6 @@ import com.ysp.smartwatch.R;
 import no.nordicsemi.android.dfu.DfuProgressListener;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
-import rx.Observable;
 import rx.Subscription;
 
 /**
@@ -36,7 +30,6 @@ import rx.Subscription;
 public class CheckUpdateDialog3 extends BaseActivity {
     private Context context;
     private NumberProgressBar numberbar;
-    private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private BleUtils bleUtils;
     private RxBleClient rxBleClient;
@@ -48,10 +41,10 @@ public class CheckUpdateDialog3 extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1001:
-                    if(numberbar.getProgress()==100) {
+                    if (numberbar.getProgress() == 100) {
                         numberbar.setProgress(0);
 
-                    }else {
+                    } else {
                         numberbar.incrementProgressBy(1);
                     }
                     break;
@@ -72,26 +65,26 @@ public class CheckUpdateDialog3 extends BaseActivity {
     }
 
     @Override
-    protected void onWriteReturn( byte[] bytes) {
+    protected void onWriteReturn(byte[] bytes) {
         super.onWriteReturn(bytes);
 
-            rxBleClient = GazelleApplication.getRxBleClient(this);
-            scanSubscription = rxBleClient.scanBleDevices()
-                    .subscribe(
-                            rxBleScanResult -> {
-                                // Process scan result here.
-                                BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
-                                if (bluetoothDevice.getName().equals("DfuTarg")) {
-                                    System.out.println("OTA is starting..."+bluetoothDevice.getAddress());
-                                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00042).start(context, DfuService.class);
-                                    scanSubscription.unsubscribe();
-                                }
-                            },
-                            throwable -> {
-                                // Handle an error here.
-                                Log.d("==========","Scan error :"+throwable);
+        rxBleClient = GazelleApplication.getRxBleClient(this);
+        scanSubscription = rxBleClient.scanBleDevices()
+                .subscribe(
+                        rxBleScanResult -> {
+                            // Process scan result here.
+                            BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
+                            if (bluetoothDevice.getName().equals("DfuTarg")) {
+                                System.out.println("OTA is starting..." + bluetoothDevice.getAddress());
+                                new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00047).start(context, DfuService.class);
+                                scanSubscription.unsubscribe();
                             }
-                    );
+                        },
+                        throwable -> {
+                            // Handle an error here.
+                            Log.d("==========", "Scan error :" + throwable);
+                        }
+                );
 
     }
 
@@ -99,18 +92,14 @@ public class CheckUpdateDialog3 extends BaseActivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.check_update_dialog3);
-        context=this;
+        setFinishOnTouchOutside(false);
+        context = this;
         bleUtils = new BleUtils();
 
-        numberbar=(NumberProgressBar)findViewById(R.id.numberbar);
+        numberbar = (NumberProgressBar) findViewById(R.id.numberbar);
 //        mHandler.post(runnable);
 
-        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(GazelleApplication.deviceAddress);
-        connectionObservable = bleDevice
-                .establishConnection(context, false)
-                .compose(new ConnectionSharingAdapter());
-
-        Write(bleUtils.startDfu(),connectionObservable);
+        Write(bleUtils.startDfu(), SettingActivity.connectionObservable);
     }
 
     Runnable runnable = new Runnable() {
@@ -149,7 +138,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onProgressChanged(String deviceAddress, int percent, float speed, float avgSpeed, int currentPart, int partsTotal) {
-              numberbar.setProgress(percent);
+            numberbar.setProgress(percent);
         }
 
         @Override
@@ -170,14 +159,14 @@ public class CheckUpdateDialog3 extends BaseActivity {
         @Override
         public void onDfuCompleted(String deviceAddress) {
             finish();
-            CheckUpdateDialog4 dialog4 = new CheckUpdateDialog4(context);
-            dialog4.show();
+            Intent intent = new Intent(context, CheckUpdateDialog4.class);
+            startActivity(intent);
         }
 
         @Override
         public void onDfuAborted(String deviceAddress) {
-            GazelleApplication.isDfu = false;
-            System.out.println("onDfuAborted");
+            Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
+            finish();
         }
 
         @Override
@@ -188,19 +177,4 @@ public class CheckUpdateDialog3 extends BaseActivity {
         }
     };
 
-    public void setDialogAttributes(Activity context, final Dialog dialog,
-                                    float widthP, float heightP, int gravity) {
-
-        Display d = context.getWindowManager().getDefaultDisplay();
-        WindowManager.LayoutParams p = dialog.getWindow().getAttributes();
-
-        Point mPoint = new Point();
-        d.getSize(mPoint);
-        if (heightP != 0)
-            p.height = (int) (mPoint.y * heightP);
-        if (widthP != 0)
-            p.width = (int) (mPoint.x * widthP);
-        dialog.getWindow().setAttributes(p);
-        dialog.getWindow().setGravity(gravity);
-    }
 }
