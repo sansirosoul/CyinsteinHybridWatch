@@ -21,6 +21,9 @@ import android.view.View;
 
 import com.ysp.smartwatch.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class AnalogClock extends View {
 
     private static final String TAG = AnalogClock.class.getName();
@@ -234,13 +237,29 @@ public class AnalogClock extends View {
             int hour = mCalendar.hour;
             int minute = mCalendar.minute;
             int second = mCalendar.second;
+
+            Calendar now;
+            SimpleDateFormat fmt;
+
+            now = Calendar.getInstance();
+           fmt = new SimpleDateFormat("hh:mm:ss");
+           String ss=  fmt.format(now.getTime());
+            ss=ss.substring(0,2);
+            int countHour=Integer.valueOf(ss);
+            int count=countHour;
+            countHour=0;
+            for (int i=0; i<count;i++){
+                countHour+=5;
+            }
             // mDay = String.valueOf(mCalendar.year) + "-"
             // + String.valueOf(mCalendar.month + 1) + "-"
             // + String.valueOf(mCalendar.monthDay);
             // mWeek = this.getWeek(mCalendar.weekDay);
 
-            mHour = hour + mMinutes / 60.0f + mSecond / 3600.0f;
+//            mHour = hour + mMinutes / 60.0f + mSecond / 3600.0f;
             mMinutes = minute + second / 60.0f;
+            mHour = countHour;
+//            mMinutes = minute;
         }
         boolean changed = mChanged;
 

@@ -19,7 +19,8 @@ import com.ysp.smartwatch.R;
  * Created by Administrator on 2016/10/24.
  */
 
-public class ChangeWatchDialog extends Dialog implements View.OnClickListener{
+public class
+ChangeWatchDialog extends Dialog implements View.OnClickListener{
     private TextView cancel;
     private TextView confirm;
     private Context context;

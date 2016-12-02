@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.activity.TimeSynchronization;
@@ -51,8 +50,8 @@ public class MainDialFragment extends BaseFragment {
         bleUtils = new BleUtils();
         if(isconnectionObservable())
         connectionObservable=TimeSynchronization.install.connectionObservable;
-        analogclock.setTimeValue(1,TimeSynchronization.install.hour);
-        analogclock.setTimeValue(2,TimeSynchronization.install.minute);
+//        analogclock.setTimeValue(1,TimeSynchronization.install.hour);
+//        analogclock.setTimeValue(2,TimeSynchronization.install.minute);
         vto = analogclock.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
@@ -84,15 +83,11 @@ public class MainDialFragment extends BaseFragment {
                         laoTime = newTime;
                         newTime = mHour;
                         if (newTime > laoTime) {
-                            Logger.t(TAG).e("newTime>>>>>>    " + String.valueOf(newTime) + "\n" + "laoTime>>>>>>>    " + String.valueOf(laoTime));
                             senTime = newTime - laoTime;
-                            Logger.t(TAG).e("senTime>>>>>>    " + String.valueOf(senTime));
                             if(senTime!=0&&isconnectionObservable())
                             Write(bleUtils.adjHourHand(1, senTime), connectionObservable);
                         } else {
-
                             senTime = laoTime - newTime;
-                            Logger.t(TAG).e("senTime>>>>>>    " + String.valueOf(senTime));
                             if(senTime!=0&&isconnectionObservable())
                             Write(bleUtils.adjHourHand(2, senTime), connectionObservable);
                         }
@@ -101,12 +96,10 @@ public class MainDialFragment extends BaseFragment {
                         newTime = mMinutes ;
                         if (newTime > laoTime) {
                             senTime = newTime - laoTime;
-                            Logger.t(TAG).e("senTime>>>>>>    " + String.valueOf(senTime));
                             if(senTime!=0&&isconnectionObservable())
                             Write(bleUtils.adjMinuteHand(1, senTime), connectionObservable);
                         }else {
                             senTime = laoTime - newTime;
-                            Logger.t(TAG).e("senTime>>>>>>    " + String.valueOf(senTime));
                             if(senTime!=0&&isconnectionObservable())
                             Write(bleUtils.adjMinuteHand(2, senTime), connectionObservable);
                         }

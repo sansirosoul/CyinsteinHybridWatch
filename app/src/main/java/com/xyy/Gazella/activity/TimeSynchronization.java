@@ -27,13 +27,16 @@ import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckAnalogClock;
 import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.GuideShowDialog;
+import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.view.MyViewPage;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,6 +79,8 @@ public class TimeSynchronization extends BaseActivity {
     MyViewPage viewpager;
     @BindView(R.id.activity_time_synchronization)
     LinearLayout activityTimeSynchronization;
+    @BindView(R.id.tv_hint)
+    TextView tvHint;
     private boolean isChangeTime = false;
     private CheckAnalogClock checkAnalogClock;
 
@@ -104,8 +109,8 @@ public class TimeSynchronization extends BaseActivity {
     private int myear;
     private int month;
     private int mday;
-    private int HourDay;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
+    private  boolean isClickSynchronization=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +132,6 @@ public class TimeSynchronization extends BaseActivity {
         }
         InitView();
         InitViewPager();
-        initTime();
         install = this;
         dialog = new CommonDialog(TimeSynchronization.this);
         dialog.show();
@@ -149,9 +153,12 @@ public class TimeSynchronization extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-
+        HexString.bytesToHex(bytes);
+        if(HexString.bytesToHex(bytes).equals("0702010A1A")) {
+            isClickSynchronization=false;
+            tvHint.setText("智能校时成功");
+        }
         super.onReadReturn(bytes);
-
     }
 
     private void clearSubscription() {
@@ -261,14 +268,23 @@ public class TimeSynchronization extends BaseActivity {
 
                 break;
             case R.id.but_reset:   /// 重置
+                if (isClickSynchronization) {
+                    showToatst(TimeSynchronization.this,"请先点击同步按键");
+                    break;
+                }
                 if (isconnectionObservable())
                     Write(bleUtils.resetHand(), connectionObservable);
                 mHandler.post(runnable);
                 isRun = true;
-
+                tvHint.setText("第二步: 调整表盘指针将手表时,分针拨至12点整 后点击同步按键");
+                isClickSynchronization=true;
                 break;
             case R.id.but_synchronization:    ///同步
-
+                if (!isClickSynchronization) {
+                    showToatst(TimeSynchronization.this,"请先点击重置按键");
+                    break;
+                }
+                initTime();
                 HourTimeValue = PreferenceData.getSelectedHourValue(TimeSynchronization.this);
                 MuintesTimeValue = PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this);
                 small1TimeValue = PreferenceData.getSelectedSmall1Value(this);
@@ -488,9 +504,6 @@ public class TimeSynchronization extends BaseActivity {
                         count = 0;
                         count2 = 60;
                         isRun = false;
-
-
-
                     } else {
                         mainDialFragment.setMuinutesTimeValue(count);
                         mainDialFragment.setHourTimeValue(count2);
@@ -498,11 +511,11 @@ public class TimeSynchronization extends BaseActivity {
                     }
                     break;
                 case 1002:
-                    if (count2 < HourDay)
+                    if (count2 < countHour)
                         HourCount = false;
                     if (count > minute)
                         MuinutesCount = false;
-                    if (count2 < HourDay && count > minute) {
+                    if (count2 < countHour && count > minute) {
                         handler.post(SynchronizationTime);
                         count = 0;
                         count2 = 60;
@@ -522,24 +535,28 @@ public class TimeSynchronization extends BaseActivity {
         }
     };
 
+    private int countHour;
+
     private void initTime() {
         mCalendar = new Time();
-        mCalendar.setToNow();// 取当前时间
+        mCalendar.setToNow();
         hour = mCalendar.hour;
         minute = mCalendar.minute;
         second = mCalendar.second;
         myear = mCalendar.year;
         month = mCalendar.month;
         mday = mCalendar.monthDay;
-        if (hour >= 12)
-            HourDay = hour - 12;
-        else
-            HourDay = hour;
-
-        int count = HourDay;
-        HourDay=0;
+        Calendar now;
+        SimpleDateFormat fmt;
+        now = Calendar.getInstance();
+        fmt = new SimpleDateFormat("hh:mm:ss");
+        String ss = fmt.format(now.getTime());
+        ss = ss.substring(0, 2);
+        countHour = Integer.valueOf(ss);
+        int count = countHour;
+        countHour = 0;
         for (int i = 0; i < count; i++) {
-            HourDay += 5;
+            countHour += 5;
         }
     }
 }
