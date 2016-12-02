@@ -139,7 +139,7 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void call(Observable<byte[]> observable) {
                 Logger.t(TAG).e("开始接收通知  >>>>>>  ");
-
+                onNotifyReturn(0);
             }
         }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
             @Override
@@ -156,6 +156,7 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void call(Throwable throwable) {
                 Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
+                onNotifyReturn(1);
             }
         });
     }
@@ -164,6 +165,9 @@ public class BaseActivity extends FragmentActivity {
     }
 
     protected void onWriteReturn( byte[] bytes) {
+
+    }
+    protected void onNotifyReturn(int type) {
 
     }
 
