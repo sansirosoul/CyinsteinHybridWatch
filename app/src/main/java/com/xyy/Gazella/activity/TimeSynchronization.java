@@ -299,6 +299,9 @@ public class TimeSynchronization extends BaseActivity {
                 small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
 
                 Write(bleUtils.setWatchDateAndTime(1, myear, month, mday, hour, minute, second), connectionObservable);
+                if(fragmentsList.size() > 1){
+                    setChangeTimeType(1);
+                }
                 mHandler.post(SynchronizationTime);
                 SynchronizationTimeRun = true;
                 isClickSynchronization = false;
