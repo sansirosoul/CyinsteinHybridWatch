@@ -79,6 +79,17 @@ public class SettingActivity extends BaseActivity {
         initView();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String address = intent.getStringExtra("address");
+        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
+        connectionObservable = bleDevice
+                .establishConnection(this, false)
+                .takeUntil(disconnectTriggerSubject)
+                .compose(new ConnectionSharingAdapter());
+        Notify(connectionObservable);
+    }
 
     @Override
     protected void onDestroy() {
@@ -153,7 +164,7 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.rl_change_watch:
                 Intent changeIntent = new Intent(this, ChangeWatchDialog.class);
-                startActivityForResult(changeIntent,1);
+                startActivity(changeIntent);
                 break;
             case R.id.rl_rename_watch:
                 Intent nameIntent = new Intent(this,RenameWatchDialog.class);
@@ -186,15 +197,4 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case 1:
-                if(data!=null){
-
-                }
-                break;
-        }
-    }
 }
