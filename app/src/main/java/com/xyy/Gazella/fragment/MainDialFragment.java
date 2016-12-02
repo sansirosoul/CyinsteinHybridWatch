@@ -37,9 +37,8 @@ public class MainDialFragment extends BaseFragment {
     private RxBleDevice bleDevice;
     private Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
-    private int laoTime;
-    private int newTime;
-    private boolean conut = true;
+    private int newTime,senTime,laoTime ;
+    public boolean conut = true;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -67,16 +66,15 @@ public class MainDialFragment extends BaseFragment {
         analogclock.setChangeTimeListener(new AnalogClock.ChangeTimeListener() {
             @Override
             public void ChangeTimeListener(int mMinutes,int mHour) {
-                int senTime ;
                 if (conut ) {
                     if (analogclock.ChangeTimeType == 1) {
                         laoTime = mHour ;
                         if (isconnectionObservable())
-                            Write(bleUtils.adjHourHand(1, (laoTime)), connectionObservable);
+                            Write(bleUtils.adjHourHand(1,1), connectionObservable);
                     }else {
                         laoTime = mMinutes ;
                         if (isconnectionObservable())
-                            Write(bleUtils.adjMinuteHand(1, (laoTime)), connectionObservable);
+                            Write(bleUtils.adjMinuteHand(1, 1), connectionObservable);
                     }
                 } else {
                     if (analogclock.ChangeTimeType == 1) {

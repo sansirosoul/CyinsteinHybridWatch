@@ -23,6 +23,7 @@ import com.exchange.android.engine.Uoi;
 import com.exchange.android.engine.Uoo;
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
+import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.exchange.ExangeErrorHandler;
 import com.xyy.Gazella.utils.HexString;
 import com.ysp.smartwatch.R;
@@ -33,6 +34,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.subjects.PublishSubject;
 
 
 public class BaseActivity extends FragmentActivity {
@@ -44,7 +46,10 @@ public class BaseActivity extends FragmentActivity {
     public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 
-    public final int GET_SN = 10001;
+    public static Observable<RxBleConnection> connectionObservable;
+    private RxBleDevice bleDevice;
+    private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
+    private  String address ;
 
     @Override
     protected void onCreate(Bundle arg0) {
