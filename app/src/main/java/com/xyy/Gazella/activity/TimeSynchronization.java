@@ -2,10 +2,13 @@ package com.xyy.Gazella.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
@@ -23,20 +25,26 @@ import com.xyy.Gazella.fragment.SmallFragment2;
 import com.xyy.Gazella.fragment.SmallFragment3;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckAnalogClock;
+import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.GuideShowDialog;
+import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.view.MyViewPage;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.subjects.PublishSubject;
+
 
 public class TimeSynchronization extends BaseActivity {
 
@@ -71,6 +79,8 @@ public class TimeSynchronization extends BaseActivity {
     MyViewPage viewpager;
     @BindView(R.id.activity_time_synchronization)
     LinearLayout activityTimeSynchronization;
+    @BindView(R.id.tv_hint)
+    TextView tvHint;
     private boolean isChangeTime = false;
     private CheckAnalogClock checkAnalogClock;
 
@@ -89,24 +99,74 @@ public class TimeSynchronization extends BaseActivity {
     private GuideShowDialog guideShowDialog;
     private RxBleDevice bleDevice;
     public Observable<RxBleConnection> connectionObservable;
-    private  BleUtils bleUtils;
-    public  static  TimeSynchronization install;
+    private BleUtils bleUtils;
+    public static TimeSynchronization install;
+    private CommonDialog dialog;
+    private Time mCalendar;
+    public int hour;
+    public int minute;
+    private int second;
+    private int myear;
+    private int month;
+    private int mday;
+    private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
+    private  boolean isClickSynchronization=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_synchronization);
         ButterKnife.bind(this);
-        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(PreferenceData.getAddressValue(this));
-        if(bleDevice!=null){
-            connectionObservable = bleDevice.establishConnection(this, false)
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals(""))
+            bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
+        if (bleDevice != null) {
+            connectionObservable = bleDevice
+                    .establishConnection(this, false)
+//                    .takeUntil(disconnectTriggerSubject)
+//                    .doOnUnsubscribe(this::clearSubscription)
                     .compose(new ConnectionSharingAdapter());
+
             Notify(connectionObservable);
             bleUtils = new BleUtils();
         }
         InitView();
         InitViewPager();
-        install=this;
+        install = this;
+        dialog = new CommonDialog(TimeSynchronization.this);
+        dialog.show();
+
+    }
+
+    @Override
+    protected void onNotifyReturn(int type) {
+        if (type == 0) {              //可以接收通知
+            if (dialog.isShowing())
+                dialog.dismiss();
+        } else {
+            if (dialog.isShowing()) {
+                dialog.setTvContext("没有搜索蓝牙");
+            }
+        }
+        super.onNotifyReturn(type);
+    }
+
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        HexString.bytesToHex(bytes);
+        if(HexString.bytesToHex(bytes).equals("0702010A1A")) {
+            isClickSynchronization=false;
+            tvHint.setText("智能校时成功");
+        }
+        super.onReadReturn(bytes);
+    }
+
+    private void clearSubscription() {
+        connectionObservable = null;
+    }
+
+    private void triggerDisconnect() {
+        disconnectTriggerSubject.onNext(null);
     }
 
     private void InitView() {
@@ -168,7 +228,6 @@ public class TimeSynchronization extends BaseActivity {
                     }
                 } else
                     mainDialFragment.ReduceTime();
-
                 break;
 
             case R.id.but_add://加时间
@@ -209,25 +268,33 @@ public class TimeSynchronization extends BaseActivity {
 
                 break;
             case R.id.but_reset:   /// 重置
-
-              int MainDiaHourTime =  mainDialFragment.getHourTimeValue();
-              int MainDiaMuinutesTime =  mainDialFragment.getMuinutesTimeValue();
-                Logger.t(TAG).e(String.valueOf(MainDiaHourTime));
-                Logger.t(TAG).e(String.valueOf(MainDiaMuinutesTime));
-
-
-
-
-                Write(bleUtils.resetHand(), connectionObservable);
-
+                if (isClickSynchronization) {
+                    showToatst(TimeSynchronization.this,"请先点击同步按键");
+                    break;
+                }
+                if (isconnectionObservable())
+                    Write(bleUtils.resetHand(), connectionObservable);
+                mHandler.post(runnable);
+                isRun = true;
+                tvHint.setText("第二步: 调整表盘指针将手表时,分针拨至12点整 后点击同步按键");
+                isClickSynchronization=true;
                 break;
             case R.id.but_synchronization:    ///同步
-
+                if (!isClickSynchronization) {
+                    showToatst(TimeSynchronization.this,"请先点击重置按键");
+                    break;
+                }
+                initTime();
                 HourTimeValue = PreferenceData.getSelectedHourValue(TimeSynchronization.this);
                 MuintesTimeValue = PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this);
                 small1TimeValue = PreferenceData.getSelectedSmall1Value(this);
                 small2TimeValue = PreferenceData.getSelectedSmall2Value(this);
                 small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
+
+                Write(bleUtils.setWatchDateAndTime(1, myear, month, mday, hour, minute, second), connectionObservable);
+//                setSynchronizationTime();
+                mHandler.post(SynchronizationTime);
+                SynchronizationTimeRun = true;
 
                 break;
             case R.id.btnExit:   // 退出
@@ -389,6 +456,107 @@ public class TimeSynchronization extends BaseActivity {
         PreferenceData.setSelectedSmall3Value(TimeSynchronization.this, 0);
     }
 
+    private boolean isconnectionObservable() {
+        if (connectionObservable != null)
+            return true;
+        else
+            return false;
+    }
 
+    private boolean isRun = true;
+    private boolean SynchronizationTimeRun = true;
+    private boolean HourCount = true;
+    private boolean MuinutesCount = true;
+    private int count;
+    private int count2 = 60;
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (isRun) {
+                count++;
+                count2--;
+                mHandler.sendEmptyMessage(1001);
+                mHandler.postDelayed(this, 50);
+            }
+        }
+    };
+    Runnable SynchronizationTime = new Runnable() {
+        @Override
+        public void run() {
+            if (SynchronizationTimeRun) {
+                if (MuinutesCount)
+                    count++;
+                if (HourCount)
+                    count2--;
+                mHandler.sendEmptyMessage(1002);
+                mHandler.postDelayed(this, 50);
+            }
+        }
+    };
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1001:
+                    if (count > 60 && count2 < 0) {
+                        handler.post(runnable);
+                        count = 0;
+                        count2 = 60;
+                        isRun = false;
+                    } else {
+                        mainDialFragment.setMuinutesTimeValue(count);
+                        mainDialFragment.setHourTimeValue(count2);
+                        isRun = true;
+                    }
+                    break;
+                case 1002:
+                    if (count2 < countHour)
+                        HourCount = false;
+                    if (count > minute)
+                        MuinutesCount = false;
+                    if (count2 < countHour && count > minute) {
+                        handler.post(SynchronizationTime);
+                        count = 0;
+                        count2 = 60;
+                        SynchronizationTimeRun = false;
+                    } else {
+                        if (HourCount)
+                            mainDialFragment.setHourTimeValue(count2);
+                        if (MuinutesCount)
+                            mainDialFragment.setMuinutesTimeValue(count);
+                        SynchronizationTimeRun = true;
+                        MuinutesCount = true;
+                        HourCount = true;
+                    }
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    private int countHour;
+
+    private void initTime() {
+        mCalendar = new Time();
+        mCalendar.setToNow();
+        hour = mCalendar.hour;
+        minute = mCalendar.minute;
+        second = mCalendar.second;
+        myear = mCalendar.year;
+        month = mCalendar.month;
+        mday = mCalendar.monthDay;
+        Calendar now;
+        SimpleDateFormat fmt;
+        now = Calendar.getInstance();
+        fmt = new SimpleDateFormat("hh:mm:ss");
+        String ss = fmt.format(now.getTime());
+        ss = ss.substring(0, 2);
+        countHour = Integer.valueOf(ss);
+        int count = countHour;
+        countHour = 0;
+        for (int i = 0; i < count; i++) {
+            countHour += 5;
+        }
+    }
 }

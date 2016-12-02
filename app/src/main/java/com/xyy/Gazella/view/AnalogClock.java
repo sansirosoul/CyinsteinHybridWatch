@@ -19,8 +19,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.orhanobut.logger.Logger;
 import com.ysp.smartwatch.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class AnalogClock extends View {
 
@@ -82,7 +84,7 @@ public class AnalogClock extends View {
             mDial = r.getDrawable(R.drawable.page12_biaopan);
             // mHourHand = r.getDrawable(R.drawable.page12_hour_selected);
             mMinuteHand = r.getDrawable(R.drawable.page12_minute_selected);
-          //  mSecondHand = r.getDrawable(R.drawable.appwidget_clock_second);
+            //  mSecondHand = r.getDrawable(R.drawable.appwidget_clock_second);
 
 
 
@@ -235,13 +237,29 @@ public class AnalogClock extends View {
             int hour = mCalendar.hour;
             int minute = mCalendar.minute;
             int second = mCalendar.second;
+
+            Calendar now;
+            SimpleDateFormat fmt;
+
+            now = Calendar.getInstance();
+           fmt = new SimpleDateFormat("hh:mm:ss");
+           String ss=  fmt.format(now.getTime());
+            ss=ss.substring(0,2);
+            int countHour=Integer.valueOf(ss);
+            int count=countHour;
+            countHour=0;
+            for (int i=0; i<count;i++){
+                countHour+=5;
+            }
             // mDay = String.valueOf(mCalendar.year) + "-"
             // + String.valueOf(mCalendar.month + 1) + "-"
             // + String.valueOf(mCalendar.monthDay);
             // mWeek = this.getWeek(mCalendar.weekDay);
 
-            mHour = hour + mMinutes / 60.0f + mSecond / 3600.0f;
+//            mHour = hour + mMinutes / 60.0f + mSecond / 3600.0f;
             mMinutes = minute + second / 60.0f;
+            mHour = countHour;
+//            mMinutes = minute;
         }
         boolean changed = mChanged;
 
@@ -319,12 +337,9 @@ public class AnalogClock extends View {
         int ry = -((int) event.getY() - y);
         Point point = new Point(rx, ry);
         double Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
-
-        Logger.t(TAG).i(String.valueOf(Tiemvalue));
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                  int mmintes=(int)mMinutes;
+                int mmintes=(int)mMinutes;
                 int mmhour=(int)mHour;
 
                 int Tiemva =(int) Tiemvalue / 6;
@@ -351,7 +366,7 @@ public class AnalogClock extends View {
                     if (isMinutestMove)
                         mMinutes =(int) Tiemvalue / 6;
                 }if (changetimelistener != null)
-                    changetimelistener.ChangeTimeListener((int)Tiemvalue);
+                changetimelistener.ChangeTimeListener((int)mMinutes,(int)mHour);
                 isChangedTime = true;
                 postInvalidate();
                 break;
@@ -397,6 +412,6 @@ public class AnalogClock extends View {
     }
 
     public interface ChangeTimeListener {
-        void ChangeTimeListener(int TimeValue);
+        void ChangeTimeListener(int TimeValue,int mHour);
     }
 }
