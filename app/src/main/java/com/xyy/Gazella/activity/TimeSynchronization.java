@@ -138,18 +138,18 @@ public class TimeSynchronization extends BaseActivity {
 
     }
 
-    @Override
-    protected void onNotifyReturn(int type) {
-        if (type == 0) {              //可以接收通知
-            if (dialog.isShowing())
-                dialog.dismiss();
-        } else {
-            if (dialog.isShowing()) {
-                dialog.setTvContext("没有搜索蓝牙");
-            }
-        }
-        super.onNotifyReturn(type);
-    }
+//    @Override
+//    protected void onNotifyReturn(int type) {
+//        if (type == 0) {              //可以接收通知
+//            if (dialog.isShowing())
+//                dialog.dismiss();
+//        } else {
+//            if (dialog.isShowing()) {
+//                dialog.setTvContext("没有搜索蓝牙");
+//            }
+//        }
+//        super.onNotifyReturn(type);
+//    }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
@@ -269,7 +269,7 @@ public class TimeSynchronization extends BaseActivity {
                 break;
             case R.id.but_reset:   /// 重置
                 if (isClickSynchronization) {
-                    showToatst(TimeSynchronization.this,"请先点击同步按键");
+//                    showToatst(TimeSynchronization.this,"请先点击同步按键");
                     break;
                 }
                 if (isconnectionObservable())
@@ -281,7 +281,7 @@ public class TimeSynchronization extends BaseActivity {
                 break;
             case R.id.but_synchronization:    ///同步
                 if (!isClickSynchronization) {
-                    showToatst(TimeSynchronization.this,"请先点击重置按键");
+//                    showToatst(TimeSynchronization.this,"请先点击重置按键");
                     break;
                 }
                 initTime();

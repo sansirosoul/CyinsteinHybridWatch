@@ -10,7 +10,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
-import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.activity.SettingActivity;
 import com.xyy.Gazella.services.DfuService;
 import com.xyy.Gazella.view.NumberProgressBar;
@@ -30,10 +29,10 @@ import rx.Subscription;
 public class CheckUpdateDialog3 extends BaseActivity {
     private Context context;
     private NumberProgressBar numberbar;
-    private RxBleDevice bleDevice;
     private BleUtils bleUtils;
     private RxBleClient rxBleClient;
     private Subscription scanSubscription;
+    private boolean isFailed = false;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -113,12 +112,12 @@ public class CheckUpdateDialog3 extends BaseActivity {
     private DfuProgressListener mDfuProgressListener = new DfuProgressListener() {
         @Override
         public void onDeviceConnecting(String deviceAddress) {
-            System.out.println("onDeviceConnecting");
+
         }
 
         @Override
         public void onDeviceConnected(String deviceAddress) {
-            System.out.println("onDeviceConnected");
+
         }
 
         @Override
@@ -153,25 +152,29 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onDeviceDisconnected(String deviceAddress) {
-
+             if(isFailed){
+                 Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
+                 finish();
+             }
         }
 
         @Override
         public void onDfuCompleted(String deviceAddress) {
-            finish();
             Intent intent = new Intent(context, CheckUpdateDialog4.class);
             startActivity(intent);
+            finish();
         }
 
         @Override
         public void onDfuAborted(String deviceAddress) {
+            isFailed=true;
             Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
             finish();
         }
 
         @Override
         public void onError(String deviceAddress, int error, int errorType, String message) {
-            GazelleApplication.isDfu = false;
+            isFailed=true;
             Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
             finish();
         }

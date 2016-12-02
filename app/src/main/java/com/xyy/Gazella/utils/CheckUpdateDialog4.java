@@ -1,6 +1,7 @@
 package com.xyy.Gazella.utils;
 
 import android.os.Bundle;
+import android.os.Handler;
 
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
@@ -15,6 +16,13 @@ public class CheckUpdateDialog4 extends BaseActivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.check_update_dialog4);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        },1500);
     }
 
 }

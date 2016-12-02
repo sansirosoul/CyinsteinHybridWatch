@@ -82,7 +82,6 @@ public class ChangeWatchList extends BaseActivity {
 
                 PreferenceData.setAddressValue(context, devices.get(i).getAddress());
                 Intent intent = new Intent(context, SettingActivity.class);
-                intent.putExtra("address",devices.get(i).getAddress());
                 startActivity(intent);
                 finish();
             }

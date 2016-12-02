@@ -16,6 +16,7 @@ import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ChangeWatchDialog;
 import com.xyy.Gazella.utils.CleanPhoneData;
 import com.xyy.Gazella.utils.CleanWatchData;
+import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.utils.RenameWatchDialog;
 import com.xyy.Gazella.view.SwitchView;
 import com.ysp.newband.BaseActivity;
@@ -82,7 +83,8 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        String address = intent.getStringExtra("address");
+        triggerDisconnect();
+        String address = PreferenceData.getAddressValue(context);
         bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
         connectionObservable = bleDevice
                 .establishConnection(this, false)
@@ -135,11 +137,9 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        if(bytes[0]==0x07&&bytes[1]==0x25){
-             if(bytes[2]==1)
+        if(HexString.bytesToHex(bytes).equals("0725012D60")){
                  Toast.makeText(context,"手表已震动，请寻找手表！",Toast.LENGTH_SHORT).show();
-        }else if(bytes[0]==0x07&&bytes[1]==0x01){
-            if(bytes[2]==1)
+        }else if(HexString.bytesToHex(bytes).equals("0701010918")){
                 Toast.makeText(context,"手表蓝牙已关闭！",Toast.LENGTH_SHORT).show();
         }
     }
