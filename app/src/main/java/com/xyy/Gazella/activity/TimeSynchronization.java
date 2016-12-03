@@ -25,7 +25,6 @@ import com.xyy.Gazella.fragment.SmallFragment2;
 import com.xyy.Gazella.fragment.SmallFragment3;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckAnalogClock;
-import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.GuideShowDialog;
 import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.view.MyViewPage;
@@ -101,7 +100,6 @@ public class TimeSynchronization extends BaseActivity {
     public Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public static TimeSynchronization install;
-    private CommonDialog dialog;
     private Time mCalendar;
     public int hour;
     public int minute;
@@ -112,6 +110,7 @@ public class TimeSynchronization extends BaseActivity {
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private boolean isClickSynchronization = false;
     private boolean isShwoSynchronization = false;
+    private boolean isNotify = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,21 +131,15 @@ public class TimeSynchronization extends BaseActivity {
         InitView();
         InitViewPager();
         install = this;
-        dialog = new CommonDialog(TimeSynchronization.this);
-        dialog.show();
-
     }
 
     @Override
     protected void onNotifyReturn(int type) {
-        if (type == 0) {              //可以接收通知
-            if (dialog.isShowing())
-                dialog.dismiss();
-        } else {
-            if (dialog.isShowing()) {
-                dialog.setTvContext("没有搜索到蓝牙");
-            }
-        }
+        if (type != 0) {
+            isNotify = false;
+            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
+        }else
+        isNotify=true;
         super.onNotifyReturn(type);
     }
 
@@ -257,7 +250,6 @@ public class TimeSynchronization extends BaseActivity {
                 break;
             case R.id.but_muinutes://  调整分针
                 if (!isShwoSynchronization()) {
-
                     setChangeTimeType(2);
                 }
                 mainDialFragment.conut = true;
@@ -274,6 +266,8 @@ public class TimeSynchronization extends BaseActivity {
                 mainDialFragment.conut = true;
                 break;
             case R.id.but_reset:   /// 重置
+                if(isNotify())
+                    break;
                 if (isClickSynchronization) {
                     showToatst(TimeSynchronization.this, "请先点击同步按键");
                     break;
@@ -583,5 +577,12 @@ public class TimeSynchronization extends BaseActivity {
         } else {
             return false;
         }
+    }
+    private  boolean isNotify(){
+        if(!isNotify) {
+            showToatst(TimeSynchronization.this, "检查蓝牙是否开启");
+            return  true;
+        }else
+            return false;
     }
 }
