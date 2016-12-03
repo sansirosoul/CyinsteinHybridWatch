@@ -12,14 +12,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.StepActivity;
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.NumberProgressBar;
 import com.ysp.newband.BaseFragment;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 /**
  * Created by Administrator on 2016/10/11.
@@ -47,6 +51,8 @@ public class StepFragment extends BaseFragment {
     @BindView(R.id.ll_quality)
     LinearLayout llQuality;
     private View view;
+    private BleUtils bleUtils;
+    private Observable<RxBleConnection> connectionObservable;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -86,8 +92,8 @@ public class StepFragment extends BaseFragment {
                 return true;
             }
         });
+        stepTarget.setText(String.valueOf(PreferenceData.getTargetRunValue(getActivity())));
     }
-
 
     @OnClick(R.id.circle)
     public void onClick(View view) {

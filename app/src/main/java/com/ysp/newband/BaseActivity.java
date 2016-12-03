@@ -2,7 +2,9 @@ package com.ysp.newband;
 
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,7 +25,10 @@ import com.exchange.android.engine.Uoi;
 import com.exchange.android.engine.Uoo;
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
+import com.polidea.rxandroidble.RxBleDevice;
+import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.exchange.ExangeErrorHandler;
+import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.HexString;
 import com.ysp.smartwatch.R;
 
@@ -33,6 +38,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.subjects.PublishSubject;
 
 
 public class BaseActivity extends FragmentActivity {
@@ -43,8 +49,22 @@ public class BaseActivity extends FragmentActivity {
     public static Context mContext;
     public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+    private RxBleDevice bleDevice;
+    private static Observable<RxBleConnection> connectionObservable;
+    private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
 
-    public final int GET_SN = 10001;
+    public static Observable<RxBleConnection> getRxObservable(Context context) {
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")) {
+            RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(context).getBleDevice(address);
+            if(connectionObservable==null) {
+                connectionObservable = bleDevicme
+                        .establishConnection(context, false)
+                        .compose(new ConnectionSharingAdapter());
+            }
+        }
+        return connectionObservable;
+    }
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -69,7 +89,15 @@ public class BaseActivity extends FragmentActivity {
                         return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
                     }
                 });
-
+    }
+    private Observable<Observable<byte[]>> nnnn(RxBleDevice bleDevice) {
+        return bleDevice.establishConnection(BaseActivity.this,false)
+                .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
+                    @Override
+                    public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
+                        return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
+                    }
+                });
     }
 
 
@@ -133,7 +161,11 @@ public class BaseActivity extends FragmentActivity {
 //        });
     }
 
+    private CommonDialog dialog;
+
     protected void Notify(Observable<RxBleConnection> connectionObservable) {
+        dialog = new CommonDialog(this);
+        dialog.show();
         connectionObservable
                 .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                     @Override
@@ -144,7 +176,9 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void call(Observable<byte[]> observable) {
                 Logger.t(TAG).e("开始接收通知  >>>>>>  ");
-                onNotifyReturn(0);
+                if (dialog.isShowing())
+                    dialog.dismiss();
+                   onNotifyReturn(0);
             }
         }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
             @Override
@@ -161,23 +195,63 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void call(Throwable throwable) {
                 Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
+                BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
+                if (!blueadapter.isEnabled()) {
+                    if (dialog.isShowing()) {
+                        dialog.setTvContext("是否开启手机蓝牙");
+                        dialog.setButOk(View.VISIBLE);
+                        dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                            @Override
+                            public void onButOKListener() {
+                                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                                startActivityForResult(enableBtIntent, 10010);
+                            }
+                        });
+                    }
+                } else {
+                    if (dialog.isShowing()) {
+                        dialog.setTvContext("检查手表蓝牙是否开启");
+                        dialog.setButOk(View.VISIBLE);
+                        dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                            @Override
+                            public void onButOKListener() {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                }
                 onNotifyReturn(1);
             }
         });
     }
 
+
+
     protected void onReadReturn(byte[] bytes) {
+    }
+
+    protected void onWriteReturn(byte[] bytes) {
     }
 
     protected void onNotifyReturn(int type) {
     }
 
-    protected void onWriteReturn(byte[] bytes) {
-
-    }
-
     protected void onReadReturnFailed() {
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 10010) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (dialog.isShowing())
+                    dialog.dismiss();
+                onNotifyReturn(2);//  再次发送监听蓝牙
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 
     protected void ConnectionDevice(Handler mHandler) {
         if (GazelleApplication.CONNECTED == -1) {
@@ -249,8 +323,13 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        triggerDisconnect();
     }
 
+
+    public void triggerDisconnect() {
+        disconnectTriggerSubject.onNext(null);
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -284,6 +363,5 @@ public class BaseActivity extends FragmentActivity {
         result.setView(v);
         result.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
         result.show();
-
     }
 }

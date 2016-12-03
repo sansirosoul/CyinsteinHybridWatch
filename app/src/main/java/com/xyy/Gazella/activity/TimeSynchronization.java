@@ -18,14 +18,12 @@ import android.widget.TextView;
 
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
-import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.fragment.MainDialFragment;
 import com.xyy.Gazella.fragment.SmallFragment1;
 import com.xyy.Gazella.fragment.SmallFragment2;
 import com.xyy.Gazella.fragment.SmallFragment3;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckAnalogClock;
-import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.GuideShowDialog;
 import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.view.MyViewPage;
@@ -101,7 +99,6 @@ public class TimeSynchronization extends BaseActivity {
     public Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public static TimeSynchronization install;
-    private CommonDialog dialog;
     private Time mCalendar;
     public int hour;
     public int minute;
@@ -110,7 +107,9 @@ public class TimeSynchronization extends BaseActivity {
     private int month;
     private int mday;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
-    private  boolean isClickSynchronization=false;
+    private boolean isClickSynchronization = false;
+    private boolean isShwoSynchronization = false;
+    private boolean isNotify = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,32 +120,32 @@ public class TimeSynchronization extends BaseActivity {
         if (address != null && !address.equals(""))
             bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
         if (bleDevice != null) {
-            connectionObservable = bleDevice
-                    .establishConnection(this, false)
+//            connectionObservable = bleDevice
+//                    .establishConnection(this, false)
 //                    .takeUntil(disconnectTriggerSubject)
-//                    .doOnUnsubscribe(this::clearSubscription)
-                    .compose(new ConnectionSharingAdapter());
-
-            Notify(connectionObservable);
+//                    .compose(new ConnectionSharingAdapter());
+//            Notify(connectionObservable);
             bleUtils = new BleUtils();
         }
+        Observable<RxBleConnection> df=getRxObservable(this);
         InitView();
         InitViewPager();
         install = this;
-        dialog = new CommonDialog(TimeSynchronization.this);
-        dialog.show();
-
     }
 
     @Override
     protected void onNotifyReturn(int type) {
-        if (type == 0) {              //可以接收通知
-            if (dialog.isShowing())
-                dialog.dismiss();
-        } else {
-            if (dialog.isShowing()) {
-                dialog.setTvContext("没有搜索蓝牙");
-            }
+        switch (type){
+            case 0:
+//                isNotify=true;
+                break;
+            case 1:
+//                isNotify = false;
+//                btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
+                break;
+            case 2:
+                Notify(connectionObservable);
+                break;
         }
         super.onNotifyReturn(type);
     }
@@ -154,8 +153,7 @@ public class TimeSynchronization extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         HexString.bytesToHex(bytes);
-        if(HexString.bytesToHex(bytes).equals("0702010A1A")) {
-            isClickSynchronization=false;
+        if (HexString.bytesToHex(bytes).equals("0702010A1A")) {
             tvHint.setText("智能校时成功");
             mainDialFragment.conut=true;
         }
@@ -164,10 +162,6 @@ public class TimeSynchronization extends BaseActivity {
 
     private void clearSubscription() {
         connectionObservable = null;
-    }
-
-    private void triggerDisconnect() {
-        disconnectTriggerSubject.onNext(null);
     }
 
     private void InitView() {
@@ -215,74 +209,88 @@ public class TimeSynchronization extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.but_reduce:  //减时间
-                if (fragmentsList.size() > 1) {
-                    switch (viewpager.getCurrentItem()) {
-                        case 0:
-                            smallFragment1.ReduceTime();
-                            break;
-                        case 1:
-                            smallFragment2.ReduceTime();
-                            break;
-                        case 2:
-                            smallFragment3.ReduceTime();
-                            break;
+                if (!isShwoSynchronization()) {
+                    if (fragmentsList.size() > 1) {
+                        switch (viewpager.getCurrentItem()) {
+                            case 0:
+                                smallFragment1.ReduceTime();
+                                break;
+                            case 1:
+                                smallFragment2.ReduceTime();
+                                break;
+                            case 2:
+                                smallFragment3.ReduceTime();
+                                break;
+                        }
+                    } else {
+                        mainDialFragment.ReduceTime();
+                        mainDialFragment.conut = true;
                     }
-                } else
-                    mainDialFragment.ReduceTime();
+                }
                 break;
 
             case R.id.but_add://加时间
-                if (fragmentsList.size() > 1) {
-                    switch (viewpager.getCurrentItem()) {
-                        case 0:
-                            smallFragment1.AddTime();
-                            break;
-                        case 1:
-                            smallFragment2.AddTime();
-                            break;
-                        case 2:
-                            smallFragment3.AddTime();
-                            break;
+                if (!isShwoSynchronization()) {
+                    if (fragmentsList.size() > 1) {
+                        switch (viewpager.getCurrentItem()) {
+                            case 0:
+                                smallFragment1.AddTime();
+                                break;
+                            case 1:
+                                smallFragment2.AddTime();
+                                break;
+                            case 2:
+                                smallFragment3.AddTime();
+                                break;
+                        }
+                    } else {
+                        mainDialFragment.AddTime();
+                        mainDialFragment.conut = true;
                     }
-                } else
-                    mainDialFragment.AddTime();
-
+                }
                 break;
 
             case R.id.but_hour:   // 调整时针
-                setChangeTimeType(1);
-
+                if (!isShwoSynchronization()) {
+                    setChangeTimeType(1);
+                }
+                mainDialFragment.conut = true;
                 break;
             case R.id.but_muinutes://  调整分针
-
-                setChangeTimeType(2);
-
-
+                if (!isShwoSynchronization()) {
+                    setChangeTimeType(2);
+                }
+                mainDialFragment.conut = true;
                 break;
             case R.id.but_second:   // 调整小时针
-                checkAnalogClock.show();
-                butReset.setVisibility(View.GONE);
-                butSynchronization.setVisibility(View.GONE);
-                butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
-                butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
-                butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
-
+                if (!isShwoSynchronization()) {
+                    checkAnalogClock.show();
+                    butReset.setVisibility(View.GONE);
+                    butSynchronization.setVisibility(View.GONE);
+                    butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+                    butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+                    butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
+                }
+                mainDialFragment.conut = true;
                 break;
             case R.id.but_reset:   /// 重置
+//                if(isNotify())
+//                    break;
                 if (isClickSynchronization) {
-                    showToatst(TimeSynchronization.this,"请先点击同步按键");
+                    showToatst(TimeSynchronization.this, "请先点击同步按键");
                     break;
                 }
-                if (isconnectionObservable())
-                    Write(bleUtils.resetHand(), connectionObservable);
+//                if (isconnectionObservable())
+                    Write(bleUtils.resetHand(), getRxObservable(this));
                 mHandler.post(runnable);
                 isRun = true;
                 tvHint.setText("第二步: 调整表盘指针将手表时,分针拨至12点整 后点击同步按键");
-                isClickSynchronization=true;
+                isClickSynchronization = true;
+                isShwoSynchronization = true;
                 break;
             case R.id.but_synchronization:    ///同步
                 if (!isClickSynchronization) {
-                    showToatst(TimeSynchronization.this,"请先点击重置按键");
+                    showToatst(TimeSynchronization.this, "请先点击重置按键");
                     break;
                 }
                 initTime();
@@ -293,9 +301,12 @@ public class TimeSynchronization extends BaseActivity {
                 small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
 
                 Write(bleUtils.setWatchDateAndTime(1, myear, month, mday, hour, minute, second), connectionObservable);
-//                setSynchronizationTime();
+                if(fragmentsList.size() > 1){
+                    setChangeTimeType(1);
+                }
                 mHandler.post(SynchronizationTime);
                 SynchronizationTimeRun = true;
+                isClickSynchronization = false;
 
                 break;
             case R.id.btnExit:   // 退出
@@ -455,6 +466,7 @@ public class TimeSynchronization extends BaseActivity {
         PreferenceData.setSelectedSmall1Value(TimeSynchronization.this, 0);
         PreferenceData.setSelectedSmall2Value(TimeSynchronization.this, 0);
         PreferenceData.setSelectedSmall3Value(TimeSynchronization.this, 0);
+        triggerDisconnect();
     }
 
     private boolean isconnectionObservable() {
@@ -494,6 +506,10 @@ public class TimeSynchronization extends BaseActivity {
             }
         }
     };
+
+    public void triggerDisconnect() {
+        disconnectTriggerSubject.onNext(null);
+    }
 
     private Handler mHandler = new Handler() {
         @Override
@@ -560,5 +576,22 @@ public class TimeSynchronization extends BaseActivity {
             countHour += 5;
         }
 //        mHour = hour + minute / 60.0f + second / 3600.0f;
+    }
+
+    private boolean isShwoSynchronization() {
+        if (!isClickSynchronization && !isShwoSynchronization) {
+            showToatst(TimeSynchronization.this, "请先点击同步按键");
+            isShwoSynchronization = true;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    private  boolean isNotify(){
+        if(!isNotify) {
+            showToatst(TimeSynchronization.this, "检查蓝牙是否开启");
+            return  true;
+        }else
+            return false;
     }
 }

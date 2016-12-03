@@ -88,7 +88,7 @@ public class EditClockActivity extends BaseActivity {
         pvHour.setData(hours);
         pvMinute.setData(minutes);
 
-        tvRingtime.setText(getIntent().getStringExtra("ringtime"));
+        tvRingtime.setText(getIntent().getStringExtra("snooze"));
         tvRepeatrate.setText(getIntent().getStringExtra("rate"));
         isOpen=getIntent().getIntExtra("isOpen",-1);
         String[] ss = getIntent().getStringExtra("time").split(":");
@@ -150,8 +150,8 @@ public class EditClockActivity extends BaseActivity {
             case R.id.save:
                 Intent intent = new Intent();
                 intent.putExtra("time",hour+":"+minute);
-                intent.putExtra("ringtime",tvRingtime.getText().toString());
-                intent.putExtra("repeatrate",tvRepeatrate.getText().toString());
+                intent.putExtra("snooze",tvRingtime.getText().toString());
+                intent.putExtra("rate",tvRepeatrate.getText().toString());
                 intent.putExtra("isOpen",isOpen);
                 intent.putExtra("result","edit");
                 setResult(1,intent);

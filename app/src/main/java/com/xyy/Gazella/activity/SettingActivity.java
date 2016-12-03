@@ -7,19 +7,28 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.polidea.rxandroidble.RxBleConnection;
+import com.polidea.rxandroidble.RxBleDevice;
+import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ChangeWatchDialog;
 import com.xyy.Gazella.utils.CleanPhoneData;
 import com.xyy.Gazella.utils.CleanWatchData;
+import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.utils.RenameWatchDialog;
 import com.xyy.Gazella.view.SwitchView;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 
 /**
@@ -57,6 +66,9 @@ public class SettingActivity extends BaseActivity {
     SwitchView vSwitch;
     private Context context;
     private BleUtils bleUtils;
+    public static Observable<RxBleConnection> connectionObservable;
+    private RxBleDevice bleDevice;
+    private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -65,24 +77,71 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         context = this;
-        TVTitle.setText(R.string.setting);
         initView();
     }
 
-    private void initView() {
-        bleUtils = new BleUtils();
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        triggerDisconnect();
+        String address = PreferenceData.getAddressValue(context);
+        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
+        connectionObservable = bleDevice
+                .establishConnection(this, false)
+                .takeUntil(disconnectTriggerSubject)
+                .compose(new ConnectionSharingAdapter());
+        Notify(connectionObservable);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        triggerDisconnect();
+    }
+
+    private void initView() {
+        TVTitle.setText(R.string.setting);
         vSwitch.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn(SwitchView view) {
-
+                vSwitch.setOpened(true);
+                Write(bleUtils.sendMessage(1, 0, 0, 0, 0, 1), connectionObservable);
             }
 
             @Override
             public void toggleToOff(SwitchView view) {
-
+                vSwitch.setOpened(false);
+                Write(bleUtils.sendMessage(1, 0, 0, 0, 0, 0), connectionObservable);
             }
         });
+
+
+        bleUtils = new BleUtils();
+        String address =  PreferenceData.getAddressValue(this);
+        if(address!=null&&!address.equals("")){
+            bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
+            connectionObservable = bleDevice
+                    .establishConnection(this, false)
+                    .takeUntil(disconnectTriggerSubject)
+                    .compose(new ConnectionSharingAdapter());
+            Notify(connectionObservable);
+        }
+
+    }
+
+
+    public void triggerDisconnect() {
+        disconnectTriggerSubject.onNext(null);
+    }
+
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
+        if(HexString.bytesToHex(bytes).equals("0725012D60")){
+                 Toast.makeText(context,"手表已震动，请寻找手表！",Toast.LENGTH_SHORT).show();
+        }else if(HexString.bytesToHex(bytes).equals("0701010918")){
+                Toast.makeText(context,"手表蓝牙已关闭！",Toast.LENGTH_SHORT).show();
+        }
     }
 
     @OnClick({R.id.btnExit, R.id.rl_user_setting, R.id.rl_update_hardware, R.id.rl_change_watch, R.id.rl_rename_watch, R.id.rl_clock, R.id.rl_clean_phone,
@@ -104,24 +163,24 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_change_watch:
-                ChangeWatchDialog changeWatchDialog = new ChangeWatchDialog(context);
-                changeWatchDialog.show();
+                Intent changeIntent = new Intent(this, ChangeWatchDialog.class);
+                startActivity(changeIntent);
                 break;
             case R.id.rl_rename_watch:
-                RenameWatchDialog renameWatchDialog = new RenameWatchDialog(context);
-                renameWatchDialog.show();
+                Intent nameIntent = new Intent(this,RenameWatchDialog.class);
+                startActivity(nameIntent);
                 break;
             case R.id.rl_clock:
-                Intent clockIntent = new Intent(context, ClockActivity.class);
+                Intent clockIntent = new Intent(this, ClockActivity.class);
                 startActivity(clockIntent);
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_clean_watch:
-                CleanWatchData cleanWatchData = new CleanWatchData(context);
-                cleanWatchData.show();
+                Intent watchIntent = new Intent(this,CleanWatchData.class);
+                startActivity(watchIntent);
                 break;
             case R.id.rl_clean_phone:
-                CleanPhoneData cleanPhoneData = new CleanPhoneData(context);
+                CleanPhoneData cleanPhoneData = new CleanPhoneData(SettingActivity.this);
                 cleanPhoneData.show();
                 break;
             case R.id.rl_target:
@@ -130,11 +189,12 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_search_watch:
-
+                Write(bleUtils.setWatchShake(1,1,1),connectionObservable);
                 break;
             case R.id.rl_close_bluetooth:
-
+                Write(bleUtils.sendMessage(0,0,0,0,0,0),connectionObservable);
                 break;
         }
     }
+
 }

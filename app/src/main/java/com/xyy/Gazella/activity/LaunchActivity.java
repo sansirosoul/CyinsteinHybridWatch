@@ -19,7 +19,7 @@ import rx.Subscription;
 
 public class LaunchActivity extends BaseActivity {
     private Button start;
-    private byte ck_a,ck_b;
+    private byte ck_a, ck_b;
 
     private RxBleClient rxBleClient;
     private Subscription scanSubscription;
@@ -30,20 +30,20 @@ public class LaunchActivity extends BaseActivity {
         setContentView(R.layout.launch_activity);
         rxBleClient = GazelleApplication.getRxBleClient(this);
 
-        start= (Button) findViewById(R.id.start);
-                start.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent ;
-                      String address =  PreferenceData.getAddressValue(LaunchActivity.this);
-                        if(address==null||address.equals(""))
-                              intent  = new Intent(LaunchActivity.this,PairingActivity.class);
-                        else
-                            intent  = new Intent(LaunchActivity.this,HomeActivity.class);
-                        startActivity(intent);
-                        overridePendingTransitionEnter(LaunchActivity.this);
-                        finish();
-                    }
-                });
+        start = (Button) findViewById(R.id.start);
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent;
+                String address = PreferenceData.getAddressValue(LaunchActivity.this);
+                if (address == null || address.equals(""))
+                    intent = new Intent(LaunchActivity.this, PairingActivity.class);
+                else
+                    intent = new Intent(LaunchActivity.this, HomeActivity.class);
+                startActivity(intent);
+                overridePendingTransitionEnter(LaunchActivity.this);
+                finish();
+            }
+        });
     }
 }

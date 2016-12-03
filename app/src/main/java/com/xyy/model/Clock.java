@@ -9,7 +9,7 @@ public class Clock {
     public String time;
     public String rate;
     public int isOpen;//闹钟是否开启 0否 1是
-    public String ringtime;
+    public String SnoozeTime;
 
     public int getId() {
         return id;
@@ -19,12 +19,12 @@ public class Clock {
         this.id = id;
     }
 
-    public String getRingtime() {
-        return ringtime;
+    public String getSnoozeTime() {
+        return SnoozeTime;
     }
 
-    public void setRingtime(String ringtime) {
-        this.ringtime = ringtime;
+    public void setSnoozeTime(String snoozeTime) {
+        SnoozeTime = snoozeTime;
     }
 
     public int getIsOpen() {

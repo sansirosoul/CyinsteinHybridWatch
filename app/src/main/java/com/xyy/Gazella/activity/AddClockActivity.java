@@ -56,7 +56,6 @@ public class AddClockActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
-
     }
 
     private void initView() {
@@ -136,8 +135,8 @@ public class AddClockActivity extends BaseActivity {
             case R.id.save:
                 Intent intent = new Intent();
                 intent.putExtra("time",hour+":"+minute);
-                intent.putExtra("ringtime",tvRingtime.getText().toString());
-                intent.putExtra("repeatrate",tvRepeatrate.getText().toString());
+                intent.putExtra("snooze",tvRingtime.getText().toString());
+                intent.putExtra("rate",tvRepeatrate.getText().toString());
                 intent.putExtra("isOpen",1);
                 setResult(1,intent);
                 finish();
