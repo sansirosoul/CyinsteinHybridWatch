@@ -157,6 +157,7 @@ public class TimeSynchronization extends BaseActivity {
         if(HexString.bytesToHex(bytes).equals("0702010A1A")) {
             isClickSynchronization=false;
             tvHint.setText("智能校时成功");
+            mainDialFragment.conut=true;
         }
         super.onReadReturn(bytes);
     }
@@ -558,5 +559,6 @@ public class TimeSynchronization extends BaseActivity {
         for (int i = 0; i < count; i++) {
             countHour += 5;
         }
+//        mHour = hour + minute / 60.0f + second / 3600.0f;
     }
 }

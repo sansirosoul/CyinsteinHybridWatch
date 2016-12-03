@@ -39,7 +39,7 @@ public class MainDialFragment extends BaseFragment {
     private BleUtils bleUtils;
     private int laoTime;
     private int newTime;
-    private boolean conut = true;
+    public boolean conut = true;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,12 +71,12 @@ public class MainDialFragment extends BaseFragment {
                 if (conut ) {
                     if (analogclock.ChangeTimeType == 1) {
                         laoTime = mHour ;
-                        if (isconnectionObservable())
-                            Write(bleUtils.adjHourHand(1, (laoTime)), connectionObservable);
+                        if (laoTime!=0&&isconnectionObservable())
+                            Write(bleUtils.adjHourHand(1, 1), connectionObservable);
                     }else {
                         laoTime = mMinutes ;
-                        if (isconnectionObservable())
-                            Write(bleUtils.adjMinuteHand(1, (laoTime)), connectionObservable);
+                        if (laoTime!=0&&isconnectionObservable())
+                            Write(bleUtils.adjMinuteHand(1, 1), connectionObservable);
                     }
                 } else {
                     if (analogclock.ChangeTimeType == 1) {
