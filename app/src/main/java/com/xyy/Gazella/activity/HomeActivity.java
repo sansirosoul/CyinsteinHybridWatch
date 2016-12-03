@@ -41,6 +41,8 @@ public class HomeActivity extends BaseActivity {
 
         ButterKnife.bind(this);
 
+        Notify(getRxObservable(this));
+
     }
 
     @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce})

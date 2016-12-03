@@ -19,7 +19,6 @@ import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.fragment.SleepFragment;
 import com.xyy.Gazella.fragment.StepFragment;
 import com.xyy.Gazella.utils.BleUtils;
-import com.xyy.Gazella.utils.CommonDialog;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
@@ -66,8 +65,6 @@ public class HealthyActivity extends BaseActivity {
     private BleUtils bleUtils;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
 
-    private CommonDialog dialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,16 +85,20 @@ public class HealthyActivity extends BaseActivity {
 
         btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         InitViewPager();
-        dialog = new CommonDialog(HealthyActivity.this);
-        dialog.show();
         install=this;
     }
 
     @Override
     protected void onNotifyReturn(int type) {
-        if (type != 0) {
-
-        }else
+        switch (type){
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                Notify(connectionObservable);
+                break;
+        }
 
         super.onNotifyReturn(type);
     }
