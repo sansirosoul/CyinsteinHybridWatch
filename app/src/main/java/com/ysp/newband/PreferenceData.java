@@ -182,7 +182,6 @@ public class PreferenceData implements Serializable{
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(SAVE_TARGETSLEEPMINUTE_VALUE, 8);
     }
-
     //保存个人信息
     public static void setUserInfo(Context context,String name, String birth, int sex, String height, String weight) {
         SharedPreferences sharedPreferences = context.getApplicationContext()
