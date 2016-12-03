@@ -22,6 +22,9 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_SELECTED_SMALL2_VALUE = "SAVE_SELECTED_SMALL2_VALUE";
     public static final String SAVE_SELECTED_SMALL3_VALUE = "SAVE_SELECTED_SMALL3_VALUE";
     public static final String SAVE_ADDRESS_VALUE = "SAVE_ADDRESS_VALUE";
+    public static final String SAVE_TARGETRUN_VALUE = "SAVE_TARGETRUN_VALUE";
+    public static final String SAVE_TARGETSLEEPHOUR_VALUE = "SAVE_TARGETSLEEPHOUR_VALUE";
+    public static final String SAVE_TARGETSLEEPMINUTE_VALUE = "SAVE_TARGETSLEEPMINUTE_VALUE";
     public static final String SAVE_USER_VALUE = "SAVE_USER_VALUE";
 
 
@@ -129,6 +132,55 @@ public class PreferenceData implements Serializable{
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(SAVE_ADDRESS_VALUE,"");
+    }
+
+    /** 保存 步行目标 的值*/
+    public static void setTargetRunValue(Context context, int account) {
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_TARGETRUN_VALUE, account);
+        editor.commit();
+    }
+
+    /** 获取 步行目标 的值**/
+    public static int getTargetRunValue(Context context) {
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_TARGETRUN_VALUE, 10000);
+    }
+
+
+    /** 保存 睡眠目标  时 的值*/
+    public static void setTargetSleepHourValue(Context context, int account) {
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_TARGETSLEEPHOUR_VALUE, account);
+        editor.commit();
+    }
+
+    /** 获取 睡眠目标  时 的值**/
+    public static int getTargetSleepHourValue(Context context) {
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_TARGETSLEEPHOUR_VALUE, 8);
+    }
+
+    /** 保存 睡眠目标  分 的值*/
+    public static void setTargetSleepMinuteValue(Context context, int account) {
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_TARGETSLEEPMINUTE_VALUE, account);
+        editor.commit();
+    }
+
+    /** 获取 睡眠目标  分的值**/
+    public static int getTargetSleepMinuteValue(Context context) {
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_TARGETSLEEPMINUTE_VALUE, 8);
     }
 
     //保存个人信息

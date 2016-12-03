@@ -95,6 +95,10 @@ public class HealthyActivity extends BaseActivity {
 
     @Override
     protected void onNotifyReturn(int type) {
+        if (type != 0) {
+
+        }else
+
         super.onNotifyReturn(type);
     }
 

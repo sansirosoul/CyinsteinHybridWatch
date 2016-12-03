@@ -17,6 +17,7 @@ import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.NumberProgressBar;
 import com.ysp.newband.BaseFragment;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -91,6 +92,7 @@ public class StepFragment extends BaseFragment {
                 return true;
             }
         });
+        stepTarget.setText(String.valueOf(PreferenceData.getTargetRunValue(getActivity())));
     }
 
     @OnClick(R.id.circle)

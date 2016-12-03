@@ -8,6 +8,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -74,7 +75,13 @@ public class TargetActivity extends BaseActivity {
             case R.id.TVTitle:
                 break;
             case R.id.but_save:
-
+                max = targetSleepSeekBar.getProgress() * 30;
+                hours = max / 60;
+                min = max % 60;
+                PreferenceData.setTargetRunValue(TargetActivity.this,targetRunSeekBar.getProgress()*100);
+                PreferenceData.setTargetSleepHourValue(TargetActivity.this,hours);
+                PreferenceData.setTargetSleepMinuteValue(TargetActivity.this,min);
+                showToatst(TargetActivity.this,"保存成功");
                 break;
             case R.id.but_default:
                 setDefault();
