@@ -29,6 +29,7 @@ import java.util.UUID;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -178,10 +179,42 @@ public class SomeUtills {
         }
     }
 
+
+    public Observable<byte[]> setress(Activity activity, int layout) {
+        return Observable.create(new Observable.OnSubscribe<byte[]>() {
+            @Override
+            public void call(Subscriber<? super byte[]> subscriber) {
+                if (subscriber.isUnsubscribed()) {
+                    View rootView = activity.findViewById(layout);
+                    WindowManager wm = activity.getWindowManager();
+                    int width = wm.getDefaultDisplay().getWidth();
+                    int height = wm.getDefaultDisplay().getHeight();
+                    Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(newb);
+                    rootView.draw(canvas);
+                    File file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
+                    FileOutputStream f = null;
+                    try {
+                        f = new FileOutputStream(file);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
+                    if (b) {
+                        //截图成功
+                        //    Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
+                        subscriber.onNext(new byte[12]);
+                    }
+                }
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+
     public void setCompress(Activity activity, int layout) {
 
         View rootView = activity.findViewById(layout);
-
         WindowManager wm = activity.getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
@@ -236,7 +269,7 @@ public class SomeUtills {
         // text是分享文本，所有平台都需要这个字段
         oks.setText(activity.getString(R.string.app_name));
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
+        oks.setImagePath(Environment.getExternalStorageDirectory() + "/" + "share.png");
         // url仅在微信（包括好友和朋友圈）中使用
         //oks.setUrl("http://www.ibabylabs.com");
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
@@ -335,7 +368,7 @@ public class SomeUtills {
                             @Override
                             public void call(byte[] bytes) {
                                 Logger.t(TAG).e("返回数据>>>>>>  " + HexString.bytesToHex(bytes));
-                                returStr[0] =HexString.bytesToHex(bytes);
+                                returStr[0] = HexString.bytesToHex(bytes);
                             }
                         }, new Action1<Throwable>() {
                             @Override
@@ -350,7 +383,7 @@ public class SomeUtills {
                         Logger.t(TAG).e("写入数据失败>>>>>>  " + throwable.toString());
                     }
                 });
-        return  returStr;
+        return returStr;
     }
 
     public Observable<byte[]> ReadCharacteristic(Observable<RxBleConnection> connectionObservable) {
@@ -361,7 +394,8 @@ public class SomeUtills {
             }
         });
     }
-    public Observable<byte[]> Write2Characteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
+
+    public Observable<byte[]> Write2Characteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
         return connectionObservable.flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
             @Override
             public Observable<byte[]> call(RxBleConnection rxBleConnection) {
@@ -369,8 +403,6 @@ public class SomeUtills {
             }
         });
     }
-
-
 
 
 }

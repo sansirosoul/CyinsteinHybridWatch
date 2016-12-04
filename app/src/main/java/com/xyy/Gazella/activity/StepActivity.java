@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -20,6 +22,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.xyy.Gazella.fragment.StepDayFragment;
 import com.xyy.Gazella.fragment.StepMonthFragment;
 import com.xyy.Gazella.fragment.StepWeekFragment;
+import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
@@ -34,8 +37,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class StepActivity extends BaseActivity implements OnDateSelectedListener {
+
+    private static  String TAG=StepActivity.class.getName();
 
     @BindView(R.id.calendarView)
     public MaterialCalendarView widget;
@@ -65,6 +72,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     private FragmentAdapter mFragmentAdapter;
 
     public static final int UPDATEUI = 1001;
+    private  SomeUtills utills;
 
 
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
@@ -88,6 +96,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         TVTitle.setText("计步详情");
         btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
         btnOpt.setBackground(this.getResources().getDrawable(R.drawable.page17_share));
+        utills=new SomeUtills();
     }
 
     private void initCalendar() {
@@ -152,13 +161,31 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnExit:  //退出
-
                 StepActivity.this.finish();
                 overridePendingTransitionExit(StepActivity.this);
                 break;
             case R.id.btnOpt:  //分享
-                new SomeUtills().showShare(this);
-//                new SomeUtills().setCompress(stepActivity, R.id.activity_step);
+                CommonDialog dialog=new CommonDialog(this);
+                dialog.show();
+//                utills().showShare(this);
+//                utills.setCompress(stepActivity, R.id.activity_step);
+                utills.setress(stepActivity, R.id.activity_step).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<byte[]>() {
+                    @Override
+                    public void onCompleted() {
+                        Logger.t(TAG).e("111111111111>>>>>>>>>");
+                        dialog.dismiss();
+                        utills.showShare(StepActivity.this);
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG,e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(byte[] bytes) {
+                        Logger.t(TAG).e("00000000000000>>>>>>>>>");
+                    }
+                });
                 break;
             case R.id.btnDate:  // 显示 隐藏 日历
 
@@ -275,16 +302,16 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         setLlDateVisible(1);
         switch (viewpager.getCurrentItem()) {
             case 0:
-                stepDayFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 0));
+                stepDayFragment.setTvDateValue(utills.getDate(date.getDate(), 0));
                 stepDayFragment.updateUI(new String[]{});
                 break;
             case 1:
-                weekMap = new SomeUtills().getWeekdate(date.getDate());
+                weekMap = utills.getWeekdate(date.getDate());
                 if (weekMap != null)
                     stepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
                 break;
             case 2:
-                stepMonthFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 1));
+                stepMonthFragment.setTvDateValue(utills.getDate(date.getDate(), 1));
                 break;
         }
     }

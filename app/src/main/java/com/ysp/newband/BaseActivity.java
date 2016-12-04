@@ -149,14 +149,13 @@ public class BaseActivity extends FragmentActivity {
                         dialog.onButOKListener(new CommonDialog.onButOKListener() {
                             @Override
                             public void onButOKListener() {
-                                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                                startActivityForResult(enableBtIntent, 10010);
+                                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 10010);
                             }
                         });
                     }
                 } else {
                     if (dialog.isShowing()) {
-                        dialog.setTvContext("检查手表蓝牙是否开启");
+                        dialog.setTvContext("请检查手表蓝牙是否开启");
                         dialog.setButOk(View.VISIBLE);
                         dialog.onButOKListener(new CommonDialog.onButOKListener() {
                             @Override
