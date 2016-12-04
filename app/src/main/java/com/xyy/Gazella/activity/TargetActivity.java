@@ -57,8 +57,14 @@ public class TargetActivity extends BaseActivity {
     private void initView() {
         TVTitle.setText("运动/睡眠目标");
         setDefault();
+        targetRunSeekBar.setProgress(PreferenceData.getTargetRunValue(TargetActivity.this)/100);
+        targetSleepSeekBar.setProgress(PreferenceData.getTargetSleepSeekBarValue(TargetActivity.this));
+        targetSleepHourText.setText(String.valueOf(PreferenceData.getTargetSleepHourValue(TargetActivity.this)));
+        targetSleepMinuteText.setText(String.valueOf(PreferenceData.getTargetSleepMinuteValue(TargetActivity.this)));
+        targetWalkText.setText(String.valueOf(PreferenceData.getTargetRunValue(TargetActivity.this))+ "步数");
         targetRunSeekBar.setOnSeekBarChangeListener(new monlistener());
         targetSleepSeekBar.setOnSeekBarChangeListener(new monlistener());
+
     }
 
     @OnClick({R.id.btnExit, R.id.btnOpt, R.id.TVTitle,R.id.but_save, R.id.but_default})
@@ -79,6 +85,7 @@ public class TargetActivity extends BaseActivity {
                 hours = max / 60;
                 min = max % 60;
                 PreferenceData.setTargetRunValue(TargetActivity.this,targetRunSeekBar.getProgress()*100);
+                PreferenceData.setTargetSleepSeekBarValue(TargetActivity.this,targetSleepSeekBar.getProgress());
                 PreferenceData.setTargetSleepHourValue(TargetActivity.this,hours);
                 PreferenceData.setTargetSleepMinuteValue(TargetActivity.this,min);
                 showToatst(TargetActivity.this,"保存成功");

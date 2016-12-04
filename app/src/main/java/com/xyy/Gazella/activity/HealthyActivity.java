@@ -14,13 +14,10 @@ import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
-import com.polidea.rxandroidble.RxBleDevice;
-import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.fragment.SleepFragment;
 import com.xyy.Gazella.fragment.StepFragment;
 import com.xyy.Gazella.utils.BleUtils;
 import com.ysp.newband.BaseActivity;
-import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
@@ -32,7 +29,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
-import rx.subjects.PublishSubject;
 
 import static com.ysp.smartwatch.R.id.viewpager;
 
@@ -60,10 +56,9 @@ public class HealthyActivity extends BaseActivity {
     private EdgeEffectCompat rightEdge;
     public static HealthyActivity install;
 
-    private RxBleDevice bleDevice;
     public Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
-    private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,16 +68,10 @@ public class HealthyActivity extends BaseActivity {
 
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals(""))
-            bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
-        if (bleDevice != null) {
-            connectionObservable = bleDevice
-                    .establishConnection(this, false)
-                    .takeUntil(disconnectTriggerSubject)
-                    .compose(new ConnectionSharingAdapter());
-            Notify(connectionObservable);
-            bleUtils = new BleUtils();
-        }
-
+            connectionObservable=getRxObservable(this);
+        bleUtils = new BleUtils();
+        Notify(connectionObservable);
+        Write( bleUtils.getTodayStep(), connectionObservable);
         btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         InitViewPager();
         install=this;
@@ -224,13 +213,10 @@ public class HealthyActivity extends BaseActivity {
             return fragmentList.size();
         }
     }
-    public void triggerDisconnect() {
-        disconnectTriggerSubject.onNext(null);
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        triggerDisconnect();
+
     }
 }

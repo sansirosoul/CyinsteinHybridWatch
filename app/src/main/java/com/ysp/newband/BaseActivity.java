@@ -53,6 +53,7 @@ public class BaseActivity extends FragmentActivity {
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
 
+
     public static Observable<RxBleConnection> getRxObservable(Context context) {
         String address = PreferenceData.getAddressValue(context);
         if (address != null && !address.equals("")) {
@@ -71,7 +72,6 @@ public class BaseActivity extends FragmentActivity {
         super.onCreate(arg0);
         ExchangeProxy.setApplicationDefaultErrorHandle(new ExangeErrorHandler());// 设置报错处理handler
         ExchangeProxy.setProgressModelVisible(false);// 设置弹出框是否显示
-
         if (Build.VERSION.SDK_INT >= 19) {
             //透明状态栏
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -90,16 +90,6 @@ public class BaseActivity extends FragmentActivity {
                     }
                 });
     }
-    private Observable<Observable<byte[]>> nnnn(RxBleDevice bleDevice) {
-        return bleDevice.establishConnection(BaseActivity.this,false)
-                .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
-                    @Override
-                    public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
-                        return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
-                    }
-                });
-    }
-
 
     protected void Write(byte[] bytes, Observable<RxBleConnection> connectionObservable) {
         WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
@@ -115,50 +105,6 @@ public class BaseActivity extends FragmentActivity {
                         Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
                     }
                 });
-
-
-//        connectionObservable
-//                .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
-//                    @Override
-//                    public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
-//                        return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
-//                    }
-//                }).doOnNext(new Action1<Observable<byte[]>>() {
-//            @Override
-//            public void call(Observable<byte[]> observable) {
-//                Logger.t(TAG).e("开始接收通知  >>>>>>  ");
-//
-//                WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe(new Action1<byte[]>() {
-//                            @Override
-//                            public void call(byte[] bytes) {
-//                                Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
-//                                onWriteReturn(type,bytes);
-//                            }
-//                        }, new Action1<Throwable>() {
-//                            @Override
-//                            public void call(Throwable throwable) {
-//                                Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
-//                            }
-//                        });
-//            }
-//        }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
-//            @Override
-//            public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
-//                return notificationObservable;
-//            }
-//        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
-//            @Override
-//            public void call(byte[] bytes) {
-//                Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
-//                onReadReturn(type, bytes);
-//            }
-//        }, new Action1<Throwable>() {
-//            @Override
-//            public void call(Throwable throwable) {
-//                Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
-//            }
-//        });
     }
 
     private CommonDialog dialog;
@@ -178,7 +124,7 @@ public class BaseActivity extends FragmentActivity {
                 Logger.t(TAG).e("开始接收通知  >>>>>>  ");
                 if (dialog.isShowing())
                     dialog.dismiss();
-                   onNotifyReturn(0);
+                    onNotifyReturn(0);
             }
         }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
             @Override
