@@ -72,6 +72,7 @@ public class ClockActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(context, EditClockActivity.class);
+                intent.putExtra("id",i);
                 intent.putExtra("time", clocks.get(i).getTime());
                 intent.putExtra("snooze", clocks.get(i).getSnoozeTime());
                 intent.putExtra("rate", clocks.get(i).getRate());
@@ -96,6 +97,7 @@ public class ClockActivity extends BaseActivity {
                     Toast.makeText(context, "闹钟数量已达上限", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(context, AddClockActivity.class);
+                    intent.putExtra("id",clocks.size());
                     startActivityForResult(intent, REQUEST_ADD);
                     overridePendingTransitionEnter(ClockActivity.this);
                 }

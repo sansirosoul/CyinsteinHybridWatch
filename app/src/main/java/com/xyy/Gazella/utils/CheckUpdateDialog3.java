@@ -10,16 +10,18 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
-import com.xyy.Gazella.activity.SettingActivity;
+import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.services.DfuService;
 import com.xyy.Gazella.view.NumberProgressBar;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import no.nordicsemi.android.dfu.DfuProgressListener;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
+import rx.Observable;
 import rx.Subscription;
 
 /**
@@ -30,9 +32,9 @@ public class CheckUpdateDialog3 extends BaseActivity {
     private Context context;
     private NumberProgressBar numberbar;
     private BleUtils bleUtils;
+    public Observable<RxBleConnection> connectionObservable;
     private RxBleClient rxBleClient;
     private Subscription scanSubscription;
-    private boolean isFailed = false;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -74,7 +76,6 @@ public class CheckUpdateDialog3 extends BaseActivity {
                             // Process scan result here.
                             BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
                             if (bluetoothDevice.getName().equals("DfuTarg")) {
-                                System.out.println("OTA is starting..." + bluetoothDevice.getAddress());
                                 new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00047).start(context, DfuService.class);
                                 scanSubscription.unsubscribe();
                             }
@@ -93,12 +94,14 @@ public class CheckUpdateDialog3 extends BaseActivity {
         setContentView(R.layout.check_update_dialog3);
         setFinishOnTouchOutside(false);
         context = this;
-        bleUtils = new BleUtils();
-
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")){
+            bleUtils = new BleUtils();
+            connectionObservable=getRxObservable(this);
+            Write(bleUtils.startDfu(), connectionObservable);
+        }
         numberbar = (NumberProgressBar) findViewById(R.id.numberbar);
 //        mHandler.post(runnable);
-
-        Write(bleUtils.startDfu(), SettingActivity.connectionObservable);
     }
 
     Runnable runnable = new Runnable() {
@@ -152,10 +155,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onDeviceDisconnected(String deviceAddress) {
-             if(isFailed){
-                 Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
-                 finish();
-             }
+
         }
 
         @Override
@@ -167,14 +167,12 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onDfuAborted(String deviceAddress) {
-            isFailed=true;
             Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
             finish();
         }
 
         @Override
         public void onError(String deviceAddress, int error, int errorType, String message) {
-            isFailed=true;
             Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
             finish();
         }

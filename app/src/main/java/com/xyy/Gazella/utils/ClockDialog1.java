@@ -22,8 +22,8 @@ import com.ysp.smartwatch.R;
 
 public class ClockDialog1 extends Dialog implements View.OnClickListener{
     private Button cancel;
-    private RelativeLayout rl5,rl10,rl15,rl20,rl25,rl30;
-    public ImageView iv5,iv10,iv15,iv20,iv25,iv30;
+    private RelativeLayout rl,rl5,rl10,rl15,rl20,rl25,rl30;
+    public ImageView iv,iv5,iv10,iv15,iv20,iv25,iv30;
     private Context context;
     private String ringtime;
     private OnClickListener mOnClickListener;
@@ -43,6 +43,7 @@ public class ClockDialog1 extends Dialog implements View.OnClickListener{
         setCanceledOnTouchOutside(false);
 
         cancel= (Button) findViewById(R.id.cancel);
+        rl= (RelativeLayout) findViewById(R.id.rl);
         rl5= (RelativeLayout) findViewById(R.id.rl5);
         rl10= (RelativeLayout) findViewById(R.id.rl10);
         rl15= (RelativeLayout) findViewById(R.id.rl15);
@@ -50,6 +51,7 @@ public class ClockDialog1 extends Dialog implements View.OnClickListener{
         rl25= (RelativeLayout) findViewById(R.id.rl25);
         rl30= (RelativeLayout) findViewById(R.id.rl30);
 
+        iv= (ImageView) findViewById(R.id.iv);
         iv5= (ImageView) findViewById(R.id.iv5);
         iv10= (ImageView) findViewById(R.id.iv10);
         iv15= (ImageView) findViewById(R.id.iv15);
@@ -58,6 +60,7 @@ public class ClockDialog1 extends Dialog implements View.OnClickListener{
         iv30= (ImageView) findViewById(R.id.iv30);
 
         cancel.setOnClickListener(this);
+        rl.setOnClickListener(this);
         rl5.setOnClickListener(this);
         rl10.setOnClickListener(this);
         rl15.setOnClickListener(this);
@@ -65,6 +68,9 @@ public class ClockDialog1 extends Dialog implements View.OnClickListener{
         rl25.setOnClickListener(this);
         rl30.setOnClickListener(this);
 
+        if(ringtime.equals("无")){
+            iv.setBackgroundResource(R.drawable.page36_sel);
+        }
         if(ringtime.equals("5分钟")){
             iv5.setBackgroundResource(R.drawable.page36_sel);
         }
@@ -103,6 +109,10 @@ public class ClockDialog1 extends Dialog implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.cancel:
+                dismiss();
+                break;
+            case R.id.rl:
+                mOnClickListener.onClick("无");
                 dismiss();
                 break;
             case R.id.rl5:

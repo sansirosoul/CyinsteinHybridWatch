@@ -21,7 +21,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
-import com.xyy.Gazella.activity.SettingActivity;
 import com.xyy.Gazella.adapter.ChangeWatchListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.ysp.newband.BaseActivity;
@@ -81,8 +80,7 @@ public class ChangeWatchList extends BaseActivity {
 //                }
 
                 PreferenceData.setAddressValue(context, devices.get(i).getAddress());
-                Intent intent = new Intent(context, SettingActivity.class);
-                startActivity(intent);
+                cleanObservable();
                 finish();
             }
         });
