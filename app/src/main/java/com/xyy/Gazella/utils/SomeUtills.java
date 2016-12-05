@@ -2,9 +2,13 @@ package com.xyy.Gazella.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Environment;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -179,65 +183,77 @@ public class SomeUtills {
         }
     }
 
+    private File file;
 
-    public Observable<byte[]> setress(Activity activity, int layout) {
-        return Observable.create(new Observable.OnSubscribe<byte[]>() {
+    public void setShare(Activity activity, int layout) {
+        Observable.create(new Observable.OnSubscribe<Boolean>() {
             @Override
-            public void call(Subscriber<? super byte[]> subscriber) {
-                if (subscriber.isUnsubscribed()) {
-                    View rootView = activity.findViewById(layout);
-                    WindowManager wm = activity.getWindowManager();
-                    int width = wm.getDefaultDisplay().getWidth();
-                    int height = wm.getDefaultDisplay().getHeight();
-                    Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                    Canvas canvas = new Canvas(newb);
-                    rootView.draw(canvas);
-                    File file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
-                    FileOutputStream f = null;
-                    try {
-                        f = new FileOutputStream(file);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
-                    if (b) {
-                        //截图成功
-                        //    Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
-                        subscriber.onNext(new byte[12]);
-                    }
+            public void call(Subscriber<? super Boolean> subscriber) {
+                View rootView = activity.findViewById(layout);
+                WindowManager wm = activity.getWindowManager();
+                int width = wm.getDefaultDisplay().getWidth();
+                int height = wm.getDefaultDisplay().getHeight();
+                Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                Canvas canvas = new Canvas(newb);
+                rootView.draw(canvas);
+                file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
+                FileOutputStream f = null;
+                try {
+                    f = new FileOutputStream(file);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
                 }
-                subscriber.onCompleted();
+                boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
+                if (b) {
+                    subscriber.onNext(true);
+                }
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean aBoolean) {
+                showShare(activity);
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
             }
         });
     }
 
+    public void saveCurrentImage(Activity activity) {
+        //获取当前屏幕的大小
+        int width = activity.getWindow().getDecorView().getRootView().getWidth();
+        int height = activity.getWindow().getDecorView().getRootView().getHeight();
+        //生成相同大小的图片
+        Bitmap temBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        //找到当前页面的跟布局
+        View view = activity.getWindow().getDecorView().getRootView();
+        //设置缓存
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        //从缓存中获取当前屏幕的图片
+        temBitmap = view.getDrawingCache();
 
-    public void setCompress(Activity activity, int layout) {
-
-        View rootView = activity.findViewById(layout);
-        WindowManager wm = activity.getWindowManager();
-        int width = wm.getDefaultDisplay().getWidth();
-        int height = wm.getDefaultDisplay().getHeight();
-
-        Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(newb);
-
-        rootView.draw(canvas);
-
+        //输出到sd
         File file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
-
-        FileOutputStream f = null;
-        try {
-            f = new FileOutputStream(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (!TextUtils.isEmpty(Environment.getExternalStorageDirectory() + "/" + "share.png")) {
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
+            Uri uri = Uri.fromFile(file);
+            intent.setData(uri);
+            activity.sendBroadcast(intent);
+            file.delete();
         }
-        boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
-        if (b) {
-            //截图成功
-            //    Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
-            showShare(activity);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileOutputStream foStream = new FileOutputStream(file);
+            temBitmap.compress(Bitmap.CompressFormat.PNG, 100, foStream);
+            foStream.flush();
+            foStream.close();
+        } catch (Exception e) {
+            Log.i("Show", e.toString());
         }
     }
 

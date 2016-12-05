@@ -56,6 +56,8 @@ public class AddClockActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
+
+
     }
 
     private void initView() {
@@ -65,6 +67,7 @@ public class AddClockActivity extends BaseActivity {
         List<String> hours = new ArrayList<>();
         List<String> minutes = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
+
             if (i < 10) {
                 hours.add("0" + i);
             } else {
@@ -81,8 +84,6 @@ public class AddClockActivity extends BaseActivity {
 
         pvHour.setData(hours);
         pvMinute.setData(minutes);
-
-
 
         pvHour.setOnSelectListener(new PickerViewHour.onSelectListener() {
             @Override
