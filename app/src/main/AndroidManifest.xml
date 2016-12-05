@@ -154,7 +154,7 @@
         <activity
             android:name="com.xyy.Gazella.activity.SettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.xyy.Gazella.activity.UserSetting"

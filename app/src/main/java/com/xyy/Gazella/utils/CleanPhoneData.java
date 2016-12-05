@@ -12,7 +12,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 /**
@@ -64,7 +63,7 @@ public class CleanPhoneData extends Dialog implements View.OnClickListener{
                 dismiss();
                 break;
             case R.id.confirm:
-                PreferenceData.clearAllSharePreferences(context);
+//                PreferenceData.clearAllSharePreferences(context);
                 dismiss();
                 break;
         }

@@ -218,12 +218,14 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 ////            }
 //            bluetoothAdapter.stopLeScan(leScanCallback);
 //        }
+        if(scanSubscription!=null)
         scanSubscription.unsubscribe();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(scanSubscription!=null)
         scanSubscription.unsubscribe();
     }
 
@@ -297,8 +299,8 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                             // All GATT operations are done through the rxBleConnection.
                             loadingDialog.dismiss();
                             connectionSubscription.unsubscribe();
-                            GazelleApplication.deviceAddress=device.getAddress();
                             PreferenceData.setAddressValue(PairingActivity.this,device.getAddress());
+
 //                            Intent intent = new Intent(context, BleTest.class);
                             Intent intent = new Intent(context, PersonActivity.class);
                             startActivity(intent);

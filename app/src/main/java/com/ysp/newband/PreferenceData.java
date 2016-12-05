@@ -22,6 +22,7 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_SELECTED_SMALL2_VALUE = "SAVE_SELECTED_SMALL2_VALUE";
     public static final String SAVE_SELECTED_SMALL3_VALUE = "SAVE_SELECTED_SMALL3_VALUE";
     public static final String SAVE_ADDRESS_VALUE = "SAVE_ADDRESS_VALUE";
+
     public static final String SAVE_TARGETRUN_VALUE = "SAVE_TARGETRUN_VALUE";
     public static final String SAVE_TARGETSLEEPHOUR_VALUE = "SAVE_TARGETSLEEPHOUR_VALUE";
     public static final String SAVE_TARGETSLEEPMINUTE_VALUE = "SAVE_TARGETSLEEPMINUTE_VALUE";
@@ -137,6 +138,7 @@ public class PreferenceData implements Serializable{
         return sharedPreferences.getString(SAVE_ADDRESS_VALUE,"");
     }
 
+
     /** 保存 步行目标 的值*/
     public static void setTargetRunValue(Context context, int account) {
         SharedPreferences sharedPreferences = context.getApplicationContext()
@@ -203,7 +205,7 @@ public class PreferenceData implements Serializable{
     //保存个人信息
     public static void setUserInfo(Context context,String name, String birth, int sex, String height, String weight) {
         SharedPreferences sharedPreferences = context.getApplicationContext()
-                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+                .getSharedPreferences(SAVE_USER_VALUE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("name", name).commit();
         editor.putString("birth", birth).commit();
@@ -215,7 +217,7 @@ public class PreferenceData implements Serializable{
     //获取个人信息
     public static User getUserInfo(Context context) {
         SharedPreferences sharedPreferences = context.getApplicationContext()
-                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+                .getSharedPreferences(SAVE_USER_VALUE, Context.MODE_PRIVATE);
         User user = new User();
         user.setName(sharedPreferences.getString("name", null));
         user.setBirthday(sharedPreferences.getString("birth", null));

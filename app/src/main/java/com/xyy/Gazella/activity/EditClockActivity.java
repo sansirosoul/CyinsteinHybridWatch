@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ClockDialog1;
 import com.xyy.Gazella.utils.ClockDialog2;
@@ -15,6 +16,7 @@ import com.xyy.Gazella.view.PickerViewHour;
 import com.xyy.Gazella.view.PickerViewMinute;
 import com.xyy.model.Clock;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 /**
  * Created by Administrator on 2016/10/26.
@@ -50,6 +53,8 @@ public class EditClockActivity extends BaseActivity {
     private String minute="30";
     private int isOpen = 0;
     private int id;
+    private BleUtils bleUtils;
+    public Observable<RxBleConnection> connectionObservable;
     private ClockDialog1.OnClickListener onClickListener1;
     private ClockDialog2.OnClickListener onClickListener2;
 
@@ -61,8 +66,11 @@ public class EditClockActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
-
-
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")) {
+            bleUtils = new BleUtils();
+            connectionObservable = getRxObservable(this);
+        }
     }
 
     private void initView() {
@@ -152,10 +160,9 @@ public class EditClockActivity extends BaseActivity {
                 overridePendingTransitionExit(EditClockActivity.this);
                 break;
             case R.id.save:
-                BleUtils bleUtils = new BleUtils();
                 Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
                         Clock.transformSnoozeTime(tvRingtime.getText().toString()),
-                        Clock.transformRate(tvRepeatrate.getText().toString()), "",1),SettingActivity.connectionObservable);
+                        Clock.transformRate(tvRepeatrate.getText().toString()), "",1),connectionObservable);
                 Intent intent = new Intent();
                 intent.putExtra("time",hour+":"+minute);
                 intent.putExtra("snooze",tvRingtime.getText().toString());
