@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
+import com.polidea.rxandroidble.RxBleConnection;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -22,7 +22,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.xyy.Gazella.fragment.StepDayFragment;
 import com.xyy.Gazella.fragment.StepMonthFragment;
 import com.xyy.Gazella.fragment.StepWeekFragment;
-import com.xyy.Gazella.utils.CommonDialog;
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
@@ -37,8 +37,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
+import rx.Observable;
 
 public class StepActivity extends BaseActivity implements OnDateSelectedListener {
 
@@ -78,6 +77,8 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private Calendar CalendarInstance = Calendar.getInstance();
     private HashMap<String, String> weekMap;
+    public Observable<RxBleConnection> connectionObservable;
+    private BleUtils bleUtils;
     public static StepActivity stepActivity = null;
 
     @Override
@@ -88,7 +89,22 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         initView();
         initCalendar();
         InitViewPager();
+
         stepActivity = this;
+
+
+    }
+
+    @Override
+    protected void onNotifyReturn(int type) {
+        super.onNotifyReturn(type);
+        Logger.t(TAG).e(String.valueOf(type));
+    }
+
+
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
     }
 
     private void initView() {
@@ -165,27 +181,10 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 overridePendingTransitionExit(StepActivity.this);
                 break;
             case R.id.btnOpt:  //分享
-                CommonDialog dialog=new CommonDialog(this);
-                dialog.show();
 //                utills().showShare(this);
 //                utills.setCompress(stepActivity, R.id.activity_step);
-                utills.setress(stepActivity, R.id.activity_step).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<byte[]>() {
-                    @Override
-                    public void onCompleted() {
-                        Logger.t(TAG).e("111111111111>>>>>>>>>");
-                        dialog.dismiss();
-                        utills.showShare(StepActivity.this);
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i(TAG,e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(byte[] bytes) {
-                        Logger.t(TAG).e("00000000000000>>>>>>>>>");
-                    }
-                });
+//                utills.setShare(stepActivity, R.id.activity_step);
+                utills.saveCurrentImage(StepActivity.this);
                 break;
             case R.id.btnDate:  // 显示 隐藏 日历
 

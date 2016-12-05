@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.polidea.rxandroidble.RxBleConnection;
+import com.xyy.Gazella.activity.HealthyActivity;
 import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.NumberProgressBar;
@@ -53,6 +54,7 @@ public class StepFragment extends BaseFragment {
     private View view;
     private BleUtils bleUtils;
     private Observable<RxBleConnection> connectionObservable;
+    public boolean isgetTodayStep = true;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -60,11 +62,11 @@ public class StepFragment extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1001:
-                    if(numberbar.getProgress()==100) {
+                    if (numberbar.getProgress() == 100) {
                         numberbar.setProgress(0);
                         llNumberProgressBar.setVisibility(View.GONE);
                         llQuality.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         numberbar.incrementProgressBy(1);
                     }
                     break;
@@ -78,8 +80,16 @@ public class StepFragment extends BaseFragment {
 
         ButterKnife.bind(this, view);
         initView();
+        String address = PreferenceData.getAddressValue(getActivity());
+        if (address != null && !address.equals(""))
+            connectionObservable = HealthyActivity.install.connectionObservable;
+        bleUtils = new BleUtils();
+        if (isgetTodayStep)
+            mHandler.post(getTodayStep);
+
         return view;
     }
+
 
     private void initView() {
         final ViewGroup.LayoutParams params = circle.getLayoutParams();
@@ -114,9 +124,29 @@ public class StepFragment extends BaseFragment {
         }
     };
 
+    Runnable getTodayStep = new Runnable() {
+        @Override
+        public void run() {
+            Write(bleUtils.getTodayStep(), connectionObservable);
+            mHandler.sendEmptyMessage(1002);
+            mHandler.postDelayed(this, 1000);
+        }
+    };
+
     public void setSynchronization() {
         llNumberProgressBar.setVisibility(View.VISIBLE);
         llQuality.setVisibility(View.GONE);
         mHandler.post(runnable);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isgetTodayStep=false;
+    }
+
+    public void setStepNum(String num) {
+        stepNum.setText(num);
+    }
+
 }

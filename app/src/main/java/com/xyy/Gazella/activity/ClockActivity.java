@@ -8,7 +8,9 @@ import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.adapter.ClockListAdapter;
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.ListViewForScrollView;
 import com.xyy.model.Clock;
 import com.ysp.newband.BaseActivity;
@@ -20,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 /**
  * Created by Administrator on 2016/10/26.
@@ -38,6 +41,8 @@ public class ClockActivity extends BaseActivity {
     public final static int REQUEST_ADD = 1;
     public final static int REQUEST_EDIT = 2;
     private int position = 0;
+    private BleUtils bleUtils;
+    public Observable<RxBleConnection> connectionObservable;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -46,6 +51,10 @@ public class ClockActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
+
+        connectionObservable=getRxObservable(this);
+        bleUtils = new BleUtils();
+        Notify(connectionObservable);
 
     }
 
@@ -63,7 +72,6 @@ public class ClockActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(context, EditClockActivity.class);
-                intent.putExtra("id",i);
                 intent.putExtra("time", clocks.get(i).getTime());
                 intent.putExtra("snooze", clocks.get(i).getSnoozeTime());
                 intent.putExtra("rate", clocks.get(i).getRate());
@@ -88,7 +96,6 @@ public class ClockActivity extends BaseActivity {
                     Toast.makeText(context, "闹钟数量已达上限", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(context, AddClockActivity.class);
-                    intent.putExtra("id",clocks.size());
                     startActivityForResult(intent, REQUEST_ADD);
                     overridePendingTransitionEnter(ClockActivity.this);
                 }
@@ -96,19 +103,21 @@ public class ClockActivity extends BaseActivity {
         }
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_ADD:
                 if (data != null) {
                     Clock clock = new Clock();
+                    clock.setId(adapter.getCount());
                     clock.setTime(data.getStringExtra("time"));
                     clock.setSnoozeTime(data.getStringExtra("snooze"));
                     clock.setRate(data.getStringExtra("rate"));
                     clock.setIsOpen(data.getIntExtra("isOpen", -1));
                     clocks.add(clock);
                     adapter.notifyDataSetChanged();
+
+                    Write( bleUtils.setWatchAlarm(1, 0, 12, 0, 1, 1, "",1), connectionObservable);
                 }
                 break;
             case REQUEST_EDIT:
