@@ -119,11 +119,7 @@ public class SettingActivity extends BaseActivity {
         bleUtils = new BleUtils();
         String address =  PreferenceData.getAddressValue(this);
         if(address!=null&&!address.equals("")){
-            bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
-            connectionObservable = bleDevice
-                    .establishConnection(this, false)
-                    .takeUntil(disconnectTriggerSubject)
-                    .compose(new ConnectionSharingAdapter());
+            connectionObservable =getRxObservable(this);
             Notify(connectionObservable);
         }
 
