@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -37,8 +36,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 
 public class StepActivity extends BaseActivity implements OnDateSelectedListener {
 
@@ -168,24 +165,28 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 CommonDialog dialog=new CommonDialog(this);
                 dialog.show();
 //                utills().showShare(this);
-//                utills.setCompress(stepActivity, R.id.activity_step);
-                utills.setress(stepActivity, R.id.activity_step).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<byte[]>() {
-                    @Override
-                    public void onCompleted() {
-                        Logger.t(TAG).e("111111111111>>>>>>>>>");
-                        dialog.dismiss();
-                        utills.showShare(StepActivity.this);
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i(TAG,e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(byte[] bytes) {
-                        Logger.t(TAG).e("00000000000000>>>>>>>>>");
-                    }
-                });
+                utills.setCompress(stepActivity, R.id.activity_step);
+//                utills.setress(stepActivity, R.id.activity_step).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<byte[]>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        Logger.t(TAG).e("111111111111>>>>>>>>>");
+//                        dialog.dismiss();
+//                        utills.showShare(StepActivity.this);
+////                        File file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
+////                        if (file.exists() && file.isFile()) {
+////                            file.delete();
+////                        }
+//                    }
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.i(TAG,e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onNext(byte[] bytes) {
+//                        Logger.t(TAG).e("00000000000000>>>>>>>>>");
+//                    }
+//                });
                 break;
             case R.id.btnDate:  // 显示 隐藏 日历
 
@@ -334,5 +335,17 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         public int getCount() {
             return fragmentList.size();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Logger.t(TAG).e("1111111111");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Logger.t(TAG).e("2222222222");
     }
 }

@@ -193,6 +193,7 @@ public class SomeUtills {
                     Canvas canvas = new Canvas(newb);
                     rootView.draw(canvas);
                     File file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
+
                     FileOutputStream f = null;
                     try {
                         f = new FileOutputStream(file);
@@ -279,6 +280,7 @@ public class SomeUtills {
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("http://www.cyinstein.com");
         // 启动分享GUI
+
         oks.show(activity);
     }
 
