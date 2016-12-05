@@ -214,18 +214,4 @@ public class HealthyActivity extends BaseActivity {
             return fragmentList.size();
         }
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Logger.t("AAA").e("22222");
-        stepFragment.isgetTodayStep=false;
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Logger.t("AAA").e("111111");
-        stepFragment.isgetTodayStep=false;
-    }
 }
