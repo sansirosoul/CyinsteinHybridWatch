@@ -8,10 +8,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ClockDialog1;
 import com.xyy.Gazella.utils.ClockDialog2;
 import com.xyy.Gazella.view.PickerViewHour;
 import com.xyy.Gazella.view.PickerViewMinute;
+import com.xyy.model.Clock;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -47,6 +49,7 @@ public class EditClockActivity extends BaseActivity {
     private String hour="12";
     private String minute="30";
     private int isOpen = 0;
+    private int id;
     private ClockDialog1.OnClickListener onClickListener1;
     private ClockDialog2.OnClickListener onClickListener2;
 
@@ -88,6 +91,7 @@ public class EditClockActivity extends BaseActivity {
         pvHour.setData(hours);
         pvMinute.setData(minutes);
 
+        id=getIntent().getIntExtra("id",-1);
         tvRingtime.setText(getIntent().getStringExtra("snooze"));
         tvRepeatrate.setText(getIntent().getStringExtra("rate"));
         isOpen=getIntent().getIntExtra("isOpen",-1);
@@ -148,6 +152,10 @@ public class EditClockActivity extends BaseActivity {
                 overridePendingTransitionExit(EditClockActivity.this);
                 break;
             case R.id.save:
+                BleUtils bleUtils = new BleUtils();
+                Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                        Clock.transformSnoozeTime(tvRingtime.getText().toString()),
+                        Clock.transformRate(tvRepeatrate.getText().toString()), "",1),SettingActivity.connectionObservable);
                 Intent intent = new Intent();
                 intent.putExtra("time",hour+":"+minute);
                 intent.putExtra("snooze",tvRingtime.getText().toString());

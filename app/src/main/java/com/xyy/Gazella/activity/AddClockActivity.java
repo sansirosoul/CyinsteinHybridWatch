@@ -8,10 +8,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ClockDialog1;
 import com.xyy.Gazella.utils.ClockDialog2;
 import com.xyy.Gazella.view.PickerViewHour;
 import com.xyy.Gazella.view.PickerViewMinute;
+import com.xyy.model.Clock;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -48,6 +50,7 @@ public class AddClockActivity extends BaseActivity {
     private String minute="30";
     private ClockDialog1.OnClickListener onClickListener1;
     private ClockDialog2.OnClickListener onClickListener2;
+    private int id;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -55,6 +58,7 @@ public class AddClockActivity extends BaseActivity {
         setContentView(R.layout.add_clock);
         ButterKnife.bind(this);
         context = this;
+        id=getIntent().getIntExtra("id",-1);
         initView();
     }
 
@@ -133,6 +137,10 @@ public class AddClockActivity extends BaseActivity {
                 overridePendingTransitionExit(AddClockActivity.this);
                 break;
             case R.id.save:
+                BleUtils bleUtils = new BleUtils();
+                Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                        Clock.transformSnoozeTime(tvRingtime.getText().toString()),
+                        Clock.transformRate(tvRepeatrate.getText().toString()), "",1),SettingActivity.connectionObservable);
                 Intent intent = new Intent();
                 intent.putExtra("time",hour+":"+minute);
                 intent.putExtra("snooze",tvRingtime.getText().toString());

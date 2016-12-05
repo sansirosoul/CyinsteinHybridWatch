@@ -22,8 +22,8 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_SELECTED_SMALL2_VALUE = "SAVE_SELECTED_SMALL2_VALUE";
     public static final String SAVE_SELECTED_SMALL3_VALUE = "SAVE_SELECTED_SMALL3_VALUE";
     public static final String SAVE_ADDRESS_VALUE = "SAVE_ADDRESS_VALUE";
-    public static final String SAVE_USER_VALUE = "SAVE_USER_VALUE";
-
+    public static final String SAVE_DEVICE_SN_VALUE = "SAVE_DEVICE_SN_VALUE";
+    public static final String SAVE_DEVICE_FWV_VALUE = "SAVE_DEVICE_FWV_VALUE";
 
 
     public static void clearAllSharePreferences(Context context) {
@@ -154,5 +154,35 @@ public class PreferenceData implements Serializable{
         user.setHeight(sharedPreferences.getString("height", null));
         user.setWeight(sharedPreferences.getString("weight", null));
         return user;
+    }
+
+    //保存手表序列号
+    public static void setDeviceSnValue(Context context,String sn){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SAVE_DEVICE_SN_VALUE,sn).commit();
+    }
+
+    //获取手表序列号
+    public static String getDeviceSnValue(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(SAVE_DEVICE_SN_VALUE,null);
+    }
+
+    //保存手表固件版本号
+    public static void setDeviceFwvValue(Context context,String fwv){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SAVE_DEVICE_FWV_VALUE,fwv).commit();
+    }
+
+    //获取手表件版本号
+    public static String getDeviceFwvValue(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(SAVE_DEVICE_FWV_VALUE,null);
     }
 }

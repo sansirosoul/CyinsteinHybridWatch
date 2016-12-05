@@ -17,6 +17,7 @@ import com.xyy.Gazella.utils.ChangeWatchDialog;
 import com.xyy.Gazella.utils.CleanPhoneData;
 import com.xyy.Gazella.utils.CleanWatchData;
 import com.xyy.Gazella.utils.HexString;
+import com.xyy.Gazella.utils.LoadingDialog;
 import com.xyy.Gazella.utils.RenameWatchDialog;
 import com.xyy.Gazella.view.SwitchView;
 import com.ysp.newband.BaseActivity;
@@ -69,6 +70,7 @@ public class SettingActivity extends BaseActivity {
     public static Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -78,19 +80,26 @@ public class SettingActivity extends BaseActivity {
 
         context = this;
         initView();
+        initBle();
+    }
+
+    private void initBle(){
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")){
+            bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
+            connectionObservable = bleDevice
+                    .establishConnection(this, false)
+                    .takeUntil(disconnectTriggerSubject)
+                    .compose(new ConnectionSharingAdapter());
+            Notify(connectionObservable);
+        }
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         triggerDisconnect();
-        String address = PreferenceData.getAddressValue(context);
-        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
-        connectionObservable = bleDevice
-                .establishConnection(this, false)
-                .takeUntil(disconnectTriggerSubject)
-                .compose(new ConnectionSharingAdapter());
-        Notify(connectionObservable);
+        initBle();
     }
 
     @Override
@@ -115,18 +124,10 @@ public class SettingActivity extends BaseActivity {
             }
         });
 
+        loadingDialog = new LoadingDialog(context);
+        loadingDialog.show();
 
         bleUtils = new BleUtils();
-        String address =  PreferenceData.getAddressValue(this);
-        if(address!=null&&!address.equals("")){
-            bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
-            connectionObservable = bleDevice
-                    .establishConnection(this, false)
-                    .takeUntil(disconnectTriggerSubject)
-                    .compose(new ConnectionSharingAdapter());
-            Notify(connectionObservable);
-        }
-
     }
 
 
@@ -141,6 +142,17 @@ public class SettingActivity extends BaseActivity {
                  Toast.makeText(context,"手表已震动，请寻找手表！",Toast.LENGTH_SHORT).show();
         }else if(HexString.bytesToHex(bytes).equals("0701010918")){
                 Toast.makeText(context,"手表蓝牙已关闭！",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onNotifyReturn(int type) {
+        super.onNotifyReturn(type);
+        if(type==0){
+            loadingDialog.dismiss();
+        }else{
+            triggerDisconnect();
+            initBle();
         }
     }
 

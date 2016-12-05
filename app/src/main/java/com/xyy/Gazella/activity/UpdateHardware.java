@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckUpdateDialog1;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -69,8 +70,10 @@ public class UpdateHardware extends BaseActivity {
         super.onReadReturn(bytes);
         if(bleUtils.returnDeviceSN(bytes)!=null){
             watchSN.setText(bleUtils.returnDeviceSN(bytes));
+            PreferenceData.setDeviceSnValue(this,bleUtils.returnDeviceSN(bytes));
         }else if(bleUtils.returnFWVer(bytes)!=null){
             watchVer.setText(bleUtils.returnFWVer(bytes));
+            PreferenceData.setDeviceFwvValue(this,bleUtils.returnFWVer(bytes));
         }else if(bleUtils.returnBatteryValue(bytes)!=null){
             battery.setText(bleUtils.returnBatteryValue(bytes)+"%");
         }

@@ -123,7 +123,7 @@ public class TimeSynchronization extends BaseActivity {
         if (bleDevice != null) {
             connectionObservable = bleDevice
                     .establishConnection(this, false)
-//                    .takeUntil(disconnectTriggerSubject)
+                    .takeUntil(disconnectTriggerSubject)
 //                    .doOnUnsubscribe(this::clearSubscription)
                     .compose(new ConnectionSharingAdapter());
 
@@ -138,18 +138,18 @@ public class TimeSynchronization extends BaseActivity {
 
     }
 
-//    @Override
-//    protected void onNotifyReturn(int type) {
-//        if (type == 0) {              //可以接收通知
-//            if (dialog.isShowing())
-//                dialog.dismiss();
-//        } else {
-//            if (dialog.isShowing()) {
-//                dialog.setTvContext("没有搜索蓝牙");
-//            }
-//        }
-//        super.onNotifyReturn(type);
-//    }
+    @Override
+    protected void onNotifyReturn(int type) {
+        if (type == 0) {              //可以接收通知
+            if (dialog.isShowing())
+                dialog.dismiss();
+        } else {
+            if (dialog.isShowing()) {
+                dialog.setTvContext("没有搜索蓝牙");
+            }
+        }
+        super.onNotifyReturn(type);
+    }
 
     @Override
     protected void onReadReturn(byte[] bytes) {

@@ -224,7 +224,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        scanSubscription.unsubscribe();
     }
 
     @Override

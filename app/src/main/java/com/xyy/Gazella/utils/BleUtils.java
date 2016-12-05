@@ -50,7 +50,7 @@ public class BleUtils {
                 bytes1[i] = bytes[2 + i];
             }
             try {
-                deviceSN = new String(bytes1,"ascii");
+                deviceSN = new String(bytes1, "ascii");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -142,10 +142,12 @@ public class BleUtils {
        hour   闹铃时钟	0-23
        minute  闹铃分钟	0-59
         snoozeTime	贪睡时间	0x00=off，0x01=5min，0x02=10min，0x03=15min，0x04=20min，0x05=25min，0x06=30min
-        ringmode	响铃模式	0x00=off，0x01=一次，0x02=每天，0x03=周一-周五，0x04=自定义模式
+        ringmode	响铃模式	0x00=off，0x01=一次，0x02=每天，0x03=周一-周五，0x04=周六、周日,  0x05=自定义模式
         custom	自定义模式	Bit7=Not Care，Bit6=Sunday, Bit5=Saturday, Bit4=Friday, Bit3=Thursday, Bit2=Wednesday, Bit1=Tuesday, Bit0=Monday\
-        byteStr   二进制字符串*/
-    public byte[] setWatchAlarm(int mode, int id, int hour, int minute, int snoozeTime, int ringMode, String byteStr) {
+        byteStr   二进制字符串
+        isOpen     是否开启闹铃   0=不开启，1=开启闹铃
+        */
+    public byte[] setWatchAlarm(int mode, int id, int hour, int minute, int snoozeTime, int ringMode, String byteStr, int isOpen) {
         value = new byte[14];
         ck_a = 0;
         ck_b = 0;
@@ -165,13 +167,14 @@ public class BleUtils {
         value[9] = (byte) snoozeTime;
         value[10] = (byte) ringMode;
         value[11] = decodeBinaryString(byteStr);
+        value[12] = (byte) isOpen;
 
-        for (int i = 2; i < 12; i++) {
+        for (int i = 2; i < 13; i++) {
             ck_a = (byte) (ck_a + value[i]);
             ck_b = (byte) (ck_b + ck_a);
         }
-        value[12] = ck_a;
-        value[13] = ck_b;
+        value[13] = ck_a;
+        value[14] = ck_b;
 
         return value;
     }
@@ -735,54 +738,38 @@ public class BleUtils {
         Clock clock = new Clock();
         if (bytes[0] == 0x07 & bytes[1] == 0x26) {
             clock.setId(bytes[3]);
+
             String hour = null;
             String minute = null;
             if (bytes[4] < 10) {
                 hour = "0" + bytes[4];
             }
+
             if (bytes[5] < 10) {
                 minute = "0" + bytes[5];
             }
             clock.setTime(hour + ":" + minute);
-            if (bytes[6] == 1) {
-                clock.setSnoozeTime("5分钟");
-            } else if (bytes[6] == 2) {
-                clock.setSnoozeTime("10分钟");
-            } else if (bytes[6] == 3) {
-                clock.setSnoozeTime("15分钟");
-            } else if (bytes[6] == 4) {
-                clock.setSnoozeTime("20分钟");
-            } else if (bytes[6] == 5) {
-                clock.setSnoozeTime("25分钟");
-            } else if (bytes[6] == 6) {
-                clock.setSnoozeTime("30分钟");
-            }
 
-            if (bytes[7] == 0) {
-                clock.setIsOpen(0);
-            } else {
-                clock.setIsOpen(1);
-                if (bytes[7] == 1) {
-                    clock.setRate("只响一次");
-                } else if (bytes[7] == 2) {
-                    clock.setRate("每天");
-                } else if (bytes[7] == 3) {
-                    clock.setRate("周一到周五");
-                } else if (bytes[7] == 4) {
-                    String str = byte2bits(bytes[8]);
-                    StringBuilder stringBuilder = new StringBuilder("周");
-                    for (int i = 0; i < str.length(); i++) {
-                        if(str.substring(i, i + 1).equals("1")) {
-                            if (i == 0) {
-                                stringBuilder.append(str.substring(i, i + 1));
-                            } else {
-                                stringBuilder.append(" " + str.substring(i, i + 1));
-                            }
+            clock.setSnoozeTime(Clock.transformSnoozeTime2(bytes[6]));
+
+            if (bytes[7] == 5) {
+                String str = byte2bits(bytes[8]);
+                StringBuilder stringBuilder = new StringBuilder("周");
+                for (int i = 0; i < str.length(); i++) {
+                    if (str.substring(i, i + 1).equals("1")) {
+                        if (i == 0) {
+                            stringBuilder.append(str.substring(i, i + 1));
+                        } else {
+                            stringBuilder.append(" " + str.substring(i, i + 1));
                         }
                     }
-                    clock.setRate(stringBuilder.toString());
                 }
+                clock.setRate(stringBuilder.toString());
+            } else {
+                clock.setRate(Clock.transformRat2(bytes[7]));
             }
+
+            clock.setIsOpen(bytes[9]);
         }
         return clock;
     }
