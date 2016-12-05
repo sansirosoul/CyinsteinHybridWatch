@@ -12,9 +12,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.fragment.SleepFragment;
 import com.xyy.Gazella.fragment.StepFragment;
+import com.xyy.Gazella.utils.BleUtils;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.lang.reflect.Field;
@@ -24,11 +28,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 import static com.ysp.smartwatch.R.id.viewpager;
 
 
 public class HealthyActivity extends BaseActivity {
+
+    private  static  String TAG=HealthyActivity.class.getName();
+
     @BindView(R.id.step)
     TextView step;
     @BindView(R.id.sleep)
@@ -46,14 +54,49 @@ public class HealthyActivity extends BaseActivity {
     private FragmentAdapter mFragmentAdapter;
     private EdgeEffectCompat leftEdge;
     private EdgeEffectCompat rightEdge;
+    public static HealthyActivity install;
+
+    public Observable<RxBleConnection> connectionObservable;
+    private BleUtils bleUtils;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_healthy);
         ButterKnife.bind(this);
+
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals(""))
+            connectionObservable=getRxObservable(this);
+        bleUtils = new BleUtils();
+        Notify(connectionObservable);
+        Write( bleUtils.getTodayStep(), connectionObservable);
         btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         InitViewPager();
+        install=this;
+    }
+
+    @Override
+    protected void onNotifyReturn(int type) {
+        switch (type){
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                Notify(connectionObservable);
+                break;
+        }
+
+        super.onNotifyReturn(type);
+    }
+
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
+        bleUtils.returnStepData(bytes);
+        Logger.t(TAG).e(String.valueOf(bleUtils.returnStepData(bytes)));
     }
 
     private void InitViewPager() {
@@ -75,8 +118,6 @@ public class HealthyActivity extends BaseActivity {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-
-
         fragmentsList = new ArrayList<>();
         sleepFragment = new SleepFragment();
         stepFragment = new StepFragment();
@@ -171,5 +212,11 @@ public class HealthyActivity extends BaseActivity {
         public int getCount() {
             return fragmentList.size();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

@@ -32,7 +32,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:textSize="10dp"
+            android:textSize="13dp"
             android:textColor="@color/white"
             android:text="第一步：请先点击重置按键" />
 

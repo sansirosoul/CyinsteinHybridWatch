@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.ysp.newband.BaseActivity;
 import com.ysp.smartwatch.R;
 
@@ -33,6 +34,7 @@ public class HomeActivity extends BaseActivity {
     @BindView(R.id.ll_introduce)
     LinearLayout llIntroduce;
     private long mExitTime = 0;
+    public  static HomeActivity install;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -40,6 +42,18 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
+
+        Notify(getRxObservable(this));
+        install=this;
+    }
+
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        Logger.t(TAG).e(String.valueOf(bytes));
+        onHomeReadReturn(bytes);
+        super.onReadReturn(bytes);
+    }
+    public  void  onHomeReadReturn(byte[] bytes){
 
     }
 

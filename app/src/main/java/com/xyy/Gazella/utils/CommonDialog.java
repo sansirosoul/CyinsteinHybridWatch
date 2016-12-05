@@ -7,18 +7,23 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ysp.smartwatch.R;
 
-public class CommonDialog  extends Dialog {
+public class CommonDialog extends Dialog {
 
+
+    private Button butOk;
     private Context context;
     private ProgressBar iv_loading;
     private TextView tvContext;
+    private  onButOKListener onButOKListener;
 
     public CommonDialog(Context context) {
         super(context, R.style.dialog);
@@ -30,13 +35,15 @@ public class CommonDialog  extends Dialog {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.check_update_dialog1);
+        setContentView(R.layout.commdialog);
         iv_loading = (ProgressBar) findViewById(R.id.iv_loading);
-        tvContext=(TextView)findViewById(R.id.tv_context);
-
+        tvContext = (TextView) findViewById(R.id.tv_context);
+        butOk = (Button) findViewById(R.id.but_ok);
+        butOk.setOnClickListener(new onButListener());
         setDialogAttributes((Activity) context, this, 0, 0, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
     }
+
     public void setDialogAttributes(Activity context, final Dialog dialog,
                                     float widthP, float heightP, int gravity) {
         Display d = context.getWindowManager().getDefaultDisplay();
@@ -52,7 +59,31 @@ public class CommonDialog  extends Dialog {
         dialog.getWindow().setGravity(gravity);
     }
 
-    public  void  setTvContext(String str){
+    public void setTvContext(String str) {
         tvContext.setText(str);
+    }
+
+    public void setButOk(int visibility) {
+        butOk.setVisibility(visibility);
+    }
+
+    public interface onButOKListener {
+        void onButOKListener();
+    }
+    public void onButOKListener(onButOKListener onButOKListener) {
+        this.onButOKListener = onButOKListener;
+    }
+
+
+    class  onButListener implements View.OnClickListener{
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case  R.id.but_ok:
+                    if(onButOKListener!=null)
+                        onButOKListener.onButOKListener();
+                    break;
+            }
+        }
     }
 }

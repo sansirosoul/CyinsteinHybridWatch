@@ -365,8 +365,10 @@ public class AnalogClock extends View {
                 } else {
                     if (isMinutestMove)
                         mMinutes =(int) Tiemvalue / 6;
-                }if (changetimelistener != null)
-                changetimelistener.ChangeTimeListener((int)mMinutes,(int)mHour);
+                }if(isHourMove||isMinutestMove) {
+                if (changetimelistener != null)
+                    changetimelistener.ChangeTimeListener((int) mMinutes, (int) mHour);
+            }
                 isChangedTime = true;
                 postInvalidate();
                 break;

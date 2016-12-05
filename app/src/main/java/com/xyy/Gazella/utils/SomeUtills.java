@@ -29,6 +29,7 @@ import java.util.UUID;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -178,10 +179,42 @@ public class SomeUtills {
         }
     }
 
+
+    public Observable<byte[]> setress(Activity activity, int layout) {
+        return Observable.create(new Observable.OnSubscribe<byte[]>() {
+            @Override
+            public void call(Subscriber<? super byte[]> subscriber) {
+                if (subscriber.isUnsubscribed()) {
+                    View rootView = activity.findViewById(layout);
+                    WindowManager wm = activity.getWindowManager();
+                    int width = wm.getDefaultDisplay().getWidth();
+                    int height = wm.getDefaultDisplay().getHeight();
+                    Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(newb);
+                    rootView.draw(canvas);
+                    File file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
+                    FileOutputStream f = null;
+                    try {
+                        f = new FileOutputStream(file);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
+                    if (b) {
+                        //截图成功
+                        //    Logger.t(TAG).i(String.valueOf(activity) + "====截图成功\n" + file.getPath());
+                        subscriber.onNext(new byte[12]);
+                    }
+                }
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+
     public void setCompress(Activity activity, int layout) {
 
         View rootView = activity.findViewById(layout);
-
         WindowManager wm = activity.getWindowManager();
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
@@ -213,48 +246,38 @@ public class SomeUtills {
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
         oks.disableSSOWhenAuthorize();
+//        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+//        oks.setTitle("标题");
+//        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+//         oks.setTitleUrl("http://www.cyinstein.com");
+//        // text是分享文本，所有平台都需要这个字段
+//        oks.setText("分享文本");
+//        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+//        oks.setImagePath(Environment.getExternalStorageDirectory() + "/" + "userImage.png");//确保SDcard下面存在此张图片
+//        // url仅在微信（包括好友和朋友圈）中使用
+//        oks.setUrl("http://www.cyinstein.com");
+//        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+//        oks.setComment("评论文本");
+//        // site是分享此内容的网站名称，仅在QQ空间使用
+//        oks.setSite(activity.getString(R.string.app_name));
+//        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+//        oks.setSiteUrl("http://www.cyinstein.com");
+//        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
 
-        // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
-        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
 
-        oks.setTitle("标题");
-        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        // oks.setTitleUrl("http://www.cyinstein.com");
+        oks.setTitleUrl("http://www.cyinstein.com");
         // text是分享文本，所有平台都需要这个字段
-        oks.setText("分享文本");
+        oks.setText(activity.getString(R.string.app_name));
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath(Environment.getExternalStorageDirectory() + "/" + "userImage.png");//确保SDcard下面存在此张图片
+        oks.setImagePath(Environment.getExternalStorageDirectory() + "/" + "share.png");
         // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://www.cyinstein.com");
+        //oks.setUrl("http://www.ibabylabs.com");
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("评论文本");
+        // oks.setComment(this.getString(R.string.share));
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(activity.getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("http://www.cyinstein.com");
-        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
-//        oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
-//            @Override
-//            public void onShare(Platform platform, cn.sharesdk.framework.Platform.ShareParams paramsToShare) {
-//                if ("QZone".equals(platform.getName())) {
-//                    paramsToShare.setTitle(null);
-//                    paramsToShare.setTitleUrl(null);
-//                }
-//                if ("SinaWeibo".equals(platform.getName())) {
-//                    paramsToShare.setUrl(null);
-//                    paramsToShare.setText("http://www.cyinstein.com");
-//                }
-//                if ("Wechat".equals(platform.getName())) {
-//                    Bitmap imageData = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ssdk_logo);
-//                    paramsToShare.setImageData(imageData);
-//                }
-//                if ("WechatMoments".equals(platform.getName())) {
-//                    Bitmap imageData = BitmapFactory.decodeResource(activity.getResources(), R.drawable.ssdk_logo);
-//                    paramsToShare.setImageData(imageData);
-//                }
-//            }
-//        });
         // 启动分享GUI
         oks.show(activity);
     }
@@ -345,7 +368,7 @@ public class SomeUtills {
                             @Override
                             public void call(byte[] bytes) {
                                 Logger.t(TAG).e("返回数据>>>>>>  " + HexString.bytesToHex(bytes));
-                                returStr[0] =HexString.bytesToHex(bytes);
+                                returStr[0] = HexString.bytesToHex(bytes);
                             }
                         }, new Action1<Throwable>() {
                             @Override
@@ -360,7 +383,7 @@ public class SomeUtills {
                         Logger.t(TAG).e("写入数据失败>>>>>>  " + throwable.toString());
                     }
                 });
-        return  returStr;
+        return returStr;
     }
 
     public Observable<byte[]> ReadCharacteristic(Observable<RxBleConnection> connectionObservable) {
@@ -371,7 +394,8 @@ public class SomeUtills {
             }
         });
     }
-    public Observable<byte[]> Write2Characteristic(String writeString,Observable<RxBleConnection> connectionObservable) {
+
+    public Observable<byte[]> Write2Characteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
         return connectionObservable.flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
             @Override
             public Observable<byte[]> call(RxBleConnection rxBleConnection) {
@@ -379,8 +403,6 @@ public class SomeUtills {
             }
         });
     }
-
-
 
 
 }
