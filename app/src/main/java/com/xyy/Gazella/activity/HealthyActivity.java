@@ -17,6 +17,7 @@ import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.fragment.SleepFragment;
 import com.xyy.Gazella.fragment.StepFragment;
 import com.xyy.Gazella.utils.BleUtils;
+import com.xyy.model.StepData;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
@@ -56,7 +57,7 @@ public class HealthyActivity extends BaseActivity {
     private EdgeEffectCompat rightEdge;
     public static HealthyActivity install;
 
-    public Observable<RxBleConnection> connectionObservable;
+    public static  Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
 
 
@@ -71,7 +72,6 @@ public class HealthyActivity extends BaseActivity {
             connectionObservable=getRxObservable(this);
         bleUtils = new BleUtils();
         Notify(connectionObservable);
-        Write( bleUtils.getTodayStep(), connectionObservable);
         btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         InitViewPager();
         install=this;
@@ -95,8 +95,10 @@ public class HealthyActivity extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        bleUtils.returnStepData(bytes);
-        Logger.t(TAG).e(String.valueOf(bleUtils.returnStepData(bytes)));
+        StepData stepData = bleUtils.returnTodayStep(bytes);
+        stepData.getStep();
+        stepFragment.setStepNum(String.valueOf(stepData.getStep()));
+        Logger.t(TAG).e(String.valueOf(stepData.getStep()));
     }
 
     private void InitViewPager() {
@@ -154,7 +156,6 @@ public class HealthyActivity extends BaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
@@ -212,11 +213,5 @@ public class HealthyActivity extends BaseActivity {
         public int getCount() {
             return fragmentList.size();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
     }
 }

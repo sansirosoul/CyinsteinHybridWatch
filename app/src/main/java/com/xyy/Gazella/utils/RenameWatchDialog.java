@@ -5,9 +5,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.xyy.Gazella.activity.SettingActivity;
+import com.polidea.rxandroidble.RxBleConnection;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
+
+import rx.Observable;
 
 /**
  * Created by Administrator on 2016/10/24.
@@ -18,6 +21,7 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
     private TextView confirm;
     private EditText etName;
     private BleUtils bleUtils;
+    public Observable<RxBleConnection> connectionObservable;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -33,7 +37,12 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
         confirm.setOnClickListener(this);
 
         etName = (EditText) findViewById(R.id.et_name);
-        Write(bleUtils.getDeviceName(),SettingActivity.connectionObservable);
+
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals("")){
+            bleUtils = new BleUtils();
+            connectionObservable=getRxObservable(this);
+        }
     }
 
     @Override
@@ -49,7 +58,8 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.confirm:
                 if (!etName.getText().toString().equals("")) {
-                    Write(bleUtils.setDeviceName(etName.getText().toString()), SettingActivity.connectionObservable);
+                    if(connectionObservable!=null)
+                    Write(bleUtils.setDeviceName(etName.getText().toString()), connectionObservable);
                     finish();
                 }
                 break;

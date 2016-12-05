@@ -8,11 +8,15 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.polidea.rxandroidble.RxBleConnection;
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ClockDialog1;
 import com.xyy.Gazella.utils.ClockDialog2;
 import com.xyy.Gazella.view.PickerViewHour;
 import com.xyy.Gazella.view.PickerViewMinute;
+import com.xyy.model.Clock;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -21,6 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 /**
  * Created by Administrator on 2016/10/26.
@@ -48,6 +53,9 @@ public class AddClockActivity extends BaseActivity {
     private String minute="30";
     private ClockDialog1.OnClickListener onClickListener1;
     private ClockDialog2.OnClickListener onClickListener2;
+    private int id;
+    private BleUtils bleUtils;
+    public Observable<RxBleConnection> connectionObservable;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -55,8 +63,13 @@ public class AddClockActivity extends BaseActivity {
         setContentView(R.layout.add_clock);
         ButterKnife.bind(this);
         context = this;
+        id=getIntent().getIntExtra("id",-1);
         initView();
-
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")) {
+            bleUtils = new BleUtils();
+            connectionObservable = getRxObservable(this);
+        }
     }
 
     private void initView() {
@@ -82,6 +95,7 @@ public class AddClockActivity extends BaseActivity {
 
         pvHour.setData(hours);
         pvMinute.setData(minutes);
+
 
 
         pvHour.setOnSelectListener(new PickerViewHour.onSelectListener() {
@@ -134,6 +148,9 @@ public class AddClockActivity extends BaseActivity {
                 overridePendingTransitionExit(AddClockActivity.this);
                 break;
             case R.id.save:
+                Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                        Clock.transformSnoozeTime(tvRingtime.getText().toString()),
+                        Clock.transformRate(tvRepeatrate.getText().toString()), "",1),connectionObservable);
                 Intent intent = new Intent();
                 intent.putExtra("time",hour+":"+minute);
                 intent.putExtra("snooze",tvRingtime.getText().toString());

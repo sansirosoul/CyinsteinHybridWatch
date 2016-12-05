@@ -119,6 +119,7 @@ public class TimeSynchronization extends BaseActivity {
         InitView();
         InitViewPager();
         install = this;
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.ysp.newband;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,8 @@ import android.view.WindowManager;
 
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
+import com.polidea.rxandroidble.RxBleDevice;
+import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.utils.HexString;
 
 import java.util.UUID;
@@ -17,6 +20,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
+import rx.subjects.PublishSubject;
 
 /**
  * Created by Administrator on 2016/10/22.
@@ -27,6 +31,23 @@ public class BaseFragment extends Fragment {
     private static final String TAG = BaseFragment.class.getName();
     public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+
+    private RxBleDevice bleDevice;
+    private static Observable<RxBleConnection> connectionObservable;
+    private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
+
+    public static Observable<RxBleConnection> getRxObservable(Context context) {
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")) {
+            RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(context).getBleDevice(address);
+            if(connectionObservable==null) {
+                connectionObservable = bleDevicme
+                        .establishConnection(context, false)
+                        .compose(new ConnectionSharingAdapter());
+            }
+        }
+        return connectionObservable;
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -148,11 +169,8 @@ public class BaseFragment extends Fragment {
     }
 
     protected void onWriteReturn( byte[] bytes) {
-
     }
 
     protected void onReadReturnFailed() {
     }
-
-
 }

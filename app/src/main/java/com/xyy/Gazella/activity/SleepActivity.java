@@ -165,8 +165,8 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
             case R.id.btnOpt:
 
 //             new SomeUtills().setCompress(sleepActivity, R.id.sleepActivity);
-                 new SomeUtills().showShare(this);
-
+//             new SomeUtills().setShare(sleepActivity, R.id.sleepActivity);
+                new SomeUtills().saveCurrentImage(SleepActivity.this);
                 break;
             case R.id.btnDate:
 

@@ -55,16 +55,24 @@ public class BaseActivity extends FragmentActivity {
 
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
+
         String address = PreferenceData.getAddressValue(context);
+
+
         if (address != null && !address.equals("")) {
             RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(context).getBleDevice(address);
-            if(connectionObservable==null) {
+            if (connectionObservable == null) {
                 connectionObservable = bleDevicme
                         .establishConnection(context, false)
                         .compose(new ConnectionSharingAdapter());
+
             }
         }
         return connectionObservable;
+    }
+
+    public static void cleanObservable() {
+        connectionObservable = null;
     }
 
     @Override
@@ -124,7 +132,7 @@ public class BaseActivity extends FragmentActivity {
                 Logger.t(TAG).e("开始接收通知  >>>>>>  ");
                 if (dialog.isShowing())
                     dialog.dismiss();
-                    onNotifyReturn(0);
+                onNotifyReturn(0);
             }
         }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
             @Override
@@ -169,7 +177,6 @@ public class BaseActivity extends FragmentActivity {
             }
         });
     }
-
 
 
     protected void onReadReturn(byte[] bytes) {
@@ -275,6 +282,7 @@ public class BaseActivity extends FragmentActivity {
     public void triggerDisconnect() {
         disconnectTriggerSubject.onNext(null);
     }
+
     @Override
     protected void onPause() {
         super.onPause();

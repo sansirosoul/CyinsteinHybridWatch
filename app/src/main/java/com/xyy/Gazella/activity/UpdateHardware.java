@@ -8,16 +8,17 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckUpdateDialog1;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.xyy.Gazella.activity.SettingActivity.connectionObservable;
+import rx.Observable;
 
 
 /**
@@ -41,6 +42,7 @@ public class UpdateHardware extends BaseActivity {
     @BindView(R.id.battery)
     TextView battery;
     private BleUtils bleUtils;
+    public Observable<RxBleConnection> connectionObservable;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -50,29 +52,38 @@ public class UpdateHardware extends BaseActivity {
 
         TVTitle.setText(R.string.check_update);
         try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(),0);
-            appVer.setText("V"+packageInfo.versionName);
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            appVer.setText("V" + packageInfo.versionName);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+    }
 
-        bleUtils = new BleUtils();
-        Notify(connectionObservable);
-
-        Write(bleUtils.getDeviceSN(),connectionObservable);
-        Write(bleUtils.getFWVer(),connectionObservable);
-        Write(bleUtils.getBatteryValue(),connectionObservable);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals("")) {
+            bleUtils = new BleUtils();
+            connectionObservable = getRxObservable(this);
+            Notify(connectionObservable);
+            Write(bleUtils.getDeviceSN(), connectionObservable);
+            Write(bleUtils.getFWVer(), connectionObservable);
+            Write(bleUtils.getBatteryValue(), connectionObservable);
+        }
     }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        if(bleUtils.returnDeviceSN(bytes)!=null){
+        if (bleUtils.returnDeviceSN(bytes) != null) {
             watchSN.setText(bleUtils.returnDeviceSN(bytes));
-        }else if(bleUtils.returnFWVer(bytes)!=null){
+            PreferenceData.setDeviceSnValue(this, bleUtils.returnDeviceSN(bytes));
+        } else if (bleUtils.returnFWVer(bytes) != null) {
             watchVer.setText(bleUtils.returnFWVer(bytes));
-        }else if(bleUtils.returnBatteryValue(bytes)!=null){
-            battery.setText(bleUtils.returnBatteryValue(bytes)+"%");
+            PreferenceData.setDeviceFwvValue(this, bleUtils.returnFWVer(bytes));
+        } else if (bleUtils.returnBatteryValue(bytes) != null) {
+            battery.setText(bleUtils.returnBatteryValue(bytes) + "%");
         }
     }
 

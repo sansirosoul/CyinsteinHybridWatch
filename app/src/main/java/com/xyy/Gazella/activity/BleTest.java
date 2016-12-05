@@ -204,7 +204,7 @@ public class BleTest extends BaseActivity {
                         calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND)), connectionObservable);
                 break;
             case R.id.btn4:
-                Write( bleUtils.setWatchAlarm(0, 0, 12, 0, 1, 1, ""), connectionObservable);
+                Write( bleUtils.setWatchAlarm(1, 0, 12, 0, 1, 1, "",1), connectionObservable);
                 break;
             case R.id.btn5:
                 Write(bleUtils.getFWVer(), connectionObservable);
