@@ -12,6 +12,7 @@ import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
+import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.HexString;
 
 import java.util.UUID;
@@ -72,8 +73,12 @@ public class BaseFragment extends Fragment {
 
     }
 
+    private CommonDialog dialog;
 
     protected void Write( byte[] bytes, Observable<RxBleConnection> connectionObservable) {
+        dialog= new CommonDialog(getActivity());
+        dialog.show();
+        if (connectionObservable!=null) {
         WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<byte[]>() {
                     @Override
@@ -86,7 +91,19 @@ public class BaseFragment extends Fragment {
                     public void call(Throwable throwable) {
                         Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
                     }
+                });}else {
+            if (dialog.isShowing()) {
+                dialog.setTvContext("请检查手表蓝牙是否开启");
+                dialog.setButOk(View.VISIBLE);
+                dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                    @Override
+                    public void onButOKListener() {
+                        dialog.dismiss();
+                    }
                 });
+            }
+
+        }
 
 
 //        connectionObservable

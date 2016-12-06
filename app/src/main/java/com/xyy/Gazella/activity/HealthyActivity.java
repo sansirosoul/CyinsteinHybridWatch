@@ -85,7 +85,7 @@ public class HealthyActivity extends BaseActivity {
             case 1:
                 break;
             case 2:
-                Notify(connectionObservable);
+
                 break;
         }
 

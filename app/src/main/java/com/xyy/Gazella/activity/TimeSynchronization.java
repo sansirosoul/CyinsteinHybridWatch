@@ -262,8 +262,9 @@ public class TimeSynchronization extends BaseActivity {
                     showToatst(TimeSynchronization.this, "请先点击同步按键");
                     break;
                 }
-                if (isconnectionObservable())
                     Write(bleUtils.resetHand(), connectionObservable);
+                if(connectionObservable==null)
+                    break;
                 mHandler.post(runnable);
                 isRun = true;
                 tvHint.setText("第二步: 调整表盘指针将手表时,分针拨至12点整 后点击同步按键");
