@@ -76,8 +76,6 @@ public class BaseFragment extends Fragment {
     private CommonDialog dialog;
 
     protected void Write( byte[] bytes, Observable<RxBleConnection> connectionObservable) {
-        dialog= new CommonDialog(getActivity());
-        dialog.show();
         if (connectionObservable!=null) {
         WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<byte[]>() {
@@ -89,10 +87,24 @@ public class BaseFragment extends Fragment {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        if (!dialog.isShowing()) {
+                            dialog= new CommonDialog(getActivity());
+                            dialog.show();
+                            dialog.setTvContext("操作失败,请再操作一次");
+                            dialog.setButOk(View.VISIBLE);
+                            dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                                @Override
+                                public void onButOKListener() {
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
                         Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
                     }
                 });}else {
-            if (dialog.isShowing()) {
+            if (!dialog.isShowing()) {
+                dialog= new CommonDialog(getActivity());
+                dialog.show();
                 dialog.setTvContext("请检查手表蓝牙是否开启");
                 dialog.setButOk(View.VISIBLE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {

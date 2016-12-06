@@ -21,6 +21,7 @@ import android.view.View;
 
 import com.ysp.smartwatch.R;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -87,7 +88,6 @@ public class AnalogClock extends View {
             //  mSecondHand = r.getDrawable(R.drawable.appwidget_clock_second);
 
 
-
         }
         a.recycle();
         mDialWidth = mDial.getIntrinsicWidth();
@@ -116,11 +116,11 @@ public class AnalogClock extends View {
         mDial = r.getDrawable(drawable);
     }
 
-    public  void setHourDrawable(int drawable){
+    public void setHourDrawable(int drawable) {
         mHourHand = r.getDrawable(drawable);
     }
 
-    public  void setMinuteDrawable(int drawable){
+    public void setMinuteDrawable(int drawable) {
         mMinuteHand = r.getDrawable(drawable);
     }
 
@@ -242,24 +242,38 @@ public class AnalogClock extends View {
             SimpleDateFormat fmt;
 
             now = Calendar.getInstance();
-           fmt = new SimpleDateFormat("hh:mm:ss");
-           String ss=  fmt.format(now.getTime());
-            ss=ss.substring(0,2);
-            int countHour=Integer.valueOf(ss);
-            int count=countHour;
-            countHour=0;
-            for (int i=0; i<count;i++){
-                countHour+=5;
+            fmt = new SimpleDateFormat("hh:mm:ss");
+            String ss = fmt.format(now.getTime());
+            ss = ss.substring(0, 2);
+            int countHour = Integer.valueOf(ss);
+            int count = countHour;
+            countHour = 0;
+            for (int i = 0; i < count; i++) {
+                countHour += 5;
             }
             // mDay = String.valueOf(mCalendar.year) + "-"
             // + String.valueOf(mCalendar.month + 1) + "-"
             // + String.valueOf(mCalendar.monthDay);
             // mWeek = this.getWeek(mCalendar.weekDay);
+//            mHour = hour + mMinutes / 60.0f +  mSecond / 360.0f;
+//            Logger.t(TAG).e("111111111>>>  "+String.valueOf(mHour));
+//            if (hour > 12)
+//                hour = hour - 12;
+//            mHour = hour + mMinutes / 60.0f +  mSecond / 360.0f;
+//            Logger.t(TAG).e("22222>>>>   "+String.valueOf(mHour));
+//            mMinutes = minute + second / 60.0f;
+//            String dou=String.valueOf(mHour);
+//            int idx = dou.lastIndexOf("."); //查找小数点的位置
+//            String strNum = dou.substring(0,idx);
+//            String strDou=dou.substring(idx,dou.length());
+//            int num = Integer.valueOf(strNum);
+//            num*=5;
+//           String mm= String.valueOf(num)+strDou;
+//            Logger.t(TAG).e("333333>>>>   "+mm);
+//            mHour= Float.parseFloat(mm);
 
-//            mHour = hour + mMinutes / 60.0f + mSecond / 3600.0f;
-            mMinutes = minute + second / 60.0f;
             mHour = countHour;
-//            mMinutes = minute;
+            mMinutes = minute;
         }
         boolean changed = mChanged;
 
@@ -313,7 +327,7 @@ public class AnalogClock extends View {
         if (changed) {
             w = minuteHand.getIntrinsicWidth();
             h = minuteHand.getIntrinsicHeight();
-            minuteHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y+ (h / 2));
+            minuteHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y + (h / 2));
         }
         minuteHand.draw(canvas);
         canvas.restore();
@@ -339,18 +353,18 @@ public class AnalogClock extends View {
         double Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                int mmintes=(int)mMinutes;
-                int mmhour=(int)mHour;
+                int mmintes = (int) mMinutes;
+                int mmhour = (int) mHour;
 
-                int Tiemva =(int) Tiemvalue / 6;
-                if (Tiemva == mmintes||Tiemva+1 == mmintes||Tiemva +2== mmintes||Tiemva+3 == mmintes||Tiemva+4 == mmintes||
-                        Tiemva -1== mmintes||Tiemva-2 == mmintes||Tiemva -3== mmintes||Tiemvalue-4 == mmintes)
+                int Tiemva = (int) Tiemvalue / 6;
+                if (Tiemva == mmintes || Tiemva + 1 == mmintes || Tiemva + 2 == mmintes || Tiemva + 3 == mmintes || Tiemva + 4 == mmintes ||
+                        Tiemva - 1 == mmintes || Tiemva - 2 == mmintes || Tiemva - 3 == mmintes || Tiemvalue - 4 == mmintes)
                     isMinutestMove = true;
                 else
                     isMinutestMove = false;
 
-                if (Tiemva == mmhour||Tiemva+1 == mmhour||Tiemva +2== mmhour||Tiemva+3 == mmhour||Tiemva+4 == mmhour||
-                        Tiemva -1== mmhour||Tiemva-2 == mmhour||Tiemva -3== mmhour||Tiemvalue-4 == mmintes)
+                if (Tiemva == mmhour || Tiemva + 1 == mmhour || Tiemva + 2 == mmhour || Tiemva + 3 == mmhour || Tiemva + 4 == mmhour ||
+                        Tiemva - 1 == mmhour || Tiemva - 2 == mmhour || Tiemva - 3 == mmhour || Tiemvalue - 4 == mmintes)
                     isHourMove = true;
                 else
                     isHourMove = false;
@@ -360,15 +374,16 @@ public class AnalogClock extends View {
             case MotionEvent.ACTION_MOVE:
 
                 if (ChangeTimeType == 1) {  //移动时针
-                    if(isHourMove)
+                    if (isHourMove)
                         mHour = (int) Tiemvalue / 6;
                 } else {
                     if (isMinutestMove)
-                        mMinutes =(int) Tiemvalue / 6;
-                }if(isHourMove||isMinutestMove) {
-                if (changetimelistener != null)
-                    changetimelistener.ChangeTimeListener((int) mMinutes, (int) mHour);
-            }
+                        mMinutes = (int) Tiemvalue / 6;
+                }
+                if (isHourMove || isMinutestMove) {
+                    if (changetimelistener != null)
+                        changetimelistener.ChangeTimeListener((int) mMinutes, (int) mHour);
+                }
                 isChangedTime = true;
                 postInvalidate();
                 break;
@@ -381,16 +396,18 @@ public class AnalogClock extends View {
 
 
     /***
-     *   获取 时针值
+     * 获取 时针值
+     *
      * @return
      */
 
     public float getHourTimeValue() {
-        return  mHour;
+        return mHour;
     }
 
     /***
-     *    获取分针值
+     * 获取分针值
+     *
      * @return
      */
 
@@ -414,6 +431,16 @@ public class AnalogClock extends View {
     }
 
     public interface ChangeTimeListener {
-        void ChangeTimeListener(int TimeValue,int mHour);
+        void ChangeTimeListener(int TimeValue, int mHour);
+    }
+
+    public static double subtract(double v1, double v2) {
+
+        BigDecimal b1 = new BigDecimal(Double.toString(v1));
+
+        BigDecimal b2 = new BigDecimal(Double.toString(v2));
+
+        return b1.subtract(b2).doubleValue();
+
     }
 }

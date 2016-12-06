@@ -495,7 +495,7 @@ public class TimeSynchronization extends BaseActivity {
             switch (msg.what) {
                 case 1001:
                     if (count > 60 && count2 < 0) {
-                        handler.post(runnable);
+                        handler.removeCallbacks(runnable);
                         count = 0;
                         count2 = 60;
                         isRun = false;
@@ -511,7 +511,7 @@ public class TimeSynchronization extends BaseActivity {
                     if (count > minute)
                         MuinutesCount = false;
                     if (count2 < countHour && count > minute) {
-                        handler.post(SynchronizationTime);
+                        handler.removeCallbacks(SynchronizationTime);
                         count = 0;
                         count2 = 60;
                         SynchronizationTimeRun = false;
