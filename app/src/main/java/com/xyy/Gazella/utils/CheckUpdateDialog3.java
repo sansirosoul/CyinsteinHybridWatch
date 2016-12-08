@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
 import com.polidea.rxandroidble.RxBleConnection;
@@ -76,8 +75,8 @@ public class CheckUpdateDialog3 extends BaseActivity {
                             // Process scan result here.
                             BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
                             if (bluetoothDevice.getName().equals("DfuTarg")) {
-                                new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00047).start(context, DfuService.class);
                                 scanSubscription.unsubscribe();
+                                new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00048).start(context, DfuService.class);
                             }
                         },
                         throwable -> {
@@ -167,13 +166,13 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onDfuAborted(String deviceAddress) {
-            Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
+            showToatst(context,"固件升级失败，请重新升级！");
             finish();
         }
 
         @Override
         public void onError(String deviceAddress, int error, int errorType, String message) {
-            Toast.makeText(context, "固件升级失败，请重新升级！", Toast.LENGTH_LONG).show();
+            showToatst(context,"固件升级失败，请重新升级！");
             finish();
         }
     };

@@ -32,6 +32,9 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_DEVICE_SN_VALUE = "SAVE_DEVICE_SN_VALUE";
     public static final String SAVE_DEVICE_FWV_VALUE = "SAVE_DEVICE_FWV_VALUE";
 
+    public static final String SAVE_NOTIFICATION_STATE="SAVE_NOTIFICATION_STATE";
+    public static final String SAVE_NOTIFICATION_PHONE_STATE="SAVE_NOTIFICATION_PHONE_STATE";
+
 
     public static void clearAllSharePreferences(Context context) {
         clearSharePreferences(context, SHARED_PREFERENCE);
@@ -255,5 +258,35 @@ public class PreferenceData implements Serializable{
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(SAVE_DEVICE_FWV_VALUE,null);
+    }
+
+    //保存通知提醒状态     0关  1开
+    public static void setNotificationState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_STATE,state).commit();
+    }
+
+    //获取通知提醒状态
+    public static int getNotificationState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_STATE,0);
+    }
+
+    //保存来电提醒状态    0关  1开
+    public static void setNotificationPhoneState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_PHONE_STATE,state).commit();
+    }
+
+    //获取来电提醒状态
+    public static int getNotificationPhoneState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_PHONE_STATE,0);
     }
 }

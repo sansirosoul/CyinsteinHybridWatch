@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -89,25 +90,25 @@ public class UserSetting extends BaseActivity {
 
     private void initView() {
         User user = PreferenceData.getUserInfo(context);
-        if (user.getName() != null && !user.getName().equals("")){
+        if (user.getName() != null && !user.getName().equals("")) {
             edName.setText(user.getName());
             edName.setSelection(user.getName().length());
         }
-        if(!user.getBirthday().equals(getResources().getString(R.string.choose_birth))){
+        if (!user.getBirthday().equals(getResources().getString(R.string.choose_birth))) {
             tvBirth.setText(user.getBirthday());
             tvBirth.setTextColor(context.getResources().getColor(R.color.white));
         }
-        if(!user.getHeight().equals(getResources().getString(R.string.choose_height))){
+        if (!user.getHeight().equals(getResources().getString(R.string.choose_height))) {
             tvHeight.setText(user.getHeight());
             tvHeight.setTextColor(context.getResources().getColor(R.color.white));
         }
-        if(!user.getWeight().equals(getResources().getString(R.string.choose_weight))){
+        if (!user.getWeight().equals(getResources().getString(R.string.choose_weight))) {
             tvWeight.setText(user.getWeight());
             tvWeight.setTextColor(context.getResources().getColor(R.color.white));
         }
 
-        File f=new File(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
-        if(!f.exists())
+        File f = new File(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
+        if (!f.exists())
             head.setBackground(getResources().getDrawable(R.drawable.page5_head_portrait));
         else
             head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
@@ -117,7 +118,7 @@ public class UserSetting extends BaseActivity {
             if (sex == 0) {
                 tgMale.setChecked(true);
                 tgFemale.setChecked(false);
-            }else {
+            } else {
                 tgMale.setChecked(false);
                 tgFemale.setChecked(true);
             }
@@ -127,8 +128,10 @@ public class UserSetting extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    sex=0;
                     tgFemale.setChecked(false);
+                    sex = 0;
+                } else {
+                    sex = -1;
                 }
             }
         });
@@ -137,8 +140,10 @@ public class UserSetting extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    sex=1;
                     tgMale.setChecked(false);
+                    sex = 1;
+                } else {
+                    sex = -1;
                 }
             }
         });
@@ -178,7 +183,7 @@ public class UserSetting extends BaseActivity {
         pvTime = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
         //控制时间范围
         Calendar calendar = Calendar.getInstance();
-        pvTime.setRange(calendar.get(Calendar.YEAR) - 100, calendar.get(Calendar.YEAR)+100);//要在setTime 之前才有效果
+        pvTime.setRange(calendar.get(Calendar.YEAR) - 100, calendar.get(Calendar.YEAR) + 100);//要在setTime 之前才有效果
         pvTime.setTime(date);
         pvTime.setCancelable(true);
         pvTime.setCyclic(true);
@@ -205,7 +210,7 @@ public class UserSetting extends BaseActivity {
                     Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(edName.getText().toString().length()>20){
+                if (edName.getText().toString().length() > 20) {
                     Toast.makeText(context, R.string.name_too_long, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -213,7 +218,7 @@ public class UserSetting extends BaseActivity {
                     Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(sex==-1){
+                if (sex == -1) {
                     Toast.makeText(context, R.string.choose_sex, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -225,8 +230,8 @@ public class UserSetting extends BaseActivity {
                     Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                PreferenceData.setUserInfo(context,edName.getText().toString(),tvBirth.getText().toString(),
-                        sex,tvHeight.getText().toString(),tvWeight.getText().toString());
+                PreferenceData.setUserInfo(context, edName.getText().toString(), tvBirth.getText().toString(),
+                        sex, tvHeight.getText().toString(), tvWeight.getText().toString());
                 finish();
                 overridePendingTransitionExit(UserSetting.this);
                 break;
@@ -237,6 +242,12 @@ public class UserSetting extends BaseActivity {
                         .start(this);
                 break;
             case R.id.ll_birth:
+                //隐藏软健盘
+                View v = getCurrentFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
                 pvTime.show();
                 break;
             case R.id.ll_height:
@@ -252,11 +263,12 @@ public class UserSetting extends BaseActivity {
         }
     }
 
-    @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 1000 &&data!=null) {
+        if (resultCode == 1000 && data != null) {
             Uri resultUri = UCrop.getOutput(data);
-            if(resultUri!=null)
+            if (resultUri != null)
                 head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
         }
     }
