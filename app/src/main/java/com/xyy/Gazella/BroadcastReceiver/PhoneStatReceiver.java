@@ -47,9 +47,10 @@ public class PhoneStatReceiver extends BroadcastReceiver {
                     System.out.println("响铃:来电号码"+incomingNumber);
                     //输出来电号码
 
+
+
                     break;
             }
         }
     };
-
 }

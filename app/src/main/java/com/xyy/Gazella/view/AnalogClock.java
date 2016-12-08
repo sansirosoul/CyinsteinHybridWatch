@@ -255,25 +255,25 @@ public class AnalogClock extends View {
             // + String.valueOf(mCalendar.month + 1) + "-"
             // + String.valueOf(mCalendar.monthDay);
             // mWeek = this.getWeek(mCalendar.weekDay);
-//            mHour = hour + mMinutes / 60.0f +  mSecond / 360.0f;
-//            Logger.t(TAG).e("111111111>>>  "+String.valueOf(mHour));
-//            if (hour > 12)
-//                hour = hour - 12;
-//            mHour = hour + mMinutes / 60.0f +  mSecond / 360.0f;
-//            Logger.t(TAG).e("22222>>>>   "+String.valueOf(mHour));
-//            mMinutes = minute + second / 60.0f;
-//            String dou=String.valueOf(mHour);
-//            int idx = dou.lastIndexOf("."); //查找小数点的位置
-//            String strNum = dou.substring(0,idx);
-//            String strDou=dou.substring(idx,dou.length());
-//            int num = Integer.valueOf(strNum);
-//            num*=5;
-//           String mm= String.valueOf(num)+strDou;
-//            Logger.t(TAG).e("333333>>>>   "+mm);
-//            mHour= Float.parseFloat(mm);
 
-            mHour = countHour;
-            mMinutes = minute;
+            if (hour > 12)
+                hour = hour - 12;
+            mHour = hour + mMinutes / 60.0f +  mSecond / 360.0f;
+            mMinutes = minute + second / 60.0f;
+            String dou=String.valueOf(mHour);
+            int idx = dou.lastIndexOf("."); //查找小数点的位置
+            String strNum = dou.substring(0,idx);
+            String strDou=dou.substring(idx+1,idx+2);
+            int dd=Integer.valueOf(strDou);
+            if(dd!=0)
+            dd = (dd / 2);
+            int num = Integer.valueOf(strNum);
+            num*=5;
+            num=num+dd;
+            mHour= Float.parseFloat(String.valueOf(num));
+
+//            mHour = countHour;
+//            mMinutes = minute;
         }
         boolean changed = mChanged;
 
