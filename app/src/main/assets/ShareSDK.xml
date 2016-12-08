@@ -60,10 +60,10 @@
     <SinaWeibo
         Id="1"
         SortId="1"
-        AppKey="4158774254"
-        AppSecret="a53bd053b35e7ce107dce925a48ea10e"
+        AppKey="3738399929"
+        AppSecret="87e0009845e2350fac7438b6b4f62bbd"
         RedirectUrl="http://www.cyinstein.com"
-        ShareByAppClient="true"
+        ShareByAppClient="false"
         Enable="true" />
 
     <TencentWeibo

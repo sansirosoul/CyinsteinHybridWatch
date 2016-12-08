@@ -69,18 +69,18 @@ public class SmallFragment1 extends BaseFragment {
             public void ChangeTimeListener(int mMinutes, int mHour) {
 
                 if (conut) {
-                    Write(bleUtils.adjSecondHand(1, 1), connectionObservable);
+                    Write(bleUtils.adjStepHand(1, 1), connectionObservable);
                 } else {
                     laoTime = newTime;
                     newTime = mMinutes;
                     if (newTime > laoTime) {
                         senTime = newTime - laoTime;
                         if (senTime != 0 && isconnectionObservable())
-                            Write(bleUtils.adjSecondHand(1, 1), connectionObservable);
+                            Write(bleUtils.adjStepHand(1, 1), connectionObservable);
                     } else {
                         senTime = laoTime - newTime;
                         if (senTime != 0 && isconnectionObservable())
-                            Write(bleUtils.adjSecondHand(2, 1), connectionObservable);
+                            Write(bleUtils.adjStepHand(2, 1), connectionObservable);
                     }
                 }
                 conut = false;
@@ -94,7 +94,7 @@ public class SmallFragment1 extends BaseFragment {
         a++;
         analogclock.setTimeValue(2, a);
         isChangeTime = true;
-        Write(bleUtils.adjSecondHand(1, 1), connectionObservable);
+        Write(bleUtils.adjStepHand(1, 1), connectionObservable);
     }
 
     public void ReduceTime() {
@@ -103,7 +103,7 @@ public class SmallFragment1 extends BaseFragment {
         a--;
         analogclock.setTimeValue(2, a);
         isChangeTime = true;
-        Write(bleUtils.adjSecondHand(2, 1), connectionObservable);
+        Write(bleUtils.adjStepHand(2, 1), connectionObservable);
     }
 
     public float getSmall1TimeValue() {

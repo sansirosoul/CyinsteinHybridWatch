@@ -100,19 +100,35 @@ public class BaseActivity extends FragmentActivity {
     }
 
     protected void Write(byte[] bytes, Observable<RxBleConnection> connectionObservable) {
-        WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<byte[]>() {
+        if (connectionObservable != null) {
+            WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<byte[]>() {
+                        @Override
+                        public void call(byte[] bytes) {
+                            Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
+                            onWriteReturn(bytes);
+                        }
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
+                        }
+                    });
+        } else {
+            dialog = new CommonDialog(this);
+            dialog.show();
+            if (dialog.isShowing()) {
+                dialog.setTvContext("请检查手表蓝牙是否开启");
+                dialog.setButOk(View.VISIBLE);
+                dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
-                    public void call(byte[] bytes) {
-                        Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
-                        onWriteReturn(bytes);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
+                    public void onButOKListener() {
+                        dialog.dismiss();
                     }
                 });
+            }
+
+        }
     }
 
     private CommonDialog dialog;
@@ -120,62 +136,75 @@ public class BaseActivity extends FragmentActivity {
     protected void Notify(Observable<RxBleConnection> connectionObservable) {
         dialog = new CommonDialog(this);
         dialog.show();
-        connectionObservable
-                .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
-                    @Override
-                    public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
-                        return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
-                    }
-                }).doOnNext(new Action1<Observable<byte[]>>() {
-            @Override
-            public void call(Observable<byte[]> observable) {
-                Logger.t(TAG).e("开始接收通知  >>>>>>  ");
-                if (dialog.isShowing())
-                    dialog.dismiss();
-                onNotifyReturn(0);
-            }
-        }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
-            @Override
-            public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
-                return notificationObservable;
-            }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
-            @Override
-            public void call(byte[] bytes) {
-                Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
-                onReadReturn(bytes);
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
-                BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
-                if (!blueadapter.isEnabled()) {
-                    if (dialog.isShowing()) {
-                        dialog.setTvContext("是否开启手机蓝牙");
-                        dialog.setButOk(View.VISIBLE);
-                        dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                            @Override
-                            public void onButOKListener() {
-                                startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 10010);
-                            }
-                        });
-                    }
-                } else {
-                    if (dialog.isShowing()) {
-                        dialog.setTvContext("请检查手表蓝牙是否开启");
-                        dialog.setButOk(View.VISIBLE);
-                        dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                            @Override
-                            public void onButOKListener() {
-                                dialog.dismiss();
-                            }
-                        });
-                    }
+        if (connectionObservable != null) {
+            connectionObservable
+                    .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
+                        @Override
+                        public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
+                            return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
+                        }
+                    }).doOnNext(new Action1<Observable<byte[]>>() {
+                @Override
+                public void call(Observable<byte[]> observable) {
+                    Logger.t(TAG).e("开始接收通知  >>>>>>  ");
+                    if (dialog.isShowing())
+                        dialog.dismiss();
+                    onNotifyReturn(0);
                 }
-                onNotifyReturn(1);
+            }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
+                @Override
+                public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
+                    return notificationObservable;
+                }
+            }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
+                @Override
+                public void call(byte[] bytes) {
+                    Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
+                    onReadReturn(bytes);
+                }
+            }, new Action1<Throwable>() {
+                @Override
+                public void call(Throwable throwable) {
+                    Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
+                    BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
+                    if (!blueadapter.isEnabled()) {
+                        if (dialog.isShowing()) {
+                            dialog.setTvContext("是否开启手机蓝牙");
+                            dialog.setButOk(View.VISIBLE);
+                            dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                                @Override
+                                public void onButOKListener() {
+                                    startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 10010);
+                                }
+                            });
+                        }
+                    } else {
+                        if (dialog.isShowing()) {
+                            dialog.setTvContext("请检查手表蓝牙是否开启");
+                            dialog.setButOk(View.VISIBLE);
+                            dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                                @Override
+                                public void onButOKListener() {
+                                    dialog.dismiss();
+                                }
+                            });
+                        }
+                    }
+                    onNotifyReturn(1);
+                }
+            });
+        } else {
+            if (dialog.isShowing()) {
+                dialog.setTvContext("没有连接到手表设备");
+                dialog.setButOk(View.VISIBLE);
+                dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                    @Override
+                    public void onButOKListener() {
+                        dialog.dismiss();
+                    }
+                });
             }
-        });
+        }
     }
 
 
@@ -204,18 +233,6 @@ public class BaseActivity extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
-    protected void ConnectionDevice(Handler mHandler) {
-        if (GazelleApplication.CONNECTED == -1) {
-            if (GazelleApplication.getInstance().mService != null) {
-                GazelleApplication.getInstance().mService.initialize();
-                GazelleApplication.getInstance().mService.setActivityHandler(mHandler);
-                GazelleApplication.getInstance().mService.registe(GazelleApplication.UUID);
-            }
-        } else {
-            GazelleApplication.getInstance().mService.setActivityHandler(mHandler);
-        }
-    }
 
     /**
      * 回退键
@@ -307,14 +324,21 @@ public class BaseActivity extends FragmentActivity {
         return super.dispatchTouchEvent(event);
     }
 
+    private Toast result;
+    private TextView textView;
+
     protected void showToatst(Context context, String tvStr) {
-        Toast result = new Toast(context);
-        LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflate.inflate(R.layout.toast, null);
-        TextView textView = (TextView) v.findViewById(R.id.tv_context);
-        textView.setText(tvStr);
-        result.setView(v);
-        result.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+
+        if (result == null) {
+            result = new Toast(context);
+            LayoutInflater inflate = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = inflate.inflate(R.layout.toast, null);
+            textView = (TextView) v.findViewById(R.id.tv_context);
+            textView.setText(tvStr);
+            result.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+            result.setView(v);
+        } else
+            textView.setText(tvStr);
         result.show();
     }
 }

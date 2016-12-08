@@ -30,9 +30,7 @@ import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -113,8 +111,8 @@ public class TimeSynchronization extends BaseActivity {
         ButterKnife.bind(this);
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals(""))
-            connectionObservable=getRxObservable(this);
-            bleUtils = new BleUtils();
+            connectionObservable = getRxObservable(this);
+        bleUtils = new BleUtils();
         Notify(connectionObservable);
         InitView();
         InitViewPager();
@@ -125,9 +123,9 @@ public class TimeSynchronization extends BaseActivity {
     @Override
     protected void onNotifyReturn(int type) {
         Logger.t(TAG).e(String.valueOf(type));
-        switch (type){
+        switch (type) {
             case 0:
-                isNotify=true;
+                isNotify = true;
                 break;
             case 1:
                 isNotify = false;
@@ -256,14 +254,15 @@ public class TimeSynchronization extends BaseActivity {
                 }
                 break;
             case R.id.but_reset:   /// 重置
-                if(isNotify())
+                if (isNotify())
                     break;
                 if (isClickSynchronization) {
                     showToatst(TimeSynchronization.this, "请先点击同步按键");
                     break;
                 }
-                if (isconnectionObservable())
-                    Write(bleUtils.resetHand(), connectionObservable);
+                Write(bleUtils.resetHand(), connectionObservable);
+                if (connectionObservable == null)
+                    break;
                 mHandler.post(runnable);
                 isRun = true;
                 tvHint.setText("第二步: 调整表盘指针将手表时,分针拨至12点整 后点击同步按键");
@@ -283,7 +282,7 @@ public class TimeSynchronization extends BaseActivity {
                 small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
 
                 Write(bleUtils.setWatchDateAndTime(1, myear, month, mday, hour, minute, second), connectionObservable);
-                if(fragmentsList.size() > 1){
+                if (fragmentsList.size() > 1) {
                     setChangeTimeType(1);
                 }
                 mHandler.post(SynchronizationTime);
@@ -494,7 +493,7 @@ public class TimeSynchronization extends BaseActivity {
             switch (msg.what) {
                 case 1001:
                     if (count > 60 && count2 < 0) {
-                        handler.post(runnable);
+                        handler.removeCallbacks(runnable);
                         count = 0;
                         count2 = 60;
                         isRun = false;
@@ -510,7 +509,7 @@ public class TimeSynchronization extends BaseActivity {
                     if (count > minute)
                         MuinutesCount = false;
                     if (count2 < countHour && count > minute) {
-                        handler.post(SynchronizationTime);
+                        handler.removeCallbacks(SynchronizationTime);
                         count = 0;
                         count2 = 60;
                         SynchronizationTimeRun = false;
@@ -540,18 +539,37 @@ public class TimeSynchronization extends BaseActivity {
         myear = mCalendar.year;
         month = mCalendar.month;
         mday = mCalendar.monthDay;
-        Calendar now;
-        SimpleDateFormat fmt;
-        now = Calendar.getInstance();
-        fmt = new SimpleDateFormat("hh:mm:ss");
-        String ss = fmt.format(now.getTime());
-        ss = ss.substring(0, 2);
-        countHour = Integer.valueOf(ss);
-        int count = countHour;
-        countHour = 0;
-        for (int i = 0; i < count; i++) {
-            countHour += 5;
-        }
+
+        if (hour > 12)
+            hour = hour - 12;
+        float mHour = hour + minute / 60.0f + minute / 360.0f;
+//        mMinutes = minute + second / 60.0f;
+        String dou = String.valueOf(mHour);
+        int idx = dou.lastIndexOf("."); //查找小数点的位置
+        String strNum = dou.substring(0, idx);
+        String strDou = dou.substring(idx + 1, idx + 2);
+        int dd = Integer.valueOf(strDou);
+        if (dd != 0)
+            dd = (dd / 2);
+        int num = Integer.valueOf(strNum);
+        num *= 5;
+        num = num + dd;
+        mHour = Float.parseFloat(String.valueOf(num));
+        countHour = (int) mHour;
+
+
+//        Calendar now;
+//        SimpleDateFormat fmt;
+//        now = Calendar.getInstance();
+//        fmt = new SimpleDateFormat("hh:mm:ss");
+//        String ss = fmt.format(now.getTime());
+//        ss = ss.substring(0, 2);
+//        countHour = Integer.valueOf(ss);
+//        int count = countHour;
+//        countHour = 0;
+//        for (int i = 0; i < count; i++) {
+//            countHour += 5;
+//        }
 //        mHour = hour + minute / 60.0f + second / 3600.0f;
     }
 
@@ -564,11 +582,12 @@ public class TimeSynchronization extends BaseActivity {
             return false;
         }
     }
-    private  boolean isNotify(){
-        if(!isNotify) {
+
+    private boolean isNotify() {
+        if (!isNotify) {
             showToatst(TimeSynchronization.this, "检查蓝牙是否开启");
-            return  true;
-        }else
+            return true;
+        } else
             return false;
     }
 }

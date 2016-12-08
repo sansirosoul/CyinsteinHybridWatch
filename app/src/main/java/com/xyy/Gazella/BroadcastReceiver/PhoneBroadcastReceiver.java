@@ -227,6 +227,9 @@ public class PhoneBroadcastReceiver extends BroadcastReceiver {
 			case TelephonyManager.CALL_STATE_RINGING:
 				System.out.println("响铃:来电号码" + incomingNumber);
 				// 输出来电号码
+
+
+
 				break;
 			}
 		}

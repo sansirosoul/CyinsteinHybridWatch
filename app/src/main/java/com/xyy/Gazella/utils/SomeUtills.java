@@ -8,13 +8,11 @@ import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.orhanobut.logger.Logger;
 import com.partner.entity.Partner;
-import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.dbmanager.CommonUtils;
@@ -28,7 +26,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -36,7 +33,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 
 import static android.content.ContentValues.TAG;
 
@@ -196,6 +192,16 @@ public class SomeUtills {
                 Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(newb);
                 rootView.draw(canvas);
+
+                if (!TextUtils.isEmpty(Environment.getExternalStorageDirectory() + "/" + "share.png")) {
+                    Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
+                    Uri uri = Uri.fromFile(file);
+                    intent.setData(uri);
+                    activity.sendBroadcast(intent);
+                    file.delete();
+                }
+
                 file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
                 FileOutputStream f = null;
                 try {
@@ -215,47 +221,13 @@ public class SomeUtills {
             }
         }, new Action1<Throwable>() {
             @Override
+
             public void call(Throwable throwable) {
+
             }
         });
     }
 
-    public void saveCurrentImage(Activity activity) {
-        //获取当前屏幕的大小
-        int width = activity.getWindow().getDecorView().getRootView().getWidth();
-        int height = activity.getWindow().getDecorView().getRootView().getHeight();
-        //生成相同大小的图片
-        Bitmap temBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        //找到当前页面的跟布局
-        View view = activity.getWindow().getDecorView().getRootView();
-        //设置缓存
-        view.setDrawingCacheEnabled(true);
-        view.buildDrawingCache();
-        //从缓存中获取当前屏幕的图片
-        temBitmap = view.getDrawingCache();
-
-        //输出到sd
-        File file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
-        if (!TextUtils.isEmpty(Environment.getExternalStorageDirectory() + "/" + "share.png")) {
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
-            Uri uri = Uri.fromFile(file);
-            intent.setData(uri);
-            activity.sendBroadcast(intent);
-            file.delete();
-        }
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            FileOutputStream foStream = new FileOutputStream(file);
-            temBitmap.compress(Bitmap.CompressFormat.PNG, 100, foStream);
-            foStream.flush();
-            foStream.close();
-        } catch (Exception e) {
-            Log.i("Show", e.toString());
-        }
-    }
 
     public void showShare(final Activity activity) {
         ShareSDK.initSDK(activity);
@@ -360,65 +332,4 @@ public class SomeUtills {
                     + "Sleeping== " + o.getSleeping());
         }
     }
-
-    public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
-    public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
-
-    public String[] WriteCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
-        final String[] returStr = {null};
-
-
-        connectionObservable
-                .flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
-                    @Override
-                    public Observable<byte[]> call(RxBleConnection rxBleConnection) {
-                        return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<byte[]>() {
-                    @Override
-                    public void call(byte[] bytes) {
-                        Logger.t(TAG).e("写入数据>>>>>>  " + HexString.bytesToHex(bytes));
-                        ReadCharacteristic(connectionObservable).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
-                            @Override
-                            public void call(byte[] bytes) {
-                                Logger.t(TAG).e("返回数据>>>>>>  " + HexString.bytesToHex(bytes));
-                                returStr[0] = HexString.bytesToHex(bytes);
-                            }
-                        }, new Action1<Throwable>() {
-                            @Override
-                            public void call(Throwable throwable) {
-                                Logger.t(TAG).e("返回数据失败>>>>>>  " + throwable.toString());
-                            }
-                        });
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Logger.t(TAG).e("写入数据失败>>>>>>  " + throwable.toString());
-                    }
-                });
-        return returStr;
-    }
-
-    public Observable<byte[]> ReadCharacteristic(Observable<RxBleConnection> connectionObservable) {
-        return connectionObservable.flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
-            @Override
-            public Observable<byte[]> call(RxBleConnection rxBleConnection) {
-                return rxBleConnection.readCharacteristic(UUID.fromString(ReadUUID));
-            }
-        });
-    }
-
-    public Observable<byte[]> Write2Characteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
-        return connectionObservable.flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
-            @Override
-            public Observable<byte[]> call(RxBleConnection rxBleConnection) {
-                return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
-            }
-        });
-    }
-
-
 }
