@@ -30,6 +30,7 @@ public class LaunchActivity extends BaseActivity {
         setContentView(R.layout.launch_activity);
         rxBleClient = GazelleApplication.getRxBleClient(this);
 
+
         start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
