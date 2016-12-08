@@ -355,7 +355,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                                 count=0;
 //                                bluetoothAdapter.startLeScan(leScanCallback);
                                 scanDevices();
-                                mHandler.post(runnable);
+                                mHandler.removeCallbacks(runnable);
                             }
                             @Override
                             public void onConfirm() {

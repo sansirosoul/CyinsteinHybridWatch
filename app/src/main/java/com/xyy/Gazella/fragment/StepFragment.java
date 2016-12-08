@@ -84,7 +84,7 @@ public class StepFragment extends BaseFragment {
         if (address != null && !address.equals(""))
             connectionObservable = HealthyActivity.install.connectionObservable;
         bleUtils = new BleUtils();
-        if (isgetTodayStep)
+        if(connectionObservable!=null)
             mHandler.post(getTodayStep);
 
         return view;

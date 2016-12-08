@@ -25,6 +25,7 @@ import com.xyy.Gazella.fragment.StepWeekFragment;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.text.DateFormat;
@@ -38,10 +39,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+
+import static android.R.attr.type;
 
 public class StepActivity extends BaseActivity implements OnDateSelectedListener {
 
-    private static  String TAG=StepActivity.class.getName();
+    private static String TAG = StepActivity.class.getName();
 
     @BindView(R.id.calendarView)
     public MaterialCalendarView widget;
@@ -71,7 +76,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     private FragmentAdapter mFragmentAdapter;
 
     public static final int UPDATEUI = 1001;
-    private  SomeUtills utills;
+    private SomeUtills utills;
 
 
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
@@ -89,10 +94,12 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         initView();
         initCalendar();
         InitViewPager();
-
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals(""))
+            connectionObservable = getRxObservable(this);
+        bleUtils = new BleUtils();
+        Notify(connectionObservable);
         stepActivity = this;
-
-
     }
 
     @Override
@@ -105,6 +112,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
+        Logger.t(TAG).e(String.valueOf(type));
     }
 
     private void initView() {
@@ -112,7 +120,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         TVTitle.setText("计步详情");
         btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
         btnOpt.setBackground(this.getResources().getDrawable(R.drawable.page17_share));
-        utills=new SomeUtills();
+        utills = new SomeUtills();
     }
 
     private void initCalendar() {
@@ -181,11 +189,20 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 overridePendingTransitionExit(StepActivity.this);
                 break;
             case R.id.btnOpt:  //分享
-                utills.showShare(this);
-//                utills.setCompress(stepActivity, R.id.activity_step);
 //                utills.setShare(stepActivity, R.id.activity_step);
-//                utills.saveCurrentImage(StepActivity.this);
+                    utills.onSharesdk(stepActivity, R.id.activity_step)
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        utills.showShare(StepActivity.this);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                    }
+                });
                 break;
+
             case R.id.btnDate:  // 显示 隐藏 日历
 
                 if (widget.getVisibility() == View.VISIBLE) {
@@ -221,7 +238,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
         if (type == 1) {
 
-            loadImageAnimation= AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
+            loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
             widget.startAnimation(loadImageAnimation);
             loadImageAnimation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
@@ -270,6 +287,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
         }
     }
+
     /***
      * 设置Butnon 背景
      *

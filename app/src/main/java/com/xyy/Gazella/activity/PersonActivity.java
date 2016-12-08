@@ -102,8 +102,10 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    tgFemale.setChecked(false);
                     sex = 0;
+                    tgFemale.setChecked(false);
+                } else {
+                    sex = -1;
                 }
             }
         });
@@ -112,8 +114,10 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    tgMale.setChecked(false);
                     sex = 1;
+                    tgMale.setChecked(false);
+                } else {
+                    sex = -1;
                 }
             }
         });
@@ -234,7 +238,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 //                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
-                PreferenceData.setUserInfo(context,edName.getText().toString(), tvBirth.getText().toString(), sex,
+                PreferenceData.setUserInfo(context, edName.getText().toString(), tvBirth.getText().toString(), sex,
                         tvHeight.getText().toString(), tvWeight.getText().toString());
                 Intent intent = new Intent(context, HomeActivity.class);
                 PersonActivity.this.finish();

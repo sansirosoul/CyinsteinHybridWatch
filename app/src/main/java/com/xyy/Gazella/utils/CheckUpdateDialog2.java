@@ -26,7 +26,7 @@ public class CheckUpdateDialog2 extends Dialog implements View.OnClickListener{
 
     private Context context;
 
-    public    setBtnlListener  setBtnlListener;
+    public   setBtnlListener  setBtnlListener;
 
     public CheckUpdateDialog2(Context context) {
         super(context,R.style.dialog);

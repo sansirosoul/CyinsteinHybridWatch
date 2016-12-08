@@ -11,7 +11,9 @@ import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -41,9 +43,15 @@ public class CheckUpdateDialog1 extends Dialog {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                dismiss();
-                CheckUpdateDialog2 dialog2 = new CheckUpdateDialog2(context);
-                dialog2.show();
+                int ver = Integer.parseInt(PreferenceData.getDeviceFwvValue(context));
+                if(ver==48){
+                    Toast.makeText(context,"已是最新版本！",Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }else{
+                    dismiss();
+                    CheckUpdateDialog2 dialog2 = new CheckUpdateDialog2(context);
+                    dialog2.show();
+                }
             }
         }, 1000);
     }

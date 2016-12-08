@@ -163,10 +163,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
                 overridePendingTransitionExit(SleepActivity.this);
                 break;
             case R.id.btnOpt:
-
-//             new SomeUtills().setCompress(sleepActivity, R.id.sleepActivity);
-//             new SomeUtills().setShare(sleepActivity, R.id.sleepActivity);
-                new SomeUtills().saveCurrentImage(SleepActivity.this);
+                new  SomeUtills().setShare(SleepActivity.this, R.id.sleepActivity);
                 break;
             case R.id.btnDate:
 

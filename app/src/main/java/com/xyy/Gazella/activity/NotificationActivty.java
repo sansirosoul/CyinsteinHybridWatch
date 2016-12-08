@@ -11,7 +11,7 @@ import android.widget.ToggleButton;
 
 import com.xyy.Gazella.view.SwitchView;
 import com.ysp.newband.BaseActivity;
-import com.ysp.newband.GazelleApplication;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
@@ -65,34 +65,39 @@ public class NotificationActivty extends BaseActivity {
         initView();
     }
 
+
     private void initView() {
         TVTitle.setText(R.string.msg_notify);
-        if (all.isOpened()) {
+        email.setEnabled(false);
+        twitter.setEnabled(false);
+        line.setEnabled(false);
+        qq.setEnabled(false);
+        facebook.setEnabled(false);
+        message.setEnabled(false);
+        skype.setEnabled(false);
+        wechat.setEnabled(false);
+
+        int state = PreferenceData.getNotificationState(NotificationActivty.this);
+        if(state==1){
+            all.setOpened(true);
+
             tel.setEnabled(true);
-        } else {
-            tel.setEnabled(false);
-            email.setEnabled(false);
-            twitter.setEnabled(false);
-            line.setEnabled(false);
-            qq.setEnabled(false);
-            facebook.setEnabled(false);
-            message.setEnabled(false);
-            skype.setEnabled(false);
-            wechat.setEnabled(false);
-        }
-
-
-        all.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
+            if(PreferenceData.getNotificationPhoneState(NotificationActivty.this)==1){
+                tel.setChecked(true);
+            }else{
+                tel.setChecked(false);
             }
-        });
+        }else{
+            all.setOpened(false);
+
+            tel.setEnabled(false);
+        }
 
         all.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn(SwitchView view) {
                 all.setOpened(true);
+                PreferenceData.setNotificationState(NotificationActivty.this,1);
 
                 tel.setEnabled(true);
             }
@@ -100,70 +105,28 @@ public class NotificationActivty extends BaseActivity {
             @Override
             public void toggleToOff(SwitchView view) {
                 all.setOpened(false);
+                PreferenceData.setNotificationState(NotificationActivty.this,0);
+                PreferenceData.setNotificationPhoneState(NotificationActivty.this,0);
 
-                tel.setEnabled(false);
-                email.setEnabled(false);
-                twitter.setEnabled(false);
-                line.setEnabled(false);
-                qq.setEnabled(false);
-                facebook.setEnabled(false);
-                message.setEnabled(false);
-                skype.setEnabled(false);
-                wechat.setEnabled(false);
                 tel.setChecked(false);
-                email.setChecked(false);
-                twitter.setChecked(false);
-                line.setChecked(false);
-                qq.setChecked(false);
-                facebook.setChecked(false);
-                message.setChecked(false);
-                skype.setChecked(false);
-                wechat.setChecked(false);
+                tel.setEnabled(false);
             }
         });
-
-//        all.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                if(b){
-////                    myDialog.show();
-//                    tel.setEnabled(true);
-//                }else {
-//                    tel.setEnabled(false);
-//                    email.setEnabled(false);
-//                    twitter.setEnabled(false);
-//                    line.setEnabled(false);
-//                    qq.setEnabled(false);
-//                    facebook.setEnabled(false);
-//                    message.setEnabled(false);
-//                    skype.setEnabled(false);
-//                    wechat.setEnabled(false);
-//
-//                    tel.setChecked(false);
-//                    email.setChecked(false);
-//                    twitter.setChecked(false);
-//                    line.setChecked(false);
-//                    qq.setChecked(false);
-//                    facebook.setChecked(false);
-//                    message.setChecked(false);
-//                    skype.setChecked(false);
-//                    wechat.setChecked(false);
-//                }
-//            }
-//        });
 
         tel.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    GazelleApplication.RegisterReceiver(NotificationActivty
-                            .this);
+                    PreferenceData.setNotificationPhoneState(NotificationActivty.this,1);
+
                 } else {
-                    GazelleApplication.UnRegisterReceiver(NotificationActivty.this);
+                    PreferenceData.setNotificationPhoneState(NotificationActivty.this,0);
+
                 }
             }
         });
     }
+
 
     @OnClick(R.id.btnExit)
     public void onClick(View view) {

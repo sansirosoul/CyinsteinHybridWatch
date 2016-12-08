@@ -136,6 +136,7 @@ public class AddClockActivity extends BaseActivity {
             @Override
             public void onClick(String text) {
                 tvRepeatrate.setText(text);
+
             }
         };
 

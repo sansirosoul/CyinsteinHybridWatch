@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ysp.smartwatch"
     android:versionCode="60"
-    android:versionName="2.5">
+    android:versionName="2.5.1">
 
     <uses-sdk
         android:minSdkVersion="18"
@@ -69,6 +69,13 @@
 
         <!--空中升级service-->
         <service android:name="com.xyy.Gazella.services.DfuService"/>
+
+        <!--来电监听广播-->
+        <receiver android:name="com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"></action>
+            </intent-filter>
+        </receiver>
 
         <!-- 健康管理页面 -->
         <activity
