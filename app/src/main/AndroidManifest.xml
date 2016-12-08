@@ -70,6 +70,13 @@
         <!--空中升级service-->
         <service android:name="com.xyy.Gazella.services.DfuService"/>
 
+        <!--来电监听广播-->
+        <receiver android:name="com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE"></action>
+            </intent-filter>
+        </receiver>
+
         <!-- 健康管理页面 -->
         <activity
             android:name="com.xyy.Gazella.activity.HealthyActivity"

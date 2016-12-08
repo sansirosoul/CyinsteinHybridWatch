@@ -42,13 +42,17 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
         if (address != null && !address.equals("")){
             bleUtils = new BleUtils();
             connectionObservable=getRxObservable(this);
+            Notify(connectionObservable);
+            Write(bleUtils.getDeviceName(),connectionObservable);
         }
     }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-
+        if(bleUtils.returnDeviceName(bytes)!=null){
+            etName.setText(bleUtils.returnDeviceName(bytes));
+        }
     }
 
     public void onClick(View view) {

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ChangeWatchDialog;
+import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.xyy.Gazella.utils.CleanPhoneData;
 import com.xyy.Gazella.utils.CleanWatchData;
 import com.xyy.Gazella.utils.RenameWatchDialog;
@@ -167,12 +168,30 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_search_watch:
-                if(connectionObservable!=null)
-                Write(bleUtils.setWatchShake(1, 1, 1), connectionObservable);
+                if(connectionObservable!=null){
+                    Write(bleUtils.setWatchShake(2, 2, 2), connectionObservable);
+                    showToatst(context,"手表已震动，请寻找手表！");
+                }
                 break;
             case R.id.rl_close_bluetooth:
-                if(connectionObservable!=null)
-                Write(bleUtils.sendMessage(0, 0, 0, 0, 0, 0), connectionObservable);
+                CheckUpdateDialog2 myDialog = new CheckUpdateDialog2(context);
+                myDialog.show();
+                myDialog.setTvContext("是否确定关闭蓝牙？");
+                myDialog.setCancel("否");
+                myDialog.setConfirm("是");
+                myDialog.setBtnlListener(new CheckUpdateDialog2.setBtnlListener() {
+                    @Override
+                    public void onCancelListener() {
+                        myDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onConfirm() {
+                        myDialog.dismiss();
+                        if(connectionObservable!=null)
+                            Write(bleUtils.sendMessage(0, 0, 0, 0, 0, 0), connectionObservable);
+                    }
+                });
                 break;
         }
     }

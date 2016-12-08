@@ -35,10 +35,10 @@ public class GazelleApplication extends Application {
 	public static int USER_ID = 1;
 	private User user;
 	public static int CONNECTED = -1;
-	public static String UUID;
 	// 来电监听广播
 	public static PhoneBroadcastReceiver phoneBroadcastReceiver;
 	public static PhoneStatReceiver mPhoneStatReceiver;
+	public static String UUID;
 	public static IntentFilter intentFoilter;
 	public static boolean isPhoneCall;
 	public static boolean isCall;
@@ -67,7 +67,7 @@ public class GazelleApplication extends Application {
 
 		initLogger();
 
-		phoneRegisterReceiver();
+//		phoneRegisterReceiver();
 
 		rxBleClient = RxBleClient.create(this);
 		RxBleClient.setLogLevel(RxBleLog.DEBUG);
@@ -130,9 +130,8 @@ public class GazelleApplication extends Application {
 	private void phoneRegisterReceiver() {
 		intentFoilter = new IntentFilter();
 		intentFoilter.addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
-//		phoneBroadcastReceiver = new PhoneBroadcastReceiver(this);
-
 		mPhoneStatReceiver=new PhoneStatReceiver();
+//		phoneBroadcastReceiver = new PhoneBroadcastReceiver(this);
 	}
 
 	@Override
@@ -144,13 +143,13 @@ public class GazelleApplication extends Application {
 	}
 
 	public static void RegisterReceiver(Context context) {
-//		context.registerReceiver(phoneBroadcastReceiver, intentFoilter);
 		context.registerReceiver(mPhoneStatReceiver, intentFoilter);
+//		context.registerReceiver(phoneBroadcastReceiver, intentFoilter);
 	}
 
 	public static void UnRegisterReceiver(Context context) {
-//		context.unregisterReceiver(phoneBroadcastReceiver);
 		context.unregisterReceiver(mPhoneStatReceiver);
+//		context.unregisterReceiver(phoneBroadcastReceiver);
 	}
 
 	private void initLogger() {
