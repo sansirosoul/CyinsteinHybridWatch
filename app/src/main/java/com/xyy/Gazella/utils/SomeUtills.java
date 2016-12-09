@@ -372,6 +372,7 @@ public class SomeUtills {
         try {
             InputStreamReader inputReader = new InputStreamReader( context.getResources().getAssets().open(fileName) );
             BufferedReader bufReader = new BufferedReader(inputReader);
+
             String line="";
             String Result="";
             while((line = bufReader.readLine()) != null)
