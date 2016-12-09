@@ -106,6 +106,7 @@ public class BleTest extends BaseActivity {
     private static final String TAG = BleTest.class.getName();
     private int direction = 0;
 
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
