@@ -44,7 +44,7 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
 
-//        Notify(getRxObservable(this));
+        Notify(getRxObservable(this));
         install=this;
     }
 
