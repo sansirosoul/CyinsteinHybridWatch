@@ -11,9 +11,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
-import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
@@ -115,9 +115,7 @@ public class BleTest extends BaseActivity {
         bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);
         bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
-        connectionObservable = bleDevice
-                .establishConnection(this, false)
-                .compose(new ConnectionSharingAdapter());
+        connectionObservable = getRxObservable(this);
 
         Notify(connectionObservable);
 //        writeCharacteristic=GazelleApplication.mBluetoothService.getWriteCharacteristic();
@@ -269,15 +267,15 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.terminateBle(), connectionObservable);
                 break;
             case R.id.btn24:
-
-
-
+                int ff=ff= new SomeUtills().getfilelength(BleTest.this, "cyinstein_watch1.txt");
+                    Logger.t(TAG).e(String.valueOf(ff));
+                Write(bleUtils.startOTA(ff), connectionObservable);
 
                 break;
             case R.id.btn25:
 
-                String bb = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
-                Write(HexString.hexToBytes(bb), connectionObservable);
+                byte[] bb = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
+                Write(bb, connectionObservable);
 
                 break;
         }

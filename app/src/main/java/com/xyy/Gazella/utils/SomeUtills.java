@@ -18,11 +18,11 @@ import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.dbmanager.CommonUtils;
 import com.ysp.smartwatch.R;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -367,20 +367,33 @@ public class SomeUtills {
         }
     }
 
-    public String getFromAssets(Context context,String fileName) {
-        String result = "";
+    public int getfilelength(Context context, String path) {
+        InputStream ff;
+        int fff = 0;
         try {
-            InputStreamReader inputReader = new InputStreamReader( context.getResources().getAssets().open(fileName) );
-            BufferedReader bufReader = new BufferedReader(inputReader);
-
-            String line="";
-            String Result="";
-            while((line = bufReader.readLine()) != null)
-                Result += line;
-            return Result;
-        } catch (Exception e) {
+            ff = context.getResources().getAssets().open(path);
+            fff = ff.available();
+        } catch (IOException e) {
             e.printStackTrace();
         }
+        return fff;
+    }
+
+    public String getFromAssets(Context context, String fileName) {
+        String result = "";
+        InputStream inputReader = null;
+        try {
+            inputReader = context.getResources().getAssets().open(fileName);
+            int lenght = getfilelength(context, fileName);
+            byte[] buffer = new byte[lenght];
+            inputReader.read(buffer);
+            for (int i=0;i<buffer.length;i++) {
+                Logger.t(TAG).e(String.valueOf(buffer[i]));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return result;
     }
 }
