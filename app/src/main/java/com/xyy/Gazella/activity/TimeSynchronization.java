@@ -281,7 +281,12 @@ public class TimeSynchronization extends BaseActivity {
                 small2TimeValue = PreferenceData.getSelectedSmall2Value(this);
                 small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
 
-                Write(bleUtils.setWatchDateAndTime(1, myear, month, mday, hour, minute, second), connectionObservable);
+                Logger.t(TAG).e(String.valueOf(myear)+"\n"+
+                        String.valueOf(month)+"\n"+
+                        String.valueOf(mday)+"\n");
+
+                Write(bleUtils.setWatchDateAndTime(1, myear, month+1, mday, hour, minute, second), connectionObservable);
+
                 if (fragmentsList.size() > 1) {
                     setChangeTimeType(1);
                 }

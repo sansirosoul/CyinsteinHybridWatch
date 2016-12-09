@@ -13,9 +13,12 @@ import android.widget.TextView;
 
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
+import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
+import com.xyy.Gazella.utils.SomeUtills;
+import com.xyy.model.StepData;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
@@ -94,8 +97,10 @@ public class BleTest extends BaseActivity {
     RadioGroup radiogroup;
     @BindView(R.id.step)
     EditText step;
-    @BindView(R.id.notifytext2)
-    TextView notifytext2;
+    @BindView(R.id.btn24)
+    Button btn24;
+    @BindView(R.id.btn25)
+    Button btn25;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
@@ -108,11 +113,12 @@ public class BleTest extends BaseActivity {
         ButterKnife.bind(this);
         bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);
-        if (address != null && !address.equals("")) {
-            bleUtils = new BleUtils();
-            connectionObservable = getRxObservable(this);
-            Notify(connectionObservable);
-        }
+        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
+        connectionObservable = bleDevice
+                .establishConnection(this, false)
+                .compose(new ConnectionSharingAdapter());
+
+        Notify(connectionObservable);
 //        writeCharacteristic=GazelleApplication.mBluetoothService.getWriteCharacteristic();
 //        notifyCharacteristic=GazelleApplication.mBluetoothService.getNotifyCharacteristic();
 //        if(notifyCharacteristic!=null)GazelleApplication.mBluetoothService.setCharacteristicNotification(notifyCharacteristic,true);
@@ -160,8 +166,18 @@ public class BleTest extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
+        if (bleUtils.returnTodayStep(bytes) != null) {
+            StepData data = bleUtils.returnTodayStep(bytes);
+            notify.setText(data.getYear() + "-" + data.getMonth() + "-" + data.getDay() + "步数" + data.getStep());
+        } else if (bleUtils.returnDeviceSN(bytes) != null) {
+            notify.setText(bleUtils.returnDeviceSN(bytes));
+        } else if (bleUtils.returnFWVer(bytes) != null) {
+            notify.setText(bleUtils.returnFWVer(bytes));
+        } else if (bleUtils.returnBatteryValue(bytes) != null) {
+            notify.setText(bleUtils.returnBatteryValue(bytes) + "%");
+        } else {
             notify.setText(HexString.bytesToHex(bytes));
-            notifytext2.setText(new String(bytes));
+        }
     }
 
     @Override
@@ -174,7 +190,7 @@ public class BleTest extends BaseActivity {
     }
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
-            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23})
+            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
@@ -251,7 +267,17 @@ public class BleTest extends BaseActivity {
             case R.id.btn23:
                 Write(bleUtils.terminateBle(), connectionObservable);
                 break;
+            case R.id.btn24:
+
+
+
+                break;
+            case R.id.btn25:
+
+                String bb = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
+                Write(HexString.hexToBytes(bb), connectionObservable);
+
+                break;
         }
     }
-
 }

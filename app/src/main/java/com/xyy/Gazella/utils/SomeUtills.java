@@ -18,9 +18,11 @@ import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.dbmanager.CommonUtils;
 import com.ysp.smartwatch.R;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -229,6 +231,37 @@ public class SomeUtills {
     }
 
 
+    public Observable<Boolean> onSharesdk(Activity activity, int layout) {
+        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(Subscriber<? super Boolean> subscriber) {
+                if (!subscriber.isUnsubscribed()) {
+                    View rootView = activity.findViewById(layout);
+                    WindowManager wm = activity.getWindowManager();
+                    int width = wm.getDefaultDisplay().getWidth();
+                    int height = wm.getDefaultDisplay().getHeight();
+                    Bitmap newb = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(newb);
+                    rootView.draw(canvas);
+
+                    file = new File(Environment.getExternalStorageDirectory() + "/" + "share.png");
+                    FileOutputStream f = null;
+                    try {
+                        f = new FileOutputStream(file);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    boolean b = newb.compress(Bitmap.CompressFormat.PNG, 100, f);
+                    if (b) {
+                        subscriber.onNext(true);
+                    }
+                }
+                subscriber.onCompleted();
+            }
+        });
+    }
+
+
     public void showShare(final Activity activity) {
         ShareSDK.initSDK(activity);
         OnekeyShare oks = new OnekeyShare();
@@ -322,7 +355,8 @@ public class SomeUtills {
         for (Partner o : list) {
             Logger.t(TAG).i("数据总数== " + String.valueOf(list.size()) + "\n"
                     + "第几条数据== " + String.valueOf(o) + "\n"
-                    + "Awake== " + o.getAwake() + "\n"
+                    + "A" +
+                    "wake== " + o.getAwake() + "\n"
                     + "Sleep== " + o.getSleep() + "\n"
                     + "Data== " + o.getDate() + "\n"
                     + "Type== " + o.getType() + "\n"
@@ -332,4 +366,21 @@ public class SomeUtills {
                     + "Sleeping== " + o.getSleeping());
         }
     }
+
+    public String getFromAssets(Context context,String fileName) {
+        String result = "";
+        try {
+            InputStreamReader inputReader = new InputStreamReader( context.getResources().getAssets().open(fileName) );
+            BufferedReader bufReader = new BufferedReader(inputReader);
+            String line="";
+            String Result="";
+            while((line = bufReader.readLine()) != null)
+                Result += line;
+            return Result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }
+
