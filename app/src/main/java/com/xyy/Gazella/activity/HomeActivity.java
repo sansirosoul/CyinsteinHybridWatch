@@ -21,7 +21,7 @@ import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity {
 
-    private  static  String TAG=HomeActivity.class.getName();
+    private static String TAG = HomeActivity.class.getName();
 
     @BindView(R.id.ll_time)
     LinearLayout llTime;
@@ -33,8 +33,10 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llSettings;
     @BindView(R.id.ll_introduce)
     LinearLayout llIntroduce;
+    @BindView(R.id.ll_other)
+    LinearLayout llOther;
     private long mExitTime = 0;
-    public  static HomeActivity install;
+    public static HomeActivity install;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -44,8 +46,8 @@ public class HomeActivity extends BaseActivity {
         ButterKnife.bind(this);
 
 
-        Notify(getRxObservable(this));
-        install=this;
+//        Notify(getRxObservable(this));
+        install = this;
     }
 
     @Override
@@ -54,11 +56,12 @@ public class HomeActivity extends BaseActivity {
         onHomeReadReturn(bytes);
         super.onReadReturn(bytes);
     }
-    public  void  onHomeReadReturn(byte[] bytes){
+
+    public void onHomeReadReturn(byte[] bytes) {
 
     }
 
-    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce})
+    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce,R.id.ll_other})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_time:
@@ -84,6 +87,11 @@ public class HomeActivity extends BaseActivity {
             case R.id.ll_introduce:
                 Intent helpIntent = new Intent(HomeActivity.this, HelpActivity.class);
                 startActivity(helpIntent);
+                overridePendingTransitionEnter(HomeActivity.this);
+                break;
+            case R.id.ll_other:
+                Intent otherIntent = new Intent(HomeActivity.this, BleTest.class);
+                startActivity(otherIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
         }
