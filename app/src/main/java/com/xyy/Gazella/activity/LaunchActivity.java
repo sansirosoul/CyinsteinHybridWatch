@@ -18,6 +18,8 @@ import rx.Subscription;
  */
 
 public class LaunchActivity extends BaseActivity {
+
+    private  static String  TAG= LaunchActivity.class.getName();
     private Button start;
     private byte ck_a, ck_b;
 
