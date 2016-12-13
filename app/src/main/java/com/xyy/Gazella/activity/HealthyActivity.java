@@ -68,11 +68,12 @@ public class HealthyActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         String address = PreferenceData.getAddressValue(this);
-        if (address != null && !address.equals(""))
-            connectionObservable=getRxObservable(this);
-        bleUtils = new BleUtils();
-        Notify(connectionObservable);
-        btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
+        if (address != null && !address.equals("")) {
+            connectionObservable = getRxObservable(this);
+            bleUtils = new BleUtils();
+            Notify(connectionObservable);
+            btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
+        }
         InitViewPager();
         install=this;
     }
