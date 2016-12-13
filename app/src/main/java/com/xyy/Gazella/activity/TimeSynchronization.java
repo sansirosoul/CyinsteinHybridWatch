@@ -545,8 +545,8 @@ public class TimeSynchronization extends BaseActivity {
         month = mCalendar.month;
         mday = mCalendar.monthDay;
 
-        if (hour > 12)
-            hour = hour - 12;
+//        if (hour > 12)
+//            hour = hour - 12;
         float mHour = hour + minute / 60.0f + minute / 360.0f;
 //        mMinutes = minute + second / 60.0f;
         String dou = String.valueOf(mHour);

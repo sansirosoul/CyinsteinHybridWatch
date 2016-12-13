@@ -118,7 +118,7 @@ public class BleUtils {
         value[4] = 0x07;
 
         value[5] = (byte) mode;
-        value[6] = (byte) (year - 2016);
+        value[6] = (byte) (year - 2000);
         value[7] = (byte) month;
         value[8] = (byte) day;
         value[9] = (byte) hour;

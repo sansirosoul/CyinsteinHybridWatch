@@ -101,6 +101,8 @@ public class BleTest extends BaseActivity {
     Button btn24;
     @BindView(R.id.btn25)
     Button btn25;
+    @BindView(R.id.notifytext2)
+    TextView notifytext2;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
@@ -167,6 +169,7 @@ public class BleTest extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
+        notifytext2.setText(new String(bytes));
         if (bleUtils.returnTodayStep(bytes) != null) {
             StepData data = bleUtils.returnTodayStep(bytes);
             notify.setText(data.getYear() + "-" + data.getMonth() + "-" + data.getDay() + "步数" + data.getStep());
@@ -184,10 +187,9 @@ public class BleTest extends BaseActivity {
     @Override
     protected void onWriteReturn(byte[] bytes) {
         super.onWriteReturn(bytes);
-
-
         write.setText(HexString.bytesToHex(bytes));
         notify.setText("");
+        notifytext2.setText("");
     }
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
@@ -270,13 +272,9 @@ public class BleTest extends BaseActivity {
                 break;
             case R.id.btn24:
 
-
-
                 break;
             case R.id.btn25:
-
                 String bb = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
-                Write(HexString.hexToBytes(bb), connectionObservable);
 
                 break;
         }

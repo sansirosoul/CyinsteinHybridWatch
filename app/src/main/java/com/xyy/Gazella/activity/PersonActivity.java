@@ -14,8 +14,9 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.ToggleButton;
+import android.widget.Toast;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.kevin.crop.UCrop;
@@ -47,10 +48,6 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
     @BindView(R.id.ll_birth)
     LinearLayout llBirth;
-    @BindView(R.id.tg_male)
-    ToggleButton tgMale;
-    @BindView(R.id.tg_female)
-    ToggleButton tgFemale;
     @BindView(R.id.ll_height)
     LinearLayout llHeight;
     @BindView(R.id.ll_weight)
@@ -67,6 +64,10 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     public static TextView tvBirth;
     public static TextView tvHeight;
     public static TextView tvWeight;
+    @BindView(R.id.rb_male)
+    RadioButton rbMale;
+    @BindView(R.id.rb_female)
+    RadioButton rbFemale;
     private WeightDialog.OnSelectedListener wOnSelectedListener;
     private HeightDialog.OnSelectedListener hSelectedListener;
     private CalendarDialog.OnSelectedListener cSelectedListener;
@@ -98,26 +99,20 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         tvWeight = (TextView) findViewById(R.id.tv_weight);
         tvBirth = (TextView) findViewById(R.id.tv_birth);
 
-        tgMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rbMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    sex = 0;
-                    tgFemale.setChecked(false);
-                } else {
-                    sex = -1;
+                if(b){
+                    sex=0;
                 }
             }
         });
 
-        tgFemale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rbFemale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    sex = 1;
-                    tgMale.setChecked(false);
-                } else {
-                    sex = -1;
+                if(b){
+                    sex=1;
                 }
             }
         });
@@ -218,26 +213,26 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 overridePendingTransitionExit(PersonActivity.this);
                 break;
             case R.id.go:
-//                if (edName.getText() == null || edName.getText().toString().equals("")) {
-//                    Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
-//                    Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(sex==-1){
-//                    Toast.makeText(context, R.string.choose_sex, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
-//                    Toast.makeText(context, R.string.choose_height, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
-//                if(tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
-//                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+                if (edName.getText() == null || edName.getText().toString().equals("")) {
+                    Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
+                    Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(sex==-1){
+                    Toast.makeText(context, R.string.choose_sex, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
+                    Toast.makeText(context, R.string.choose_height, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
+                    Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 PreferenceData.setUserInfo(context, edName.getText().toString(), tvBirth.getText().toString(), sex,
                         tvHeight.getText().toString(), tvWeight.getText().toString());
                 Intent intent = new Intent(context, HomeActivity.class);

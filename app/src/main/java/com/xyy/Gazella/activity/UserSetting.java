@@ -12,10 +12,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.kevin.crop.UCrop;
@@ -53,10 +53,7 @@ public class UserSetting extends BaseActivity {
     TextView tvBirth;
     @BindView(R.id.ll_birth)
     LinearLayout llBirth;
-    @BindView(R.id.tg_male)
-    ToggleButton tgMale;
-    @BindView(R.id.tg_female)
-    ToggleButton tgFemale;
+
     @BindView(R.id.tv_height)
     TextView tvHeight;
     @BindView(R.id.ll_height)
@@ -69,6 +66,10 @@ public class UserSetting extends BaseActivity {
     RelativeLayout back;
     @BindView(R.id.save)
     RelativeLayout save;
+    @BindView(R.id.rb_male)
+    RadioButton rbMale;
+    @BindView(R.id.rb_female)
+    RadioButton rbFemale;
     private Context context;
     private WeightDialog.OnSelectedListener wOnSelectedListener;
     private HeightDialog.OnSelectedListener hSelectedListener;
@@ -116,34 +117,26 @@ public class UserSetting extends BaseActivity {
         if (user.getSex() != -1) {
             sex = user.getSex();
             if (sex == 0) {
-                tgMale.setChecked(true);
-                tgFemale.setChecked(false);
-            } else {
-                tgMale.setChecked(false);
-                tgFemale.setChecked(true);
+                rbMale.setChecked(true);
+            } else if(sex == 1){
+                rbFemale.setChecked(true);
             }
         }
 
-        tgMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rbMale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    tgFemale.setChecked(false);
-                    sex = 0;
-                } else {
-                    sex = -1;
+                if(b){
+                    sex=0;
                 }
             }
         });
 
-        tgFemale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rbFemale.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    tgMale.setChecked(false);
-                    sex = 1;
-                } else {
-                    sex = -1;
+                if(b){
+                    sex=1;
                 }
             }
         });

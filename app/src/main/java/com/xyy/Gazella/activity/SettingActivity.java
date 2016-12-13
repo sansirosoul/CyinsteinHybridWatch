@@ -190,6 +190,7 @@ public class SettingActivity extends BaseActivity {
                         myDialog.dismiss();
                         if(connectionObservable!=null)
                             Write(bleUtils.sendMessage(0, 0, 0, 0, 0, 0), connectionObservable);
+                            connectionObservable=null;
                     }
                 });
                 break;
