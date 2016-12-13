@@ -2,6 +2,7 @@ package com.xyy.Gazella.activity;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -24,6 +25,8 @@ import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -267,17 +270,56 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.terminateBle(), connectionObservable);
                 break;
             case R.id.btn24:
-                int ff=ff= new SomeUtills().getfilelength(BleTest.this, "cyinstein_watch1.txt");
-                    Logger.t(TAG).e(String.valueOf(ff));
+
+                int ff = ff = new SomeUtills().getfilelength(BleTest.this, "cyinstein_watch1.txt");
+                Logger.t(TAG).e(String.valueOf(ff));
+                byte [] fff= bleUtils.startOTA(ff);
+
                 Write(bleUtils.startOTA(ff), connectionObservable);
 
                 break;
             case R.id.btn25:
 
-                byte[] bb = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
-                Write(bb, connectionObservable);
+                 new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
 
+                File file = new File(Environment.getExternalStorageDirectory() + "/" + "cyinstein_watch1.txt");
+                byte[] buffer = new byte[20];
+                try {
+                    FileInputStream fileR = new FileInputStream(file);
+                    while (true) {
+                        int len = fileR.read(buffer);
+                        Write(buffer, connectionObservable);
+                        if (len == -1) {
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+
+//
+//                int n=0;
+//                String aa;
+//                int k= bb.length();
+//                for(int i=20;i<bb.length();i+=20) {
+//                    if(i==20)
+//                         aa = bb.substring(0, i);
+//                    else
+//                         aa = bb.substring(n, i);
+//                    n=i;
+//
+//                    Write(HexString.hexToBytes(aa), connectionObservable);
+//                }
+//
+//                if((k-n)<20){
+//                    aa = bb.substring(n, k);
+//                    Write(hexToBytes(aa), connectionObservable);
+//                }
                 break;
         }
     }
+
+
 }
