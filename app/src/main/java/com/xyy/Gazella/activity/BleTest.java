@@ -2,6 +2,7 @@ package com.xyy.Gazella.activity;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -11,9 +12,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
-import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
@@ -24,6 +25,8 @@ import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -101,8 +104,6 @@ public class BleTest extends BaseActivity {
     Button btn24;
     @BindView(R.id.btn25)
     Button btn25;
-    @BindView(R.id.notifytext2)
-    TextView notifytext2;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
@@ -117,9 +118,7 @@ public class BleTest extends BaseActivity {
         bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);
         bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
-        connectionObservable = bleDevice
-                .establishConnection(this, false)
-                .compose(new ConnectionSharingAdapter());
+        connectionObservable = getRxObservable(this);
 
         Notify(connectionObservable);
 //        writeCharacteristic=GazelleApplication.mBluetoothService.getWriteCharacteristic();
@@ -169,7 +168,6 @@ public class BleTest extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        notifytext2.setText(new String(bytes));
         if (bleUtils.returnTodayStep(bytes) != null) {
             StepData data = bleUtils.returnTodayStep(bytes);
             notify.setText(data.getYear() + "-" + data.getMonth() + "-" + data.getDay() + "步数" + data.getStep());
@@ -187,9 +185,10 @@ public class BleTest extends BaseActivity {
     @Override
     protected void onWriteReturn(byte[] bytes) {
         super.onWriteReturn(bytes);
+
+
         write.setText(HexString.bytesToHex(bytes));
         notify.setText("");
-        notifytext2.setText("");
     }
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
@@ -272,11 +271,55 @@ public class BleTest extends BaseActivity {
                 break;
             case R.id.btn24:
 
+                int ff = ff = new SomeUtills().getfilelength(BleTest.this, "cyinstein_watch1.txt");
+                Logger.t(TAG).e(String.valueOf(ff));
+                byte [] fff= bleUtils.startOTA(ff);
+
+                Write(bleUtils.startOTA(ff), connectionObservable);
+
                 break;
             case R.id.btn25:
-                String bb = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
 
+                 new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
+
+                File file = new File(Environment.getExternalStorageDirectory() + "/" + "cyinstein_watch1.txt");
+                byte[] buffer = new byte[20];
+                try {
+                    FileInputStream fileR = new FileInputStream(file);
+                    while (true) {
+                        int len = fileR.read(buffer);
+                        Write(buffer, connectionObservable);
+                        if (len == -1) {
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+
+//
+//                int n=0;
+//                String aa;
+//                int k= bb.length();
+//                for(int i=20;i<bb.length();i+=20) {
+//                    if(i==20)
+//                         aa = bb.substring(0, i);
+//                    else
+//                         aa = bb.substring(n, i);
+//                    n=i;
+//
+//                    Write(HexString.hexToBytes(aa), connectionObservable);
+//                }
+//
+//                if((k-n)<20){
+//                    aa = bb.substring(n, k);
+//                    Write(hexToBytes(aa), connectionObservable);
+//                }
                 break;
         }
     }
+
+
 }

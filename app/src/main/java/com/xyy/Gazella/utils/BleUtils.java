@@ -855,4 +855,30 @@ public class BleUtils {
 
         return value;
     }
+
+    //蓝牙OTA固件更新
+    public byte[] startOTA(int length) {
+
+        value = new byte[11];
+        ck_a = 0;
+        ck_b = 0;
+        value[0] = 0x48;
+        value[1] = 0x59;
+        value[2] = 0x07;
+        value[3] = (byte) 0xDF;
+        value[4] = 0x04;
+
+        value[5] = (byte) (length >>> 24);// 最高位,无符号右移。
+        value[6] = (byte) ((length >> 16) & 0xff);// 次高位
+        value[7] = (byte) ((length >> 8) & 0xff);// 次低位
+        value[8] = (byte) (length & 0xff);// 最低位
+
+        for (int i = 2; i < 5; i++) {
+            ck_a = (byte) (ck_a + value[i]);
+            ck_b = (byte) (ck_b + ck_a);
+        }
+        value[9] = ck_a;
+        value[10] = ck_b;
+        return value;
+    }
 }
