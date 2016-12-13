@@ -94,6 +94,7 @@ public class SettingActivity extends BaseActivity {
 
     }
 
+
     private void initView() {
         TVTitle.setText(R.string.setting);
         vSwitch.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
