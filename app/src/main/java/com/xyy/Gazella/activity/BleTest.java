@@ -2,7 +2,6 @@ package com.xyy.Gazella.activity;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -25,8 +24,6 @@ import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -273,53 +270,103 @@ public class BleTest extends BaseActivity {
 
                 int ff = ff = new SomeUtills().getfilelength(BleTest.this, "cyinstein_watch1.txt");
                 Logger.t(TAG).e(String.valueOf(ff));
-                byte [] fff= bleUtils.startOTA(ff);
+                byte[] fff = bleUtils.startOTA(ff);
 
                 Write(bleUtils.startOTA(ff), connectionObservable);
 
                 break;
             case R.id.btn25:
 
-                 new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
+                String str = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
+                String[] strings = str.split(",");
+                StringBuffer  sb = new StringBuffer();
 
-                File file = new File(Environment.getExternalStorageDirectory() + "/" + "cyinstein_watch1.txt");
-                byte[] buffer = new byte[20];
-                try {
-                    FileInputStream fileR = new FileInputStream(file);
-                    while (true) {
-                        int len = fileR.read(buffer);
-                        Write(buffer, connectionObservable);
-                        if (len == -1) {
-                            break;
-                        }
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                byte[] bytes = new byte[20];
+                int k = 0;
+                for (int i = 0; i < strings.length; i++) {
+                    String count = strings[i];
+                    if (count.startsWith("0x") || count.startsWith("0X"))
+                        count = count.substring(2);
+                    if (count.startsWith(" 0X") || count.startsWith(" 0x"))
+                        count = count.substring(3);
+                    sb.append(count);
                 }
-
-
-
-//
-//                int n=0;
-//                String aa;
-//                int k= bb.length();
-//                for(int i=20;i<bb.length();i+=20) {
-//                    if(i==20)
-//                         aa = bb.substring(0, i);
-//                    else
-//                         aa = bb.substring(n, i);
-//                    n=i;
-//
-//                    Write(HexString.hexToBytes(aa), connectionObservable);
-//                }
-//
-//                if((k-n)<20){
-//                    aa = bb.substring(n, k);
-//                    Write(hexToBytes(aa), connectionObservable);
-//                }
+                byte[] b = HexString2Bytes(sb.toString());
+                for(int i=0; i<b.length;i++){
+                    if(k!=19) {
+                        bytes[k] = b[i];
+                        k++;
+                    }else {
+                        k=0;
+                        Write(bytes, connectionObservable);
+                    }
+                }
                 break;
         }
     }
+    /**
+     * 将两个ASCII字符合成一个字节； 如："EF"–> 0xEF
+     * @param src0  byte
+     * @param src1  byte
+     * @return  byte
+     */
+    public static byte uniteBytes(byte src0, byte src1) {
+        byte _b0 = Byte.decode("0x" + new String(new byte[] {src0})).byteValue();
+        _b0 = (byte) (_b0 << 4);
+        byte _b1 = Byte.decode("0x" + new String(new byte[] { src1 })).byteValue();
+        byte ret = (byte) (_b0 ^ _b1);
+        return ret;
+    }
+
+    /**
+     * 将指定字符串src，以每两个字符分割转换为16进制形式 如："2B44EFD9" –> byte[]{0x2B, 0×44, 0xEF, 0xD9}
+     * @param src String
+     * @return byte[]
+     */
+    public static byte[] HexString2Bytes(String src) {
+        if (null == src || 0 == src.length()) {
+            return null;
+        }
+        byte[] ret = new byte[src.length() / 2];
+        byte[] tmp = src.getBytes();
+        for (int i = 0; i < (tmp.length / 2); i++) {
+            ret[i] = uniteBytes(tmp[i * 2], tmp[i * 2 + 1]);
+        }
+        return ret;
+    }
 
 
+    /**
+     * 将指定byte数组以16进制的形式打印到控制台
+     * @param hint String
+     * @param b byte[]
+     * @return void
+     */
+    public static void printHexString(String hint, byte[] b) {
+        System.out.print(hint);
+        for (int i = 0; i < b.length; i++) {
+            String hex = Integer.toHexString(b[i] & 0xFF);
+            if (hex.length() == 1) {
+                hex = '0' + hex;
+            }
+            System.out.print(hex.toUpperCase() + " ");
+        }
+        System.out.println("");
+    }
+
+    /**
+     * @param b  byte[]
+     * @return  String
+     */
+    public static String Bytes2HexString(byte[] b) {
+        String ret = "";
+        for (int i = 0; i < b.length; i++) {
+            String hex = Integer.toHexString(b[i] & 0xFF);
+            if (hex.length() == 1) {
+                hex = '0' + hex;
+            }
+            ret += " 0x" + hex.toUpperCase();
+        }
+        return ret;
+    }
 }

@@ -879,6 +879,7 @@ public class BleUtils {
         }
         value[9] = ck_a;
         value[10] = ck_b;
+
         return value;
     }
 }
