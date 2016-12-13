@@ -94,6 +94,7 @@ public class SettingActivity extends BaseActivity {
 
     }
 
+
     private void initView() {
         TVTitle.setText(R.string.setting);
         vSwitch.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
@@ -190,6 +191,7 @@ public class SettingActivity extends BaseActivity {
                         myDialog.dismiss();
                         if(connectionObservable!=null)
                             Write(bleUtils.sendMessage(0, 0, 0, 0, 0, 0), connectionObservable);
+                            connectionObservable=null;
                     }
                 });
                 break;

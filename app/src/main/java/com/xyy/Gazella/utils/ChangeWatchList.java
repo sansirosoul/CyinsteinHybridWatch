@@ -151,12 +151,7 @@ public class ChangeWatchList extends BaseActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (bluetoothDevice.getName() != null && (bluetoothDevice.getName().equals("Watch")
-                            || bluetoothDevice.getName().equals("Partner")
-                            || bluetoothDevice.getName().equals("Band")
-                            || bluetoothDevice.getName().equals("Felix") || bluetoothDevice
-                            .getName().equals("Nova"))) {
-                        Log.d("=====", bluetoothDevice.getAddress());
+                    if (bluetoothDevice.getName() != null ) {
                         if (!devices.contains(bluetoothDevice)) {
                             devices.add(bluetoothDevice);
                             deviceListAdapter.notifyDataSetChanged();
