@@ -369,16 +369,18 @@ public class SomeUtills {
         }
     }
 
-    public int getfilelength(Context context, String path) {
+    public long getfilelength(Context context, String path) {
         InputStream ff;
         int fff = 0;
         try {
             ff = context.getResources().getAssets().open(path);
             fff = ff.available();
+            File file = new File(Environment.getExternalStorageDirectory() + "/" + path);
+            file.length();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return fff;
+        return  file.length();
     }
 
     public String getFromAssets(Context context,String fileName) {
