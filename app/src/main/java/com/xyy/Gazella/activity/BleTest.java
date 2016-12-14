@@ -2,7 +2,6 @@ package com.xyy.Gazella.activity;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -25,10 +24,6 @@ import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -273,7 +268,7 @@ public class BleTest extends BaseActivity {
                 break;
             case R.id.btn24:
 
-                long ff = ff = new SomeUtills().getfilelength(BleTest.this, "cyinstein_watch1.txt");
+                int ff = ff = new SomeUtills().getfilelength(BleTest.this, "cyinstein_watch1.txt");
                 Logger.t(TAG).e(String.valueOf(ff));
                 byte[] fff = bleUtils.startOTA(ff);
 
@@ -284,8 +279,7 @@ public class BleTest extends BaseActivity {
 
                 String str = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
                 String[] strings = str.split(",");
-                StringBuffer  sb = new StringBuffer();
-
+                StringBuffer sb = new StringBuffer();
                 byte[] WriteBytes = new byte[20];
                 int k = 0;
                 for (int i = 0; i < strings.length; i++) {
@@ -294,27 +288,17 @@ public class BleTest extends BaseActivity {
                         count = count.substring(2);
                     if (count.startsWith(" 0X") || count.startsWith(" 0x"))
                         count = count.substring(3);
+                    if(count.startsWith("   ") ){
+                        count ="00";
+                    }
+                    if(k!=19){
                         sb.append(count);
-                }
-                byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
-                for(int i=0; i<Bytes.length;i++){
-                    if(k!=19) {
-                        WriteBytes[k] = Bytes[i];
                         k++;
                     }else {
+                        byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
+                        Write(Bytes, connectionObservable);
+                        sb.setLength(0);
                         k=0;
-                        Write(WriteBytes, connectionObservable);
-                        Logger.t(TAG).e(bleUtils.Bytes2HexString(WriteBytes));
-                        try {
-                            FileOutputStream fos = new FileOutputStream(
-                                    new File(Environment.getExternalStorageDirectory() + "/" +"Write.txt"));
-                            fos.write(WriteBytes);
-
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
                 break;

@@ -12,12 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
+import com.polidea.rxandroidble.RxBleConnection;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 public class HomeActivity extends BaseActivity {
 
@@ -37,6 +40,7 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llOther;
     private long mExitTime = 0;
     public static HomeActivity install;
+    public Observable<RxBleConnection> connectionObservable;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -44,9 +48,12 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
-
-
-//        Notify(getRxObservable(this));
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals("")) {
+            connectionObservable = getRxObservable(this);
+            getRxObservable(this);
+            Notify(getRxObservable(this));
+        }
         install = this;
     }
 
@@ -59,6 +66,20 @@ public class HomeActivity extends BaseActivity {
 
     public void onHomeReadReturn(byte[] bytes) {
 
+    }
+
+    @Override
+    protected void onNotifyReturn(int type) {
+        super.onNotifyReturn(type);
+        switch (type) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                Notify(connectionObservable);
+                break;
+        }
     }
 
     @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce,R.id.ll_other})

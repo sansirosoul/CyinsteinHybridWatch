@@ -857,7 +857,7 @@ public class BleUtils {
     }
 
     //蓝牙OTA固件更新
-    public byte[] startOTA(long length) {
+    public byte[] startOTA(int length) {
 
         value = new byte[11];
         ck_a = 0;
