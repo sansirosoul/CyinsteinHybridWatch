@@ -280,25 +280,37 @@ public class BleTest extends BaseActivity {
                 String str = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
                 String[] strings = str.split(",");
                 StringBuffer sb = new StringBuffer();
-                byte[] WriteBytes = new byte[20];
                 int k = 0;
+                boolean isTrue=true;
                 for (int i = 0; i < strings.length; i++) {
                     String count = strings[i];
                     if (count.startsWith("0x") || count.startsWith("0X"))
                         count = count.substring(2);
                     if (count.startsWith(" 0X") || count.startsWith(" 0x"))
                         count = count.substring(3);
-                    if(count.startsWith("   ") ){
-                        count ="00";
-                    }
-                    if(k!=19){
-                        sb.append(count);
-                        k++;
-                    }else {
-                        byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
-                        Write(Bytes, connectionObservable);
-                        sb.setLength(0);
-                        k=0;
+                    if (isTrue) {
+                        if (k != 20) {
+                            sb.append(count);
+                            k++;
+                        } else {
+                            byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
+                            Write(Bytes, connectionObservable);
+                            sb.setLength(0);
+                            sb.append(count);
+                            k = 0;
+                            isTrue = false;
+                        }
+                    } else {
+                        if (k != 19) {
+                            sb.append(count);
+                            k++;
+                        } else {
+                            byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
+                            Write(Bytes, connectionObservable);
+                            sb.setLength(0);
+                            sb.append(count);
+                            k = 0;
+                        }
                     }
                 }
                 break;

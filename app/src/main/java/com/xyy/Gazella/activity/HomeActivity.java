@@ -69,6 +69,13 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
+    protected void onConnectionStateChanges() {
+        super.onConnectionStateChanges();
+
+
+    }
+
+    @Override
     protected void onNotifyReturn(int type) {
         super.onNotifyReturn(type);
         switch (type) {

@@ -49,7 +49,6 @@ public class BaseActivity extends FragmentActivity {
     public static Context mContext;
     public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
-    private RxBleDevice bleDevice;
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
 
@@ -57,15 +56,12 @@ public class BaseActivity extends FragmentActivity {
     public static Observable<RxBleConnection> getRxObservable(Context context) {
 
         String address = PreferenceData.getAddressValue(context);
-
-
         if (address != null && !address.equals("")) {
             RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(context).getBleDevice(address);
             if (connectionObservable == null) {
                 connectionObservable = bleDevicme
                         .establishConnection(context, false)
                         .compose(new ConnectionSharingAdapter());
-
             }
         }
         return connectionObservable;
@@ -87,6 +83,7 @@ public class BaseActivity extends FragmentActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         mContext = this;
+        DeviceConnectionStateChanges();
     }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
@@ -207,6 +204,33 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
+    private void  DeviceConnectionStateChanges(){
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals("")) {
+            RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
+            bleDevicme.observeConnectionStateChanges()
+                    .subscribe(new Action1<RxBleConnection.RxBleConnectionState>() {
+                        @Override
+                        public void call(RxBleConnection.RxBleConnectionState rxBleConnectionState) {
+                           if(bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
+                                    || bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED){
+                               Logger.t(TAG).e("连接 >>>>>>  " + rxBleConnectionState.toString());
+
+                           }else {
+                               Logger.t(TAG).e("断开 >>>>>>  " + rxBleConnectionState.toString());
+
+
+                           }
+                        }
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+
+                        }
+                    });
+        }
+    }
+
 
     protected void onReadReturn(byte[] bytes) {
     }
@@ -219,6 +243,9 @@ public class BaseActivity extends FragmentActivity {
 
     protected void onReadReturnFailed() {
     }
+    protected void onConnectionStateChanges() {
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

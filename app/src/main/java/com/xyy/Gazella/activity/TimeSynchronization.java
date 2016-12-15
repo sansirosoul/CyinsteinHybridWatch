@@ -127,6 +127,7 @@ public class TimeSynchronization extends BaseActivity {
         switch (type) {
             case 0:
                 isNotify = true;
+                btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
                 break;
             case 1:
                 isNotify = false;
@@ -301,6 +302,11 @@ public class TimeSynchronization extends BaseActivity {
                 overridePendingTransitionExit(TimeSynchronization.this);
                 break;
             case R.id.btnOpt:
+                if(!isNotify&&connectionObservable!=null){
+                    Notify(connectionObservable);
+                }
+
+
                 break;
             case R.id.TVTitle:
                 break;

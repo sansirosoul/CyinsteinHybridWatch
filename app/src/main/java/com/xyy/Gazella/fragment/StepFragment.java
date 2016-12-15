@@ -81,13 +81,17 @@ public class StepFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         initView();
         String address = PreferenceData.getAddressValue(getActivity());
-        if (address != null && !address.equals(""))
+        if (address != null && !address.equals("")) {
             connectionObservable = HealthyActivity.install.connectionObservable;
-        bleUtils = new BleUtils();
-        if(connectionObservable!=null)
-            mHandler.post(getTodayStep);
-
+            bleUtils = new BleUtils();
+            getTodayStepPost();
+        }
         return view;
+    }
+
+    public void getTodayStepPost() {
+        if (connectionObservable != null)
+            mHandler.post(getTodayStep);
     }
 
 
@@ -127,6 +131,7 @@ public class StepFragment extends BaseFragment {
     Runnable getTodayStep = new Runnable() {
         @Override
         public void run() {
+            if(connectionObservable!=null&&HealthyActivity.install.isNotify)
             Write(bleUtils.getTodayStep(), connectionObservable);
             mHandler.sendEmptyMessage(1002);
             mHandler.postDelayed(this, 1000);
@@ -142,7 +147,7 @@ public class StepFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        isgetTodayStep=false;
+        isgetTodayStep = false;
     }
 
     public void setStepNum(String num) {

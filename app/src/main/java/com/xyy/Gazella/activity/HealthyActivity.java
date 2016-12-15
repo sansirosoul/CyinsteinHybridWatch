@@ -59,6 +59,7 @@ public class HealthyActivity extends BaseActivity {
 
     public static  Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
+    public  boolean isNotify;
 
 
     @Override
@@ -82,14 +83,16 @@ public class HealthyActivity extends BaseActivity {
     protected void onNotifyReturn(int type) {
         switch (type){
             case 0:
+                isNotify = true;
+                stepFragment.getTodayStepPost();
                 break;
-            case 1:
+            case 1:  // 断开状态
+                isNotify = false;
                 break;
-            case 2:
-
+            case 2:// 重新连接
+                Notify(connectionObservable);
                 break;
         }
-
         super.onNotifyReturn(type);
     }
 
