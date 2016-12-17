@@ -59,6 +59,10 @@ public class BaseFragment extends Fragment {
             //透明导航栏
             getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+
+        String address = PreferenceData.getAddressValue(getActivity());
+        if (address != null && !address.equals(""))
+            bleDevice = GazelleApplication.getRxBleClient(getActivity()).getBleDevice(address);
     }
 
 
@@ -202,4 +206,15 @@ public class BaseFragment extends Fragment {
 
     protected void onReadReturnFailed() {
     }
+
+    protected   boolean getConnectionState(){
+        if(bleDevice.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
+                || bleDevice.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED)
+            return true;
+        else
+            return false;
+    }
+
+
+
 }

@@ -54,7 +54,7 @@ public class StepFragment extends BaseFragment {
     private View view;
     private BleUtils bleUtils;
     private Observable<RxBleConnection> connectionObservable;
-    public boolean isgetTodayStep = true;
+
 
     private Handler mHandler = new Handler() {
         @Override
@@ -80,12 +80,11 @@ public class StepFragment extends BaseFragment {
 
         ButterKnife.bind(this, view);
         initView();
-        String address = PreferenceData.getAddressValue(getActivity());
-        if (address != null && !address.equals("")) {
-            connectionObservable = HealthyActivity.install.connectionObservable;
-            bleUtils = new BleUtils();
+        connectionObservable = HealthyActivity.install.connectionObservable;
+        if (connectionObservable!=null)
             getTodayStepPost();
-        }
+        bleUtils = new BleUtils();
+
         return view;
     }
 
@@ -93,7 +92,10 @@ public class StepFragment extends BaseFragment {
         if (connectionObservable != null)
             mHandler.post(getTodayStep);
     }
-
+    public void removeTodayStepPost() {
+        if (getTodayStep != null)
+            mHandler.removeCallbacks(getTodayStep);
+    }
 
     private void initView() {
         final ViewGroup.LayoutParams params = circle.getLayoutParams();
@@ -131,7 +133,7 @@ public class StepFragment extends BaseFragment {
     Runnable getTodayStep = new Runnable() {
         @Override
         public void run() {
-            if(connectionObservable!=null&&HealthyActivity.install.isNotify)
+            if(connectionObservable!=null)
             Write(bleUtils.getTodayStep(), connectionObservable);
             mHandler.sendEmptyMessage(1002);
             mHandler.postDelayed(this, 1000);
@@ -147,11 +149,16 @@ public class StepFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        isgetTodayStep = false;
     }
 
     public void setStepNum(String num) {
         stepNum.setText(num);
     }
 
+    public void setCalcalNum(String num) {
+        cal.setText(num);
+    }
+    public void setDistanceNum(String num) {
+        distance.setText(num);
+    }
 }

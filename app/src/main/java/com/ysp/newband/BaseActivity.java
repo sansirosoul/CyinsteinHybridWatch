@@ -51,6 +51,7 @@ public class BaseActivity extends FragmentActivity {
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
+    private  RxBleDevice bleDevicme;
 
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
@@ -83,7 +84,9 @@ public class BaseActivity extends FragmentActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         mContext = this;
-        DeviceConnectionStateChanges();
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals(""))
+             bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
     }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
@@ -124,12 +127,10 @@ public class BaseActivity extends FragmentActivity {
                     }
                 });
             }
-
         }
     }
 
     private CommonDialog dialog;
-
     protected void Notify(Observable<RxBleConnection> connectionObservable) {
         dialog = new CommonDialog(this);
         dialog.show();
@@ -215,11 +216,8 @@ public class BaseActivity extends FragmentActivity {
                            if(bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
                                     || bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED){
                                Logger.t(TAG).e("连接 >>>>>>  " + rxBleConnectionState.toString());
-
                            }else {
                                Logger.t(TAG).e("断开 >>>>>>  " + rxBleConnectionState.toString());
-
-
                            }
                         }
                     }, new Action1<Throwable>() {
@@ -229,6 +227,15 @@ public class BaseActivity extends FragmentActivity {
                         }
                     });
         }
+    }
+
+
+    protected   boolean getConnectionState(){
+        if(bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
+                || bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED)
+            return true;
+        else
+            return false;
     }
 
 

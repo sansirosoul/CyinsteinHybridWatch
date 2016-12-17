@@ -24,6 +24,7 @@ import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -101,6 +102,8 @@ public class BleTest extends BaseActivity {
     Button btn24;
     @BindView(R.id.btn25)
     Button btn25;
+    @BindView(R.id.btn26)
+    Button btn26;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
@@ -189,7 +192,7 @@ public class BleTest extends BaseActivity {
     }
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
-            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25})
+            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25,R.id.btn26})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
@@ -268,20 +271,22 @@ public class BleTest extends BaseActivity {
                 break;
             case R.id.btn24:
 
-                int ff = ff = new SomeUtills().getfilelength(BleTest.this, "cyinstein_watch1.txt");
-                Logger.t(TAG).e(String.valueOf(ff));
-                byte[] fff = bleUtils.startOTA(ff);
-
-                Write(bleUtils.startOTA(ff), connectionObservable);
+                String strLength = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watchbin.txt");
+                String[] stringstrLength = strLength.split(" ");
+                Write(bleUtils.startOTA(stringstrLength.length), connectionObservable);
 
                 break;
             case R.id.btn25:
 
-                String str = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
-                String[] strings = str.split(",");
+                String str = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watchbin.txt");
+                String[] strings = str.split(" ");
                 StringBuffer sb = new StringBuffer();
+                StringBuffer newsb = new StringBuffer();
+                StringBuffer Fasb = new StringBuffer();
+                int length = strings.length;
                 int k = 0;
-                boolean isTrue=true;
+                int FaCount = 0;
+                boolean isTrue = true;
                 for (int i = 0; i < strings.length; i++) {
                     String count = strings[i];
                     if (count.startsWith("0x") || count.startsWith("0X"))
@@ -295,6 +300,8 @@ public class BleTest extends BaseActivity {
                         } else {
                             byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
                             Write(Bytes, connectionObservable);
+                            FaCount += Bytes.length;
+                            Fasb.append(sb.toString());
                             sb.setLength(0);
                             sb.append(count);
                             k = 0;
@@ -307,12 +314,33 @@ public class BleTest extends BaseActivity {
                         } else {
                             byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
                             Write(Bytes, connectionObservable);
+                            FaCount += Bytes.length;
+                            Fasb.append(sb.toString());
                             sb.setLength(0);
                             sb.append(count);
                             k = 0;
                         }
                     }
                 }
+                if (FaCount != length) {
+                    String[] newData = Arrays.copyOfRange(strings, FaCount-1, length);
+                    for (int n = 0; n < newData.length; n++) {
+                        String count = newData[n];
+                        if (count.startsWith("0x") || count.startsWith("0X"))
+                            count = count.substring(2);
+                        if (count.startsWith(" 0X") || count.startsWith(" 0x"))
+                            count = count.substring(3);
+                        newsb.append(count);
+                    }
+                    byte[] Bytes = bleUtils.HexString2Bytes(newsb.toString());
+                    Write(Bytes, connectionObservable);
+                    FaCount+=Bytes.length;
+                    Fasb.append(sb.toString());
+                }
+                Logger.t(TAG).e("String总数 >>>>>>>>>   " + String.valueOf(strings.length) + "\n" + "发送总数>>>>    " + String.valueOf(FaCount));
+                break;
+            case R.id.btn26:
+
                 break;
         }
     }
