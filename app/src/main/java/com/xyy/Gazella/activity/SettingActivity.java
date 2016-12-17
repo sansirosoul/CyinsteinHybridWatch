@@ -94,7 +94,6 @@ public class SettingActivity extends BaseActivity {
 
     }
 
-
     private void initView() {
         TVTitle.setText(R.string.setting);
         int state = PreferenceData.getNotificationShakeState(context);
