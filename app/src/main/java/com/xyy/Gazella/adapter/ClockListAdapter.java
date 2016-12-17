@@ -10,12 +10,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.orhanobut.logger.Logger;
+import com.polidea.rxandroidble.RxBleConnection;
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.DelClockDialog;
+import com.xyy.Gazella.utils.HexString;
 import com.xyy.model.Clock;
+import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+
+import static com.ysp.newband.BaseActivity.mContext;
 
 /**
  * Created by Administrator on 2016/10/26.
@@ -24,6 +38,8 @@ import java.util.List;
 public class ClockListAdapter extends BaseAdapter {
     private List<Clock> clocks = new ArrayList<>();
     private Context context;
+    public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+    private Observable<RxBleConnection> connectionObservable;
 
     public ClockListAdapter(Context context,List<Clock> clocks){
         this.context=context;
@@ -62,9 +78,10 @@ public class ClockListAdapter extends BaseAdapter {
         }
 
 
-
+        Clock clock = clocks.get(position);
         v.time.setText(clocks.get(position).getTime());
         v.rate.setText(clocks.get(position).getRate());
+
         if (clocks.get(position).getIsOpen()==0){
             v.time.setTextColor(context.getResources().getColor(R.color.clock_list_gray));
             v.tgBtn.setChecked(false);
@@ -73,13 +90,40 @@ public class ClockListAdapter extends BaseAdapter {
             v.tgBtn.setChecked(true);
         }
 
+        String[] ss = clock.getTime().split(":");
+        String hour=ss[0];
+        String minute=ss[1];
         v.tgBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
+                    String address = PreferenceData.getAddressValue(mContext);
+                    if (address != null && !address.equals("")) {
+                        BleUtils bleUtils = new BleUtils();
+                        connectionObservable = BaseActivity.getRxObservable(context);
+                        if(Clock.transformRate(clock.getRate())!=5){
+                            Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
+                                    Clock.transformSnoozeTime(clock.getSnoozeTime()),Clock.transformRate(clock.getRate()),"00000000",1),connectionObservable);
+                        }else{
+                            Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
+                                    Clock.transformSnoozeTime(clock.getSnoozeTime()),5,clock.getCustom(),1),connectionObservable);
+                        }
+                    }
                     clocks.get(position).setIsOpen(1);
                     v.time.setTextColor(context.getResources().getColor(R.color.white));
                 }else{
+                    String address = PreferenceData.getAddressValue(mContext);
+                    if (address != null && !address.equals("")) {
+                        BleUtils bleUtils = new BleUtils();
+                        connectionObservable = BaseActivity.getRxObservable(context);
+                        if(Clock.transformRate(clock.getRate())!=5){
+                            Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
+                                    Clock.transformSnoozeTime(clock.getSnoozeTime()),Clock.transformRate(clock.getRate()),"00000000",0),connectionObservable);
+                        }else{
+                            Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
+                                    Clock.transformSnoozeTime(clock.getSnoozeTime()),5,clock.getCustom(),0),connectionObservable);
+                        }
+                    }
                     clocks.get(position).setIsOpen(0);
                     v.time.setTextColor(context.getResources().getColor(R.color.clock_list_gray));
                 }
@@ -89,6 +133,13 @@ public class ClockListAdapter extends BaseAdapter {
         final DelClockDialog.OnClickListener onClickListener = new DelClockDialog.OnClickListener() {
             @Override
             public void isDel() {
+                String address = PreferenceData.getAddressValue(mContext);
+                if (address != null && !address.equals("")) {
+                    BleUtils bleUtils = new BleUtils();
+                    connectionObservable = BaseActivity.getRxObservable(context);
+                    Write(bleUtils.setWatchAlarm(0,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
+                            Clock.transformSnoozeTime(clock.getSnoozeTime()),Clock.transformRate(clock.getRate()),"00000000",0),connectionObservable);
+                }
                 clocks.remove(position);
                 notifyDataSetChanged();
             }
@@ -110,5 +161,75 @@ public class ClockListAdapter extends BaseAdapter {
         TextView time,rate;
         RelativeLayout del;
         ToggleButton tgBtn;
+    }
+
+    private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
+        return connectionObservable
+                .flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
+                    @Override
+                    public Observable<byte[]> call(RxBleConnection rxBleConnection) {
+                        return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
+                    }
+                });
+
+    }
+
+    protected void Write(byte[] bytes, Observable<RxBleConnection> connectionObservable) {
+        WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<byte[]>() {
+                    @Override
+                    public void call(byte[] bytes) {
+                        Logger.t("TAG").e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Logger.t("TAG").e("写入数据失败  >>>>>>   " + throwable.toString());
+                    }
+                });
+
+
+//        connectionObservable
+//                .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
+//                    @Override
+//                    public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
+//                        return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
+//                    }
+//                }).doOnNext(new Action1<Observable<byte[]>>() {
+//            @Override
+//            public void call(Observable<byte[]> observable) {
+//                Logger.t(TAG).e("开始接收通知  >>>>>>  ");
+//
+//                WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe(new Action1<byte[]>() {
+//                            @Override
+//                            public void call(byte[] bytes) {
+//                                Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
+//                                onWriteReturn(type,bytes);
+//                            }
+//                        }, new Action1<Throwable>() {
+//                            @Override
+//                            public void call(Throwable throwable) {
+//                                Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
+//                            }
+//                        });
+//            }
+//        }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
+//            @Override
+//            public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
+//                return notificationObservable;
+//            }
+//        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
+//            @Override
+//            public void call(byte[] bytes) {
+//                Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
+//                onReadReturn(type, bytes);
+//            }
+//        }, new Action1<Throwable>() {
+//            @Override
+//            public void call(Throwable throwable) {
+//                Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
+//            }
+//        });
     }
 }

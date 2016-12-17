@@ -10,9 +10,18 @@ public class Clock {
     public String rate;
     public int isOpen;//闹钟是否开启 0否 1是
     public String SnoozeTime;
+    public String custom;//自定义byte字符串
 
     public int getId() {
         return id;
+    }
+
+    public String getCustom() {
+        return custom;
+    }
+
+    public void setCustom(String custom) {
+        this.custom = custom;
     }
 
     public void setId(int id) {
@@ -77,7 +86,7 @@ public class Clock {
     }
 
     public static int transformRate(String s) {
-        int i = 0;
+        int i = 5;
         if (s.equals("只响一次")) i = 1;
         if (s.equals("每天")) i = 2;
         if (s.equals("周一到周五")) i = 3;
@@ -93,4 +102,28 @@ public class Clock {
         if (i == 4) s = "周六、周日";
         return s;
     }
+
+    public static String transformCustom(String bytestr){
+        StringBuilder stringBuilder = new StringBuilder("周");
+        for (int i=0;i<bytestr.length();i++){
+            String s = bytestr.substring(i,i+1);
+            if(i==0){
+                if(s.equals("1"))stringBuilder.append(" 一");
+            }else if(i==1){
+                if(s.equals("1"))stringBuilder.append(" 二");
+            }else if(i==2){
+                if(s.equals("1"))stringBuilder.append(" 三");
+            }else if(i==3){
+                if(s.equals("1"))stringBuilder.append(" 四");
+            }else if(i==4){
+                if(s.equals("1"))stringBuilder.append(" 五");
+            }else if(i==5){
+                if(s.equals("1"))stringBuilder.append(" 六");
+            }else if(i==6){
+                if(s.equals("1"))stringBuilder.append(" 日");
+            }
+        }
+        return stringBuilder.toString();
+    }
+
 }

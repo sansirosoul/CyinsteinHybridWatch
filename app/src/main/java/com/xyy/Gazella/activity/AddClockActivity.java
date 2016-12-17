@@ -56,6 +56,7 @@ public class AddClockActivity extends BaseActivity {
     private int id;
     private BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
+    private String bytestr;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -135,8 +136,12 @@ public class AddClockActivity extends BaseActivity {
         onClickListener2 = new ClockDialog2.OnClickListener() {
             @Override
             public void onClick(String text) {
-                tvRepeatrate.setText(text);
-
+                if(Clock.transformRate(text)!=5){
+                    tvRepeatrate.setText(text);
+                }else{
+                    tvRepeatrate.setText(Clock.transformCustom(text));
+                    bytestr=text;
+                }
             }
         };
     }
@@ -149,9 +154,16 @@ public class AddClockActivity extends BaseActivity {
                 overridePendingTransitionExit(AddClockActivity.this);
                 break;
             case R.id.save:
-                Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
-                        Clock.transformSnoozeTime(tvRingtime.getText().toString()),
-                        Clock.transformRate(tvRepeatrate.getText().toString()), "",1),connectionObservable);
+                if(Clock.transformRate(tvRepeatrate.getText().toString())!=5){
+                    Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                            Clock.transformSnoozeTime(tvRingtime.getText().toString()),
+                            Clock.transformRate(tvRepeatrate.getText().toString()), "00000000",1),connectionObservable);
+                }else{
+                    System.out.println(bytestr);
+                    Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                            Clock.transformSnoozeTime(tvRingtime.getText().toString()),
+                            5, bytestr,1),connectionObservable);
+                }
                 Intent intent = new Intent();
                 intent.putExtra("time",hour+":"+minute);
                 intent.putExtra("snooze",tvRingtime.getText().toString());

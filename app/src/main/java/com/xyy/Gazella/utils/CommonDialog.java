@@ -40,7 +40,7 @@ public class CommonDialog extends Dialog {
         tvContext = (TextView) findViewById(R.id.tv_context);
         butOk = (Button) findViewById(R.id.but_ok);
         butOk.setOnClickListener(new onButListener());
-        setDialogAttributes((Activity) context, this, 0, 0, Gravity.CENTER);
+        setDialogAttributes((Activity) context, this, 0.5f, 0, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
     }
 

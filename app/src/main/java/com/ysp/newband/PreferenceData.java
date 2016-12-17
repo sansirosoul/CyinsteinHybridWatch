@@ -32,8 +32,10 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_DEVICE_SN_VALUE = "SAVE_DEVICE_SN_VALUE";
     public static final String SAVE_DEVICE_FWV_VALUE = "SAVE_DEVICE_FWV_VALUE";
 
+    public static final String SAVE_NOTIFICATION_SHAKE_STATE="SAVE_NOTIFICATION_SHAKE_STATE";
     public static final String SAVE_NOTIFICATION_STATE="SAVE_NOTIFICATION_STATE";
     public static final String SAVE_NOTIFICATION_PHONE_STATE="SAVE_NOTIFICATION_PHONE_STATE";
+
 
 
     public static void clearAllSharePreferences(Context context) {
@@ -288,5 +290,20 @@ public class PreferenceData implements Serializable{
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(SAVE_NOTIFICATION_PHONE_STATE,0);
+    }
+
+    //保存消息提醒震动状态   0关  1开
+    public static void setNotificationShakeState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_SHAKE_STATE,state).commit();
+    }
+
+    //获取消息提醒震动状态
+    public static int getNotificationShakeState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_SHAKE_STATE,0);
     }
 }

@@ -14,7 +14,7 @@
         android:gravity="center"
         android:textColor="@color/black" />
     <TextView
-        android:id="@+id/notifytext"
+        android:id="@+id/notify"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -22,7 +22,7 @@
         android:gravity="center"
         android:textColor="@color/black" />
     <TextView
-        android:id="@+id/notifytext2"
+        android:id="@+id/notify2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
@@ -230,6 +230,17 @@
                 android:layout_height="50dp"
                 android:text="发送升级包" />
 
+            <Button
+                android:id="@+id/btn26"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="获取设备型号名称" />
+
+            <Button
+                android:id="@+id/btn27"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="获取生产序号" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

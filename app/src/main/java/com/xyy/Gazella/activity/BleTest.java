@@ -27,6 +27,7 @@ import com.ysp.smartwatch.R;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -90,7 +91,7 @@ public class BleTest extends BaseActivity {
     Button btn22;
     @BindView(R.id.btn23)
     Button btn23;
-    @BindView(R.id.notifytext)
+    @BindView(R.id.notify)
     TextView notify;
     @BindView(R.id.forward)
     RadioButton forward;
@@ -104,6 +105,12 @@ public class BleTest extends BaseActivity {
     Button btn24;
     @BindView(R.id.btn25)
     Button btn25;
+    @BindView(R.id.notify2)
+    TextView notify2;
+    @BindView(R.id.btn26)
+    Button btn26;
+    @BindView(R.id.btn27)
+    Button btn27;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
@@ -165,9 +172,12 @@ public class BleTest extends BaseActivity {
         }
     };
 
+    ArrayList<StepData> list = new ArrayList<>();
+
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
+        notify2.setText(new String(bytes));
         if (bleUtils.returnTodayStep(bytes) != null) {
             StepData data = bleUtils.returnTodayStep(bytes);
             notify.setText(data.getYear() + "-" + data.getMonth() + "-" + data.getDay() + "步数" + data.getStep());
@@ -179,27 +189,31 @@ public class BleTest extends BaseActivity {
             notify.setText(bleUtils.returnBatteryValue(bytes) + "%");
         } else {
             notify.setText(HexString.bytesToHex(bytes));
+            if (bleUtils.returnStepData(bytes).size() != 0) {
+                list.addAll(bleUtils.returnStepData(bytes));
+            }
         }
+
     }
 
     @Override
     protected void onWriteReturn(byte[] bytes) {
         super.onWriteReturn(bytes);
-
-
         write.setText(HexString.bytesToHex(bytes));
         notify.setText("");
+        notify2.setText("");
     }
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
-            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25})
+            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25,
+             R.id.btn26,R.id.btn27})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
                 Write(bleUtils.getDeviceSN(), connectionObservable);
                 break;
             case R.id.btn2:
-                Write(bleUtils.sendMessage(1, 0, 0, 0, 0, 0), connectionObservable);
+                Write(bleUtils.sendMessage(1, 1, 0, 0, 0, 1), connectionObservable);
                 break;
             case R.id.btn3:
                 Calendar calendar = Calendar.getInstance();
@@ -210,7 +224,7 @@ public class BleTest extends BaseActivity {
                         calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND)), connectionObservable);
                 break;
             case R.id.btn4:
-                Write(bleUtils.setWatchAlarm(1, 0, 12, 0, 1, 1, "", 1), connectionObservable);
+                Write(bleUtils.setWatchAlarm(1, 0, 12, 0, 0, 1, "00000000", 1), connectionObservable);
                 break;
             case R.id.btn5:
                 Write(bleUtils.getFWVer(), connectionObservable);
@@ -258,6 +272,10 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.getStepData(1), connectionObservable);
                 break;
             case R.id.btn20:
+//                System.out.println(list.size()+"==========");
+//                for (int i=0;i<list.size();i++){
+//                    System.out.println(list.get(i).getDay()+"-"+list.get(i).getTime()+"-"+list.get(i).getStep());
+//                }
                 Write(bleUtils.setWatchShake(1, 0, 0), connectionObservable);
                 break;
             case R.id.btn21:
@@ -273,14 +291,14 @@ public class BleTest extends BaseActivity {
 
                 int ff = ff = new SomeUtills().getfilelength(BleTest.this, "cyinstein_watch1.txt");
                 Logger.t(TAG).e(String.valueOf(ff));
-                byte [] fff= bleUtils.startOTA(ff);
+                byte[] fff = bleUtils.startOTA(ff);
 
                 Write(bleUtils.startOTA(ff), connectionObservable);
 
                 break;
             case R.id.btn25:
 
-                 new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
+                new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
 
                 File file = new File(Environment.getExternalStorageDirectory() + "/" + "cyinstein_watch1.txt");
                 byte[] buffer = new byte[20];
@@ -296,7 +314,6 @@ public class BleTest extends BaseActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
 
 
 //
@@ -317,6 +334,12 @@ public class BleTest extends BaseActivity {
 //                    aa = bb.substring(n, k);
 //                    Write(hexToBytes(aa), connectionObservable);
 //                }
+                break;
+            case R.id.btn26:
+                Write(bleUtils.getDeviceType(),connectionObservable);
+                break;
+            case R.id.btn27:
+                Write(bleUtils.getDevicePN(),connectionObservable);
                 break;
         }
     }

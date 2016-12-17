@@ -95,15 +95,15 @@ public class UserSetting extends BaseActivity {
             edName.setText(user.getName());
             edName.setSelection(user.getName().length());
         }
-        if (!user.getBirthday().equals(getResources().getString(R.string.choose_birth))) {
+        if (!user.getBirthday().equals(getResources().getString(R.string.choose_birth))&&user.getBirthday() != null && !user.getBirthday().equals("")) {
             tvBirth.setText(user.getBirthday());
             tvBirth.setTextColor(context.getResources().getColor(R.color.white));
         }
-        if (!user.getHeight().equals(getResources().getString(R.string.choose_height))) {
+        if (!user.getHeight().equals(getResources().getString(R.string.choose_height))&&user.getHeight() != null && !user.getHeight().equals("")) {
             tvHeight.setText(user.getHeight());
             tvHeight.setTextColor(context.getResources().getColor(R.color.white));
         }
-        if (!user.getWeight().equals(getResources().getString(R.string.choose_weight))) {
+        if (!user.getWeight().equals(getResources().getString(R.string.choose_weight))&&user.getWeight() != null && !user.getWeight().equals("")) {
             tvWeight.setText(user.getWeight());
             tvWeight.setTextColor(context.getResources().getColor(R.color.white));
         }
