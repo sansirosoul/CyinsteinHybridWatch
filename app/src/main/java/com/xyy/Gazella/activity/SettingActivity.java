@@ -78,7 +78,6 @@ public class SettingActivity extends BaseActivity {
         initBle();
     }
 
-
     private void initBle() {
         String address = PreferenceData.getAddressValue(context);
         if (address != null && !address.equals("")) {
