@@ -110,10 +110,11 @@ public class TimeSynchronization extends BaseActivity {
         setContentView(R.layout.activity_time_synchronization);
         ButterKnife.bind(this);
         String address = PreferenceData.getAddressValue(this);
-        if (address != null && !address.equals(""))
+        if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
-        bleUtils = new BleUtils();
-        Notify(connectionObservable);
+            bleUtils = new BleUtils();
+            Notify(connectionObservable);
+        }
         InitView();
         InitViewPager();
         install = this;
@@ -126,6 +127,7 @@ public class TimeSynchronization extends BaseActivity {
         switch (type) {
             case 0:
                 isNotify = true;
+                btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
                 break;
             case 1:
                 isNotify = false;
@@ -300,6 +302,11 @@ public class TimeSynchronization extends BaseActivity {
                 overridePendingTransitionExit(TimeSynchronization.this);
                 break;
             case R.id.btnOpt:
+                if(!isNotify&&connectionObservable!=null){
+                    Notify(connectionObservable);
+                }
+
+
                 break;
             case R.id.TVTitle:
                 break;
@@ -545,8 +552,8 @@ public class TimeSynchronization extends BaseActivity {
         month = mCalendar.month;
         mday = mCalendar.monthDay;
 
-//        if (hour > 12)
-//            hour = hour - 12;
+        if (hour > 12)
+            hour = hour - 12;
         float mHour = hour + minute / 60.0f + minute / 360.0f;
 //        mMinutes = minute + second / 60.0f;
         String dou = String.valueOf(mHour);
