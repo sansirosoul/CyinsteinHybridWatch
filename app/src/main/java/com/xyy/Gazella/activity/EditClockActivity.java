@@ -49,15 +49,15 @@ public class EditClockActivity extends BaseActivity {
     @BindView(R.id.pv_minute)
     PickerViewMinute pvMinute;
     private Context context;
-    private String hour="12";
-    private String minute="30";
+    private String hour = "12";
+    private String minute = "30";
     private int isOpen = 0;
     private int id;
     private BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
     private ClockDialog1.OnClickListener onClickListener1;
     private ClockDialog2.OnClickListener onClickListener2;
-
+    private String bytestr;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -74,8 +74,8 @@ public class EditClockActivity extends BaseActivity {
     }
 
     private void initView() {
-        tvRingtime= (TextView) findViewById(R.id.tv_ringtime);
-        tvRepeatrate= (TextView) findViewById(R.id.tv_repeatrate);
+        tvRingtime = (TextView) findViewById(R.id.tv_ringtime);
+        tvRepeatrate = (TextView) findViewById(R.id.tv_repeatrate);
 
 
         List<String> hours = new ArrayList<>();
@@ -99,20 +99,21 @@ public class EditClockActivity extends BaseActivity {
         pvHour.setData(hours);
         pvMinute.setData(minutes);
 
-        id=getIntent().getIntExtra("id",-1);
+        id = getIntent().getIntExtra("id", -1);
         tvRingtime.setText(getIntent().getStringExtra("snooze"));
         tvRepeatrate.setText(getIntent().getStringExtra("rate"));
-        isOpen=getIntent().getIntExtra("isOpen",-1);
+        bytestr=getIntent().getStringExtra("custom");
+        isOpen = getIntent().getIntExtra("isOpen", -1);
         String[] ss = getIntent().getStringExtra("time").split(":");
-        hour=ss[0];
-        minute=ss[1];
+        hour = ss[0];
+        minute = ss[1];
         pvHour.setSelected(hour);
         pvMinute.setSelected(minute);
 
         pvHour.setOnSelectListener(new PickerViewHour.onSelectListener() {
             @Override
             public void onSelect(String text) {
-                 hour=text;
+                hour = text;
             }
         });
         pvHour.setOnScrollListener(new PickerViewHour.onScrollListener() {
@@ -125,7 +126,7 @@ public class EditClockActivity extends BaseActivity {
         pvMinute.setOnSelectListener(new PickerViewMinute.onSelectListener() {
             @Override
             public void onSelect(String text) {
-                  minute=text;
+                minute = text;
             }
         });
         pvMinute.setOnScrollListener(new PickerViewMinute.onScrollListener() {
@@ -145,11 +146,15 @@ public class EditClockActivity extends BaseActivity {
         onClickListener2 = new ClockDialog2.OnClickListener() {
             @Override
             public void onClick(String text) {
-                tvRepeatrate.setText(text);
+                if(Clock.transformRate(text)!=5){
+                    tvRepeatrate.setText(text);
+                }else{
+                    tvRepeatrate.setText(Clock.transformCustom(text));
+                    bytestr=text;
+                }
             }
         };
     }
-
 
 
     @OnClick({R.id.cancel, R.id.save, R.id.del_clock, R.id.rl_ringtime, R.id.rl_repeatrate})
@@ -160,33 +165,42 @@ public class EditClockActivity extends BaseActivity {
                 overridePendingTransitionExit(EditClockActivity.this);
                 break;
             case R.id.save:
-                Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
-                        Clock.transformSnoozeTime(tvRingtime.getText().toString()),
-                        Clock.transformRate(tvRepeatrate.getText().toString()), "",1),connectionObservable);
+                if (Clock.transformRate(tvRepeatrate.getText().toString()) != 5) {
+                    Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                            Clock.transformSnoozeTime(tvRingtime.getText().toString()),
+                            Clock.transformRate(tvRepeatrate.getText().toString()), "00000000",1),connectionObservable);
+                } else {
+                        Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                                Clock.transformSnoozeTime(tvRingtime.getText().toString()),
+                                5, bytestr,1),connectionObservable);
+                }
                 Intent intent = new Intent();
-                intent.putExtra("time",hour+":"+minute);
-                intent.putExtra("snooze",tvRingtime.getText().toString());
-                intent.putExtra("rate",tvRepeatrate.getText().toString());
-                intent.putExtra("isOpen",isOpen);
-                intent.putExtra("result","edit");
-                setResult(1,intent);
+                intent.putExtra("time", hour + ":" + minute);
+                intent.putExtra("snooze", tvRingtime.getText().toString());
+                intent.putExtra("rate", tvRepeatrate.getText().toString());
+                intent.putExtra("isOpen", isOpen);
+                intent.putExtra("result", "edit");
+                setResult(1, intent);
                 finish();
                 overridePendingTransitionEnter(EditClockActivity.this);
                 break;
             case R.id.del_clock:
+                Write(bleUtils.setWatchAlarm(0, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                        Clock.transformSnoozeTime(tvRingtime.getText().toString()),
+                        Clock.transformRate(tvRepeatrate.getText().toString()), "00000000", isOpen), connectionObservable);
                 Intent delIntent = new Intent();
-                delIntent.putExtra("result","del");
-                setResult(1,delIntent);
+                delIntent.putExtra("result", "del");
+                setResult(1, delIntent);
                 finish();
                 overridePendingTransitionEnter(EditClockActivity.this);
                 break;
             case R.id.rl_ringtime:
-                ClockDialog1 clockDialog1 = new ClockDialog1(context,tvRingtime.getText().toString());
+                ClockDialog1 clockDialog1 = new ClockDialog1(context, tvRingtime.getText().toString());
                 clockDialog1.setOnClickListener(onClickListener1);
                 clockDialog1.show();
                 break;
             case R.id.rl_repeatrate:
-                ClockDialog2 clockDialog2 = new ClockDialog2(context,tvRepeatrate.getText().toString());
+                ClockDialog2 clockDialog2 = new ClockDialog2(context, tvRepeatrate.getText().toString());
                 clockDialog2.setOnClickListener(onClickListener2);
                 clockDialog2.show();
                 break;

@@ -34,28 +34,28 @@ public class PhoneStatReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        this.mContext=context;
-        if(intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)){
+        this.mContext = context;
+        if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
             //如果是去电（拨出）
             System.out.println("拨出");
 
-        } else{
+        } else {
             //查了下android文档，貌似没有专门用于接收来电的action,所以，非去电即来电
             System.out.println("来电");
-            TelephonyManager tm = (TelephonyManager)context.getSystemService(Service.TELEPHONY_SERVICE);
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
             tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
             //设置一个监听器
         }
     }
 
-    PhoneStateListener listener=new PhoneStateListener(){
+    PhoneStateListener listener = new PhoneStateListener() {
 
         @Override
         public void onCallStateChanged(int state, String incomingNumber) {
             // TODO Auto-generated method stub
             //state 当前状态 incomingNumber,貌似没有去电的API
             super.onCallStateChanged(state, incomingNumber);
-            switch(state){
+            switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
                     System.out.println("挂断");
                     break;
@@ -63,15 +63,16 @@ public class PhoneStatReceiver extends BroadcastReceiver {
                     System.out.println("接听");
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
-                    System.out.println("响铃:来电号码"+incomingNumber);
+                    System.out.println("响铃:来电号码" + incomingNumber);
                     //输出来电号码
                     String address = PreferenceData.getAddressValue(mContext);
                     if (address != null && !address.equals("")) {
                         BleUtils bleUtils = new BleUtils();
                         connectionObservable = BaseActivity.getRxObservable(mContext);
                         int pstate = PreferenceData.getNotificationPhoneState(mContext);
-                        if(pstate==1){
-                            Write(bleUtils.sendMessage(1,pstate,0,0,0,0),connectionObservable);
+                        int shake = PreferenceData.getNotificationShakeState(mContext);
+                        if (pstate == 1) {
+                                Write(bleUtils.sendMessage(1, pstate, 0, 0, 0, shake), connectionObservable);
                         }
                     }
                     break;
@@ -90,7 +91,7 @@ public class PhoneStatReceiver extends BroadcastReceiver {
 
     }
 
-    protected void Write( byte[] bytes, Observable<RxBleConnection> connectionObservable) {
+    protected void Write(byte[] bytes, Observable<RxBleConnection> connectionObservable) {
         WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<byte[]>() {
                     @Override

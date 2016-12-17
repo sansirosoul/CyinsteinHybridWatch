@@ -1,11 +1,10 @@
 package com.xyy.Gazella.utils;
 
+import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
 import com.polidea.rxandroidble.RxBleClient;
@@ -13,7 +12,6 @@ import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.services.DfuService;
 import com.xyy.Gazella.view.NumberProgressBar;
 import com.ysp.newband.BaseActivity;
-import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
@@ -35,22 +33,6 @@ public class CheckUpdateDialog3 extends BaseActivity {
     private RxBleClient rxBleClient;
     private Subscription scanSubscription;
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1001:
-                    if (numberbar.getProgress() == 100) {
-                        numberbar.setProgress(0);
-
-                    } else {
-                        numberbar.incrementProgressBy(1);
-                    }
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onResume() {
@@ -64,27 +46,39 @@ public class CheckUpdateDialog3 extends BaseActivity {
         DfuServiceListenerHelper.unregisterProgressListener(context, mDfuProgressListener);
     }
 
+    private void scanDevices(){
+        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        bluetoothAdapter.startLeScan(new BluetoothAdapter.LeScanCallback() {
+            @Override
+            public void onLeScan(BluetoothDevice bluetoothDevice, int i, byte[] bytes) {
+                if (bluetoothDevice.getName().equals("DfuTarg")) {
+                    bluetoothAdapter.stopLeScan(this);
+                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00048).start(context, DfuService.class);
+                }
+            }
+        });
+    }
+
     @Override
     protected void onWriteReturn(byte[] bytes) {
         super.onWriteReturn(bytes);
-
-        rxBleClient = GazelleApplication.getRxBleClient(this);
-        scanSubscription = rxBleClient.scanBleDevices()
-                .subscribe(
-                        rxBleScanResult -> {
-                            // Process scan result here.
-                            BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
-                            if (bluetoothDevice.getName().equals("DfuTarg")) {
-                                scanSubscription.unsubscribe();
-                                new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00048).start(context, DfuService.class);
-                            }
-                        },
-                        throwable -> {
-                            // Handle an error here.
-                            Log.d("==========", "Scan error :" + throwable);
-                        }
-                );
-
+             scanDevices();
+//        rxBleClient = GazelleApplication.getRxBleClient(this);
+//        scanSubscription = rxBleClient.scanBleDevices()
+//                .subscribe(
+//                        rxBleScanResult -> {
+//                            // Process scan result here.
+//                            BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
+//                            if (bluetoothDevice.getName().equals("DfuTarg")) {
+//                                scanSubscription.unsubscribe();
+//                                new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00048).start(context, DfuService.class);
+//                            }
+//                        },
+//                        throwable -> {
+//                            // Handle an error here.
+//                            Log.d("OTA========", "Scan error :" + throwable);
+//                        }
+//                );
     }
 
     @Override
@@ -100,41 +94,32 @@ public class CheckUpdateDialog3 extends BaseActivity {
             Write(bleUtils.startDfu(), connectionObservable);
         }
         numberbar = (NumberProgressBar) findViewById(R.id.numberbar);
-//        mHandler.post(runnable);
     }
-
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            mHandler.sendEmptyMessage(1001);
-            mHandler.postDelayed(this, 100);
-        }
-    };
 
     private DfuProgressListener mDfuProgressListener = new DfuProgressListener() {
         @Override
         public void onDeviceConnecting(String deviceAddress) {
-
+            Log.d("OTA","----------onDeviceConnecting------------");
         }
 
         @Override
         public void onDeviceConnected(String deviceAddress) {
-
+            Log.d("OTA","----------onDeviceConnected------------");
         }
 
         @Override
         public void onDfuProcessStarting(String deviceAddress) {
-
+            Log.d("OTA","----------onDfuProcessStarting------------");
         }
 
         @Override
         public void onDfuProcessStarted(String deviceAddress) {
-
+            Log.d("OTA","----------onDfuProcessStarted------------");
         }
 
         @Override
         public void onEnablingDfuMode(String deviceAddress) {
-
+            Log.d("OTA","----------onEnablingDfuMode------------");
         }
 
         @Override
@@ -144,21 +129,22 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onFirmwareValidating(String deviceAddress) {
-
+            Log.d("OTA","----------onFirmwareValidating------------");
         }
 
         @Override
         public void onDeviceDisconnecting(String deviceAddress) {
-
+            Log.d("OTA","----------onDeviceDisconnecting------------");
         }
 
         @Override
         public void onDeviceDisconnected(String deviceAddress) {
-
+            Log.d("OTA","----------onDeviceDisconnected------------");
         }
 
         @Override
         public void onDfuCompleted(String deviceAddress) {
+            cleanObservable();
             Intent intent = new Intent(context, CheckUpdateDialog4.class);
             startActivity(intent);
             finish();
@@ -166,12 +152,14 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onDfuAborted(String deviceAddress) {
+            cleanObservable();
             showToatst(context,"固件升级失败，请重新升级！");
             finish();
         }
 
         @Override
         public void onError(String deviceAddress, int error, int errorType, String message) {
+            cleanObservable();
             showToatst(context,"固件升级失败，请重新升级！");
             finish();
         }

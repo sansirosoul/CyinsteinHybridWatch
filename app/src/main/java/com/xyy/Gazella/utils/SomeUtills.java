@@ -20,6 +20,7 @@ import com.ysp.smartwatch.R;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -381,64 +382,80 @@ public class SomeUtills {
         return fff;
     }
 
-    public String getFromAssets(Context context,String fileName) {
-        String result = "";
+//    public String getFromAssets(Context context,String fileName) {
+//        String result = "";
+//        try {
+//            InputStreamReader inputReader = new InputStreamReader(context.getResources().getAssets().open(fileName) );
+//            BufferedReader bufReader = new BufferedReader(inputReader);
+//            String line="";
+//            String Result="";
+//            while((line = bufReader.readLine()) != null)
+//                Result += line;
+//            return Result;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
+
+    public void getFromAssets(Context context, String fileName) {
+        InputStream in = null;
         try {
-            InputStreamReader inputReader = new InputStreamReader(context.getResources().getAssets().open(fileName) );
-            BufferedReader bufReader = new BufferedReader(inputReader);
-            String line="";
-            String Result="";
-            while((line = bufReader.readLine()) != null)
-                Result += line;
-            return Result;
+            in = context.getAssets().open(fileName);
+            FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" +fileName));
+            byte[] buffer = new byte[1024];
+            int count = 0;
+            while (true) {
+                count++;
+                int len = in.read(buffer);
+                if (len == -1) {
+                    break;
+                }
+                fos.write(buffer, 0, len);
+            }
+            in.close();
+            fos.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
     }
 
-//    public void getFromAssets(Context context, String fileName) {
-//        InputStream in = null;
-//        try {
-//            in = context.getAssets().open(fileName);
-//            FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" +fileName));
-//            byte[] buffer = new byte[1024];
-//            int count = 0;
-//            while (true) {
-//                count++;
-//                int len = in.read(buffer);
-//                if (len == -1) {
-//                    break;
-//                }
-//                fos.write(buffer, 0, len);
-//            }
-//            in.close();
-//            fos.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public  byte[]  setFromAssets(Context context, String fileName) {
-//        getFromAssets(context, fileName);
-//        File file = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
-//        byte[] buffer = new byte[20];
-//        try {
-//            FileInputStream fileR = new FileInputStream(file);
-//            BufferedReader reads = new BufferedReader(new InputStreamReader(fileR));
-//
-//            while (true) {
-//                int len = fileR.read(buffer);
-//
-//                if (len == -1) {
-//                    break;
-//                }
-//                return  buffer;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return  buffer;
-//    }
+    public  byte[]  setFromAssets(Context context, String fileName) {
+        getFromAssets(context, fileName);
+        File file = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
+        byte[] buffer = new byte[20];
+        try {
+            FileInputStream fileR = new FileInputStream(file);
+            BufferedReader reads = new BufferedReader(new InputStreamReader(fileR));
+
+            while (true) {
+                int len = fileR.read(buffer);
+
+                if (len == -1) {
+                    break;
+                }
+                return  buffer;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  buffer;
+    }
+
+    /**
+     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
 }
 

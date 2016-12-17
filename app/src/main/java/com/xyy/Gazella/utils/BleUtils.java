@@ -148,7 +148,7 @@ public class BleUtils {
         isOpen     是否开启闹铃   0=不开启，1=开启闹铃
         */
     public byte[] setWatchAlarm(int mode, int id, int hour, int minute, int snoozeTime, int ringMode, String byteStr, int isOpen) {
-        value = new byte[14];
+        value = new byte[15];
         ck_a = 0;
         ck_b = 0;
 
@@ -158,7 +158,7 @@ public class BleUtils {
         value[2] = 0x07;
         value[3] = 0x04;
 
-        value[4] = 0x07;
+        value[4] = 0x08;
 
         value[5] = (byte) mode;
         value[6] = (byte) id;
@@ -338,6 +338,43 @@ public class BleUtils {
         return value;
     }
 
+    //获取设备型号名称
+    public byte[] getDeviceType() {
+        value = new byte[7];
+        ck_a = 0;
+        ck_b = 0;
+
+        value[0] = 0x48;
+        value[1] = 0x59;
+
+        value[2] = 0x07;
+        value[3] = 0x0A;
+
+        value[4] = 0x00;
+
+        for (int i = 2; i < 5; i++) {
+            ck_a = (byte) (ck_a + value[i]);
+            ck_b = (byte) (ck_b + ck_a);
+        }
+        value[5] = ck_a;
+        value[6] = ck_b;
+
+        return value;
+    }
+
+    //返回设备型号名称
+    public String returnDeviceType(byte[] bytes) {
+        String deviceType = null;
+        if (bytes[0] == 0x07 && bytes[1] == 0x0A) {
+            byte[] bytes1 = new byte[6];
+            for (int i = 0; i < bytes1.length; i++) {
+                bytes1[i] = bytes[2 + i];
+                deviceType = new String(bytes1);
+            }
+        }
+        return deviceType;
+    }
+
     //获取当天总计步值
     public byte[] getTodayStep() {
         value = new byte[7];
@@ -408,13 +445,20 @@ public class BleUtils {
     public ArrayList<SleepData> returnSleepData(byte[] bytes) {
         ArrayList<SleepData> list = new ArrayList<>();
         if (bytes[0] == 0x07 && bytes[1] == 0x0D) {
-            for (int i = 1; i < 6; i++) {
-                SleepData data = new SleepData();
-                data.setDate(bytes[3 * i + 1] & 0xFF);
-                data.setTime(bytes[3 * i + 2] & 0xFF);
-                data.setStatus(bytes[3 * i + 3] & 0xFF);
-                list.add(data);
+            if(bytes[2]!=0){
+                for (int i = 1; i < 6; i++) {
+                    SleepData data = new SleepData();
+                    data.setDate(bytes[4 * i] & 0xFF);
+                    data.setTime(bytes[4 * i + 1] & 0xFF);
+                    data.setStatus(bytes[4 * i + 2] & 0xFF);
+                    data.setQuality(bytes[4 * i + 3] & 0xFF);
+                    list.add(data);
+                }
+            }else{
+                return null;
             }
+        }else{
+            return null;
         }
         return list;
     }
@@ -441,6 +485,43 @@ public class BleUtils {
         value[6] = ck_b;
 
         return value;
+    }
+
+    //获取生产序号
+    public byte[] getDevicePN() {
+        value = new byte[7];
+        ck_a = 0;
+        ck_b = 0;
+
+        value[0] = 0x48;
+        value[1] = 0x59;
+
+        value[2] = 0x07;
+        value[3] = 0x11;
+
+        value[4] = 0x00;
+
+        for (int i = 2; i < 5; i++) {
+            ck_a = (byte) (ck_a + value[i]);
+            ck_b = (byte) (ck_b + ck_a);
+        }
+        value[5] = ck_a;
+        value[6] = ck_b;
+
+        return value;
+    }
+
+    //返回生产序号
+    public String returnDevicePN(byte[] bytes) {
+        String deviceSN = null;
+        if (bytes[0] == 0x07 && bytes[1] == 0x11) {
+            byte[] bytes1 = new byte[16];
+            for (int i = 0; i < bytes1.length; i++) {
+                bytes1[i] = bytes[2 + i];
+                deviceSN = new String(bytes1);
+            }
+        }
+        return deviceSN;
     }
 
     //获取手表电量
@@ -666,15 +747,20 @@ public class BleUtils {
     public ArrayList<StepData> returnStepData(byte[] bytes) {
         ArrayList<StepData> list = new ArrayList<>();
         if (bytes[0] == 0x07 & bytes[1] == 0x24) {
-            for (int i = 1; i < 5; i++) {
-                StepData data = new StepData();
-                data.setDay(bytes[4 * i] & 0xFF);
-                data.setTime(bytes[4 * i + 1] & 0xFF);
-                data.setStep(bytes[4 * i + 2] & 0xFF + (bytes[4 * i + 3] & 0xFF) << 8);
-                list.add(data);
+            if(bytes[2]!=0){
+                for (int i = 1; i < 5; i++) {
+                    StepData data = new StepData();
+                    data.setDay(bytes[4 * i] & 0xFF);
+                    data.setTime(bytes[4 * i + 1] & 0xFF);
+                    data.setStep((bytes[4 * i + 3] & 0xFF) + ((bytes[4 * i + 2] & 0xFF) << 8));
+                    list.add(data);
+                }
+            }else{
+                return  null;
             }
+        }else{
+            return null;
         }
-
         return list;
     }
 
@@ -736,40 +822,40 @@ public class BleUtils {
     //返回闹钟信息
     public Clock returnAlarms(byte[] bytes) {
         Clock clock = new Clock();
-        if (bytes[0] == 0x07 & bytes[1] == 0x26) {
-            clock.setId(bytes[3]);
+        if (bytes[0] == 0x07 && bytes[1] == 0x26) {
+            if (bytes[2] != 0) {
+                clock.setId(bytes[3]);
 
-            String hour = null;
-            String minute = null;
-            if (bytes[4] < 10) {
-                hour = "0" + bytes[4];
-            }
-
-            if (bytes[5] < 10) {
-                minute = "0" + bytes[5];
-            }
-            clock.setTime(hour + ":" + minute);
-
-            clock.setSnoozeTime(Clock.transformSnoozeTime2(bytes[6]));
-
-            if (bytes[7] == 5) {
-                String str = byte2bits(bytes[8]);
-                StringBuilder stringBuilder = new StringBuilder("周");
-                for (int i = 0; i < str.length(); i++) {
-                    if (str.substring(i, i + 1).equals("1")) {
-                        if (i == 0) {
-                            stringBuilder.append(str.substring(i, i + 1));
-                        } else {
-                            stringBuilder.append(" " + str.substring(i, i + 1));
-                        }
-                    }
+                String hour,minute;
+                if (bytes[4] < 10) {
+                    hour = "0" + bytes[4];
+                } else {
+                    hour = bytes[4] + "";
                 }
-                clock.setRate(stringBuilder.toString());
-            } else {
-                clock.setRate(Clock.transformRat2(bytes[7]));
-            }
 
-            clock.setIsOpen(bytes[9]);
+                if (bytes[5] < 10) {
+                    minute = "0" + bytes[5];
+                } else {
+                    minute = bytes[5] + "";
+                }
+                clock.setTime(hour + ":" + minute);
+
+                clock.setSnoozeTime(Clock.transformSnoozeTime2(bytes[6]));
+
+                if (bytes[7] == 5) {
+                    String str = byte2bits(bytes[8]);
+                    clock.setRate(Clock.transformCustom(str));
+                    clock.setCustom(str);
+                } else {
+                    clock.setRate(Clock.transformRat2(bytes[7]));
+                }
+
+                clock.setIsOpen(bytes[9]);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
         }
         return clock;
     }

@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -84,15 +85,18 @@ public class PickerViewHour extends View{
 
 	};
 
+	private Context context;
 	public PickerViewHour(Context context)
 	{
 		super(context);
+		this.context=context;
 		init();
 	}
 
 	public PickerViewHour(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
+		this.context=context;
 		init();
 	}
 
@@ -236,7 +240,7 @@ public class PickerViewHour extends View{
 		circlePaint.setStyle(Paint.Style.STROKE); //空心效果
 		Rect rectCircle = new Rect(3, 3, (int)x, (int)y);
 		RectF rectCircleF = new RectF(rectCircle);
-		canvas.drawCircle(mViewWidth/2,mViewHeight/2,120, circlePaint);
+		canvas.drawCircle(mViewWidth/2,mViewHeight/2, SomeUtills.dip2px(context,40), circlePaint);
 
 
 		// 绘制上方data

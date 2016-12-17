@@ -94,22 +94,25 @@ public class SettingActivity extends BaseActivity {
 
     }
 
-
     private void initView() {
         TVTitle.setText(R.string.setting);
+        int state = PreferenceData.getNotificationShakeState(context);
+        if(state==1){
+            vSwitch.setOpened(true);
+        }else{
+            vSwitch.setOpened(false);
+        }
         vSwitch.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn(SwitchView view) {
                 vSwitch.setOpened(true);
-                if(connectionObservable!=null)
-                Write(bleUtils.sendMessage(1, 0, 0, 0, 0, 1), connectionObservable);
+                PreferenceData.setNotificationShakeState(context,1);
             }
 
             @Override
             public void toggleToOff(SwitchView view) {
                 vSwitch.setOpened(false);
-                if(connectionObservable!=null)
-                Write(bleUtils.sendMessage(1, 0, 0, 0, 0, 0), connectionObservable);
+                PreferenceData.setNotificationShakeState(context,0);
             }
         });
     }
@@ -117,6 +120,7 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
+        System.out.println("-----------");
 //        if(HexString.bytesToHex(bytes).equals("0725012D60")){
 //                 Toast.makeText(context,"手表已震动，请寻找手表！",Toast.LENGTH_SHORT).show();
 //        }else if(HexString.bytesToHex(bytes).equals("0701010918")){
@@ -169,9 +173,9 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_search_watch:
-                if(connectionObservable!=null){
-                    Write(bleUtils.setWatchShake(2, 2, 2), connectionObservable);
-                    showToatst(context,"手表已震动，请寻找手表！");
+                if (connectionObservable != null) {
+                    Write(bleUtils.setWatchShake(1, 2, 2), connectionObservable);
+                    showToatst(context, "手表已震动，请寻找手表！");
                 }
                 break;
             case R.id.rl_close_bluetooth:
@@ -189,9 +193,9 @@ public class SettingActivity extends BaseActivity {
                     @Override
                     public void onConfirm() {
                         myDialog.dismiss();
-                        if(connectionObservable!=null)
+                        if (connectionObservable != null)
                             Write(bleUtils.sendMessage(0, 0, 0, 0, 0, 0), connectionObservable);
-                            connectionObservable=null;
+                        connectionObservable = null;
                     }
                 });
                 break;

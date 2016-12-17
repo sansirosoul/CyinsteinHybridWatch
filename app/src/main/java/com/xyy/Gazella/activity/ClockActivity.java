@@ -51,20 +51,34 @@ public class ClockActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
+    }
 
-        connectionObservable=getRxObservable(this);
-        bleUtils = new BleUtils();
-        Notify(connectionObservable);
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        String address = PreferenceData.getAddressValue(context);
+//        if (address != null && !address.equals("")) {
+//            bleUtils = new BleUtils();
+//            connectionObservable = getRxObservable(this);
+//            Notify(connectionObservable);
+//            Write(bleUtils.getAlarms(), connectionObservable);
+//        }
 
     }
 
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
+        if (bleUtils.returnAlarms(bytes) != null) {
+            Clock clock = bleUtils.returnAlarms(bytes);
+            if (!clocks.contains(clock)) {
+                clocks.add(clock);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
     private void initView() {
-        Clock clock = new Clock();
-        clock.setTime("07:00");
-        clock.setRate("只响一次");
-        clock.setSnoozeTime("5分钟");
-        clock.setIsOpen(0);
-        clocks.add(clock);
         adapter = new ClockListAdapter(context, clocks);
         listview.setAdapter(adapter);
 
@@ -72,10 +86,12 @@ public class ClockActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(context, EditClockActivity.class);
+                intent.putExtra("id", i);
                 intent.putExtra("time", clocks.get(i).getTime());
                 intent.putExtra("snooze", clocks.get(i).getSnoozeTime());
                 intent.putExtra("rate", clocks.get(i).getRate());
                 intent.putExtra("isOpen", clocks.get(i).getIsOpen());
+                intent.putExtra("custom", clocks.get(i).getCustom());
                 position = i;
                 startActivityForResult(intent, REQUEST_EDIT);
                 overridePendingTransitionEnter(ClockActivity.this);
@@ -96,6 +112,7 @@ public class ClockActivity extends BaseActivity {
                     Toast.makeText(context, "闹钟数量已达上限", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(context, AddClockActivity.class);
+                    intent.putExtra("id", clocks.size());
                     startActivityForResult(intent, REQUEST_ADD);
                     overridePendingTransitionEnter(ClockActivity.this);
                 }
@@ -103,36 +120,34 @@ public class ClockActivity extends BaseActivity {
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_ADD:
                 if (data != null) {
-                    Clock clock = new Clock();
-                    clock.setId(adapter.getCount());
-                    clock.setTime(data.getStringExtra("time"));
-                    clock.setSnoozeTime(data.getStringExtra("snooze"));
-                    clock.setRate(data.getStringExtra("rate"));
-                    clock.setIsOpen(data.getIntExtra("isOpen", -1));
-                    clocks.add(clock);
-                    adapter.notifyDataSetChanged();
-
-                    Write( bleUtils.setWatchAlarm(1, 0, 12, 0, 1, 1, "",1), connectionObservable);
+//                    Clock clock = new Clock();
+//                    clock.setTime(data.getStringExtra("time"));
+//                    clock.setSnoozeTime(data.getStringExtra("snooze"));
+//                    clock.setRate(data.getStringExtra("rate"));
+//                    clock.setIsOpen(data.getIntExtra("isOpen", -1));
+//                    clocks.add(clock);
+//                    adapter.notifyDataSetChanged();
                 }
                 break;
             case REQUEST_EDIT:
                 if (data != null) {
-                    if (data.getStringExtra("result").equals("del")) {
-                        clocks.remove(position);
-                        adapter.notifyDataSetChanged();
-                    } else if (data.getStringExtra("result").equals("edit")) {
-                        Clock clock = clocks.get(position);
-                        clock.setTime(data.getStringExtra("time"));
-                        clock.setSnoozeTime(data.getStringExtra("snooze"));
-                        clock.setRate(data.getStringExtra("rate"));
-                        clock.setIsOpen(data.getIntExtra("isOpen", -1));
-                        adapter.notifyDataSetChanged();
-                    }
+//                    if (data.getStringExtra("result").equals("del")) {
+//                        clocks.remove(position);
+//                        adapter.notifyDataSetChanged();
+//                    } else if (data.getStringExtra("result").equals("edit")) {
+//                        Clock clock = clocks.get(position);
+//                        clock.setTime(data.getStringExtra("time"));
+//                        clock.setSnoozeTime(data.getStringExtra("snooze"));
+//                        clock.setRate(data.getStringExtra("rate"));
+//                        clock.setIsOpen(data.getIntExtra("isOpen", -1));
+//                        adapter.notifyDataSetChanged();
+//                    }
                 }
                 break;
         }
