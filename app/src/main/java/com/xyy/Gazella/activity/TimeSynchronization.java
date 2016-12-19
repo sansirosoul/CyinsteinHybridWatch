@@ -109,16 +109,17 @@ public class TimeSynchronization extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_synchronization);
         ButterKnife.bind(this);
+        InitView();
+        InitViewPager();
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
+        } else {
+            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
         }
         bleUtils = new BleUtils();
-        InitView();
-        InitViewPager();
         install = this;
-
     }
 
     @Override
@@ -283,7 +284,7 @@ public class TimeSynchronization extends BaseActivity {
                 small2TimeValue = PreferenceData.getSelectedSmall2Value(this);
                 small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
 
-                Write(bleUtils.setWatchDateAndTime(1, myear, month+1, mday, hour, minute, second), connectionObservable);
+                Write(bleUtils.setWatchDateAndTime(1, myear, month + 1, mday, hour, minute, second), connectionObservable);
 
                 if (fragmentsList.size() > 1) {
                     setChangeTimeType(1);
@@ -294,14 +295,24 @@ public class TimeSynchronization extends BaseActivity {
 
                 break;
             case R.id.btnExit:   // 退出
+                if (isClickSynchronization) {
+                    showToatst(TimeSynchronization.this, "校时未完成，请点击同步按键完成校时");
+                    break;
+                }
+
                 TimeSynchronization.this.finish();
                 overridePendingTransitionExit(TimeSynchronization.this);
                 break;
             case R.id.btnOpt:
-                if(!isNotify&&connectionObservable!=null){
-                    Notify(connectionObservable);
+                if(isNotify){
+                    showToatst(TimeSynchronization.this,"已连接到手表设备");
+                    break;
                 }
 
+                if (!isNotify && connectionObservable != null)
+                    Notify(connectionObservable);
+                else
+                    showToatst(TimeSynchronization.this, "检查蓝牙是否开启");
 
                 break;
             case R.id.TVTitle:

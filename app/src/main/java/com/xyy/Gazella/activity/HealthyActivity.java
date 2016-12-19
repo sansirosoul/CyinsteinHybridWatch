@@ -60,7 +60,6 @@ public class HealthyActivity extends BaseActivity {
     public static Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public boolean isNotify;
-
     private String userWeight;
     private int Weight;
 
@@ -74,17 +73,16 @@ public class HealthyActivity extends BaseActivity {
         String address = PreferenceData.getAddressValue(this);
         bleUtils = new BleUtils();
         InitViewPager();
+
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         }
-
         userWeight = PreferenceData.getUserInfo(HealthyActivity.this).getWeight();
         userWeight = userWeight.replaceAll("[a-z]", ",");
         String s2[] = userWeight.split(",");
         userWeight=s2[0];
-
         install = this;
     }
 
@@ -94,11 +92,13 @@ public class HealthyActivity extends BaseActivity {
             case 0:
                 isNotify = true;
                 break;
-            case 1:  // 断开状态
+            case 1:   // 断开状态
                 isNotify = false;
                 stepFragment.removeTodayStepPost();
                 break;
-            case 2:// 重新连接
+            case 2:   // 重新连接
+                Notify(connectionObservable);
+                stepFragment.getTodayStepPost();
                 break;
         }
         super.onNotifyReturn(type);
@@ -108,14 +108,14 @@ public class HealthyActivity extends BaseActivity {
     protected void onReadReturn(byte[] bytes) {
         StepData stepData = bleUtils.returnTodayStep(bytes);
         int step = stepData.getStep();
-        double k = step * 0.5;
+        double k = step * 0.005;
         stepFragment.setStepNum(String.valueOf(stepData.getStep()));
-        stepFragment.setDistanceNum(String.valueOf(Integer.valueOf((int) k)) + "公里");
-
+        double km=Math.floor(k*10)/10;
+        stepFragment.setDistanceNum(String.valueOf(km)+ "公里");
         if (userWeight != null && !userWeight.equals("")) {
             Weight = Integer.valueOf(userWeight);
             double ff = (Weight * 0.0005 + (step - 1) * 0.005) * step;
-            stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) ff)/1000) + "千卡");
+            stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) ff)) + "大卡");
         }
         Logger.t(TAG).e(String.valueOf(stepData.getStep()));
         super.onReadReturn(bytes);
@@ -172,7 +172,6 @@ public class HealthyActivity extends BaseActivity {
                         break;
                 }
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
             }
@@ -215,19 +214,15 @@ public class HealthyActivity extends BaseActivity {
     }
 
     public class FragmentAdapter extends FragmentPagerAdapter {
-
         List<Fragment> fragmentList = new ArrayList<>();
-
         public FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
             super(fm);
             this.fragmentList = fragmentList;
         }
-
         @Override
         public Fragment getItem(int position) {
             return fragmentList.get(position);
         }
-
         @Override
         public int getCount() {
             return fragmentList.size();
@@ -238,6 +233,5 @@ public class HealthyActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         stepFragment.removeTodayStepPost();
-        Logger.t(TAG).e("2222222222");
     }
 }

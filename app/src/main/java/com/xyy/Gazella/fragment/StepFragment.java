@@ -77,14 +77,12 @@ public class StepFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_step, container, false);
-
         ButterKnife.bind(this, view);
         initView();
         connectionObservable = HealthyActivity.install.connectionObservable;
         bleUtils = new BleUtils();
         if(connectionObservable!=null&&HealthyActivity.install.isNotify)
             getTodayStepPost();
-
         return view;
     }
 
@@ -133,7 +131,7 @@ public class StepFragment extends BaseFragment {
     Runnable getTodayStep = new Runnable() {
         @Override
         public void run() {
-            if(connectionObservable!=null)
+            if(connectionObservable!=null&&HealthyActivity.install.isNotify)
             Write(bleUtils.getTodayStep(), connectionObservable);
             mHandler.sendEmptyMessage(1002);
             mHandler.postDelayed(this, 1000);
