@@ -88,7 +88,7 @@ public class BleTest extends BaseActivity {
     Button btn22;
     @BindView(R.id.btn23)
     Button btn23;
-    @BindView(R.id.notifytext)
+    @BindView(R.id.notify)
     TextView notify;
     @BindView(R.id.forward)
     RadioButton forward;

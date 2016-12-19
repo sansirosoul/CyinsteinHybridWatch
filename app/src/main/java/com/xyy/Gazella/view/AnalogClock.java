@@ -357,8 +357,10 @@ public class AnalogClock extends View {
                 int mmhour = (int) mHour;
 
                 int Tiemva = (int) Tiemvalue / 6;
-                if (Tiemva == mmintes || Tiemva + 1 == mmintes || Tiemva + 2 == mmintes || Tiemva + 3 == mmintes || Tiemva + 4 == mmintes ||
-                        Tiemva - 1 == mmintes || Tiemva - 2 == mmintes || Tiemva - 3 == mmintes || Tiemvalue - 4 == mmintes)
+                if(Tiemva>550) Tiemva=0;
+                if(mmintes>55) mmintes=0;
+                if (Tiemva == mmintes || Tiemva + 1 == mmintes || Tiemva + 2 == mmintes || Tiemva + 3 == mmintes || Tiemva + 4 == mmintes ||Tiemva + 5 == mmintes ||
+                        Tiemva - 1 == mmintes || Tiemva - 2 == mmintes || Tiemva - 3 == mmintes || Tiemvalue - 4 == mmintes || Tiemvalue - 5 == mmintes)
                     isMinutestMove = true;
                 else
                     isMinutestMove = false;
@@ -368,7 +370,6 @@ public class AnalogClock extends View {
                     isHourMove = true;
                 else
                     isHourMove = false;
-
                 break;
 
             case MotionEvent.ACTION_MOVE:

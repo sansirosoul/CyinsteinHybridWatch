@@ -80,7 +80,7 @@ public class BaseFragment extends Fragment {
     private CommonDialog dialog;
 
     protected void Write( byte[] bytes, Observable<RxBleConnection> connectionObservable) {
-        if (connectionObservable!=null) {
+        if (connectionObservable!=null && getConnectionState()) {
         WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<byte[]>() {
                     @Override

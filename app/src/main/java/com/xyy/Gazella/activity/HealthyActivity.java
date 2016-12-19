@@ -114,7 +114,7 @@ public class HealthyActivity extends BaseActivity {
         if (userWeight != null && !userWeight.equals("")) {
             Weight = Integer.valueOf(userWeight);
             double ff = (Weight * 0.0005 + (step - 1) * 0.005) * step;
-            stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) ff)) + "千卡");
+            stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) ff)/1000) + "千卡");
         }
         Logger.t(TAG).e(String.valueOf(stepData.getStep()));
         super.onReadReturn(bytes);
