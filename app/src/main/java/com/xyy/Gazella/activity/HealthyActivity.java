@@ -95,7 +95,7 @@ public class HealthyActivity extends BaseActivity {
                 break;
             case 1:  // 断开状态
                 isNotify = false;
-                stepFragment.removeTodayStepPost();
+//                stepFragment.removeTodayStepPost();
                 break;
             case 2:// 重新连接
                 break;

@@ -71,6 +71,7 @@ public class ClockActivity extends BaseActivity {
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
         if (bleUtils.returnAlarms(bytes) != null) {
+            clocks.clear();
             Clock clock = bleUtils.returnAlarms(bytes);
             if (!clocks.contains(clock)) {
                 clocks.add(clock);
@@ -109,7 +110,7 @@ public class ClockActivity extends BaseActivity {
                 overridePendingTransitionExit(ClockActivity.this);
                 break;
             case R.id.add:
-                if (clocks.size() == 8) {
+                if (clocks.size() >= 8) {
                     Toast.makeText(context, "闹钟数量已达上限", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(context, AddClockActivity.class);
