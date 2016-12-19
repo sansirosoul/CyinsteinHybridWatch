@@ -824,33 +824,33 @@ public class BleUtils {
         Clock clock = new Clock();
         if (bytes[0] == 0x07 && bytes[1] == 0x26) {
             if (bytes[2] != 0) {
-                clock.setId(bytes[3]);
+                clock.setId((bytes[3]& 0xFF));
 
                 String hour,minute;
-                if (bytes[4] < 10) {
-                    hour = "0" + bytes[4];
+                if ((bytes[4]& 0xFF) < 10) {
+                    hour = "0" + (bytes[4]& 0xFF);
                 } else {
-                    hour = bytes[4] + "";
+                    hour = (bytes[4] & 0xFF)+ "";
                 }
 
-                if (bytes[5] < 10) {
-                    minute = "0" + bytes[5];
+                if ((bytes[5]& 0xFF) < 10) {
+                    minute = "0" + (bytes[5]& 0xFF);
                 } else {
-                    minute = bytes[5] + "";
+                    minute = (bytes[5]& 0xFF) + "";
                 }
                 clock.setTime(hour + ":" + minute);
 
-                clock.setSnoozeTime(Clock.transformSnoozeTime2(bytes[6]));
+                clock.setSnoozeTime(Clock.transformSnoozeTime2((bytes[6]& 0xFF)));
 
-                if (bytes[7] == 5) {
+                if ((bytes[7]& 0xFF) == 5) {
                     String str = byte2bits(bytes[8]);
                     clock.setRate(Clock.transformCustom(str));
                     clock.setCustom(str);
                 } else {
-                    clock.setRate(Clock.transformRat2(bytes[7]));
+                    clock.setRate(Clock.transformRat2((bytes[7]& 0xFF)));
                 }
 
-                clock.setIsOpen(bytes[9]);
+                clock.setIsOpen((bytes[9]& 0xFF));
             } else {
                 return null;
             }
