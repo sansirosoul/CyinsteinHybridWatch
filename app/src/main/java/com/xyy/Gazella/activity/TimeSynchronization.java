@@ -101,7 +101,7 @@ public class TimeSynchronization extends BaseActivity {
     private int mday;
     private boolean isClickSynchronization = false;
     private boolean isShwoSynchronization = false;
-    private boolean isNotify = true;
+    private boolean isNotify = false;
 
 
     @Override
@@ -112,9 +112,9 @@ public class TimeSynchronization extends BaseActivity {
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
-            bleUtils = new BleUtils();
             Notify(connectionObservable);
         }
+        bleUtils = new BleUtils();
         InitView();
         InitViewPager();
         install = this;
@@ -267,7 +267,7 @@ public class TimeSynchronization extends BaseActivity {
                     break;
                 mHandler.post(runnable);
                 isRun = true;
-                tvHint.setText("第二步: 调整表盘指针将手表时,分针拨至12点整 后点击同步按键");
+                tvHint.setText("第二步：调整时、分针，使手表归零后点击同步");
                 isClickSynchronization = true;
                 isShwoSynchronization = true;
                 break;
@@ -282,10 +282,6 @@ public class TimeSynchronization extends BaseActivity {
                 small1TimeValue = PreferenceData.getSelectedSmall1Value(this);
                 small2TimeValue = PreferenceData.getSelectedSmall2Value(this);
                 small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
-
-                Logger.t(TAG).e(String.valueOf(myear)+"\n"+
-                        String.valueOf(month)+"\n"+
-                        String.valueOf(mday)+"\n");
 
                 Write(bleUtils.setWatchDateAndTime(1, myear, month+1, mday, hour, minute, second), connectionObservable);
 

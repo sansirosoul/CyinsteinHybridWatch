@@ -2,7 +2,6 @@ package com.xyy.Gazella.activity;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -25,9 +24,7 @@ import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import butterknife.BindView;
@@ -105,12 +102,8 @@ public class BleTest extends BaseActivity {
     Button btn24;
     @BindView(R.id.btn25)
     Button btn25;
-    @BindView(R.id.notify2)
-    TextView notify2;
     @BindView(R.id.btn26)
     Button btn26;
-    @BindView(R.id.btn27)
-    Button btn27;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
@@ -172,12 +165,9 @@ public class BleTest extends BaseActivity {
         }
     };
 
-    ArrayList<StepData> list = new ArrayList<>();
-
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        notify2.setText(new String(bytes));
         if (bleUtils.returnTodayStep(bytes) != null) {
             StepData data = bleUtils.returnTodayStep(bytes);
             notify.setText(data.getYear() + "-" + data.getMonth() + "-" + data.getDay() + "步数" + data.getStep());
@@ -189,31 +179,27 @@ public class BleTest extends BaseActivity {
             notify.setText(bleUtils.returnBatteryValue(bytes) + "%");
         } else {
             notify.setText(HexString.bytesToHex(bytes));
-            if (bleUtils.returnStepData(bytes).size() != 0) {
-                list.addAll(bleUtils.returnStepData(bytes));
-            }
         }
-
     }
 
     @Override
     protected void onWriteReturn(byte[] bytes) {
         super.onWriteReturn(bytes);
+
+
         write.setText(HexString.bytesToHex(bytes));
         notify.setText("");
-        notify2.setText("");
     }
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
-            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25,
-             R.id.btn26,R.id.btn27})
+            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25,R.id.btn26})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
                 Write(bleUtils.getDeviceSN(), connectionObservable);
                 break;
             case R.id.btn2:
-                Write(bleUtils.sendMessage(1, 1, 0, 0, 0, 1), connectionObservable);
+                Write(bleUtils.sendMessage(1, 0, 0, 0, 0, 0), connectionObservable);
                 break;
             case R.id.btn3:
                 Calendar calendar = Calendar.getInstance();
@@ -224,7 +210,7 @@ public class BleTest extends BaseActivity {
                         calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND)), connectionObservable);
                 break;
             case R.id.btn4:
-                Write(bleUtils.setWatchAlarm(1, 0, 12, 0, 0, 1, "00000000", 1), connectionObservable);
+                Write(bleUtils.setWatchAlarm(1, 0, 12, 0, 1, 1, "", 1), connectionObservable);
                 break;
             case R.id.btn5:
                 Write(bleUtils.getFWVer(), connectionObservable);
@@ -272,10 +258,6 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.getStepData(1), connectionObservable);
                 break;
             case R.id.btn20:
-//                System.out.println(list.size()+"==========");
-//                for (int i=0;i<list.size();i++){
-//                    System.out.println(list.get(i).getDay()+"-"+list.get(i).getTime()+"-"+list.get(i).getStep());
-//                }
                 Write(bleUtils.setWatchShake(1, 0, 0), connectionObservable);
                 break;
             case R.id.btn21:
@@ -289,60 +271,77 @@ public class BleTest extends BaseActivity {
                 break;
             case R.id.btn24:
 
-                int ff = ff = new SomeUtills().getfilelength(BleTest.this, "cyinstein_watch1.txt");
-                Logger.t(TAG).e(String.valueOf(ff));
-                byte[] fff = bleUtils.startOTA(ff);
-
-                Write(bleUtils.startOTA(ff), connectionObservable);
+                String strLength = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watchbin.txt");
+                String[] stringstrLength = strLength.split(" ");
+                Write(bleUtils.startOTA(stringstrLength.length), connectionObservable);
 
                 break;
             case R.id.btn25:
 
-                new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watch1.txt");
-
-                File file = new File(Environment.getExternalStorageDirectory() + "/" + "cyinstein_watch1.txt");
-                byte[] buffer = new byte[20];
-                try {
-                    FileInputStream fileR = new FileInputStream(file);
-                    while (true) {
-                        int len = fileR.read(buffer);
-                        Write(buffer, connectionObservable);
-                        if (len == -1) {
-                            break;
+                String str = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watchbin.txt");
+                String[] strings = str.split(" ");
+                StringBuffer sb = new StringBuffer();
+                StringBuffer newsb = new StringBuffer();
+                StringBuffer Fasb = new StringBuffer();
+                int length = strings.length;
+                int k = 0;
+                int FaCount = 0;
+                boolean isTrue = true;
+                for (int i = 0; i < strings.length; i++) {
+                    String count = strings[i];
+                    if (count.startsWith("0x") || count.startsWith("0X"))
+                        count = count.substring(2);
+                    if (count.startsWith(" 0X") || count.startsWith(" 0x"))
+                        count = count.substring(3);
+                    if (isTrue) {
+                        if (k != 20) {
+                            sb.append(count);
+                            k++;
+                        } else {
+                            byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
+                            Write(Bytes, connectionObservable);
+                            FaCount += Bytes.length;
+                            Fasb.append(sb.toString());
+                            sb.setLength(0);
+                            sb.append(count);
+                            k = 0;
+                            isTrue = false;
+                        }
+                    } else {
+                        if (k != 19) {
+                            sb.append(count);
+                            k++;
+                        } else {
+                            byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
+                            Write(Bytes, connectionObservable);
+                            FaCount += Bytes.length;
+                            Fasb.append(sb.toString());
+                            sb.setLength(0);
+                            sb.append(count);
+                            k = 0;
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-
-
-//
-//                int n=0;
-//                String aa;
-//                int k= bb.length();
-//                for(int i=20;i<bb.length();i+=20) {
-//                    if(i==20)
-//                         aa = bb.substring(0, i);
-//                    else
-//                         aa = bb.substring(n, i);
-//                    n=i;
-//
-//                    Write(HexString.hexToBytes(aa), connectionObservable);
-//                }
-//
-//                if((k-n)<20){
-//                    aa = bb.substring(n, k);
-//                    Write(hexToBytes(aa), connectionObservable);
-//                }
+                if (FaCount != length) {
+                    String[] newData = Arrays.copyOfRange(strings, FaCount-1, length);
+                    for (int n = 0; n < newData.length; n++) {
+                        String count = newData[n];
+                        if (count.startsWith("0x") || count.startsWith("0X"))
+                            count = count.substring(2);
+                        if (count.startsWith(" 0X") || count.startsWith(" 0x"))
+                            count = count.substring(3);
+                        newsb.append(count);
+                    }
+                    byte[] Bytes = bleUtils.HexString2Bytes(newsb.toString());
+                    Write(Bytes, connectionObservable);
+                    FaCount+=Bytes.length;
+                    Fasb.append(sb.toString());
+                }
+                Logger.t(TAG).e("String总数 >>>>>>>>>   " + String.valueOf(strings.length) + "\n" + "发送总数>>>>    " + String.valueOf(FaCount));
                 break;
             case R.id.btn26:
-                Write(bleUtils.getDeviceType(),connectionObservable);
-                break;
-            case R.id.btn27:
-                Write(bleUtils.getDevicePN(),connectionObservable);
+
                 break;
         }
     }
-
-
 }

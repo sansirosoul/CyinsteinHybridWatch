@@ -228,7 +228,12 @@
                 android:id="@+id/btn25"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="发送升级包" />
+                android:text="发送文本升级包" />
+            <Button
+                android:id="@+id/btn26"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="发送BIN升级包" />
 
             <Button
                 android:id="@+id/btn26"
