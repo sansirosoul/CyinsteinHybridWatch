@@ -14,6 +14,7 @@ import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.ListViewForScrollView;
 import com.xyy.model.Clock;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.PreferenceData;
 import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
@@ -56,13 +57,13 @@ public class ClockActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        String address = PreferenceData.getAddressValue(context);
-//        if (address != null && !address.equals("")) {
-//            bleUtils = new BleUtils();
-//            connectionObservable = getRxObservable(this);
-//            Notify(connectionObservable);
-//            Write(bleUtils.getAlarms(), connectionObservable);
-//        }
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")) {
+            bleUtils = new BleUtils();
+            connectionObservable = getRxObservable(this);
+            Notify(connectionObservable);
+            Write(bleUtils.getAlarms(), connectionObservable);
+        }
 
     }
 

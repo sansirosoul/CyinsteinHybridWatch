@@ -33,7 +33,6 @@ public class CheckUpdateDialog3 extends BaseActivity {
     private RxBleClient rxBleClient;
     private Subscription scanSubscription;
 
-
     @Override
     protected void onResume() {
         super.onResume();
