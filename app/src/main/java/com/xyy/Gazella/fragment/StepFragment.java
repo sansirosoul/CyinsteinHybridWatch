@@ -81,9 +81,9 @@ public class StepFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         initView();
         connectionObservable = HealthyActivity.install.connectionObservable;
-        if (connectionObservable!=null)
-            getTodayStepPost();
         bleUtils = new BleUtils();
+        if(connectionObservable!=null&&HealthyActivity.install.isNotify)
+            getTodayStepPost();
 
         return view;
     }
@@ -154,7 +154,6 @@ public class StepFragment extends BaseFragment {
     public void setStepNum(String num) {
         stepNum.setText(num);
     }
-
     public void setCalcalNum(String num) {
         cal.setText(num);
     }

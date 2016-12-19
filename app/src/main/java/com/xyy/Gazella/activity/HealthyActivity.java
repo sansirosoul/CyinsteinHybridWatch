@@ -72,13 +72,14 @@ public class HealthyActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         String address = PreferenceData.getAddressValue(this);
+        bleUtils = new BleUtils();
+        InitViewPager();
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         }
-        bleUtils = new BleUtils();
-        InitViewPager();
+
         userWeight = PreferenceData.getUserInfo(HealthyActivity.this).getWeight();
         userWeight = userWeight.replaceAll("[a-z]", ",");
         String s2[] = userWeight.split(",");
@@ -231,5 +232,12 @@ public class HealthyActivity extends BaseActivity {
         public int getCount() {
             return fragmentList.size();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stepFragment.removeTodayStepPost();
+        Logger.t(TAG).e("2222222222");
     }
 }
