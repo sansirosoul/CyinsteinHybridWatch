@@ -16,6 +16,7 @@ import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.fragment.SleepFragment;
 import com.xyy.Gazella.fragment.StepFragment;
 import com.xyy.Gazella.utils.BleUtils;
+import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.model.StepData;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
@@ -79,12 +80,16 @@ public class HealthyActivity extends BaseActivity {
             Notify(connectionObservable);
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         }
+        initData();
+        install = this;
+    }
+
+    private void initData() {
         TargetStep = PreferenceData.getTargetRunValue(HealthyActivity.this);
         userWeight = PreferenceData.getUserInfo(HealthyActivity.this).getWeight();
         userWeight = userWeight.replaceAll("[a-z]", ",");
         String s2[] = userWeight.split(",");
         userWeight = s2[0];
-        install = this;
     }
 
     @Override
@@ -107,19 +112,27 @@ public class HealthyActivity extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        if (bytes[0] == 0x07 && bytes[1] == 0x0C) {
+        if (bytes[0] == 0x07 && bytes[1] == 0x0C) {  // 今日步数
             StepData stepData = bleUtils.returnTodayStep(bytes);
             if (stepData != null) {
                 int step = stepData.getStep();
-                double k = step * 0.005;
+                double km = step * 0.5;
                 stepFragment.setStepNum(String.valueOf(stepData.getStep()));
-//                double km = Math.floor(k * 10) / 10;
-                stepFragment.setDistanceNum(String.valueOf(Math.floor(k * 10) / 10) + "公里");
+                // 计算活动距离
+                if (km < 1000)
+                    stepFragment.setDistanceNum(String.valueOf((int) km) + getResources().getString(R.string.mi));
+                else
+                    stepFragment.setDistanceNum(String.valueOf(new SomeUtills().changeDouble(km)) + getResources().getString(R.string.km));
+                //计算卡路里
                 if (userWeight != null && !userWeight.equals("")) {
                     Weight = Integer.valueOf(userWeight);
-                    double ff = (Weight * 0.0005 + (step - 1) * 0.005) * step;
-                    stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) ff)) + "大卡");
+                    double card = ((Weight * 0.0005 + (step - 1) * 0.005) * step);
+                    if (card < 1000)
+                        stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) card)) + getResources().getString(R.string.card));
+                    else
+                        stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
                 }
+
                 if (step <= TargetStep)
                     stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
                 else
@@ -180,6 +193,7 @@ public class HealthyActivity extends BaseActivity {
                         break;
                 }
             }
+
             @Override
             public void onPageScrollStateChanged(int state) {
             }

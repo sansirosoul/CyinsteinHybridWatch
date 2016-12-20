@@ -25,6 +25,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -381,14 +383,14 @@ public class SomeUtills {
         return fff;
     }
 
-    public String getFromAssets(Context context,String fileName) {
+    public String getFromAssets(Context context, String fileName) {
         String result = "";
         try {
-            InputStreamReader inputReader = new InputStreamReader(context.getResources().getAssets().open(fileName) );
+            InputStreamReader inputReader = new InputStreamReader(context.getResources().getAssets().open(fileName));
             BufferedReader bufReader = new BufferedReader(inputReader);
-            String line="";
-            String Result="";
-            while((line = bufReader.readLine()) != null)
+            String line = "";
+            String Result = "";
+            while ((line = bufReader.readLine()) != null)
                 Result += line;
             return Result;
         } catch (Exception e) {
@@ -457,6 +459,13 @@ public class SomeUtills {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    public double changeDouble(Double dou) {
+        dou =dou/1000;
+        NumberFormat nf = new DecimalFormat("0.0 ");
+        dou = Double.parseDouble(nf.format(dou));
+        return dou;
     }
 }
 

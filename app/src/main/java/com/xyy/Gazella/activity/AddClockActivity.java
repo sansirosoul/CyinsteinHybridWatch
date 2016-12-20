@@ -70,6 +70,7 @@ public class AddClockActivity extends BaseActivity {
         if (address != null && !address.equals("")) {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
+
         }
     }
 
