@@ -15,7 +15,7 @@ import java.lang.Override;
 public class GuideShowDialog_ViewBinding<T extends GuideShowDialog> implements Unbinder {
   protected T target;
 
-  private View view2131624183;
+  private View view2131689764;
 
   @UiThread
   public GuideShowDialog_ViewBinding(final T target, View source) {
@@ -24,7 +24,7 @@ public class GuideShowDialog_ViewBinding<T extends GuideShowDialog> implements U
     View view;
     view = Utils.findRequiredView(source, R.id.guide_image, "field 'guideImage' and method 'onClick'");
     target.guideImage = Utils.castView(view, R.id.guide_image, "field 'guideImage'", ImageView.class);
-    view2131624183 = view;
+    view2131689764 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -41,8 +41,8 @@ public class GuideShowDialog_ViewBinding<T extends GuideShowDialog> implements U
 
     target.guideImage = null;
 
-    view2131624183.setOnClickListener(null);
-    view2131624183 = null;
+    view2131689764.setOnClickListener(null);
+    view2131689764 = null;
 
     this.target = null;
   }

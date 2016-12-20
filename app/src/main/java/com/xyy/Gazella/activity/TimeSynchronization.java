@@ -144,7 +144,6 @@ public class TimeSynchronization extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        HexString.bytesToHex(bytes);
         if (HexString.bytesToHex(bytes).equals("0702010A1A")) {
             tvHint.setText("智能校时成功");
         }

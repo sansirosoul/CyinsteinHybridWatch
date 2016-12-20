@@ -93,7 +93,7 @@
             <TextView
                 android:id="@+id/tv_ringtime"
                 android:layout_marginRight="15dp"
-                android:text="5分钟"
+                android:text="无"
                 android:textColor="@color/white"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"

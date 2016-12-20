@@ -25,14 +25,16 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
+            android:textSize="13dp"
             android:textColor="@color/white"
-            android:text="将表盘拨至和手表指针位置一致处" />
+            android:text="第一步：请先点击重置按键" />
 
         <LinearLayout
             android:layout_width="match_parent"

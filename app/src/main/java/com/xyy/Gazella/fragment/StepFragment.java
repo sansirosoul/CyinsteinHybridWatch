@@ -1,6 +1,7 @@
 package com.xyy.Gazella.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -51,6 +52,8 @@ public class StepFragment extends BaseFragment {
     LinearLayout llNumberProgressBar;
     @BindView(R.id.ll_quality)
     LinearLayout llQuality;
+    @BindView(R.id.iv_tip)
+    ImageView ivTip;
     private View view;
     private BleUtils bleUtils;
     private Observable<RxBleConnection> connectionObservable;
@@ -81,7 +84,7 @@ public class StepFragment extends BaseFragment {
         initView();
         connectionObservable = HealthyActivity.install.connectionObservable;
         bleUtils = new BleUtils();
-        if(connectionObservable!=null&&HealthyActivity.install.isNotify)
+        if (connectionObservable != null && HealthyActivity.install.isNotify)
             getTodayStepPost();
         return view;
     }
@@ -90,6 +93,7 @@ public class StepFragment extends BaseFragment {
         if (connectionObservable != null)
             mHandler.post(getTodayStep);
     }
+
     public void removeTodayStepPost() {
         if (getTodayStep != null)
             mHandler.removeCallbacks(getTodayStep);
@@ -131,8 +135,8 @@ public class StepFragment extends BaseFragment {
     Runnable getTodayStep = new Runnable() {
         @Override
         public void run() {
-            if(connectionObservable!=null&&HealthyActivity.install.isNotify)
-            Write(bleUtils.getTodayStep(), connectionObservable);
+            if (connectionObservable != null && HealthyActivity.install.isNotify)
+                Write(bleUtils.getTodayStep(), connectionObservable);
             mHandler.sendEmptyMessage(1002);
             mHandler.postDelayed(this, 1000);
         }
@@ -152,10 +156,16 @@ public class StepFragment extends BaseFragment {
     public void setStepNum(String num) {
         stepNum.setText(num);
     }
+
     public void setCalcalNum(String num) {
         cal.setText(num);
     }
+
     public void setDistanceNum(String num) {
         distance.setText(num);
+    }
+    public  void  setIvTip(Drawable drawable,String Str){
+        ivTip.setBackground(drawable);
+        details.setText(Str);
     }
 }

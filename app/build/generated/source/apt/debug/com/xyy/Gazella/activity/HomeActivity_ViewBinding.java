@@ -15,15 +15,17 @@ import java.lang.Override;
 public class HomeActivity_ViewBinding<T extends HomeActivity> implements Unbinder {
   protected T target;
 
-  private View view2131624080;
+  private View view2131689616;
 
-  private View view2131624083;
+  private View view2131689619;
 
-  private View view2131624085;
+  private View view2131689621;
 
-  private View view2131624086;
+  private View view2131689622;
 
-  private View view2131624087;
+  private View view2131689623;
+
+  private View view2131689624;
 
   @UiThread
   public HomeActivity_ViewBinding(final T target, View source) {
@@ -32,7 +34,7 @@ public class HomeActivity_ViewBinding<T extends HomeActivity> implements Unbinde
     View view;
     view = Utils.findRequiredView(source, R.id.ll_time, "field 'llTime' and method 'onClick'");
     target.llTime = Utils.castView(view, R.id.ll_time, "field 'llTime'", LinearLayout.class);
-    view2131624080 = view;
+    view2131689616 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -41,7 +43,7 @@ public class HomeActivity_ViewBinding<T extends HomeActivity> implements Unbinde
     });
     view = Utils.findRequiredView(source, R.id.ll_notice, "field 'llNotice' and method 'onClick'");
     target.llNotice = Utils.castView(view, R.id.ll_notice, "field 'llNotice'", LinearLayout.class);
-    view2131624083 = view;
+    view2131689619 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -50,7 +52,7 @@ public class HomeActivity_ViewBinding<T extends HomeActivity> implements Unbinde
     });
     view = Utils.findRequiredView(source, R.id.ll_healthy, "field 'llHealthy' and method 'onClick'");
     target.llHealthy = Utils.castView(view, R.id.ll_healthy, "field 'llHealthy'", LinearLayout.class);
-    view2131624085 = view;
+    view2131689621 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -59,7 +61,7 @@ public class HomeActivity_ViewBinding<T extends HomeActivity> implements Unbinde
     });
     view = Utils.findRequiredView(source, R.id.ll_settings, "field 'llSettings' and method 'onClick'");
     target.llSettings = Utils.castView(view, R.id.ll_settings, "field 'llSettings'", LinearLayout.class);
-    view2131624086 = view;
+    view2131689622 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -68,7 +70,16 @@ public class HomeActivity_ViewBinding<T extends HomeActivity> implements Unbinde
     });
     view = Utils.findRequiredView(source, R.id.ll_introduce, "field 'llIntroduce' and method 'onClick'");
     target.llIntroduce = Utils.castView(view, R.id.ll_introduce, "field 'llIntroduce'", LinearLayout.class);
-    view2131624087 = view;
+    view2131689623 = view;
+    view.setOnClickListener(new DebouncingOnClickListener() {
+      @Override
+      public void doClick(View p0) {
+        target.onClick(p0);
+      }
+    });
+    view = Utils.findRequiredView(source, R.id.ll_other, "field 'llOther' and method 'onClick'");
+    target.llOther = Utils.castView(view, R.id.ll_other, "field 'llOther'", LinearLayout.class);
+    view2131689624 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -88,17 +99,20 @@ public class HomeActivity_ViewBinding<T extends HomeActivity> implements Unbinde
     target.llHealthy = null;
     target.llSettings = null;
     target.llIntroduce = null;
+    target.llOther = null;
 
-    view2131624080.setOnClickListener(null);
-    view2131624080 = null;
-    view2131624083.setOnClickListener(null);
-    view2131624083 = null;
-    view2131624085.setOnClickListener(null);
-    view2131624085 = null;
-    view2131624086.setOnClickListener(null);
-    view2131624086 = null;
-    view2131624087.setOnClickListener(null);
-    view2131624087 = null;
+    view2131689616.setOnClickListener(null);
+    view2131689616 = null;
+    view2131689619.setOnClickListener(null);
+    view2131689619 = null;
+    view2131689621.setOnClickListener(null);
+    view2131689621 = null;
+    view2131689622.setOnClickListener(null);
+    view2131689622 = null;
+    view2131689623.setOnClickListener(null);
+    view2131689623 = null;
+    view2131689624.setOnClickListener(null);
+    view2131689624 = null;
 
     this.target = null;
   }

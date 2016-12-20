@@ -1,7 +1,7 @@
--injars 'E:\workspace\Partner\app\build\intermediates\transforms\jarMerging\debug\jars\1\1f\combined.jar'
--outjars 'E:\workspace\Partner\app\build\intermediates\multi-dex\debug\componentClasses.jar'
+-injars 'E:\test\Partner\app\build\intermediates\transforms\jarMerging\debug\jars\1\1f\combined.jar'
+-outjars 'E:\test\Partner\app\build\intermediates\multi-dex\debug\componentClasses.jar'
 
--libraryjars 'C:\Users\Administrator\AppData\Local\Android\Sdk\build-tools\24.0.2\lib\shrinkedAndroid.jar'
+-libraryjars 'F:\AndroidSDK\build-tools\24.0.2\lib\shrinkedAndroid.jar'
 
 -forceprocessing
 -dontoptimize
@@ -10,24 +10,12 @@
 -dontpreverify
 -dontnote **,com.android.tools.fd.**,android.support.multidex.MultiDexExtractor
 -dontwarn **
--printconfiguration 'E:\workspace\Partner\app\build\intermediates\multi-dex\debug\components.flags'
+-printconfiguration 'E:\test\Partner\app\build\intermediates\multi-dex\debug\components.flags'
 
 
 -keep class com.ysp.newband.GazelleApplication {
     <init>();
     void attachBaseContext(android.content.Context);
-}
-
--keep class com.xyy.Gazella.activity.DeviceListActivity {
-    <init>();
-}
-
--keep class com.xyy.Gazella.activity.ConnectionDevice {
-    <init>();
-}
-
--keep class com.xyy.Gazella.activity.SetUesrDataActivity {
-    <init>();
 }
 
 -keep class com.xyy.Gazella.BroadcastReceiver.PhoneService {
@@ -39,6 +27,14 @@
 }
 
 -keep class com.xyy.Gazella.services.BluetoothService {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.services.DfuService {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver {
     <init>();
 }
 
@@ -58,11 +54,11 @@
     <init>();
 }
 
--keep class com.xyy.Gazella.activity.LaunchActivity {
+-keep class com.xyy.Gazella.activity.StartActivity {
     <init>();
 }
 
--keep class com.xyy.Gazella.activity.StartActivity {
+-keep class com.xyy.Gazella.activity.LaunchActivity {
     <init>();
 }
 
@@ -114,11 +110,31 @@
     <init>();
 }
 
+-keep class com.xyy.Gazella.utils.CleanWatchData {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.utils.RenameWatchDialog {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.utils.ChangeWatchDialog {
+    <init>();
+}
+
 -keep class com.xyy.Gazella.activity.HelpActivity {
     <init>();
 }
 
 -keep class com.xyy.Gazella.utils.ChangeWatchList {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.utils.CheckUpdateDialog3 {
+    <init>();
+}
+
+-keep class com.xyy.Gazella.utils.CheckUpdateDialog4 {
     <init>();
 }
 
@@ -147,6 +163,18 @@
 }
 
 -keep class me.iwf.photopicker.activity.CropActivity {
+    <init>();
+}
+
+-keep class com.bugtags.library.BugtagsActivity {
+    <init>();
+}
+
+-keep class com.bugtags.library.BugtagsService {
+    <init>();
+}
+
+-keep class com.bugtags.library.BugtagsReceiver {
     <init>();
 }
 

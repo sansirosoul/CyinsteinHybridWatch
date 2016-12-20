@@ -16,9 +16,9 @@ import java.lang.Override;
 public class ClockActivity_ViewBinding<T extends ClockActivity> implements Unbinder {
   protected T target;
 
-  private View view2131624131;
+  private View view2131689709;
 
-  private View view2131624132;
+  private View view2131689710;
 
   @UiThread
   public ClockActivity_ViewBinding(final T target, View source) {
@@ -28,7 +28,7 @@ public class ClockActivity_ViewBinding<T extends ClockActivity> implements Unbin
     target.listview = Utils.findRequiredViewAsType(source, R.id.listview, "field 'listview'", ListViewForScrollView.class);
     view = Utils.findRequiredView(source, R.id.back, "field 'back' and method 'onClick'");
     target.back = Utils.castView(view, R.id.back, "field 'back'", RelativeLayout.class);
-    view2131624131 = view;
+    view2131689709 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -37,7 +37,7 @@ public class ClockActivity_ViewBinding<T extends ClockActivity> implements Unbin
     });
     view = Utils.findRequiredView(source, R.id.add, "field 'add' and method 'onClick'");
     target.add = Utils.castView(view, R.id.add, "field 'add'", RelativeLayout.class);
-    view2131624132 = view;
+    view2131689710 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -56,10 +56,10 @@ public class ClockActivity_ViewBinding<T extends ClockActivity> implements Unbin
     target.back = null;
     target.add = null;
 
-    view2131624131.setOnClickListener(null);
-    view2131624131 = null;
-    view2131624132.setOnClickListener(null);
-    view2131624132 = null;
+    view2131689709.setOnClickListener(null);
+    view2131689709 = null;
+    view2131689710.setOnClickListener(null);
+    view2131689710 = null;
 
     this.target = null;
   }

@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.fragment.SleepFragment;
 import com.xyy.Gazella.fragment.StepFragment;
@@ -62,6 +61,7 @@ public class HealthyActivity extends BaseActivity {
     public boolean isNotify;
     private String userWeight;
     private int Weight;
+    private int TargetStep;
 
 
     @Override
@@ -79,10 +79,11 @@ public class HealthyActivity extends BaseActivity {
             Notify(connectionObservable);
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         }
+        TargetStep = PreferenceData.getTargetRunValue(HealthyActivity.this);
         userWeight = PreferenceData.getUserInfo(HealthyActivity.this).getWeight();
         userWeight = userWeight.replaceAll("[a-z]", ",");
         String s2[] = userWeight.split(",");
-        userWeight=s2[0];
+        userWeight = s2[0];
         install = this;
     }
 
@@ -106,19 +107,26 @@ public class HealthyActivity extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        StepData stepData = bleUtils.returnTodayStep(bytes);
-        int step = stepData.getStep();
-        double k = step * 0.005;
-        stepFragment.setStepNum(String.valueOf(stepData.getStep()));
-        double km=Math.floor(k*10)/10;
-        stepFragment.setDistanceNum(String.valueOf(km)+ "公里");
-        if (userWeight != null && !userWeight.equals("")) {
-            Weight = Integer.valueOf(userWeight);
-            double ff = (Weight * 0.0005 + (step - 1) * 0.005) * step;
-            stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) ff)) + "大卡");
+        if (bytes[0] == 0x07 && bytes[1] == 0x0C) {
+            StepData stepData = bleUtils.returnTodayStep(bytes);
+            if (stepData != null) {
+                int step = stepData.getStep();
+                double k = step * 0.005;
+                stepFragment.setStepNum(String.valueOf(stepData.getStep()));
+//                double km = Math.floor(k * 10) / 10;
+                stepFragment.setDistanceNum(String.valueOf(Math.floor(k * 10) / 10) + "公里");
+                if (userWeight != null && !userWeight.equals("")) {
+                    Weight = Integer.valueOf(userWeight);
+                    double ff = (Weight * 0.0005 + (step - 1) * 0.005) * step;
+                    stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) ff)) + "大卡");
+                }
+                if (step <= TargetStep)
+                    stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
+                else
+                    stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_kaixin), this.getResources().getString(R.string.over_target));
+                super.onReadReturn(bytes);
+            }
         }
-        Logger.t(TAG).e(String.valueOf(stepData.getStep()));
-        super.onReadReturn(bytes);
     }
 
     private void InitViewPager() {
@@ -215,14 +223,17 @@ public class HealthyActivity extends BaseActivity {
 
     public class FragmentAdapter extends FragmentPagerAdapter {
         List<Fragment> fragmentList = new ArrayList<>();
+
         public FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
             super(fm);
             this.fragmentList = fragmentList;
         }
+
         @Override
         public Fragment getItem(int position) {
             return fragmentList.get(position);
         }
+
         @Override
         public int getCount() {
             return fragmentList.size();

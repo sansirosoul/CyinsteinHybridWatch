@@ -18,11 +18,11 @@ import java.lang.Override;
 public class StepDayFragment_ViewBinding<T extends StepDayFragment> implements Unbinder {
   protected T target;
 
-  private View view2131624104;
+  private View view2131689648;
 
-  private View view2131624105;
+  private View view2131689649;
 
-  private View view2131624207;
+  private View view2131689789;
 
   @UiThread
   public StepDayFragment_ViewBinding(final T target, View source) {
@@ -34,7 +34,7 @@ public class StepDayFragment_ViewBinding<T extends StepDayFragment> implements U
     target.tvDate = Utils.findRequiredViewAsType(source, R.id.tv_date, "field 'tvDate'", TextView.class);
     view = Utils.findRequiredView(source, R.id.iv_left, "field 'ivLeft' and method 'onClick'");
     target.ivLeft = Utils.castView(view, R.id.iv_left, "field 'ivLeft'", LinearLayout.class);
-    view2131624104 = view;
+    view2131689648 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -43,7 +43,7 @@ public class StepDayFragment_ViewBinding<T extends StepDayFragment> implements U
     });
     view = Utils.findRequiredView(source, R.id.iv_right, "field 'ivRight' and method 'onClick'");
     target.ivRight = Utils.castView(view, R.id.iv_right, "field 'ivRight'", LinearLayout.class);
-    view2131624105 = view;
+    view2131689649 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -52,7 +52,7 @@ public class StepDayFragment_ViewBinding<T extends StepDayFragment> implements U
     });
     view = Utils.findRequiredView(source, R.id.ll_step_day, "field 'llStepDay' and method 'onClick'");
     target.llStepDay = Utils.castView(view, R.id.ll_step_day, "field 'llStepDay'", LinearLayout.class);
-    view2131624207 = view;
+    view2131689789 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -78,12 +78,12 @@ public class StepDayFragment_ViewBinding<T extends StepDayFragment> implements U
     target.llSetpBata = null;
     target.scrollView = null;
 
-    view2131624104.setOnClickListener(null);
-    view2131624104 = null;
-    view2131624105.setOnClickListener(null);
-    view2131624105 = null;
-    view2131624207.setOnClickListener(null);
-    view2131624207 = null;
+    view2131689648.setOnClickListener(null);
+    view2131689648 = null;
+    view2131689649.setOnClickListener(null);
+    view2131689649 = null;
+    view2131689789.setOnClickListener(null);
+    view2131689789 = null;
 
     this.target = null;
   }

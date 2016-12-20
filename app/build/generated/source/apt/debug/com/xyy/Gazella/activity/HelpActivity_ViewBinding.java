@@ -16,7 +16,7 @@ import java.lang.Override;
 public class HelpActivity_ViewBinding<T extends HelpActivity> implements Unbinder {
   protected T target;
 
-  private View view2131624170;
+  private View view2131689751;
 
   @UiThread
   public HelpActivity_ViewBinding(final T target, View source) {
@@ -25,7 +25,7 @@ public class HelpActivity_ViewBinding<T extends HelpActivity> implements Unbinde
     View view;
     view = Utils.findRequiredView(source, R.id.btnExit, "field 'btnExit' and method 'onClick'");
     target.btnExit = Utils.castView(view, R.id.btnExit, "field 'btnExit'", LinearLayout.class);
-    view2131624170 = view;
+    view2131689751 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -44,8 +44,8 @@ public class HelpActivity_ViewBinding<T extends HelpActivity> implements Unbinde
     target.btnExit = null;
     target.TVTitle = null;
 
-    view2131624170.setOnClickListener(null);
-    view2131624170 = null;
+    view2131689751.setOnClickListener(null);
+    view2131689751 = null;
 
     this.target = null;
   }
