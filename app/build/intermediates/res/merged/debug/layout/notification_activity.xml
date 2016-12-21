@@ -79,6 +79,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                     <ToggleButton
+                        android:id="@+id/message"
+                        android:background="@drawable/selector_message"
+                        android:textOn=""
+                        android:textOff=""
+                        android:layout_marginLeft="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ToggleButton
                         android:background="@drawable/selector_emial"
                         android:textOn=""
                         android:textOff=""
@@ -96,14 +104,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/twitter" />
 
-                    <ToggleButton
-                        android:id="@+id/line"
-                        android:background="@drawable/selector_line"
-                        android:textOn=""
-                        android:textOff=""
-                        android:layout_marginLeft="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_marginTop="10dp"
@@ -112,8 +113,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <ToggleButton
+                        android:id="@+id/line"
+                        android:background="@drawable/selector_line"
+                        android:textOn=""
+                        android:textOff=""
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ToggleButton
                         android:id="@+id/qq"
                         android:background="@drawable/selector_qq"
+                        android:layout_marginLeft="12dp"
                         android:textOn=""
                         android:textOff=""
                         android:layout_width="wrap_content"
@@ -126,14 +135,7 @@
                         android:layout_marginLeft="12dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
-                    <ToggleButton
-                        android:id="@+id/message"
-                        android:background="@drawable/selector_message"
-                        android:textOn=""
-                        android:textOff=""
-                        android:layout_marginLeft="12dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+
                     <ToggleButton
                         android:id="@+id/skype"
                         android:background="@drawable/selector_skype"

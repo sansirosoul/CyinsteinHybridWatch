@@ -12,15 +12,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.fragment.SleepFragment;
 import com.xyy.Gazella.fragment.StepFragment;
 import com.xyy.Gazella.utils.BleUtils;
+import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.model.StepData;
-import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
+import com.ysp.smartwatch.R;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 
-import static com.ysp.hybridtwatch.R.id.viewpager;
+import static com.ysp.smartwatch.R.id.viewpager;
 
 
 public class HealthyActivity extends BaseActivity {
@@ -60,9 +60,9 @@ public class HealthyActivity extends BaseActivity {
     public static Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public boolean isNotify;
-
     private String userWeight;
     private int Weight;
+    private int TargetStep;
 
 
     @Override
@@ -72,19 +72,24 @@ public class HealthyActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         String address = PreferenceData.getAddressValue(this);
+        bleUtils = new BleUtils();
+        InitViewPager();
+
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         }
-        bleUtils = new BleUtils();
-        InitViewPager();
+        initData();
+        install = this;
+    }
+
+    private void initData() {
+        TargetStep = PreferenceData.getTargetRunValue(HealthyActivity.this);
         userWeight = PreferenceData.getUserInfo(HealthyActivity.this).getWeight();
         userWeight = userWeight.replaceAll("[a-z]", ",");
         String s2[] = userWeight.split(",");
-        userWeight=s2[0];
-
-        install = this;
+        userWeight = s2[0];
     }
 
     @Override
@@ -93,11 +98,13 @@ public class HealthyActivity extends BaseActivity {
             case 0:
                 isNotify = true;
                 break;
-            case 1:  // 断开状态
+            case 1:   // 断开状态
                 isNotify = false;
 //                stepFragment.removeTodayStepPost();
                 break;
-            case 2:// 重新连接
+            case 2:   // 重新连接
+                Notify(connectionObservable);
+                stepFragment.getTodayStepPost();
                 break;
         }
         super.onNotifyReturn(type);
@@ -105,19 +112,34 @@ public class HealthyActivity extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        StepData stepData = bleUtils.returnTodayStep(bytes);
-        int step = stepData.getStep();
-        double k = step * 0.5;
-        stepFragment.setStepNum(String.valueOf(stepData.getStep()));
-//        stepFragment.setDistanceNum(String.valueOf(Integer.valueOf((int) k)) + "公里");
+        if (bytes[0] == 0x07 && bytes[1] == 0x0C) {  // 今日步数
+            StepData stepData = bleUtils.returnTodayStep(bytes);
+            if (stepData != null) {
+                int step = stepData.getStep();
+                double km = step * 0.5;
+                stepFragment.setStepNum(String.valueOf(stepData.getStep()));
+                // 计算活动距离
+                if (km < 1000)
+                    stepFragment.setDistanceNum(String.valueOf((int) km) + getResources().getString(R.string.mi));
+                else
+                    stepFragment.setDistanceNum(String.valueOf(new SomeUtills().changeDouble(km)) + getResources().getString(R.string.km));
+                //计算卡路里
+                if (userWeight != null && !userWeight.equals("")) {
+                    Weight = Integer.valueOf(userWeight);
+                    double card = ((Weight * 0.0005 + (step - 1) * 0.005) * step);
+                    if (card < 1000)
+                        stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) card)) + getResources().getString(R.string.card));
+                    else
+                        stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
+                }
 
-        if (userWeight != null && !userWeight.equals("")) {
-            Weight = Integer.valueOf(userWeight);
-            double ff = (Weight * 0.0005 + (step - 1) * 0.005) * step;
-//            stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) ff)/1000) + "千卡");
+                if (step <= TargetStep)
+                    stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
+                else
+                    stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_kaixin), this.getResources().getString(R.string.over_target));
+                super.onReadReturn(bytes);
+            }
         }
-        Logger.t(TAG).e(String.valueOf(stepData.getStep()));
-        super.onReadReturn(bytes);
     }
 
     private void InitViewPager() {
@@ -214,7 +236,6 @@ public class HealthyActivity extends BaseActivity {
     }
 
     public class FragmentAdapter extends FragmentPagerAdapter {
-
         List<Fragment> fragmentList = new ArrayList<>();
 
         public FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
@@ -231,5 +252,11 @@ public class HealthyActivity extends BaseActivity {
         public int getCount() {
             return fragmentList.size();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stepFragment.removeTodayStepPost();
     }
 }

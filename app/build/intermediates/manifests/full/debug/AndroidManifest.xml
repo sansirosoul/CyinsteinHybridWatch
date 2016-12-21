@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ysp.smartwatch"
     android:versionCode="60"
-    android:versionName="2.5" >
+    android:versionName="2.5.1" >
 
     <uses-sdk
         android:minSdkVersion="18"
@@ -53,6 +53,16 @@
 
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.network"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
         android:name="com.ysp.newband.GazelleApplication"
         android:allowBackup="true"
@@ -62,16 +72,24 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar" >
-        <activity android:name="com.xyy.Gazella.activity.DeviceListActivity" />
-        <activity android:name="com.xyy.Gazella.activity.ConnectionDevice" />
+
         <!-- <activity android:name="com.xyy.Gazella.activity.HomeActivity"></activity> -->
-        <activity android:name="com.xyy.Gazella.activity.SetUesrDataActivity" />
 
         <service android:name="com.xyy.Gazella.BroadcastReceiver.PhoneService" />
         <service
             android:name="com.xyy.Gazella.googlebth.BluetoothLeService"
             android:enabled="true" />
         <service android:name="com.xyy.Gazella.services.BluetoothService" />
+
+        <!-- 空中升级service -->
+        <service android:name="com.xyy.Gazella.services.DfuService" />
+
+        <!-- 来电监听广播 -->
+        <receiver android:name="com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
 
         <!-- 健康管理页面 -->
         <activity
@@ -101,12 +119,6 @@
             android:theme="@style/ExampleTheme" />
         <!-- 起动页面 -->
         <activity
-            android:name="com.xyy.Gazella.activity.LaunchActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/ExampleTheme" />
-        <activity
             android:name="com.xyy.Gazella.activity.StartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
@@ -118,6 +130,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.xyy.Gazella.activity.LaunchActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme" />
         <activity
             android:name="com.xyy.Gazella.activity.PairingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
@@ -134,8 +152,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/ExampleTheme" >
-        </activity>
+            android:theme="@style/ExampleTheme" />
 
         <!-- &lt;!&ndash;首页&ndash;&gt; -->
 
@@ -189,14 +206,48 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.xyy.Gazella.utils.CleanWatchData"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+        <activity
+            android:name="com.xyy.Gazella.utils.RenameWatchDialog"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+        <activity
+            android:name="com.xyy.Gazella.utils.ChangeWatchDialog"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+
         <!-- 帮助页面 -->
         <activity
             android:name="com.xyy.Gazella.activity.HelpActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
+
+        <!-- 更换手表 -->
         <activity
             android:name="com.xyy.Gazella.utils.ChangeWatchList"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+        <!-- 空中升级 -->
+        <activity
+            android:name="com.xyy.Gazella.utils.CheckUpdateDialog3"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/dialog" />
+        <activity
+            android:name="com.xyy.Gazella.utils.CheckUpdateDialog4"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -207,27 +258,48 @@
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <!-- <activity -->
+        <!-- android:name="com.mob.tools.MobUIShell" -->
+        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" -->
+        <!-- android:windowSoftInputMode="stateHidden|adjustResize"> -->
+
+
+        <!-- &lt;!&ndash; QQ和QQ空间分享 QQ登录的回调必须要配置的 &ndash;&gt; -->
+        <!-- <intent-filter> -->
+        <!-- <data android:scheme="tencent1104475505" /> -->
+
+
+        <!-- <action android:name="android.intent.action.VIEW" /> -->
+
+
+        <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- </intent-filter> -->
+
+
+        <!-- &lt;!&ndash; 新浪微博客户端分享回调必须配置 &ndash;&gt; -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" /> -->
+
+
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize" >
-
-            <!-- QQ和QQ空间分享 QQ登录的回调必须要配置的 -->
             <intent-filter>
-                <data android:scheme="tencent1104475505" />
+                <data android:scheme="tencent1105840136" />
 
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-            <!-- 新浪微博客户端分享回调必须配置 -->
-            <intent-filter>
-                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -256,6 +328,18 @@
         </provider>
 
         <activity android:name="me.iwf.photopicker.activity.CropActivity" />
+        <activity
+            android:name="com.bugtags.library.BugtagsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+
+        <service android:name="com.bugtags.library.BugtagsService" />
+
+        <receiver android:name="com.bugtags.library.BugtagsReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

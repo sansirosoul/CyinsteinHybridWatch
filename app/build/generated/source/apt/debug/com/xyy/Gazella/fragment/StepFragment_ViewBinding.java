@@ -18,7 +18,7 @@ import java.lang.Override;
 public class StepFragment_ViewBinding<T extends StepFragment> implements Unbinder {
   protected T target;
 
-  private View view2131624185;
+  private View view2131689766;
 
   @UiThread
   public StepFragment_ViewBinding(final T target, View source) {
@@ -27,7 +27,7 @@ public class StepFragment_ViewBinding<T extends StepFragment> implements Unbinde
     View view;
     view = Utils.findRequiredView(source, R.id.circle, "field 'circle' and method 'onClick'");
     target.circle = Utils.castView(view, R.id.circle, "field 'circle'", ImageView.class);
-    view2131624185 = view;
+    view2131689766 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -43,6 +43,7 @@ public class StepFragment_ViewBinding<T extends StepFragment> implements Unbinde
     target.numberbar = Utils.findRequiredViewAsType(source, R.id.numberbar, "field 'numberbar'", NumberProgressBar.class);
     target.llNumberProgressBar = Utils.findRequiredViewAsType(source, R.id.ll_NumberProgressBar, "field 'llNumberProgressBar'", LinearLayout.class);
     target.llQuality = Utils.findRequiredViewAsType(source, R.id.ll_quality, "field 'llQuality'", LinearLayout.class);
+    target.ivTip = Utils.findRequiredViewAsType(source, R.id.iv_tip, "field 'ivTip'", ImageView.class);
   }
 
   @Override
@@ -61,9 +62,10 @@ public class StepFragment_ViewBinding<T extends StepFragment> implements Unbinde
     target.numberbar = null;
     target.llNumberProgressBar = null;
     target.llQuality = null;
+    target.ivTip = null;
 
-    view2131624185.setOnClickListener(null);
-    view2131624185 = null;
+    view2131689766.setOnClickListener(null);
+    view2131689766 = null;
 
     this.target = null;
   }

@@ -18,7 +18,7 @@ import java.lang.Override;
 public class SleepFragment_ViewBinding<T extends SleepFragment> implements Unbinder {
   protected T target;
 
-  private View view2131624185;
+  private View view2131689766;
 
   @UiThread
   public SleepFragment_ViewBinding(final T target, View source) {
@@ -27,7 +27,7 @@ public class SleepFragment_ViewBinding<T extends SleepFragment> implements Unbin
     View view;
     view = Utils.findRequiredView(source, R.id.circle, "field 'circle' and method 'onClick'");
     target.circle = Utils.castView(view, R.id.circle, "field 'circle'", ImageView.class);
-    view2131624185 = view;
+    view2131689766 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -64,8 +64,8 @@ public class SleepFragment_ViewBinding<T extends SleepFragment> implements Unbin
     target.llNumberProgressBar = null;
     target.llQuality = null;
 
-    view2131624185.setOnClickListener(null);
-    view2131624185 = null;
+    view2131689766.setOnClickListener(null);
+    view2131689766 = null;
 
     this.target = null;
   }

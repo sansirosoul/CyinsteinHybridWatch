@@ -36,6 +36,7 @@ public class BaseFragment extends Fragment {
     private RxBleDevice bleDevice;
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
+    private CommonDialog dialog;
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
         String address = PreferenceData.getAddressValue(context);
@@ -59,7 +60,7 @@ public class BaseFragment extends Fragment {
             //透明导航栏
             getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-
+        dialog= new CommonDialog(getActivity());
         String address = PreferenceData.getAddressValue(getActivity());
         if (address != null && !address.equals(""))
             bleDevice = GazelleApplication.getRxBleClient(getActivity()).getBleDevice(address);
@@ -74,13 +75,10 @@ public class BaseFragment extends Fragment {
                         return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
                     }
                 });
-
     }
 
-    private CommonDialog dialog;
-
     protected void Write( byte[] bytes, Observable<RxBleConnection> connectionObservable) {
-        if (connectionObservable!=null && getConnectionState()) {
+        if (connectionObservable!=null) {
         WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<byte[]>() {
                     @Override
@@ -91,23 +89,10 @@ public class BaseFragment extends Fragment {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        if (!dialog.isShowing()) {
-                            dialog= new CommonDialog(getActivity());
-                            dialog.show();
-                            dialog.setTvContext("操作失败,请再操作一次");
-                            dialog.setButOk(View.VISIBLE);
-                            dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                                @Override
-                                public void onButOKListener() {
-                                    dialog.dismiss();
-                                }
-                            });
-                        }
                         Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
                     }
                 });}else {
-            if (!dialog.isShowing()) {
-                dialog= new CommonDialog(getActivity());
+            if (!dialog.isShowing())
                 dialog.show();
                 dialog.setTvContext("请检查手表蓝牙是否开启");
                 dialog.setButOk(View.VISIBLE);
@@ -117,7 +102,6 @@ public class BaseFragment extends Fragment {
                         dialog.dismiss();
                     }
                 });
-            }
 
         }
 

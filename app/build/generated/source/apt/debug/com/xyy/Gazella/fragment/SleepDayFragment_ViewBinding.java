@@ -18,11 +18,11 @@ import java.lang.Override;
 public class SleepDayFragment_ViewBinding<T extends SleepDayFragment> implements Unbinder {
   protected T target;
 
-  private View view2131624104;
+  private View view2131689648;
 
-  private View view2131624105;
+  private View view2131689649;
 
-  private View view2131624196;
+  private View view2131689777;
 
   @UiThread
   public SleepDayFragment_ViewBinding(final T target, View source) {
@@ -34,7 +34,7 @@ public class SleepDayFragment_ViewBinding<T extends SleepDayFragment> implements
     target.tvDate = Utils.findRequiredViewAsType(source, R.id.tv_date, "field 'tvDate'", TextView.class);
     view = Utils.findRequiredView(source, R.id.iv_left, "field 'ivLeft' and method 'onClick'");
     target.ivLeft = Utils.castView(view, R.id.iv_left, "field 'ivLeft'", LinearLayout.class);
-    view2131624104 = view;
+    view2131689648 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -43,7 +43,7 @@ public class SleepDayFragment_ViewBinding<T extends SleepDayFragment> implements
     });
     view = Utils.findRequiredView(source, R.id.iv_right, "field 'ivRight' and method 'onClick'");
     target.ivRight = Utils.castView(view, R.id.iv_right, "field 'ivRight'", LinearLayout.class);
-    view2131624105 = view;
+    view2131689649 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -52,7 +52,7 @@ public class SleepDayFragment_ViewBinding<T extends SleepDayFragment> implements
     });
     view = Utils.findRequiredView(source, R.id.ll_sleep_day, "field 'llSleepDay' and method 'onClick'");
     target.llSleepDay = Utils.castView(view, R.id.ll_sleep_day, "field 'llSleepDay'", LinearLayout.class);
-    view2131624196 = view;
+    view2131689777 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -78,12 +78,12 @@ public class SleepDayFragment_ViewBinding<T extends SleepDayFragment> implements
     target.scrollView = null;
     target.llSleepBata = null;
 
-    view2131624104.setOnClickListener(null);
-    view2131624104 = null;
-    view2131624105.setOnClickListener(null);
-    view2131624105 = null;
-    view2131624196.setOnClickListener(null);
-    view2131624196 = null;
+    view2131689648.setOnClickListener(null);
+    view2131689648 = null;
+    view2131689649.setOnClickListener(null);
+    view2131689649 = null;
+    view2131689777.setOnClickListener(null);
+    view2131689777 = null;
 
     this.target = null;
   }

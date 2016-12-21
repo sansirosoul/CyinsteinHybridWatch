@@ -20,17 +20,17 @@ import java.lang.Override;
 public class SleepActivity_ViewBinding<T extends SleepActivity> implements Unbinder {
   protected T target;
 
-  private View view2131624170;
+  private View view2131689751;
 
-  private View view2131624171;
+  private View view2131689752;
 
-  private View view2131624172;
+  private View view2131689753;
 
-  private View view2131624092;
+  private View view2131689629;
 
-  private View view2131624093;
+  private View view2131689630;
 
-  private View view2131624094;
+  private View view2131689631;
 
   @UiThread
   public SleepActivity_ViewBinding(final T target, View source) {
@@ -40,7 +40,7 @@ public class SleepActivity_ViewBinding<T extends SleepActivity> implements Unbin
     target.widget = Utils.findRequiredViewAsType(source, R.id.calendarView, "field 'widget'", MaterialCalendarView.class);
     view = Utils.findRequiredView(source, R.id.btnExit, "field 'btnExit' and method 'onClick'");
     target.btnExit = Utils.castView(view, R.id.btnExit, "field 'btnExit'", LinearLayout.class);
-    view2131624170 = view;
+    view2131689751 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -49,7 +49,7 @@ public class SleepActivity_ViewBinding<T extends SleepActivity> implements Unbin
     });
     view = Utils.findRequiredView(source, R.id.btnOpt, "field 'btnOpt' and method 'onClick'");
     target.btnOpt = Utils.castView(view, R.id.btnOpt, "field 'btnOpt'", Button.class);
-    view2131624171 = view;
+    view2131689752 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -58,7 +58,7 @@ public class SleepActivity_ViewBinding<T extends SleepActivity> implements Unbin
     });
     view = Utils.findRequiredView(source, R.id.btnDate, "field 'btnDate' and method 'onClick'");
     target.btnDate = Utils.castView(view, R.id.btnDate, "field 'btnDate'", Button.class);
-    view2131624172 = view;
+    view2131689753 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -68,7 +68,7 @@ public class SleepActivity_ViewBinding<T extends SleepActivity> implements Unbin
     target.TVTitle = Utils.findRequiredViewAsType(source, R.id.TVTitle, "field 'TVTitle'", TextView.class);
     view = Utils.findRequiredView(source, R.id.button_day, "field 'butDay' and method 'onClick'");
     target.butDay = Utils.castView(view, R.id.button_day, "field 'butDay'", Button.class);
-    view2131624092 = view;
+    view2131689629 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -77,7 +77,7 @@ public class SleepActivity_ViewBinding<T extends SleepActivity> implements Unbin
     });
     view = Utils.findRequiredView(source, R.id.button_week, "field 'butWeek' and method 'onClick'");
     target.butWeek = Utils.castView(view, R.id.button_week, "field 'butWeek'", Button.class);
-    view2131624093 = view;
+    view2131689630 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -86,7 +86,7 @@ public class SleepActivity_ViewBinding<T extends SleepActivity> implements Unbin
     });
     view = Utils.findRequiredView(source, R.id.button_month, "field 'butMonth' and method 'onClick'");
     target.butMonth = Utils.castView(view, R.id.button_month, "field 'butMonth'", Button.class);
-    view2131624094 = view;
+    view2131689631 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -116,18 +116,18 @@ public class SleepActivity_ViewBinding<T extends SleepActivity> implements Unbin
     target.llCheckDate = null;
     target.SlsleepActivity = null;
 
-    view2131624170.setOnClickListener(null);
-    view2131624170 = null;
-    view2131624171.setOnClickListener(null);
-    view2131624171 = null;
-    view2131624172.setOnClickListener(null);
-    view2131624172 = null;
-    view2131624092.setOnClickListener(null);
-    view2131624092 = null;
-    view2131624093.setOnClickListener(null);
-    view2131624093 = null;
-    view2131624094.setOnClickListener(null);
-    view2131624094 = null;
+    view2131689751.setOnClickListener(null);
+    view2131689751 = null;
+    view2131689752.setOnClickListener(null);
+    view2131689752 = null;
+    view2131689753.setOnClickListener(null);
+    view2131689753 = null;
+    view2131689629.setOnClickListener(null);
+    view2131689629 = null;
+    view2131689630.setOnClickListener(null);
+    view2131689630 = null;
+    view2131689631.setOnClickListener(null);
+    view2131689631 = null;
 
     this.target = null;
   }

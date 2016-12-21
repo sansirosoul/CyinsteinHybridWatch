@@ -18,15 +18,15 @@ import java.lang.Override;
 public class AddClockActivity_ViewBinding<T extends AddClockActivity> implements Unbinder {
   protected T target;
 
-  private View view2131624113;
+  private View view2131689657;
 
-  private View view2131624114;
+  private View view2131689658;
 
-  private View view2131624122;
+  private View view2131689666;
 
-  private View view2131624117;
+  private View view2131689661;
 
-  private View view2131624119;
+  private View view2131689663;
 
   @UiThread
   public AddClockActivity_ViewBinding(final T target, View source) {
@@ -35,7 +35,7 @@ public class AddClockActivity_ViewBinding<T extends AddClockActivity> implements
     View view;
     view = Utils.findRequiredView(source, R.id.cancel, "field 'cancel' and method 'onClick'");
     target.cancel = Utils.castView(view, R.id.cancel, "field 'cancel'", RelativeLayout.class);
-    view2131624113 = view;
+    view2131689657 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -44,7 +44,7 @@ public class AddClockActivity_ViewBinding<T extends AddClockActivity> implements
     });
     view = Utils.findRequiredView(source, R.id.save, "field 'save' and method 'onClick'");
     target.save = Utils.castView(view, R.id.save, "field 'save'", RelativeLayout.class);
-    view2131624114 = view;
+    view2131689658 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -53,7 +53,7 @@ public class AddClockActivity_ViewBinding<T extends AddClockActivity> implements
     });
     view = Utils.findRequiredView(source, R.id.del_clock, "field 'delClock' and method 'onClick'");
     target.delClock = Utils.castView(view, R.id.del_clock, "field 'delClock'", Button.class);
-    view2131624122 = view;
+    view2131689666 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -62,7 +62,7 @@ public class AddClockActivity_ViewBinding<T extends AddClockActivity> implements
     });
     view = Utils.findRequiredView(source, R.id.rl_ringtime, "field 'rlRingtime' and method 'onClick'");
     target.rlRingtime = Utils.castView(view, R.id.rl_ringtime, "field 'rlRingtime'", RelativeLayout.class);
-    view2131624117 = view;
+    view2131689661 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -71,7 +71,7 @@ public class AddClockActivity_ViewBinding<T extends AddClockActivity> implements
     });
     view = Utils.findRequiredView(source, R.id.rl_repeatrate, "field 'rlRepeatrate' and method 'onClick'");
     target.rlRepeatrate = Utils.castView(view, R.id.rl_repeatrate, "field 'rlRepeatrate'", RelativeLayout.class);
-    view2131624119 = view;
+    view2131689663 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -96,16 +96,16 @@ public class AddClockActivity_ViewBinding<T extends AddClockActivity> implements
     target.pvHour = null;
     target.pvMinute = null;
 
-    view2131624113.setOnClickListener(null);
-    view2131624113 = null;
-    view2131624114.setOnClickListener(null);
-    view2131624114 = null;
-    view2131624122.setOnClickListener(null);
-    view2131624122 = null;
-    view2131624117.setOnClickListener(null);
-    view2131624117 = null;
-    view2131624119.setOnClickListener(null);
-    view2131624119 = null;
+    view2131689657.setOnClickListener(null);
+    view2131689657 = null;
+    view2131689658.setOnClickListener(null);
+    view2131689658 = null;
+    view2131689666.setOnClickListener(null);
+    view2131689666 = null;
+    view2131689661.setOnClickListener(null);
+    view2131689661 = null;
+    view2131689663.setOnClickListener(null);
+    view2131689663 = null;
 
     this.target = null;
   }

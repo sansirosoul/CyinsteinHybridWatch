@@ -1,10 +1,22 @@
 [
     {
-        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\raw\\ct003v02.zip",
-        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\raw\\ct003v02.zip"
+        "merged": "E:\\test\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\raw\\ct003v00047.zip",
+        "source": "E:\\test\\Partner\\app\\src\\main\\res\\raw\\ct003v00047.zip"
     },
     {
-        "merged": "E:\\workspace\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\raw\\ct003v00042.zip",
-        "source": "E:\\workspace\\Partner\\app\\src\\main\\res\\raw\\ct003v00042.zip"
+        "merged": "E:\\test\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\raw\\ct003v00045.zip",
+        "source": "E:\\test\\Partner\\app\\src\\main\\res\\raw\\ct003v00045.zip"
+    },
+    {
+        "merged": "E:\\test\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\raw\\ct003v00049a.zip",
+        "source": "E:\\test\\Partner\\app\\src\\main\\res\\raw\\ct003v00049a.zip"
+    },
+    {
+        "merged": "E:\\test\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\raw\\ct003v00048.zip",
+        "source": "E:\\test\\Partner\\app\\src\\main\\res\\raw\\ct003v00048.zip"
+    },
+    {
+        "merged": "E:\\test\\Partner\\app\\build\\intermediates\\res\\merged\\debug\\raw\\ct003v00046.zip",
+        "source": "E:\\test\\Partner\\app\\src\\main\\res\\raw\\ct003v00046.zip"
     }
 ]

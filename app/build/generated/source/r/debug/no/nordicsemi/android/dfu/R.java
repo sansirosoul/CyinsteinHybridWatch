@@ -8,32 +8,32 @@ package no.nordicsemi.android.dfu;
 
 public final class R {
 	public static final class drawable {
-		public static final int ic_action_notify_cancel = 0x7f02006e;
-		public static final int ic_stat_notify_dfu = 0x7f020070;
+		public static final int ic_action_notify_cancel = 0x7f0200ba;
+		public static final int ic_stat_notify_dfu = 0x7f0200bc;
 	}
 	public static final class string {
-		public static final int dfu_action_abort = 0x7f08018a;
-		public static final int dfu_status_aborted = 0x7f08018b;
-		public static final int dfu_status_aborted_msg = 0x7f08018c;
-		public static final int dfu_status_aborting = 0x7f08018d;
-		public static final int dfu_status_completed = 0x7f08018e;
-		public static final int dfu_status_completed_msg = 0x7f08018f;
-		public static final int dfu_status_connecting = 0x7f080190;
-		public static final int dfu_status_connecting_msg = 0x7f080191;
-		public static final int dfu_status_disconnecting = 0x7f080192;
-		public static final int dfu_status_disconnecting_msg = 0x7f080193;
-		public static final int dfu_status_error = 0x7f080194;
-		public static final int dfu_status_error_msg = 0x7f080195;
-		public static final int dfu_status_initializing = 0x7f080196;
-		public static final int dfu_status_starting = 0x7f080197;
-		public static final int dfu_status_starting_msg = 0x7f080198;
-		public static final int dfu_status_switching_to_dfu = 0x7f080199;
-		public static final int dfu_status_switching_to_dfu_msg = 0x7f08019a;
-		public static final int dfu_status_uploading = 0x7f08019b;
-		public static final int dfu_status_uploading_msg = 0x7f08019c;
-		public static final int dfu_status_uploading_part = 0x7f08019d;
-		public static final int dfu_status_validating = 0x7f08019e;
-		public static final int dfu_status_validating_msg = 0x7f08019f;
-		public static final int dfu_unknown_name = 0x7f0801a0;
+		public static final int dfu_action_abort = 0x7f0801ae;
+		public static final int dfu_status_aborted = 0x7f0801af;
+		public static final int dfu_status_aborted_msg = 0x7f0801b0;
+		public static final int dfu_status_aborting = 0x7f0801b1;
+		public static final int dfu_status_completed = 0x7f0801b2;
+		public static final int dfu_status_completed_msg = 0x7f0801b3;
+		public static final int dfu_status_connecting = 0x7f0801b4;
+		public static final int dfu_status_connecting_msg = 0x7f0801b5;
+		public static final int dfu_status_disconnecting = 0x7f0801b6;
+		public static final int dfu_status_disconnecting_msg = 0x7f0801b7;
+		public static final int dfu_status_error = 0x7f0801b8;
+		public static final int dfu_status_error_msg = 0x7f0801b9;
+		public static final int dfu_status_initializing = 0x7f0801ba;
+		public static final int dfu_status_starting = 0x7f0801bb;
+		public static final int dfu_status_starting_msg = 0x7f0801bc;
+		public static final int dfu_status_switching_to_dfu = 0x7f0801bd;
+		public static final int dfu_status_switching_to_dfu_msg = 0x7f0801be;
+		public static final int dfu_status_uploading = 0x7f0801bf;
+		public static final int dfu_status_uploading_msg = 0x7f0801c0;
+		public static final int dfu_status_uploading_part = 0x7f0801c1;
+		public static final int dfu_status_validating = 0x7f0801c2;
+		public static final int dfu_status_validating_msg = 0x7f0801c3;
+		public static final int dfu_unknown_name = 0x7f0801c4;
 	}
 }

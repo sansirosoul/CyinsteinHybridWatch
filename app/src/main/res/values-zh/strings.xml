@@ -23,4 +23,30 @@
 
     <!--健康管理-->
     <string name="health_manage">健康管理</string>
+    <string name="mi">米</string>
+    <string name="km">公里</string>
+    <string name="card">卡</string>
+    <string name="Kcard">千卡</string>
+    <string name="no_over_target">未完成目标，继续加油哦！</string>
+
+    <!--搜索并连接手表对话框-->
+    <string name="scan_connection_device">正在搜索并连接手表...</string>
+    <string name="ok">确定</string>
+
+    <!--校时页面-->
+    <string name="Synchronization_time">"智能校时"</string>
+    <string name="Click_Synchronization">请先点击同步按键</string>
+    <string name="Synchronization_step_1">1.请先点击重置按键</string>
+    <string name="Synchronization_step_2">2.调整时、分针，使手表归零后点击同步</string>
+    <string name="Synchronization_time_3">"智能校时成功"</string>
+    <string name="Synchronization_step">请先点击重置按键</string>
+    <string name="on_over_Synchronization">"校时未完成，请点击同步按键完成校时"</string>
+    <string name="connection_device">"已连接到手表设备"</string>
+    <string name="inspect_ble_state">"手表没有连接！请到设置-更换手表界面连接您的手表"</string>
+
+
+
+
+
+
 </resources>

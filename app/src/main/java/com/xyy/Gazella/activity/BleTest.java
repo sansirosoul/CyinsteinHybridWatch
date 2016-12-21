@@ -323,7 +323,7 @@ public class BleTest extends BaseActivity {
                     }
                 }
                 if (FaCount != length) {
-                    String[] newData = Arrays.copyOfRange(strings, FaCount-1, length);
+                    String[] newData = Arrays.copyOfRange(strings, FaCount+1, length);
                     for (int n = 0; n < newData.length; n++) {
                         String count = newData[n];
                         if (count.startsWith("0x") || count.startsWith("0X"))

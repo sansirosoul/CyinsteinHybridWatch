@@ -18,7 +18,7 @@ import java.lang.Override;
 public class NotificationActivty_ViewBinding<T extends NotificationActivty> implements Unbinder {
   protected T target;
 
-  private View view2131624170;
+  private View view2131689751;
 
   @UiThread
   public NotificationActivty_ViewBinding(final T target, View source) {
@@ -27,7 +27,7 @@ public class NotificationActivty_ViewBinding<T extends NotificationActivty> impl
     View view;
     view = Utils.findRequiredView(source, R.id.btnExit, "field 'btnExit' and method 'onClick'");
     target.btnExit = Utils.castView(view, R.id.btnExit, "field 'btnExit'", LinearLayout.class);
-    view2131624170 = view;
+    view2131689751 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -66,8 +66,8 @@ public class NotificationActivty_ViewBinding<T extends NotificationActivty> impl
     target.skype = null;
     target.wechat = null;
 
-    view2131624170.setOnClickListener(null);
-    view2131624170 = null;
+    view2131689751.setOnClickListener(null);
+    view2131689751 = null;
 
     this.target = null;
   }

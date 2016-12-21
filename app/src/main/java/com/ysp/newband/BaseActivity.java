@@ -51,7 +51,7 @@ public class BaseActivity extends FragmentActivity {
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
-    private  RxBleDevice bleDevicme;
+    private RxBleDevice bleDevicme;
 
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
@@ -86,7 +86,7 @@ public class BaseActivity extends FragmentActivity {
         mContext = this;
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals(""))
-             bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
+            bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
     }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
@@ -131,6 +131,7 @@ public class BaseActivity extends FragmentActivity {
     }
 
     private CommonDialog dialog;
+
     protected void Notify(Observable<RxBleConnection> connectionObservable) {
         dialog = new CommonDialog(this);
         dialog.show();
@@ -177,7 +178,7 @@ public class BaseActivity extends FragmentActivity {
                             });
                         }
                     } else {
-                        if (dialog.isShowing()) {
+                            if (!dialog.isShowing()) dialog.show();
                             dialog.setTvContext("请检查手表蓝牙是否开启");
                             dialog.setButOk(View.VISIBLE);
                             dialog.onButOKListener(new CommonDialog.onButOKListener() {
@@ -186,26 +187,24 @@ public class BaseActivity extends FragmentActivity {
                                     dialog.dismiss();
                                 }
                             });
-                        }
                     }
                     onNotifyReturn(1);
                 }
             });
         } else {
-            if (dialog.isShowing()) {
-                dialog.setTvContext("没有连接到手表设备");
-                dialog.setButOk(View.VISIBLE);
-                dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                    @Override
-                    public void onButOKListener() {
-                        dialog.dismiss();
-                    }
-                });
-            }
+            if (!dialog.isShowing()) dialog.show();
+            dialog.setTvContext("没有连接到手表设备");
+            dialog.setButOk(View.VISIBLE);
+            dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                @Override
+                public void onButOKListener() {
+                    dialog.dismiss();
+                }
+            });
         }
     }
 
-    private void  DeviceConnectionStateChanges(){
+    private void DeviceConnectionStateChanges() {
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
@@ -213,25 +212,24 @@ public class BaseActivity extends FragmentActivity {
                     .subscribe(new Action1<RxBleConnection.RxBleConnectionState>() {
                         @Override
                         public void call(RxBleConnection.RxBleConnectionState rxBleConnectionState) {
-                           if(bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
-                                    || bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED){
-                               Logger.t(TAG).e("连接 >>>>>>  " + rxBleConnectionState.toString());
-                           }else {
-                               Logger.t(TAG).e("断开 >>>>>>  " + rxBleConnectionState.toString());
-                           }
+                            if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
+                                    || bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED) {
+                                Logger.t(TAG).e("连接 >>>>>>  " + rxBleConnectionState.toString());
+                            } else {
+                                Logger.t(TAG).e("断开 >>>>>>  " + rxBleConnectionState.toString());
+                            }
                         }
                     }, new Action1<Throwable>() {
                         @Override
                         public void call(Throwable throwable) {
-
                         }
                     });
         }
     }
 
 
-    protected   boolean getConnectionState(){
-        if(bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
+    protected boolean getConnectionState() {
+        if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
                 || bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED)
             return true;
         else
@@ -250,6 +248,7 @@ public class BaseActivity extends FragmentActivity {
 
     protected void onReadReturnFailed() {
     }
+
     protected void onConnectionStateChanges() {
     }
 

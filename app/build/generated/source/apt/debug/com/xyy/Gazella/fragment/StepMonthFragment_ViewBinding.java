@@ -18,11 +18,11 @@ import java.lang.Override;
 public class StepMonthFragment_ViewBinding<T extends StepMonthFragment> implements Unbinder {
   protected T target;
 
-  private View view2131624104;
+  private View view2131689648;
 
-  private View view2131624105;
+  private View view2131689649;
 
-  private View view2131624209;
+  private View view2131689791;
 
   @UiThread
   public StepMonthFragment_ViewBinding(final T target, View source) {
@@ -34,7 +34,7 @@ public class StepMonthFragment_ViewBinding<T extends StepMonthFragment> implemen
     target.tvDate = Utils.findRequiredViewAsType(source, R.id.tv_date, "field 'tvDate'", TextView.class);
     view = Utils.findRequiredView(source, R.id.iv_left, "field 'ivLeft' and method 'onClick'");
     target.ivLeft = Utils.castView(view, R.id.iv_left, "field 'ivLeft'", LinearLayout.class);
-    view2131624104 = view;
+    view2131689648 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -43,7 +43,7 @@ public class StepMonthFragment_ViewBinding<T extends StepMonthFragment> implemen
     });
     view = Utils.findRequiredView(source, R.id.iv_right, "field 'ivRight' and method 'onClick'");
     target.ivRight = Utils.castView(view, R.id.iv_right, "field 'ivRight'", LinearLayout.class);
-    view2131624105 = view;
+    view2131689649 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -52,7 +52,7 @@ public class StepMonthFragment_ViewBinding<T extends StepMonthFragment> implemen
     });
     view = Utils.findRequiredView(source, R.id.ll_step_month, "field 'llStepMonth' and method 'onClick'");
     target.llStepMonth = Utils.castView(view, R.id.ll_step_month, "field 'llStepMonth'", LinearLayout.class);
-    view2131624209 = view;
+    view2131689791 = view;
     view.setOnClickListener(new DebouncingOnClickListener() {
       @Override
       public void doClick(View p0) {
@@ -78,12 +78,12 @@ public class StepMonthFragment_ViewBinding<T extends StepMonthFragment> implemen
     target.llSetpBata = null;
     target.scrollView = null;
 
-    view2131624104.setOnClickListener(null);
-    view2131624104 = null;
-    view2131624105.setOnClickListener(null);
-    view2131624105 = null;
-    view2131624209.setOnClickListener(null);
-    view2131624209 = null;
+    view2131689648.setOnClickListener(null);
+    view2131689648 = null;
+    view2131689649.setOnClickListener(null);
+    view2131689649 = null;
+    view2131689791.setOnClickListener(null);
+    view2131689791 = null;
 
     this.target = null;
   }

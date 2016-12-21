@@ -8,23 +8,23 @@ package com.jp.wheelview;
 
 public final class R {
 	public static final class attr {
-		public static final int isEnable = 0x7f01013c;
-		public static final int itemNumber = 0x7f010133;
-		public static final int lineColor = 0x7f010138;
-		public static final int lineHeight = 0x7f010139;
-		public static final int maskHeight = 0x7f01013a;
-		public static final int noEmpty = 0x7f01013b;
-		public static final int normalTextColor = 0x7f010134;
-		public static final int normalTextSize = 0x7f010135;
-		public static final int selectedTextColor = 0x7f010136;
-		public static final int selectedTextSize = 0x7f010137;
-		public static final int unitHeight = 0x7f010132;
+		public static final int isEnable = 0x7f01013f;
+		public static final int itemNumber = 0x7f010136;
+		public static final int lineColor = 0x7f01013b;
+		public static final int lineHeight = 0x7f01013c;
+		public static final int maskHeight = 0x7f01013d;
+		public static final int noEmpty = 0x7f01013e;
+		public static final int normalTextColor = 0x7f010137;
+		public static final int normalTextSize = 0x7f010138;
+		public static final int selectedTextColor = 0x7f010139;
+		public static final int selectedTextSize = 0x7f01013a;
+		public static final int unitHeight = 0x7f010135;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f080154;
+		public static final int app_name = 0x7f080178;
 	}
 	public static final class styleable {
-		public static final int[] WheelView = { 0x7f010132, 0x7f010133, 0x7f010134, 0x7f010135, 0x7f010136, 0x7f010137, 0x7f010138, 0x7f010139, 0x7f01013a, 0x7f01013b, 0x7f01013c };
+		public static final int[] WheelView = { 0x7f010135, 0x7f010136, 0x7f010137, 0x7f010138, 0x7f010139, 0x7f01013a, 0x7f01013b, 0x7f01013c, 0x7f01013d, 0x7f01013e, 0x7f01013f };
 		public static final int WheelView_isEnable = 10;
 		public static final int WheelView_itemNumber = 1;
 		public static final int WheelView_lineColor = 6;

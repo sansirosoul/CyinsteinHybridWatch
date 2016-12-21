@@ -109,16 +109,17 @@ public class TimeSynchronization extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_synchronization);
         ButterKnife.bind(this);
+        InitView();
+        InitViewPager();
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
+        } else {
+            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
         }
         bleUtils = new BleUtils();
-        InitView();
-        InitViewPager();
         install = this;
-
     }
 
     @Override
@@ -143,16 +144,15 @@ public class TimeSynchronization extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        HexString.bytesToHex(bytes);
         if (HexString.bytesToHex(bytes).equals("0702010A1A")) {
-            tvHint.setText("智能校时成功");
+            tvHint.setText(getResources().getString(R.string.Synchronization_time_3));
         }
         super.onReadReturn(bytes);
     }
 
     private void InitView() {
 
-        TVTitle.setText("智能校时");
+        TVTitle.setText(getResources().getString(R.string.Synchronization_time));
         btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
         ivLeft.setVisibility(View.GONE);
         ivRight.setVisibility(View.GONE);
@@ -259,7 +259,7 @@ public class TimeSynchronization extends BaseActivity {
                 if (isNotify())
                     break;
                 if (isClickSynchronization) {
-                    showToatst(TimeSynchronization.this, "请先点击同步按键");
+                    showToatst(TimeSynchronization.this, getResources().getString(R.string.Click_Synchronization));
                     break;
                 }
                 Write(bleUtils.resetHand(), connectionObservable);
@@ -267,13 +267,13 @@ public class TimeSynchronization extends BaseActivity {
                     break;
                 mHandler.post(runnable);
                 isRun = true;
-                tvHint.setText("第二步：调整时、分针，使手表归零后点击同步");
+                tvHint.setText(getResources().getString(R.string.Synchronization_step_2));
                 isClickSynchronization = true;
                 isShwoSynchronization = true;
                 break;
             case R.id.but_synchronization:    ///同步
                 if (!isClickSynchronization) {
-                    showToatst(TimeSynchronization.this, "请先点击重置按键");
+                    showToatst(TimeSynchronization.this, getResources().getString(R.string.Synchronization_step));
                     break;
                 }
                 initTime();
@@ -283,7 +283,7 @@ public class TimeSynchronization extends BaseActivity {
                 small2TimeValue = PreferenceData.getSelectedSmall2Value(this);
                 small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
 
-                Write(bleUtils.setWatchDateAndTime(1, myear, month+1, mday, hour, minute, second), connectionObservable);
+                Write(bleUtils.setWatchDateAndTime(1, myear, month + 1, mday, hour, minute, second), connectionObservable);
 
                 if (fragmentsList.size() > 1) {
                     setChangeTimeType(1);
@@ -294,14 +294,24 @@ public class TimeSynchronization extends BaseActivity {
 
                 break;
             case R.id.btnExit:   // 退出
+                if (isClickSynchronization) {
+                    showToatst(TimeSynchronization.this, getResources().getString(R.string.on_over_Synchronization));
+                    break;
+                }
+
                 TimeSynchronization.this.finish();
                 overridePendingTransitionExit(TimeSynchronization.this);
                 break;
             case R.id.btnOpt:
-                if(!isNotify&&connectionObservable!=null){
-                    Notify(connectionObservable);
+                if(isNotify){
+                    showToatst(TimeSynchronization.this,getResources().getString(R.string.connection_device));
+                    break;
                 }
 
+                if (!isNotify && connectionObservable != null)
+                    Notify(connectionObservable);
+                else
+                    showToatst(TimeSynchronization.this, getResources().getString(R.string.inspect_ble_state));
 
                 break;
             case R.id.TVTitle:
@@ -583,7 +593,7 @@ public class TimeSynchronization extends BaseActivity {
 
     private boolean isShwoSynchronization() {
         if (!isClickSynchronization && !isShwoSynchronization) {
-            showToatst(TimeSynchronization.this, "请先点击重置按键");
+            showToatst(TimeSynchronization.this, getResources().getString(R.string.Synchronization_step));
             isShwoSynchronization = true;
             return true;
         } else {
@@ -593,7 +603,7 @@ public class TimeSynchronization extends BaseActivity {
 
     private boolean isNotify() {
         if (!isNotify) {
-            showToatst(TimeSynchronization.this, "检查蓝牙是否开启");
+            showToatst(TimeSynchronization.this, getResources().getString(R.string.inspect_ble_state));
             return true;
         } else
             return false;
