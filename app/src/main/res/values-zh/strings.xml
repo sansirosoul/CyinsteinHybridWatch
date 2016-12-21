@@ -42,7 +42,7 @@
     <string name="Synchronization_step">请先点击重置按键</string>
     <string name="on_over_Synchronization">"校时未完成，请点击同步按键完成校时"</string>
     <string name="connection_device">"已连接到手表设备"</string>
-    <string name="inspect_ble_state">"检查蓝牙是否开启"</string>
+    <string name="inspect_ble_state">"手表没有连接！请到设置-更换手表界面连接您的手表"</string>
 
 
 

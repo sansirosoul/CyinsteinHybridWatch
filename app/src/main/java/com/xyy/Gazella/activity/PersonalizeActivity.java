@@ -20,7 +20,6 @@ import butterknife.ButterKnife;
 
 public class PersonalizeActivity extends BaseActivity {
 
-
     @BindView(R.id.num)
     TextView num;
     @BindView(R.id.circle)
@@ -80,38 +79,18 @@ public class PersonalizeActivity extends BaseActivity {
                     circle.setProgress((float) cur);
                     switch (cur) {
                         case 10:
-//                            textName.setVisibility(View.VISIBLE);
-//                            textName.startAnimation(loadImageAnimation);
                             break;
                         case 20:
-//                            textSex.setVisibility(View.VISIBLE);
-//                            textSex.startAnimation(loadImageAnimation);
                             break;
                         case 40:
-//                            textBirth.setVisibility(View.VISIBLE);
-//                            textBirth.startAnimation(loadImageAnimation);
                             break;
                         case 60:
-//                            textHeight.setVisibility(View.VISIBLE);
-//                            textHeight.startAnimation(loadImageAnimation);
                             break;
                         case 80:
-//                            textWeight.setVisibility(View.VISIBLE);
-//                            textWeight.startAnimation(loadImageAnimation);
                             break;
                         case 100:
-//                            Intent intent = new Intent(PersonalizeActivity.this, HomeActivity.class);
-//                            startActivity(intent);
-//                            finish();
-//                            overridePendingTransitionEnter(PersonalizeActivity.this);
                             break;
                     }
-//                    if(cur==100){
-//                        Intent intent = new Intent(PersonalizeActivity.this,HomeActivity.class);
-//                        startActivity(intent);
-//                        finish();
-//                        overridePendingTransitionEnter(PersonalizeActivity.this);
-//                    }
                     break;
             }
         }

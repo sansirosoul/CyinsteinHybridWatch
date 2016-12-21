@@ -36,8 +36,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     packagingOptions {   // 排除一些文件
@@ -63,6 +64,7 @@ android {
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
+        disable 'MissingTranslation'
     }
 
     compileOptions {
@@ -83,8 +85,6 @@ bugtags {
     trackingNetworkEnabled true
 }
 
-
-
 dependencies {
     compile files('libs/commons-httpclient.jar')
     compile files('libs/fileupload.jar')
@@ -94,10 +94,10 @@ dependencies {
     compile files('libs/Juts-License.jar')
     compile files('libs/Juts-Sqlite-Jdbc-Driver.jar')
     compile files('libs/Juts-Utility.jar')
-    compile files('libs/samsung_ble_sdk_200.jar')
+//    compile files('libs/samsung_ble_sdk_200.jar')
     // compile files('libs/Calend.jar')
     compile files('libs/MPChartLib.jar')
-    compile 'com.jakewharton:butterknife-compiler:8.4.0'
+   // compile 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     compile 'com.android.support:support-v4:23.0.1'
     compile 'com.android.support:appcompat-v7:23.4.0'
