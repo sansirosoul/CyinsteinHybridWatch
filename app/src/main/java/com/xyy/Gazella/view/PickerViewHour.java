@@ -13,7 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.xyy.Gazella.utils.SomeUtills;
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;

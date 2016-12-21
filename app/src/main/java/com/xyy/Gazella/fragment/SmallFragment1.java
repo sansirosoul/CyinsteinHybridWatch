@@ -10,9 +10,9 @@ import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.TimeSynchronization;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.AnalogClock;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

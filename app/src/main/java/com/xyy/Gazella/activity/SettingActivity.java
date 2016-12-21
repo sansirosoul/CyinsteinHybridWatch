@@ -16,9 +16,9 @@ import com.xyy.Gazella.utils.CleanPhoneData;
 import com.xyy.Gazella.utils.CleanWatchData;
 import com.xyy.Gazella.utils.RenameWatchDialog;
 import com.xyy.Gazella.view.SwitchView;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -119,7 +119,6 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        System.out.println("-----------");
 //        if(HexString.bytesToHex(bytes).equals("0725012D60")){
 //                 Toast.makeText(context,"手表已震动，请寻找手表！",Toast.LENGTH_SHORT).show();
 //        }else if(HexString.bytesToHex(bytes).equals("0701010918")){
@@ -173,7 +172,7 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.rl_search_watch:
                 if (connectionObservable != null) {
-                    Write(bleUtils.setWatchShake(1, 2, 2), connectionObservable);
+                    Write(bleUtils.setWatchShake(1, 2, 3), connectionObservable);
                     showToatst(context, "手表已震动，请寻找手表！");
                 }
                 break;

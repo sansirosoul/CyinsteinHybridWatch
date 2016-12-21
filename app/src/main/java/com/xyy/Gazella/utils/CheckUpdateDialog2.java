@@ -13,7 +13,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
+
 
 /**
  * Created by Administrator on 2016/10/24.
@@ -29,7 +30,7 @@ public class CheckUpdateDialog2 extends Dialog implements View.OnClickListener{
     public   setBtnlListener  setBtnlListener;
 
     public CheckUpdateDialog2(Context context) {
-        super(context,R.style.dialog);
+        super(context, R.style.dialog);
         this.context = context;
     }
 

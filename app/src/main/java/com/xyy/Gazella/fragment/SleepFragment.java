@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.view.NumberProgressBar;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
-import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

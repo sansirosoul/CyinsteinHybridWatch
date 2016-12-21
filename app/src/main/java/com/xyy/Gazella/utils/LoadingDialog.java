@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.ProgressBar;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
 
-import static com.ysp.smartwatch.R.id.iv_loading;
+import static com.ysp.hybridtwatch.R.id.iv_loading;
 
 /**
  * Created by Administrator on 2016/10/14.
@@ -19,7 +19,7 @@ public class LoadingDialog extends Dialog {
     private ProgressBar ivLoading;
 
     public LoadingDialog(Context context) {
-        super(context,R.style.dialog);
+        super(context, R.style.dialog);
         this.context=context;
     }
 

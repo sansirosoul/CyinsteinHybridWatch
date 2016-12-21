@@ -14,7 +14,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Interpolator;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
+
 
 /**
  * Created by Administrator on 2016/10/15.

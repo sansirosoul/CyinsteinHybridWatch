@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
-import com.ysp.smartwatch.R;
 
 
      /** 启动页面 */

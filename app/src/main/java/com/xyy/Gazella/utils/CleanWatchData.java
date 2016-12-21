@@ -5,9 +5,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.polidea.rxandroidble.RxBleConnection;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import rx.Observable;
 

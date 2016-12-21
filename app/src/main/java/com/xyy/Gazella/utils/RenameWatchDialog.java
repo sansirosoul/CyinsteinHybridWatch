@@ -4,11 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleConnection;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import rx.Observable;
 
@@ -52,6 +53,7 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
         super.onReadReturn(bytes);
         if(bleUtils.returnDeviceName(bytes)!=null){
             etName.setText(bleUtils.returnDeviceName(bytes));
+            etName.setSelection(bleUtils.returnDeviceName(bytes).length());
         }
     }
 
@@ -61,8 +63,15 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.confirm:
-                if (!etName.getText().toString().equals("")) {
-                    if(connectionObservable!=null)
+                if (etName.getText().toString().equals("")){
+                    Toast.makeText(this,"请输入设备名称!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(etName.getText().toString().length()>13){
+                    Toast.makeText(this,"设备名称太长!",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(connectionObservable!=null){
                     Write(bleUtils.setDeviceName(etName.getText().toString()), connectionObservable);
                     finish();
                 }

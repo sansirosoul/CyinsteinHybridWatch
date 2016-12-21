@@ -18,9 +18,9 @@ import com.xyy.Gazella.fragment.SleepFragment;
 import com.xyy.Gazella.fragment.StepFragment;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.model.StepData;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 
-import static com.ysp.smartwatch.R.id.viewpager;
+import static com.ysp.hybridtwatch.R.id.viewpager;
 
 
 public class HealthyActivity extends BaseActivity {
@@ -109,12 +109,12 @@ public class HealthyActivity extends BaseActivity {
         int step = stepData.getStep();
         double k = step * 0.5;
         stepFragment.setStepNum(String.valueOf(stepData.getStep()));
-        stepFragment.setDistanceNum(String.valueOf(Integer.valueOf((int) k)) + "公里");
+//        stepFragment.setDistanceNum(String.valueOf(Integer.valueOf((int) k)) + "公里");
 
         if (userWeight != null && !userWeight.equals("")) {
             Weight = Integer.valueOf(userWeight);
             double ff = (Weight * 0.0005 + (step - 1) * 0.005) * step;
-            stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) ff)/1000) + "千卡");
+//            stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) ff)/1000) + "千卡");
         }
         Logger.t(TAG).e(String.valueOf(stepData.getStep()));
         super.onReadReturn(bytes);

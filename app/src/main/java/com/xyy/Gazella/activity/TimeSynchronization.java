@@ -26,9 +26,9 @@ import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckAnalogClock;
 import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.view.MyViewPage;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;

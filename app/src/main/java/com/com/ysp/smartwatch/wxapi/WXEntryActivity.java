@@ -6,7 +6,7 @@
  * Copyright (c) 2013年 mob.com. All rights reserved.
  */
 
-package com.com.ysp.smartwatch.wxapi;
+package com.com.ysp.hybridwatch.wxapi;
 
 import android.content.Intent;
 import android.widget.Toast;

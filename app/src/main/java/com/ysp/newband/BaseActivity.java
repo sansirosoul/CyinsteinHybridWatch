@@ -30,7 +30,7 @@ import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.exchange.ExangeErrorHandler;
 import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.HexString;
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
 
 import java.util.UUID;
 

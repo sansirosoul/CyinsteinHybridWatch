@@ -153,7 +153,7 @@ public class GazelleApplication extends Application {
 	}
 
 	private void initLogger() {
-		Logger.init("smartwatch").methodCount(2).methodOffset(0).logLevel(LogLevel.FULL).hideThreadInfo();
+		Logger.init("hybridwatch").methodCount(2).methodOffset(0).logLevel(LogLevel.FULL).hideThreadInfo();
 	}
 	@Override
 	protected void attachBaseContext(Context base) {

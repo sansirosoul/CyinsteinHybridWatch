@@ -24,9 +24,9 @@ import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
 import com.xyy.Gazella.utils.WeightDialog;
 import com.xyy.Gazella.view.RoundImageView;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

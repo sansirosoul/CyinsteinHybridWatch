@@ -10,9 +10,9 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.xyy.Gazella.view.SwitchView;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

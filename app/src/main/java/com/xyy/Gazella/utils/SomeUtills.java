@@ -16,7 +16,7 @@ import com.partner.entity.Partner;
 import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.dbmanager.CommonUtils;
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
 
 import java.io.BufferedReader;
 import java.io.File;

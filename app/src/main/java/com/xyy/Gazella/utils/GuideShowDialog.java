@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
