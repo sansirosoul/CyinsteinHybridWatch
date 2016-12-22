@@ -103,7 +103,6 @@ public class TimeSynchronization extends BaseActivity {
     private boolean isShwoSynchronization = false;
     private boolean isNotify = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -558,9 +557,10 @@ public class TimeSynchronization extends BaseActivity {
         myear = mCalendar.year;
         month = mCalendar.month;
         mday = mCalendar.monthDay;
+        HyHour=hour;
+        if (HyHour > 12)
+            HyHour = HyHour - 12;
 
-        if (hour > 12)
-            HyHour = hour - 12;
         float mHour = HyHour + minute / 60.0f + minute / 360.0f;
 //        mMinutes = minute + second / 60.0f;
         String dou = String.valueOf(mHour);
@@ -575,7 +575,6 @@ public class TimeSynchronization extends BaseActivity {
         num = num + dd;
         mHour = Float.parseFloat(String.valueOf(num));
         countHour = (int) mHour;
-
     }
 
     private boolean isShwoSynchronization() {
