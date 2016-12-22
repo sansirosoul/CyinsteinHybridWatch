@@ -3,8 +3,8 @@ package com.xyy.Gazella.utils;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
-import com.ysp.smartwatch.R;
 
 /**
  * Created by Administrator on 2016/10/14.

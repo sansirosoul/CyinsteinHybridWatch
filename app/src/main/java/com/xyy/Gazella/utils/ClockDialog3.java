@@ -15,7 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
+
 
 /**
  * Created by Administrator on 2016/10/26.
@@ -119,77 +120,77 @@ public class ClockDialog3 extends Dialog implements View.OnClickListener {
                 if (flag1) {
                     iv1.setBackgroundResource(R.drawable.page36_nor);
                     flag1 = false;
-                    selectStr[0] = "0";
+                    selectStr[7] = "0";
                 } else {
                     iv1.setBackgroundResource(R.drawable.page36_sel);
                     flag1 = true;
-                    selectStr[0] = "1";
+                    selectStr[7] = "1";
                 }
                 break;
             case R.id.rl2:
                 if (flag2) {
                     iv2.setBackgroundResource(R.drawable.page36_nor);
                     flag2 = false;
-                    selectStr[1] = "0";
+                    selectStr[6] = "0";
                 } else {
                     iv2.setBackgroundResource(R.drawable.page36_sel);
                     flag2 = true;
-                    selectStr[1] = "1";
+                    selectStr[6] = "1";
                 }
                 break;
             case R.id.rl3:
                 if (flag3) {
                     iv3.setBackgroundResource(R.drawable.page36_nor);
                     flag3 = false;
-                    selectStr[2] = "0";
+                    selectStr[5] = "0";
                 } else {
                     iv3.setBackgroundResource(R.drawable.page36_sel);
                     flag3 = true;
-                    selectStr[2] = "1";
+                    selectStr[5] = "1";
                 }
                 break;
             case R.id.rl4:
                 if (flag4) {
                     iv4.setBackgroundResource(R.drawable.page36_nor);
                     flag4 = false;
-                    selectStr[3] = "0";
+                    selectStr[4] = "0";
                 } else {
                     iv4.setBackgroundResource(R.drawable.page36_sel);
                     flag4 = true;
-                    selectStr[3] = "1";
+                    selectStr[4] = "1";
                 }
                 break;
             case R.id.rl5:
                 if (flag5) {
                     iv5.setBackgroundResource(R.drawable.page36_nor);
                     flag5 = false;
-                    selectStr[4] = "0";
+                    selectStr[3] = "0";
                 } else {
                     iv5.setBackgroundResource(R.drawable.page36_sel);
                     flag5 = true;
-                    selectStr[4] = "1";
+                    selectStr[3] = "1";
                 }
                 break;
             case R.id.rl6:
                 if (flag6) {
                     iv6.setBackgroundResource(R.drawable.page36_nor);
                     flag6 = false;
-                    selectStr[5] = "0";
+                    selectStr[2] = "0";
                 } else {
                     iv6.setBackgroundResource(R.drawable.page36_sel);
                     flag6 = true;
-                    selectStr[5] = "1";
+                    selectStr[2] = "1";
                 }
                 break;
             case R.id.rl7:
                 if (flag7) {
                     iv7.setBackgroundResource(R.drawable.page36_nor);
                     flag7 = false;
-                    selectStr[6] = "0";
+                    selectStr[1] = "0";
                 } else {
                     iv7.setBackgroundResource(R.drawable.page36_sel);
                     flag7 = true;
-                    selectStr[6] = "1";
+                    selectStr[1] = "1";
                 }
                 break;
         }

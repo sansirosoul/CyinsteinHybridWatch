@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ListView
@@ -9,8 +11,20 @@
         android:listSelector="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_weight="2"
+        android:overScrollMode="never"
         />
+    <ProgressBar
+        android:id="@+id/loading"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateBehavior="repeat"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:indeterminateDrawable="@drawable/dlg_refresh_animate"
+        android:indeterminateDuration="100"
+        android:indeterminateOnly="true" />
     <Button
         android:id="@+id/cancel"
         android:text="@string/cancel"
@@ -20,7 +34,6 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/page36_btn"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         />
 </LinearLayout>

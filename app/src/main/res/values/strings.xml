@@ -473,7 +473,7 @@
     <string name="minute">分</string>
 
     <!--通知-->
-    <string name="msg_notify">信息通知</string>
+    <string name="msg_notify">通知</string>
     <string name="notify_introduce">当您启动消息通知功能后，手表会轻微震动来提醒您。不过此功能长期开启会影响电池的寿命，请问您是否开启？</string>
     <string name="click_icon">* 您可点击上方图标来选择您要开启的消息通知</string>
 
@@ -484,11 +484,11 @@
     <string name="update_hardware">更新固件</string>
     <string name="change_watch">更换手表</string>
     <string name="rename_watch">重命名手表</string>
-    <string name="clock">闹钟</string>
+    <string name="clock">手表闹铃</string>
     <string name="clean_watchdata">清除手表资料</string>
     <string name="clean_phonedata">清除手机资料</string>
     <string name="anti_lost">防丢失功能</string>
-    <string name="search_watch">寻找手表</string>
+    <string name="search_watch">查找手表</string>
     <string name="ble">蓝牙</string>
     <string name="close_bluetooth">关闭蓝牙</string>
     <string name="bsl">BSL模式</string>

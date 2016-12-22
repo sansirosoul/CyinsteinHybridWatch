@@ -7,16 +7,16 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.ysp.smartwatch.R.id.target_run_SeekBar;
-import static com.ysp.smartwatch.R.id.target_walk_text;
+import static com.ysp.hybridtwatch.R.id.target_run_SeekBar;
+import static com.ysp.hybridtwatch.R.id.target_walk_text;
 
 public class TargetActivity extends BaseActivity {
 

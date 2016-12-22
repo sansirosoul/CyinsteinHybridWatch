@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.polidea.rxandroidble.RxBleClient;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import rx.Subscription;
 

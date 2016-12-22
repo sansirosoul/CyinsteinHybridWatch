@@ -19,7 +19,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;

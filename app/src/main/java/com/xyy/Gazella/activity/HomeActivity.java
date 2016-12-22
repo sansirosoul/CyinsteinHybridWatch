@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

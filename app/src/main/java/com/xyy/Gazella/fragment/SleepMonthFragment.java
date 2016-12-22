@@ -19,8 +19,8 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.CreateColor;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
-import com.ysp.smartwatch.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

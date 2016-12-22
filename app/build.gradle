@@ -24,7 +24,7 @@ android {
     aaptOptions.cruncherEnabled = false  //不检查图片
     aaptOptions.useNewCruncher = false   //不检查图片
     defaultConfig {
-        applicationId "com.ysp.smartwatch"
+        applicationId "com.ysp.hybridwatch"
         minSdkVersion 18
         targetSdkVersion 23
         multiDexEnabled true

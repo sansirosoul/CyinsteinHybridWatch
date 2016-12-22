@@ -7,7 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
+
 
 /**
  * Created by Administrator on 2016/10/17.

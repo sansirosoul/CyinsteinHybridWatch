@@ -11,9 +11,9 @@ import android.widget.TextView;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckUpdateDialog1;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +43,7 @@ public class UpdateHardware extends BaseActivity {
     TextView battery;
     private BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
+    private int battery_num = 0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -83,6 +84,7 @@ public class UpdateHardware extends BaseActivity {
             watchVer.setText(bleUtils.returnFWVer(bytes));
             PreferenceData.setDeviceFwvValue(this, bleUtils.returnFWVer(bytes));
         } else if (bleUtils.returnBatteryValue(bytes) != null) {
+            battery_num=Integer.parseInt(bleUtils.returnBatteryValue(bytes));
             battery.setText(bleUtils.returnBatteryValue(bytes) + "%");
         }
     }
@@ -95,8 +97,12 @@ public class UpdateHardware extends BaseActivity {
                 overridePendingTransitionExit(UpdateHardware.this);
                 break;
             case R.id.update:
-                CheckUpdateDialog1 dialog = new CheckUpdateDialog1(UpdateHardware.this);
-                dialog.show();
+                if(battery_num>=50){
+                    CheckUpdateDialog1 dialog = new CheckUpdateDialog1(UpdateHardware.this);
+                    dialog.show();
+                }else{
+                    showToatst(UpdateHardware.this,"手表电量不足50%，无法升级！");
+                }
                 break;
         }
     }

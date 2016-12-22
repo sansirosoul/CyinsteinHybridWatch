@@ -32,10 +32,10 @@ import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.xyy.Gazella.utils.LoadingDialog;
 import com.xyy.Gazella.utils.PairFailedDialog;
 import com.xyy.Gazella.view.AnalogClock;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;

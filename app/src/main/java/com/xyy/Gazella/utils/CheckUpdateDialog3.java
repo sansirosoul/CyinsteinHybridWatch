@@ -11,9 +11,9 @@ import com.polidea.rxandroidble.RxBleClient;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.services.DfuService;
 import com.xyy.Gazella.view.NumberProgressBar;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import no.nordicsemi.android.dfu.DfuProgressListener;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;

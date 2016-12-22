@@ -23,8 +23,8 @@ import com.xyy.Gazella.fragment.SleepDayFragment;
 import com.xyy.Gazella.fragment.SleepMonthFragment;
 import com.xyy.Gazella.fragment.SleepWeekFragment;
 import com.xyy.Gazella.utils.SomeUtills;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
-import com.ysp.smartwatch.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

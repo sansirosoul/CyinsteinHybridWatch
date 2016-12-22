@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.jp.wheelview.WheelView;
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ public class HeightDialog extends Dialog {
     private OnSelectedListener mSelectedListener;
 
     public HeightDialog(Context context) {
-        super(context,R.style.dialog);
+        super(context, R.style.dialog);
         this.context = context;
     }
 

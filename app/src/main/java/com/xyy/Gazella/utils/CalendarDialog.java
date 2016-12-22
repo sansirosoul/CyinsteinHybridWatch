@@ -9,7 +9,7 @@ import android.view.Window;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
 
 /**
  * Created by Administrator on 2016/10/17.

@@ -15,9 +15,9 @@ import com.xyy.Gazella.utils.ClockDialog2;
 import com.xyy.Gazella.view.PickerViewHour;
 import com.xyy.Gazella.view.PickerViewMinute;
 import com.xyy.model.Clock;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;

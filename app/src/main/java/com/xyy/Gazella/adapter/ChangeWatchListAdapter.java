@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
 
 import java.util.List;
 

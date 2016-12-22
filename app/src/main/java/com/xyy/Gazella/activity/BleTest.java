@@ -19,10 +19,10 @@ import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.model.StepData;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import java.util.Arrays;
 import java.util.Calendar;

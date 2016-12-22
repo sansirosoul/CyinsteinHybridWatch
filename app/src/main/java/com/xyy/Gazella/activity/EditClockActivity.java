@@ -15,9 +15,9 @@ import com.xyy.Gazella.utils.ClockDialog2;
 import com.xyy.Gazella.view.PickerViewHour;
 import com.xyy.Gazella.view.PickerViewMinute;
 import com.xyy.model.Clock;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +102,7 @@ public class EditClockActivity extends BaseActivity {
         id = getIntent().getIntExtra("id", -1);
         tvRingtime.setText(getIntent().getStringExtra("snooze"));
         tvRepeatrate.setText(getIntent().getStringExtra("rate"));
+        System.out.println(id+"=="+getIntent().getStringExtra("snooze")+"=="+getIntent().getStringExtra("rate"));
         bytestr=getIntent().getStringExtra("custom");
         isOpen = getIntent().getIntExtra("isOpen", -1);
         String[] ss = getIntent().getStringExtra("time").split(":");

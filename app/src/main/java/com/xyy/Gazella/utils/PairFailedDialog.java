@@ -5,7 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Window;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
+
 
 /**
  * Created by Administrator on 2016/10/18.

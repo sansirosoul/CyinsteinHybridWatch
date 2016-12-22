@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
 import com.xyy.Gazella.view.AnalogClock;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -12,7 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
+
 
 /**
  * Created by Administrator on 2016/10/24.
@@ -24,7 +25,7 @@ public class CleanPhoneData extends Dialog implements View.OnClickListener{
     private Context context;
 
     public CleanPhoneData(Context context) {
-        super(context,R.style.dialog);
+        super(context, R.style.dialog);
         this.context = context;
     }
 
@@ -63,7 +64,7 @@ public class CleanPhoneData extends Dialog implements View.OnClickListener{
                 dismiss();
                 break;
             case R.id.confirm:
-//                PreferenceData.clearAllSharePreferences(context);
+//                PreferenceData.clearSharePreferences(context,PreferenceData.SAVE_USER_VALUE);
                 dismiss();
                 break;
         }

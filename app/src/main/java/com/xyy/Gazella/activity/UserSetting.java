@@ -25,9 +25,9 @@ import com.xyy.Gazella.utils.SharedPreferencesUtils;
 import com.xyy.Gazella.utils.WeightDialog;
 import com.xyy.Gazella.view.RoundImageView;
 import com.xyy.model.User;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -95,15 +95,15 @@ public class UserSetting extends BaseActivity {
             edName.setText(user.getName());
             edName.setSelection(user.getName().length());
         }
-        if (!user.getBirthday().equals(getResources().getString(R.string.choose_birth))&&user.getBirthday() != null && !user.getBirthday().equals("")) {
+        if (user.getBirthday() != null && !user.getBirthday().equals("")) {
             tvBirth.setText(user.getBirthday());
             tvBirth.setTextColor(context.getResources().getColor(R.color.white));
         }
-        if (!user.getHeight().equals(getResources().getString(R.string.choose_height))&&user.getHeight() != null && !user.getHeight().equals("")) {
+        if (user.getHeight() != null && !user.getHeight().equals("")) {
             tvHeight.setText(user.getHeight());
             tvHeight.setTextColor(context.getResources().getColor(R.color.white));
         }
-        if (!user.getWeight().equals(getResources().getString(R.string.choose_weight))&&user.getWeight() != null && !user.getWeight().equals("")) {
+        if (user.getWeight() != null && !user.getWeight().equals("")) {
             tvWeight.setText(user.getWeight());
             tvWeight.setTextColor(context.getResources().getColor(R.color.white));
         }

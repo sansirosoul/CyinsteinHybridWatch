@@ -62,8 +62,18 @@ public class Clock {
         this.time = time;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Clock){
+            Clock clock = (Clock) o;
+            return this.id==clock.id;
+        }
+        return super.equals(o);
+    }
+
     public static int transformSnoozeTime(String s) {
         int i = 0;
+        if(s!=null){}
         if (s.equals("5分钟")) i = 1;
         if (s.equals("10分钟")) i = 2;
         if (s.equals("15分钟")) i = 3;
@@ -87,10 +97,12 @@ public class Clock {
 
     public static int transformRate(String s) {
         int i = 5;
-        if (s.equals("只响一次")) i = 1;
-        if (s.equals("每天")) i = 2;
-        if (s.equals("周一到周五")) i = 3;
-        if (s.equals("周六、周日")) i = 4;
+        if(s!=null){
+            if (s.equals("只响一次")) i = 1;
+            if (s.equals("每天")) i = 2;
+            if (s.equals("周一到周五")) i = 3;
+            if (s.equals("周六、周日")) i = 4;
+        }
         return i;
     }
 
@@ -105,21 +117,21 @@ public class Clock {
 
     public static String transformCustom(String bytestr){
         StringBuilder stringBuilder = new StringBuilder("周");
-        for (int i=0;i<bytestr.length();i++){
+        for (int i=bytestr.length()-1;i>=0;i--){
             String s = bytestr.substring(i,i+1);
-            if(i==0){
+            if(i==7){
                 if(s.equals("1"))stringBuilder.append(" 一");
-            }else if(i==1){
-                if(s.equals("1"))stringBuilder.append(" 二");
-            }else if(i==2){
-                if(s.equals("1"))stringBuilder.append(" 三");
-            }else if(i==3){
-                if(s.equals("1"))stringBuilder.append(" 四");
-            }else if(i==4){
-                if(s.equals("1"))stringBuilder.append(" 五");
-            }else if(i==5){
-                if(s.equals("1"))stringBuilder.append(" 六");
             }else if(i==6){
+                if(s.equals("1"))stringBuilder.append(" 二");
+            }else if(i==5){
+                if(s.equals("1"))stringBuilder.append(" 三");
+            }else if(i==4){
+                if(s.equals("1"))stringBuilder.append(" 四");
+            }else if(i==3){
+                if(s.equals("1"))stringBuilder.append(" 五");
+            }else if(i==2){
+                if(s.equals("1"))stringBuilder.append(" 六");
+            }else if(i==1){
                 if(s.equals("1"))stringBuilder.append(" 日");
             }
         }

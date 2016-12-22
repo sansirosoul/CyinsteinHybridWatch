@@ -18,15 +18,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
 import com.xyy.Gazella.adapter.ChangeWatchListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +51,7 @@ public class ChangeWatchList extends BaseActivity {
     private BluetoothDevice device;
     private RxBleClient rxBleClient;
     private Subscription scanSubscription;
+    private ProgressBar loading;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -84,6 +86,8 @@ public class ChangeWatchList extends BaseActivity {
                 finish();
             }
         });
+
+        loading = (ProgressBar) findViewById(R.id.loading);
 
         deviceListAdapter = new ChangeWatchListAdapter(context, devices);
         listView.setAdapter(deviceListAdapter);
@@ -157,7 +161,6 @@ public class ChangeWatchList extends BaseActivity {
                             deviceListAdapter.notifyDataSetChanged();
                         }
                     }
-
                 }
             });
         }
@@ -198,6 +201,7 @@ public class ChangeWatchList extends BaseActivity {
                                 public void run() {
                                     if (bluetoothDevice.getName() != null) {
                                         if (!devices.contains(bluetoothDevice)) {
+                                            loading.setVisibility(View.GONE);
                                             devices.add(bluetoothDevice);
                                             deviceListAdapter.notifyDataSetChanged();
                                         }

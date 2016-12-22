@@ -14,7 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
+
 
 /**
  * Created by Administrator on 2016/10/26.

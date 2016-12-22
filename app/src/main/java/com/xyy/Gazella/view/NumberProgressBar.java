@@ -11,7 +11,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.ysp.smartwatch.R;
+import com.ysp.hybridtwatch.R;
 
 import static com.xyy.Gazella.view.NumberProgressBar.ProgressTextVisibility.Invisible;
 import static com.xyy.Gazella.view.NumberProgressBar.ProgressTextVisibility.Visible;

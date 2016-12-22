@@ -303,7 +303,8 @@ public class BleUtils {
     public String returnDeviceName(byte[] bytes) {
         String deviceName = null;
         if (bytes[0] == 0x07 && bytes[1] == 0x08) {
-            byte[] bytes1 = new byte[13];
+            int length = bytes.length;
+            byte[] bytes1 = new byte[length-4];
             for (int i = 0; i < bytes1.length; i++) {
                 bytes1[i] = bytes[2 + i];
                 deviceName = new String(bytes1);
