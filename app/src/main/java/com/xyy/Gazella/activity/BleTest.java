@@ -18,7 +18,6 @@ import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.utils.SomeUtills;
-import com.xyy.model.StepData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
@@ -104,6 +103,12 @@ public class BleTest extends BaseActivity {
     Button btn25;
     @BindView(R.id.btn26)
     Button btn26;
+    @BindView(R.id.btn27)
+    Button btn27;
+    @BindView(R.id.notify2)
+    TextView notify2;
+    @BindView(R.id.btn28)
+    Button btn28;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
@@ -168,18 +173,8 @@ public class BleTest extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        if (bleUtils.returnTodayStep(bytes) != null) {
-            StepData data = bleUtils.returnTodayStep(bytes);
-            notify.setText(data.getYear() + "-" + data.getMonth() + "-" + data.getDay() + "步数" + data.getStep());
-        } else if (bleUtils.returnDeviceSN(bytes) != null) {
-            notify.setText(bleUtils.returnDeviceSN(bytes));
-        } else if (bleUtils.returnFWVer(bytes) != null) {
-            notify.setText(bleUtils.returnFWVer(bytes));
-        } else if (bleUtils.returnBatteryValue(bytes) != null) {
-            notify.setText(bleUtils.returnBatteryValue(bytes) + "%");
-        } else {
-            notify.setText(HexString.bytesToHex(bytes));
-        }
+        notify.setText(HexString.bytesToHex(bytes));
+        notify2.setText(new String(bytes));
     }
 
     @Override
@@ -189,10 +184,12 @@ public class BleTest extends BaseActivity {
 
         write.setText(HexString.bytesToHex(bytes));
         notify.setText("");
+        notify2.setText("");
     }
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
-            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25,R.id.btn26})
+            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25,
+            R.id.btn26, R.id.btn27, R.id.btn28})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
@@ -323,7 +320,7 @@ public class BleTest extends BaseActivity {
                     }
                 }
                 if (FaCount != length) {
-                    String[] newData = Arrays.copyOfRange(strings, FaCount+1, length);
+                    String[] newData = Arrays.copyOfRange(strings, FaCount + 1, length);
                     for (int n = 0; n < newData.length; n++) {
                         String count = newData[n];
                         if (count.startsWith("0x") || count.startsWith("0X"))
@@ -334,13 +331,16 @@ public class BleTest extends BaseActivity {
                     }
                     byte[] Bytes = bleUtils.HexString2Bytes(newsb.toString());
                     Write(Bytes, connectionObservable);
-                    FaCount+=Bytes.length;
+                    FaCount += Bytes.length;
                     Fasb.append(sb.toString());
                 }
                 Logger.t(TAG).e("String总数 >>>>>>>>>   " + String.valueOf(strings.length) + "\n" + "发送总数>>>>    " + String.valueOf(FaCount));
                 break;
-            case R.id.btn26:
-
+            case R.id.btn27:
+                Write(bleUtils.getDeviceType(), connectionObservable);
+                break;
+            case R.id.btn28:
+                Write(bleUtils.getDevicePN(), connectionObservable);
                 break;
         }
     }

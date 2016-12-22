@@ -18,9 +18,9 @@ import com.xyy.Gazella.fragment.StepFragment;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.model.StepData;
+import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
-import com.ysp.smartwatch.R;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 
-import static com.ysp.smartwatch.R.id.viewpager;
+import static com.ysp.hybridtwatch.R.id.viewpager;
 
 
 public class HealthyActivity extends BaseActivity {
