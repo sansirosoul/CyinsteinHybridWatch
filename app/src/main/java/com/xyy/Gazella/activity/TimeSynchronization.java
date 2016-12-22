@@ -188,6 +188,9 @@ public class TimeSynchronization extends BaseActivity {
                 butSynchronization.setVisibility(View.VISIBLE);
             }
         });
+
+        initTime();
+        mHandler.post(initTime);
     }
 
     @OnClick({R.id.iv_left, R.id.iv_right, R.id.btnExit, R.id.btnOpt, R.id.TVTitle, R.id.but_reduce, R.id.but_add, R.id.but_hour, R.id.but_muinutes, R.id.but_second, R.id.but_reset, R.id.but_synchronization})
@@ -474,6 +477,7 @@ public class TimeSynchronization extends BaseActivity {
 
     private boolean isRun = true;
     private boolean SynchronizationTimeRun = true;
+    private boolean isInitTime = true;
     private boolean HourCount = true;
     private boolean MuinutesCount = true;
     private int count;
@@ -503,6 +507,19 @@ public class TimeSynchronization extends BaseActivity {
         }
     };
 
+    Runnable initTime = new Runnable() {
+        @Override
+        public void run() {
+            if (isInitTime) {
+                if (MuinutesCount)
+                    count++;
+                if (HourCount)
+                    count2--;
+                mHandler.sendEmptyMessage(1003);
+                mHandler.postDelayed(this, 50);
+            }
+        }
+    };
 
     private Handler mHandler = new Handler() {
         @Override
@@ -536,6 +553,26 @@ public class TimeSynchronization extends BaseActivity {
                         if (MuinutesCount)
                             mainDialFragment.setMuinutesTimeValue(count);
                         SynchronizationTimeRun = true;
+                        MuinutesCount = true;
+                        HourCount = true;
+                    }
+                    break;
+                case 1003:
+                    if (count2 < countHour)
+                        HourCount = false;
+                    if (count > minute)
+                        MuinutesCount = false;
+                    if (count2 < countHour && count > minute) {
+                        handler.removeCallbacks(initTime);
+                        count = 0;
+                        count2 = 60;
+                        isInitTime = false;
+                    } else {
+                        if (HourCount)
+                            mainDialFragment.setHourTimeValue(count2);
+                        if (MuinutesCount)
+                            mainDialFragment.setMuinutesTimeValue(count);
+                        isInitTime = true;
                         MuinutesCount = true;
                         HourCount = true;
                     }
