@@ -84,7 +84,7 @@ public class StepFragment extends BaseFragment {
         initView();
         connectionObservable = HealthyActivity.install.connectionObservable;
         bleUtils = new BleUtils();
-        if (connectionObservable != null && HealthyActivity.install.isNotify)
+        if (connectionObservable != null )
             getTodayStepPost();
         return view;
     }

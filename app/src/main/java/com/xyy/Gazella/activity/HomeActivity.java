@@ -48,6 +48,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
+
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);

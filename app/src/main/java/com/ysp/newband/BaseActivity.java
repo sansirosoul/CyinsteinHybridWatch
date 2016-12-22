@@ -177,18 +177,18 @@ public class BaseActivity extends FragmentActivity {
                                 }
                             });
                         }
-                    } else {
-                            if (!dialog.isShowing()) dialog.show();
-                            dialog.setTvContext("请检查手表蓝牙是否开启");
-                            dialog.setButOk(View.VISIBLE);
-                            dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                                @Override
-                                public void onButOKListener() {
-                                    dialog.dismiss();
-                                }
-                            });
                     }
-                    onNotifyReturn(1);
+                    if (blueadapter.isEnabled()&&!getConnectionState()){
+                        if (!dialog.isShowing()) dialog.show();
+                        dialog.setTvContext("请检查手表蓝牙是否开启");
+                        dialog.setButOk(View.VISIBLE);
+                        dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                            @Override
+                            public void onButOKListener() {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
                 }
             });
         } else {

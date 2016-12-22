@@ -1,6 +1,8 @@
 package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -63,14 +65,33 @@ public class HealthyActivity extends BaseActivity {
     private String userWeight;
     private int Weight;
     private int TargetStep;
+    private boolean isTrue ;
+    private int dayStep;
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 1000:
+                    if (count <= dayStep) {
+                        stepFragment.setStepNum(String.valueOf(count));
+                        stepFragment.removeTodayStepPost();
+                    } else {
+                        mHandler.removeCallbacks(runnable);
+                        stepFragment.getTodayStepPost();
+                        isTrue = false;
+                    }
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_healthy);
         ButterKnife.bind(this);
-
         String address = PreferenceData.getAddressValue(this);
         bleUtils = new BleUtils();
         InitViewPager();
@@ -90,6 +111,7 @@ public class HealthyActivity extends BaseActivity {
         userWeight = userWeight.replaceAll("[a-z]", ",");
         String s2[] = userWeight.split(",");
         userWeight = s2[0];
+        isTrue=true;
     }
 
     @Override
@@ -100,10 +122,10 @@ public class HealthyActivity extends BaseActivity {
                 break;
             case 1:   // 断开状态
                 isNotify = false;
-//                stepFragment.removeTodayStepPost();
                 break;
             case 2:   // 重新连接
                 Notify(connectionObservable);
+                isNotify = true;
                 stepFragment.getTodayStepPost();
                 break;
         }
@@ -115,9 +137,12 @@ public class HealthyActivity extends BaseActivity {
         if (bytes[0] == 0x07 && bytes[1] == 0x0C) {  // 今日步数
             StepData stepData = bleUtils.returnTodayStep(bytes);
             if (stepData != null) {
-                int step = stepData.getStep();
-                double km = step * 0.5;
-                stepFragment.setStepNum(String.valueOf(stepData.getStep()));
+                dayStep = stepData.getStep();
+                if (isTrue)
+                    mHandler.post(runnable);
+                else
+                    stepFragment.setStepNum(String.valueOf(stepData.getStep()));
+                double km = dayStep * 0.5;
                 // 计算活动距离
                 if (km < 1000)
                     stepFragment.setDistanceNum(String.valueOf((int) km) + getResources().getString(R.string.mi));
@@ -126,14 +151,14 @@ public class HealthyActivity extends BaseActivity {
                 //计算卡路里
                 if (userWeight != null && !userWeight.equals("")) {
                     Weight = Integer.valueOf(userWeight);
-                    double card = ((Weight * 0.0005 + (step - 1) * 0.005) * step);
+                    double card = ((Weight * 0.0005 + (dayStep - 1) * 0.005) * dayStep);
                     if (card < 1000)
                         stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) card)) + getResources().getString(R.string.card));
                     else
                         stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
                 }
 
-                if (step <= TargetStep)
+                if (dayStep <= TargetStep)
                     stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
                 else
                     stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_kaixin), this.getResources().getString(R.string.over_target));
@@ -214,7 +239,7 @@ public class HealthyActivity extends BaseActivity {
                 viewPager.setCurrentItem(1);
                 break;
             case R.id.btnExit:
-                finish();
+                HealthyActivity.this.finish();
                 overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
                 break;
             case R.id.btnOpt:
@@ -258,5 +283,21 @@ public class HealthyActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         stepFragment.removeTodayStepPost();
+    }
+
+    private int count = 0;
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            count++;
+            mHandler.sendEmptyMessage(1000);
+            mHandler.postDelayed(this, 2);
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacks(runnable);
     }
 }

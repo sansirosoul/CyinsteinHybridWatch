@@ -547,6 +547,7 @@ public class TimeSynchronization extends BaseActivity {
     };
 
     private int countHour;
+    private  int HyHour;
 
     private void initTime() {
         mCalendar = new Time();
@@ -559,8 +560,8 @@ public class TimeSynchronization extends BaseActivity {
         mday = mCalendar.monthDay;
 
         if (hour > 12)
-            hour = hour - 12;
-        float mHour = hour + minute / 60.0f + minute / 360.0f;
+            HyHour = hour - 12;
+        float mHour = HyHour + minute / 60.0f + minute / 360.0f;
 //        mMinutes = minute + second / 60.0f;
         String dou = String.valueOf(mHour);
         int idx = dou.lastIndexOf("."); //查找小数点的位置
@@ -575,20 +576,6 @@ public class TimeSynchronization extends BaseActivity {
         mHour = Float.parseFloat(String.valueOf(num));
         countHour = (int) mHour;
 
-
-//        Calendar now;
-//        SimpleDateFormat fmt;
-//        now = Calendar.getInstance();
-//        fmt = new SimpleDateFormat("hh:mm:ss");
-//        String ss = fmt.format(now.getTime());
-//        ss = ss.substring(0, 2);
-//        countHour = Integer.valueOf(ss);
-//        int count = countHour;
-//        countHour = 0;
-//        for (int i = 0; i < count; i++) {
-//            countHour += 5;
-//        }
-//        mHour = hour + minute / 60.0f + second / 3600.0f;
     }
 
     private boolean isShwoSynchronization() {

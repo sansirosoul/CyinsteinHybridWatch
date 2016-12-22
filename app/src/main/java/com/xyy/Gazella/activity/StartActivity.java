@@ -33,5 +33,4 @@ public class StartActivity extends BaseActivity {
 			}
 		},1000);
 	}
-
 }
