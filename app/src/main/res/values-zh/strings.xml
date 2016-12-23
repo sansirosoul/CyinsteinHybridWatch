@@ -32,6 +32,7 @@
     <!--搜索并连接手表对话框-->
     <string name="scan_connection_device">正在搜索并连接手表...</string>
     <string name="ok">确定</string>
+    <string name="adgin">重新连接</string>
 
     <!--校时页面-->
     <string name="Synchronization_time">"智能校时"</string>

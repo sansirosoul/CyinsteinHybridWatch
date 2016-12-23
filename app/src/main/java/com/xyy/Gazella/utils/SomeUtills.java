@@ -20,8 +20,10 @@ import com.ysp.hybridtwatch.R;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -399,49 +401,73 @@ public class SomeUtills {
         return result;
     }
 
-//    public void getFromAssets(Context context, String fileName) {
-//        InputStream in = null;
-//        try {
-//            in = context.getAssets().open(fileName);
-//            FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" +fileName));
-//            byte[] buffer = new byte[1024];
-//            int count = 0;
-//            while (true) {
-//                count++;
-//                int len = in.read(buffer);
-//                if (len == -1) {
-//                    break;
-//                }
-//                fos.write(buffer, 0, len);
-//            }
-//            in.close();
-//            fos.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void getFromAssetsf(Context context, String fileName) {
+        InputStream in = null;
+        try {
+            in = context.getAssets().open(fileName);
+            FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" +fileName));
+            byte[] buffer = new byte[1024];
+            int count = 0;
+            while (true) {
+                count++;
+                int len = in.read(buffer);
+                if (len == -1) {
+                    break;
+                }
+                fos.write(buffer, 0, len);
+            }
+            in.close();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 //
-//    public  byte[]  setFromAssets(Context context, String fileName) {
-//        getFromAssets(context, fileName);
-//        File file = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
-//        byte[] buffer = new byte[20];
-//        try {
-//            FileInputStream fileR = new FileInputStream(file);
-//            BufferedReader reads = new BufferedReader(new InputStreamReader(fileR));
-//
-//            while (true) {
-//                int len = fileR.read(buffer);
-//
-//                if (len == -1) {
-//                    break;
-//                }
-//                return  buffer;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return  buffer;
-//    }
+    public  byte[]  setFromAssets(Context context, String fileName) {
+        //getFromAssets(context, fileName);
+        File file = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
+        StringBuffer stringBuffer = new StringBuffer();
+        byte[] buffer = new byte[1024];
+        try {
+            FileInputStream fileR = new FileInputStream(file);
+            BufferedReader reads = new BufferedReader(new InputStreamReader(fileR));
+
+            while (true) {
+                int len = fileR.read(buffer);
+                if (len == -1) {
+                    break;
+                }
+                return  buffer;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  buffer;
+    }
+
+    // 读取sdcard文件
+    public StringBuffer sdcardRead(String path){
+        StringBuffer sb = new StringBuffer();
+        try {
+            File filev = new File(path);
+            BufferedReader br = new BufferedReader(new FileReader(filev));
+            String readline = "";
+            while ((readline = br.readLine()) != null) {
+                sb.append(readline);
+            }
+            br.close();
+            System.out.println("读取成功：" + sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  sb;
+    }
+
+
+
+
+
+
 
 
     /**

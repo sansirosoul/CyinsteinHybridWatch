@@ -182,10 +182,19 @@ public class BaseActivity extends FragmentActivity {
                         if (!dialog.isShowing()) dialog.show();
                         dialog.setTvContext("请检查手表蓝牙是否开启");
                         dialog.setButOk(View.VISIBLE);
+                        dialog.setButAdgin(View.VISIBLE);
+                        dialog.setLoadingVisibility(View.GONE);
                         dialog.onButOKListener(new CommonDialog.onButOKListener() {
                             @Override
                             public void onButOKListener() {
                                 dialog.dismiss();
+                            }
+                        });
+                        dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
+                            @Override
+                            public void onButAdginListener() {
+                                dialog.dismiss();
+                                onNotifyReturn(2);
                             }
                         });
                     }

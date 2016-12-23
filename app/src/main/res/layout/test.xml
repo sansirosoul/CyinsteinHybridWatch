@@ -218,6 +218,8 @@
                 android:layout_height="50dp"
                 android:text="断开蓝牙连接" />
 
+
+
             <Button
                 android:id="@+id/btn24"
                 android:layout_width="match_parent"
@@ -233,7 +235,7 @@
                 android:id="@+id/btn26"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="发送BIN升级包" />
+                android:text="选择文件" />
 
             <Button
                 android:id="@+id/btn26"

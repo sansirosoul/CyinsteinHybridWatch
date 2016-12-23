@@ -96,6 +96,7 @@ public class SmallFragment3 extends BaseFragment {
         a++;
         analogclock.setTimeValue(2, a);
         isChangeTime = true;
+        Write(bleUtils.adjSecondHand(1, 1), connectionObservable);
     }
 
     public void ReduceTime() {
@@ -104,6 +105,7 @@ public class SmallFragment3 extends BaseFragment {
         a--;
         analogclock.setTimeValue(2, a);
         isChangeTime = true;
+        Write(bleUtils.adjSecondHand(2, 1), connectionObservable);
     }
     public  float  getSmall3TimeValue(){
         return  analogclock.getMinutesTimeValue();
