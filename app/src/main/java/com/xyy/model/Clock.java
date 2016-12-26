@@ -11,6 +11,15 @@ public class Clock {
     public int isOpen;//闹钟是否开启 0否 1是
     public String SnoozeTime;
     public String custom;//自定义byte字符串
+    public boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 
     public int getId() {
         return id;

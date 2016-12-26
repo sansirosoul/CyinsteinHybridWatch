@@ -165,6 +165,7 @@ public class AddClockActivity extends BaseActivity {
                             5, bytestr,1),connectionObservable);
                 }
                 Intent intent = new Intent();
+                intent.putExtra("id",id);
                 intent.putExtra("time",hour+":"+minute);
                 intent.putExtra("snooze",tvRingtime.getText().toString());
                 intent.putExtra("rate",tvRepeatrate.getText().toString());

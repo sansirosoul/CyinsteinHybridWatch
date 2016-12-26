@@ -59,6 +59,10 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout rlCloseBluetooth;
     @BindView(R.id.v_switch)
     SwitchView vSwitch;
+    @BindView(R.id.rl_timezone)
+    RelativeLayout rlTimezone;
+    @BindView(R.id.timezone)
+    TextView timezone;
     private Context context;
     private BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
@@ -90,28 +94,27 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onNotifyReturn(int type) {
         super.onNotifyReturn(type);
-
     }
 
     private void initView() {
         TVTitle.setText(R.string.setting);
         int state = PreferenceData.getNotificationShakeState(context);
-        if(state==1){
+        if (state == 1) {
             vSwitch.setOpened(true);
-        }else{
+        } else {
             vSwitch.setOpened(false);
         }
         vSwitch.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn(SwitchView view) {
                 vSwitch.setOpened(true);
-                PreferenceData.setNotificationShakeState(context,1);
+                PreferenceData.setNotificationShakeState(context, 1);
             }
 
             @Override
             public void toggleToOff(SwitchView view) {
                 vSwitch.setOpened(false);
-                PreferenceData.setNotificationShakeState(context,0);
+                PreferenceData.setNotificationShakeState(context, 0);
             }
         });
     }
@@ -127,7 +130,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     @OnClick({R.id.btnExit, R.id.rl_user_setting, R.id.rl_update_hardware, R.id.rl_change_watch, R.id.rl_rename_watch, R.id.rl_clock, R.id.rl_clean_phone,
-            R.id.rl_clean_watch, R.id.rl_search_watch, R.id.rl_close_bluetooth, R.id.rl_update_bsl, R.id.rl_target})
+            R.id.rl_clean_watch, R.id.rl_search_watch, R.id.rl_close_bluetooth, R.id.rl_update_bsl, R.id.rl_target, R.id.rl_timezone})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnExit:
@@ -196,6 +199,9 @@ public class SettingActivity extends BaseActivity {
                         connectionObservable = null;
                     }
                 });
+                break;
+            case R.id.rl_timezone:
+
                 break;
         }
     }

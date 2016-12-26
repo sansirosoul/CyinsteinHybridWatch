@@ -142,6 +142,12 @@ public class BleTest extends BaseActivity {
         });
     }
 
+    private void initData(){
+
+
+
+    }
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -213,7 +219,7 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.getFWVer(), connectionObservable);
                 break;
             case R.id.btn6:
-                Write(bleUtils.setDeviceName("CT003"), connectionObservable);
+                Write(bleUtils.setDeviceName("CY010"), connectionObservable);
                 break;
             case R.id.btn7:
                 Write(bleUtils.getDeviceName(), connectionObservable);

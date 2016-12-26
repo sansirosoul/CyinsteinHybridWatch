@@ -68,6 +68,10 @@ public class CommonDialog extends Dialog {
         butOk.setVisibility(visibility);
     }
 
+    public void setButText(String str){
+        butOk.setText(str);
+    }
+
     public interface onButOKListener {
         void onButOKListener();
     }
