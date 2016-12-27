@@ -1,18 +1,17 @@
 package com.xyy.Gazella.adapter;
 
 import android.content.Context;
-import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.model.TimeZonesData;
 import com.ysp.hybridtwatch.R;
 
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * Created by Administrator on 2016/12/26.
@@ -64,7 +63,7 @@ public class TimeZonesListAdapter extends BaseAdapter {
             v = (ViewHoldler) convertView.getTag();
         }
         v.nameTv.setText(list.get(position).getName());
-        v.zonesTv.setText(getTime(list.get(position).getGtm()));
+        v.zonesTv.setText(new SomeUtills().getZonesTime(list.get(position).getGtm()));
 
         if(list.get(position).isClick()){
             v.nameTv.setTextColor(context.getResources().getColor(R.color.title_linear));
@@ -80,22 +79,4 @@ public class TimeZonesListAdapter extends BaseAdapter {
         TextView nameTv, zonesTv;
     }
 
-    public String getTime(String id) {
-        TimeZone tz = TimeZone.getTimeZone(id);
-        Time time = new Time(tz.getID());
-        time.setToNow();
-        int minute = time.minute;
-        int hour = time.hour;
-        String  strHour;
-        String strMinute;
-        if (hour < 10)
-            strHour= String.format("%2d", hour).replace(" ", "0");
-        else
-            strHour= String.valueOf(hour);
-        if (minute < 10)
-            strMinute= String.format("%2d", minute).replace(" ", "0");
-        else
-            strMinute= String.valueOf(minute);
-        return "GMT+ " + strHour + " :" + strMinute;
-    }
 }

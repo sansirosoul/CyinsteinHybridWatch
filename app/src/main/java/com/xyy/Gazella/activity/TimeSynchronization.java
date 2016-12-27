@@ -123,7 +123,7 @@ public class TimeSynchronization extends BaseActivity {
     }
 
     @Override
-    protected void onNotifyReturn(int type) {
+    protected void onNotifyReturn(int type, String str) {
         Logger.t(TAG).e(String.valueOf(type));
         switch (type) {
             case 0:
@@ -133,12 +133,13 @@ public class TimeSynchronization extends BaseActivity {
             case 1:
                 isNotify = false;
                 btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
+                HandleThrowableException(str);
                 break;
             case 2:
                 Notify(connectionObservable);
                 break;
         }
-        super.onNotifyReturn(type);
+        super.onNotifyReturn(type,str);
     }
 
 
@@ -585,9 +586,7 @@ public class TimeSynchronization extends BaseActivity {
 
     private int countHour;
     private  int HyHour;
-
     private void initTime() {
-
         String id=   PreferenceData.getTimeZonesState(TimeSynchronization.this);
         TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(TimeSynchronization.this));
         mCalendar = new Time(tz.getID());
@@ -601,7 +600,6 @@ public class TimeSynchronization extends BaseActivity {
         HyHour=hour;
         if (HyHour > 12)
             HyHour = HyHour - 12;
-
         float mHour = HyHour + minute / 60.0f + minute / 360.0f;
 //        mMinutes = minute + second / 60.0f;
         String dou = String.valueOf(mHour);

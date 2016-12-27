@@ -115,7 +115,7 @@ public class HealthyActivity extends BaseActivity {
     }
 
     @Override
-    protected void onNotifyReturn(int type) {
+    protected void onNotifyReturn(int type,String str) {
         switch (type) {
             case 0:
                 isNotify = true;
@@ -129,7 +129,7 @@ public class HealthyActivity extends BaseActivity {
                 stepFragment.getTodayStepPost();
                 break;
         }
-        super.onNotifyReturn(type);
+        super.onNotifyReturn(type,str);
     }
 
     @Override

@@ -141,8 +141,8 @@ public class BleTest extends BaseActivity {
     }
 
     @Override
-    protected void onNotifyReturn(int type) {
-        super.onNotifyReturn(type);
+    protected void onNotifyReturn(int type,String str) {
+        super.onNotifyReturn(type,str);
         if (type == 2) {
             Notify(connectionObservable);
         }

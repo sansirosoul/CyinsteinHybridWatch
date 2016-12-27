@@ -103,8 +103,8 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     }
 
     @Override
-    protected void onNotifyReturn(int type) {
-        super.onNotifyReturn(type);
+    protected void onNotifyReturn(int type,String str) {
+        super.onNotifyReturn(type,str);
         Logger.t(TAG).e(String.valueOf(type));
     }
 

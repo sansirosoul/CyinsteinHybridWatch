@@ -77,8 +77,8 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
-    protected void onNotifyReturn(int type) {
-        super.onNotifyReturn(type);
+    protected void onNotifyReturn(int type,String str) {
+        super.onNotifyReturn(type,str);
         switch (type) {
             case 0:
                 break;
