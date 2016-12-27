@@ -491,6 +491,7 @@
     <string name="search_watch">查找手表</string>
     <string name="ble">蓝牙</string>
     <string name="close_bluetooth">关闭蓝牙</string>
+    <string name="timezone">时区</string>
     <string name="bsl">BSL模式</string>
     <string name="software_setting">软件设置</string>
     <string name="sport_sleep_target">运动/睡眠目标</string>

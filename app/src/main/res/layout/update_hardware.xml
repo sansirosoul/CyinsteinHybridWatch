@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/watch_ver"
-                android:text="V1.0"
+                android:text=""
                 android:textSize="17sp"
                 android:textColor="@color/white"
                 android:layout_centerVertical="true"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/watch_sn"
-                android:text="123456789"
+                android:text=""
                 android:textSize="17sp"
                 android:textColor="@color/white"
                 android:layout_centerVertical="true"
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content" />
             <TextView
                 android:id="@+id/app_ver"
-                android:text="1.0"
+                android:text=""
                 android:textSize="17sp"
                 android:textColor="@color/white"
                 android:layout_centerVertical="true"
@@ -128,6 +128,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="45dp" />
+
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
@@ -142,7 +143,7 @@
             android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/battery"
-            android:text="92%"
+            android:text="0%"
             android:textColor="#acacac"
             android:textSize="15sp"
             android:layout_width="wrap_content"

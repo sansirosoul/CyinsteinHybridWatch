@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -28,8 +27,6 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
-import static com.ysp.newband.BaseActivity.mContext;
 
 /**
  * Created by Administrator on 2016/10/26.
@@ -62,8 +59,9 @@ public class ClockListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, final ViewGroup parent) {
-        final ViewHoldler v;
+    public View getView(int position, View convertView, final ViewGroup parent) {
+        final ViewHoldler v ;
+        Clock clock = clocks.get(position);
         if (convertView == null) {
             v = new ViewHoldler();
             convertView= LayoutInflater.from(context).inflate(R.layout.clock_list_item,null);
@@ -71,21 +69,18 @@ public class ClockListAdapter extends BaseAdapter {
             v.rate=(TextView) convertView.findViewById(R.id.rate);
             v.del= (RelativeLayout) convertView.findViewById(R.id.del);
             v.tgBtn=(ToggleButton) convertView.findViewById(R.id.tg_btn);
-
             convertView.setTag(v);
         }else{
             v= (ViewHoldler) convertView.getTag();
         }
 
+        v.time.setText(clock.getTime());
+        v.rate.setText(clock.getRate());
 
-        Clock clock = clocks.get(position);
-        v.time.setText(clocks.get(position).getTime());
-        v.rate.setText(clocks.get(position).getRate());
-
-        if (clocks.get(position).getIsOpen()==0){
+        if (clock.getIsOpen()==0){
             v.time.setTextColor(context.getResources().getColor(R.color.clock_list_gray));
             v.tgBtn.setChecked(false);
-        }else if(clocks.get(position).getIsOpen()==1){
+        }else if(clock.getIsOpen()==1){
             v.time.setTextColor(context.getResources().getColor(R.color.white));
             v.tgBtn.setChecked(true);
         }
@@ -93,11 +88,12 @@ public class ClockListAdapter extends BaseAdapter {
         String[] ss = clock.getTime().split(":");
         String hour=ss[0];
         String minute=ss[1];
-        v.tgBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        v.tgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    String address = PreferenceData.getAddressValue(mContext);
+            public void onClick(View view) {
+                if(v.tgBtn.isChecked()){
+                    String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
                         BleUtils bleUtils = new BleUtils();
                         connectionObservable = BaseActivity.getRxObservable(context);
@@ -109,10 +105,10 @@ public class ClockListAdapter extends BaseAdapter {
                                     Clock.transformSnoozeTime(clock.getSnoozeTime()),5,clock.getCustom(),1),connectionObservable);
                         }
                     }
-                    clocks.get(position).setIsOpen(1);
+                    clock.setIsOpen(1);
                     v.time.setTextColor(context.getResources().getColor(R.color.white));
                 }else{
-                    String address = PreferenceData.getAddressValue(mContext);
+                    String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
                         BleUtils bleUtils = new BleUtils();
                         connectionObservable = BaseActivity.getRxObservable(context);
@@ -124,7 +120,7 @@ public class ClockListAdapter extends BaseAdapter {
                                     Clock.transformSnoozeTime(clock.getSnoozeTime()),5,clock.getCustom(),0),connectionObservable);
                         }
                     }
-                    clocks.get(position).setIsOpen(0);
+                    clock.setIsOpen(0);
                     v.time.setTextColor(context.getResources().getColor(R.color.clock_list_gray));
                 }
             }
@@ -133,7 +129,7 @@ public class ClockListAdapter extends BaseAdapter {
         final DelClockDialog.OnClickListener onClickListener = new DelClockDialog.OnClickListener() {
             @Override
             public void isDel() {
-                String address = PreferenceData.getAddressValue(mContext);
+                String address = PreferenceData.getAddressValue(context);
                 if (address != null && !address.equals("")) {
                     BleUtils bleUtils = new BleUtils();
                     connectionObservable = BaseActivity.getRxObservable(context);
@@ -161,6 +157,7 @@ public class ClockListAdapter extends BaseAdapter {
         TextView time,rate;
         RelativeLayout del;
         ToggleButton tgBtn;
+
     }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {

@@ -36,6 +36,15 @@ public class CleanWatchData extends BaseActivity implements View.OnClickListener
         if (address != null && !address.equals("")){
             bleUtils = new BleUtils();
             connectionObservable=getRxObservable(this);
+            Notify(connectionObservable);
+        }
+    }
+
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
+        if(HexString.bytesToHex(bytes).equals("070E011632")){
+            finish();
         }
     }
 
@@ -47,7 +56,6 @@ public class CleanWatchData extends BaseActivity implements View.OnClickListener
             case R.id.confirm:
                 if(connectionObservable!=null)
                 Write(bleUtils.eraseWatchData(), connectionObservable);
-                finish();
                 break;
         }
     }

@@ -108,10 +108,6 @@ public class ClockActivity extends BaseActivity {
                 overridePendingTransitionExit(ClockActivity.this);
                 break;
             case R.id.add:
-                for (int i = 0; i < clocks.size(); i++) {
-                    Clock clock = clocks.get(i);
-                    System.out.println(clock.getId() + "==" + clock.getTime() + "==" + clock.getSnoozeTime() + "==" + clock.getRate() + "==" + clock.getCustom() + "==" + clock.getIsOpen());
-                }
                 if (clocks.size() >= 8) {
                     showToatst(context,"闹钟数量已达上限");
                 } else {
@@ -131,12 +127,17 @@ public class ClockActivity extends BaseActivity {
             case REQUEST_ADD:
                 if (data != null) {
 //                    Clock clock = new Clock();
+//                    clock.setId(data.getIntExtra("id",-1));
 //                    clock.setTime(data.getStringExtra("time"));
 //                    clock.setSnoozeTime(data.getStringExtra("snooze"));
 //                    clock.setRate(data.getStringExtra("rate"));
 //                    clock.setIsOpen(data.getIntExtra("isOpen", -1));
 //                    clocks.add(clock);
 //                    adapter.notifyDataSetChanged();
+//                    for (int i = 0; i < clocks.size(); i++) {
+//                        Clock c = clocks.get(i);
+//                        System.out.println(c.getId() + "===="+ c.getIsOpen());
+//                    }
                 }
                 break;
             case REQUEST_EDIT:
