@@ -409,7 +409,9 @@ public class BleUtils {
             data.setMonth(bytes[3] & 0xFF);
             data.setDay(bytes[4] & 0xFF);
             int step = (bytes[8] & 0xFF) + ((bytes[7] & 0xFF) << 8) + ((bytes[6] & 0xFF) << 16) + ((bytes[5] & 0xFF) << 24);
+            int seconds = (bytes[12] & 0xFF) + ((bytes[11] & 0xFF) << 8) + ((bytes[10] & 0xFF) << 16) + ((bytes[9] & 0xFF) << 24);
             data.setStep(step);
+            data.setSeconds(seconds);
         }
         return data;
     }

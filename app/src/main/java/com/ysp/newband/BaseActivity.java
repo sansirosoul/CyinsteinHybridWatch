@@ -150,7 +150,7 @@ public class BaseActivity extends FragmentActivity {
                             });
                         }
                     } else {
-                        if(throwable.contains("status=133")){
+                        if(throwable.contains("status=133")||throwable.contains("status=129")){
                             dialog.setTvContext("蓝牙连接失败是否继续连接");
                             dialog.setButOk(View.VISIBLE);
                             dialog.onButOKListener(new CommonDialog.onButOKListener() {

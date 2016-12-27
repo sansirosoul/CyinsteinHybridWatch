@@ -112,7 +112,18 @@ public class ClockActivity extends BaseActivity {
                     showToatst(context,"闹钟数量已达上限");
                 } else {
                     Intent intent = new Intent(context, AddClockActivity.class);
-                    intent.putExtra("id", clocks.size());
+                    int[] arr = new int[8];
+                    for(int i=0;i<clocks.size();i++){
+                        int index = clocks.get(i).getId();
+                        arr[index]=1;
+                    }
+                    for(int i=0;i<arr.length;i++){
+                        System.out.println(arr[i]+"=========");
+                        if(arr[i]==0){
+                            intent.putExtra("id", i);
+                            break;
+                        }
+                    }
                     startActivityForResult(intent, REQUEST_ADD);
                     overridePendingTransitionEnter(ClockActivity.this);
                 }
