@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ysp.hybridtwatch"
-    android:versionCode="1"
-    android:versionName="1.0">
+    android:versionCode="60"
+    android:versionName="2.5.2">
 
     <uses-sdk
         android:minSdkVersion="18"
@@ -58,6 +58,7 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.NoTitleBar">
+
         <!-- <activity android:name="com.xyy.Gazella.activity.HomeActivity"></activity> -->
 
         <service android:name="com.xyy.Gazella.BroadcastReceiver.PhoneService" />
@@ -66,13 +67,13 @@
             android:enabled="true" />
         <service android:name="com.xyy.Gazella.services.BluetoothService" />
 
-        <!--空中升级service-->
-        <service android:name="com.xyy.Gazella.services.DfuService"/>
+        <!-- 空中升级service -->
+        <service android:name="com.xyy.Gazella.services.DfuService" />
 
-        <!--来电监听广播-->
+        <!-- 来电监听广播 -->
         <receiver android:name="com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE"></action>
+                <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
 
@@ -108,7 +109,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/ExampleTheme" >
+            android:theme="@style/ExampleTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -147,7 +148,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme" />
-
 
         <!-- 通知页面 -->
         <activity
@@ -192,17 +192,20 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name="com.xyy.Gazella.utils.CleanWatchData"
+        <activity
+            android:name="com.xyy.Gazella.utils.CleanWatchData"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
-        <activity android:name="com.xyy.Gazella.utils.RenameWatchDialog"
+        <activity
+            android:name="com.xyy.Gazella.utils.RenameWatchDialog"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
-        <activity android:name="com.xyy.Gazella.utils.ChangeWatchDialog"
+        <activity
+            android:name="com.xyy.Gazella.utils.ChangeWatchDialog"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -215,14 +218,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
 
-        <!--更换手表-->
+        <!-- 更换手表 -->
         <activity
             android:name="com.xyy.Gazella.utils.ChangeWatchList"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
-        <!--空中升级-->
+        <!-- 空中升级 -->
         <activity
             android:name="com.xyy.Gazella.utils.CheckUpdateDialog3"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
@@ -235,44 +238,59 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/dialog" />
-
         <activity
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <!--<activity-->
-            <!--android:name="com.mob.tools.MobUIShell"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
-            <!--android:windowSoftInputMode="stateHidden|adjustResize">-->
 
-            <!--&lt;!&ndash; QQ和QQ空间分享 QQ登录的回调必须要配置的 &ndash;&gt;-->
-            <!--<intent-filter>-->
-                <!--<data android:scheme="tencent1104475505" />-->
 
-                <!--<action android:name="android.intent.action.VIEW" />-->
+        <activity android:name="com.xyy.Gazella.activity.TimeZonesActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme" />
 
-                <!--<category android:name="android.intent.category.BROWSABLE" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
 
-            <!--&lt;!&ndash; 新浪微博客户端分享回调必须配置 &ndash;&gt;-->
-            <!--<intent-filter>-->
-                <!--<action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />-->
 
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
+        <!-- <activity -->
+        <!-- android:name="com.mob.tools.MobUIShell" -->
+        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@android:style/Theme.Translucent.NoTitleBar" -->
+        <!-- android:windowSoftInputMode="stateHidden|adjustResize"> -->
+
+
+        <!-- &lt;!&ndash; QQ和QQ空间分享 QQ登录的回调必须要配置的 &ndash;&gt; -->
+        <!-- <intent-filter> -->
+        <!-- <data android:scheme="tencent1104475505" /> -->
+
+
+        <!-- <action android:name="android.intent.action.VIEW" /> -->
+
+
+        <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- </intent-filter> -->
+
+
+        <!-- &lt;!&ndash; 新浪微博客户端分享回调必须配置 &ndash;&gt; -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" /> -->
+
+
+        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
 
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <data android:scheme="tencent1105840136" />
 
@@ -283,11 +301,9 @@
             </intent-filter>
         </activity>
 
-
-
         <!-- 微信分享回调 -->
         <activity
-            android:name="com.com.ysp.hybridwatch.wxapi.WXEntryActivity"
+            android:name="com.com.ysp.smartwatch.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -297,7 +313,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>

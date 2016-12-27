@@ -962,7 +962,7 @@ public class BleUtils {
         value[7] = (byte) ((length >> 8) & 0xff);// 次低位
         value[8] = (byte) (length & 0xff);// 最低位
 
-        for (int i = 2; i < 5; i++) {
+        for (int i = 2; i < 9; i++) {
             ck_a = (byte) (ck_a + value[i]);
             ck_b = (byte) (ck_b + ck_a);
         }
@@ -970,6 +970,7 @@ public class BleUtils {
         value[10] = ck_b;
 
         return value;
+
     }
 
 

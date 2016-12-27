@@ -412,7 +412,7 @@
                    android:layout_height="match_parent"
                    android:text="GMT+08:00 中国标准时间"
                    android:textColor="#808080"
-                   android:textSize="15sp"
+                   android:textSize="10dp"
                    android:gravity="center"
                    android:layout_marginRight="10dp"
                    />

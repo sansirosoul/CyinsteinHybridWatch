@@ -32,6 +32,7 @@ import com.ysp.newband.PreferenceData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -103,7 +104,6 @@ public class TimeSynchronization extends BaseActivity {
     private boolean isShwoSynchronization = false;
     private boolean isNotify = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +123,7 @@ public class TimeSynchronization extends BaseActivity {
     }
 
     @Override
-    protected void onNotifyReturn(int type) {
+    protected void onNotifyReturn(int type, String str) {
         Logger.t(TAG).e(String.valueOf(type));
         switch (type) {
             case 0:
@@ -133,12 +133,13 @@ public class TimeSynchronization extends BaseActivity {
             case 1:
                 isNotify = false;
                 btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
+                HandleThrowableException(str);
                 break;
             case 2:
                 Notify(connectionObservable);
                 break;
         }
-        super.onNotifyReturn(type);
+        super.onNotifyReturn(type,str);
     }
 
 
@@ -189,6 +190,9 @@ public class TimeSynchronization extends BaseActivity {
                 butSynchronization.setVisibility(View.VISIBLE);
             }
         });
+
+        initTime();
+        mHandler.post(initTime);
     }
 
     @OnClick({R.id.iv_left, R.id.iv_right, R.id.btnExit, R.id.btnOpt, R.id.TVTitle, R.id.but_reduce, R.id.but_add, R.id.but_hour, R.id.but_muinutes, R.id.but_second, R.id.but_reset, R.id.but_synchronization})
@@ -475,6 +479,7 @@ public class TimeSynchronization extends BaseActivity {
 
     private boolean isRun = true;
     private boolean SynchronizationTimeRun = true;
+    private boolean isInitTime = true;
     private boolean HourCount = true;
     private boolean MuinutesCount = true;
     private int count;
@@ -504,6 +509,19 @@ public class TimeSynchronization extends BaseActivity {
         }
     };
 
+    Runnable initTime = new Runnable() {
+        @Override
+        public void run() {
+            if (isInitTime) {
+                if (MuinutesCount)
+                    count++;
+                if (HourCount)
+                    count2--;
+                mHandler.sendEmptyMessage(1003);
+                mHandler.postDelayed(this, 50);
+            }
+        }
+    };
 
     private Handler mHandler = new Handler() {
         @Override
@@ -541,15 +559,37 @@ public class TimeSynchronization extends BaseActivity {
                         HourCount = true;
                     }
                     break;
+                case 1003:
+                    if (count2 < countHour)
+                        HourCount = false;
+                    if (count > minute)
+                        MuinutesCount = false;
+                    if (count2 < countHour && count > minute) {
+                        handler.removeCallbacks(initTime);
+                        count = 0;
+                        count2 = 60;
+                        isInitTime = false;
+                    } else {
+                        if (HourCount)
+                            mainDialFragment.setHourTimeValue(count2);
+                        if (MuinutesCount)
+                            mainDialFragment.setMuinutesTimeValue(count);
+                        isInitTime = true;
+                        MuinutesCount = true;
+                        HourCount = true;
+                    }
+                    break;
             }
             super.handleMessage(msg);
         }
     };
 
     private int countHour;
-
+    private  int HyHour;
     private void initTime() {
-        mCalendar = new Time();
+        String id=   PreferenceData.getTimeZonesState(TimeSynchronization.this);
+        TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(TimeSynchronization.this));
+        mCalendar = new Time(tz.getID());
         mCalendar.setToNow();
         hour = mCalendar.hour;
         minute = mCalendar.minute;
@@ -557,10 +597,10 @@ public class TimeSynchronization extends BaseActivity {
         myear = mCalendar.year;
         month = mCalendar.month;
         mday = mCalendar.monthDay;
-
-        if (hour > 12)
-            hour = hour - 12;
-        float mHour = hour + minute / 60.0f + minute / 360.0f;
+        HyHour=hour;
+        if (HyHour > 12)
+            HyHour = HyHour - 12;
+        float mHour = HyHour + minute / 60.0f + minute / 360.0f;
 //        mMinutes = minute + second / 60.0f;
         String dou = String.valueOf(mHour);
         int idx = dou.lastIndexOf("."); //查找小数点的位置
@@ -574,21 +614,6 @@ public class TimeSynchronization extends BaseActivity {
         num = num + dd;
         mHour = Float.parseFloat(String.valueOf(num));
         countHour = (int) mHour;
-
-
-//        Calendar now;
-//        SimpleDateFormat fmt;
-//        now = Calendar.getInstance();
-//        fmt = new SimpleDateFormat("hh:mm:ss");
-//        String ss = fmt.format(now.getTime());
-//        ss = ss.substring(0, 2);
-//        countHour = Integer.valueOf(ss);
-//        int count = countHour;
-//        countHour = 0;
-//        for (int i = 0; i < count; i++) {
-//            countHour += 5;
-//        }
-//        mHour = hour + minute / 60.0f + second / 3600.0f;
     }
 
     private boolean isShwoSynchronization() {

@@ -1,5 +1,6 @@
 package com.xyy.Gazella.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,10 +16,14 @@ import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.xyy.Gazella.utils.CleanPhoneData;
 import com.xyy.Gazella.utils.CleanWatchData;
 import com.xyy.Gazella.utils.RenameWatchDialog;
+import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.SwitchView;
+import com.xyy.model.TimeZonesData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,6 +71,9 @@ public class SettingActivity extends BaseActivity {
     private Context context;
     private BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
+    private ArrayList<TimeZonesData> dateList = new ArrayList<TimeZonesData>();
+    private String strZonesTime;
+    private String  ZonesName;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -92,8 +100,8 @@ public class SettingActivity extends BaseActivity {
     }
 
     @Override
-    protected void onNotifyReturn(int type) {
-        super.onNotifyReturn(type);
+    protected void onNotifyReturn(int type, String str) {
+        super.onNotifyReturn(type, str);
     }
 
     private void initView() {
@@ -117,6 +125,7 @@ public class SettingActivity extends BaseActivity {
                 PreferenceData.setNotificationShakeState(context, 0);
             }
         });
+        setTimezone();
     }
 
 
@@ -203,9 +212,33 @@ public class SettingActivity extends BaseActivity {
                 });
                 break;
             case R.id.rl_timezone:
-
+                Intent TimeZonesIntent = new Intent(context, TimeZonesActivity.class);
+                startActivityForResult(TimeZonesIntent,10010);
+                overridePendingTransitionEnter(SettingActivity.this);
                 break;
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 10010) {
+            if (resultCode == Activity.RESULT_OK) {
+                setTimezone();
+            }
+            return;
+        }
+    }
+
+    private  void  setTimezone(){
+        dateList = new SomeUtills().getTimeZones(SettingActivity.this);
+        for (int i = 0; i < dateList.size(); i++) {
+            if (PreferenceData.getTimeZonesState(SettingActivity.this).equals(dateList.get(i).getGtm())) {
+                ZonesName = dateList.get(i).getName();
+            }
+        }
+        strZonesTime = new SomeUtills().getZonesTime(PreferenceData.getTimeZonesState(SettingActivity.this));
+        timezone.setText(strZonesTime +ZonesName);
+    }
 }

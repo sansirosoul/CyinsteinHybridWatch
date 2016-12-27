@@ -1,6 +1,7 @@
 package com.xyy.Gazella.activity;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.nbsp.materialfilepicker.MaterialFilePicker;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
@@ -18,6 +21,7 @@ import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.utils.SomeUtills;
+import com.xyy.model.StepData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
@@ -103,12 +107,6 @@ public class BleTest extends BaseActivity {
     Button btn25;
     @BindView(R.id.btn26)
     Button btn26;
-    @BindView(R.id.btn27)
-    Button btn27;
-    @BindView(R.id.notify2)
-    TextView notify2;
-    @BindView(R.id.btn28)
-    Button btn28;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
@@ -142,10 +140,12 @@ public class BleTest extends BaseActivity {
         });
     }
 
-    private void initData(){
-
-
-
+    @Override
+    protected void onNotifyReturn(int type,String str) {
+        super.onNotifyReturn(type,str);
+        if (type == 2) {
+            Notify(connectionObservable);
+        }
     }
 
     Handler handler = new Handler() {
@@ -179,8 +179,18 @@ public class BleTest extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        notify.setText(HexString.bytesToHex(bytes));
-        notify2.setText(new String(bytes));
+        if (bleUtils.returnTodayStep(bytes) != null) {
+            StepData data = bleUtils.returnTodayStep(bytes);
+            notify.setText(data.getYear() + "-" + data.getMonth() + "-" + data.getDay() + "步数" + data.getStep());
+        } else if (bleUtils.returnDeviceSN(bytes) != null) {
+            notify.setText(bleUtils.returnDeviceSN(bytes));
+        } else if (bleUtils.returnFWVer(bytes) != null) {
+            notify.setText(bleUtils.returnFWVer(bytes));
+        } else if (bleUtils.returnBatteryValue(bytes) != null) {
+            notify.setText(bleUtils.returnBatteryValue(bytes) + "%");
+        } else {
+            notify.setText(HexString.bytesToHex(bytes));
+        }
     }
 
     @Override
@@ -190,12 +200,10 @@ public class BleTest extends BaseActivity {
 
         write.setText(HexString.bytesToHex(bytes));
         notify.setText("");
-        notify2.setText("");
     }
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
-            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25,
-            R.id.btn26, R.id.btn27, R.id.btn28})
+            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25, R.id.btn26})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
@@ -219,7 +227,7 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.getFWVer(), connectionObservable);
                 break;
             case R.id.btn6:
-                Write(bleUtils.setDeviceName("CY010"), connectionObservable);
+                Write(bleUtils.setDeviceName("CT003"), connectionObservable);
                 break;
             case R.id.btn7:
                 Write(bleUtils.getDeviceName(), connectionObservable);
@@ -274,80 +282,139 @@ public class BleTest extends BaseActivity {
                 break;
             case R.id.btn24:
 
-                String strLength = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watchbin.txt");
-                String[] stringstrLength = strLength.split(" ");
-                Write(bleUtils.startOTA(stringstrLength.length), connectionObservable);
+//                String strLength = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watchbin.txt");
+                if (path != null && !path.equals("")) {
+                    String strLength = new SomeUtills().sdcardRead(path).toString();
+                    String[] stringstrLength = strLength.split(" ");
+                    StringBuffer WriteLength = new StringBuffer();
+                    for (int i=0;i<stringstrLength.length;i++) {
+                        String CountLength = stringstrLength[i];
+                        WriteLength.append(CountLength);
+                    }
+                    byte[] Bytes = bleUtils.HexString2Bytes(WriteLength.toString());
+                    int mn = Bytes.length;
+//                    byte[] Bytes = bleUtils.HexString2Bytes(strLength);
+//                    String[] stringstrLength = strLength.split(" ");
+//                    int ff = stringstrLength.length;
+//                    int countLength = 1;
+//                    int fff = Bytes.length;
+//                    for (int i = 1; i < stringstrLength.length; i++) {
+
+//                        countLength++;
+//                    }
+                    Write(bleUtils.startOTA(Bytes.length), connectionObservable);
+                }
 
                 break;
             case R.id.btn25:
 
-                String str = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watchbin.txt");
-                String[] strings = str.split(" ");
-                StringBuffer sb = new StringBuffer();
-                StringBuffer newsb = new StringBuffer();
-                StringBuffer Fasb = new StringBuffer();
-                int length = strings.length;
-                int k = 0;
-                int FaCount = 0;
-                boolean isTrue = true;
-                for (int i = 0; i < strings.length; i++) {
-                    String count = strings[i];
-                    if (count.startsWith("0x") || count.startsWith("0X"))
-                        count = count.substring(2);
-                    if (count.startsWith(" 0X") || count.startsWith(" 0x"))
-                        count = count.substring(3);
-                    if (isTrue) {
-                        if (k != 20) {
-                            sb.append(count);
-                            k++;
-                        } else {
-                            byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
-                            Write(Bytes, connectionObservable);
-                            FaCount += Bytes.length;
-                            Fasb.append(sb.toString());
-                            sb.setLength(0);
-                            sb.append(count);
-                            k = 0;
-                            isTrue = false;
-                        }
-                    } else {
-                        if (k != 19) {
-                            sb.append(count);
-                            k++;
-                        } else {
-                            byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
-                            Write(Bytes, connectionObservable);
-                            FaCount += Bytes.length;
-                            Fasb.append(sb.toString());
-                            sb.setLength(0);
-                            sb.append(count);
-                            k = 0;
-                        }
+//                String str = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watchbin.txt");
+                if (path != null && !path.equals("")) {
+
+                    String str = new SomeUtills().sdcardRead(path).toString();
+                    String[] strings = str.split(" ");
+                    StringBuffer sb = new StringBuffer();
+                    StringBuffer newsb = new StringBuffer();
+                    StringBuffer Fasb = new StringBuffer();
+                    StringBuffer Fastr = new StringBuffer();
+                    StringBuffer WriteLength = new StringBuffer();
+
+                    for (int i=0;i<strings.length;i++) {
+                        String CountLength = strings[i];
+                        WriteLength.append(CountLength);
                     }
-                }
-                if (FaCount != length) {
-                    String[] newData = Arrays.copyOfRange(strings, FaCount + 1, length);
-                    for (int n = 0; n < newData.length; n++) {
-                        String count = newData[n];
+
+                    byte[] Byteslen = bleUtils.HexString2Bytes(WriteLength.toString());
+                    int length = Byteslen.length;
+                    int k = 0;
+                    int FaCount = 0;
+                    boolean isTrue = true;
+                    for (int i = 0; i < strings.length; i++) {
+                        String count = strings[i];
                         if (count.startsWith("0x") || count.startsWith("0X"))
                             count = count.substring(2);
                         if (count.startsWith(" 0X") || count.startsWith(" 0x"))
                             count = count.substring(3);
-                        newsb.append(count);
+                        if (isTrue) {
+                            if (k != 20) {
+                                sb.append(count);
+                                k++;
+                            } else {
+                                byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
+                                Write(Bytes, connectionObservable);
+                                FaCount += Bytes.length;
+                                Fasb.append(sb.toString());
+                                sb.setLength(0);
+                                sb.append(count);
+                                k = 0;
+                                isTrue = false;
+                            }
+                        } else {
+                            if (k != 19) {
+                                sb.append(count);
+                                k++;
+                            } else {
+                                byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
+                                Write(Bytes, connectionObservable);
+                                FaCount += Bytes.length;
+                                Fasb.append(sb.toString());
+                                sb.setLength(0);
+                                sb.append(count);
+                                k = 0;
+                            }
+                        }
                     }
-                    byte[] Bytes = bleUtils.HexString2Bytes(newsb.toString());
-                    Write(Bytes, connectionObservable);
-                    FaCount += Bytes.length;
-                    Fasb.append(sb.toString());
+                    if (FaCount != length) {
+                        StringBuffer WriteLengthb = new StringBuffer();
+                        String[] newData = Arrays.copyOfRange(strings, FaCount , length);
+
+                        for (int i=0;i<newData.length;i++) {
+                            String CountLength = newData[i];
+                            WriteLengthb.append(CountLength);
+                        }
+
+                        byte[] Byteslens = bleUtils.HexString2Bytes(WriteLengthb.toString());
+
+                        for (int n = 0; n < Byteslens.length; n++) {
+                            String count = newData[n];
+                            if (count.startsWith("0x") || count.startsWith("0X"))
+                                count = count.substring(2);
+                            if (count.startsWith(" 0X") || count.startsWith(" 0x"))
+                                count = count.substring(3);
+                            newsb.append(count);
+                        }
+
+                        byte[] Bytes = bleUtils.HexString2Bytes(newsb.toString());
+                        Write(Bytes, connectionObservable);
+                        FaCount += Bytes.length;
+                        Fasb.append(sb.toString());
+
+                    }
+                    Logger.t(TAG).e("String总数 >>>>>>>>>   " + String.valueOf(strings.length) + "\n" + "发送总数>>>>    " + String.valueOf(FaCount));
                 }
-                Logger.t(TAG).e("String总数 >>>>>>>>>   " + String.valueOf(strings.length) + "\n" + "发送总数>>>>    " + String.valueOf(FaCount));
                 break;
-            case R.id.btn27:
-                Write(bleUtils.getDeviceType(), connectionObservable);
+            case R.id.btn26:
+
+                new MaterialFilePicker()
+                        .withActivity(this)
+                        .withRequestCode(1)
+                        .start();
+
                 break;
-            case R.id.btn28:
-                Write(bleUtils.getDevicePN(), connectionObservable);
-                break;
+        }
+    }
+
+    private String path;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            path = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            if (path != null) {
+                btn26.setText("已选择文件 >> " + path);
+                btn26.setTextColor(getResources().getColor(R.color.red));
+            }
         }
     }
 }

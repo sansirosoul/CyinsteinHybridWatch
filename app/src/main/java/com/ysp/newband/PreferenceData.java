@@ -6,12 +6,16 @@ import android.content.SharedPreferences;
 import com.xyy.model.User;
 
 import java.io.Serializable;
+import java.util.TimeZone;
 
 /**
  * Created by dell on 2016/5/4.
  */
 public class PreferenceData implements Serializable{
     private static final long serialVersionUID = 1019621703138147697L;
+
+    private  static  TimeZone tz = TimeZone.getDefault();
+
 
     /** Preference Config **/
     public static final String SHARED_PREFERENCE = "PartnerConfig";
@@ -35,6 +39,7 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_NOTIFICATION_SHAKE_STATE="SAVE_NOTIFICATION_SHAKE_STATE";
     public static final String SAVE_NOTIFICATION_STATE="SAVE_NOTIFICATION_STATE";
     public static final String SAVE_NOTIFICATION_PHONE_STATE="SAVE_NOTIFICATION_PHONE_STATE";
+    public static final String SAVE_TIMEZONES_STATE="SAVE_TIMEZONES_STATE";
 
 
 
@@ -305,5 +310,20 @@ public class PreferenceData implements Serializable{
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(SAVE_NOTIFICATION_SHAKE_STATE,0);
+    }
+
+    //保存时区信息
+    public static void setTimeZonesState(Context context,String state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SAVE_TIMEZONES_STATE,state).commit();
+    }
+
+    //获取时区信息
+    public static String getTimeZonesState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(SAVE_TIMEZONES_STATE, tz.getID());
     }
 }

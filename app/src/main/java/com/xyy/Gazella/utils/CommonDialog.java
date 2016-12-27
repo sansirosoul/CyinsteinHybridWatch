@@ -20,11 +20,12 @@ import com.ysp.hybridtwatch.R;
 public class CommonDialog extends Dialog {
 
 
-    private Button butOk;
+    private Button butOk,butAdgin;
     private Context context;
     private ProgressBar iv_loading;
     private TextView tvContext;
     private  onButOKListener onButOKListener;
+    private  onButAdginListener onButAdginListener;
 
     public CommonDialog(Context context) {
         super(context, R.style.dialog);
@@ -40,7 +41,9 @@ public class CommonDialog extends Dialog {
         iv_loading = (ProgressBar) findViewById(R.id.iv_loading);
         tvContext = (TextView) findViewById(R.id.tv_context);
         butOk = (Button) findViewById(R.id.but_ok);
+        butAdgin = (Button) findViewById(R.id.but_adgin);
         butOk.setOnClickListener(new onButListener());
+        butAdgin.setOnClickListener(new onButListener());
         setDialogAttributes((Activity) context, this, 0.5f, 0, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
     }
@@ -68,8 +71,12 @@ public class CommonDialog extends Dialog {
         butOk.setVisibility(visibility);
     }
 
-    public void setButText(String str){
-        butOk.setText(str);
+    public void setButAdgin(int visibility) {
+        butAdgin.setVisibility(visibility);
+    }
+
+    public void setLoadingVisibility(int visibility) {
+        iv_loading.setVisibility(visibility);
     }
 
     public interface onButOKListener {
@@ -77,6 +84,12 @@ public class CommonDialog extends Dialog {
     }
     public void onButOKListener(onButOKListener onButOKListener) {
         this.onButOKListener = onButOKListener;
+    }
+    public interface onButAdginListener {
+        void onButAdginListener();
+    }
+    public void onButAdginListener(onButAdginListener onButAdginListener) {
+        this.onButAdginListener = onButAdginListener;
     }
 
 
@@ -87,6 +100,10 @@ public class CommonDialog extends Dialog {
                 case  R.id.but_ok:
                     if(onButOKListener!=null)
                         onButOKListener.onButOKListener();
+                    break;
+                case  R.id.but_adgin:
+                    if(onButAdginListener!=null)
+                        onButAdginListener.onButAdginListener();
                     break;
             }
         }

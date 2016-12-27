@@ -8,6 +8,9 @@ apply plugin: 'com.neenbedankt.android-apt'
 
 repositories {
     mavenLocal()
+    maven {
+        url  "http://dl.bintray.com/lukaville/maven"
+    }
 }
 buildscript {
     repositories {
@@ -86,6 +89,7 @@ bugtags {
     trackingNetworkEnabled true
 }
 
+
 dependencies {
     compile files('libs/commons-httpclient.jar')
     compile files('libs/fileupload.jar')
@@ -117,4 +121,5 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.7'
     compile  'io.reactivex:rxandroid:1.2.1'
     compile 'com.bugtags.library:bugtags-lib:latest.integration'
+    compile 'com.nbsp:library:1.1'
 }

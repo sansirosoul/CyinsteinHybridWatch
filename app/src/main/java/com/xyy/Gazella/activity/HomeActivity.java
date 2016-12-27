@@ -48,6 +48,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
+
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
@@ -76,8 +77,8 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
-    protected void onNotifyReturn(int type) {
-        super.onNotifyReturn(type);
+    protected void onNotifyReturn(int type,String str) {
+        super.onNotifyReturn(type,str);
         switch (type) {
             case 0:
                 break;

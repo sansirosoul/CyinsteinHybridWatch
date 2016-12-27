@@ -20,10 +20,9 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.ysp.hybridtwatch.R;
+import com.ysp.newband.PreferenceData;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class AnalogClock extends View {
 
@@ -61,6 +60,7 @@ public class AnalogClock extends View {
     private Context mContext;
     private boolean isMinutestMove = false;
     private boolean isHourMove = false;
+    private  String id;
 
     public AnalogClock(Context context) {
         this(context, null);
@@ -97,6 +97,7 @@ public class AnalogClock extends View {
         mPaint.setTypeface(Typeface.DEFAULT_BOLD);
         mPaint.setFakeBoldText(true);
         mPaint.setAntiAlias(true);
+         id=PreferenceData.getTimeZonesState(context);
         if (mCalendar == null) {
             mCalendar = new Time();
         }
@@ -134,17 +135,9 @@ public class AnalogClock extends View {
         int hour = mCalendar.hour;
         int minute = mCalendar.minute;
         int second = mCalendar.second;
-        // mDay = String.valueOf(mCalendar.year) + "-"
-        // + String.valueOf(mCalendar.month + 1) + "-"
-        // + String.valueOf(mCalendar.monthDay);
-        // mWeek = this.getWeek(mCalendar.weekDay);
 
         mHour = hour + mMinutes / 60.0f + mSecond / 3600.0f;
         mMinutes = minute + second / 60.0f;
-//        mSecond = second;
-//        mHour = 12;
-//        mMinutes = 0;
-        // mSecond = second;
         if (!isChangedTime) {
             if (isStop) stop = second;
             else mSecond = move;
@@ -208,7 +201,6 @@ public class AnalogClock extends View {
             vScale = (float) heightSize / (float) mDialHeight;
         }
 
-
         float scale = Math.min(hScale, vScale);
 
         w = resolveSizeAndState((int) (mDialWidth * scale),
@@ -237,25 +229,6 @@ public class AnalogClock extends View {
             int hour = mCalendar.hour;
             int minute = mCalendar.minute;
             int second = mCalendar.second;
-
-            Calendar now;
-            SimpleDateFormat fmt;
-
-            now = Calendar.getInstance();
-            fmt = new SimpleDateFormat("hh:mm:ss");
-            String ss = fmt.format(now.getTime());
-            ss = ss.substring(0, 2);
-            int countHour = Integer.valueOf(ss);
-            int count = countHour;
-            countHour = 0;
-            for (int i = 0; i < count; i++) {
-                countHour += 5;
-            }
-            // mDay = String.valueOf(mCalendar.year) + "-"
-            // + String.valueOf(mCalendar.month + 1) + "-"
-            // + String.valueOf(mCalendar.monthDay);
-            // mWeek = this.getWeek(mCalendar.weekDay);
-
             if (hour > 12)
                 hour = hour - 12;
             mHour = hour + mMinutes / 60.0f +  mSecond / 360.0f;
@@ -271,9 +244,6 @@ public class AnalogClock extends View {
             num*=5;
             num=num+dd;
             mHour= Float.parseFloat(String.valueOf(num));
-
-//            mHour = countHour;
-//            mMinutes = minute;
         }
         boolean changed = mChanged;
 

@@ -3,11 +3,14 @@ package com.xyy.Gazella.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.text.format.Time;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -16,22 +19,27 @@ import com.partner.entity.Partner;
 import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.dbmanager.CommonUtils;
+import com.xyy.model.TimeZonesData;
 import com.ysp.hybridtwatch.R;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -399,49 +407,73 @@ public class SomeUtills {
         return result;
     }
 
-//    public void getFromAssets(Context context, String fileName) {
-//        InputStream in = null;
-//        try {
-//            in = context.getAssets().open(fileName);
-//            FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" +fileName));
-//            byte[] buffer = new byte[1024];
-//            int count = 0;
-//            while (true) {
-//                count++;
-//                int len = in.read(buffer);
-//                if (len == -1) {
-//                    break;
-//                }
-//                fos.write(buffer, 0, len);
-//            }
-//            in.close();
-//            fos.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void getFromAssetsf(Context context, String fileName) {
+        InputStream in = null;
+        try {
+            in = context.getAssets().open(fileName);
+            FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" +fileName));
+            byte[] buffer = new byte[1024];
+            int count = 0;
+            while (true) {
+                count++;
+                int len = in.read(buffer);
+                if (len == -1) {
+                    break;
+                }
+                fos.write(buffer, 0, len);
+            }
+            in.close();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 //
-//    public  byte[]  setFromAssets(Context context, String fileName) {
-//        getFromAssets(context, fileName);
-//        File file = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
-//        byte[] buffer = new byte[20];
-//        try {
-//            FileInputStream fileR = new FileInputStream(file);
-//            BufferedReader reads = new BufferedReader(new InputStreamReader(fileR));
-//
-//            while (true) {
-//                int len = fileR.read(buffer);
-//
-//                if (len == -1) {
-//                    break;
-//                }
-//                return  buffer;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return  buffer;
-//    }
+    public  byte[]  setFromAssets(Context context, String fileName) {
+        //getFromAssets(context, fileName);
+        File file = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
+        StringBuffer stringBuffer = new StringBuffer();
+        byte[] buffer = new byte[1024];
+        try {
+            FileInputStream fileR = new FileInputStream(file);
+            BufferedReader reads = new BufferedReader(new InputStreamReader(fileR));
+
+            while (true) {
+                int len = fileR.read(buffer);
+                if (len == -1) {
+                    break;
+                }
+                return  buffer;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  buffer;
+    }
+
+    // 读取sdcard文件
+    public StringBuffer sdcardRead(String path){
+        StringBuffer sb = new StringBuffer();
+        try {
+            File filev = new File(path);
+            BufferedReader br = new BufferedReader(new FileReader(filev));
+            String readline = "";
+            while ((readline = br.readLine()) != null) {
+                sb.append(readline);
+            }
+            br.close();
+            System.out.println("读取成功：" + sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  sb;
+    }
+
+
+
+
+
+
 
 
     /**
@@ -466,6 +498,540 @@ public class SomeUtills {
         NumberFormat nf = new DecimalFormat("0.0 ");
         dou = Double.parseDouble(nf.format(dou));
         return dou;
+    }
+
+    public  ArrayList<TimeZonesData>  getTimeZones(Context context) {
+         TimeZonesData data;
+         ArrayList<TimeZonesData> dateList = new ArrayList<TimeZonesData>();
+
+        Resources res = context.getResources();
+        XmlResourceParser xrp = res.getXml(R.xml.timezones);
+        try {
+            while (xrp.getEventType() != XmlResourceParser.END_DOCUMENT) {
+                if (xrp.getEventType() == XmlResourceParser.START_TAG) {
+                    String name = xrp.getName();
+                    if (name.equals("timezone")) {
+                        if (xrp.getAttributeValue(0).equals("Pacific/Majuro")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Pacific_Majuro));
+                            dateList.add(data);
+                        }
+
+                        if (xrp.getAttributeValue(0).equals("Pacific/Midway")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Pacific_Midway));
+                            dateList.add(data);
+                        }
+
+                        if (xrp.getAttributeValue(0).equals("Pacific/Honolulu")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Pacific_Honolulu));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Anchorage")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Anchorage));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Los_Angeles")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Los_Angeles));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Tijuana")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Tijuana));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Phoenix")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Phoenix));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Chihuahua")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Chihuahua));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Denver")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Denver));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Costa_Rica")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Costa_Rica));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Chicago")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Chicago));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Mexico_City")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Mexico_City));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Regina")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Regina));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Bogota")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Bogota));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/New_York")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_New_York));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Caracas")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Caracas));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Barbados")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Barbados));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Manaus")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Manaus));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Santiago")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Santiago));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/St_Johns")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_St_Johns));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Sao_Paulo")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Sao_Paulo));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Argentina/Buenos_Aires")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Argentina_Buenos_Aires));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Godthab")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Godthab));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("America/Montevideo")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.America_Montevideo));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Atlantic/South_Georgia")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Atlantic_South_Georgia));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Atlantic/Azores")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Atlantic_Azores));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Atlantic/Cape_Verde")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Atlantic_Cape_Verde));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Africa/Casablanca")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Africa_Casablanca));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Europe/London")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Europe_London));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Europe/Amsterdam")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Europe_Amsterdam));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Europe/Belgrade")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Europe_Belgrade));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Europe/Brussels")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Europe_Brussels));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Europe/Sarajevo")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Europe_Sarajevo));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Africa/Windhoek")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Africa_Windhoek));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Africa/Brazzaville")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Africa_Brazzaville));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Amman")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Amman));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Beirut")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Beirut));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Africa/Cairo")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Africa_Cairo));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Europe/Helsinki")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Europe_Helsinki));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Jerusalem")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Jerusalem));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Europe/Minsk")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Europe_Minsk));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Africa/Harare")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Africa_Harare));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Baghdad")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Baghdad));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Europe/Moscow")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Europe_Moscow));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Kuwait")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Kuwait));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Africa/Nairobi")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Africa_Nairobi));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Tehran")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Tehran));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Baku")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Baku));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Tbilisi")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Tbilisi));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Yerevan")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Yerevan));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Dubai")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Dubai));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Kabul")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Kabul));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Karachi")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Karachi));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Oral")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Oral));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Yekaterinburg")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Yekaterinburg));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Calcutta")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Calcutta));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Colombo")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Colombo));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Katmandu")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Katmandu));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Almaty")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Almaty));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Rangoon")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Rangoon));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Krasnoyarsk")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Krasnoyarsk));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Bangkok")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Bangkok));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Shanghai")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Shanghai));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Hong_Kong")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Hong_Kong));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Irkutsk")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Irkutsk));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Kuala_Lumpur")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Kuala_Lumpur));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Australia/Perth")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Australia_Perth));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Taipei")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Taipei));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Seoul")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Seoul));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Tokyo")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Tokyo));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Yakutsk")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Yakutsk));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Australia/Adelaide")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Australia_Adelaide));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Australia/Darwin")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Australia_Darwin));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Australia/Brisbane")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Australia_Brisbane));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Australia/Hobart")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Australia_Hobart));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Australia/Sydney")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Australia_Sydney));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Vladivostok")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Vladivostok));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Pacific/Guam")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Pacific_Guam));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Asia/Magadan")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Asia_Magadan));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Pacific/Auckland")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Pacific_Auckland));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Pacific/Fiji")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Pacific_Fiji));
+                            dateList.add(data);
+                        }
+                        if (xrp.getAttributeValue(0).equals("Pacific/Tongatapu")) {
+                            data = new TimeZonesData();
+                            data.setGtm(xrp.getAttributeValue(0));
+                            data.setName(res.getString(R.string.Pacific_Tongatapu));
+                            dateList.add(data);
+                        }
+                    }
+                }
+                xrp.next();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  dateList;
+    }
+
+    public String getZonesTime(String id) {
+        TimeZone tz = TimeZone.getTimeZone(id);
+        Time time = new Time(tz.getID());
+        time.setToNow();
+        int minute = time.minute;
+        int hour = time.hour;
+        String  strHour;
+        String strMinute;
+        if (hour < 10)
+            strHour= String.format("%2d", hour).replace(" ", "0");
+        else
+            strHour= String.valueOf(hour);
+        if (minute < 10)
+            strMinute= String.format("%2d", minute).replace(" ", "0");
+        else
+            strMinute= String.valueOf(minute);
+        return "GMT+ " + strHour + " :" + strMinute;
     }
 }
 
