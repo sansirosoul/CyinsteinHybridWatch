@@ -166,7 +166,8 @@ public class SettingActivity extends BaseActivity {
                 cleanPhoneData.show();
                 break;
             case R.id.rl_target:
-                Intent targetIntent = new Intent(context, TargetActivity.class);
+//                Intent targetIntent = new Intent(context, TargetActivity.class);
+                Intent targetIntent = new Intent(context, TimeZonesActivity.class);
                 startActivity(targetIntent);
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;

@@ -244,6 +244,17 @@
         <activity
             android:name="me.iwf.photopicker.PhotoPagerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+
+        <activity android:name="com.xyy.Gazella.activity.TimeZonesActivity"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme" />
+
+
+
         <!-- <activity -->
         <!-- android:name="com.mob.tools.MobUIShell" -->
         <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
@@ -302,7 +313,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
-        <activity android:name="com.xyy.Gazella.activity.TimeZonesActivity"></activity>
     </application>
 
 </manifest>

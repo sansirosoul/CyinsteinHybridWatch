@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/page12_bg"
+    android:background="@color/zones_qg"
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:gravity="center"
@@ -14,8 +14,28 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/zones_qg">-->
+
+        <!--&lt;!&ndash;<com.xyy.Gazella.view.SearchEdit&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/SearchEdit"&ndash;&gt;-->
+            <!--&lt;!&ndash;style="@style/editTextStyle"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginRight="15dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginLeft="15dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginTop="5dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_marginBottom="5dp"/>&ndash;&gt;-->
+
+    <!--</LinearLayout>-->
+
+
     <ListView
         android:id="@+id/listview"
+        android:divider="@null"
+        android:overScrollMode="never"
+        android:listSelector="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

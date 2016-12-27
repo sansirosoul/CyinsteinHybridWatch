@@ -35,5 +35,6 @@
     <color name="v21color">#0088FF</color>
     <color name="v21color_bg">#2B2B2B</color>
     <color name="v21color_qg">#212121</color>
+    <color name="zones_qg">#1B1B1B</color>
 
 </resources>

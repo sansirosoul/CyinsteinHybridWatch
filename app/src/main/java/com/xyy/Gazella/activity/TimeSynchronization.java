@@ -32,6 +32,7 @@ import com.ysp.newband.PreferenceData;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -586,7 +587,10 @@ public class TimeSynchronization extends BaseActivity {
     private  int HyHour;
 
     private void initTime() {
-        mCalendar = new Time();
+
+        String id=   PreferenceData.getTimeZonesState(TimeSynchronization.this);
+        TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(TimeSynchronization.this));
+        mCalendar = new Time(tz.getID());
         mCalendar.setToNow();
         hour = mCalendar.hour;
         minute = mCalendar.minute;
