@@ -212,6 +212,7 @@ public class BaseActivity extends FragmentActivity {
                 public void call(Throwable throwable) {
                     Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
                     onNotifyReturn(1,throwable.toString());
+                    HandleThrowableException(throwable.toString());
                 }
             });
         } else {
@@ -242,6 +243,7 @@ public class BaseActivity extends FragmentActivity {
             }
         } else {
             if (throwable.contains("status=133")) {
+                if(!dialog.isShowing())dialog.show();
                 dialog.setTvContext("蓝牙连接失败是否继续连接");
                 dialog.setButOk(View.VISIBLE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
@@ -252,6 +254,7 @@ public class BaseActivity extends FragmentActivity {
                     }
                 });
             } else {
+                if(!dialog.isShowing())dialog.show();
                 dialog.setTvContext("请检查手表蓝牙是否开启");
                 dialog.setButOk(View.VISIBLE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {

@@ -157,6 +157,14 @@ public class HealthyActivity extends BaseActivity {
                     else
                         stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
                 }
+                //计算活动时间
+                int second = stepData.getSeconds();
+                if(second>60){
+                    stepFragment.setTime(String.valueOf(second/60)+getResources().getString(R.string.minute));
+                }else if(second>60*60){
+                    stepFragment.setTime(String.valueOf(second/360)+getResources().getString(R.string.hour)
+                    +String.valueOf((second%3600)/60)+getResources().getString(R.string.minute));
+                }
 
                 if (dayStep <= TargetStep)
                     stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));

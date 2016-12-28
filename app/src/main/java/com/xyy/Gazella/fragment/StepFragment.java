@@ -161,6 +161,10 @@ public class StepFragment extends BaseFragment {
         cal.setText(num);
     }
 
+    public void setTime(String t){
+        time.setText(t);
+    }
+
     public void setDistanceNum(String num) {
         distance.setText(num);
     }

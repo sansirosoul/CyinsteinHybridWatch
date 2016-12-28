@@ -3,6 +3,8 @@ package com.xyy.Gazella.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
@@ -51,20 +53,51 @@ public class ClockActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
+
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")) {
+            bleUtils = new BleUtils();
+            connectionObservable = getRxObservable(ClockActivity.this);
+            Notify(connectionObservable);
+        }
+        handler.post(runnable);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        clocks.clear();
-        String address = PreferenceData.getAddressValue(context);
-        if (address != null && !address.equals("")) {
-            bleUtils = new BleUtils();
-            connectionObservable = getRxObservable(this);
-            Notify(connectionObservable);
-            Write(bleUtils.getAlarms(), connectionObservable);
-        }
+//        clocks.clear();
+//        String address = PreferenceData.getAddressValue(context);
+//        if (address != null && !address.equals("")) {
+//            Write(bleUtils.getAlarms(), connectionObservable);
+//        }
+    }
 
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 101:
+                    clocks.clear();
+                    Write(bleUtils.getAlarms(), connectionObservable);
+                    break;
+            }
+        }
+    };
+
+     Runnable runnable = new Runnable() {
+         @Override
+         public void run() {
+             handler.sendEmptyMessage(101);
+             handler.postDelayed(this,1000);
+         }
+     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(runnable);
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
+import com.xyy.Gazella.utils.BleUtils;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
@@ -54,6 +55,8 @@ public class HomeActivity extends BaseActivity {
             connectionObservable = getRxObservable(this);
             getRxObservable(this);
             Notify(getRxObservable(this));
+            BleUtils bleUtils = new BleUtils();
+            Write(bleUtils.getDeviceType(),connectionObservable);
         }
         install = this;
     }

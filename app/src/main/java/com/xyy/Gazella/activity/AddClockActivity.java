@@ -12,6 +12,7 @@ import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ClockDialog1;
 import com.xyy.Gazella.utils.ClockDialog2;
+import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.view.PickerViewHour;
 import com.xyy.Gazella.view.PickerViewMinute;
 import com.xyy.model.Clock;
@@ -70,7 +71,23 @@ public class AddClockActivity extends BaseActivity {
         if (address != null && !address.equals("")) {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
+            Notify(connectionObservable);
+        }
+    }
 
+    private boolean flag = false;
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
+        if(HexString.bytesToHex(bytes).equals("0704010C1E")){
+            if(!flag){
+                flag=true;
+                showToatst(context,"闹钟设置成功");
+                Intent intent = new Intent();
+                setResult(1,intent);
+                finish();
+                overridePendingTransitionEnter(AddClockActivity.this);
+            }
         }
     }
 
@@ -164,15 +181,6 @@ public class AddClockActivity extends BaseActivity {
                             Clock.transformSnoozeTime(tvRingtime.getText().toString()),
                             5, bytestr,1),connectionObservable);
                 }
-                Intent intent = new Intent();
-                intent.putExtra("id",id);
-                intent.putExtra("time",hour+":"+minute);
-                intent.putExtra("snooze",tvRingtime.getText().toString());
-                intent.putExtra("rate",tvRepeatrate.getText().toString());
-                intent.putExtra("isOpen",1);
-                setResult(1,intent);
-                finish();
-                overridePendingTransitionEnter(AddClockActivity.this);
                 break;
             case R.id.del_clock:
                 finish();
