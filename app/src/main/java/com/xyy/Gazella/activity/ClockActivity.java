@@ -60,17 +60,17 @@ public class ClockActivity extends BaseActivity {
             connectionObservable = getRxObservable(ClockActivity.this);
             Notify(connectionObservable);
         }
-        handler.post(runnable);
+//        handler.post(runnable);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        clocks.clear();
-//        String address = PreferenceData.getAddressValue(context);
-//        if (address != null && !address.equals("")) {
-//            Write(bleUtils.getAlarms(), connectionObservable);
-//        }
+        clocks.clear();
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")) {
+            Write(bleUtils.getAlarms(), connectionObservable);
+        }
     }
 
     Handler handler = new Handler(){
