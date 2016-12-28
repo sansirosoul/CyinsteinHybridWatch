@@ -232,6 +232,7 @@ public class BaseActivity extends FragmentActivity {
         if (!blueadapter.isEnabled()) {
             if (dialog.isShowing()) {
                 dialog.setTvContext("是否开启手机蓝牙");
+                dialog.setLoadingVisibility(View.GONE);
                 dialog.setButOk(View.VISIBLE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
@@ -242,8 +243,10 @@ public class BaseActivity extends FragmentActivity {
             }
         } else {
             if (throwable.contains("status=133")) {
+                if(!dialog.isShowing())dialog.show();
                 dialog.setTvContext("蓝牙连接失败是否继续连接");
                 dialog.setButOk(View.VISIBLE);
+                dialog.setLoadingVisibility(View.GONE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
                     public void onButOKListener() {
@@ -252,7 +255,9 @@ public class BaseActivity extends FragmentActivity {
                     }
                 });
             } else {
+                if(!dialog.isShowing())dialog.show();
                 dialog.setTvContext("请检查手表蓝牙是否开启");
+                dialog.setLoadingVisibility(View.GONE);
                 dialog.setButOk(View.VISIBLE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
@@ -311,7 +316,6 @@ public class BaseActivity extends FragmentActivity {
 
     protected void onConnectionStateChanges() {
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

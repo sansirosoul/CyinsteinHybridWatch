@@ -83,6 +83,8 @@ public class HomeActivity extends BaseActivity {
             case 0:
                 break;
             case 1:
+                HandleThrowableException(str);
+
                 break;
             case 2:
                 Notify(connectionObservable);

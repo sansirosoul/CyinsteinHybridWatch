@@ -82,12 +82,13 @@ public class SettingActivity extends BaseActivity {
         ButterKnife.bind(this);
         context = this;
         initView();
+        initBle();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        initBle();
+      //  initBle();
     }
 
     private void initBle() {
@@ -102,6 +103,17 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onNotifyReturn(int type, String str) {
         super.onNotifyReturn(type, str);
+       switch (type){
+           case  0:
+               break;
+           case  1:
+               HandleThrowableException(str);
+               break;
+           case  2:
+               Notify(connectionObservable);
+               break;
+
+       }
     }
 
     private void initView() {
