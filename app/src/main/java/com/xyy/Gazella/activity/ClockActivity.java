@@ -54,22 +54,13 @@ public class ClockActivity extends BaseActivity {
         context = this;
         initView();
 
+        bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(context);
         if (address != null && !address.equals("")) {
-            bleUtils = new BleUtils();
             connectionObservable = getRxObservable(ClockActivity.this);
             Notify(connectionObservable);
-        }
-//        handler.post(runnable);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        clocks.clear();
-        String address = PreferenceData.getAddressValue(context);
-        if (address != null && !address.equals("")) {
             Write(bleUtils.getAlarms(), connectionObservable);
+//            handler.post(runnable);
         }
     }
 
@@ -86,13 +77,14 @@ public class ClockActivity extends BaseActivity {
         }
     };
 
-     Runnable runnable = new Runnable() {
-         @Override
-         public void run() {
-             handler.sendEmptyMessage(101);
-             handler.postDelayed(this,1000);
-         }
-     };
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            handler.sendEmptyMessage(101);
+            handler.postDelayed(this,1000);
+        }
+    };
+
 
     @Override
     protected void onDestroy() {
@@ -170,33 +162,20 @@ public class ClockActivity extends BaseActivity {
         switch (requestCode) {
             case REQUEST_ADD:
                 if (data != null) {
-//                    Clock clock = new Clock();
-//                    clock.setId(data.getIntExtra("id",-1));
-//                    clock.setTime(data.getStringExtra("time"));
-//                    clock.setSnoozeTime(data.getStringExtra("snooze"));
-//                    clock.setRate(data.getStringExtra("rate"));
-//                    clock.setIsOpen(data.getIntExtra("isOpen", -1));
-//                    clocks.add(clock);
-//                    adapter.notifyDataSetChanged();
-//                    for (int i = 0; i < clocks.size(); i++) {
-//                        Clock c = clocks.get(i);
-//                        System.out.println(c.getId() + "===="+ c.getIsOpen());
-//                    }
+                    clocks.clear();
+                    String address = PreferenceData.getAddressValue(context);
+                    if (address != null && !address.equals("")) {
+                        Write(bleUtils.getAlarms(), connectionObservable);
+                    }
                 }
                 break;
             case REQUEST_EDIT:
                 if (data != null) {
-//                    if (data.getStringExtra("result").equals("del")) {
-//                        clocks.remove(position);
-//                        adapter.notifyDataSetChanged();
-//                    } else if (data.getStringExtra("result").equals("edit")) {
-//                        Clock clock = clocks.get(position);
-//                        clock.setTime(data.getStringExtra("time"));
-//                        clock.setSnoozeTime(data.getStringExtra("snooze"));
-//                        clock.setRate(data.getStringExtra("rate"));
-//                        clock.setIsOpen(data.getIntExtra("isOpen", -1));
-//                        adapter.notifyDataSetChanged();
-//                    }
+                    clocks.clear();
+                    String address = PreferenceData.getAddressValue(context);
+                    if (address != null && !address.equals("")) {
+                        Write(bleUtils.getAlarms(), connectionObservable);
+                    }
                 }
                 break;
         }

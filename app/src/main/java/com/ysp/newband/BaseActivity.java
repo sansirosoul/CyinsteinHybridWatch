@@ -231,6 +231,7 @@ public class BaseActivity extends FragmentActivity {
     protected  void HandleThrowableException(String throwable){
         BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
         if (!blueadapter.isEnabled()) {
+            if(dialog==null)   dialog = new CommonDialog(this);
             if (dialog.isShowing()) {
                 dialog.setTvContext("是否开启手机蓝牙");
                 dialog.setButOk(View.VISIBLE);
@@ -241,8 +242,9 @@ public class BaseActivity extends FragmentActivity {
                     }
                 });
             }
-        } else {
-            if (throwable.contains("status=133")) {
+        }
+            if (throwable.contains("status=133")||throwable.contains("status=129")) {
+                if(dialog==null)   dialog = new CommonDialog(this);
                 if(!dialog.isShowing())dialog.show();
                 dialog.setTvContext("蓝牙连接失败是否继续连接");
                 dialog.setButOk(View.VISIBLE);
@@ -253,17 +255,17 @@ public class BaseActivity extends FragmentActivity {
                         Notify(connectionObservable);
                     }
                 });
-            } else {
-                if(!dialog.isShowing())dialog.show();
-                dialog.setTvContext("请检查手表蓝牙是否开启");
-                dialog.setButOk(View.VISIBLE);
-                dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                    @Override
-                    public void onButOKListener() {
-                        dialog.dismiss();
-                    }
-                });
-            }
+//            } else {
+//                if(dialog==null)   dialog = new CommonDialog(this);
+//                if(!dialog.isShowing())dialog.show();
+//                dialog.setTvContext("请检查手表蓝牙是否开启");
+//                dialog.setButOk(View.VISIBLE);
+//                dialog.onButOKListener(new CommonDialog.onButOKListener() {
+//                    @Override
+//                    public void onButOKListener() {
+//                        dialog.dismiss();
+//                    }
+//                });
         }
     }
 
