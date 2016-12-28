@@ -254,18 +254,17 @@ public class BaseActivity extends FragmentActivity {
                         Notify(connectionObservable);
                     }
                 });
-            } else {
-                if(!dialog.isShowing())dialog.show();
-                dialog.setTvContext("请检查手表蓝牙是否开启");
-                dialog.setLoadingVisibility(View.GONE);
-                dialog.setButOk(View.VISIBLE);
-                dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                    @Override
-                    public void onButOKListener() {
-                        dialog.dismiss();
-                    }
-                });
-            }
+//            } else {
+//                if(dialog==null)   dialog = new CommonDialog(this);
+//                if(!dialog.isShowing())dialog.show();
+//                dialog.setTvContext("请检查手表蓝牙是否开启");
+//                dialog.setButOk(View.VISIBLE);
+//                dialog.onButOKListener(new CommonDialog.onButOKListener() {
+//                    @Override
+//                    public void onButOKListener() {
+//                        dialog.dismiss();
+//                    }
+//                });
         }
     }
 
@@ -316,6 +315,7 @@ public class BaseActivity extends FragmentActivity {
 
     protected void onConnectionStateChanges() {
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

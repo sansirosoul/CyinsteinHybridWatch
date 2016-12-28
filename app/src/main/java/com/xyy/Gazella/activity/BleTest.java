@@ -107,6 +107,13 @@ public class BleTest extends BaseActivity {
     Button btn25;
     @BindView(R.id.btn26)
     Button btn26;
+
+    @BindView(R.id.btn27)
+    Button btn27;
+    @BindView(R.id.btn28)
+    Button btn28;
+    @BindView(R.id.daynum)
+    EditText daynum;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
@@ -141,8 +148,8 @@ public class BleTest extends BaseActivity {
     }
 
     @Override
-    protected void onNotifyReturn(int type,String str) {
-        super.onNotifyReturn(type,str);
+    protected void onNotifyReturn(int type, String str) {
+        super.onNotifyReturn(type, str);
         if (type == 2) {
             Notify(connectionObservable);
         }
@@ -239,7 +246,7 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.getTodayStep(), connectionObservable);
                 break;
             case R.id.btn10:
-                Write(bleUtils.getSleepData(1), connectionObservable);
+                    Write(bleUtils.getSleepData(Integer.parseInt(daynum.getText().toString())), connectionObservable);
                 break;
             case R.id.btn11:
                 Write(bleUtils.eraseWatchData(), connectionObservable);
@@ -266,7 +273,10 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.resetHand(), connectionObservable);
                 break;
             case R.id.btn19:
-                Write(bleUtils.getStepData(1), connectionObservable);
+                if (!daynum.equals("") && !daynum.equals("天数")) {
+                    Write(bleUtils.getStepData(Integer.parseInt(daynum.getText().toString())), connectionObservable);
+                }
+
                 break;
             case R.id.btn20:
                 Write(bleUtils.setWatchShake(1, 0, 0), connectionObservable);
@@ -287,7 +297,7 @@ public class BleTest extends BaseActivity {
                     String strLength = new SomeUtills().sdcardRead(path).toString();
                     String[] stringstrLength = strLength.split(" ");
                     StringBuffer WriteLength = new StringBuffer();
-                    for (int i=0;i<stringstrLength.length;i++) {
+                    for (int i = 0; i < stringstrLength.length; i++) {
                         String CountLength = stringstrLength[i];
                         WriteLength.append(CountLength);
                     }
@@ -319,7 +329,7 @@ public class BleTest extends BaseActivity {
                     StringBuffer Fastr = new StringBuffer();
                     StringBuffer WriteLength = new StringBuffer();
 
-                    for (int i=0;i<strings.length;i++) {
+                    for (int i = 0; i < strings.length; i++) {
                         String CountLength = strings[i];
                         WriteLength.append(CountLength);
                     }
@@ -366,9 +376,9 @@ public class BleTest extends BaseActivity {
                     }
                     if (FaCount != length) {
                         StringBuffer WriteLengthb = new StringBuffer();
-                        String[] newData = Arrays.copyOfRange(strings, FaCount , length);
+                        String[] newData = Arrays.copyOfRange(strings, FaCount, length);
 
-                        for (int i=0;i<newData.length;i++) {
+                        for (int i = 0; i < newData.length; i++) {
                             String CountLength = newData[i];
                             WriteLengthb.append(CountLength);
                         }

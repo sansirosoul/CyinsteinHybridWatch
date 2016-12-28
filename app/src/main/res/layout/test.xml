@@ -21,11 +21,12 @@
         android:background="@color/white"
         android:gravity="center"
         android:textColor="@color/black" />
-    <TextView
-        android:id="@+id/notify2"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/daynum"
+        android:layout_width="100dp"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
+        android:hint="天数"
         android:background="@color/white"
         android:gravity="center"
         android:textColor="@color/black" />

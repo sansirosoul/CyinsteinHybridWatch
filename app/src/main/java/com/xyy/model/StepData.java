@@ -10,6 +10,15 @@ public class StepData {
     public int day;
     public int step;
     public int time;
+    public int seconds;
+
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
 
     public int getTime() {
         return time;

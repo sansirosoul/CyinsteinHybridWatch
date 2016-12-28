@@ -169,11 +169,11 @@ public class EditClockActivity extends BaseActivity {
                 if (Clock.transformRate(tvRepeatrate.getText().toString()) != 5) {
                     Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
                             Clock.transformSnoozeTime(tvRingtime.getText().toString()),
-                            Clock.transformRate(tvRepeatrate.getText().toString()), "00000000",1),connectionObservable);
+                            Clock.transformRate(tvRepeatrate.getText().toString()), "00000000",isOpen),connectionObservable);
                 } else {
                         Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
                                 Clock.transformSnoozeTime(tvRingtime.getText().toString()),
-                                5, bytestr,1),connectionObservable);
+                                5, bytestr,isOpen),connectionObservable);
                 }
                 Intent intent = new Intent();
                 intent.putExtra("time", hour + ":" + minute);

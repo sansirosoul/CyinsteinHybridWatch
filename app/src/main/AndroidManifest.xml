@@ -72,7 +72,7 @@
 
         <!-- 来电监听广播 -->
         <receiver android:name="com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver">
-            <intent-filter>
+            <intent-filter>F
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
@@ -310,6 +310,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.xyy.Gazella.activity.BleTest"
+            android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />

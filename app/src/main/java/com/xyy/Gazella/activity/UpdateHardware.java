@@ -58,6 +58,13 @@ public class UpdateHardware extends BaseActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals("")) {
+            bleUtils = new BleUtils();
+            connectionObservable = getRxObservable(this);
+            Notify(connectionObservable);
+        }
     }
 
     @Override
@@ -65,9 +72,6 @@ public class UpdateHardware extends BaseActivity {
         super.onResume();
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
-            bleUtils = new BleUtils();
-            connectionObservable = getRxObservable(this);
-            Notify(connectionObservable);
             Write(bleUtils.getDeviceSN(), connectionObservable);
             Write(bleUtils.getFWVer(), connectionObservable);
             Write(bleUtils.getBatteryValue(), connectionObservable);
