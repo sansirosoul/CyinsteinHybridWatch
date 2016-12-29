@@ -88,12 +88,13 @@
                 android:layout_height="match_parent" />
 
             <TextView
+                android:id="@+id/tv_step_target"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="恭喜,今日目标达成"
+                android:text="@string/step_target_ok"
                 android:textColor="@color/title_bg" />
 
             <TextView

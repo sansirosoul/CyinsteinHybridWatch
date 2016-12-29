@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.format.Time;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,16 +15,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
+import com.partner.entity.Partner;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import com.xyy.Gazella.dbmanager.CommonUtils;
 import com.xyy.Gazella.fragment.StepDayFragment;
 import com.xyy.Gazella.fragment.StepMonthFragment;
 import com.xyy.Gazella.fragment.StepWeekFragment;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.SomeUtills;
+import com.xyy.model.StepData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
@@ -41,8 +45,6 @@ import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-
-import static android.R.attr.type;
 
 public class StepActivity extends BaseActivity implements OnDateSelectedListener {
 
@@ -77,6 +79,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
     public static final int UPDATEUI = 1001;
     private SomeUtills utills;
+    private Time mCalendar;
 
 
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
@@ -85,6 +88,12 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     public Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public static StepActivity stepActivity = null;
+    private int myear, month, day, Queryday;
+    private StringBuffer sb = new StringBuffer();
+    public CommonUtils mCommonUtils;
+    private ArrayList<StepData> data;
+    private List<Partner> partners = new ArrayList<>();
+    private int countDay = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,24 +104,86 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         initCalendar();
         InitViewPager();
         String address = PreferenceData.getAddressValue(this);
-        if (address != null && !address.equals(""))
+        if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
-        bleUtils = new BleUtils();
+            bleUtils = new BleUtils();
+            Write(bleUtils.getStepData(6), connectionObservable);
+        }
         Notify(connectionObservable);
         stepActivity = this;
+        mCommonUtils = new CommonUtils(this);
     }
 
     @Override
-    protected void onNotifyReturn(int type,String str) {
-        super.onNotifyReturn(type,str);
-        Logger.t(TAG).e(String.valueOf(type));
+    protected void onNotifyReturn(int type, String str) {
+        super.onNotifyReturn(type, str);
+        switch (type) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+        }
     }
-
 
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        Logger.t(TAG).e(String.valueOf(type));
+        data = bleUtils.returnStepData(bytes);
+        SaveStepData();
+
+    }
+
+    private void SaveStepData() {
+        if (data.size() != 0 && data != null) {
+            for (int i = 0; i < data.size(); i++) {
+                initTime();
+               int dd= data.get(i).getCount();
+                if(dd<=5&&dd>=0)
+                    day -= 6;
+                if (dd<=11&&dd>=6)
+                    day -= 5;
+                if(dd<=17&&dd>=12)
+                    day -= 4;
+                if(dd<=23&&dd>=18)
+                    day -= 3;
+                if(dd<=29&&dd>=24)
+                    day -= 2;
+                if(dd<=35&&dd>=30)
+                    day -= 1;
+                String strday = sb.append(String.valueOf(myear)).append(".").append(String.valueOf(month)).append(".").append(String.valueOf(day)).toString();
+                String strtime = String.valueOf(data.get(i).getTime());
+                Logger.t(TAG).e("总包数>>>  " + data.get(i).getSums() + "\n" +
+                                        "现在第几个包>>>  " + data.get(i).getCount() + "\n" +
+                                        "日期>>>  " + strday + "\n" +
+                                        "时间段>>>  " + data.get(i).getTime() + "\n" +
+                                         "步数>>>  " + data.get(i).getStep() + "\n");
+                if (partners.size() != 0) partners.clear();
+                partners = mCommonUtils.PartnerqueryByBuilder("step", strday, strtime);
+                if (partners.size() != 0) {
+                    mCommonUtils.uoDatePartner(setPartnerData(strday, i));
+                } else {
+                    mCommonUtils.insertPartner(setPartnerData(strday, i));
+                }
+
+                if (data.get(i).getCount() + 1 == data.get(i).getSums() && data.get(i).getTime() == 23) {
+                    String date = sb.append(String.valueOf(myear)).append(".").append(String.valueOf(month)).append(".").append(String.valueOf(Queryday)).toString();
+                    stepDayFragment.initData(date);
+                }
+            }
+        }
+    }
+
+    private Partner setPartnerData(String strday, int i) {
+        Partner partner = new Partner();
+        partner.setType("step");   // 保存计步或 睡眠
+        partner.setTime(String.valueOf(data.get(i).getTime())); // 保存各时间段
+        partner.setSleep(String.valueOf(data.get(i).getStep()));   //  保存记步数
+        partner.setDate(strday);   //  保存日期
+        sb.setLength(0);
+        countDay++;
+        return partner;
     }
 
     private void initView() {
@@ -121,6 +192,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
         btnOpt.setBackground(this.getResources().getDrawable(R.drawable.page17_share));
         utills = new SomeUtills();
+
     }
 
     private void initCalendar() {
@@ -187,10 +259,11 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
             case R.id.btnExit:  //退出
                 StepActivity.this.finish();
                 overridePendingTransitionExit(StepActivity.this);
+
                 break;
             case R.id.btnOpt:  //分享
 //                utills.setShare(stepActivity, R.id.activity_step);
-                    utills.onSharesdk(stepActivity, R.id.activity_step)
+                utills.onSharesdk(stepActivity, R.id.activity_step)
                         .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Boolean>() {
                     @Override
                     public void call(Boolean aBoolean) {
@@ -235,9 +308,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     private Animation loadImageAnimation;
 
     public void setLlDateVisible(int type) {
-
         if (type == 1) {
-
             loadImageAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_up);
             widget.startAnimation(loadImageAnimation);
             loadImageAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -351,5 +422,15 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         public int getCount() {
             return fragmentList.size();
         }
+    }
+
+    private void initTime() {
+        mCalendar = new Time();
+        mCalendar.setToNow();
+        myear = mCalendar.year;
+        month = mCalendar.month + 1;
+        day = mCalendar.monthDay;
+        Queryday = mCalendar.monthDay;
+
     }
 }

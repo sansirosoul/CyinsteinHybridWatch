@@ -756,6 +756,8 @@ public class BleUtils {
                     data.setDay(bytes[4 * i] & 0xFF);
                     data.setTime(bytes[4 * i + 1] & 0xFF);
                     data.setStep((bytes[4 * i + 3] & 0xFF) + ((bytes[4 * i + 2] & 0xFF) << 8));
+                    data.setSums(bytes[2]);
+                    data.setCount(bytes[3]);
                     list.add(data);
                 }
             }else{
