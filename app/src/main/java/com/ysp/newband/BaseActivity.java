@@ -130,11 +130,11 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
-    Handler mHandler = new Handler(){
+    Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 101:
                     String throwable = (String) msg.obj;
                     BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
@@ -150,7 +150,7 @@ public class BaseActivity extends FragmentActivity {
                             });
                         }
                     } else {
-                        if(throwable.contains("status=133")||throwable.contains("status=129")){
+                        if (throwable.contains("status=133") || throwable.contains("status=129")) {
                             dialog.setTvContext("蓝牙连接失败是否继续连接");
                             dialog.setButOk(View.VISIBLE);
                             dialog.onButOKListener(new CommonDialog.onButOKListener() {
@@ -160,7 +160,7 @@ public class BaseActivity extends FragmentActivity {
                                     Notify(connectionObservable);
                                 }
                             });
-                        }else{
+                        } else {
                             dialog.setTvContext("请检查手表蓝牙是否开启");
                             dialog.setButOk(View.VISIBLE);
                             dialog.onButOKListener(new CommonDialog.onButOKListener() {
@@ -194,7 +194,7 @@ public class BaseActivity extends FragmentActivity {
                     Logger.t(TAG).e("开始接收通知  >>>>>>  ");
                     if (dialog.isShowing())
                         dialog.dismiss();
-                    onNotifyReturn(0,null);
+                    onNotifyReturn(0, null);
                 }
             }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
                 @Override
@@ -211,7 +211,7 @@ public class BaseActivity extends FragmentActivity {
                 @Override
                 public void call(Throwable throwable) {
                     Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
-                    onNotifyReturn(1,throwable.toString());
+                    onNotifyReturn(1, throwable.toString());
                     HandleThrowableException(throwable.toString());
                 }
             });
@@ -228,10 +228,10 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
-    protected  void HandleThrowableException(String throwable){
+    protected void HandleThrowableException(String throwable) {
         BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
         if (!blueadapter.isEnabled()) {
-            if(dialog==null)   dialog = new CommonDialog(this);
+            if (dialog == null) dialog = new CommonDialog(this);
             if (dialog.isShowing()) {
                 dialog.setTvContext("是否开启手机蓝牙");
                 dialog.setButOk(View.VISIBLE);
@@ -243,29 +243,29 @@ public class BaseActivity extends FragmentActivity {
                 });
             }
         }
-            if (throwable.contains("status=133")||throwable.contains("status=129")) {
-                if(dialog==null)   dialog = new CommonDialog(this);
-                if(!dialog.isShowing())dialog.show();
-                dialog.setTvContext("蓝牙连接失败是否继续连接");
-                dialog.setButOk(View.VISIBLE);
-                dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                    @Override
-                    public void onButOKListener() {
-                        dialog.dismiss();
-                        Notify(connectionObservable);
-                    }
-                });
-//            } else {
-//                if(dialog==null)   dialog = new CommonDialog(this);
-//                if(!dialog.isShowing())dialog.show();
-//                dialog.setTvContext("请检查手表蓝牙是否开启");
-//                dialog.setButOk(View.VISIBLE);
-//                dialog.onButOKListener(new CommonDialog.onButOKListener() {
-//                    @Override
-//                    public void onButOKListener() {
-//                        dialog.dismiss();
-//                    }
-//                });
+        if (throwable.contains("status=133") || throwable.contains("status=129")) {
+            if (dialog == null) dialog = new CommonDialog(this);
+            if (!dialog.isShowing()) dialog.show();
+            dialog.setTvContext("蓝牙连接失败是否继续连接");
+            dialog.setButOk(View.VISIBLE);
+            dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                @Override
+                public void onButOKListener() {
+                    dialog.dismiss();
+                    Notify(connectionObservable);
+                }
+            });
+        } else {
+            if (dialog == null) dialog = new CommonDialog(this);
+            if (!dialog.isShowing()) dialog.show();
+            dialog.setTvContext("请检查手表蓝牙是否开启");
+            dialog.setButOk(View.VISIBLE);
+            dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                @Override
+                public void onButOKListener() {
+                    dialog.dismiss();
+                }
+            });
         }
     }
 
@@ -308,7 +308,7 @@ public class BaseActivity extends FragmentActivity {
     protected void onWriteReturn(byte[] bytes) {
     }
 
-    protected void onNotifyReturn(int type,String str) {
+    protected void onNotifyReturn(int type, String str) {
     }
 
     protected void onReadReturnFailed() {
@@ -324,7 +324,7 @@ public class BaseActivity extends FragmentActivity {
             if (resultCode == Activity.RESULT_OK) {
                 if (dialog.isShowing())
                     dialog.dismiss();
-                onNotifyReturn(2,null);//  再次发送监听蓝牙
+                onNotifyReturn(2, null);//  再次发送监听蓝牙
             }
             return;
         }
