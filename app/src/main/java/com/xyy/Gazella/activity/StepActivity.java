@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.partner.entity.Partner;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -87,10 +88,12 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     public Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public static StepActivity stepActivity = null;
-    private int myear, month,day;
+    private int myear, month, day, Queryday;
     private StringBuffer sb = new StringBuffer();
-    private CommonUtils mCommonUtils;
-    private     List<Partner> partners = new ArrayList<>();;
+    public CommonUtils mCommonUtils;
+    private ArrayList<StepData> data;
+    private List<Partner> partners = new ArrayList<>();
+    private int countDay = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +107,10 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             bleUtils = new BleUtils();
-            Write(bleUtils.getStepData(1), connectionObservable);
+            Write(bleUtils.getStepData(6), connectionObservable);
         }
         Notify(connectionObservable);
         stepActivity = this;
-        initTime();
         mCommonUtils = new CommonUtils(this);
     }
 
@@ -128,19 +130,60 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        ArrayList<StepData> data = bleUtils.returnStepData(bytes);
-        for (int i = 0; i < data.size(); i++) {
-            Partner partner = new Partner();
-            partner.setType("step");   // 保存计步或 睡眠
-            partner.setTime(String.valueOf(data.get(i).getTime())); // 保存各时间段
-            partner.setSleep(String.valueOf(data.get(i).getStep()));   //  保存记步数
-            partner.setDate(sb.append(String.valueOf(myear)).append(".").append(String.valueOf(month)).append(".").append(String.valueOf(data.get(i).getDay())).toString());   //  保存日期
-            partners.add(partner);
-            sb.setLength(0);
+        data = bleUtils.returnStepData(bytes);
+        SaveStepData();
 
+    }
+
+    private void SaveStepData() {
+        if (data.size() != 0 && data != null) {
+            for (int i = 0; i < data.size(); i++) {
+                initTime();
+               int dd= data.get(i).getCount();
+                if(dd<=5&&dd>=0)
+                    day -= 6;
+                if (dd<=11&&dd>=6)
+                    day -= 5;
+                if(dd<=17&&dd>=12)
+                    day -= 4;
+                if(dd<=23&&dd>=18)
+                    day -= 3;
+                if(dd<=29&&dd>=24)
+                    day -= 2;
+                if(dd<=35&&dd>=30)
+                    day -= 1;
+                String strday = sb.append(String.valueOf(myear)).append(".").append(String.valueOf(month)).append(".").append(String.valueOf(day)).toString();
+                String strtime = String.valueOf(data.get(i).getTime());
+                Logger.t(TAG).e("总包数>>>  " + data.get(i).getSums() + "\n" +
+                                        "现在第几个包>>>  " + data.get(i).getCount() + "\n" +
+                                        "日期>>>  " + strday + "\n" +
+                                        "时间段>>>  " + data.get(i).getTime() + "\n" +
+                                         "步数>>>  " + data.get(i).getStep() + "\n");
+                if (partners.size() != 0) partners.clear();
+                partners = mCommonUtils.PartnerqueryByBuilder("step", strday, strtime);
+                if (partners.size() != 0) {
+                    mCommonUtils.uoDatePartner(setPartnerData(strday, i));
+                } else {
+                    mCommonUtils.insertPartner(setPartnerData(strday, i));
+                }
+
+                if (data.get(i).getCount() + 1 == data.get(i).getSums() && data.get(i).getTime() == 23) {
+                    String date = sb.append(String.valueOf(myear)).append(".").append(String.valueOf(month)).append(".").append(String.valueOf(Queryday)).toString();
+                    stepDayFragment.initData(date);
+                }
+            }
         }
-        mCommonUtils.insertMultPartner(partners);
+    }
 
+    private Partner setPartnerData(String strday, int i) {
+        Partner partner = new Partner();
+        partner.setType("step");   // 保存计步或 睡眠
+        partner.setTime(String.valueOf(data.get(i).getTime())); // 保存各时间段
+        partner.setSleep(String.valueOf(data.get(i).getStep()));   //  保存记步数
+        partner.setDate(strday);   //  保存日期
+        sb.setLength(0);
+        countDay++;
+        return partner;
     }
 
     private void initView() {
@@ -214,35 +257,8 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnExit:  //退出
-//                StepActivity.this.finish();
-//                overridePendingTransitionExit(StepActivity.this);
-
-//                if(partners!=null)partners.clear();
-//                partners = mCommonUtils.listAll();
-//
-//                for (int i = 0; i < partners.size(); i++) {
-//                    Partner o = partners.get(i);
-//                    Logger.t(TAG).i("数据总数== " + String.valueOf(partners.size()) + "\n"
-//                            + "第几条数据== " + String.valueOf(i) + "\n"
-//                            + "Awake== " + o.getAwake() + "\n"
-//                            + "Sleep== " + o.getSleep() + "\n"
-//                            + "Data== " + o.getDate() + "\n"
-//                            + "Type== " + o.getType() + "\n"
-//                            + "LightSleep== " + o.getLightsleep() + "\n"
-//                            + "Time== " + o.getTime() + "\n"
-//                            + "Id== " + o.getId() + "\n"
-//                            + "Sleeping== " + o.getSleeping());
-//                }
-
-
-                String   date = sb.append(String.valueOf(myear)).append(".").append(String.valueOf(month)).append(".").append(String.valueOf(day)).toString();
-                if(partners!=null)partners.clear();
-                partners = mCommonUtils.queryByBuilder("step", date);
-                String[] xValue = new String[24];
-                for (int i=0;i<24;i++){
-                    xValue[i]=partners.get(i).getSleep();
-                }
-                stepDayFragment.updateUI(xValue);
+                StepActivity.this.finish();
+                overridePendingTransitionExit(StepActivity.this);
 
                 break;
             case R.id.btnOpt:  //分享
@@ -412,7 +428,9 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         mCalendar = new Time();
         mCalendar.setToNow();
         myear = mCalendar.year;
-        month = mCalendar.month;
-        day=mCalendar.monthDay;
+        month = mCalendar.month + 1;
+        day = mCalendar.monthDay;
+        Queryday = mCalendar.monthDay;
+
     }
 }

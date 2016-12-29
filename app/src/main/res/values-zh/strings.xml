@@ -45,6 +45,12 @@
     <string name="connection_device">"已连接到手表设备"</string>
     <string name="inspect_ble_state">"手表没有连接！请到设置-更换手表界面连接您的手表"</string>
 
+
+    <!--计步详情页面-->
+    <string name="step_target_ok">"恭喜,今日目标达成"</string>
+    <string name="no_step_data">"暂无数据"</string>
+
+
     <!--时区页面-->
     <string name="Time_Zones">"时区"</string>
     <string name="Time_Zones_queryHint">"请输入时区名称"</string>

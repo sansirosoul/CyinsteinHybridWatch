@@ -18,6 +18,8 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.partner.entity.Partner;
+import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.dbmanager.CommonUtils;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.hybridtwatch.R;
@@ -28,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,8 +57,10 @@ public class StepDayFragment extends BaseFragment {
     LinearLayout llSetpBata;
     @BindView(R.id.scrollView)
     ScrollView scrollView;
+    @BindView(R.id.tv_step_target)
+    TextView tvStepTarget;
     private View view;
-    private String[] xValue = new String[]{"0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"};
+    private String[] xValue = new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
 
     private int widthChart = 0;
     private int heightChatr = 0;
@@ -66,17 +71,36 @@ public class StepDayFragment extends BaseFragment {
     private int myear, month, day;
     private StringBuffer sb = new StringBuffer();
     private String date;
+    private List<Partner> partners = new ArrayList<>();
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_step_day, container, false);
 
         ButterKnife.bind(this, view);
+        initTime();
+        String date = sb.append(String.valueOf(myear)).append(".").append(String.valueOf(month)).append(".").append(String.valueOf(day)).toString();
+        initData(date);
         initChart();
         initView();
         tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 0));
         super.onCreateView(inflater, container, savedInstanceState);
         return view;
+    }
+
+
+    public void initData(String date) {
+        if (partners != null || partners.size() > 0) partners.clear();
+        partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
+        if (partners.size() == 24) {
+            for (int i = 0; i < partners.size(); i++)
+                xValue[i] = partners.get(i).getSleep();
+            tvStepTarget.setText(getResources().getString(R.string.step_target_ok));
+        } else {
+            for (int i = 0; i < xValue.length; i++)
+                xValue[i] = "0";
+            tvStepTarget.setText(getResources().getString(R.string.no_step_data));
+        }
     }
 
     private void initView() {
@@ -157,10 +181,10 @@ public class StepDayFragment extends BaseFragment {
 
     private void setChartData() {
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
-        for (int i = 0; i < 24; i++) {
-            float mult = (10000);
-            float val = (float) (Math.random() * mult) + mult / 1;
-            yVals1.add(new BarEntry(i, val));
+        for (int i = 0; i < xValue.length; i++) {
+//            float mult = (10000);
+//            float val = (float) (Math.random() * mult) + mult / 1;
+            yVals1.add(new BarEntry(i, Float.parseFloat(xValue[i])));
         }
         BarDataSet set1;
 
@@ -227,15 +251,13 @@ public class StepDayFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.iv_left:
                 tvDate.setText(new SomeUtills().getAmountDate(date, 0, 0));
-                String[] xValue = new String[]{"0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100", "110", "120", "130", "140", "150", "160",
-                        "170", "180", "190", "200", "210", "220", "230",};
+                initData(new SomeUtills().getAmountDate(date, 0, 0));
                 updateUI(xValue);
                 break;
             case R.id.iv_right:
                 tvDate.setText(new SomeUtills().getAmountDate(date, 0, 1));
-                String[] xValues = new String[]{"0", "100", "200", "300", "400", "500", "600", "700", "800", "900", "1000", "1100", "1200", "1300", "1400",
-                        "1500", "1600", "1700", "1800", "1900", "2000", "2100", "2200", "2300",};
-                updateUI(xValues);
+                initData(new SomeUtills().getAmountDate(date, 0, 1));
+                updateUI(xValue);
                 break;
             case R.id.ll_step_day:
                 new SomeUtills().setCalendarViewGone(1);
@@ -252,8 +274,7 @@ public class StepDayFragment extends BaseFragment {
         mCalendar = new Time();
         mCalendar.setToNow();
         myear = mCalendar.year;
-        month = mCalendar.month;
+        month = mCalendar.month + 1;
         day = mCalendar.monthDay;
     }
-
 }

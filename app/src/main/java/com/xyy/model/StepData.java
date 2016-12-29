@@ -11,6 +11,26 @@ public class StepData {
     public int step;
     public int time;
     public int seconds;
+    public  int  sums;
+    public  int  count;
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getCount() {
+
+        return count;
+    }
+
+    public void setSums(int sums) {
+        this.sums = sums;
+    }
+
+    public int getSums() {
+
+        return sums;
+    }
 
     public int getSeconds() {
         return seconds;
