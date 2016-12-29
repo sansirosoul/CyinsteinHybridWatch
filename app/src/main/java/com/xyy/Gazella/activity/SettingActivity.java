@@ -129,7 +129,6 @@ public class SettingActivity extends BaseActivity {
     }
 
 
-    private boolean flag = false;
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);

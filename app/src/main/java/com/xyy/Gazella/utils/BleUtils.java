@@ -721,7 +721,7 @@ public class BleUtils {
         return value;
     }
 
-    //获取24小时计步数据
+    //获取7天计步数据
     public byte[] getStepData(int num) {
         value = new byte[8];
         ck_a = 0;

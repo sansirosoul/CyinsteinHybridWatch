@@ -42,7 +42,6 @@ public class ClockActivity extends BaseActivity {
     private ClockListAdapter adapter;
     public final static int REQUEST_ADD = 1;
     public final static int REQUEST_EDIT = 2;
-    private int position = 0;
     private BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
 
@@ -99,9 +98,9 @@ public class ClockActivity extends BaseActivity {
             Clock clock = bleUtils.returnAlarms(bytes);
             if (!clocks.contains(clock)){
                 clocks.add(clock);
-                adapter.notifyDataSetChanged();
             }
         }
+        adapter.notifyDataSetChanged();
     }
 
     private void initView() {
@@ -118,7 +117,6 @@ public class ClockActivity extends BaseActivity {
                 intent.putExtra("rate", clocks.get(i).getRate());
                 intent.putExtra("isOpen", clocks.get(i).getIsOpen());
                 intent.putExtra("custom", clocks.get(i).getCustom());
-                position = i;
                 startActivityForResult(intent, REQUEST_EDIT);
                 overridePendingTransitionEnter(ClockActivity.this);
             }
@@ -143,7 +141,6 @@ public class ClockActivity extends BaseActivity {
                         arr[index]=1;
                     }
                     for(int i=0;i<arr.length;i++){
-                        System.out.println(arr[i]+"=========");
                         if(arr[i]==0){
                             intent.putExtra("id", i);
                             break;

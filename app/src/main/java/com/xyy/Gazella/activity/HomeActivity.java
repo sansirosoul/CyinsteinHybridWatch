@@ -49,14 +49,12 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
-
+        BleUtils bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
-            getRxObservable(this);
             Notify(getRxObservable(this));
-            BleUtils bleUtils = new BleUtils();
-            Write(bleUtils.getDeviceType(),connectionObservable);
+            Write(bleUtils.setSystemType(),connectionObservable);
         }
         install = this;
     }

@@ -193,7 +193,7 @@
                 android:id="@+id/btn19"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="获取24小时计步数据" />
+                android:text="获取7天计步数据" />
 
             <Button
                 android:id="@+id/btn20"
