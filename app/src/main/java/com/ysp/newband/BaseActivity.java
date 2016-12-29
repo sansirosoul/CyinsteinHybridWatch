@@ -228,6 +228,7 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
+
     protected void HandleThrowableException(String throwable) {
         BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
         if (!blueadapter.isEnabled()) {
