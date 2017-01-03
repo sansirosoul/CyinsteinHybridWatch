@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
+import com.xyy.Gazella.activity.SettingActivity;
 import com.xyy.Gazella.adapter.ChangeWatchListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
 import com.ysp.hybridtwatch.R;
@@ -70,7 +71,6 @@ public class ChangeWatchList extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 //                loadingDialog.show();
-                scanSubscription.unsubscribe();
 //                GazelleApplication.mBluetoothService.close();
 //                if (GazelleApplication.mBluetoothService.initialize()) {
 //                    device = devices.get(i);
@@ -80,9 +80,11 @@ public class ChangeWatchList extends BaseActivity {
 //                if (bluetoothAdapter != null) {
 //                    bluetoothAdapter.stopLeScan(leScanCallback);
 //                }
-
+                scanSubscription.unsubscribe();
                 PreferenceData.setAddressValue(context, devices.get(i).getAddress());
                 cleanObservable();
+                Intent intent = new Intent(context, SettingActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

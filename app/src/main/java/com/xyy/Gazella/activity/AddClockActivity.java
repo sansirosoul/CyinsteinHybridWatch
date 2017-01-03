@@ -21,6 +21,7 @@ import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -82,7 +83,6 @@ public class AddClockActivity extends BaseActivity {
         if(HexString.bytesToHex(bytes).equals("0704010C1E")){
             if(!flag){
                 flag=true;
-                showToatst(context,"闹钟设置成功");
                 Intent intent = new Intent();
                 setResult(1,intent);
                 finish();
@@ -114,8 +114,9 @@ public class AddClockActivity extends BaseActivity {
 
         pvHour.setData(hours);
         pvMinute.setData(minutes);
-
-
+        Calendar calendar = Calendar.getInstance();
+//        pvHour.setSelected(calendar.get(Calendar.HOUR_OF_DAY));
+//        pvMinute.setSelected(calendar.get(Calendar.MINUTE));
 
         pvHour.setOnSelectListener(new PickerViewHour.onSelectListener() {
             @Override

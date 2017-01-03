@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.utils.BleUtils;
+import com.xyy.Gazella.utils.HexString;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
@@ -41,6 +42,7 @@ public class HomeActivity extends BaseActivity {
     LinearLayout llOther;
     private long mExitTime = 0;
     public static HomeActivity install;
+    BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
 
     @Override
@@ -49,11 +51,11 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         ButterKnife.bind(this);
-        BleUtils bleUtils = new BleUtils();
+        bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
-            Notify(getRxObservable(this));
+            Notify(connectionObservable);
             Write(bleUtils.setSystemType(),connectionObservable);
         }
         install = this;
@@ -61,7 +63,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        Logger.t(TAG).e(String.valueOf(bytes));
+        Logger.t(TAG).e(HexString.bytesToHex(bytes));
         onHomeReadReturn(bytes);
         super.onReadReturn(bytes);
     }
@@ -85,7 +87,6 @@ public class HomeActivity extends BaseActivity {
                 break;
             case 1:
                 HandleThrowableException(str);
-
                 break;
             case 2:
                 Notify(connectionObservable);

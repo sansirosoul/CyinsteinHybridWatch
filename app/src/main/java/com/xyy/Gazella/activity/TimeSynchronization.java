@@ -111,14 +111,15 @@ public class TimeSynchronization extends BaseActivity {
         ButterKnife.bind(this);
         InitView();
         InitViewPager();
+        bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
+            Write(bleUtils.setSystemType(),connectionObservable);
         } else {
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
         }
-        bleUtils = new BleUtils();
         install = this;
     }
 
