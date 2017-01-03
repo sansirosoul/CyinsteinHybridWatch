@@ -139,37 +139,49 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         if (data.size() != 0 && data != null) {
             for (int i = 0; i < data.size(); i++) {
                 initTime();
-               int dd= data.get(i).getCount();
-                if(dd<=5&&dd>=0)
+                int dd = data.get(i).getCount();
+                if (dd <= 5 && dd >= 0)
                     day -= 6;
-                if (dd<=11&&dd>=6)
+                if (dd <= 11 && dd >= 6)
                     day -= 5;
-                if(dd<=17&&dd>=12)
+                if (dd <= 17 && dd >= 12)
                     day -= 4;
-                if(dd<=23&&dd>=18)
+                if (dd <= 23 && dd >= 18)
                     day -= 3;
-                if(dd<=29&&dd>=24)
+                if (dd <= 29 && dd >= 24)
                     day -= 2;
-                if(dd<=35&&dd>=30)
+                if (dd <= 35 && dd >= 30)
                     day -= 1;
                 String strday = sb.append(String.valueOf(myear)).append(".").append(String.valueOf(month)).append(".").append(String.valueOf(day)).toString();
                 String strtime = String.valueOf(data.get(i).getTime());
+
                 Logger.t(TAG).e("总包数>>>  " + data.get(i).getSums() + "\n" +
-                                        "现在第几个包>>>  " + data.get(i).getCount() + "\n" +
-                                        "日期>>>  " + strday + "\n" +
-                                        "时间段>>>  " + data.get(i).getTime() + "\n" +
-                                         "步数>>>  " + data.get(i).getStep() + "\n");
+                        "现在第几个包>>>  " + data.get(i).getCount() + "\n" +
+                        "日期>>>  " + strday + "\n" +
+                        "第几天>>>  " + data.get(i).getDay() + "\n" +
+                        "时间段>>>  " + data.get(i).getTime() + "\n" +
+                        "步数>>>  " + data.get(i).getStep() + "\n");
+
                 if (partners.size() != 0) partners.clear();
                 partners = mCommonUtils.PartnerqueryByBuilder("step", strday, strtime);
                 if (partners.size() != 0) {
-                    mCommonUtils.uoDatePartner(setPartnerData(strday, i));
+                    mCommonUtils.uoDatePartner(setPartnerData(strday, i));  //更新数据
                 } else {
-                    mCommonUtils.insertPartner(setPartnerData(strday, i));
+                    mCommonUtils.insertPartner(setPartnerData(strday, i));   //插入数据
                 }
-
                 if (data.get(i).getCount() + 1 == data.get(i).getSums() && data.get(i).getTime() == 23) {
                     String date = sb.append(String.valueOf(myear)).append(".").append(String.valueOf(month)).append(".").append(String.valueOf(Queryday)).toString();
-                    stepDayFragment.initData(date);
+                    String[] xValue = new String[24];
+                    if (partners != null || partners.size() > 0) partners.clear();
+                    partners = mCommonUtils.queryByBuilder("step", date);
+                    if (partners.size() == 24) {
+                        for (int n = 0; n < partners.size(); n++)
+                            xValue[n] = partners.get(i).getSleep();
+                    } else {
+                        for (int n = 0; n < xValue.length; n++)
+                            xValue[n] = "0";
+                    }
+                    stepDayFragment.updateUI(xValue);
                 }
             }
         }

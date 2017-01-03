@@ -27,6 +27,7 @@ import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
@@ -195,6 +196,19 @@ public class BleTest extends BaseActivity {
             notify.setText(bleUtils.returnFWVer(bytes));
         } else if (bleUtils.returnBatteryValue(bytes) != null) {
             notify.setText(bleUtils.returnBatteryValue(bytes) + "%");
+        } else if( bleUtils.returnStepData(bytes)!=null){
+
+            ArrayList<StepData> data = bleUtils.returnStepData(bytes);
+              boolean  ok=true;
+            for(int i=0;i<data.size();i++) {
+                if (true) {
+                    notify.setText("总包数>>>  " + data.get(i).getSums() + "\n" +
+                            "现在第几个包>>>  " + data.get(i).getCount() + "\n" +
+                            "日期>>>  " + data.get(i).getDay() + "\n" +
+                            "时间段>>>  " + data.get(i).getTime() + "\n" +
+                            "步数>>>  " + data.get(i).getStep() + "\n");
+                }else {}
+            }
         } else {
             notify.setText(HexString.bytesToHex(bytes));
         }
@@ -273,9 +287,9 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.resetHand(), connectionObservable);
                 break;
             case R.id.btn19:
-                if (!daynum.equals("") && !daynum.equals("天数")) {
-                    Write(bleUtils.getStepData(Integer.parseInt(daynum.getText().toString())), connectionObservable);
-                }
+
+                    Write(bleUtils.getStepData(6), connectionObservable);
+
 
                 break;
             case R.id.btn20:

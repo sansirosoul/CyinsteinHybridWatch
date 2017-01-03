@@ -18,6 +18,7 @@ import com.xyy.Gazella.activity.HealthyActivity;
 import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.NumberProgressBar;
+import com.xyy.Gazella.view.RiseNumberTextView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
 import com.ysp.newband.PreferenceData;
@@ -35,7 +36,7 @@ public class StepFragment extends BaseFragment {
     @BindView(R.id.circle)
     ImageView circle;
     @BindView(R.id.step_num)
-    TextView stepNum;
+    RiseNumberTextView stepNum;
     @BindView(R.id.step_target)
     TextView stepTarget;
     @BindView(R.id.time)
@@ -57,6 +58,7 @@ public class StepFragment extends BaseFragment {
     private View view;
     private BleUtils bleUtils;
     private Observable<RxBleConnection> connectionObservable;
+    private  setStepNumTextOnEndListener setStepNumTextOnEndListener;
 
 
     private Handler mHandler = new Handler() {
@@ -111,6 +113,14 @@ public class StepFragment extends BaseFragment {
             }
         });
         stepTarget.setText(String.valueOf(PreferenceData.getTargetRunValue(getActivity())));
+        stepNum.setOnEndListener(new RiseNumberTextView.EndListener() {
+            @Override
+            public void onEndFinish() {
+                if(setStepNumTextOnEndListener!=null){
+                    setStepNumTextOnEndListener.setStepNumTextOnEndListener();
+                }
+            }
+        });
     }
 
     @OnClick(R.id.circle)
@@ -153,8 +163,11 @@ public class StepFragment extends BaseFragment {
         super.onDestroy();
     }
 
-    public void setStepNum(String num) {
-        stepNum.setText(num);
+    public void setStepNum(int num) {
+        // 设置数据
+        stepNum.withNumber(num);
+        // 设置动画播放时间
+        stepNum.setDuration(500);
     }
 
     public void setCalcalNum(String num) {
@@ -171,5 +184,14 @@ public class StepFragment extends BaseFragment {
     public  void  setIvTip(Drawable drawable,String Str){
         ivTip.setBackground(drawable);
         details.setText(Str);
+    }
+
+
+    public  interface  setStepNumTextOnEndListener{
+        void setStepNumTextOnEndListener();
+    }
+
+    public void setStepNumTextOnEndListener(setStepNumTextOnEndListener setStepNumTextOnEndListener) {
+        this.setStepNumTextOnEndListener = setStepNumTextOnEndListener;
     }
 }

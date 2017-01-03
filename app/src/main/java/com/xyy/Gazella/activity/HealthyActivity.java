@@ -1,8 +1,6 @@
 package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -68,24 +66,6 @@ public class HealthyActivity extends BaseActivity {
     private boolean isTrue ;
     private int dayStep;
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 1000:
-                    if (count <= dayStep) {
-                        stepFragment.setStepNum(String.valueOf(count));
-                        stepFragment.removeTodayStepPost();
-                    } else {
-                        mHandler.removeCallbacks(runnable);
-                        stepFragment.getTodayStepPost();
-                        isTrue = false;
-                    }
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,10 +119,18 @@ public class HealthyActivity extends BaseActivity {
             StepData stepData = bleUtils.returnTodayStep(bytes);
             if (stepData != null) {
                 dayStep = stepData.getStep();
-                if (isTrue)
-                    mHandler.post(runnable);
-                else
-                    stepFragment.setStepNum(String.valueOf(stepData.getStep()));
+//                if (isTrue) {
+//                    mHandler.post(runnable);
+//                    countStep=dayStep;
+//                }
+//                else
+                    stepFragment.setStepNum(stepData.getStep());
+                   stepFragment.setStepNumTextOnEndListener(new StepFragment.setStepNumTextOnEndListener() {
+                    @Override
+                    public void setStepNumTextOnEndListener() {
+                        stepFragment.getTodayStepPost();
+                    }
+                });
                 double km = dayStep * 0.5;
                 // 计算活动距离
                 if (km < 1000)
@@ -292,21 +280,5 @@ public class HealthyActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         stepFragment.removeTodayStepPost();
-    }
-
-    private int count = 0;
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            count++;
-            mHandler.sendEmptyMessage(1000);
-            mHandler.postDelayed(this, 2);
-        }
-    };
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mHandler.removeCallbacks(runnable);
     }
 }

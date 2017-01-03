@@ -16,20 +16,19 @@
     <TextView
         android:id="@+id/notify"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center"
         android:textColor="@color/black" />
     <EditText
         android:id="@+id/daynum"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="天数"
         android:background="@color/white"
         android:gravity="center"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -249,6 +248,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="获取生产序号" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
