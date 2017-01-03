@@ -79,6 +79,7 @@ public class HealthyActivity extends BaseActivity {
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
+            Write(bleUtils.setSystemType(),connectionObservable);
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         }
         initData();

@@ -63,6 +63,21 @@ public class ClockActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onNotifyReturn(int type,String str) {
+        super.onNotifyReturn(type,str);
+        switch (type) {
+            case 0:
+                break;
+            case 1:
+                HandleThrowableException(str);
+                break;
+            case 2:
+//                Notify(connectionObservable);
+                break;
+        }
+    }
+
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -159,6 +174,7 @@ public class ClockActivity extends BaseActivity {
         switch (requestCode) {
             case REQUEST_ADD:
                 if (data != null) {
+                    showToatst(context,"闹钟设置成功");
                     clocks.clear();
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {

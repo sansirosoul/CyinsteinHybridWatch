@@ -52,7 +52,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
             public void onLeScan(BluetoothDevice bluetoothDevice, int i, byte[] bytes) {
                 if (bluetoothDevice.getName().equals("DfuTarg")) {
                     bluetoothAdapter.stopLeScan(this);
-                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00051b).start(context, DfuService.class);
+                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00051b1).start(context, DfuService.class);
                 }
             }
         });

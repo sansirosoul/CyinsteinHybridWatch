@@ -86,9 +86,15 @@ public class SettingActivity extends BaseActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        initBle();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-      //  initBle();
+//        initBle();
     }
 
     private void initBle() {
@@ -97,6 +103,7 @@ public class SettingActivity extends BaseActivity {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
+            Write(bleUtils.setSystemType(),connectionObservable);
         }
     }
 
