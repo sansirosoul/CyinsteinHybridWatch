@@ -85,6 +85,7 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
                 }
                 if(connectionObservable==null) {
                     showToatst(this,"请先连接手表蓝牙");
+                    return;
                 }
                     Write(bleUtils.setDeviceName(etName.getText().toString()), connectionObservable);
                 break;
