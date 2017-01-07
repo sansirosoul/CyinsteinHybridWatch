@@ -39,6 +39,15 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_NOTIFICATION_SHAKE_STATE="SAVE_NOTIFICATION_SHAKE_STATE";
     public static final String SAVE_NOTIFICATION_STATE="SAVE_NOTIFICATION_STATE";
     public static final String SAVE_NOTIFICATION_PHONE_STATE="SAVE_NOTIFICATION_PHONE_STATE";
+    public static final String SAVE_NOTIFICATION_MESSAGE_STATE="SAVE_NOTIFICATION_MESSAGE_STATE";
+    public static final String SAVE_NOTIFICATION_MAIL_STATE="SAVE_NOTIFICATION_MAIL_STATE";
+    public static final String SAVE_NOTIFICATION_QQ_STATE="SAVE_NOTIFICATION_QQ_STATE";
+    public static final String SAVE_NOTIFICATION_WECHAT_STATE="SAVE_NOTIFICATION_WECHAT_STATE";
+    public static final String SAVE_NOTIFICATION_TWITTER_STATE="SAVE_NOTIFICATION_TWITTER_STATE";
+    public static final String SAVE_NOTIFICATION_FACEBOOK_STATE="SAVE_NOTIFICATION_FACEBOOK_STATE";
+    public static final String SAVE_NOTIFICATION_SKYPE_STATE="SAVE_NOTIFICATION_SKYPE_STATE";
+    public static final String SAVE_NOTIFICATION_LINE_STATE="SAVE_NOTIFICATION_LINE_STATE";
+
     public static final String SAVE_TIMEZONES_STATE="SAVE_TIMEZONES_STATE";
 
 
@@ -296,6 +305,128 @@ public class PreferenceData implements Serializable{
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(SAVE_NOTIFICATION_PHONE_STATE,0);
     }
+
+    //保存短信提醒状态    0关  1开
+    public static void setSaveNotificationMessageState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_MESSAGE_STATE,state).commit();
+    }
+
+    //获取短信提醒状态
+    public static int getNotificationMessageState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_MESSAGE_STATE,0);
+    }
+
+    //保存邮件提醒状态    0关  1开
+    public static void setSaveNotificationMailState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_MAIL_STATE,state).commit();
+    }
+
+    //获取邮件提醒状态
+    public static int getNotificationMailState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_MAIL_STATE,0);
+    }
+
+    //保存推特提醒状态    0关  1开
+    public static void setSaveNotificationTwitterState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_TWITTER_STATE,state).commit();
+    }
+
+    //获取推特提醒状态
+    public static int getNotificationTwitterState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_TWITTER_STATE,0);
+    }
+
+    //保存LINE提醒状态    0关  1开
+    public static void setSaveNotificationLineState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_LINE_STATE,state).commit();
+    }
+
+    //获取LINE提醒状态
+    public static int getNotificationLineState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_LINE_STATE,0);
+    }
+
+    //保存QQ提醒状态    0关  1开
+    public static void setSaveNotificationQQState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_QQ_STATE,state).commit();
+    }
+
+    //获取QQ提醒状态
+    public static int getNotificationQQState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_QQ_STATE,0);
+    }
+
+    //保存FACEBOOK提醒状态    0关  1开
+    public static void setSaveNotificationFacebookState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_FACEBOOK_STATE,state).commit();
+    }
+
+    //获取FACEBOOK提醒状态
+    public static int getNotificationFacebookState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_FACEBOOK_STATE,0);
+    }
+
+
+    //保存SKYPE提醒状态    0关  1开
+    public static void setSaveNotificationSkypeState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_SKYPE_STATE,state).commit();
+    }
+
+    //获取SKYPE提醒状态
+    public static int getNotificationSkypeState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_SKYPE_STATE,0);
+    }
+
+    //保存微信提醒状态    0关  1开
+    public static void setSaveNotificationWechatState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_WECHAT_STATE,state).commit();
+    }
+
+    //获取微信提醒状态
+    public static int getNotificationWechatState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_WECHAT_STATE,0);
+    }
+
 
     //保存消息提醒震动状态   0关  1开
     public static void setNotificationShakeState(Context context,int state){

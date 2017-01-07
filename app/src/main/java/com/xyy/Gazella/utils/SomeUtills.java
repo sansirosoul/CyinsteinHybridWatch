@@ -1031,7 +1031,7 @@ public class SomeUtills {
             strMinute= String.format("%2d", minute).replace(" ", "0");
         else
             strMinute= String.valueOf(minute);
-        return "GMT+ " + strHour + " :" + strMinute;
+        return strHour + " :" + strMinute;
     }
 }
 

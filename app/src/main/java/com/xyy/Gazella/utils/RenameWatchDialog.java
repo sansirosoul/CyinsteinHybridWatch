@@ -79,9 +79,11 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
                     Toast.makeText(this,"设备名称太长!",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(connectionObservable!=null){
-                    Write(bleUtils.setDeviceName(etName.getText().toString()), connectionObservable);
+                if(connectionObservable==null) {
+                    showToatst(this,"请先连接手表蓝牙");
+                    return;
                 }
+                    Write(bleUtils.setDeviceName(etName.getText().toString()), connectionObservable);
                 break;
         }
     }

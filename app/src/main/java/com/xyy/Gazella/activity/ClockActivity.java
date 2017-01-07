@@ -73,7 +73,7 @@ public class ClockActivity extends BaseActivity {
                 HandleThrowableException(str);
                 break;
             case 2:
-//                Notify(connectionObservable);
+                Notify(connectionObservable);
                 break;
         }
     }
@@ -84,7 +84,6 @@ public class ClockActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what){
                 case 101:
-                    clocks.clear();
                     Write(bleUtils.getAlarms(), connectionObservable);
                     break;
             }
@@ -114,8 +113,8 @@ public class ClockActivity extends BaseActivity {
             if (!clocks.contains(clock)){
                 clocks.add(clock);
             }
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
 
     private void initView() {
@@ -175,7 +174,6 @@ public class ClockActivity extends BaseActivity {
             case REQUEST_ADD:
                 if (data != null) {
                     showToatst(context,"闹钟设置成功");
-                    clocks.clear();
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
                         Write(bleUtils.getAlarms(), connectionObservable);
@@ -184,7 +182,6 @@ public class ClockActivity extends BaseActivity {
                 break;
             case REQUEST_EDIT:
                 if (data != null) {
-                    clocks.clear();
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
                         Write(bleUtils.getAlarms(), connectionObservable);

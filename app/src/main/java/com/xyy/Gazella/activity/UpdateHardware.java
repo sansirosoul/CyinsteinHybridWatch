@@ -1,5 +1,6 @@
 package com.xyy.Gazella.activity;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -64,12 +65,31 @@ public class UpdateHardware extends BaseActivity {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
+            Write(bleUtils.getDeviceSN(), connectionObservable);
+            Write(bleUtils.getFWVer(), connectionObservable);
+            Write(bleUtils.getBatteryValue(), connectionObservable);
         }
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onNotifyReturn(int type, String str) {
+        super.onNotifyReturn(type, str);
+        switch (type){
+            case  0:
+                break;
+            case  1:
+                HandleThrowableException(str);
+                break;
+            case  2:
+                Notify(connectionObservable);
+                break;
+
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             Write(bleUtils.getDeviceSN(), connectionObservable);

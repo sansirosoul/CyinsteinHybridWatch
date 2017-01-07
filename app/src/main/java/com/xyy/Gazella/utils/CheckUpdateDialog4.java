@@ -1,8 +1,10 @@
 package com.xyy.Gazella.utils;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.xyy.Gazella.activity.UpdateHardware;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 
@@ -20,6 +22,8 @@ public class CheckUpdateDialog4 extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                Intent intent = new Intent(CheckUpdateDialog4.this, UpdateHardware.class);
+                startActivity(intent);
                 finish();
             }
         },1500);
