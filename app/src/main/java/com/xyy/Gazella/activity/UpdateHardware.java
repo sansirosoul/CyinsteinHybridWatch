@@ -65,6 +65,9 @@ public class UpdateHardware extends BaseActivity {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
+            Write(bleUtils.getDeviceSN(), connectionObservable);
+            Write(bleUtils.getFWVer(), connectionObservable);
+            Write(bleUtils.getBatteryValue(), connectionObservable);
         }
     }
 
