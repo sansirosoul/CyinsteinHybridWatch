@@ -94,7 +94,6 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        initBle();
     }
 
     private void initBle() {
@@ -147,15 +146,15 @@ public class SettingActivity extends BaseActivity {
         setTimezone();
     }
 
+    @Override
+    protected void onWriteReturn(byte[] bytes) {
+        super.onWriteReturn(bytes);
+        showToatst(context, "手表已震动，请寻找手表！");
+    }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-//        if(HexString.bytesToHex(bytes).equals("0725012D60")){
-//                 Toast.makeText(context,"手表已震动，请寻找手表！",Toast.LENGTH_SHORT).show();
-//        }else if(HexString.bytesToHex(bytes).equals("0701010918")){
-//                Toast.makeText(context,"手表蓝牙已关闭！",Toast.LENGTH_SHORT).show();
-//        }
     }
 
     @OnClick({R.id.btnExit, R.id.rl_user_setting, R.id.rl_update_hardware, R.id.rl_change_watch, R.id.rl_rename_watch, R.id.rl_clock, R.id.rl_clean_phone,
@@ -204,8 +203,7 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.rl_search_watch:
                 if (connectionObservable != null) {
-                    Write(bleUtils.setWatchShake(1, 2, 3), connectionObservable);
-                    showToatst(context, "手表已震动，请寻找手表！");
+                    Write(bleUtils.setWatchShake(1, 1, 1), connectionObservable);
                 }
                 break;
             case R.id.rl_close_bluetooth:

@@ -524,4 +524,32 @@
     <string name="repeat_rate">重复频率</string>
     <string name="del_clock">删除闹钟</string>
     <string name="define">自定义</string>
+
+    <!--帮助-->
+    <string name="help">帮助</string>
+    <string name="q1">手表时间不准, 如何给手表校时?</string>
+    <string name="q2">如何查找手表?</string>
+    <string name="q3">更新固件和更换手表分别指什么?</string>
+    <string name="q4">此款App可以连接其它品牌手表吗?</string>
+    <string name="q5">如何判断手表蓝牙是否打开?以及如何开关蓝牙?</string>
+    <string name="q1s1">第一步,进入智能校时界面</string>
+    <string name="q1s1d">在APP主界面, 点击“智能校时”模块,进入到智能校时界面</string>
+    <string name="q1s2">第二步,手表指针归“零”</string>
+    <string name="q1s2d">在智能校时界面,先点击“重置”, 然后分别在APP上的表盘上调节时针、分针和小针，使手表上的时针和分针指向12点位置，小针指向0点位置</string>
+    <string name="q1s2dd">（注：指针归“零”是指手表的指针归“零”， APP上表盘的指针只是用来调节手表指针位置）</string>
+    <string name="q1s3">第三步，点击“同步”，手表校时完成</string>
+    <string name="q1s3d">手表上时间和APP上表盘时间一致，为当前的互联网时间</string>
+    <string name="q2s1">点击“设置” → “查找手表”</string>
+    <string name="q2s2">点击”查找手表”后, 手表会震动,通过震动声来判断手表位置</string>
+    <string name="q2s3">因蓝牙距离大约10米，建议查收手表时多走动</string>
+    <string name="q3s1">1.更新固件是指更新手表里面的firmware，即更新手表内含的软件版本。</string>
+    <string name="q3s11">每一款产品我们都会不断优化，使产品趋于完美</string>
+    <string name="q3s2">2.更换手表是指更换另一支手表。 若您用APP连接过手表， 再去连接另外一支手表时， 点击更换手表，选取点击要连的手表，提示更换成功。</string>
+    <string name="q4s1">此款APP “Hybrid Watch”是专门针对我司旗下智能手表（除GPS运动系列）研发的，目前只支持我司智能手表，暂时不支持其它手表。</string>
+    <string name="q5s1">判断手表蓝牙是否打开有以下两种方法：</string>
+    <string name="q5s11">1.打开APP(Hybrid Watch)和手表连接，若APP提示手表蓝牙没连接，则表示手表蓝牙是关着的。</string>
+    <string name="q5s12">2.长按手表按键1秒钟，并有震动。</string>
+    <string name="q5s13">若小针先指示“ON”后指示计步百分比，则表示蓝牙已打开。</string>
+    <string name="q5s14">若小针先指示“闪电符号”后指示计步百分比，则表示蓝牙已关闭。</string>
+    <string name="q5s2">开关蓝牙的方法：长按手表按键1秒钟，并有震动</string>
 </resources>

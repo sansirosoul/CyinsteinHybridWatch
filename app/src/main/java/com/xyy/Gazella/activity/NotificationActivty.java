@@ -1,7 +1,15 @@
 package com.xyy.Gazella.activity;
 
+import android.Manifest;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
@@ -9,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.xyy.Gazella.services.NotificationService;
 import com.xyy.Gazella.view.SwitchView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
@@ -23,7 +32,6 @@ import butterknife.OnClick;
  */
 
 public class NotificationActivty extends BaseActivity {
-
     @BindView(R.id.btnExit)
     LinearLayout btnExit;
     @BindView(R.id.TVTitle)
@@ -63,53 +71,178 @@ public class NotificationActivty extends BaseActivity {
 
         }
         initView();
+        getPermission();
+        PreferenceData.setNotificationShakeState(this,1);
+        toggleNotificationListenerService(this);
     }
 
+    public void toggleNotificationListenerService(Context context) {
+        PackageManager pm = context.getPackageManager();
+        pm.setComponentEnabledSetting(
+                new ComponentName(context, NotificationService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+
+        pm.setComponentEnabledSetting(
+                new ComponentName(context, NotificationService.class),
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+    }
+
+    //sdk6.0以上获取读取短信权限
+    private void getPermission(){
+        if (Build.VERSION.SDK_INT >= 23) {
+            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS);
+            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                Log.d("===========", "没有权限");
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_SMS},0);
+            }else{
+                Log.d("===========", "有权限");
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode==0){
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            }else{
+                getPermission();
+            }
+        }
+    }
 
     private void initView() {
         TVTitle.setText(R.string.msg_notify);
-        email.setEnabled(false);
-        twitter.setEnabled(false);
-        line.setEnabled(false);
-        qq.setEnabled(false);
-        facebook.setEnabled(false);
-        message.setEnabled(false);
-        skype.setEnabled(false);
-        wechat.setEnabled(false);
 
         int state = PreferenceData.getNotificationState(NotificationActivty.this);
-        if(state==1){
+        if (state == 1) {
             all.setOpened(true);
 
             tel.setEnabled(true);
-            if(PreferenceData.getNotificationPhoneState(NotificationActivty.this)==1){
+            if (PreferenceData.getNotificationPhoneState(NotificationActivty.this) == 1) {
                 tel.setChecked(true);
-            }else{
+            } else {
                 tel.setChecked(false);
             }
-        }else{
+
+            message.setEnabled(true);
+            if (PreferenceData.getNotificationMessageState(NotificationActivty.this) == 1) {
+                message.setChecked(true);
+            } else {
+                message.setChecked(false);
+            }
+
+            email.setEnabled(true);
+            if (PreferenceData.getNotificationMailState(NotificationActivty.this) == 1) {
+                email.setChecked(true);
+            } else {
+                email.setChecked(false);
+            }
+
+            skype.setEnabled(true);
+            if (PreferenceData.getNotificationSkypeState(NotificationActivty.this) == 1) {
+                skype.setChecked(true);
+            } else {
+                skype.setChecked(false);
+            }
+
+            line.setEnabled(true);
+            if (PreferenceData.getNotificationLineState(NotificationActivty.this) == 1) {
+                line.setChecked(true);
+            } else {
+                line.setChecked(false);
+            }
+
+            qq.setEnabled(true);
+            if (PreferenceData.getNotificationQQState(NotificationActivty.this) == 1) {
+                qq.setChecked(true);
+            } else {
+                qq.setChecked(false);
+            }
+
+            facebook.setEnabled(true);
+            if (PreferenceData.getNotificationFacebookState(NotificationActivty.this) == 1) {
+                facebook.setChecked(true);
+            } else {
+                facebook.setChecked(false);
+            }
+
+            twitter.setEnabled(true);
+            if (PreferenceData.getNotificationTwitterState(NotificationActivty.this) == 1) {
+                twitter.setChecked(true);
+            } else {
+                twitter.setChecked(false);
+            }
+
+            wechat.setEnabled(true);
+            if (PreferenceData.getNotificationWechatState(NotificationActivty.this) == 1) {
+                wechat.setChecked(true);
+            } else {
+                wechat.setChecked(false);
+            }
+        } else {
             all.setOpened(false);
 
             tel.setEnabled(false);
+            message.setEnabled(false);
+            email.setEnabled(false);
+            skype.setEnabled(false);
+            line.setEnabled(false);
+            qq.setEnabled(false);
+            facebook.setEnabled(false);
+            twitter.setEnabled(false);
+            wechat.setEnabled(false);
         }
 
         all.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn(SwitchView view) {
                 all.setOpened(true);
-                PreferenceData.setNotificationState(NotificationActivty.this,1);
+                PreferenceData.setNotificationState(NotificationActivty.this, 1);
 
                 tel.setEnabled(true);
+                message.setEnabled(true);
+                email.setEnabled(true);
+                skype.setEnabled(true);
+                line.setEnabled(true);
+                qq.setEnabled(true);
+                facebook.setEnabled(true);
+                twitter.setEnabled(true);
+                wechat.setEnabled(true);
             }
 
             @Override
             public void toggleToOff(SwitchView view) {
                 all.setOpened(false);
-                PreferenceData.setNotificationState(NotificationActivty.this,0);
-                PreferenceData.setNotificationPhoneState(NotificationActivty.this,0);
+                PreferenceData.setNotificationState(NotificationActivty.this, 0);
+                PreferenceData.setNotificationPhoneState(NotificationActivty.this, 0);
+                PreferenceData.setSaveNotificationMessageState(NotificationActivty.this, 0);
+                PreferenceData.setSaveNotificationMailState(NotificationActivty.this, 0);
+                PreferenceData.setSaveNotificationTwitterState(NotificationActivty.this, 0);
+                PreferenceData.setSaveNotificationLineState(NotificationActivty.this, 0);
+                PreferenceData.setSaveNotificationQQState(NotificationActivty.this, 0);
+                PreferenceData.setSaveNotificationFacebookState(NotificationActivty.this, 0);
+                PreferenceData.setSaveNotificationSkypeState(NotificationActivty.this, 0);
+                PreferenceData.setSaveNotificationWechatState(NotificationActivty.this, 0);
 
                 tel.setChecked(false);
                 tel.setEnabled(false);
+                message.setEnabled(false);
+                message.setChecked(false);
+                email.setEnabled(false);
+                email.setChecked(false);
+                skype.setEnabled(false);
+                skype.setChecked(false);
+                line.setEnabled(false);
+                line.setChecked(false);
+                qq.setEnabled(false);
+                qq.setChecked(false);
+                facebook.setEnabled(false);
+                facebook.setChecked(false);
+                twitter.setEnabled(false);
+                twitter.setChecked(false);
+                wechat.setEnabled(false);
+                wechat.setChecked(false);
             }
         });
 
@@ -117,11 +250,97 @@ public class NotificationActivty extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    PreferenceData.setNotificationPhoneState(NotificationActivty.this,1);
-
+                    PreferenceData.setNotificationPhoneState(NotificationActivty.this, 1);
                 } else {
-                    PreferenceData.setNotificationPhoneState(NotificationActivty.this,0);
+                    PreferenceData.setNotificationPhoneState(NotificationActivty.this, 0);
+                }
+            }
+        });
 
+        message.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    PreferenceData.setSaveNotificationMessageState(NotificationActivty.this, 1);
+                } else {
+                    PreferenceData.setSaveNotificationMessageState(NotificationActivty.this, 0);
+                }
+            }
+        });
+
+        email.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    PreferenceData.setSaveNotificationMailState(NotificationActivty.this, 1);
+                } else {
+                    PreferenceData.setSaveNotificationMailState(NotificationActivty.this, 0);
+                }
+            }
+        });
+
+        twitter.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    PreferenceData.setSaveNotificationTwitterState(NotificationActivty.this, 1);
+                } else {
+                    PreferenceData.setSaveNotificationTwitterState(NotificationActivty.this, 0);
+                }
+            }
+        });
+
+        line.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    PreferenceData.setSaveNotificationLineState(NotificationActivty.this, 1);
+                } else {
+                    PreferenceData.setSaveNotificationLineState(NotificationActivty.this, 0);
+                }
+            }
+        });
+
+        qq.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    PreferenceData.setSaveNotificationQQState(NotificationActivty.this, 1);
+                } else {
+                    PreferenceData.setSaveNotificationQQState(NotificationActivty.this, 0);
+                }
+            }
+        });
+
+        facebook.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    PreferenceData.setSaveNotificationFacebookState(NotificationActivty.this, 1);
+                } else {
+                    PreferenceData.setSaveNotificationFacebookState(NotificationActivty.this, 0);
+                }
+            }
+        });
+
+        skype.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    PreferenceData.setSaveNotificationSkypeState(NotificationActivty.this, 1);
+                } else {
+                    PreferenceData.setSaveNotificationSkypeState(NotificationActivty.this, 0);
+                }
+            }
+        });
+
+        wechat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    PreferenceData.setSaveNotificationWechatState(NotificationActivty.this, 1);
+                } else {
+                    PreferenceData.setSaveNotificationWechatState(NotificationActivty.this, 0);
                 }
             }
         });

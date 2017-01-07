@@ -1,25 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#1b1b1b"
-    android:fitsSystemWindows="true"
     android:clipToPadding="true"
-    android:layout_height="match_parent">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
     <include
         layout="@layout/connection_title"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        />
-    <ScrollView
-        android:overScrollMode="never"
-        android:scrollbars="none"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:id="@+id/q1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-            <ImageView
-                android:src="@drawable/page43_help"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"/>
-    </ScrollView>
+        android:layout_height="50dp"
+        android:background="#222222"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/q1"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/textView7" />
+    </LinearLayout>
+    <View
+        android:background="#2c2c2c"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:id="@+id/q2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#222222"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/q2"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+    </LinearLayout>
+    <View
+        android:background="#2c2c2c"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:id="@+id/q3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#222222"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/q3"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+    </LinearLayout>
+    <View
+        android:background="#2c2c2c"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:id="@+id/q4"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#222222"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/q4"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+    </LinearLayout>
+    <View
+        android:background="#2c2c2c"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <LinearLayout
+        android:id="@+id/q5"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#222222"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/q5"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            />
+    </LinearLayout>
 </LinearLayout>

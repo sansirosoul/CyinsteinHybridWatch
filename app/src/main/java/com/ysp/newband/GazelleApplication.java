@@ -20,6 +20,7 @@ import com.xyy.Gazella.BroadcastReceiver.PhoneBroadcastReceiver;
 import com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver;
 import com.xyy.Gazella.googlebth.BluetoothLeService;
 import com.xyy.Gazella.services.BluetoothService;
+import com.xyy.Gazella.services.SmsService;
 import com.xyy.model.User;
 
 public class GazelleApplication extends Application {
@@ -96,14 +97,16 @@ public class GazelleApplication extends Application {
 				mBluetoothService=null;
 			}
 		};
-		Intent bindIntent = new Intent(this, BluetoothService.class);
-		startService(bindIntent);
-		bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
+//		Intent bindIntent = new Intent(this, BluetoothService.class);
+//		startService(bindIntent);
+//		bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
 //		Intent bindIntent = new Intent(this, BluetoothLeService.class);
 //		startService(bindIntent);
 //		bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
+		Intent smsIntent = new Intent(this, SmsService.class);
+		startService(smsIntent);
 
 		Bugtags.start("5f1b2bd5c0e6fcb208661ab9651ddce0", this, Bugtags.BTGInvocationEventNone );
 	}

@@ -1,5 +1,6 @@
 package com.xyy.Gazella.utils;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleConnection;
+import com.xyy.Gazella.activity.SettingActivity;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
@@ -59,6 +61,8 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    Intent intent = new Intent(RenameWatchDialog.this, SettingActivity.class);
+                    startActivity(intent);
                     finish();
                 }
             },500);
@@ -79,9 +83,10 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
                     Toast.makeText(this,"设备名称太长!",Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(connectionObservable!=null){
-                    Write(bleUtils.setDeviceName(etName.getText().toString()), connectionObservable);
+                if(connectionObservable==null) {
+                    showToatst(this,"请先连接手表蓝牙");
                 }
+                    Write(bleUtils.setDeviceName(etName.getText().toString()), connectionObservable);
                 break;
         }
     }
