@@ -37,6 +37,7 @@ import rx.Observable;
 
 public class SettingActivity extends BaseActivity {
 
+    private static String TAG = SettingActivity.class.getName();
 
     @BindView(R.id.btnExit)
     LinearLayout btnExit;
@@ -73,7 +74,7 @@ public class SettingActivity extends BaseActivity {
     public Observable<RxBleConnection> connectionObservable;
     private ArrayList<TimeZonesData> dateList = new ArrayList<TimeZonesData>();
     private String strZonesTime;
-    private String  ZonesName;
+    private String ZonesName;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -85,16 +86,16 @@ public class SettingActivity extends BaseActivity {
         initBle();
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        initBle();
-    }
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        initBle();
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        initBle();
+        //  initBle();
     }
 
     private void initBle() {
@@ -103,24 +104,23 @@ public class SettingActivity extends BaseActivity {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
-            Write(bleUtils.setSystemType(),connectionObservable);
+            Write(bleUtils.setSystemType(), connectionObservable);
         }
     }
 
     @Override
     protected void onNotifyReturn(int type, String str) {
         super.onNotifyReturn(type, str);
-       switch (type){
-           case  0:
-               break;
-           case  1:
-               HandleThrowableException(str);
-               break;
-           case  2:
-               Notify(connectionObservable);
-               break;
-
-       }
+        switch (type) {
+            case 0:
+                break;
+            case 1:
+                HandleThrowableException(str);
+                break;
+            case 2:
+                Notify(connectionObservable);
+                break;
+        }
     }
 
     private void initView() {
@@ -151,6 +151,13 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
+
+        if (bleUtils.returnterminateBle(bytes) != null && bleUtils.returnterminateBle(bytes).equals("1")) {
+            showToatst(SettingActivity.this, "蓝牙已断开");
+
+        }
+
+
 //        if(HexString.bytesToHex(bytes).equals("0725012D60")){
 //                 Toast.makeText(context,"手表已震动，请寻找手表！",Toast.LENGTH_SHORT).show();
 //        }else if(HexString.bytesToHex(bytes).equals("0701010918")){
@@ -209,7 +216,7 @@ public class SettingActivity extends BaseActivity {
                 }
                 break;
             case R.id.rl_close_bluetooth:
-                CheckUpdateDialog2 myDialog = new CheckUpdateDialog2(context);
+                CheckUpdateDialog2 myDialog = new CheckUpdateDialog2(SettingActivity.this);
                 myDialog.show();
                 myDialog.setTvContext("是否确定关闭蓝牙？");
                 myDialog.setCancel("否");
@@ -225,13 +232,13 @@ public class SettingActivity extends BaseActivity {
                         myDialog.dismiss();
                         if (connectionObservable != null)
                             Write(bleUtils.sendMessage(0, 0, 0, 0, 0, 0), connectionObservable);
-                        connectionObservable = null;
+                     //   connectionObservable = null;
                     }
                 });
                 break;
             case R.id.rl_timezone:
                 Intent TimeZonesIntent = new Intent(context, TimeZonesActivity.class);
-                startActivityForResult(TimeZonesIntent,10010);
+                startActivityForResult(TimeZonesIntent, 10010);
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
         }
@@ -249,7 +256,7 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-    private  void  setTimezone(){
+    private void setTimezone() {
         dateList = new SomeUtills().getTimeZones(SettingActivity.this);
         for (int i = 0; i < dateList.size(); i++) {
             if (PreferenceData.getTimeZonesState(SettingActivity.this).equals(dateList.get(i).getGtm())) {
@@ -257,6 +264,6 @@ public class SettingActivity extends BaseActivity {
             }
         }
         strZonesTime = new SomeUtills().getZonesTime(PreferenceData.getTimeZonesState(SettingActivity.this));
-        timezone.setText(strZonesTime +ZonesName);
+        timezone.setText(strZonesTime + ZonesName);
     }
 }

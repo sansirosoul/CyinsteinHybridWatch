@@ -89,9 +89,12 @@ public class HealthyActivity extends BaseActivity {
     private void initData() {
         TargetStep = PreferenceData.getTargetRunValue(HealthyActivity.this);
         userWeight = PreferenceData.getUserInfo(HealthyActivity.this).getWeight();
-        userWeight = userWeight.replaceAll("[a-z]", ",");
-        String s2[] = userWeight.split(",");
-        userWeight = s2[0];
+        if(userWeight!=null&&!userWeight.equals("")) {
+            userWeight = userWeight.replaceAll("[a-z]", ",");
+            String s2[] = userWeight.split(",");
+            userWeight = s2[0];
+        }else
+        userWeight="0";
         isTrue=true;
     }
 
@@ -120,18 +123,17 @@ public class HealthyActivity extends BaseActivity {
             StepData stepData = bleUtils.returnTodayStep(bytes);
             if (stepData != null) {
                 dayStep = stepData.getStep();
-//                if (isTrue) {
-//                    mHandler.post(runnable);
-//                    countStep=dayStep;
-//                }
-//                else
-                    stepFragment.setStepNum(stepData.getStep());
-                   stepFragment.setStepNumTextOnEndListener(new StepFragment.setStepNumTextOnEndListener() {
+               if (isTrue) {
+                stepFragment.setStepNum(stepData.getStep(),stepFragment.stepNum);
+                stepFragment.setStepNumTextOnEndListener(new StepFragment.setStepNumTextOnEndListener() {
                     @Override
                     public void setStepNumTextOnEndListener() {
                         stepFragment.getTodayStepPost();
+                        isTrue=false;
                     }
                 });
+            }else
+                    stepFragment.setStepNumFalse(stepData.getStep());
                 double km = dayStep * 0.5;
                 // 计算活动距离
                 if (km < 1000)
@@ -139,16 +141,15 @@ public class HealthyActivity extends BaseActivity {
                 else
                     stepFragment.setDistanceNum(String.valueOf(new SomeUtills().changeDouble(km)) + getResources().getString(R.string.km));
                 //计算卡路里
-                if (userWeight != null && !userWeight.equals("")) {
                     Weight = Integer.valueOf(userWeight);
                     double card = ((Weight * 0.0005 + (dayStep - 1) * 0.005) * dayStep);
                     if (card < 1000)
                         stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) card)) + getResources().getString(R.string.card));
                     else
                         stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
-                }
+
                 //计算活动时间
-                int second = stepData.getSeconds();
+                int second =(int) (dayStep*1.08);
                 if(second>60){
                     stepFragment.setTime(String.valueOf(second/60)+getResources().getString(R.string.minute));
                 }else if(second>60*60){

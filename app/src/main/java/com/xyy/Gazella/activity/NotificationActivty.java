@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.orhanobut.logger.Logger;
 import com.xyy.Gazella.view.SwitchView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
@@ -48,6 +49,7 @@ public class NotificationActivty extends BaseActivity {
     ToggleButton skype;
     @BindView(R.id.wechat)
     ToggleButton wechat;
+    private  static  String TAG=NotificationActivty.class.getName();
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -63,6 +65,17 @@ public class NotificationActivty extends BaseActivity {
 
         }
         initView();
+    }
+
+
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
+
+        Logger.t(TAG).e(new String(bytes));
+//        if (bleUtils.returnterminateBle(bytes) != null && bleUtils.returnterminateBle(bytes).equals("1")) {
+//            showToatst(SettingActivity.this, "蓝牙已断开");
+
     }
 
 

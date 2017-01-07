@@ -36,7 +36,7 @@ public class StepFragment extends BaseFragment {
     @BindView(R.id.circle)
     ImageView circle;
     @BindView(R.id.step_num)
-    RiseNumberTextView stepNum;
+    public   RiseNumberTextView stepNum;
     @BindView(R.id.step_target)
     TextView stepTarget;
     @BindView(R.id.time)
@@ -163,11 +163,16 @@ public class StepFragment extends BaseFragment {
         super.onDestroy();
     }
 
-    public void setStepNum(int num) {
+    public void setStepNum(int num, RiseNumberTextView stepNum) {
         // 设置数据
         stepNum.withNumber(num);
         // 设置动画播放时间
-        stepNum.setDuration(500);
+        stepNum.setDuration(1000);
+        // 开始播放动画
+        stepNum.start();
+    }
+    public void setStepNumFalse(int num) {
+        stepNum.setText(String.valueOf(num));
     }
 
     public void setCalcalNum(String num) {

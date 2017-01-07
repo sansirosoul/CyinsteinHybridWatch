@@ -28,5 +28,9 @@ public class MyClass {
         entity.addStringProperty("lightsleep");
         entity.addStringProperty("sleeping");
         entity.addStringProperty("awake");
+        entity.addStringProperty("exercisetime");
+        entity.addStringProperty("exercisedistance");
+        entity.addStringProperty("calcalNum");
+        entity.addStringProperty("stepsumsnum");
     }
 }

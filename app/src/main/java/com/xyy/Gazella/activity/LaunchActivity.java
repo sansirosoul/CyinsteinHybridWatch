@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.polidea.rxandroidble.RxBleClient;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
@@ -19,7 +20,7 @@ import rx.Subscription;
 
 public class LaunchActivity extends BaseActivity {
 
-    private  static String  TAG= LaunchActivity.class.getName();
+    private static String TAG = LaunchActivity.class.getName();
     private Button start;
     private byte ck_a, ck_b;
 
@@ -32,10 +33,13 @@ public class LaunchActivity extends BaseActivity {
         setContentView(R.layout.launch_activity);
         rxBleClient = GazelleApplication.getRxBleClient(this);
 
+
+
         start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent;
                 String address = PreferenceData.getAddressValue(LaunchActivity.this);
                 if (address == null || address.equals(""))
@@ -50,10 +54,18 @@ public class LaunchActivity extends BaseActivity {
     }
 
 
+    private String path;
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            path = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            if (path != null) {
 
-
-
+            }
+        }
+    }
 
 
 }

@@ -27,4 +27,15 @@ public class HexString {
 
         return data;
     }
+    public static byte[] hexToBytes10(String hexRepresentation) {
+        int len = hexRepresentation.length();
+        byte[] data = new byte[len / 2];
+
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(hexRepresentation.charAt(i), 10) << 4)
+                    + Character.digit(hexRepresentation.charAt(i + 1), 10));
+        }
+
+        return data;
+    }
 }
