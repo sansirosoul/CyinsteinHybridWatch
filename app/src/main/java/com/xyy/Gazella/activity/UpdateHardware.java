@@ -1,5 +1,6 @@
 package com.xyy.Gazella.activity;
 
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -68,8 +69,8 @@ public class UpdateHardware extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             Write(bleUtils.getDeviceSN(), connectionObservable);

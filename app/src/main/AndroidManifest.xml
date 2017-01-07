@@ -189,7 +189,7 @@
         <activity
             android:name="com.xyy.Gazella.activity.UpdateHardware"
             android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.xyy.Gazella.activity.ClockActivity"

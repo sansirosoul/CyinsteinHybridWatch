@@ -149,7 +149,9 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onWriteReturn(byte[] bytes) {
         super.onWriteReturn(bytes);
-        showToatst(context, "手表已震动，请寻找手表！");
+        if(bytes[0]==0x48&&bytes[1]==0x59&&bytes[2]==0x07&&bytes[3]==0x25){
+            showToatst(context, "手表已震动，请寻找手表！");
+        }
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.xyy.Gazella.utils;
 
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +12,7 @@ import com.xyy.Gazella.services.DfuService;
 import com.xyy.Gazella.view.NumberProgressBar;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import no.nordicsemi.android.dfu.DfuProgressListener;
@@ -46,38 +46,31 @@ public class CheckUpdateDialog3 extends BaseActivity {
     }
 
     private void scanDevices(){
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        bluetoothAdapter.startLeScan(new BluetoothAdapter.LeScanCallback() {
-            @Override
-            public void onLeScan(BluetoothDevice bluetoothDevice, int i, byte[] bytes) {
-                if (bluetoothDevice.getName().equals("DfuTarg")) {
-                    bluetoothAdapter.stopLeScan(this);
-                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00051b1).start(context, DfuService.class);
-                }
-            }
-        });
+        scanSubscription = rxBleClient.scanBleDevices()
+                .subscribe(
+                        rxBleScanResult -> {
+                            // Process scan result here.
+                            BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
+                            System.out.println(rxBleScanResult.getBleDevice().getName());
+                            if (bluetoothDevice.getName() != null) {
+                                if (bluetoothDevice.getName().equals("DfuTarg")) {
+                                    scanSubscription.unsubscribe();
+                                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00051j).start(context, DfuService.class);
+                                }
+                            }
+                        },
+                        throwable -> {
+                            // Handle an error here.
+                            Log.d("OTA========", "Scan error :" + throwable);
+                        }
+                );
     }
 
     @Override
     protected void onWriteReturn(byte[] bytes) {
         super.onWriteReturn(bytes);
              scanDevices();
-//        rxBleClient = GazelleApplication.getRxBleClient(this);
-//        scanSubscription = rxBleClient.scanBleDevices()
-//                .subscribe(
-//                        rxBleScanResult -> {
-//                            // Process scan result here.
-//                            BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
-//                            if (bluetoothDevice.getName().equals("DfuTarg")) {
-//                                scanSubscription.unsubscribe();
-//                                new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00048).start(context, DfuService.class);
-//                            }
-//                        },
-//                        throwable -> {
-//                            // Handle an error here.
-//                            Log.d("OTA========", "Scan error :" + throwable);
-//                        }
-//                );
+
     }
 
     @Override
@@ -86,6 +79,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
         setContentView(R.layout.check_update_dialog3);
         setFinishOnTouchOutside(false);
         context = this;
+        rxBleClient = GazelleApplication.getRxBleClient(this);
         String address = PreferenceData.getAddressValue(context);
         if (address != null && !address.equals("")){
             bleUtils = new BleUtils();
