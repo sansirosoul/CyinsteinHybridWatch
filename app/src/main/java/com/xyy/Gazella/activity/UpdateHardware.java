@@ -69,6 +69,22 @@ public class UpdateHardware extends BaseActivity {
     }
 
     @Override
+    protected void onNotifyReturn(int type, String str) {
+        super.onNotifyReturn(type, str);
+        switch (type){
+            case  0:
+                break;
+            case  1:
+                HandleThrowableException(str);
+                break;
+            case  2:
+                Notify(connectionObservable);
+                break;
+
+        }
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         String address = PreferenceData.getAddressValue(this);
