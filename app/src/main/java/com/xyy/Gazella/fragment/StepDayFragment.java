@@ -78,6 +78,8 @@ public class StepDayFragment extends BaseFragment {
     TextView tvCard;
     @BindView(R.id.tv_netsumsstep)
     TextView tvNetsumsstep;
+    @BindView(R.id.tv_manystep)
+    TextView tvManystep;
     private View view;
     private String[] xValue = new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
 
@@ -85,10 +87,10 @@ public class StepDayFragment extends BaseFragment {
     private int heightChatr = 0;
     private ViewGroup.LayoutParams params;
     private Time mCalendar;
-    private int myear, month, day;
+    private int myear, month, day, sumsNum;
     private StringBuffer sb = new StringBuffer();
     private List<Partner> partners = new ArrayList<>();
-    private String strMonth, strDay, exerciseTime,sumsNum;
+    private String strMonth, strDay, exerciseTime;
     private Calendar CalendarInstance = Calendar.getInstance();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -122,7 +124,8 @@ public class StepDayFragment extends BaseFragment {
             for (int i = 0; i < partners.size(); i++) {
                 xValue[i] = partners.get(i).getSleep();
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
-                     sumsNum = partners.get(i).getStepsumsnum();
+                    if (partners.get(i).getStepsumsnum() != null)
+                     sumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
                     int second = Integer.valueOf(partners.get(i).getExercisetime());
                     double km = Double.valueOf(partners.get(i).getExercisedistance());
                     double calcalNum = Double.valueOf(partners.get(i).getCalcalNum());
@@ -160,8 +163,7 @@ public class StepDayFragment extends BaseFragment {
                         tvNumCard.setText(String.valueOf(new SomeUtills().changeDouble(calcalNum)));
                         tvCard.setText(getResources().getString(R.string.Kcard));
                     }
-                    tvSumsnum.setText(sumsNum);
-
+                    tvSumsnum.setText(String.valueOf(sumsNum));
                 }
             }
             tvStepTarget.setText(getResources().getString(R.string.step_target_ok));
@@ -180,6 +182,7 @@ public class StepDayFragment extends BaseFragment {
             tvStepTarget.setText(getResources().getString(R.string.no_step_data));
         }
         Date netDate = null;
+        int netSumsNum = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         try {
             netDate = sdf.parse(date);
@@ -189,11 +192,18 @@ public class StepDayFragment extends BaseFragment {
         String strNetDay = new SomeUtills().getAmountDate(netDate, 0, 0);
         if (partners != null || partners.size() > 0) partners.clear();
         partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", strNetDay);
-        if (partners.size() == 24) for (int i = 0; i < partners.size(); i++) {
-            if (Integer.valueOf(partners.get(i).getTime()) == 23) {
-                int netSumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
-                int i1 = Integer.valueOf(sumsNum) - netSumsNum;
-                tvNetsumsstep.setText(String.valueOf(i1));
+        if (partners.size() == 24) {
+            for (int i = 0; i < partners.size(); i++) {
+                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                    netSumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
+                    int i1 = sumsNum - netSumsNum;
+                    if (i1 < 0) {
+                        tvManystep.setText(getResources().getString(R.string.ye_step_data));
+                        Math.abs(i1);
+                    } else
+                        tvManystep.setText(getResources().getString(R.string.ye_step_manydata));
+                    tvNetsumsstep.setText(String.valueOf(i1));
+                }
             }
         }
         updateUI(xValue);

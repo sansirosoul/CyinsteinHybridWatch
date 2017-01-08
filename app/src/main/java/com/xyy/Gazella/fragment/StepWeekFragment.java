@@ -98,6 +98,7 @@ public class StepWeekFragment extends BaseFragment {
     private List<Partner> partners = new ArrayList<>();
     private int sumsStep, sumsSecond, netSumsStep;
     private double sumsKm, sumsCalcalNum;
+    private String weekDate;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -120,33 +121,12 @@ public class StepWeekFragment extends BaseFragment {
 
     public void initData(HashMap<String, String> weekMap) {
         for (int i = 0; i < weekMap.size(); i++) {
-            String weekDate = weekMap.get(String.valueOf(i + 1));
+             weekDate = weekMap.get(String.valueOf(i + 1));
             initData(weekDate, i);
         }
-        updateUI(xValue);
-    }
 
-    public void initData(String date, int n) {
-        if (partners != null || partners.size() > 0) partners.clear();
-        partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
-        if (partners.size() == 24) {
-            for (int i = 0; i < partners.size(); i++) {
-                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
-                    xValue[n] = partners.get(i).getStepsumsnum();
-                    second[n] = Integer.valueOf(partners.get(i).getExercisetime());
-                    km[n] = Double.valueOf(partners.get(i).getExercisedistance());
-                    calcalNum[n] = Double.valueOf(partners.get(i).getCalcalNum());
-                    break;
-                }
-            }
-        } else {
-            xValue[n] = "0";
-            second[n] = 0;
-            km[n] = 0;
-            calcalNum[n] = 0.0;
-        }
         for (int k = 0; k < xValue.length; k++) {
-            sumsStep += Integer.valueOf(xValue[n]);
+            sumsStep += Integer.valueOf(xValue[k]);
             sumsSecond += Integer.valueOf(second[k]);
             sumsKm += (km[k]);
             sumsCalcalNum += calcalNum[k];
@@ -186,22 +166,20 @@ public class StepWeekFragment extends BaseFragment {
             tvCard.setText(getResources().getString(R.string.Kcard));
         }
         tvSumsnum.setText(String.valueOf(sumsStep));
-        sumsStep = 0;
-        sumsSecond = 0;
-        sumsCalcalNum = 0;
-        sumsKm = 0;
+
+
         if (weekMap.size() != 0) weekMap.clear();
-        if (partners != null || partners.size() > 0) partners.clear();
         Date netWeekDate = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         try {
-            netWeekDate = sdf.parse(date);
+            netWeekDate = sdf.parse(weekDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         weekMap = new SomeUtills().getAmountWeekdate(netWeekDate, 0);
         for (int m = 0; m < weekMap.size(); m++) {
             String strNetWeekDate = weekMap.get(String.valueOf(m + 1));
+            if (partners != null || partners.size() > 0) partners.clear();
             partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", strNetWeekDate);
             for (int i = 0; i < partners.size(); i++) {
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
@@ -214,6 +192,33 @@ public class StepWeekFragment extends BaseFragment {
             netSumsStep += Integer.valueOf(netWeekStep[l]);
         }
         tvNetweekstep.setText(String.valueOf(sumsStep - netSumsStep));
+        updateUI(xValue);
+        sumsStep = 0;
+        sumsSecond = 0;
+        sumsCalcalNum = 0;
+        sumsKm = 0;
+        netSumsStep=0;
+    }
+
+    public void initData(String date, int n) {
+        if (partners != null || partners.size() > 0) partners.clear();
+        partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
+        if (partners.size() == 24) {
+            for (int i = 0; i < partners.size(); i++) {
+                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                    xValue[n] = partners.get(i).getStepsumsnum();
+                    second[n] = Integer.valueOf(partners.get(i).getExercisetime());
+                    km[n] = Double.valueOf(partners.get(i).getExercisedistance());
+                    calcalNum[n] = Double.valueOf(partners.get(i).getCalcalNum());
+                    break;
+                }
+            }
+        } else {
+            xValue[n] = "0";
+            second[n] = 0;
+            km[n] = 0;
+            calcalNum[n] = 0.0;
+        }
     }
 
 
