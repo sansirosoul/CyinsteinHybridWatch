@@ -80,6 +80,8 @@ public class StepWeekFragment extends BaseFragment {
     TextView tvStepTarget;
     @BindView(R.id.tv_netweekstep)
     TextView tvNetweekstep;
+    @BindView(R.id.tv_manystep)
+    TextView tvManystep;
     private View view;
     private String[] XString = new String[]{"周日", "周一", "周二", "周三", "周四", "周五", "周六",};
     private String[] xValue = new String[]{"0", "0", "0", "0", "0", "0", "0"};
@@ -121,7 +123,7 @@ public class StepWeekFragment extends BaseFragment {
 
     public void initData(HashMap<String, String> weekMap) {
         for (int i = 0; i < weekMap.size(); i++) {
-             weekDate = weekMap.get(String.valueOf(i + 1));
+            weekDate = weekMap.get(String.valueOf(i + 1));
             initData(weekDate, i);
         }
 
@@ -166,8 +168,6 @@ public class StepWeekFragment extends BaseFragment {
             tvCard.setText(getResources().getString(R.string.Kcard));
         }
         tvSumsnum.setText(String.valueOf(sumsStep));
-
-
         if (weekMap.size() != 0) weekMap.clear();
         Date netWeekDate = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
@@ -176,6 +176,7 @@ public class StepWeekFragment extends BaseFragment {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
         weekMap = new SomeUtills().getAmountWeekdate(netWeekDate, 0);
         for (int m = 0; m < weekMap.size(); m++) {
             String strNetWeekDate = weekMap.get(String.valueOf(m + 1));
@@ -191,13 +192,23 @@ public class StepWeekFragment extends BaseFragment {
         for (int l = 0; l < netWeekStep.length; l++) {
             netSumsStep += Integer.valueOf(netWeekStep[l]);
         }
-        tvNetweekstep.setText(String.valueOf(sumsStep - netSumsStep));
+        int num = sumsStep - netSumsStep;
+        if (num < 0) {
+            tvManystep.setText(getResources().getString(R.string.ye_step_data));
+            num = Math.abs(num);
+        } else
+            tvManystep.setText(getResources().getString(R.string.ye_step_manydata));
+        tvNetweekstep.setText(String.valueOf(num));
         updateUI(xValue);
         sumsStep = 0;
         sumsSecond = 0;
         sumsCalcalNum = 0;
         sumsKm = 0;
-        netSumsStep=0;
+        num=0;
+        netSumsStep = 0;
+        for (int m=0;m<netWeekStep.length;m++){
+            netWeekStep[m]="0";
+        }
     }
 
     public void initData(String date, int n) {
@@ -375,15 +386,17 @@ public class StepWeekFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.iv_left:
                 weekMap = new SomeUtills().getAmountWeekdate(date, 0);
-                if (weekMap != null)
-                    initData(weekMap);
                 tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
+                if (weekMap != null) {
+                    initData(weekMap);
+                }
                 break;
             case R.id.iv_right:
                 weekMap = new SomeUtills().getAmountWeekdate(date, 1);
-                if (weekMap != null)
-                    initData(weekMap);
                 tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
+                if (weekMap != null) {
+                    initData(weekMap);
+                }
                 break;
             case R.id.ll_step_week:
                 new SomeUtills().setCalendarViewGone(1);

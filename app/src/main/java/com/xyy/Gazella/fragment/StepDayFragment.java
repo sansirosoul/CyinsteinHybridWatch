@@ -125,7 +125,7 @@ public class StepDayFragment extends BaseFragment {
                 xValue[i] = partners.get(i).getSleep();
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
                     if (partners.get(i).getStepsumsnum() != null)
-                     sumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
+                        sumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
                     int second = Integer.valueOf(partners.get(i).getExercisetime());
                     double km = Double.valueOf(partners.get(i).getExercisedistance());
                     double calcalNum = Double.valueOf(partners.get(i).getCalcalNum());
@@ -199,10 +199,12 @@ public class StepDayFragment extends BaseFragment {
                     int i1 = sumsNum - netSumsNum;
                     if (i1 < 0) {
                         tvManystep.setText(getResources().getString(R.string.ye_step_data));
-                        Math.abs(i1);
+                       i1=Math.abs(i1);
                     } else
                         tvManystep.setText(getResources().getString(R.string.ye_step_manydata));
-                    tvNetsumsstep.setText(String.valueOf(i1));
+                        tvNetsumsstep.setText(String.valueOf(i1));
+                        i1=0;
+                        sumsNum=0;
                 }
             }
         }
