@@ -25,6 +25,7 @@ import com.xyy.Gazella.fragment.StepDayFragment;
 import com.xyy.Gazella.fragment.StepMonthFragment;
 import com.xyy.Gazella.fragment.StepWeekFragment;
 import com.xyy.Gazella.utils.BleUtils;
+import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.model.StepData;
 import com.ysp.hybridtwatch.R;
@@ -85,9 +86,10 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     private int myear, month, day, Queryday,SumsStep,Weight;
     private StringBuffer sb = new StringBuffer();
     public CommonUtils mCommonUtils;
-    private ArrayList<StepData> data;
+    private List<StepData> data;
     private List<Partner> partners = new ArrayList<>();
-    private String strMonth, strDay,exerciseTime,exercisediStance,calcalNum,userWeight;
+    private String strMonth, strDay,userWeight;
+    private CommonDialog commonDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,9 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
             connectionObservable = getRxObservable(this);
             bleUtils = new BleUtils();
             Write(bleUtils.getStepData(6), connectionObservable);
+            commonDialog= new CommonDialog(StepActivity.this);
+            commonDialog.show();
+            commonDialog.setTvContext("请稍等,正在同步数据");
         }
         Notify(connectionObservable);
         stepActivity = this;
@@ -152,6 +157,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 if (count == 41 && time == 23) {
                     String strday = setStrDay(999999);
                     stepDayFragment.initData(strday);
+                    if(commonDialog.isShowing())commonDialog.dismiss();
                 }
             }
         }
@@ -176,10 +182,6 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
             //计算卡路里
                 Weight = Integer.valueOf(userWeight);
                 double card = ((Weight * 0.0005 + (SumsStep - 1) * 0.005) * SumsStep);
-//                if (card < 1000)
-//                    calcalNum=String.valueOf(Integer.valueOf((int) card)) + getResources().getString(R.string.card);
-//                else
-//                    calcalNum= String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard);
 
             partner = new Partner();
             partner.setType("step");                                                      // 保存计步或 睡眠
