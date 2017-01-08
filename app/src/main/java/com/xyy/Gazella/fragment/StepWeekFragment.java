@@ -19,6 +19,8 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.partner.entity.Partner;
+import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,8 +58,31 @@ public class StepWeekFragment extends BaseFragment {
     LinearLayout llSetpBata;
     @BindView(R.id.scrollView)
     ScrollView scrollView;
+    @BindView(R.id.tv_num_hour)
+    TextView tvNumHour;
+    @BindView(R.id.tv_hour)
+    TextView tvHour;
+    @BindView(R.id.tv_num_minute)
+    TextView tvNumMinute;
+    @BindView(R.id.tv_minute)
+    TextView tvMinute;
+    @BindView(R.id.tv_num_mi)
+    TextView tvNumMi;
+    @BindView(R.id.tv_mi)
+    TextView tvMi;
+    @BindView(R.id.tv_num_card)
+    TextView tvNumCard;
+    @BindView(R.id.tv_card)
+    TextView tvCard;
+    @BindView(R.id.tv_sumsnum)
+    TextView tvSumsnum;
     private View view;
-    private String[] XString = new String[]{"周一", "周二", "周三", "周四", "周五", "周六", "周七",};
+    private String[] XString = new String[]{"周日", "周一", "周二", "周三", "周四", "周五", "周六",};
+    private String[] xValue = new String[]{"0", "0", "0", "0", "0", "0", "0"};
+    private int[] second = new int[7];
+    private double[] km = new double[7];
+    private double[] calcalNum = new double[7];
+
 
     private HashMap<String, String> weekMap;
     private Calendar CalendarInstance = Calendar.getInstance();
@@ -64,6 +90,9 @@ public class StepWeekFragment extends BaseFragment {
     private int widthChart = 0;
     private int heightChatr = 0;
     private ViewGroup.LayoutParams params;
+    private List<Partner> partners = new ArrayList<>();
+    private int sumsStep, sumsSecond;
+    private double sumsKm, sumsCalcalNum;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +102,7 @@ public class StepWeekFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         initChart();
         initLldate();
+        initData(weekMap);
         initView();
         return view;
     }
@@ -83,6 +113,87 @@ public class StepWeekFragment extends BaseFragment {
             tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
     }
 
+    public void initData(HashMap<String, String> weekMap) {
+        for (int i = 0; i < weekMap.size(); i++) {
+            String weekDate = weekMap.get(String.valueOf(i + 1));
+            initData(weekDate,i);
+        }
+        updateUI(xValue);
+        for (int n = 0; n < xValue.length; n++) {
+            sumsStep += Integer.valueOf(xValue[n]);
+            sumsSecond += Integer.valueOf(second[n]);
+            sumsKm += (km[n]);
+            sumsCalcalNum += calcalNum[n];
+        }
+
+        if (sumsSecond > 60) {
+            tvNumMinute.setText(String.valueOf(sumsSecond / 60));
+            if (tvNumHour.getVisibility() == View.VISIBLE || tvHour.getVisibility() == View.VISIBLE) {
+                tvNumHour.setVisibility(View.INVISIBLE);
+                tvHour.setVisibility(View.INVISIBLE);
+            }
+        } else if (sumsSecond > 60 * 60) {
+            if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
+                tvNumHour.setText(String.valueOf(sumsSecond / 360));
+                tvNumMinute.setText(String.valueOf((sumsSecond % 3600) / 60));
+            }
+        } else if (sumsSecond == 0) {
+            if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
+                tvNumHour.setVisibility(View.VISIBLE);
+                tvHour.setVisibility(View.VISIBLE);
+                tvNumHour.setText("0");
+                tvNumMinute.setText("0");
+            }
+        }
+        // 计算活动距离
+        if (sumsKm < 1000) {
+            tvNumMi.setText(String.valueOf((int) sumsKm));
+            tvMi.setText(getResources().getString(R.string.mi));
+        } else {
+            tvNumMi.setText(String.valueOf(new SomeUtills().changeDouble(sumsKm)));
+            tvMi.setText(getResources().getString(R.string.km));
+        }
+        if (sumsCalcalNum < 1000) {
+            tvNumCard.setText(String.valueOf(sumsCalcalNum));
+            tvCard.setText(getResources().getString(R.string.card));
+        } else {
+            tvNumCard.setText(String.valueOf(new SomeUtills().changeDouble(sumsCalcalNum)));
+            tvCard.setText(getResources().getString(R.string.Kcard));
+        }
+        tvSumsnum.setText(String.valueOf(sumsStep));
+        sumsStep=0;
+        sumsSecond=0;
+        sumsCalcalNum=0;
+        sumsKm=0;
+    }
+
+    public void initData(String date,int n) {
+        if (partners != null || partners.size() > 0) partners.clear();
+        partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
+        if (partners.size() == 24) {
+            for (int i = 0; i < partners.size(); i++) {
+                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                        xValue[n] = partners.get(i).getStepsumsnum();
+                        second[n] = Integer.valueOf(partners.get(i).getExercisetime());
+                        km[n] = Double.valueOf(partners.get(i).getExercisedistance());
+                        calcalNum[n] = Double.valueOf(partners.get(i).getCalcalNum());
+                        break;
+                }
+            }
+        }else {
+                xValue[n] = "0";
+                second[n] = 0;
+                km[n] = 0;
+                calcalNum[n] =0.0;
+        }
+    }
+
+
+    public void updateUI(String[] xValue) {
+        this.xValue = xValue;
+        setChartData();
+    }
+
     private void initView() {
         params = mChart.getLayoutParams();
         ViewTreeObserver vto = mChart.getViewTreeObserver();
@@ -91,66 +202,63 @@ public class StepWeekFragment extends BaseFragment {
             public boolean onPreDraw() {
                 heightChatr = mChart.getHeight();
                 widthChart = mChart.getWidth();
-
                 return true;
             }
         });
-
     }
 
     private void initChart() {
-
         mChart.setDescription("");
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
         mChart.setDoubleTapToZoomEnabled(false);//双击缩放
-
-        XAxis xAxis = mChart.getXAxis();
-
-        xAxis.setAvoidFirstLastClipping(true);
-        xAxis.setTextColor(Color.rgb(255, 255, 255));
-        xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
-        xAxis.setLabelCount(7);
-        xAxis.setGridLineWidth(10);
-
-        xAxis.setValueFormatter(new axisValueformatter());
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setAxisLineWidth(1f);
-        xAxis.setDrawGridLines(false);
-
-        mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
-        mChart.getAxisLeft().setAxisLineColor(Color.rgb(255, 255, 255));
-        mChart.getAxisLeft().setDrawGridLines(false);
-        mChart.getAxisLeft().setMaxWidth(35f);
-        mChart.getAxisLeft().setMinWidth(35f);
-        mChart.getAxisLeft().setLabelCount(6, true);
-        mChart.getAxisRight().setEnabled(false);
-
-        // setting data
-        mChart.animateY(2500);   //动画
-        mChart.getLegend().setEnabled(false);
-
-        setChartData();
-
         mChart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 new SomeUtills().setCalendarViewGone(1);
-
                 return false;
             }
         });
+        XAxis xAxis = mChart.getXAxis();
 
+        mChart.refreshDrawableState();
+        xAxis.setAvoidFirstLastClipping(true);
+        xAxis.setTextColor(Color.rgb(255, 255, 255));
+        xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
+        xAxis.setGridLineWidth(1);
+        xAxis.setGranularity(1f);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelCount(12);
+
+        xAxis.setAxisLineWidth(1f);
+        xAxis.setGridLineWidth(10);
+        xAxis.setDrawGridLines(false);
+
+        xAxis.setValueFormatter(new axisValueformatter());
+
+        mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
+        mChart.getAxisLeft().setAxisLineColor(Color.rgb(255, 255, 255));
+        mChart.getAxisLeft().setDrawGridLines(false);
+        mChart.getAxisRight().setEnabled(false);
+
+        mChart.getAxisLeft().setSpaceBottom(0);
+        mChart.getAxisLeft().setMaxWidth(35f);
+        mChart.getAxisLeft().setMinWidth(35f);
+        mChart.getAxisLeft().setStartAtZero(false);
+        mChart.getAxisLeft().setLabelCount(6, true);
+        // setting data
+        mChart.animateY(2500);   //动画
+        mChart.getLegend().setEnabled(false);
+        // setting data
+        setChartData();
     }
 
     private void setChartData() {
 
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            float mult = (1000);
-            float val = (float) (Math.random() * mult) + mult / 1;
-            yVals1.add(new BarEntry(i, val));
+        for (int i = 0; i < xValue.length; i++) {
+            yVals1.add(new BarEntry(i, Float.parseFloat(xValue[i])));
         }
         BarDataSet set1;
 
@@ -186,6 +294,7 @@ public class StepWeekFragment extends BaseFragment {
         public int getDecimalDigits() {
             return 0;
         }
+
     }
 
     /***
@@ -234,12 +343,14 @@ public class StepWeekFragment extends BaseFragment {
             case R.id.iv_left:
                 weekMap = new SomeUtills().getAmountWeekdate(date, 0);
                 if (weekMap != null)
-                    tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
+                    initData(weekMap);
+                tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
                 break;
             case R.id.iv_right:
                 weekMap = new SomeUtills().getAmountWeekdate(date, 1);
                 if (weekMap != null)
-                    tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
+                    initData(weekMap);
+                tvDate.setText(weekMap.get("1") + " - " + weekMap.get("7"));
                 break;
             case R.id.ll_step_week:
                 new SomeUtills().setCalendarViewGone(1);
