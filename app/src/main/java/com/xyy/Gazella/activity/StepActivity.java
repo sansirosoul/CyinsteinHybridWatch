@@ -32,8 +32,11 @@ import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -80,6 +83,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
     private Calendar CalendarInstance = Calendar.getInstance();
     private HashMap<String, String> weekMap;
+    private HashMap<String, String> monthMap;
     public Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public static StepActivity stepActivity = null;
@@ -440,15 +444,30 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         switch (viewpager.getCurrentItem()) {
             case 0:
                 stepDayFragment.setTvDateValue(utills.getDate(date.getDate(), 0));
-                stepDayFragment.updateUI(new String[]{});
+                stepDayFragment.initData(utills.getDate(date.getDate(), 0));
                 break;
             case 1:
                 weekMap = utills.getWeekdate(date.getDate());
                 if (weekMap != null)
                     stepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
+                stepWeekFragment.initData(weekMap);
                 break;
             case 2:
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM");
+                Date monthdate = null;
                 stepMonthFragment.setTvDateValue(utills.getDate(date.getDate(), 1));
+                try {
+                    monthdate = sdf.parse(stepMonthFragment.getTvDateValue());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                monthMap = new SomeUtills().getMonthdate(monthdate);
+                if (monthMap != null) {
+                    stepMonthFragment.initData(monthMap);
+                }
+
+
+
                 break;
         }
     }

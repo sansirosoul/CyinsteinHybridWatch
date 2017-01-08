@@ -58,27 +58,56 @@ public class StepMonthFragment extends BaseFragment {
     LinearLayout llSetpBata;
     @BindView(R.id.scrollView)
     ScrollView scrollView;
+    @BindView(R.id.tv_num_hour)
+    TextView tvNumHour;
+    @BindView(R.id.tv_hour)
+    TextView tvHour;
+    @BindView(R.id.tv_num_minute)
+    TextView tvNumMinute;
+    @BindView(R.id.tv_minute)
+    TextView tvMinute;
+    @BindView(R.id.tv_num_mi)
+    TextView tvNumMi;
+    @BindView(R.id.tv_mi)
+    TextView tvMi;
+    @BindView(R.id.tv_num_card)
+    TextView tvNumCard;
+    @BindView(R.id.tv_card)
+    TextView tvCard;
+    @BindView(R.id.tv_step_target)
+    TextView tvStepTarget;
+    @BindView(R.id.tv_sumsnum)
+    TextView tvSumsnum;
     private View view;
 
-    private String[] XString = new String[]{"1", "3", "5", "7", "9", "11", "13", "15", "17", "19", "21", "23",};
-    private String[] xValue = new String[]{"0", "0", "0", "0", "0","0", "0", "0", "0", "0","0", "0", "0", "0", "0","0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",};
     private int widthChart = 0;
     private int heightChatr = 0;
     private ViewGroup.LayoutParams params;
     private List<Partner> partners = new ArrayList<>();
+    private HashMap<String, String> monthMap;
+    private Calendar CalendarInstance = Calendar.getInstance();
+    private String[] XString = new String[]{"1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21","22", "23", "24", "25", "26", "27", "28","29","30", "31"};
+    private String[] xValue;
+    private int[] second;
+    private double[] km;
+    private double[] calcalNum;
+    private int sumsStep, sumsSecond;
+    private double sumsKm, sumsCalcalNum;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_step_month, container, false);
         ButterKnife.bind(this, view);
-        initChart();
         initView();
+        initData(monthMap);
+        initChart();
 
-        tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 1));
         return view;
     }
 
     private void initView() {
+        tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 1));
+        monthMap = new SomeUtills().getMonthdate(CalendarInstance.getTime());
         params = mChart.getLayoutParams();
         ViewTreeObserver vto = mChart.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -86,34 +115,89 @@ public class StepMonthFragment extends BaseFragment {
             public boolean onPreDraw() {
                 heightChatr = mChart.getHeight();
                 widthChart = mChart.getWidth();
-
                 return true;
             }
         });
 
     }
 
-    private void initData(HashMap<String, String> weekMap) {
-        for (int i = 0; i < weekMap.size(); i++) {
-            String weekDate = weekMap.get(String.valueOf(i + 1));
-            initData(weekDate);
+    public void initData(HashMap<String, String> monthMap) {
+        xValue = new String[monthMap.size()];
+        second = new int[monthMap.size()];
+        km = new double[monthMap.size()];
+        calcalNum = new double[monthMap.size()];
+        for (int i = 0; i < monthMap.size(); i++) {
+            String weekDate = monthMap.get(String.valueOf(i));
+            initData(weekDate, i);
         }
         updateUI(xValue);
+
+        for (int n = 0; n < xValue.length; n++) {
+            sumsStep += Integer.valueOf(xValue[n]);
+            sumsSecond += Integer.valueOf(second[n]);
+            sumsKm += (km[n]);
+            sumsCalcalNum += calcalNum[n];
+        }
+
+        if (sumsSecond > 60) {
+            tvNumMinute.setText(String.valueOf(sumsSecond / 60));
+            if (tvNumHour.getVisibility() == View.VISIBLE || tvHour.getVisibility() == View.VISIBLE) {
+                tvNumHour.setVisibility(View.INVISIBLE);
+                tvHour.setVisibility(View.INVISIBLE);
+            }
+        } else if (sumsSecond > 60 * 60) {
+            if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
+                tvNumHour.setText(String.valueOf(sumsSecond / 360));
+                tvNumMinute.setText(String.valueOf((sumsSecond % 3600) / 60));
+            }
+        } else if (sumsSecond == 0) {
+            if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
+                tvNumHour.setVisibility(View.VISIBLE);
+                tvHour.setVisibility(View.VISIBLE);
+                tvNumHour.setText("0");
+                tvNumMinute.setText("0");
+            }
+        }
+        // 计算活动距离
+        if (sumsKm < 1000) {
+            tvNumMi.setText(String.valueOf((int) sumsKm));
+            tvMi.setText(getResources().getString(R.string.mi));
+        } else {
+            tvNumMi.setText(String.valueOf(new SomeUtills().changeDouble(sumsKm)));
+            tvMi.setText(getResources().getString(R.string.km));
+        }
+        if (sumsCalcalNum < 1000) {
+            tvNumCard.setText(String.valueOf(sumsCalcalNum));
+            tvCard.setText(getResources().getString(R.string.card));
+        } else {
+            tvNumCard.setText(String.valueOf(new SomeUtills().changeDouble(sumsCalcalNum)));
+            tvCard.setText(getResources().getString(R.string.Kcard));
+        }
+        tvSumsnum.setText(String.valueOf(sumsStep));
+        sumsStep = 0;
+        sumsSecond = 0;
+        sumsCalcalNum = 0;
+        sumsKm = 0;
     }
 
-
-    public void initData(String date) {
+    public void initData(String date, int n) {
         if (partners != null || partners.size() > 0) partners.clear();
         partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
         if (partners.size() == 24) {
             for (int i = 0; i < partners.size(); i++) {
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
-                    for (int k=0;k<xValue.length;k++) {
-                        xValue[k] = partners.get(i).getStepsumsnum();
-                        break;
-                    }
+                    xValue[n] = partners.get(i).getStepsumsnum();
+                    second[n] = Integer.valueOf(partners.get(i).getExercisetime());
+                    km[n] = Double.valueOf(partners.get(i).getExercisedistance());
+                    calcalNum[n] = Double.valueOf(partners.get(i).getCalcalNum());
+                    break;
                 }
             }
+        } else {
+            xValue[n] = "0";
+            second[n] = 0;
+            km[n] = 0;
+            calcalNum[n] = 0.0;
         }
     }
 
@@ -123,37 +207,12 @@ public class StepMonthFragment extends BaseFragment {
     }
 
 
-
-
     private void initChart() {
         mChart.setDescription("");
         mChart.setPinchZoom(false);
         mChart.setDrawBarShadow(false);
         mChart.setDrawGridBackground(false);
         mChart.setDoubleTapToZoomEnabled(false);//双击缩放
-
-
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setAvoidFirstLastClipping(true);
-        xAxis.setTextColor(Color.rgb(255, 255, 255));
-        xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
-
-        xAxis.setLabelCount(12);
-        xAxis.setAxisLineWidth(1f);
-        xAxis.setDrawGridLines(false);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-
-        mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
-        mChart.getAxisLeft().setAxisLineColor(Color.rgb(255, 255, 255));
-        mChart.getAxisLeft().setDrawGridLines(false);
-        mChart.getAxisRight().setEnabled(false);
-        mChart.getAxisLeft().setMaxWidth(35f);
-        mChart.getAxisLeft().setMinWidth(35f);
-        mChart.getAxisLeft().setLabelCount(6, true);
-        mChart.animateY(2500);   //动画
-
-        mChart.getLegend().setEnabled(false);
-        setChartData();
         mChart.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -161,16 +220,45 @@ public class StepMonthFragment extends BaseFragment {
                 return false;
             }
         });
+        XAxis xAxis = mChart.getXAxis();
 
+        mChart.refreshDrawableState();
+        xAxis.setAvoidFirstLastClipping(true);
+        xAxis.setTextColor(Color.rgb(255, 255, 255));
+        xAxis.setAxisLineColor(Color.rgb(255, 255, 255));
+        xAxis.setGridLineWidth(1);
+        xAxis.setGranularity(1f);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelCount(12);
+
+        xAxis.setAxisLineWidth(1f);
+        xAxis.setGridLineWidth(10);
+        xAxis.setDrawGridLines(false);
+
+        xAxis.setValueFormatter(new axisValueformatter());
+        mChart.getAxisLeft().setTextColor(Color.rgb(255, 255, 255));
+        mChart.getAxisLeft().setAxisLineColor(Color.rgb(255, 255, 255));
+        mChart.getAxisLeft().setDrawGridLines(false);
+        mChart.getAxisRight().setEnabled(false);
+
+        mChart.getAxisLeft().setSpaceBottom(0);
+        mChart.getAxisLeft().setMaxWidth(35f);
+        mChart.getAxisLeft().setMinWidth(35f);
+        mChart.getAxisLeft().setStartAtZero(false);
+        mChart.getAxisLeft().setLabelCount(6, true);
+        // setting data
+        mChart.animateY(2500);   //动画
+        mChart.getLegend().setEnabled(false);
+        // setting data
+        setChartData();
     }
 
     private void setChartData() {
 
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
-        for (int i = 0; i < 31; i++) {
-            float mult = (1000);
-            float val = (float) (Math.random() * mult) + mult / 1;
-            yVals1.add(new BarEntry(i, val));
+        for (int i = 0; i < xValue.length; i++) {
+
+            yVals1.add(new BarEntry(i, Float.parseFloat(xValue[i])));
         }
         BarDataSet set1;
 
@@ -194,19 +282,6 @@ public class StepMonthFragment extends BaseFragment {
         mChart.invalidate();
     }
 
-    class axisValueformatter implements AxisValueFormatter {
-
-        @Override
-        public String getFormattedValue(float value, AxisBase axis) {
-            //Log.e(Tag, " " + value);
-            return XString[(int) value % XString.length];
-        }
-
-        @Override
-        public int getDecimalDigits() {
-            return 0;
-        }
-    }
 
     /***
      * 设置日期栏是否显示
@@ -237,6 +312,9 @@ public class StepMonthFragment extends BaseFragment {
     public void setTvDateValue(String date) {
         tvDate.setText(date);
     }
+    public String getTvDateValue() {
+      return tvDate.getText().toString();
+    }
 
     @OnClick({R.id.iv_left, R.id.iv_right, R.id.ll_step_month})
     public void onClick(View view) {
@@ -250,13 +328,45 @@ public class StepMonthFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.iv_left:
                 tvDate.setText(new SomeUtills().getAmountDate(date, 1, 0));
+                try {
+                    date = sdf.parse(tvDate.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                monthMap = new SomeUtills().getMonthdate(date );
+                if (monthMap != null) {
+                    initData(monthMap);
+                }
                 break;
             case R.id.iv_right:
                 tvDate.setText(new SomeUtills().getAmountDate(date, 1, 1));
+                try {
+                    date = sdf.parse(tvDate.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                monthMap = new SomeUtills().getMonthdate(date);
+                if (monthMap != null) {
+                    initData(monthMap);
+                }
                 break;
             case R.id.ll_step_month:
                 new SomeUtills().setCalendarViewGone(1);
                 break;
         }
+    }
+    class axisValueformatter implements AxisValueFormatter {
+
+        @Override
+        public String getFormattedValue(float value, AxisBase axis) {
+            //Log.e(Tag, " " + value);
+            return XString[(int) value % XString.length];
+        }
+
+        @Override
+        public int getDecimalDigits() {
+            return 0;
+        }
+
     }
 }
