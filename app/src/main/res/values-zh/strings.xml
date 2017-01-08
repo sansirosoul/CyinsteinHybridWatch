@@ -50,6 +50,8 @@
     <!--计步详情页面-->
     <string name="step_target_ok">"恭喜,今日目标达成"</string>
     <string name="no_step_data">"暂无数据"</string>
+    <string name="ye_step_manydata">"比昨天多走了"</string>
+    <string name="ye_step_data">"比昨天少走了"</string>
 
 
     <!--时区页面-->
