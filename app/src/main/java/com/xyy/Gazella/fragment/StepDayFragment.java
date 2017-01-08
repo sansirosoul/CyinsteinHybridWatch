@@ -19,9 +19,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.partner.entity.Partner;
-import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.StepActivity;
-import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
@@ -36,7 +34,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
 
 /**
  * Created by Administrator on 2016/10/11.
@@ -79,6 +76,8 @@ public class StepDayFragment extends BaseFragment {
     TextView tvNumCard;
     @BindView(R.id.tv_card)
     TextView tvCard;
+    @BindView(R.id.tv_netsumsstep)
+    TextView tvNetsumsstep;
     private View view;
     private String[] xValue = new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
 
@@ -89,9 +88,8 @@ public class StepDayFragment extends BaseFragment {
     private int myear, month, day;
     private StringBuffer sb = new StringBuffer();
     private List<Partner> partners = new ArrayList<>();
-    private String strMonth, strDay, exerciseTime;
-    public Observable<RxBleConnection> connectionObservable;
-    private BleUtils bleUtils;
+    private String strMonth, strDay, exerciseTime,sumsNum;
+    private Calendar CalendarInstance = Calendar.getInstance();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_step_day, container, false);
@@ -124,7 +122,7 @@ public class StepDayFragment extends BaseFragment {
             for (int i = 0; i < partners.size(); i++) {
                 xValue[i] = partners.get(i).getSleep();
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
-                    String sumsNum = partners.get(i).getStepsumsnum();
+                     sumsNum = partners.get(i).getStepsumsnum();
                     int second = Integer.valueOf(partners.get(i).getExercisetime());
                     double km = Double.valueOf(partners.get(i).getExercisedistance());
                     double calcalNum = Double.valueOf(partners.get(i).getCalcalNum());
@@ -163,6 +161,7 @@ public class StepDayFragment extends BaseFragment {
                         tvCard.setText(getResources().getString(R.string.Kcard));
                     }
                     tvSumsnum.setText(sumsNum);
+
                 }
             }
             tvStepTarget.setText(getResources().getString(R.string.step_target_ok));
@@ -179,6 +178,23 @@ public class StepDayFragment extends BaseFragment {
             tvNumCard.setText("0.0");
             tvSumsnum.setText("0");
             tvStepTarget.setText(getResources().getString(R.string.no_step_data));
+        }
+        Date netDate = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        try {
+            netDate = sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String strNetDay = new SomeUtills().getAmountDate(netDate, 0, 0);
+        if (partners != null || partners.size() > 0) partners.clear();
+        partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", strNetDay);
+        if (partners.size() == 24) for (int i = 0; i < partners.size(); i++) {
+            if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                int netSumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
+                int i1 = Integer.valueOf(sumsNum) - netSumsNum;
+                tvNetsumsstep.setText(String.valueOf(i1));
+            }
         }
         updateUI(xValue);
     }

@@ -140,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="bottom"
                     android:textColor="@color/white"
-                    android:text="你今天走了" />
+                    android:text="你这周走了" />
 
                 <TextView
                     android:id="@+id/tv_sumsnum"
@@ -160,14 +160,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:text="比昨天多走了" />
+                    android:text="比上周多走了" />
 
                 <TextView
+                    android:id="@+id/tv_netweekstep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12315"
+                    android:text="..."
                     android:textColor="@color/text_bg"
-
                     android:textSize="20dp" />
 
                 <TextView

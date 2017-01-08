@@ -165,11 +165,11 @@
                     android:textColor="@color/white" />
 
                 <TextView
+                    android:id="@+id/tv_netsumsstep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12315"
+                    android:text="..."
                     android:textColor="@color/text_bg"
-
                     android:textSize="20dp" />
 
                 <TextView
