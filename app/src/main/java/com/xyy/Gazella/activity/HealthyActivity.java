@@ -65,6 +65,7 @@ public class HealthyActivity extends BaseActivity {
     private int TargetStep;
     private boolean isTrue ;
     private int dayStep;
+    private List<StepData> data;
 
 
     @Override
@@ -119,6 +120,31 @@ public class HealthyActivity extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
+//        if (bytes[0] == 0x07 & bytes[1] == 0x24) {
+//            if (bytes[2] != 0) {
+//                data = bleUtils.returnStepData(bytes);
+//                for (int i = 0; i < data.size(); i++) {
+//                    new SomeUtills().SaveStepData(HealthyActivity.this,data);
+//                    int count = data.get(i).getCount();
+//                    int time = data.get(i).getTime();
+//                    int day=data.get(i).getDay();
+//                    if (count <= 5 &&time==23)
+//                       stepFragment. setBerbarNum(1,day);
+//                    if (count <= 11 &&time==23)
+//                        stepFragment. setBerbarNum(2,day);
+//                    if (count <= 17&&time==23)
+//                        stepFragment. setBerbarNum(3,day);
+//                    if (count <= 23 &&time==23)
+//                        stepFragment. setBerbarNum(4,day);
+//                    if (count <= 29&&time==23)
+//                        stepFragment. setBerbarNum(5,day);
+//                    if (count == 35 &&time==23)
+//                        stepFragment. setBerbarNum(6,day);
+//                    if (count == 41 &&time==23)
+//                        stepFragment. setBerbarNum(7,day);
+//                }
+//            }
+//        }
         if (bytes[0] == 0x07 && bytes[1] == 0x0C) {  // 今日步数
             StepData stepData = bleUtils.returnTodayStep(bytes);
             if (stepData != null) {
@@ -242,10 +268,12 @@ public class HealthyActivity extends BaseActivity {
                 overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
                 break;
             case R.id.btnOpt:
-                if (viewPager.getCurrentItem() == 0)
-                    stepFragment.setSynchronization();
-                else
-                    sleepFragment.setSynchronization();
+//                if (viewPager.getCurrentItem() == 0) {
+//                    stepFragment.setSynchronization();
+//                    Write(bleUtils.getStepData(6), connectionObservable);
+//
+//                }else
+//                    sleepFragment.setSynchronization();
                 break;
         }
     }
