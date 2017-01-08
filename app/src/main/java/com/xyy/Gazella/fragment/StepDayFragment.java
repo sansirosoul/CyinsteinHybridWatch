@@ -117,6 +117,7 @@ public class StepDayFragment extends BaseFragment {
     }
 
     public void initData(String date) {
+
         if (partners != null || partners.size() > 0) partners.clear();
         partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
         if (partners.size() == 24) {
@@ -138,7 +139,7 @@ public class StepDayFragment extends BaseFragment {
                             tvNumHour.setText(String.valueOf(second / 360));
                             tvNumMinute.setText(String.valueOf((second % 3600) / 60));
                         }
-                    }else  if(second==0){
+                    } else if (second == 0) {
                         if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                             tvNumHour.setVisibility(View.VISIBLE);
                             tvHour.setVisibility(View.VISIBLE);
@@ -157,7 +158,7 @@ public class StepDayFragment extends BaseFragment {
                     if (calcalNum < 1000) {
                         tvNumCard.setText(String.valueOf(calcalNum));
                         tvCard.setText(getResources().getString(R.string.card));
-                    } else{
+                    } else {
                         tvNumCard.setText(String.valueOf(new SomeUtills().changeDouble(calcalNum)));
                         tvCard.setText(getResources().getString(R.string.Kcard));
                     }
@@ -168,6 +169,15 @@ public class StepDayFragment extends BaseFragment {
         } else {
             for (int i = 0; i < xValue.length; i++)
                 xValue[i] = "0";
+            if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
+                tvNumHour.setVisibility(View.VISIBLE);
+                tvHour.setVisibility(View.VISIBLE);
+            }
+            tvNumHour.setText("0");
+            tvNumMinute.setText("0");
+            tvNumMi.setText("0");
+            tvNumCard.setText("0.0");
+            tvSumsnum.setText("0");
             tvStepTarget.setText(getResources().getString(R.string.no_step_data));
         }
         updateUI(xValue);
