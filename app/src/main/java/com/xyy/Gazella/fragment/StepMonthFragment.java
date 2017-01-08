@@ -19,6 +19,8 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.partner.entity.Partner;
+import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
@@ -28,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,10 +61,11 @@ public class StepMonthFragment extends BaseFragment {
     private View view;
 
     private String[] XString = new String[]{"1", "3", "5", "7", "9", "11", "13", "15", "17", "19", "21", "23",};
-
+    private String[] xValue = new String[]{"0", "0", "0", "0", "0","0", "0", "0", "0", "0","0", "0", "0", "0", "0","0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",};
     private int widthChart = 0;
     private int heightChatr = 0;
     private ViewGroup.LayoutParams params;
+    private List<Partner> partners = new ArrayList<>();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -68,6 +73,7 @@ public class StepMonthFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         initChart();
         initView();
+
         tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 1));
         return view;
     }
@@ -86,6 +92,38 @@ public class StepMonthFragment extends BaseFragment {
         });
 
     }
+
+    private void initData(HashMap<String, String> weekMap) {
+        for (int i = 0; i < weekMap.size(); i++) {
+            String weekDate = weekMap.get(String.valueOf(i + 1));
+            initData(weekDate);
+        }
+        updateUI(xValue);
+    }
+
+
+    public void initData(String date) {
+        if (partners != null || partners.size() > 0) partners.clear();
+        partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
+        if (partners.size() == 24) {
+            for (int i = 0; i < partners.size(); i++) {
+                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                    for (int k=0;k<xValue.length;k++) {
+                        xValue[k] = partners.get(i).getStepsumsnum();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void updateUI(String[] xValue) {
+        this.xValue = xValue;
+        setChartData();
+    }
+
+
+
 
     private void initChart() {
         mChart.setDescription("");
