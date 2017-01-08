@@ -109,9 +109,9 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
             connectionObservable = getRxObservable(this);
             bleUtils = new BleUtils();
             Write(bleUtils.getStepData(6), connectionObservable);
-            commonDialog= new CommonDialog(StepActivity.this);
-            commonDialog.show();
-            commonDialog.setTvContext("请稍等,正在同步数据");
+//            commonDialog= new CommonDialog(StepActivity.this);
+//            commonDialog.show();
+//            commonDialog.setTvContext("请稍等,正在同步数据");
         }
         Notify(connectionObservable);
         stepActivity = this;
