@@ -73,7 +73,7 @@ public class StepFragment extends BaseFragment {
     private BleUtils bleUtils;
     private Observable<RxBleConnection> connectionObservable;
     private setStepNumTextOnEndListener setStepNumTextOnEndListener;
-
+private  int barNum;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -81,13 +81,34 @@ public class StepFragment extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1001:
-                    if (numberbar.getProgress() == 100) {
-                        numberbar.setProgress(0);
-                        llNumberProgressBar.setVisibility(View.GONE);
-                        llQuality.setVisibility(View.VISIBLE);
-                        getTodayStepPost();
-                    } else {
-                        numberbar.incrementProgressBy(1);
+                    switch (barNum){
+                        case  10:
+                          //  tvDay1.setText(String.valueOf(day)+"号"+"更新完成");
+                            tvDay1.setTextColor(getResources().getColor(R.color.title_linear));
+                            break;
+                        case  30:
+                            tvDay2.setTextColor(getResources().getColor(R.color.title_linear));
+                            break;
+                        case  50:
+                            tvDay3.setTextColor(getResources().getColor(R.color.title_linear));
+                            break;
+                        case  70:
+                            tvDay4.setTextColor(getResources().getColor(R.color.title_linear));
+                            break;
+                        case  90:
+                            tvDay5.setTextColor(getResources().getColor(R.color.title_linear));
+                            break;
+                        case  80:
+                            tvDay6.setTextColor(getResources().getColor(R.color.title_linear));
+                            break;
+                        case  100:
+                            tvDay7.setTextColor(getResources().getColor(R.color.title_linear));
+                            numberbar.setProgress(0);
+                            llNumberProgressBar.setVisibility(View.GONE);
+                            llQuality.setVisibility(View.VISIBLE);
+                            getTodayStepPost();
+                            barNum=0;
+                            break;
                     }
                     break;
             }
@@ -152,6 +173,7 @@ public class StepFragment extends BaseFragment {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            barNum++;
             mHandler.sendEmptyMessage(1001);
             mHandler.postDelayed(this, 100);
         }
@@ -167,10 +189,12 @@ public class StepFragment extends BaseFragment {
         }
     };
 
-    public void setSynchronization() {
+    public void setSynchronization(int [] date) {
         llNumberProgressBar.setVisibility(View.VISIBLE);
         llQuality.setVisibility(View.GONE);
         mHandler.post(runnable);
+
+
         if (getTodayStep != null)
             mHandler.removeCallbacks(getTodayStep);
     }
@@ -181,46 +205,53 @@ public class StepFragment extends BaseFragment {
             case 1:
                 tvDay1.setText(String.valueOf(day)+"号"+"更新完成");
                 tvDay1.setTextColor(getResources().getColor(R.color.title_linear));
-                numberbar.setProgress(1);
+                numberbar.setProgress(10);
                 break;
 
             case 2:
                 tvDay2.setText(String.valueOf(day)+"号"+"更新完成");
                 tvDay2.setTextColor(getResources().getColor(R.color.title_linear));
-                numberbar.setProgress(2);
+                numberbar.setProgress(30);
                 break;
 
             case 3:
                 tvDay3.setText(String.valueOf(day)+"号"+"更新完成");
                 tvDay3.setTextColor(getResources().getColor(R.color.title_linear));
-                numberbar.setProgress(3);
+                numberbar.setProgress(40);
                 break;
 
             case 4:
                 tvDay4.setText(String.valueOf(day)+"号"+"更新完成");
                 tvDay4.setTextColor(getResources().getColor(R.color.title_linear));
-                numberbar.setProgress(4);
+                numberbar.setProgress(60);
                 break;
 
             case 5:
                 tvDay5.setText(String.valueOf(day)+"号"+"更新完成");
                 tvDay5.setTextColor(getResources().getColor(R.color.title_linear));
-                numberbar.setProgress(5);
+                numberbar.setProgress(80);
                 break;
 
             case 6:
                 tvDay6.setText(String.valueOf(day)+"号"+"更新完成");
                 tvDay6.setTextColor(getResources().getColor(R.color.title_linear));
-                numberbar.setProgress(6);
+                numberbar.setProgress(90);
                 break;
 
             case 7:
                 tvDay7.setText(String.valueOf(day)+"号"+"更新完成");
                 tvDay7.setTextColor(getResources().getColor(R.color.title_linear));
-                numberbar.setProgress(7);
-                numberbar.setProgress(0);
+                numberbar.setProgress(100);
                 llNumberProgressBar.setVisibility(View.GONE);
                 llQuality.setVisibility(View.VISIBLE);
+
+                tvDay1.setText("...");
+                tvDay2.setText("...");
+                tvDay3.setText("...");
+                tvDay4.setText("...");
+                tvDay5.setText("...");
+                tvDay6.setText("...");
+                tvDay7.setText("...");
 
                 break;
         }

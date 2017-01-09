@@ -182,7 +182,7 @@ public class StepDayFragment extends BaseFragment {
             tvStepTarget.setText(getResources().getString(R.string.no_step_data));
         }
         Date netDate = null;
-        int netSumsNum = 0;
+        int netSumsNum,i1 = 0;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         try {
             netDate = sdf.parse(date);
@@ -196,18 +196,18 @@ public class StepDayFragment extends BaseFragment {
             for (int i = 0; i < partners.size(); i++) {
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
                     netSumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
-                    int i1 = sumsNum - netSumsNum;
+                     i1 = sumsNum - netSumsNum;
                     if (i1 < 0) {
                         tvManystep.setText(getResources().getString(R.string.ye_step_data));
                        i1=Math.abs(i1);
                     } else
                         tvManystep.setText(getResources().getString(R.string.ye_step_manydata));
-                        tvNetsumsstep.setText(String.valueOf(i1));
-                        i1=0;
-                        sumsNum=0;
                 }
             }
         }
+        tvNetsumsstep.setText(String.valueOf(i1));
+        i1=0;
+        sumsNum=0;
         updateUI(xValue);
     }
 

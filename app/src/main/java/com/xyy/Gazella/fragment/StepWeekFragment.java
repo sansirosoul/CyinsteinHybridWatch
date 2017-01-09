@@ -177,6 +177,10 @@ public class StepWeekFragment extends BaseFragment {
             e.printStackTrace();
         }
 
+        int num=0;
+        for (int m=0;m<netWeekStep.length;m++){
+            netWeekStep[m]="0";
+        }
         weekMap = new SomeUtills().getAmountWeekdate(netWeekDate, 0);
         for (int m = 0; m < weekMap.size(); m++) {
             String strNetWeekDate = weekMap.get(String.valueOf(m + 1));
@@ -192,23 +196,20 @@ public class StepWeekFragment extends BaseFragment {
         for (int l = 0; l < netWeekStep.length; l++) {
             netSumsStep += Integer.valueOf(netWeekStep[l]);
         }
-        int num = sumsStep - netSumsStep;
+         num = sumsStep - netSumsStep;
         if (num < 0) {
             tvManystep.setText(getResources().getString(R.string.ye_step_data));
             num = Math.abs(num);
         } else
             tvManystep.setText(getResources().getString(R.string.ye_step_manydata));
+
         tvNetweekstep.setText(String.valueOf(num));
         updateUI(xValue);
         sumsStep = 0;
         sumsSecond = 0;
         sumsCalcalNum = 0;
         sumsKm = 0;
-        num=0;
         netSumsStep = 0;
-        for (int m=0;m<netWeekStep.length;m++){
-            netWeekStep[m]="0";
-        }
     }
 
     public void initData(String date, int n) {

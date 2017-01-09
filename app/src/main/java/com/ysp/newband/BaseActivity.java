@@ -159,7 +159,7 @@ public class BaseActivity extends FragmentActivity {
             }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
                 @Override
                 public void call(byte[] bytes) {
-                    Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
+                    Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + HexString.bytesToHex(bytes));
                     onReadReturn(bytes);
                 }
             }, new Action1<Throwable>() {
