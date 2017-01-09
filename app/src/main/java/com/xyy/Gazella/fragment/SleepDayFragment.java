@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.AxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.partner.entity.Partner;
+import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
@@ -30,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -57,13 +61,29 @@ public class SleepDayFragment extends BaseFragment {
     ScrollView scrollView;
     @BindView(R.id.ll_sleep_bata)
     LinearLayout llSleepBata;
+    @BindView(R.id.tv_sleeptime)
+    TextView tvSleeptime;
+    @BindView(R.id.tv_lightsleepTime)
+    TextView tvLightsleepTime;
+    @BindView(R.id.tv_sleepingtime)
+    TextView tvSleepingtime;
+    @BindView(R.id.tv_awakeTime)
+    TextView tvAwakeTime;
+    @BindView(R.id.tv_awakeCount)
+    TextView tvAwakeCount;
     private View view;
     private int widthChart = 0;
     private int heightChatr = 0;
     private ViewGroup.LayoutParams params;
 
     private String[] xValue = new String[]{"1", "2", "2", "2", "2", "3", "3", "2", "1", "3"};
-    private String[] XString = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",};
+    private String[] XString;
+    private Time mCalendar;
+    private int myear, month, day, sumsNum;
+    private StringBuffer sb = new StringBuffer();
+    private List<Partner> partners = new ArrayList<>();
+    private String strMonth, strDay;
+    private int awakeTime, lightsleepTime, sleepingTime;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -72,13 +92,49 @@ public class SleepDayFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_sleep_day, container, false);
 
         ButterKnife.bind(this, view);
+        initTime();
+
+        if (month < 10)
+            strMonth = sb.append("0").append(String.valueOf(month)).toString();
+        else
+            strMonth = String.valueOf(month);
+        sb.setLength(0);
+        if (day < 10)
+            strDay = sb.append("0").append(String.valueOf(day)).toString();
+        else
+            strDay = String.valueOf(day);
+        sb.setLength(0);
+        String strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
+        initData(strday);
         initChart();
         initView();
+
         tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 0));
-
-
         return view;
     }
+
+
+    public void initData(String date) {
+
+        if (partners != null || partners.size() > 0) partners.clear();
+        partners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", date);
+        if (partners.size() == 24) {
+            XString= new String[24];
+            for (int i = 0; i < partners.size(); i++) {
+                XString[i]=partners.get(i).getTime();
+                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                    awakeTime = Integer.valueOf(partners.get(i).getAwake());
+                    lightsleepTime = Integer.valueOf(partners.get(i).getLightsleep());
+                    sleepingTime = Integer.valueOf(partners.get(i).getSleeping());
+                    tvAwakeTime.setText(String.valueOf(awakeTime));
+                    tvLightsleepTime.setText(String.valueOf(lightsleepTime));
+                    tvSleepingtime.setText(String.valueOf(sleepingTime));
+                }
+            }
+        }
+        updateUI(xValue);
+    }
+
 
     private void initView() {
         params = mChart.getLayoutParams();
@@ -88,7 +144,6 @@ public class SleepDayFragment extends BaseFragment {
             public boolean onPreDraw() {
                 heightChatr = mChart.getHeight();
                 widthChart = mChart.getWidth();
-
                 return true;
             }
         });
@@ -145,13 +200,12 @@ public class SleepDayFragment extends BaseFragment {
         ArrayList<BarEntry> yVals2 = new ArrayList<>();
         ArrayList<BarEntry> yVals3 = new ArrayList<>();
 
-        String xValue[] = new String[10];
-        for (int i = 0; i < 10; i++) {
+        String xValue[] = new String[XString.length];
+        for (int i = 0; i < XString.length; i++) {
             Random random = new Random();
             int s = random.nextInt(3) % (3 - 0 + 1) + 0;
             xValue[i] = String.valueOf(s);
         }
-
         for (int i = 0; i < xValue.length; i++) {
             switch (xValue[i]) {
                 case "0":
@@ -275,5 +329,13 @@ public class SleepDayFragment extends BaseFragment {
     public void updateUI(String[] xValue) {
         this.xValue = xValue;
         setChartData();
+    }
+
+    private void initTime() {
+        mCalendar = new Time();
+        mCalendar.setToNow();
+        myear = mCalendar.year;
+        month = mCalendar.month + 1;
+        day = mCalendar.monthDay;
     }
 }
