@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
+import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.SettingActivity;
 import com.xyy.Gazella.adapter.ChangeWatchListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
@@ -33,6 +34,7 @@ import com.ysp.newband.PreferenceData;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscription;
 
 /**
@@ -53,7 +55,8 @@ public class ChangeWatchList extends BaseActivity {
     private RxBleClient rxBleClient;
     private Subscription scanSubscription;
     private ProgressBar loading;
-
+    private BleUtils bleUtils;
+    public Observable<RxBleConnection> connectionObservable;
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -61,6 +64,11 @@ public class ChangeWatchList extends BaseActivity {
         rxBleClient = GazelleApplication.getRxBleClient(this);
         initView();
         initBluetooth();
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")) {
+            bleUtils = new BleUtils();
+            connectionObservable = getRxObservable(this);
+        }
     }
 
     private void initView() {
@@ -70,17 +78,8 @@ public class ChangeWatchList extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                loadingDialog.show();
-//                GazelleApplication.mBluetoothService.close();
-//                if (GazelleApplication.mBluetoothService.initialize()) {
-//                    device = devices.get(i);
-//                    GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
-//                    GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
-//                }
-//                if (bluetoothAdapter != null) {
-//                    bluetoothAdapter.stopLeScan(leScanCallback);
-//                }
                 scanSubscription.unsubscribe();
+                Write(bleUtils.terminateBle(),connectionObservable);
                 PreferenceData.setAddressValue(context, devices.get(i).getAddress());
                 cleanObservable();
                 Intent intent = new Intent(context, SettingActivity.class);
@@ -98,9 +97,6 @@ public class ChangeWatchList extends BaseActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (bluetoothAdapter != null) {
-//                    bluetoothAdapter.stopLeScan(leScanCallback);
-//                }
                 scanSubscription.unsubscribe();
                 finish();
             }
@@ -123,12 +119,6 @@ public class ChangeWatchList extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        if (bluetoothAdapter != null) {
-////            if(bluetoothLeScanner!=null){
-////                bluetoothLeScanner.stopScan(scanCallback);
-////            }
-//            bluetoothAdapter.stopLeScan(leScanCallback);
-//    }
         scanSubscription.unsubscribe();
     }
 

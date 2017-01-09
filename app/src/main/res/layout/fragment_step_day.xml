@@ -226,7 +226,7 @@
                             android:id="@+id/tv_num_hour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
 
@@ -244,7 +244,7 @@
                             android:id="@+id/tv_num_minute"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
 
@@ -316,7 +316,7 @@
                             android:id="@+id/tv_num_mi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="...."
+                            android:text="0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
 
@@ -388,7 +388,7 @@
                             android:id="@+id/tv_num_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0.0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
 

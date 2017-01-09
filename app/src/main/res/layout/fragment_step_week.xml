@@ -141,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="bottom"
-                    android:text="你这周走了"
+                    android:text="@string/step_dataweek"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -160,10 +160,9 @@
 
                 <TextView
                     android:id="@+id/tv_manystep"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="比上周多走了"
+                    android:text="@string/ye_step_manydataweek"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -227,7 +226,7 @@
                             android:id="@+id/tv_num_hour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
 
@@ -245,7 +244,7 @@
                             android:id="@+id/tv_num_minute"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
 
@@ -298,7 +297,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp"
                             android:visibility="invisible" />
@@ -370,7 +369,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0.0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp"
                             android:visibility="invisible" />

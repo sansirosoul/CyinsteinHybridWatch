@@ -1,18 +1,22 @@
 package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.EdgeEffectCompat;
+import android.text.format.Time;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.partner.entity.Partner;
 import com.polidea.rxandroidble.RxBleConnection;
+import com.xyy.Gazella.dbmanager.CommonUtils;
 import com.xyy.Gazella.fragment.SleepFragment;
 import com.xyy.Gazella.fragment.StepFragment;
 import com.xyy.Gazella.utils.BleUtils;
@@ -60,12 +64,16 @@ public class HealthyActivity extends BaseActivity {
     public static Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public boolean isNotify;
-    private String userWeight;
-    private int Weight;
     private int TargetStep;
     private boolean isTrue ;
     private int dayStep;
     private List<StepData> data;
+    private Time mCalendar;
+    private int myear, month, day, Queryday,SumsStep,Weight;
+    private StringBuffer sb = new StringBuffer();
+    public CommonUtils mCommonUtils;
+    private List<Partner> partners = new ArrayList<>();
+    private String strMonth, strDay,userWeight;
 
 
     @Override
@@ -84,7 +92,9 @@ public class HealthyActivity extends BaseActivity {
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         }
         initData();
+        initTime();
         install = this;
+        mCommonUtils = new CommonUtils(this);
     }
 
     private void initData() {
@@ -120,30 +130,10 @@ public class HealthyActivity extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-//        if (bytes[0] == 0x07 & bytes[1] == 0x24) {
-//            if (bytes[2] != 0) {
+
+//        if (bleUtils.returnStepData(bytes)!=null) {
 //                data = bleUtils.returnStepData(bytes);
-//                for (int i = 0; i < data.size(); i++) {
-//                    new SomeUtills().SaveStepData(HealthyActivity.this,data);
-//                    int count = data.get(i).getCount();
-//                    int time = data.get(i).getTime();
-//                    int day=data.get(i).getDay();
-//                    if (count <= 5 &&time==23)
-//                       stepFragment. setBerbarNum(1,day);
-//                    if (count <= 11 &&time==23)
-//                        stepFragment. setBerbarNum(2,day);
-//                    if (count <= 17&&time==23)
-//                        stepFragment. setBerbarNum(3,day);
-//                    if (count <= 23 &&time==23)
-//                        stepFragment. setBerbarNum(4,day);
-//                    if (count <= 29&&time==23)
-//                        stepFragment. setBerbarNum(5,day);
-//                    if (count == 35 &&time==23)
-//                        stepFragment. setBerbarNum(6,day);
-//                    if (count == 41 &&time==23)
-//                        stepFragment. setBerbarNum(7,day);
-//                }
-//            }
+//                SaveStepData();
 //        }
         if (bytes[0] == 0x07 && bytes[1] == 0x0C) {  // 今日步数
             StepData stepData = bleUtils.returnTodayStep(bytes);
@@ -190,6 +180,110 @@ public class HealthyActivity extends BaseActivity {
                 super.onReadReturn(bytes);
             }
         }
+    }
+
+
+    private void SaveStepData() {
+        if (data.size() != 0 && data != null) {
+            for (int i = 0; i < data.size(); i++) {
+                int count = data.get(i).getCount();
+                int time = data.get(i).getTime();
+                int  date[]= new int [7];
+                if (count <= 5 && count >= 0)
+                    setPartnerData(i);
+                if(count==5&&time==23)
+                    date[0]=data.get(i).getDay();
+                if (count <= 11 && count >= 6)
+                    setPartnerData(i);
+                if(count==11&&time==23)
+                    date[1]=data.get(i).getDay();
+                if (count <= 17 && count >= 12)
+                    setPartnerData(i);
+                if(count==17&&time==23)
+                    date[2]=data.get(i).getDay();
+                if (count <= 23 && count >= 18)
+                    setPartnerData(i);
+                if(count==23&&time==23)
+                    date[3]=data.get(i).getDay();
+                if (count <= 29 && count >= 24)
+                    setPartnerData(i);
+                if(count==29&&time==23)
+                    date[4]=data.get(i).getDay();
+                if (count <= 35 && count >= 30)
+                    setPartnerData(i);
+                if(count==35&&time==23)
+                    date[5]=data.get(i).getDay();
+                if (count <= 41 && count >= 36)
+                    setPartnerData(i);
+                if (count == 41 && time == 23) {
+                    date[6]=data.get(i).getDay();
+                    stepFragment.setSynchronization(date);
+                }
+            }
+        }
+    }
+
+    private void setPartnerData(int i) {
+        Partner partner;
+        String strday = setStrDay(i);
+        String time = String.valueOf(data.get(i).getTime());
+        SumsStep += data.get(i).getStep();
+
+        if (data.get(i).getTime() != 23) {
+            partner = new Partner();
+            partner.setType("step");                                                    // 保存计步或 睡眠
+            partner.setTime(String.valueOf(data.get(i).getTime()));       // 保存各时间段
+            partner.setSleep(String.valueOf(data.get(i).getStep()));      //  保存记步数
+            partner.setDate(strday);                                                    //  保存日期
+        } else {
+            // 计算活动时间
+            int second =(int) (SumsStep*1.08);
+            double km = SumsStep * 0.5;
+            //计算卡路里
+            Weight = Integer.valueOf(userWeight);
+            double card = ((Weight * 0.0005 + (SumsStep - 1) * 0.005) * SumsStep);
+
+            partner = new Partner();
+            partner.setType("step");                                                      // 保存计步或 睡眠
+            partner.setTime(String.valueOf(data.get(i).getTime()));     // 保存各时间段
+            partner.setSleep(String.valueOf(data.get(i).getStep()));   //  保存记步数
+            partner.setDate(strday);                                                     //  保存日期
+            partner.setStepsumsnum(String.valueOf(SumsStep));       //保存总记步
+            partner.setExercisetime(String.valueOf(second));              //  保存运动时间
+            partner.setExercisedistance(String.valueOf(km));               //  保存运动距离
+            partner.setCalcalNum(String.valueOf((int)card));                 //  保存卡路里
+            SumsStep = 0;
+        }
+        sb.setLength(0);
+        if (partners.size() != 0) partners.clear();
+        partners = mCommonUtils.PartnerqueryByBuilder("step", strday, time);
+        if (partners.size() != 0) {
+            partner.setId(partners.get(0).getId());
+            mCommonUtils.uoDatePartner(partner);  //更新数据
+        } else
+            mCommonUtils.insertPartner(partner);   //插入数据
+    }
+
+    private String setStrDay(int i) {
+        String strday = null;
+        if (month < 10)
+            strMonth = sb.append("0").append(String.valueOf(month)).toString();
+        else
+            strMonth = String.valueOf(month);
+        sb.setLength(0);
+        if (i != 999999) {
+            if (data.get(i).getDay() < 10)
+                strDay = sb.append("0").append(String.valueOf(data.get(i).getDay())).toString();
+            else
+                strDay = String.valueOf(data.get(i).getDay());
+        } else {
+            if (Queryday < 10)
+                strDay = sb.append("0").append(String.valueOf(Queryday)).toString();
+            else
+                strDay = String.valueOf(Queryday);
+        }
+        sb.setLength(0);
+        return strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
     }
 
     private void InitViewPager() {
@@ -268,12 +362,19 @@ public class HealthyActivity extends BaseActivity {
                 overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
                 break;
             case R.id.btnOpt:
-//                if (viewPager.getCurrentItem() == 0) {
-//                    stepFragment.setSynchronization();
-//                    Write(bleUtils.getStepData(6), connectionObservable);
-//
-//                }else
-//                    sleepFragment.setSynchronization();
+                if (viewPager.getCurrentItem() == 0) {
+                    //stepFragment.setSynchronization();
+                    stepFragment.removeTodayStepPost();
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Write(bleUtils.getStepData(6), connectionObservable);
+                        }
+                    },10000);
+
+                }else
+                    sleepFragment.setSynchronization();
                 break;
         }
     }
@@ -310,5 +411,14 @@ public class HealthyActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         stepFragment.removeTodayStepPost();
+    }
+
+    private void initTime() {
+        mCalendar = new Time();
+        mCalendar.setToNow();
+        myear = mCalendar.year;
+        month = mCalendar.month + 1;
+        day = mCalendar.monthDay;
+        Queryday = mCalendar.monthDay;
     }
 }

@@ -109,14 +109,10 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
             connectionObservable = getRxObservable(this);
             bleUtils = new BleUtils();
             Write(bleUtils.getStepData(6), connectionObservable);
-//            commonDialog= new CommonDialog(StepActivity.this);
-//            commonDialog.show();
-//            commonDialog.setTvContext("请稍等,正在同步数据");
         }
         Notify(connectionObservable);
         stepActivity = this;
         mCommonUtils = new CommonUtils(this);
-
     }
 
     @Override
@@ -159,8 +155,11 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 if (count <= 41 && count >= 36)
                     setPartnerData(i);
                 if (count == 41 && time == 23) {
+                    if(weekMap.size()!=0)weekMap.clear();
+                    weekMap = new SomeUtills().getWeekdate(CalendarInstance.getTime());
                     String strday = setStrDay(999999);
                     stepDayFragment.initData(strday);
+                    stepWeekFragment.initData(weekMap);
                     if(commonDialog.isShowing())commonDialog.dismiss();
                 }
             }
@@ -465,9 +464,6 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 if (monthMap != null) {
                     stepMonthFragment.initData(monthMap);
                 }
-
-
-
                 break;
         }
     }

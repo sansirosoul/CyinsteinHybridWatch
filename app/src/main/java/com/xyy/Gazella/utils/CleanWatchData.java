@@ -44,7 +44,7 @@ public class CleanWatchData extends BaseActivity implements View.OnClickListener
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
         if(HexString.bytesToHex(bytes).equals("070E011632")){
-            finish();
+
         }
     }
 
@@ -55,7 +55,8 @@ public class CleanWatchData extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.confirm:
                 if(connectionObservable!=null)
-                Write(bleUtils.eraseWatchData(), connectionObservable);
+//                Write(bleUtils.eraseWatchData(), connectionObservable);
+                finish();
                 break;
         }
     }

@@ -52,8 +52,12 @@
     <string name="no_step_data">"暂无数据"</string>
     <string name="ye_step_manydata">"比昨天多走了"</string>
     <string name="ye_step_data">"比昨天少走了"</string>
-
-
+    <string name="ye_step_manydataweek">"比上周多走了"</string>
+    <string name="ye_step_dataweek">"比上周少走了"</string>
+    <string name="step_dataweek">"你这周走了"</string>
+    <string name="ye_step_datamonth">"比上月少走了"</string>
+    <string name="ye_step_manydatamonth">"比上月多走了"</string>
+    <string name="step_datamonth">"你这月走了"</string>
     <!--时区页面-->
     <string name="Time_Zones">"时区"</string>
     <string name="Time_Zones_queryHint">"请输入时区名称"</string>

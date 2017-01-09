@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="bottom"
                     android:textColor="@color/white"
-                    android:text="你今天走了" />
+                    android:text="@string/step_datamonth" />
 
                 <TextView
                     android:id="@+id/tv_sumsnum"
@@ -159,17 +159,18 @@
                     android:text="步,  " />
 
                 <TextView
+                    android:id="@+id/tv_manystep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:text="比昨天多走了" />
+                    android:text="@string/ye_step_manydatamonth" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12315"
+                    android:text="..."
                     android:textColor="@color/text_bg"
-
+                    android:id="@+id/tv_netweekstep"
                     android:textSize="20dp" />
 
                 <TextView
@@ -225,7 +226,7 @@
                             android:id="@+id/tv_num_hour"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
 
@@ -243,7 +244,7 @@
                             android:id="@+id/tv_num_minute"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
 
@@ -296,7 +297,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0"
                             android:visibility="invisible"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
@@ -315,7 +316,7 @@
                             android:id="@+id/tv_num_mi"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="...."
+                            android:text="0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
 
@@ -387,7 +388,7 @@
                             android:id="@+id/tv_num_card"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="..."
+                            android:text="0.0"
                             android:textColor="@color/text_bg"
                             android:textSize="23dp" />
 
