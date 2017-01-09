@@ -465,9 +465,6 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 if (monthMap != null) {
                     stepMonthFragment.initData(monthMap);
                 }
-
-
-
                 break;
         }
     }

@@ -85,6 +85,7 @@ public class StepFragment extends BaseFragment {
                         numberbar.setProgress(0);
                         llNumberProgressBar.setVisibility(View.GONE);
                         llQuality.setVisibility(View.VISIBLE);
+                        getTodayStepPost();
                     } else {
                         numberbar.incrementProgressBy(1);
                     }
@@ -169,8 +170,7 @@ public class StepFragment extends BaseFragment {
     public void setSynchronization() {
         llNumberProgressBar.setVisibility(View.VISIBLE);
         llQuality.setVisibility(View.GONE);
-       // mHandler.post(runnable);
-        numberbar.setMax(7);
+        mHandler.post(runnable);
         if (getTodayStep != null)
             mHandler.removeCallbacks(getTodayStep);
     }

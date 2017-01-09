@@ -107,7 +107,7 @@ public class StepMonthFragment extends BaseFragment {
 
     private void initView() {
         tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 1));
-        monthMap = new SomeUtills().getMonthdate(CalendarInstance.getTime());
+       monthMap = new SomeUtills().getMonthdate(CalendarInstance.getTime());
         params = mChart.getLayoutParams();
         ViewTreeObserver vto = mChart.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -127,7 +127,7 @@ public class StepMonthFragment extends BaseFragment {
         km = new double[monthMap.size()];
         calcalNum = new double[monthMap.size()];
         for (int i = 0; i < monthMap.size(); i++) {
-            String weekDate = monthMap.get(String.valueOf(i));
+            String weekDate = monthMap.get(String.valueOf(i+1));
             initData(weekDate, i);
         }
         updateUI(xValue);

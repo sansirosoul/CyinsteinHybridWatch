@@ -213,22 +213,24 @@ public class StepWeekFragment extends BaseFragment {
 
     public void initData(String date, int n) {
         if (partners != null || partners.size() > 0) partners.clear();
-        partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
-        if (partners.size() == 24) {
-            for (int i = 0; i < partners.size(); i++) {
-                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
-                    xValue[n] = partners.get(i).getStepsumsnum();
-                    second[n] = Integer.valueOf(partners.get(i).getExercisetime());
-                    km[n] = Double.valueOf(partners.get(i).getExercisedistance());
-                    calcalNum[n] = Double.valueOf(partners.get(i).getCalcalNum());
-                    break;
+        if (date != null) {
+            partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
+            if (partners.size() == 24) {
+                for (int i = 0; i < partners.size(); i++) {
+                    if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                        xValue[n] = partners.get(i).getStepsumsnum();
+                        second[n] = Integer.valueOf(partners.get(i).getExercisetime());
+                        km[n] = Double.valueOf(partners.get(i).getExercisedistance());
+                        calcalNum[n] = Double.valueOf(partners.get(i).getCalcalNum());
+                        break;
+                    }
                 }
+            } else {
+                xValue[n] = "0";
+                second[n] = 0;
+                km[n] = 0;
+                calcalNum[n] = 0.0;
             }
-        } else {
-            xValue[n] = "0";
-            second[n] = 0;
-            km[n] = 0;
-            calcalNum[n] = 0.0;
         }
     }
 

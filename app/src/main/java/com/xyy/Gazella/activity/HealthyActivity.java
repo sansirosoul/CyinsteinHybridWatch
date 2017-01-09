@@ -268,12 +268,12 @@ public class HealthyActivity extends BaseActivity {
                 overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
                 break;
             case R.id.btnOpt:
-//                if (viewPager.getCurrentItem() == 0) {
-//                    stepFragment.setSynchronization();
-//                    Write(bleUtils.getStepData(6), connectionObservable);
-//
-//                }else
-//                    sleepFragment.setSynchronization();
+                if (viewPager.getCurrentItem() == 0) {
+                    stepFragment.setSynchronization();
+                    Write(bleUtils.getStepData(6), connectionObservable);
+
+                }else
+                    sleepFragment.setSynchronization();
                 break;
         }
     }
