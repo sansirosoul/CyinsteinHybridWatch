@@ -27,7 +27,6 @@ import android.widget.Toast;
 import com.polidea.rxandroidble.RxBleClient;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.adapter.DeviceListAdapter;
-import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.xyy.Gazella.utils.LoadingDialog;
 import com.xyy.Gazella.utils.PairFailedDialog;
@@ -310,8 +309,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                         throwable -> {
                             // Handle an error here.
                             Log.d("========","Connection error: "+throwable);
-                            loadingDialog.dismiss();
-                            pairFailedDialog.show();
+                            mHandler.sendEmptyMessage(2000);
                         }
                 );
     }
@@ -321,21 +319,9 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case BluetoothService.STATE_CONNECTED:
-                    loadingDialog.dismiss();
-                    GazelleApplication.isBleConnected=true;
-                    GazelleApplication.deviceAddress=device.getAddress();
-                    GazelleApplication.deviceName=device.getName();
-                    Intent intent = new Intent(context, PersonActivity.class);
-                    startActivity(intent);
-                    PairingActivity.this.finish();
-                    overridePendingTransitionEnter(PairingActivity.this);
-                    break;
-                case BluetoothService.STATE_DISCONNECTED:
-                    if(GazelleApplication.deviceAddress==null){
+                case 2000:
                         loadingDialog.dismiss();
                         pairFailedDialog.show();
-                    }
                     break;
                 case 1001:
                     clock.setTimeValue(2, count);
