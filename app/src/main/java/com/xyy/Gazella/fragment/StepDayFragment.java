@@ -79,6 +79,8 @@ public class StepDayFragment extends BaseFragment {
     TextView tvNumCard;
     @BindView(R.id.tv_card)
     TextView tvCard;
+    @BindView(R.id.tv_Yesterdaystep)
+    TextView tvYesterdaystep;
     private View view;
     private String[] xValue = new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
 
@@ -89,9 +91,11 @@ public class StepDayFragment extends BaseFragment {
     private int myear, month, day;
     private StringBuffer sb = new StringBuffer();
     private List<Partner> partners = new ArrayList<>();
-    private String strMonth, strDay, exerciseTime;
+    private String strMonth, strDay, exerciseTime, sumsNum;
     public Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
+    private Calendar CalendarInstance = Calendar.getInstance();
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_step_day, container, false);
@@ -117,13 +121,24 @@ public class StepDayFragment extends BaseFragment {
     }
 
     public void initData(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        Date calendar = null;
+        try {
+            calendar = sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        CalendarInstance.setTime(calendar);
+        CalendarInstance.add(Calendar.DAY_OF_MONTH, -1);
+        String Yesterday = sdf.format(CalendarInstance.getTime());
+
         if (partners != null || partners.size() > 0) partners.clear();
         partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
         if (partners.size() == 24) {
             for (int i = 0; i < partners.size(); i++) {
                 xValue[i] = partners.get(i).getSleep();
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
-                    String sumsNum = partners.get(i).getStepsumsnum();
+                    sumsNum = partners.get(i).getStepsumsnum();
                     int second = Integer.valueOf(partners.get(i).getExercisetime());
                     double km = Double.valueOf(partners.get(i).getExercisedistance());
                     double calcalNum = Double.valueOf(partners.get(i).getCalcalNum());
@@ -138,7 +153,7 @@ public class StepDayFragment extends BaseFragment {
                             tvNumHour.setText(String.valueOf(second / 360));
                             tvNumMinute.setText(String.valueOf((second % 3600) / 60));
                         }
-                    }else  if(second==0){
+                    } else if (second == 0) {
                         if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                             tvNumHour.setVisibility(View.VISIBLE);
                             tvHour.setVisibility(View.VISIBLE);
@@ -157,7 +172,7 @@ public class StepDayFragment extends BaseFragment {
                     if (calcalNum < 1000) {
                         tvNumCard.setText(String.valueOf(calcalNum));
                         tvCard.setText(getResources().getString(R.string.card));
-                    } else{
+                    } else {
                         tvNumCard.setText(String.valueOf(new SomeUtills().changeDouble(calcalNum)));
                         tvCard.setText(getResources().getString(R.string.Kcard));
                     }
@@ -169,6 +184,17 @@ public class StepDayFragment extends BaseFragment {
             for (int i = 0; i < xValue.length; i++)
                 xValue[i] = "0";
             tvStepTarget.setText(getResources().getString(R.string.no_step_data));
+        }
+
+        if (partners != null || partners.size() > 0) partners.clear();
+        partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", Yesterday);
+        if (partners.size() == 24) {
+            for (int i = 0; i < partners.size(); i++) {
+                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                    String YesterdaysumsNum = partners.get(i).getStepsumsnum();
+                    tvYesterdaystep.setText(Integer.valueOf(sumsNum) - Integer.valueOf(YesterdaysumsNum));
+                }
+            }
         }
         updateUI(xValue);
     }
