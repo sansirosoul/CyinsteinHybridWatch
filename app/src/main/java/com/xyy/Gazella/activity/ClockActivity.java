@@ -182,6 +182,7 @@ public class ClockActivity extends BaseActivity {
                 break;
             case REQUEST_EDIT:
                 if (data != null) {
+                    showToatst(context,"闹钟修改成功");
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
                         Write(bleUtils.getAlarms(), connectionObservable);

@@ -69,6 +69,7 @@ public class BaseActivity extends FragmentActivity {
     }
 
     public static void cleanObservable() {
+        connectionObservable.unsubscribeOn(AndroidSchedulers.mainThread());
         connectionObservable = null;
     }
 

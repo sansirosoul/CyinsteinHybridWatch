@@ -1,7 +1,6 @@
 package com.xyy.Gazella.utils;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -56,12 +55,7 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
             etName.setText(bleUtils.returnDeviceName(bytes));
             etName.setSelection(bleUtils.returnDeviceName(bytes).length());
         }else if(HexString.bytesToHex(bytes).equals("0707010F24")){
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    finish();
-                }
-            },500);
+            finish();
         }
     }
 

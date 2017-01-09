@@ -115,8 +115,18 @@ public class AddClockActivity extends BaseActivity {
         pvHour.setData(hours);
         pvMinute.setData(minutes);
         Calendar calendar = Calendar.getInstance();
-//        pvHour.setSelected(calendar.get(Calendar.HOUR_OF_DAY));
-//        pvMinute.setSelected(calendar.get(Calendar.MINUTE));
+        pvHour.setSelected(calendar.get(Calendar.HOUR_OF_DAY));
+        pvMinute.setSelected(calendar.get(Calendar.MINUTE));
+        if(calendar.get(Calendar.HOUR_OF_DAY)<10){
+            hour="0"+calendar.get(Calendar.HOUR_OF_DAY);
+        }else{
+            hour=""+calendar.get(Calendar.HOUR_OF_DAY);
+        }
+        if(calendar.get(Calendar.MINUTE)<10){
+            minute="0"+calendar.get(Calendar.MINUTE);
+        }else{
+            minute=""+calendar.get(Calendar.MINUTE);
+        }
 
         pvHour.setOnSelectListener(new PickerViewHour.onSelectListener() {
             @Override
