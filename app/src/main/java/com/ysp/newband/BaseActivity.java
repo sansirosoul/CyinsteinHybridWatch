@@ -2,7 +2,6 @@ package com.ysp.newband;
 
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -37,7 +36,6 @@ import java.util.UUID;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
@@ -54,7 +52,6 @@ public class BaseActivity extends FragmentActivity {
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice bleDevicme;
-    private CommonDialog dialog;
 
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
@@ -134,6 +131,8 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
+    private CommonDialog dialog;
+
     protected void Notify(Observable<RxBleConnection> connectionObservable) {
         dialog = new CommonDialog(this);
         dialog.show();
@@ -160,7 +159,7 @@ public class BaseActivity extends FragmentActivity {
             }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
                 @Override
                 public void call(byte[] bytes) {
-                    Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + HexString.bytesToHex(bytes));
+                    Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
                     onReadReturn(bytes);
                 }
             }, new Action1<Throwable>() {
@@ -169,15 +168,10 @@ public class BaseActivity extends FragmentActivity {
                     Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
                     onNotifyReturn(1, throwable.toString());
                 }
-            }, new Action0() {
-                @Override
-                public void call() {
-                }
             });
         } else {
             if (!dialog.isShowing()) dialog.show();
             dialog.setTvContext("没有连接到手表设备");
-            dialog.setLoadingVisibility(View.GONE);
             dialog.setButOk(View.VISIBLE);
             dialog.onButOKListener(new CommonDialog.onButOKListener() {
                 @Override
@@ -188,42 +182,27 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
+
     protected void HandleThrowableException(String throwable) {
         BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        ActivityManager.RunningTaskInfo info = manager.getRunningTasks(1).get(0);
-        String className = info.topActivity.getClassName();               //完整类名
-        String name=  this.getClass().getName();
-        if (!blueadapter.isEnabled() && GazelleApplication.isEnabled) {
-            if (this.getClass().getName().equals(className)) {
-                if (dialog == null) dialog = new CommonDialog(this);
-                if (dialog.isShowing()) {
-                    dialog.setTvContext("是否开启手机蓝牙");
-                    dialog.setButOk(View.VISIBLE);
-                    dialog.setLoadingVisibility(View.GONE);
-                    dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                        @Override
-                        public void onButOKListener() {
-                            startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 10010);
-                        }
-                    });
-                    dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
-                        @Override
-                        public void onButAdginListener() {
-                            dialog.dismiss();
-                            GazelleApplication.isEnabled=false;
-                        }
-                    });
-                }
+        if (!blueadapter.isEnabled()) {
+            if (dialog == null) dialog = new CommonDialog(this);
+            if (dialog.isShowing()) {
+                dialog.setTvContext("是否开启手机蓝牙");
+                dialog.setButOk(View.VISIBLE);
+                dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                    @Override
+                    public void onButOKListener() {
+                        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 10010);
+                    }
+                });
             }
-        } else if (throwable.contains("status=133") || throwable.contains("status=129")) {
-            if (this.getClass().getName().equals(className)) {
+        } else {
+            if (throwable.contains("status=133") || throwable.contains("status=129")) {
                 if (dialog == null) dialog = new CommonDialog(this);
                 if (!dialog.isShowing()) dialog.show();
                 dialog.setTvContext("蓝牙连接失败是否继续连接");
                 dialog.setButOk(View.VISIBLE);
-                dialog.setButAdgin(View.VISIBLE);
-                dialog.setLoadingVisibility(View.GONE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
                     public void onButOKListener() {
@@ -231,21 +210,11 @@ public class BaseActivity extends FragmentActivity {
                         Notify(connectionObservable);
                     }
                 });
-                dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
-                    @Override
-                    public void onButAdginListener() {
-                        dialog.dismiss();
-                    }
-                });
-            }
-        } else {
-            if (this.getClass().getName().equals(className)) {
+            } else {
                 if (dialog == null) dialog = new CommonDialog(this);
                 if (!dialog.isShowing()) dialog.show();
-                dialog.setTvContext("请检查手表蓝牙是否开启");
+                dialog.setTvContext("蓝牙连接已断开");
                 dialog.setButOk(View.VISIBLE);
-                dialog.setButAdgin(View.GONE);
-                dialog.setLoadingVisibility(View.GONE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
                     public void onButOKListener() {
@@ -306,15 +275,12 @@ public class BaseActivity extends FragmentActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {if (requestCode == 10010) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 10010) {
             if (resultCode == Activity.RESULT_OK) {
                 if (dialog.isShowing())
                     dialog.dismiss();
                 onNotifyReturn(2, null);//  再次发送监听蓝牙
-            }else {
-                if (dialog.isShowing())
-                    dialog.dismiss();
-                GazelleApplication.isEnabled=false;
             }
             return;
         }
