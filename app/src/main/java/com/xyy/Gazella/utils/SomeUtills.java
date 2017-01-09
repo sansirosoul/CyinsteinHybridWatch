@@ -150,6 +150,26 @@ public class SomeUtills {
         return weekMap;
     }
 
+    public HashMap<String, String> getAmountMonthdate(Date calendar, int amount) {
+        HashMap<String, String> weekMap = new HashMap<>();
+        sdf = new SimpleDateFormat("yyyy.MM.dd");
+        CalendarInstance.setTime(calendar);
+        CalendarInstance.add(Calendar.MONTH, +1);
+        int dayOfWeek = CalendarInstance.get(Calendar.DAY_OF_MONTH);
+        for (int i = 1; i <= 7; i++) {
+            CalendarInstance.add(Calendar.MONTH, +1);
+            System.out.println(sdf.format(CalendarInstance.getTime()));
+            if (i == 1) weekMap.put("1", sdf.format(CalendarInstance.getTime()));
+            if (i == 2) weekMap.put("2", sdf.format(CalendarInstance.getTime()));
+            if (i == 3) weekMap.put("3", sdf.format(CalendarInstance.getTime()));
+            if (i == 4) weekMap.put("4", sdf.format(CalendarInstance.getTime()));
+            if (i == 5) weekMap.put("5", sdf.format(CalendarInstance.getTime()));
+            if (i == 6) weekMap.put("6", sdf.format(CalendarInstance.getTime()));
+            if (i == 7) weekMap.put("7", sdf.format(CalendarInstance.getTime()));
+        }
+        return weekMap;
+    }
+
     /***
      * 获取日期
      *
