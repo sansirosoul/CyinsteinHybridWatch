@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,7 +75,7 @@ public class SleepDayFragment extends BaseFragment {
     private int heightChatr = 0;
     private ViewGroup.LayoutParams params;
 
-    private String[] xValue = new String[]{"1", "2", "2", "2", "2", "3", "3", "2", "1", "3"};
+    private String[] xValue;
     private String[] XString;
     private Time mCalendar;
     private int myear, month, day, sumsNum;
@@ -120,8 +119,21 @@ public class SleepDayFragment extends BaseFragment {
         partners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", date);
         if (partners.size() == 24) {
             XString= new String[24];
+            xValue= new String[24];
             for (int i = 0; i < partners.size(); i++) {
                 XString[i]=partners.get(i).getTime();
+               String Status = partners.get(i).getSleep();  //睡眠状态 0 清醒     1 潜睡     2深睡
+                switch (Status){
+                    case "0":
+                        xValue[i]=Status;
+                        break;
+                    case "1":
+                        xValue[i]=Status;
+                        break;
+                    case "2":
+                        xValue[i]=Status;
+                        break;
+                }
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
                     awakeTime = Integer.valueOf(partners.get(i).getAwake());
                     lightsleepTime = Integer.valueOf(partners.get(i).getLightsleep());
@@ -202,9 +214,9 @@ public class SleepDayFragment extends BaseFragment {
 
         String xValue[] = new String[XString.length];
         for (int i = 0; i < XString.length; i++) {
-            Random random = new Random();
-            int s = random.nextInt(3) % (3 - 0 + 1) + 0;
-            xValue[i] = String.valueOf(s);
+//            Random random = new Random();
+//            int s = random.nextInt(3) % (3 - 0 + 1) + 0;
+            xValue[i] = String.valueOf("0");
         }
         for (int i = 0; i < xValue.length; i++) {
             switch (xValue[i]) {
