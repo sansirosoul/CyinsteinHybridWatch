@@ -261,12 +261,18 @@ public class TimeSynchronization extends BaseActivity {
                 }
                 break;
             case R.id.but_reset:   /// 重置
+                if(isRun||SynchronizationTimeRun) {
+                    showToatst(TimeSynchronization.this, "请稍等");
+                    break;
+                }
                 if (isNotify())
                     break;
                 if (isClickSynchronization) {
                     showToatst(TimeSynchronization.this, getResources().getString(R.string.Click_Synchronization));
                     break;
                 }
+
+
                 Write(bleUtils.resetHand(), connectionObservable);
                 if (connectionObservable == null)
                     break;
@@ -277,6 +283,10 @@ public class TimeSynchronization extends BaseActivity {
                 isShwoSynchronization = true;
                 break;
             case R.id.but_synchronization:    ///同步
+                if(isRun||SynchronizationTimeRun){
+                    showToatst(TimeSynchronization.this,"请稍等");
+                    break;
+                }
                 if (!isClickSynchronization) {
                     showToatst(TimeSynchronization.this, getResources().getString(R.string.Synchronization_step));
                     break;
@@ -478,8 +488,8 @@ public class TimeSynchronization extends BaseActivity {
             return false;
     }
 
-    private boolean isRun = true;
-    private boolean SynchronizationTimeRun = true;
+    private boolean isRun = false;
+    private boolean SynchronizationTimeRun = false;
     private boolean isInitTime = true;
     private boolean HourCount = true;
     private boolean MuinutesCount = true;

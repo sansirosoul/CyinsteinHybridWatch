@@ -44,11 +44,14 @@
     <string name="on_over_Synchronization">"校时未完成，请点击同步按键完成校时"</string>
     <string name="connection_device">"已连接到手表设备"</string>
     <string name="inspect_ble_state">"手表没有连接！请到设置-更换手表界面连接您的手表"</string>
+    <string name="andin_Synchronization_time">"请等待手机同步后,再重试"</string>
 
 
     <!--计步详情页面-->
     <string name="step_target_ok">"恭喜,今日目标达成"</string>
     <string name="no_step_data">"暂无数据"</string>
+    <string name="ye_step_manydata">"比昨天多走了"</string>
+    <string name="ye_step_data">"比昨天少走了"</string>
 
 
     <!--时区页面-->

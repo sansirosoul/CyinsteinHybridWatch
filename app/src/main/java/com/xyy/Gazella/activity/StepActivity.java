@@ -25,14 +25,18 @@ import com.xyy.Gazella.fragment.StepDayFragment;
 import com.xyy.Gazella.fragment.StepMonthFragment;
 import com.xyy.Gazella.fragment.StepWeekFragment;
 import com.xyy.Gazella.utils.BleUtils;
+import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.model.StepData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,15 +83,17 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
     private Calendar CalendarInstance = Calendar.getInstance();
     private HashMap<String, String> weekMap;
+    private HashMap<String, String> monthMap;
     public Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public static StepActivity stepActivity = null;
     private int myear, month, day, Queryday,SumsStep,Weight;
     private StringBuffer sb = new StringBuffer();
     public CommonUtils mCommonUtils;
-    private ArrayList<StepData> data;
+    private List<StepData> data;
     private List<Partner> partners = new ArrayList<>();
-    private String strMonth, strDay,exerciseTime,exercisediStance,calcalNum,userWeight;
+    private String strMonth, strDay,userWeight;
+    private CommonDialog commonDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +109,9 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
             connectionObservable = getRxObservable(this);
             bleUtils = new BleUtils();
             Write(bleUtils.getStepData(6), connectionObservable);
+//            commonDialog= new CommonDialog(StepActivity.this);
+//            commonDialog.show();
+//            commonDialog.setTvContext("请稍等,正在同步数据");
         }
         Notify(connectionObservable);
         stepActivity = this;
@@ -152,6 +161,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
                 if (count == 41 && time == 23) {
                     String strday = setStrDay(999999);
                     stepDayFragment.initData(strday);
+                    if(commonDialog.isShowing())commonDialog.dismiss();
                 }
             }
         }
@@ -176,10 +186,6 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
             //计算卡路里
                 Weight = Integer.valueOf(userWeight);
                 double card = ((Weight * 0.0005 + (SumsStep - 1) * 0.005) * SumsStep);
-//                if (card < 1000)
-//                    calcalNum=String.valueOf(Integer.valueOf((int) card)) + getResources().getString(R.string.card);
-//                else
-//                    calcalNum= String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard);
 
             partner = new Partner();
             partner.setType("step");                                                      // 保存计步或 睡眠
@@ -438,15 +444,30 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         switch (viewpager.getCurrentItem()) {
             case 0:
                 stepDayFragment.setTvDateValue(utills.getDate(date.getDate(), 0));
-                stepDayFragment.updateUI(new String[]{});
+                stepDayFragment.initData(utills.getDate(date.getDate(), 0));
                 break;
             case 1:
                 weekMap = utills.getWeekdate(date.getDate());
                 if (weekMap != null)
                     stepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
+                stepWeekFragment.initData(weekMap);
                 break;
             case 2:
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM");
+                Date monthdate = null;
                 stepMonthFragment.setTvDateValue(utills.getDate(date.getDate(), 1));
+                try {
+                    monthdate = sdf.parse(stepMonthFragment.getTvDateValue());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                monthMap = new SomeUtills().getMonthdate(monthdate);
+                if (monthMap != null) {
+                    stepMonthFragment.initData(monthMap);
+                }
+
+
+
                 break;
         }
     }
