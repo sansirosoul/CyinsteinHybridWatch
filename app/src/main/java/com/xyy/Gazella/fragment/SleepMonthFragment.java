@@ -54,8 +54,6 @@ public class SleepMonthFragment extends BaseFragment {
     @BindView(R.id.scrollView)
     ScrollView scrollView;
     private View view;
-    private Calendar CalendarInstance = Calendar.getInstance();
-    private int amount = -1;
 
     private int widthChart = 0;
     private int heightChatr = 0;

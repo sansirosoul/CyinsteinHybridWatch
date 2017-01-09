@@ -21,6 +21,8 @@ import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.utils.SomeUtills;
+import com.xyy.Gazella.view.NumberProgressBar;
+import com.xyy.model.SleepData;
 import com.xyy.model.StepData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
@@ -29,6 +31,7 @@ import com.ysp.newband.PreferenceData;
 
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -114,10 +117,28 @@ public class BleTest extends BaseActivity {
     Button btn28;
     @BindView(R.id.daynum)
     EditText daynum;
+    @BindView(R.id.day01)
+    TextView day01;
+    @BindView(R.id.day02)
+    TextView day02;
+    @BindView(R.id.day03)
+    TextView day03;
+    @BindView(R.id.day04)
+    TextView day04;
+    @BindView(R.id.day05)
+    TextView day05;
+    @BindView(R.id.day06)
+    TextView day06;
+    @BindView(R.id.day07)
+    TextView day07;
+    @BindView(R.id.updatebar)
+    NumberProgressBar updatebar;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
     private int direction = 0;
+    private   int updateLength;
+    private int Upadatecount;
 
 
     @Override
@@ -182,6 +203,8 @@ public class BleTest extends BaseActivity {
             }
         }
     };
+    private StringBuffer stringBuffer = new StringBuffer();
+    private boolean isclick;
 
     @Override
     protected void onReadReturn(byte[] bytes) {
@@ -195,6 +218,185 @@ public class BleTest extends BaseActivity {
             notify.setText(bleUtils.returnFWVer(bytes));
         } else if (bleUtils.returnBatteryValue(bytes) != null) {
             notify.setText(bleUtils.returnBatteryValue(bytes) + "%");
+        } else if (bleUtils.returnOTAValue(bytes)) {
+            //返回蓝牙OTA固件更新指令
+            OTA();
+        } else if (bleUtils.returnOTAUpdateValue(bytes) != 0) {
+            //返回蓝牙OTA固件更新进度值
+            int num= Integer.valueOf( bleUtils.returnOTAUpdateValue(bytes));
+            if(updateLength!=0&&num!=0){
+//              NumberFormat numberFormat = NumberFormat.getInstance();
+//             numberFormat.setMaximumFractionDigits(0);
+//            String result = numberFormat.format((float) updateLength / (float) num * 100);
+                updatebar.setMax(updateLength/2048);
+                updatebar.setProgress(Upadatecount);
+                Upadatecount++;
+            }
+        } else if(bleUtils.returnOTAUUpdateOk(bytes)!=-1){
+           int updateok= bleUtils.returnOTAUUpdateOk(bytes);
+            switch (updateok){
+                case 0:
+                    showToatst(BleTest.this,"更新成功");
+                    break;
+                case 1:
+                    showToatst(BleTest.this,"更新失败>>> (CRC错误)");
+                    break;
+                case 2:
+                    showToatst(BleTest.this,"更新失败>>> (数量错误)");
+                    break;
+                case 3:
+                    showToatst(BleTest.this,"更新失败>>> (更新超时)");
+                    break;
+            }
+
+        } else if(bleUtils.returnSleepData(bytes) != null){
+
+            List<SleepData> sleepdata = bleUtils.returnSleepData(bytes);
+
+            for (int i = 0; i < sleepdata.size(); i++) {
+                int count = sleepdata.get(i).getCount();
+                int time = sleepdata.get(i).getTime();
+                if (count <= 5 && count >= 0) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+                    day01.setText(stringBuffer.toString());
+                    if (count == 5 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 11 && count >= 6) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+                    day02.setText(stringBuffer.toString());
+                    if (count == 11 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 17 && count >= 12) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+                    day03.setText(stringBuffer.toString());
+                    if (count == 17 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 23 && count >= 18) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+                    day04.setText(stringBuffer.toString());
+                    if (count == 23 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 29 && count >= 24) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+                    day05.setText(stringBuffer.toString());
+                    if (count == 29 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 35 && count >= 30) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+                    day06.setText(stringBuffer.toString());
+                    if (count == 35 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 41 && count >= 36) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+                    day07.setText(stringBuffer.toString());
+                    if (count == 41 && time == 23) stringBuffer.setLength(0);
+                }
+            }
+        } else if (bleUtils.returnStepData(bytes) != null) {
+            //返回7天计步数据
+            List<StepData> data = bleUtils.returnStepData(bytes);
+            for (int i = 0; i < data.size(); i++) {
+                int count = data.get(i).getCount();
+                int time = data.get(i).getTime();
+                if (count <= 5 && count >= 0) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+                    day01.setText(stringBuffer.toString());
+                    if (count == 5 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 11 && count >= 6) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+                    day02.setText(stringBuffer.toString());
+                    if (count == 11 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 17 && count >= 12) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+                    day03.setText(stringBuffer.toString());
+                    if (count == 17 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 23 && count >= 18) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+                    day04.setText(stringBuffer.toString());
+                    if (count == 23 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 29 && count >= 24) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+                    day05.setText(stringBuffer.toString());
+                    if (count == 29 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 35 && count >= 30) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+                    day06.setText(stringBuffer.toString());
+                    if (count == 35 && time == 23) stringBuffer.setLength(0);
+                }
+                if (count <= 41 && count >= 36) {
+                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+                    day07.setText(stringBuffer.toString());
+                    if (count == 41 && time == 23) stringBuffer.setLength(0);
+                }
+            }
         } else {
             notify.setText(HexString.bytesToHex(bytes));
         }
@@ -246,7 +448,7 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.getTodayStep(), connectionObservable);
                 break;
             case R.id.btn10:
-                    Write(bleUtils.getSleepData(Integer.parseInt(daynum.getText().toString())), connectionObservable);
+                Write(bleUtils.getSleepData(6), connectionObservable);
                 break;
             case R.id.btn11:
                 Write(bleUtils.eraseWatchData(), connectionObservable);
@@ -273,9 +475,7 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.resetHand(), connectionObservable);
                 break;
             case R.id.btn19:
-                if (!daynum.equals("") && !daynum.equals("天数")) {
-                    Write(bleUtils.getStepData(Integer.parseInt(daynum.getText().toString())), connectionObservable);
-                }
+                Write(bleUtils.getStepData(6), connectionObservable);
 
                 break;
             case R.id.btn20:
@@ -302,17 +502,9 @@ public class BleTest extends BaseActivity {
                         WriteLength.append(CountLength);
                     }
                     byte[] Bytes = bleUtils.HexString2Bytes(WriteLength.toString());
-                    int mn = Bytes.length;
-//                    byte[] Bytes = bleUtils.HexString2Bytes(strLength);
-//                    String[] stringstrLength = strLength.split(" ");
-//                    int ff = stringstrLength.length;
-//                    int countLength = 1;
-//                    int fff = Bytes.length;
-//                    for (int i = 1; i < stringstrLength.length; i++) {
-
-//                        countLength++;
-//                    }
-                    Write(bleUtils.startOTA(Bytes.length), connectionObservable);
+                    int crcLength = bleUtils.OTACrc(Bytes);
+                     updateLength=Bytes.length;
+                    Write(bleUtils.startOTA(Bytes.length, crcLength), connectionObservable);
                 }
 
                 break;
@@ -426,5 +618,96 @@ public class BleTest extends BaseActivity {
                 btn26.setTextColor(getResources().getColor(R.color.red));
             }
         }
+    }
+
+    private void setTimeText(int CountTime, TextView mview, int tempTime) {
+        switch (CountTime) {
+            case 0:
+                mview.setText(tempTime);
+                break;
+        }
+    }
+
+    private void OTA() {
+        String str = new SomeUtills().getFromAssets(BleTest.this, "cyinstein_watchbin.txt");
+        String[] strings = str.split(" ");
+        StringBuffer sb = new StringBuffer();
+        StringBuffer newsb = new StringBuffer();
+        StringBuffer Fasb = new StringBuffer();
+        StringBuffer Fastr = new StringBuffer();
+        StringBuffer WriteLength = new StringBuffer();
+
+        for (int i = 0; i < strings.length; i++) {
+            String CountLength = strings[i];
+            WriteLength.append(CountLength);
+        }
+
+        byte[] Byteslen = bleUtils.HexString2Bytes(WriteLength.toString());
+        int length = Byteslen.length;
+        int k = 0;
+        int FaCount = 0;
+        boolean isTrue = true;
+        for (int i = 0; i < strings.length; i++) {
+            String count = strings[i];
+            if (count.startsWith("0x") || count.startsWith("0X"))
+                count = count.substring(2);
+            if (count.startsWith(" 0X") || count.startsWith(" 0x"))
+                count = count.substring(3);
+            if (isTrue) {
+                if (k != 20) {
+                    sb.append(count);
+                    k++;
+                } else {
+                    byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
+                    Write(Bytes, connectionObservable);
+                    FaCount += Bytes.length;
+                    Fasb.append(sb.toString());
+                    sb.setLength(0);
+                    sb.append(count);
+                    k = 0;
+                    isTrue = false;
+                }
+            } else {
+                if (k != 19) {
+                    sb.append(count);
+                    k++;
+                } else {
+                    byte[] Bytes = bleUtils.HexString2Bytes(sb.toString());
+                    Write(Bytes, connectionObservable);
+                    FaCount += Bytes.length;
+                    Fasb.append(sb.toString());
+                    sb.setLength(0);
+                    sb.append(count);
+                    k = 0;
+                }
+            }
+        }
+        if (FaCount != length) {
+            StringBuffer WriteLengthb = new StringBuffer();
+            String[] newData = Arrays.copyOfRange(strings, FaCount, length);
+
+            for (int i = 0; i < newData.length; i++) {
+                String CountLength = newData[i];
+                WriteLengthb.append(CountLength);
+            }
+
+            byte[] Byteslens = bleUtils.HexString2Bytes(WriteLengthb.toString());
+
+            for (int n = 0; n < Byteslens.length; n++) {
+                String count = newData[n];
+                if (count.startsWith("0x") || count.startsWith("0X"))
+                    count = count.substring(2);
+                if (count.startsWith(" 0X") || count.startsWith(" 0x"))
+                    count = count.substring(3);
+                newsb.append(count);
+            }
+
+            byte[] Bytes = bleUtils.HexString2Bytes(newsb.toString());
+            Write(Bytes, connectionObservable);
+            FaCount += Bytes.length;
+            Fasb.append(sb.toString());
+
+        }
+        Logger.t(TAG).e("String总数 >>>>>>>>>   " + String.valueOf(strings.length) + "\n" + "发送总数>>>>    " + String.valueOf(FaCount));
     }
 }

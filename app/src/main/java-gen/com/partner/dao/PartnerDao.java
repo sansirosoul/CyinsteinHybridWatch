@@ -32,6 +32,10 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
         public final static Property Lightsleep = new Property(5, String.class, "lightsleep", false, "LIGHTSLEEP");
         public final static Property Sleeping = new Property(6, String.class, "sleeping", false, "SLEEPING");
         public final static Property Awake = new Property(7, String.class, "awake", false, "AWAKE");
+        public final static Property Exercisetime = new Property(8, String.class, "exercisetime", false, "EXERCISETIME");
+        public final static Property Exercisedistance = new Property(9, String.class, "exercisedistance", false, "EXERCISEDISTANCE");
+        public final static Property CalcalNum = new Property(10, String.class, "calcalNum", false, "CALCAL_NUM");
+        public final static Property Stepsumsnum = new Property(11, String.class, "stepsumsnum", false, "STEPSUMSNUM");
     }
 
 
@@ -54,7 +58,11 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
                 "\"SLEEP\" TEXT," + // 4: sleep
                 "\"LIGHTSLEEP\" TEXT," + // 5: lightsleep
                 "\"SLEEPING\" TEXT," + // 6: sleeping
-                "\"AWAKE\" TEXT);"); // 7: awake
+                "\"AWAKE\" TEXT," + // 7: awake
+                "\"EXERCISETIME\" TEXT," + // 8: exercisetime
+                "\"EXERCISEDISTANCE\" TEXT," + // 9: exercisedistance
+                "\"CALCAL_NUM\" TEXT," + // 10: calcalNum
+                "\"STEPSUMSNUM\" TEXT);"); // 11: stepsumsnum
     }
 
     /** Drops the underlying database table. */
@@ -106,6 +114,26 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
         if (awake != null) {
             stmt.bindString(8, awake);
         }
+ 
+        String exercisetime = entity.getExercisetime();
+        if (exercisetime != null) {
+            stmt.bindString(9, exercisetime);
+        }
+ 
+        String exercisedistance = entity.getExercisedistance();
+        if (exercisedistance != null) {
+            stmt.bindString(10, exercisedistance);
+        }
+ 
+        String calcalNum = entity.getCalcalNum();
+        if (calcalNum != null) {
+            stmt.bindString(11, calcalNum);
+        }
+ 
+        String stepsumsnum = entity.getStepsumsnum();
+        if (stepsumsnum != null) {
+            stmt.bindString(12, stepsumsnum);
+        }
     }
 
     @Override
@@ -151,6 +179,26 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
         if (awake != null) {
             stmt.bindString(8, awake);
         }
+ 
+        String exercisetime = entity.getExercisetime();
+        if (exercisetime != null) {
+            stmt.bindString(9, exercisetime);
+        }
+ 
+        String exercisedistance = entity.getExercisedistance();
+        if (exercisedistance != null) {
+            stmt.bindString(10, exercisedistance);
+        }
+ 
+        String calcalNum = entity.getCalcalNum();
+        if (calcalNum != null) {
+            stmt.bindString(11, calcalNum);
+        }
+ 
+        String stepsumsnum = entity.getStepsumsnum();
+        if (stepsumsnum != null) {
+            stmt.bindString(12, stepsumsnum);
+        }
     }
 
     @Override
@@ -168,7 +216,11 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // sleep
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // lightsleep
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // sleeping
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // awake
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // awake
+            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // exercisetime
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // exercisedistance
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // calcalNum
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11) // stepsumsnum
         );
         return entity;
     }
@@ -183,6 +235,10 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
         entity.setLightsleep(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setSleeping(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setAwake(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setExercisetime(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setExercisedistance(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setCalcalNum(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setStepsumsnum(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
      }
     
     @Override

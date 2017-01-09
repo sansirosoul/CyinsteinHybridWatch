@@ -9,6 +9,24 @@ public class SleepData {
     public int time;//时间
     public int status;//睡眠状态 0 清醒     1 潜睡     2深睡
     public int quality;//睡眠质量
+    public int count;
+    public int sums;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getSums() {
+        return sums;
+    }
+
+    public void setSums(int sums) {
+        this.sums = sums;
+    }
 
     public int getDate() {
         return date;

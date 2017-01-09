@@ -60,6 +60,7 @@ public class AddClockActivity extends BaseActivity {
     public Observable<RxBleConnection> connectionObservable;
     private String bytestr;
 
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);

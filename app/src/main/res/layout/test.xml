@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="true"
@@ -13,23 +14,25 @@
         android:background="@color/white"
         android:gravity="center"
         android:textColor="@color/black" />
+
     <TextView
         android:id="@+id/notify"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center"
         android:textColor="@color/black" />
+
     <EditText
         android:id="@+id/daynum"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="天数"
         android:background="@color/white"
         android:gravity="center"
         android:textColor="@color/black" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -220,18 +223,28 @@
                 android:text="断开蓝牙连接" />
 
 
-
             <Button
                 android:id="@+id/btn24"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="发送升级命令" />
 
+            <com.xyy.Gazella.view.NumberProgressBar
+                android:id="@+id/updatebar"
+                style="@style/NumberProgressBar_Relax_Blue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                app:progress_current="0" />
+
             <Button
                 android:id="@+id/btn25"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="发送文本升级包" />
+
             <Button
                 android:id="@+id/btn26"
                 android:layout_width="match_parent"
@@ -249,6 +262,56 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="获取生产序号" />
+
+
+            <TextView
+                android:id="@+id/day01"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/day02"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/day03"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/day04"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/day05"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/day06"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/day07"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

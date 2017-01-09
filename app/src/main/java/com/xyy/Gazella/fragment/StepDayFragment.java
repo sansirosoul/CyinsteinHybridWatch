@@ -20,7 +20,6 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.partner.entity.Partner;
 import com.xyy.Gazella.activity.StepActivity;
-import com.xyy.Gazella.dbmanager.CommonUtils;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
@@ -59,51 +58,161 @@ public class StepDayFragment extends BaseFragment {
     ScrollView scrollView;
     @BindView(R.id.tv_step_target)
     TextView tvStepTarget;
+    @BindView(R.id.tv_sumsnum)
+    TextView tvSumsnum;
+    @BindView(R.id.tv_num_hour)
+    TextView tvNumHour;
+    @BindView(R.id.tv_hour)
+    TextView tvHour;
+    @BindView(R.id.tv_num_minute)
+    TextView tvNumMinute;
+    @BindView(R.id.tv_minute)
+    TextView tvMinute;
+    @BindView(R.id.tv_num_mi)
+    TextView tvNumMi;
+    @BindView(R.id.tv_mi)
+    TextView tvMi;
+    @BindView(R.id.tv_num_card)
+    TextView tvNumCard;
+    @BindView(R.id.tv_card)
+    TextView tvCard;
+    @BindView(R.id.tv_netsumsstep)
+    TextView tvNetsumsstep;
+    @BindView(R.id.tv_manystep)
+    TextView tvManystep;
     private View view;
     private String[] xValue = new String[]{"0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"};
 
     private int widthChart = 0;
     private int heightChatr = 0;
     private ViewGroup.LayoutParams params;
-    private int count = 145631;
-    private CommonUtils mCommonUtils;
     private Time mCalendar;
-    private int myear, month, day;
+    private int myear, month, day, sumsNum;
     private StringBuffer sb = new StringBuffer();
-    private String date;
     private List<Partner> partners = new ArrayList<>();
-
+    private String strMonth, strDay, exerciseTime;
+    private Calendar CalendarInstance = Calendar.getInstance();
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_step_day, container, false);
 
         ButterKnife.bind(this, view);
         initTime();
-        String date = sb.append(String.valueOf(myear)).append(".").append(String.valueOf(month)).append(".").append(String.valueOf(day)).toString();
-        initData(date);
+        if (month < 10)
+            strMonth = sb.append("0").append(String.valueOf(month)).toString();
+        else
+            strMonth = String.valueOf(month);
+        sb.setLength(0);
+        if (day < 10)
+            strDay = sb.append("0").append(String.valueOf(day)).toString();
+        else
+            strDay = String.valueOf(day);
+        sb.setLength(0);
+        String strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
+        initData(strday);
         initChart();
         initView();
-        tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 0));
         super.onCreateView(inflater, container, savedInstanceState);
         return view;
     }
 
-
     public void initData(String date) {
+
         if (partners != null || partners.size() > 0) partners.clear();
         partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
         if (partners.size() == 24) {
-            for (int i = 0; i < partners.size(); i++)
+            for (int i = 0; i < partners.size(); i++) {
                 xValue[i] = partners.get(i).getSleep();
+                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                    if (partners.get(i).getStepsumsnum() != null)
+                        sumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
+                    int second = Integer.valueOf(partners.get(i).getExercisetime());
+                    double km = Double.valueOf(partners.get(i).getExercisedistance());
+                    double calcalNum = Double.valueOf(partners.get(i).getCalcalNum());
+                    if (second > 60) {
+                        tvNumMinute.setText(String.valueOf(second / 60));
+                        if (tvNumHour.getVisibility() == View.VISIBLE || tvHour.getVisibility() == View.VISIBLE) {
+                            tvNumHour.setVisibility(View.INVISIBLE);
+                            tvHour.setVisibility(View.INVISIBLE);
+                        }
+                    } else if (second > 60 * 60) {
+                        if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
+                            tvNumHour.setText(String.valueOf(second / 360));
+                            tvNumMinute.setText(String.valueOf((second % 3600) / 60));
+                        }
+                    } else if (second == 0) {
+                        if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
+                            tvNumHour.setVisibility(View.VISIBLE);
+                            tvHour.setVisibility(View.VISIBLE);
+                            tvNumHour.setText("0");
+                            tvNumMinute.setText("0");
+                        }
+                    }
+                    // 计算活动距离
+                    if (km < 1000) {
+                        tvNumMi.setText(String.valueOf((int) km));
+                        tvMi.setText(getResources().getString(R.string.mi));
+                    } else {
+                        tvNumMi.setText(String.valueOf(new SomeUtills().changeDouble(km)));
+                        tvMi.setText(getResources().getString(R.string.km));
+                    }
+                    if (calcalNum < 1000) {
+                        tvNumCard.setText(String.valueOf(calcalNum));
+                        tvCard.setText(getResources().getString(R.string.card));
+                    } else {
+                        tvNumCard.setText(String.valueOf(new SomeUtills().changeDouble(calcalNum)));
+                        tvCard.setText(getResources().getString(R.string.Kcard));
+                    }
+                    tvSumsnum.setText(String.valueOf(sumsNum));
+                }
+            }
             tvStepTarget.setText(getResources().getString(R.string.step_target_ok));
         } else {
             for (int i = 0; i < xValue.length; i++)
                 xValue[i] = "0";
+            if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
+                tvNumHour.setVisibility(View.VISIBLE);
+                tvHour.setVisibility(View.VISIBLE);
+            }
+            tvNumHour.setText("0");
+            tvNumMinute.setText("0");
+            tvNumMi.setText("0");
+            tvNumCard.setText("0.0");
+            tvSumsnum.setText("0");
             tvStepTarget.setText(getResources().getString(R.string.no_step_data));
         }
+        Date netDate = null;
+        int netSumsNum,i1 = 0;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        try {
+            netDate = sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String strNetDay = new SomeUtills().getAmountDate(netDate, 0, 0);
+        if (partners != null || partners.size() > 0) partners.clear();
+        partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", strNetDay);
+        if (partners.size() == 24) {
+            for (int i = 0; i < partners.size(); i++) {
+                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                    netSumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
+                     i1 = sumsNum - netSumsNum;
+                    if (i1 < 0) {
+                        tvManystep.setText(getResources().getString(R.string.ye_step_data));
+                       i1=Math.abs(i1);
+                    } else
+                        tvManystep.setText(getResources().getString(R.string.ye_step_manydata));
+                }
+            }
+        }
+        tvNetsumsstep.setText(String.valueOf(i1));
+        i1=0;
+        sumsNum=0;
+        updateUI(xValue);
     }
 
     private void initView() {
+        tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 0));
         params = mChart.getLayoutParams();
         ViewTreeObserver vto = mChart.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -111,23 +220,9 @@ public class StepDayFragment extends BaseFragment {
             public boolean onPreDraw() {
                 heightChatr = mChart.getHeight();
                 widthChart = mChart.getWidth();
-
                 return true;
             }
         });
-
-//
-//        SpannableString styledText = new SpannableString("你今天走了" + count + "步，比昨天多走了"+count+"步！");
-//        styledText.setSpan(new TextAppearanceSpan(mContext,
-//                R.style.StepText), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        styledText.setSpan(new TextAppearanceSpan(mContext,
-//                        R.style.countTextViewZero),
-//                getTimeLabel(timeType).length() + 2, String.valueOf(count)
-//                        .length() + getTimeLabel(timeType).length() + 2,
-//                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        mTitle.setText(styledText, TextView.BufferType.SPANNABLE);
-
-
     }
 
 
@@ -182,8 +277,6 @@ public class StepDayFragment extends BaseFragment {
     private void setChartData() {
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         for (int i = 0; i < xValue.length; i++) {
-//            float mult = (10000);
-//            float val = (float) (Math.random() * mult) + mult / 1;
             yVals1.add(new BarEntry(i, Float.parseFloat(xValue[i])));
         }
         BarDataSet set1;
@@ -252,12 +345,11 @@ public class StepDayFragment extends BaseFragment {
             case R.id.iv_left:
                 tvDate.setText(new SomeUtills().getAmountDate(date, 0, 0));
                 initData(new SomeUtills().getAmountDate(date, 0, 0));
-                updateUI(xValue);
+
                 break;
             case R.id.iv_right:
                 tvDate.setText(new SomeUtills().getAmountDate(date, 0, 1));
                 initData(new SomeUtills().getAmountDate(date, 0, 1));
-                updateUI(xValue);
                 break;
             case R.id.ll_step_day:
                 new SomeUtills().setCalendarViewGone(1);

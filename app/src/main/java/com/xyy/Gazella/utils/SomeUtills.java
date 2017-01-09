@@ -76,8 +76,8 @@ public class SomeUtills {
         CalendarInstance.setTime(calendar);
         // 今天是一周中的第几天
         int dayOfWeek = CalendarInstance.get(Calendar.DAY_OF_WEEK);
-        if (CalendarInstance.getFirstDayOfWeek() == Calendar.SUNDAY)
-            CalendarInstance.add(Calendar.DAY_OF_MONTH, 1);
+//        if (CalendarInstance.getFirstDayOfWeek() == Calendar.SUNDAY)
+//            CalendarInstance.add(Calendar.DAY_OF_MONTH, 1);
 
         // 计算一周开始的日期
         CalendarInstance.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
@@ -85,7 +85,28 @@ public class SomeUtills {
             CalendarInstance.add(Calendar.DAY_OF_MONTH, 1);
             System.out.println(sdf.format(CalendarInstance.getTime()));
             if (i == 1) weekMap.put("1", sdf.format(CalendarInstance.getTime()));
+            if (i == 2) weekMap.put("2", sdf.format(CalendarInstance.getTime()));
+            if (i == 3) weekMap.put("3", sdf.format(CalendarInstance.getTime()));
+            if (i == 4) weekMap.put("4", sdf.format(CalendarInstance.getTime()));
+            if (i == 5) weekMap.put("5", sdf.format(CalendarInstance.getTime()));
+            if (i == 6) weekMap.put("6", sdf.format(CalendarInstance.getTime()));
             if (i == 7) weekMap.put("7", sdf.format(CalendarInstance.getTime()));
+        }
+        return weekMap;
+    }
+    public HashMap<String, String> getMonthdate(Date calendar) {
+        HashMap<String, String> weekMap = new HashMap<>();
+        sdf = new SimpleDateFormat("yyyy.MM.dd");
+//        Calendar c = Calendar.getInstance();
+        CalendarInstance.setTime(calendar);
+        // 今天是一周中的第几天
+        int dayOfWeek = CalendarInstance.get(Calendar.DAY_OF_MONTH);
+        int MaxDay=CalendarInstance.getActualMaximum(Calendar.DAY_OF_MONTH);
+        // 计算一周开始的日期
+        CalendarInstance.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
+        for (int i = 1; i <= MaxDay; i++) {
+            CalendarInstance.add(Calendar.DAY_OF_MONTH, 1);
+            weekMap.put(String.valueOf(i),sdf.format(CalendarInstance.getTime()));
         }
         return weekMap;
     }
@@ -119,6 +140,11 @@ public class SomeUtills {
             CalendarInstance.add(Calendar.DAY_OF_MONTH, 1);
             System.out.println(sdf.format(CalendarInstance.getTime()));
             if (i == 1) weekMap.put("1", sdf.format(CalendarInstance.getTime()));
+            if (i == 2) weekMap.put("2", sdf.format(CalendarInstance.getTime()));
+            if (i == 3) weekMap.put("3", sdf.format(CalendarInstance.getTime()));
+            if (i == 4) weekMap.put("4", sdf.format(CalendarInstance.getTime()));
+            if (i == 5) weekMap.put("5", sdf.format(CalendarInstance.getTime()));
+            if (i == 6) weekMap.put("6", sdf.format(CalendarInstance.getTime()));
             if (i == 7) weekMap.put("7", sdf.format(CalendarInstance.getTime()));
         }
         return weekMap;

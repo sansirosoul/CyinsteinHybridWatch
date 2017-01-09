@@ -25,8 +25,8 @@
         <LinearLayout
             android:id="@+id/ll_NumberProgressBar"
             android:layout_centerInParent="true"
-            android:visibility="gone"
             android:orientation="vertical"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -51,55 +51,62 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/tv_day_1"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"
                 android:layout_gravity="center_horizontal"
                 android:textSize="12dp"
-                android:text="11月1号更新完成"/>
+                android:text="..."/>
             <TextView
+                android:id="@+id/tv_day_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"
                 android:textSize="12dp"
                 android:layout_gravity="center_horizontal"
-                android:text="11月2号更新完成"/>
+                android:text="..."/>
             <TextView
+                android:id="@+id/tv_day_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"
                 android:textSize="12dp"
                 android:layout_gravity="center_horizontal"
-                android:text="11月3号更新完成"/>
+                android:text="..."/>
             <TextView
+                android:id="@+id/tv_day_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"
                 android:layout_gravity="center_horizontal"
                 android:textSize="12dp"
-                android:text="11月4号更新完成"/>
+                android:text="..."/>
             <TextView
+                android:id="@+id/tv_day_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"
                 android:textSize="12dp"
                 android:layout_gravity="center_horizontal"
-                android:text="11月5号更新完成"/>
+                android:text="..."/>
             <TextView
+                android:id="@+id/tv_day_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"
                 android:textSize="12dp"
                 android:layout_gravity="center_horizontal"
-                android:text="11月6号更新完成"/>
+                android:text="..."/>
             <TextView
+                android:id="@+id/tv_day_7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/gray"
                 android:textSize="12dp"
                 android:layout_gravity="center_horizontal"
-                android:text="11月7号更新完成"/>
+                android:text="..."/>
 
         </LinearLayout>
 
@@ -119,7 +126,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <TextView
+            <com.xyy.Gazella.view.RiseNumberTextView
                 android:id="@+id/step_num"
                 android:text="0"
                 android:textColor="#0e9edf"

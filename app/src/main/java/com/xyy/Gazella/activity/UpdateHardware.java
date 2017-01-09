@@ -121,12 +121,12 @@ public class UpdateHardware extends BaseActivity {
                 overridePendingTransitionExit(UpdateHardware.this);
                 break;
             case R.id.update:
-                if(battery_num>=50){
+              //  if(battery_num>=50){
                     CheckUpdateDialog1 dialog = new CheckUpdateDialog1(UpdateHardware.this);
                     dialog.show();
-                }else{
-                    showToatst(UpdateHardware.this,"手表电量不足50%，无法升级！");
-                }
+//                }else{
+//                    showToatst(UpdateHardware.this,"手表电量不足50%，无法升级！");
+//                }
                 break;
         }
     }
