@@ -223,6 +223,7 @@ public class StepWeekFragment extends BaseFragment {
                     calcalNum[n] = Double.valueOf(partners.get(i).getCalcalNum());
                     break;
                 }
+
             }
         } else {
             xValue[n] = "0";
