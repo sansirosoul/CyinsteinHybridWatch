@@ -22,7 +22,6 @@ import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.NumberProgressBar;
-import com.xyy.model.SleepData;
 import com.xyy.model.StepData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
@@ -31,7 +30,6 @@ import com.ysp.newband.PreferenceData;
 
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -249,155 +247,157 @@ public class BleTest extends BaseActivity {
                     break;
             }
 
-        } else if(bleUtils.returnSleepData(bytes) != null){
-
-            List<SleepData> sleepdata = bleUtils.returnSleepData(bytes);
-
-            for (int i = 0; i < sleepdata.size(); i++) {
-                int count = sleepdata.get(i).getCount();
-                int time = sleepdata.get(i).getTime();
-                if (count <= 5 && count >= 0) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
-                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
-                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
-                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
-                    day01.setText(stringBuffer.toString());
-                    if (count == 5 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 11 && count >= 6) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
-                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
-                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
-                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
-                    day02.setText(stringBuffer.toString());
-                    if (count == 11 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 17 && count >= 12) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
-                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
-                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
-                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
-                    day03.setText(stringBuffer.toString());
-                    if (count == 17 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 23 && count >= 18) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
-                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
-                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
-                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
-                    day04.setText(stringBuffer.toString());
-                    if (count == 23 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 29 && count >= 24) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
-                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
-                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
-                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
-                    day05.setText(stringBuffer.toString());
-                    if (count == 29 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 35 && count >= 30) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
-                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
-                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
-                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
-                    day06.setText(stringBuffer.toString());
-                    if (count == 35 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 41 && count >= 36) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
-                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
-                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
-                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
-                    day07.setText(stringBuffer.toString());
-                    if (count == 41 && time == 23) stringBuffer.setLength(0);
-                }
-            }
-        } else if (bleUtils.returnStepData(bytes) != null) {
-            //返回7天计步数据
-            List<StepData> data = bleUtils.returnStepData(bytes);
-            for (int i = 0; i < data.size(); i++) {
-                int count = data.get(i).getCount();
-                int time = data.get(i).getTime();
-                if (count <= 5 && count >= 0) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-                    day01.setText(stringBuffer.toString());
-                    if (count == 5 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 11 && count >= 6) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-                    day02.setText(stringBuffer.toString());
-                    if (count == 11 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 17 && count >= 12) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-                    day03.setText(stringBuffer.toString());
-                    if (count == 17 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 23 && count >= 18) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-                    day04.setText(stringBuffer.toString());
-                    if (count == 23 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 29 && count >= 24) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-                    day05.setText(stringBuffer.toString());
-                    if (count == 29 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 35 && count >= 30) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-                    day06.setText(stringBuffer.toString());
-                    if (count == 35 && time == 23) stringBuffer.setLength(0);
-                }
-                if (count <= 41 && count >= 36) {
-                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-                    day07.setText(stringBuffer.toString());
-                    if (count == 41 && time == 23) stringBuffer.setLength(0);
-                }
-            }
-        } else {
+        }
+//        else if(bleUtils.returnSleepData(bytes) != null){
+//
+//            List<SleepData> sleepdata = bleUtils.returnSleepData(bytes);
+//
+//            for (int i = 0; i < sleepdata.size(); i++) {
+//                int count = sleepdata.get(i).getCount();
+//                int time = sleepdata.get(i).getTime();
+//                if (count <= 5 && count >= 0) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+//                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+//                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+//                    day01.setText(stringBuffer.toString());
+//                    if (count == 5 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 11 && count >= 6) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+//                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+//                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+//                    day02.setText(stringBuffer.toString());
+//                    if (count == 11 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 17 && count >= 12) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+//                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+//                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+//                    day03.setText(stringBuffer.toString());
+//                    if (count == 17 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 23 && count >= 18) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+//                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+//                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+//                    day04.setText(stringBuffer.toString());
+//                    if (count == 23 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 29 && count >= 24) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+//                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+//                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+//                    day05.setText(stringBuffer.toString());
+//                    if (count == 29 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 35 && count >= 30) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+//                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+//                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+//                    day06.setText(stringBuffer.toString());
+//                    if (count == 35 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 41 && count >= 36) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(sleepdata.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(sleepdata.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(sleepdata.get(i).getDate()) + "  " +
+//                            "睡眠状态>>>  " + String.valueOf(sleepdata.get(i).getStatus()) + "  " +
+//                            "睡眠质量>>>  " + String.valueOf(sleepdata.get(i).getQuality()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(sleepdata.get(i).getTime()) + "\r\n");
+//                    day07.setText(stringBuffer.toString());
+//                    if (count == 41 && time == 23) stringBuffer.setLength(0);
+//                }
+//            }
+//        } else if (bleUtils.returnStepData(bytes) != null) {
+//            //返回7天计步数据
+//            List<StepData> data = bleUtils.returnStepData(bytes);
+//            for (int i = 0; i < data.size(); i++) {
+//                int count = data.get(i).getCount();
+//                int time = data.get(i).getTime();
+//                if (count <= 5 && count >= 0) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+//                    day01.setText(stringBuffer.toString());
+//                    if (count == 5 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 11 && count >= 6) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+//                    day02.setText(stringBuffer.toString());
+//                    if (count == 11 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 17 && count >= 12) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+//                    day03.setText(stringBuffer.toString());
+//                    if (count == 17 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 23 && count >= 18) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+//                    day04.setText(stringBuffer.toString());
+//                    if (count == 23 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 29 && count >= 24) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+//                    day05.setText(stringBuffer.toString());
+//                    if (count == 29 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 35 && count >= 30) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+//                    day06.setText(stringBuffer.toString());
+//                    if (count == 35 && time == 23) stringBuffer.setLength(0);
+//                }
+//                if (count <= 41 && count >= 36) {
+//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
+//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
+//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
+//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
+//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
+//                    day07.setText(stringBuffer.toString());
+//                    if (count == 41 && time == 23) stringBuffer.setLength(0);
+//                }
+//            }
+//        }
+        else {
             notify.setText(HexString.bytesToHex(bytes));
         }
     }

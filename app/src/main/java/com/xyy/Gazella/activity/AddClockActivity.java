@@ -113,6 +113,7 @@ public class AddClockActivity extends BaseActivity {
             }
         }
 
+
         pvHour.setData(hours);
         pvMinute.setData(minutes);
         Calendar calendar = Calendar.getInstance();
@@ -142,7 +143,8 @@ public class AddClockActivity extends BaseActivity {
             }
         });
 
-        pvMinute.setOnSelectListener(new PickerViewMinute.onSelectListener() {
+        pvMinute.setOnSelectListener(new PickerViewMinute.onSelectListener()
+        {
             @Override
             public void onSelect(String text) {
                   minute=text;

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.HealthyActivity;
 import com.xyy.Gazella.activity.StepActivity;
@@ -73,7 +74,8 @@ public class StepFragment extends BaseFragment {
     private BleUtils bleUtils;
     private Observable<RxBleConnection> connectionObservable;
     private setStepNumTextOnEndListener setStepNumTextOnEndListener;
-private  int barNum;
+    private  int barNum;
+    private  static  String TAG= StepFragment.class.getName();
 
     private Handler mHandler = new Handler() {
         @Override
@@ -197,6 +199,24 @@ private  int barNum;
 
         if (getTodayStep != null)
             mHandler.removeCallbacks(getTodayStep);
+    }
+
+    public void setSynchronizationData() {
+        if (getTodayStep != null)
+            mHandler.removeCallbacks(getTodayStep);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Write(bleUtils.getStepData(6), connectionObservable);
+            }
+        },3000);
+    }
+
+    @Override
+    protected void onReadReturn(int type, byte[] bytes) {
+        super.onReadReturn(type, bytes);
+        Logger.t(TAG).e("22222"+new String(bytes) );
+
     }
 
     public void setBerbarNum(int type, int day) {

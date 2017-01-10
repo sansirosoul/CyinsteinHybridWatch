@@ -78,6 +78,10 @@ public class StepMonthFragment extends BaseFragment {
     TextView tvStepTarget;
     @BindView(R.id.tv_sumsnum)
     TextView tvSumsnum;
+    @BindView(R.id.tv_manystep)
+    TextView tvManystep;
+    @BindView(R.id.tv_netweekstep)
+    TextView tvNetweekstep;
     private View view;
 
     private int widthChart = 0;
@@ -86,13 +90,15 @@ public class StepMonthFragment extends BaseFragment {
     private List<Partner> partners = new ArrayList<>();
     private HashMap<String, String> monthMap;
     private Calendar CalendarInstance = Calendar.getInstance();
-    private String[] XString = new String[]{"1", "2", "3", "4", "5", "6", "7","8", "9", "10", "11", "12", "13", "14","15", "16", "17", "18", "19", "20", "21","22", "23", "24", "25", "26", "27", "28","29","30", "31"};
+    private String[] XString = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
+    private String[] netMonthStep = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
     private String[] xValue;
     private int[] second;
     private double[] km;
     private double[] calcalNum;
-    private int sumsStep, sumsSecond;
+    private int sumsStep, sumsSecond, netSumsStep;
     private double sumsKm, sumsCalcalNum;
+    private String weekDate;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -107,7 +113,7 @@ public class StepMonthFragment extends BaseFragment {
 
     private void initView() {
         tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 1));
-       monthMap = new SomeUtills().getMonthdate(CalendarInstance.getTime());
+        monthMap = new SomeUtills().getMonthdate(CalendarInstance.getTime());
         params = mChart.getLayoutParams();
         ViewTreeObserver vto = mChart.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -127,7 +133,7 @@ public class StepMonthFragment extends BaseFragment {
         km = new double[monthMap.size()];
         calcalNum = new double[monthMap.size()];
         for (int i = 0; i < monthMap.size(); i++) {
-            String weekDate = monthMap.get(String.valueOf(i+1));
+            weekDate = monthMap.get(String.valueOf(i + 1));
             initData(weekDate, i);
         }
         updateUI(xValue);
@@ -174,10 +180,52 @@ public class StepMonthFragment extends BaseFragment {
             tvCard.setText(getResources().getString(R.string.Kcard));
         }
         tvSumsnum.setText(String.valueOf(sumsStep));
+
+
+        if (monthMap.size() != 0) monthMap.clear();
+        Date netWeekDate = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM");
+        try {
+            netWeekDate = sdf.parse(weekDate);
+            netWeekDate=  sdf.parse(new SomeUtills().getAmountDate(netWeekDate, 1, 0));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int num = 0;
+        for (int m = 0; m < netMonthStep.length; m++) {
+            netMonthStep[m] = "0";
+        }
+        monthMap =new SomeUtills().getMonthdate(netWeekDate);
+        for (int m = 0; m < monthMap.size(); m++) {
+            String strNetWeekDate = monthMap.get(String.valueOf(m + 1));
+            if (partners != null || partners.size() > 0) partners.clear();
+            partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", strNetWeekDate);
+            for (int i = 0; i < partners.size(); i++) {
+                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
+                    netMonthStep[m] = partners.get(i).getStepsumsnum();
+                    break;
+                }
+            }
+        }
+        for (int l = 0; l < netMonthStep.length; l++) {
+            netSumsStep += Integer.valueOf(netMonthStep[l]);
+        }
+        num = sumsStep - netSumsStep;
+        if (num < 0) {
+            tvManystep.setText(getResources().getString(R.string.ye_step_datamonth));
+            num = Math.abs(num);
+        } else
+            tvManystep.setText(getResources().getString(R.string.ye_step_manydatamonth));
+
+        tvNetweekstep.setText(String.valueOf(num));
+
+
         sumsStep = 0;
         sumsSecond = 0;
         sumsCalcalNum = 0;
         sumsKm = 0;
+        netSumsStep=0;
     }
 
     public void initData(String date, int n) {
@@ -312,8 +360,9 @@ public class StepMonthFragment extends BaseFragment {
     public void setTvDateValue(String date) {
         tvDate.setText(date);
     }
+
     public String getTvDateValue() {
-      return tvDate.getText().toString();
+        return tvDate.getText().toString();
     }
 
     @OnClick({R.id.iv_left, R.id.iv_right, R.id.ll_step_month})
@@ -333,7 +382,7 @@ public class StepMonthFragment extends BaseFragment {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                monthMap = new SomeUtills().getMonthdate(date );
+                monthMap = new SomeUtills().getMonthdate(date);
                 if (monthMap != null) {
                     initData(monthMap);
                 }
@@ -355,6 +404,7 @@ public class StepMonthFragment extends BaseFragment {
                 break;
         }
     }
+
     class axisValueformatter implements AxisValueFormatter {
 
         @Override

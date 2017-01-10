@@ -198,10 +198,10 @@ public class StepWeekFragment extends BaseFragment {
         }
          num = sumsStep - netSumsStep;
         if (num < 0) {
-            tvManystep.setText(getResources().getString(R.string.ye_step_data));
+            tvManystep.setText(getResources().getString(R.string.ye_step_dataweek));
             num = Math.abs(num);
         } else
-            tvManystep.setText(getResources().getString(R.string.ye_step_manydata));
+            tvManystep.setText(getResources().getString(R.string.ye_step_manydataweek));
 
         tvNetweekstep.setText(String.valueOf(num));
         updateUI(xValue);
