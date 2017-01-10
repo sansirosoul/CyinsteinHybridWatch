@@ -109,7 +109,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             bleUtils = new BleUtils();
-            Write(bleUtils.getSleepData(6), connectionObservable);
+        //    Write(bleUtils.getSleepData(6), connectionObservable);
         }
 
         Notify(connectionObservable);
@@ -159,11 +159,6 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
                     setPartnerData(i);
                 if (count == 41 && time == 23) {
                     if (weekMap.size() != 0) weekMap.clear();
-//                    weekMap = new SomeUtills().getWeekdate(CalendarInstance.getTime());
-//                    String strday = setStrDay(999999);
-//                    stepDayFragment.initData(strday);
-//                    stepWeekFragment.initData(weekMap);
-//                    if(commonDialog.isShowing())commonDialog.dismiss();
                 }
             }
         }

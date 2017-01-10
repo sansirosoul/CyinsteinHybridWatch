@@ -108,7 +108,7 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             bleUtils = new BleUtils();
-            Write(bleUtils.getStepData(6), connectionObservable);
+           // Write(bleUtils.getStepData(6), connectionObservable);
         }
         Notify(connectionObservable);
         stepActivity = this;
