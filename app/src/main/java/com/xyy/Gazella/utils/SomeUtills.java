@@ -215,6 +215,7 @@ public class SomeUtills {
                 }
                 break;
             case 1:
+
                 sdf = new SimpleDateFormat("yyyy.MM");
                 CalendarInstance.setTime(calendar);
                 if (amount == 0) {

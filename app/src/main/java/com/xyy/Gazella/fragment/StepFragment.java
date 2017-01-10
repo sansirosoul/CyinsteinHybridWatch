@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.HealthyActivity;
 import com.xyy.Gazella.activity.StepActivity;
@@ -191,87 +190,75 @@ public class StepFragment extends BaseFragment {
         }
     };
 
-    public void setSynchronization(int [] date) {
+    public void setSynchronizationData() {
         llNumberProgressBar.setVisibility(View.VISIBLE);
         llQuality.setVisibility(View.GONE);
-        mHandler.post(runnable);
-
-
-        if (getTodayStep != null)
-            mHandler.removeCallbacks(getTodayStep);
-    }
-
-    public void setSynchronizationData() {
-        if (getTodayStep != null)
-            mHandler.removeCallbacks(getTodayStep);
+        numberbar.setProgress(0);
+        tvDay1.setText("...");
+        tvDay2.setText("...");
+        tvDay3.setText("...");
+        tvDay4.setText("...");
+        tvDay5.setText("...");
+        tvDay6.setText("...");
+        tvDay7.setText("...");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Write(bleUtils.getStepData(6), connectionObservable);
             }
-        },3000);
-    }
-
-    @Override
-    protected void onReadReturn(int type, byte[] bytes) {
-        super.onReadReturn(type, bytes);
-        Logger.t(TAG).e("22222"+new String(bytes) );
-
+        },1000);
     }
 
     public void setBerbarNum(int type, int day) {
-        mHandler.post(runnable);
         switch (type) {
             case 1:
                 tvDay1.setText(String.valueOf(day)+"号"+"更新完成");
-                tvDay1.setTextColor(getResources().getColor(R.color.title_linear));
+//                tvDay1.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(10);
                 break;
 
             case 2:
                 tvDay2.setText(String.valueOf(day)+"号"+"更新完成");
-                tvDay2.setTextColor(getResources().getColor(R.color.title_linear));
+            //    tvDay2.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(30);
                 break;
 
             case 3:
                 tvDay3.setText(String.valueOf(day)+"号"+"更新完成");
-                tvDay3.setTextColor(getResources().getColor(R.color.title_linear));
+           //     tvDay3.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(40);
                 break;
 
             case 4:
                 tvDay4.setText(String.valueOf(day)+"号"+"更新完成");
-                tvDay4.setTextColor(getResources().getColor(R.color.title_linear));
+            //    tvDay4.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(60);
                 break;
 
             case 5:
                 tvDay5.setText(String.valueOf(day)+"号"+"更新完成");
-                tvDay5.setTextColor(getResources().getColor(R.color.title_linear));
+            //    tvDay5.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(80);
                 break;
 
             case 6:
                 tvDay6.setText(String.valueOf(day)+"号"+"更新完成");
-                tvDay6.setTextColor(getResources().getColor(R.color.title_linear));
+            //    tvDay6.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(90);
                 break;
 
             case 7:
                 tvDay7.setText(String.valueOf(day)+"号"+"更新完成");
-                tvDay7.setTextColor(getResources().getColor(R.color.title_linear));
+            //    tvDay7.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(100);
+
+
+
                 llNumberProgressBar.setVisibility(View.GONE);
                 llQuality.setVisibility(View.VISIBLE);
 
-                tvDay1.setText("...");
-                tvDay2.setText("...");
-                tvDay3.setText("...");
-                tvDay4.setText("...");
-                tvDay5.setText("...");
-                tvDay6.setText("...");
-                tvDay7.setText("...");
+
+
 
                 break;
         }
