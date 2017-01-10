@@ -173,6 +173,7 @@ public class ClockActivity extends BaseActivity {
         switch (requestCode) {
             case REQUEST_ADD:
                 if (data != null) {
+                    clocks.clear();
                     showToatst(context,"闹钟设置成功");
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
@@ -182,6 +183,7 @@ public class ClockActivity extends BaseActivity {
                 break;
             case REQUEST_EDIT:
                 if (data != null) {
+                    clocks.clear();
                     showToatst(context,"闹钟修改成功");
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {

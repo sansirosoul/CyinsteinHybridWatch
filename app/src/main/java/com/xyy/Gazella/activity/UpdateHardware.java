@@ -92,6 +92,9 @@ public class UpdateHardware extends BaseActivity {
         super.onNewIntent(intent);
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
+            bleUtils = new BleUtils();
+            connectionObservable = getRxObservable(this);
+            Notify(connectionObservable);
             Write(bleUtils.getDeviceSN(), connectionObservable);
             Write(bleUtils.getFWVer(), connectionObservable);
             Write(bleUtils.getBatteryValue(), connectionObservable);
@@ -105,7 +108,7 @@ public class UpdateHardware extends BaseActivity {
             watchSN.setText(bleUtils.returnDeviceSN(bytes));
             PreferenceData.setDeviceSnValue(this, bleUtils.returnDeviceSN(bytes));
         } else if (bleUtils.returnFWVer(bytes) != null) {
-            watchVer.setText(bleUtils.returnFWVer(bytes));
+            watchVer.setText("V"+bleUtils.returnFWVer(bytes));
             PreferenceData.setDeviceFwvValue(this, bleUtils.returnFWVer(bytes));
         } else if (bleUtils.returnBatteryValue(bytes) != null) {
             battery_num=Integer.parseInt(bleUtils.returnBatteryValue(bytes));

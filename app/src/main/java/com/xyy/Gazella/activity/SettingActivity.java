@@ -86,16 +86,10 @@ public class SettingActivity extends BaseActivity {
         initBle();
     }
 
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//        initBle();
-//    }
-
     @Override
-    protected void onResume() {
-        super.onResume();
-        //  initBle();
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        initBle();
     }
 
     private void initBle() {
@@ -151,17 +145,9 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-
-        if (bleUtils.returnterminateBle(bytes) != null && bleUtils.returnterminateBle(bytes).equals("1")) {
-            showToatst(SettingActivity.this, "蓝牙已断开");
-
-        }
-
-
-//        if(HexString.bytesToHex(bytes).equals("0725012D60")){
-//                 Toast.makeText(context,"手表已震动，请寻找手表！",Toast.LENGTH_SHORT).show();
-//        }else if(HexString.bytesToHex(bytes).equals("0701010918")){
-//                Toast.makeText(context,"手表蓝牙已关闭！",Toast.LENGTH_SHORT).show();
+//        if (bleUtils.returnterminateBle(bytes) != null && bleUtils.returnterminateBle(bytes).equals("1")) {
+//            showToatst(SettingActivity.this, "蓝牙已断开");
+//
 //        }
     }
 
@@ -232,7 +218,7 @@ public class SettingActivity extends BaseActivity {
                         myDialog.dismiss();
                         if (connectionObservable != null)
                             Write(bleUtils.sendMessage(0, 0, 0, 0, 0, 0), connectionObservable);
-                     //   connectionObservable = null;
+                        connectionObservable = null;
                     }
                 });
                 break;

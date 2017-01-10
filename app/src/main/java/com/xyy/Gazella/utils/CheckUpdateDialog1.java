@@ -44,7 +44,7 @@ public class CheckUpdateDialog1 extends Dialog {
             @Override
             public void run() {
                 int ver = Integer.parseInt(PreferenceData.getDeviceFwvValue(context));
-                if(ver==51){
+                if(ver==11){
                     Toast.makeText(context,"已是最新版本！",Toast.LENGTH_SHORT).show();
                     dismiss();
                 }else{
