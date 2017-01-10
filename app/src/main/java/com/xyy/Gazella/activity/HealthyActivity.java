@@ -1,7 +1,6 @@
 package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -364,14 +363,14 @@ public class HealthyActivity extends BaseActivity {
             case R.id.btnOpt:
                 if (viewPager.getCurrentItem() == 0) {
                     //stepFragment.setSynchronization();
-                    stepFragment.removeTodayStepPost();
-
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Write(bleUtils.getStepData(6), connectionObservable);
-                        }
-                    },10000);
+                //    stepFragment.removeTodayStepPost();
+                    stepFragment.setSynchronizationData();
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Write(bleUtils.getStepData(6), connectionObservable);
+//                        }
+//                    },10000);
 
                 }else
                     sleepFragment.setSynchronization();

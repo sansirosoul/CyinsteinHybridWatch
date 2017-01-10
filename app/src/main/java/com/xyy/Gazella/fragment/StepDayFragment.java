@@ -90,8 +90,8 @@ public class StepDayFragment extends BaseFragment {
     private int myear, month, day, sumsNum;
     private StringBuffer sb = new StringBuffer();
     private List<Partner> partners = new ArrayList<>();
-    private String strMonth, strDay, exerciseTime;
-    private Calendar CalendarInstance = Calendar.getInstance();
+    private String strMonth, strDay;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_step_day, container, false);
