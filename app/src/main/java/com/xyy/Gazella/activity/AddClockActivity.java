@@ -113,6 +113,7 @@ public class AddClockActivity extends BaseActivity {
             }
         }
 
+
         pvHour.setData(hours);
         pvMinute.setData(minutes);
         Calendar calendar = Calendar.getInstance();
