@@ -31,7 +31,6 @@ import com.ysp.newband.BaseFragment;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -75,15 +74,21 @@ public class SleepDayFragment extends BaseFragment {
     private int heightChatr = 0;
     private ViewGroup.LayoutParams params;
 
-    private String[] xValue = new String[24];
+    private String[] xValue ;
     private String[] XString = new String[24];
+    private String[] yValue = new String[24];
+    private String[] yesterdayValue = new String[12];
+    private String[] todayValue = new String[12];
     ;
     private Time mCalendar;
-    private int myear, month, day, sumsNum;
+    private int myear, month, day, previousDay;
     private StringBuffer sb = new StringBuffer();
-    private List<Partner> partners = new ArrayList<>();
+    private List<Partner> todayPartners = new ArrayList<>();
+    private List<Partner> yesterdayPartners = new ArrayList<>();
     private String strMonth, strDay;
-    private int awakeTime, lightsleepTime, sleepingTime;
+    //    private int awakeTime, lightsleepTime, sleepingTime,sleepTime,awakeCount;
+    private static String TAG = SleepDayFragment.class.getName();
+    private String today,yeday;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -99,55 +104,83 @@ public class SleepDayFragment extends BaseFragment {
         else
             strMonth = String.valueOf(month);
         sb.setLength(0);
+        previousDay = day - 1;
         if (day < 10)
             strDay = sb.append("0").append(String.valueOf(day)).toString();
         else
             strDay = String.valueOf(day);
         sb.setLength(0);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        Date date = null;
         String strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
-        initData(strday);
+        try {
+            date = sdf.parse(strday);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String yesterday = new SomeUtills().getAmountDate(date, 0, 0);
+        initData(strday, yesterday);
         initChart();
         initView();
-
-        tvDate.setText(new SomeUtills().getDate(Calendar.getInstance().getTime(), 0));
+        tvDate.setText(yesterday);
         return view;
     }
 
 
-    public void initData(String date) {
+    public void initData(String Today, String yesterday) {
+        int sleepTime = 0;
+        int lightsleepTime = 0;
+        int sleepingTime = 0;
+        int awakeTime = 0;
+        xValue=new String[24];
+        if (todayPartners != null || todayPartners.size() > 0) {
+            todayPartners.clear();
+            yesterdayPartners.clear();
+        }
+        todayPartners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", Today);
+        yesterdayPartners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", yesterday);
 
-        if (partners != null || partners.size() > 0) partners.clear();
-        partners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", date);
-        if (partners.size() == 24) {
-            for (int i = 0; i < partners.size(); i++) {
-                XString[i] = partners.get(i).getTime();
-                String Status = partners.get(i).getSleep();  //睡眠状态 0 清醒     1 潜睡     2深睡
-                switch (Status) {
-                    case "0":
-                        xValue[i] = Status;
-                        break;
-                    case "1":
-                        xValue[i] = Status;
-                        break;
-                    case "2":
-                        xValue[i] = Status;
-                        break;
-                }
-                if (Integer.valueOf(partners.get(i).getTime()) == 23) {
-                    awakeTime = Integer.valueOf(partners.get(i).getAwake());
-                    lightsleepTime = Integer.valueOf(partners.get(i).getLightsleep());
-                    sleepingTime = Integer.valueOf(partners.get(i).getSleeping());
-                    tvAwakeTime.setText(String.valueOf(awakeTime));
-                    tvLightsleepTime.setText(String.valueOf(lightsleepTime));
-                    tvSleepingtime.setText(String.valueOf(sleepingTime));
-                }
+        if (todayPartners.size() == 24 && yesterdayPartners.size() == 24) {
+            yesterdayPartners = yesterdayPartners.subList(12, 24);
+            todayPartners = todayPartners.subList(0, 12);
+
+            for (int i = 0; i < yesterdayPartners.size(); i++) {
+                xValue[i] = yesterdayPartners.get(i).getSleep();
+                XString[i] = yesterdayPartners.get(i).getTime();
             }
-        } else {
-            for (int i = 0; i < xValue.length; i++) {
-                XString[i] = String.valueOf(i);
-                xValue[i] = "0";
+            for (int i = 0; i < todayPartners.size(); i++) {
+                xValue[i + 12] = todayPartners.get(i).getSleep();
+                XString[i + 12] = todayPartners.get(i).getTime();
             }
         }
+
+              for (int i = 0; i < xValue.length; i++) {
+                  String state = xValue[i];
+                  if(state!=null) {
+                      switch (state) {
+                          case "0":
+                              awakeTime += 1;
+                              break;
+                          case "1":
+                              sleepTime += 1;
+                              lightsleepTime += 1;
+                              break;
+                          case "2":
+                              sleepTime += 1;
+                              sleepingTime += 1;
+                              break;
+                          case "3":
+                              awakeTime += 1;
+                              break;
+                      }
+                  }
+          }
+        tvSleeptime.setText(String.valueOf(sleepTime));
+        tvLightsleepTime.setText(String.valueOf(lightsleepTime));
+        tvSleepingtime.setText(String.valueOf(sleepingTime));
+        tvAwakeTime.setText(String.valueOf(awakeTime));
         updateUI(xValue);
     }
 
@@ -163,7 +196,6 @@ public class SleepDayFragment extends BaseFragment {
                 return true;
             }
         });
-
     }
 
 
@@ -208,31 +240,32 @@ public class SleepDayFragment extends BaseFragment {
         setChartData();
     }
 
-        private void setChartData() {
-        float Sober = 5;             //清醒
-        float LightSleep = 8;      //浅睡
-        float DeepSleep = 10;     //深睡
+    private void setChartData() {
+        float Sober = 7;                 //清醒
+        float LightSleep = 8;          //浅睡
+        float DeepSleep = 8.8f;     //深睡
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         ArrayList<BarEntry> yVals2 = new ArrayList<>();
         ArrayList<BarEntry> yVals3 = new ArrayList<>();
-        xValue=new String[]{"1","2","0","1","0","0","1","0","2","0","1","0","2","1","0","2","1","0","0","2","1","0","2","1"};
-//        for (int i = 0; i < XString.length; i++) {
-//            Random random = new Random();
-//            int s = random.nextInt(3) % (3 - 0 + 1) + 0;
-//            xValue[i] = String.valueOf(s);
-//        }
-        for (int i = 0; i < xValue.length; i++) {
-            switch (xValue[i]) {
-                case "0":
-                    yVals1.add(new BarEntry(i, Sober));
-                    break;
-                case "1":
-                    yVals2.add(new BarEntry(i, LightSleep));
-                    break;
-                case "2":
-                    yVals3.add(new BarEntry(i, DeepSleep));
-                    break;
-            }
+
+            for (int i = 0; i < xValue.length; i++) {
+                String state = xValue[i];
+                if(state!=null) {
+                    switch (state) {
+                        case "3":
+                            yVals1.add(new BarEntry(i, Sober));
+                            break;
+                        case "0":
+                            yVals1.add(new BarEntry(i, Sober));
+                            break;
+                        case "1":
+                            yVals2.add(new BarEntry(i, LightSleep));
+                            break;
+                        case "2":
+                            yVals3.add(new BarEntry(i, DeepSleep));
+                            break;
+                    }
+                }
         }
         BarDataSet set1;
         BarDataSet set2;
@@ -250,8 +283,8 @@ public class SleepDayFragment extends BaseFragment {
             set1 = new BarDataSet(yVals1, "");
             set2 = new BarDataSet(yVals2, "");
             set3 = new BarDataSet(yVals3, "");
-//            set1.setColor(Color.rgb(119, 211, 252));
-            set1.setColor(Color.rgb(255, 255, 255));
+            set1.setColor(Color.rgb(119, 211, 252));
+//            set1.setColor(Color.rgb(255, 255, 255));
             set2.setColor(Color.rgb(3, 137, 198));
             set3.setColor(Color.rgb(0, 61, 89));
             // set1.setColors(CreateColor.MATERIAL_COLORS);
@@ -272,34 +305,6 @@ public class SleepDayFragment extends BaseFragment {
         }
         mChart.invalidate();
     }
-//    private void setChartData() {
-//        xValue=new String[]{"10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10"};
-//        ArrayList<BarEntry> yVals1 = new ArrayList<>();
-//        for (int i = 0; i < xValue.length; i++) {
-//            yVals1.add(new BarEntry(i, Float.parseFloat(xValue[i])));
-//        }
-//        BarDataSet set1;
-//
-//        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
-//            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
-//            set1.setValues(yVals1);
-//            mChart.getData().notifyDataChanged();
-//            mChart.notifyDataSetChanged();
-//        } else {
-//            set1 = new BarDataSet(yVals1, "");
-//            set1.setColor(Color.rgb(255, 255, 255));
-//            set1.setDrawValues(false);
-//            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
-//            dataSets.add(set1);
-//
-//            BarData data = new BarData(dataSets);
-//            data.setBarWidth(10f);
-//            mChart.setData(data);
-//            mChart.setFitBars(true);
-//            mChart.animateY(2500);
-//        }
-//        mChart.invalidate();
-//    }
 
     class XAxisValue implements AxisValueFormatter {
 
@@ -357,12 +362,18 @@ public class SleepDayFragment extends BaseFragment {
         }
         switch (view.getId()) {
             case R.id.iv_left:
-                tvDate.setText(new SomeUtills().getAmountDate(date, 0, 0));
-                updateUI(new String[0]);
+
+                 today = tvDate.getText().toString();
+                 yeday = new SomeUtills().getAmountDate(date, 0, 0);
+                tvDate.setText(yeday);
+                initData(today, yeday);
+
                 break;
             case R.id.iv_right:
-                tvDate.setText(new SomeUtills().getAmountDate(date, 0, 1));
-                updateUI(new String[0]);
+                today = tvDate.getText().toString();
+                yeday = new SomeUtills().getAmountDate(date, 0, 1);
+                tvDate.setText(yeday);
+                initData(today, yeday);
                 break;
             case R.id.ll_sleep_day:
                 new SomeUtills().setCalendarViewGone(0);
