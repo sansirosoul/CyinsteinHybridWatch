@@ -75,8 +75,9 @@ public class SleepDayFragment extends BaseFragment {
     private int heightChatr = 0;
     private ViewGroup.LayoutParams params;
 
-    private String[] xValue;
-    private String[] XString;
+    private String[] xValue = new String[24];
+    private String[] XString = new String[24];
+    ;
     private Time mCalendar;
     private int myear, month, day, sumsNum;
     private StringBuffer sb = new StringBuffer();
@@ -118,20 +119,18 @@ public class SleepDayFragment extends BaseFragment {
         if (partners != null || partners.size() > 0) partners.clear();
         partners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", date);
         if (partners.size() == 24) {
-            XString= new String[24];
-            xValue= new String[24];
             for (int i = 0; i < partners.size(); i++) {
-                XString[i]=partners.get(i).getTime();
-               String Status = partners.get(i).getSleep();  //睡眠状态 0 清醒     1 潜睡     2深睡
-                switch (Status){
+                XString[i] = partners.get(i).getTime();
+                String Status = partners.get(i).getSleep();  //睡眠状态 0 清醒     1 潜睡     2深睡
+                switch (Status) {
                     case "0":
-                        xValue[i]=Status;
+                        xValue[i] = Status;
                         break;
                     case "1":
-                        xValue[i]=Status;
+                        xValue[i] = Status;
                         break;
                     case "2":
-                        xValue[i]=Status;
+                        xValue[i] = Status;
                         break;
                 }
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
@@ -142,6 +141,11 @@ public class SleepDayFragment extends BaseFragment {
                     tvLightsleepTime.setText(String.valueOf(lightsleepTime));
                     tvSleepingtime.setText(String.valueOf(sleepingTime));
                 }
+            }
+        } else {
+            for (int i = 0; i < xValue.length; i++) {
+                XString[i] = String.valueOf(i);
+                xValue[i] = "0";
             }
         }
         updateUI(xValue);
@@ -196,7 +200,7 @@ public class SleepDayFragment extends BaseFragment {
         mChart.getAxisRight().setEnabled(false);
         mChart.getAxisLeft().setEnabled(false);
         mChart.getAxisLeft().setAxisMinValue(5);
-//        mChart.getAxisLeft().setSpaceBottom(0);
+        //   mChart.getAxisLeft().setSpaceBottom(0);
 
         // setting data
         mChart.animateY(2500);   //动画
@@ -204,20 +208,19 @@ public class SleepDayFragment extends BaseFragment {
         setChartData();
     }
 
-    private void setChartData() {
-        float Sober = 8;            //清醒
-        float LightSleep = 9;    //浅睡
-        float DeepSleep = 11;   //深睡
+        private void setChartData() {
+        float Sober = 5;             //清醒
+        float LightSleep = 8;      //浅睡
+        float DeepSleep = 10;     //深睡
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         ArrayList<BarEntry> yVals2 = new ArrayList<>();
         ArrayList<BarEntry> yVals3 = new ArrayList<>();
-
-        String xValue[] = new String[XString.length];
-        for (int i = 0; i < XString.length; i++) {
+        xValue=new String[]{"1","2","0","1","0","0","1","0","2","0","1","0","2","1","0","2","1","0","0","2","1","0","2","1"};
+//        for (int i = 0; i < XString.length; i++) {
 //            Random random = new Random();
 //            int s = random.nextInt(3) % (3 - 0 + 1) + 0;
-            xValue[i] = String.valueOf("0");
-        }
+//            xValue[i] = String.valueOf(s);
+//        }
         for (int i = 0; i < xValue.length; i++) {
             switch (xValue[i]) {
                 case "0":
@@ -237,9 +240,9 @@ public class SleepDayFragment extends BaseFragment {
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
             set1.setValues(yVals1);
-            set2 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+            set2 = (BarDataSet) mChart.getData().getDataSetByIndex(1);
             set2.setValues(yVals2);
-            set3 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+            set3 = (BarDataSet) mChart.getData().getDataSetByIndex(2);
             set3.setValues(yVals3);
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
@@ -247,7 +250,8 @@ public class SleepDayFragment extends BaseFragment {
             set1 = new BarDataSet(yVals1, "");
             set2 = new BarDataSet(yVals2, "");
             set3 = new BarDataSet(yVals3, "");
-            set1.setColor(Color.rgb(119, 211, 252));
+//            set1.setColor(Color.rgb(119, 211, 252));
+            set1.setColor(Color.rgb(255, 255, 255));
             set2.setColor(Color.rgb(3, 137, 198));
             set3.setColor(Color.rgb(0, 61, 89));
             // set1.setColors(CreateColor.MATERIAL_COLORS);
@@ -268,6 +272,34 @@ public class SleepDayFragment extends BaseFragment {
         }
         mChart.invalidate();
     }
+//    private void setChartData() {
+//        xValue=new String[]{"10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10","10"};
+//        ArrayList<BarEntry> yVals1 = new ArrayList<>();
+//        for (int i = 0; i < xValue.length; i++) {
+//            yVals1.add(new BarEntry(i, Float.parseFloat(xValue[i])));
+//        }
+//        BarDataSet set1;
+//
+//        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
+//            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+//            set1.setValues(yVals1);
+//            mChart.getData().notifyDataChanged();
+//            mChart.notifyDataSetChanged();
+//        } else {
+//            set1 = new BarDataSet(yVals1, "");
+//            set1.setColor(Color.rgb(255, 255, 255));
+//            set1.setDrawValues(false);
+//            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+//            dataSets.add(set1);
+//
+//            BarData data = new BarData(dataSets);
+//            data.setBarWidth(10f);
+//            mChart.setData(data);
+//            mChart.setFitBars(true);
+//            mChart.animateY(2500);
+//        }
+//        mChart.invalidate();
+//    }
 
     class XAxisValue implements AxisValueFormatter {
 
