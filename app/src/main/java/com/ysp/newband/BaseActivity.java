@@ -170,6 +170,7 @@ public class BaseActivity extends FragmentActivity {
                 }
             });
         } else {
+            if (dialog == null) dialog = new CommonDialog(this);
             if (!dialog.isShowing()) dialog.show();
             dialog.setTvContext("没有连接到手表设备");
             dialog.setButOk(View.VISIBLE);

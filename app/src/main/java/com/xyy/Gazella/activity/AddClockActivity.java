@@ -189,6 +189,7 @@ public class AddClockActivity extends BaseActivity {
                     showToatst(context,"请先连接手表蓝牙");
                     return;
                 }
+
                 if(Clock.transformRate(tvRepeatrate.getText().toString())!=5){
                     Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
                             Clock.transformSnoozeTime(tvRingtime.getText().toString()),
