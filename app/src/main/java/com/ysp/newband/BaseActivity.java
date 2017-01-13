@@ -226,6 +226,8 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
+
+
     private void DeviceConnectionStateChanges() {
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
@@ -350,7 +352,6 @@ public class BaseActivity extends FragmentActivity {
         triggerDisconnect();
     }
 
-
     public void triggerDisconnect() {
         disconnectTriggerSubject.onNext(null);
     }
@@ -395,5 +396,20 @@ public class BaseActivity extends FragmentActivity {
         } else
             textView.setText(tvStr);
         result.show();
+    }
+
+    protected void showDialog(Context context) {
+
+        if (dialog == null) dialog = new CommonDialog(this);
+        if (!dialog.isShowing()) dialog.show();
+        dialog.setTvContext("蓝牙连接已断开");
+        dialog.setButOk(View.VISIBLE);
+        dialog.setLoadingVisibility(View.GONE);
+        dialog.onButOKListener(new CommonDialog.onButOKListener() {
+            @Override
+            public void onButOKListener() {
+                dialog.dismiss();
+            }
+        });
     }
 }

@@ -300,7 +300,7 @@
                             android:text="..."
                             android:visibility="invisible"
                             android:textColor="@color/text_bg"
-                            android:textSize="23dp" />
+                            android:textSize="23dp"/>
 
                         <TextView
                             android:layout_width="wrap_content"

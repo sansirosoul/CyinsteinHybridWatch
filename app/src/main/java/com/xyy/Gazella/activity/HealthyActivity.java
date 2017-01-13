@@ -225,6 +225,7 @@ public class HealthyActivity extends BaseActivity {
                     setPartnersleepData(i);
                 if (count == 41 && time == 23) {
                     sleepFragment.setBerbarNum(7, sleepData.get(i).getDate());
+
                     sleepFragment.setTvSynchronizationtime();
                 }
             }
