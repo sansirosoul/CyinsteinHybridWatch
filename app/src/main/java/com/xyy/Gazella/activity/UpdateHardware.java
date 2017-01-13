@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -65,9 +67,6 @@ public class UpdateHardware extends BaseActivity {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
-            Write(bleUtils.getDeviceSN(), connectionObservable);
-            Write(bleUtils.getFWVer(), connectionObservable);
-            Write(bleUtils.getBatteryValue(), connectionObservable);
         }
     }
 
@@ -76,9 +75,12 @@ public class UpdateHardware extends BaseActivity {
         super.onNotifyReturn(type, str);
         switch (type){
             case  0:
+                Write(bleUtils.getDeviceSN(), connectionObservable);
+                Write(bleUtils.getFWVer(), connectionObservable);
+                Write(bleUtils.getBatteryValue(), connectionObservable);
                 break;
             case  1:
-                HandleThrowableException(str);
+                Message.obtain(handler,101,str).sendToTarget();
                 break;
             case  2:
                 Notify(connectionObservable);
@@ -86,6 +88,19 @@ public class UpdateHardware extends BaseActivity {
 
         }
     }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 101:
+                    String str = (String) msg.obj;
+                    HandleThrowableException(str);
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -95,9 +110,6 @@ public class UpdateHardware extends BaseActivity {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
-            Write(bleUtils.getDeviceSN(), connectionObservable);
-            Write(bleUtils.getFWVer(), connectionObservable);
-            Write(bleUtils.getBatteryValue(), connectionObservable);
         }
     }
 

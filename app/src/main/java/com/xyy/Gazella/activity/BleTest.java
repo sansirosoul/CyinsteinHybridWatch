@@ -432,7 +432,7 @@ public class BleTest extends BaseActivity {
                 Write(bleUtils.getDeviceSN(), connectionObservable);
                 break;
             case R.id.btn2:
-                Write(bleUtils.sendMessage(1, 1, 0, 0, 0, 0), connectionObservable);
+                Write(bleUtils.sendMessage(1, 0, 0, 0, 1, 0), connectionObservable);
                 break;
             case R.id.btn3:
                 Calendar calendar = Calendar.getInstance();

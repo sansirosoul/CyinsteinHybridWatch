@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -98,7 +100,6 @@ public class SettingActivity extends BaseActivity {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
-            Write(bleUtils.setSystemType(), connectionObservable);
         }
     }
 
@@ -107,15 +108,29 @@ public class SettingActivity extends BaseActivity {
         super.onNotifyReturn(type, str);
         switch (type) {
             case 0:
+                Write(bleUtils.setSystemType(), connectionObservable);
                 break;
             case 1:
-                HandleThrowableException(str);
+                Message.obtain(handler,101,str).sendToTarget();
                 break;
             case 2:
                 Notify(connectionObservable);
                 break;
         }
     }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 101:
+                    String str = (String) msg.obj;
+                    HandleThrowableException(str);
+                    break;
+            }
+        }
+    };
 
     private void initView() {
         TVTitle.setText(R.string.setting);
@@ -145,10 +160,14 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-//        if (bleUtils.returnterminateBle(bytes) != null && bleUtils.returnterminateBle(bytes).equals("1")) {
-//            showToatst(SettingActivity.this, "蓝牙已断开");
-//
-//        }
+    }
+
+    @Override
+    protected void onWriteReturn(byte[] bytes) {
+        super.onWriteReturn(bytes);
+        if(bytes[2]==0x07&&bytes[3]==0x25){
+            showToatst(context, "手表已震动，请寻找手表！");
+        }
     }
 
     @OnClick({R.id.btnExit, R.id.rl_user_setting, R.id.rl_update_hardware, R.id.rl_change_watch, R.id.rl_rename_watch, R.id.rl_clock, R.id.rl_clean_phone,
@@ -198,7 +217,6 @@ public class SettingActivity extends BaseActivity {
             case R.id.rl_search_watch:
                 if (connectionObservable != null) {
                     Write(bleUtils.setWatchShake(1, 2, 3), connectionObservable);
-                    showToatst(context, "手表已震动，请寻找手表！");
                 }
                 break;
             case R.id.rl_close_bluetooth:

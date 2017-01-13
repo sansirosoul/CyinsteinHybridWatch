@@ -3,13 +3,13 @@ package com.xyy.Gazella.activity;
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
@@ -26,6 +26,9 @@ import com.ysp.newband.PreferenceData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import kr.co.namee.permissiongen.PermissionFail;
+import kr.co.namee.permissiongen.PermissionGen;
+import kr.co.namee.permissiongen.PermissionSuccess;
 
 /**
  * Created by Administrator on 2016/10/20.
@@ -56,6 +59,7 @@ public class NotificationActivty extends BaseActivity {
     ToggleButton skype;
     @BindView(R.id.wechat)
     ToggleButton wechat;
+    private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -71,9 +75,14 @@ public class NotificationActivty extends BaseActivity {
 
         }
         initView();
+        if (!isNotificationAccessEnabled()) {
+            //通知监听授权
+            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+            startActivity(intent);
+        }
+        toggleNotificationListenerService(this);
         getPermission();
         PreferenceData.setNotificationShakeState(this,1);
-        toggleNotificationListenerService(this);
     }
 
     public void toggleNotificationListenerService(Context context) {
@@ -87,28 +96,48 @@ public class NotificationActivty extends BaseActivity {
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
-    //sdk6.0以上获取读取短信权限
-    private void getPermission(){
-        if (Build.VERSION.SDK_INT >= 23) {
-            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS);
-            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
-                Log.d("===========", "没有权限");
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_SMS},0);
-            }else{
-                Log.d("===========", "有权限");
+    //判断通知权限是否开启
+    private boolean isNotificationAccessEnabled() {
+        String pkgName = getPackageName();
+        final String flat = Settings.Secure.getString(getContentResolver(),
+                ENABLED_NOTIFICATION_LISTENERS);
+        if (!TextUtils.isEmpty(flat)) {
+            final String[] names = flat.split(":");
+            for (int i = 0; i < names.length; i++) {
+                final ComponentName cn = ComponentName.unflattenFromString(names[i]);
+                if (cn != null) {
+                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
+                        return true;
+                    }
+                }
             }
         }
+        return false;
+    }
+
+    //sdk6.0以上获取权限
+    private void getPermission(){
+        PermissionGen.with(NotificationActivty.this)
+                .addRequestCode(100)
+                .permissions(
+                        Manifest.permission.READ_PHONE_STATE,
+                        Manifest.permission.RECEIVE_SMS)
+                .request();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==0){
-            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            }else{
-                getPermission();
-            }
-        }
+        PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @PermissionSuccess(requestCode = 100)
+    public void doSomething(){
+
+    }
+
+    @PermissionFail(requestCode = 100)
+    public void doFailSomething(){
+       getPermission();
     }
 
     private void initView() {

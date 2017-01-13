@@ -134,7 +134,7 @@ public class TimeSynchronization extends BaseActivity {
             case 1:
                 isNotify = false;
                 btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
-                HandleThrowableException(str);
+                Message.obtain(ehandler,101,str).sendToTarget();
                 break;
             case 2:
                 Notify(connectionObservable);
@@ -142,6 +142,19 @@ public class TimeSynchronization extends BaseActivity {
         }
         super.onNotifyReturn(type,str);
     }
+
+    Handler ehandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 101:
+                    String str = (String) msg.obj;
+                    HandleThrowableException(str);
+                    break;
+            }
+        }
+    };
 
 
     @Override
