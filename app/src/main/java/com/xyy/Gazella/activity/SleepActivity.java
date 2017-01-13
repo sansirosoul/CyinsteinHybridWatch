@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.partner.entity.Partner;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
@@ -26,17 +25,16 @@ import com.xyy.Gazella.dbmanager.CommonUtils;
 import com.xyy.Gazella.fragment.SleepDayFragment;
 import com.xyy.Gazella.fragment.SleepMonthFragment;
 import com.xyy.Gazella.fragment.SleepWeekFragment;
-import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.SomeUtills;
-import com.xyy.model.SleepData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
-import com.ysp.newband.PreferenceData;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -84,17 +82,11 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
     private HashMap<String, String> weekMap;
     public static SleepActivity sleepActivity = null;
 
-    private SomeUtills utills;
     private Time mCalendar;
     private HashMap<String, String> monthMap;
     public Observable<RxBleConnection> connectionObservable;
-    private BleUtils bleUtils;
-    private int myear, month, day, Queryday, SumsStep, Weight;
     private StringBuffer sb = new StringBuffer();
     public CommonUtils mCommonUtils;
-    private List<SleepData> data;
-    private List<Partner> partners = new ArrayList<>();
-    private String strMonth, strDay, userWeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,150 +96,10 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         initView();
         initCalendar();
         InitViewPager();
-        initTime();
-        String address = PreferenceData.getAddressValue(this);
-        if (address != null && !address.equals("")) {
-            connectionObservable = getRxObservable(this);
-            bleUtils = new BleUtils();
-        //    Write(bleUtils.getSleepData(6), connectionObservable);
-        }
 
-        Notify(connectionObservable);
         mCommonUtils = new CommonUtils(this);
         sleepActivity = this;
     }
-
-    @Override
-    protected void onNotifyReturn(int type, String str) {
-        super.onNotifyReturn(type, str);
-        switch (type) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-        }
-    }
-
-    @Override
-    protected void onReadReturn(byte[] bytes) {
-        super.onReadReturn(bytes);
-        data = bleUtils.returnSleepData(bytes);
-        SaveStepData();
-    }
-
-
-    private void SaveStepData() {
-        if (data.size() != 0 && data != null) {
-            for (int i = 0; i < data.size(); i++) {
-                int count = data.get(i).getCount();
-                int time = data.get(i).getTime();
-                if (count <= 5 && count >= 0)
-                    setPartnerData(i);
-                if (count <= 11 && count >= 6)
-                    setPartnerData(i);
-                if (count <= 17 && count >= 12)
-                    setPartnerData(i);
-                if (count <= 23 && count >= 18)
-                    setPartnerData(i);
-                if (count <= 29 && count >= 24)
-                    setPartnerData(i);
-                if (count <= 35 && count >= 30)
-                    setPartnerData(i);
-                if (count <= 41 && count >= 36)
-                    setPartnerData(i);
-                if (count == 41 && time == 23) {
-                    if (weekMap.size() != 0) weekMap.clear();
-                }
-            }
-        }
-    }
-
-    private int[] lightsleepTime = new int[24];
-    private int[] sleepingTime = new int[24];
-    private int[] awakeTime = new int[24];
-    private int intlightsleepTime;
-    private int intsleepingTime;
-    private int intawakeTime;
-
-    private void setPartnerData(int i) {
-        Partner partner;
-        String strday = setStrDay(i);
-        String time = String.valueOf(data.get(i).getTime());
-
-        if (data.get(i).getTime() != 23) {
-            partner = new Partner();
-
-            partner.setType("sleep");                                                          // 保存计步或 睡眠
-            int status = data.get(i).getStatus();
-            switch (status) {
-                case 0:
-                    awakeTime[i] = 1;
-                    break;
-                case 1:
-                    lightsleepTime[i] = 1;
-                    break;
-                case 2:
-                    sleepingTime[i] = 1;
-                    break;
-            }
-
-            partner.setTime(String.valueOf(data.get(i).getTime()));         // 保存各时间段
-            partner.setSleep(String.valueOf(data.get(i).getStatus()));       //  保存睡眠状态 0 清醒     1 潜睡     2深睡
-            partner.setDate(strday);                                                         //  保存日期
-        } else {
-            for (int n = 0; n < awakeTime.length; n++) {
-                intawakeTime += awakeTime[n];
-                intsleepingTime += sleepingTime[n];
-                intlightsleepTime += lightsleepTime[n];
-            }
-            partner = new Partner();
-            partner.setType("sleep");                                                      // 保存计步或 睡眠
-            partner.setTime(String.valueOf(data.get(i).getTime()));        // 保存各时间段
-            partner.setSleep(String.valueOf(data.get(i).getStatus()));   //  保存记步数
-            partner.setAwake(String.valueOf(intawakeTime));              //   保存清醒时长
-            partner.setLightsleep(String.valueOf(intlightsleepTime));  //   保存 浅睡时长
-            partner.setSleeping(String.valueOf(intsleepingTime));        //   保存深睡时长
-            partner.setDate(strday);                                                     //  保存日期
-
-        }
-        intawakeTime=0;
-        intlightsleepTime=0;
-        intsleepingTime=0;
-        sb.setLength(0);
-        if (partners.size() != 0) partners.clear();
-        partners = mCommonUtils.PartnerqueryByBuilder("sleep", strday, time);
-        if (partners.size() != 0) {
-            partner.setId(partners.get(0).getId());
-            mCommonUtils.uoDatePartner(partner);  //更新数据
-        } else
-            mCommonUtils.insertPartner(partner);   //插入数据
-
-    }
-
-    private String setStrDay(int i) {
-        String strday = null;
-        if (month < 10)
-            strMonth = sb.append("0").append(String.valueOf(month)).toString();
-        else
-            strMonth = String.valueOf(month);
-        sb.setLength(0);
-        if (i != 999999) {
-            if (data.get(i).getDate() < 10)
-                strDay = sb.append("0").append(String.valueOf(data.get(i).getDate())).toString();
-            else
-                strDay = String.valueOf(data.get(i).getDate());
-        } else {
-            if (Queryday < 10)
-                strDay = sb.append("0").append(String.valueOf(Queryday)).toString();
-            else
-                strDay = String.valueOf(Queryday);
-        }
-        sb.setLength(0);
-        return strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
-    }
-
 
     private void initView() {
 
@@ -447,21 +299,37 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         switch (viewpager.getCurrentItem()) {
             case 0:
                 sleepDayFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 0));
+                String yeday = new SomeUtills().getAmountDate(date.getDate(), 0, 1);
+                sleepDayFragment.initData(new SomeUtills().getDate(date.getDate(), 0),yeday);
                 break;
             case 1:
                 weekMap = new SomeUtills().getWeekdate(date.getDate());
                 if (weekMap != null)
                     sleepWeekFragment.setTvDateValue(weekMap.get("1") + " - " + weekMap.get("7"));
+                sleepWeekFragment.initData(weekMap);
                 break;
             case 2:
+
                 sleepMonthFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 1));
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM");
+                Date monthdate = null;
+                sleepMonthFragment.setTvDateValue(new SomeUtills().getDate(date.getDate(), 1));
+
+                try {
+                    monthdate = sdf.parse(sleepMonthFragment.getTvDateValue());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                monthMap = new SomeUtills().getMonthdate(monthdate);
+                if (monthMap != null) {
+                    sleepMonthFragment.initData(monthMap);
+                }
                 break;
         }
     }
 
     @Override
     public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
-        // TVTitle.setText(FORMATTER.format(date.getDate()));
     }
 
     private String getSelectedDatesString() {
@@ -491,12 +359,4 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
         }
     }
 
-    private void initTime() {
-        mCalendar = new Time();
-        mCalendar.setToNow();
-        myear = mCalendar.year;
-        month = mCalendar.month + 1;
-        day = mCalendar.monthDay;
-        Queryday = mCalendar.monthDay;
-    }
 }

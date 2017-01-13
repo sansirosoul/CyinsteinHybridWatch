@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import com.xyy.Gazella.view.RiseNumberTextView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
 import com.ysp.newband.PreferenceData;
+
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,6 +72,8 @@ public class StepFragment extends BaseFragment {
     TextView tvDay6;
     @BindView(R.id.tv_day_7)
     TextView tvDay7;
+    @BindView(R.id.tv_synchronizationtime)
+    TextView tvSynchronizationtime;
     private View view;
     private BleUtils bleUtils;
     private Observable<RxBleConnection> connectionObservable;
@@ -82,35 +87,6 @@ public class StepFragment extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 1001:
-                    switch (barNum){
-                        case  10:
-                          //  tvDay1.setText(String.valueOf(day)+"号"+"更新完成");
-                            tvDay1.setTextColor(getResources().getColor(R.color.title_linear));
-                            break;
-                        case  30:
-                            tvDay2.setTextColor(getResources().getColor(R.color.title_linear));
-                            break;
-                        case  50:
-                            tvDay3.setTextColor(getResources().getColor(R.color.title_linear));
-                            break;
-                        case  70:
-                            tvDay4.setTextColor(getResources().getColor(R.color.title_linear));
-                            break;
-                        case  90:
-                            tvDay5.setTextColor(getResources().getColor(R.color.title_linear));
-                            break;
-                        case  80:
-                            tvDay6.setTextColor(getResources().getColor(R.color.title_linear));
-                            break;
-                        case  100:
-                            tvDay7.setTextColor(getResources().getColor(R.color.title_linear));
-                            numberbar.setProgress(0);
-                            llNumberProgressBar.setVisibility(View.GONE);
-                            llQuality.setVisibility(View.VISIBLE);
-                            getTodayStepPost();
-                            barNum=0;
-                            break;
-                    }
                     break;
             }
         }
@@ -139,6 +115,10 @@ public class StepFragment extends BaseFragment {
     }
 
     private void initView() {
+        String Synchronizationtime = PreferenceData.getSynchronizationTime(getActivity());
+        if (Synchronizationtime != null && !Synchronizationtime.equals("")) {
+            tvSynchronizationtime.setText("最后同步时间  "+Synchronizationtime);
+        }
         final ViewGroup.LayoutParams params = circle.getLayoutParams();
         ViewTreeObserver vto = circle.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -206,58 +186,55 @@ public class StepFragment extends BaseFragment {
             public void run() {
                 Write(bleUtils.getStepData(6), connectionObservable);
             }
-        },1000);
+        }, 1000);
     }
 
     public void setBerbarNum(int type, int day) {
         switch (type) {
             case 1:
-                tvDay1.setText(String.valueOf(day)+"号"+"更新完成");
+                tvDay1.setText(String.valueOf(day) + "号" + "更新完成");
 //                tvDay1.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(10);
                 break;
 
             case 2:
-                tvDay2.setText(String.valueOf(day)+"号"+"更新完成");
-            //    tvDay2.setTextColor(getResources().getColor(R.color.title_linear));
+                tvDay2.setText(String.valueOf(day) + "号" + "更新完成");
+                //    tvDay2.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(30);
                 break;
 
             case 3:
-                tvDay3.setText(String.valueOf(day)+"号"+"更新完成");
-           //     tvDay3.setTextColor(getResources().getColor(R.color.title_linear));
+                tvDay3.setText(String.valueOf(day) + "号" + "更新完成");
+                //     tvDay3.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(40);
                 break;
 
             case 4:
-                tvDay4.setText(String.valueOf(day)+"号"+"更新完成");
-            //    tvDay4.setTextColor(getResources().getColor(R.color.title_linear));
+                tvDay4.setText(String.valueOf(day) + "号" + "更新完成");
+                //    tvDay4.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(60);
                 break;
 
             case 5:
-                tvDay5.setText(String.valueOf(day)+"号"+"更新完成");
-            //    tvDay5.setTextColor(getResources().getColor(R.color.title_linear));
+                tvDay5.setText(String.valueOf(day) + "号" + "更新完成");
+                //    tvDay5.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(80);
                 break;
 
             case 6:
-                tvDay6.setText(String.valueOf(day)+"号"+"更新完成");
-            //    tvDay6.setTextColor(getResources().getColor(R.color.title_linear));
+                tvDay6.setText(String.valueOf(day) + "号" + "更新完成");
+                //    tvDay6.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(90);
                 break;
 
             case 7:
-                tvDay7.setText(String.valueOf(day)+"号"+"更新完成");
-            //    tvDay7.setTextColor(getResources().getColor(R.color.title_linear));
+                tvDay7.setText(String.valueOf(day) + "号" + "更新完成");
+                //    tvDay7.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(100);
-
 
 
                 llNumberProgressBar.setVisibility(View.GONE);
                 llQuality.setVisibility(View.VISIBLE);
-
-
 
 
                 break;
@@ -298,6 +275,19 @@ public class StepFragment extends BaseFragment {
         ivTip.setBackground(drawable);
         details.setText(Str);
     }
+
+   public void  setTvSynchronizationtime(){
+       Time mCalendar;
+       StringBuffer sb= new StringBuffer();
+       TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(getActivity()));
+       mCalendar = new Time(tz.getID());
+       mCalendar.setToNow();
+       String time=sb.append(String.valueOf(mCalendar.year)).append(".").append(String.valueOf(mCalendar.month+1)).append(".")
+               .append(String.valueOf(mCalendar.monthDay)).append("  ").append(String.valueOf(mCalendar.hour)).append(":")
+               .append(String.valueOf(mCalendar.minute)).append(":").append(String.valueOf(mCalendar.second)).toString();
+       tvSynchronizationtime.setText("最后同步时间  "+time);
+       PreferenceData.setSynchronizationTime(getActivity(),time);
+   }
 
 
     public interface setStepNumTextOnEndListener {
