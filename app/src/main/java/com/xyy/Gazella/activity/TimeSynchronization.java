@@ -598,7 +598,6 @@ public class TimeSynchronization extends BaseActivity {
     private int countHour;
     private  int HyHour;
     private void initTime() {
-        String id=   PreferenceData.getTimeZonesState(TimeSynchronization.this);
         TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(TimeSynchronization.this));
         mCalendar = new Time(tz.getID());
         mCalendar.setToNow();

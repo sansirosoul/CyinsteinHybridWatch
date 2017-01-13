@@ -65,16 +65,17 @@ public class HealthyActivity extends BaseActivity {
     private BleUtils bleUtils;
     public boolean isNotify;
     private int TargetStep;
-    private boolean isTrue ;
+    private boolean isTrue;
     private int dayStep;
     private List<StepData> data;
     private List<SleepData> sleepData;
     private Time mCalendar;
-    private int myear, month, day, Queryday,SumsStep,Weight;
+    private int myear, month, day, Queryday, SumsStep, Weight;
     private StringBuffer sb = new StringBuffer();
     public CommonUtils mCommonUtils;
     private List<Partner> partners = new ArrayList<>();
-    private String strMonth, strDay,userWeight;
+    private String strMonth, strDay, userWeight;
+
 
 
     @Override
@@ -89,7 +90,7 @@ public class HealthyActivity extends BaseActivity {
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
-            Write(bleUtils.setSystemType(),connectionObservable);
+            Write(bleUtils.setSystemType(), connectionObservable);
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         }
         initData();
@@ -101,17 +102,17 @@ public class HealthyActivity extends BaseActivity {
     private void initData() {
         TargetStep = PreferenceData.getTargetRunValue(HealthyActivity.this);
         userWeight = PreferenceData.getUserInfo(HealthyActivity.this).getWeight();
-        if(userWeight!=null&&!userWeight.equals("")) {
+        if (userWeight != null && !userWeight.equals("")) {
             userWeight = userWeight.replaceAll("[a-z]", ",");
             String s2[] = userWeight.split(",");
             userWeight = s2[0];
-        }else
-        userWeight="0";
-        isTrue=true;
+        } else
+            userWeight = "0";
+        isTrue = true;
     }
 
     @Override
-    protected void onNotifyReturn(int type,String str) {
+    protected void onNotifyReturn(int type, String str) {
         switch (type) {
             case 0:
                 isNotify = true;
@@ -126,35 +127,39 @@ public class HealthyActivity extends BaseActivity {
                 stepFragment.getTodayStepPost();
                 break;
         }
-        super.onNotifyReturn(type,str);
+        super.onNotifyReturn(type, str);
     }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
 
-        if (bleUtils.returnStepData(bytes)!=null) {   //  同步计步数据
-                data = bleUtils.returnStepData(bytes);
-                SaveStepData();
+        if (bleUtils.returnStepData(bytes) != null) {   //  同步计步数据
+            data = bleUtils.returnStepData(bytes);
+            SaveStepData();
         }
-         if(bleUtils.returnSleepData(bytes) != null){//  同步睡眠数据
-             sleepData = bleUtils.returnSleepData(bytes);
-             SaveSleepData();
+        if (bleUtils.returnSleepData(bytes) != null) {//  同步睡眠数据
+            sleepData = bleUtils.returnSleepData(bytes);
+            if(sleepData.get(0).getSums()==42)
+            SaveSleepData();
+            else
+                SaveSleep();
+        }
 
-         }
+
         if (bytes[0] == 0x07 && bytes[1] == 0x0C) {  // 今日步数
             StepData stepData = bleUtils.returnTodayStep(bytes);
             if (stepData != null) {
                 dayStep = stepData.getStep();
-               if (isTrue) {
-                stepFragment.setStepNum(stepData.getStep(),stepFragment.stepNum);
-                stepFragment.setStepNumTextOnEndListener(new StepFragment.setStepNumTextOnEndListener() {
-                    @Override
-                    public void setStepNumTextOnEndListener() {
-                        stepFragment.getTodayStepPost();
-                        isTrue=false;
-                    }
-                });
-            }else
+                if (isTrue) {
+                    stepFragment.setStepNum(stepData.getStep(), stepFragment.stepNum);
+                    stepFragment.setStepNumTextOnEndListener(new StepFragment.setStepNumTextOnEndListener() {
+                        @Override
+                        public void setStepNumTextOnEndListener() {
+                            stepFragment.getTodayStepPost();
+                            isTrue = false;
+                        }
+                    });
+                } else
                     stepFragment.setStepNumFalse(stepData.getStep());
                 double km = dayStep * 0.5;
                 // 计算活动距离
@@ -163,20 +168,20 @@ public class HealthyActivity extends BaseActivity {
                 else
                     stepFragment.setDistanceNum(String.valueOf(new SomeUtills().changeDouble(km)) + getResources().getString(R.string.km));
                 //计算卡路里
-                    Weight = Integer.valueOf(userWeight);
-                    double card = ((Weight * 0.0005 + (dayStep - 1) * 0.005) * dayStep);
-                    if (card < 1000)
-                        stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) card)) + getResources().getString(R.string.card));
-                    else
-                        stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
+                Weight = Integer.valueOf(userWeight);
+                double card = ((Weight * 0.0005 + (dayStep - 1) * 0.005) * dayStep);
+                if (card < 1000)
+                    stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) card)) + getResources().getString(R.string.card));
+                else
+                    stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
 
                 //计算活动时间
-                int second =(int) (dayStep*1.08);
-                if(second>60){
-                    stepFragment.setTime(String.valueOf(second/60)+getResources().getString(R.string.minute));
-                }else if(second>60*60){
-                    stepFragment.setTime(String.valueOf(second/360)+getResources().getString(R.string.hour)
-                    +String.valueOf((second%3600)/60)+getResources().getString(R.string.minute));
+                int second = (int) (dayStep * 1.08);
+                if (second > 60) {
+                    stepFragment.setTime(String.valueOf(second / 60) + getResources().getString(R.string.minute));
+                } else if (second > 60 * 60) {
+                    stepFragment.setTime(String.valueOf(second / 360) + getResources().getString(R.string.hour)
+                            + String.valueOf((second % 3600) / 60) + getResources().getString(R.string.minute));
                 }
                 if (dayStep <= TargetStep)
                     stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
@@ -187,43 +192,45 @@ public class HealthyActivity extends BaseActivity {
         }
     }
 
-    private  void SaveSleepData(){
+    private void SaveSleepData() {
         if (sleepData.size() != 0 && sleepData != null) {
             for (int i = 0; i < sleepData.size(); i++) {
                 int count = sleepData.get(i).getCount();
                 int time = sleepData.get(i).getTime();
                 if (count <= 5 && count >= 0)
                     setPartnersleepData(i);
-                if(count == 5 && time == 23)
-                    sleepFragment.setBerbarNum(1,sleepData.get(i).getDate());
+                if (count == 5 && time == 23)
+                    sleepFragment.setBerbarNum(1, sleepData.get(i).getDate());
                 if (count <= 11 && count >= 6)
                     setPartnersleepData(i);
-                if(count==11&&time==23)
-                    sleepFragment.setBerbarNum(2,sleepData.get(i).getDate());
+                if (count == 11 && time == 23)
+                    sleepFragment.setBerbarNum(2, sleepData.get(i).getDate());
                 if (count <= 17 && count >= 12)
                     setPartnersleepData(i);
-                if(count==17&&time==23)
-                    sleepFragment.setBerbarNum(3,sleepData.get(i).getDate());
+                if (count == 17 && time == 23)
+                    sleepFragment.setBerbarNum(3, sleepData.get(i).getDate());
                 if (count <= 23 && count >= 18)
                     setPartnersleepData(i);
-                if(count==23&&time==23)
-                    sleepFragment.setBerbarNum(4,sleepData.get(i).getDate());
+                if (count == 23 && time == 23)
+                    sleepFragment.setBerbarNum(4, sleepData.get(i).getDate());
                 if (count <= 29 && count >= 24)
                     setPartnersleepData(i);
-                if(count==29&&time==23)
-                    sleepFragment.setBerbarNum(5,sleepData.get(i).getDate());
+                if (count == 29 && time == 23)
+                    sleepFragment.setBerbarNum(5, sleepData.get(i).getDate());
                 if (count <= 35 && count >= 30)
                     setPartnersleepData(i);
-                if(count==35&&time==23)
-                    stepFragment.setBerbarNum(6,sleepData.get(i).getDate());
+                if (count == 35 && time == 23)
+                    stepFragment.setBerbarNum(6, sleepData.get(i).getDate());
                 if (count <= 41 && count >= 36)
                     setPartnersleepData(i);
                 if (count == 41 && time == 23) {
-                    sleepFragment.setBerbarNum(7,sleepData.get(i).getDate());
+                    sleepFragment.setBerbarNum(7, sleepData.get(i).getDate());
+                    sleepFragment.setTvSynchronizationtime();
                 }
             }
         }
     }
+
     private int[] lightsleepTime = new int[24];
     private int[] sleepingTime = new int[24];
     private int[] awakeTime = new int[24];
@@ -234,7 +241,7 @@ public class HealthyActivity extends BaseActivity {
 
     private void setPartnersleepData(int i) {
         Partner partner;
-        String strday = setStrDay(i,1);
+        String strday = setStrDay(i, 1);
         String time = String.valueOf(sleepData.get(i).getTime());
 
         if (sleepData.get(i).getTime() != 23) {
@@ -270,11 +277,10 @@ public class HealthyActivity extends BaseActivity {
             partner.setLightsleep(String.valueOf(intlightsleepTime));  //   保存 浅睡时长
             partner.setSleeping(String.valueOf(intsleepingTime));        //   保存深睡时长
             partner.setDate(strday);                                                     //  保存日期
-
         }
-        intawakeTime=0;
-        intlightsleepTime=0;
-        intsleepingTime=0;
+        intawakeTime = 0;
+        intlightsleepTime = 0;
+        intsleepingTime = 0;
         sb.setLength(0);
         if (partners.size() != 0) partners.clear();
         partners = mCommonUtils.PartnerqueryByBuilder("sleep", strday, time);
@@ -292,42 +298,50 @@ public class HealthyActivity extends BaseActivity {
                 int time = data.get(i).getTime();
                 if (count <= 5 && count >= 0)
                     setPartnerData(i);
-                if(count == 5 && time == 23)
-                    stepFragment.setBerbarNum(1,data.get(i).getDay());
+                if (count == 5 && time == 23)
+                    stepFragment.setBerbarNum(1, data.get(i).getDay());
                 if (count <= 11 && count >= 6)
                     setPartnerData(i);
-                if(count==11&&time==23)
-                    stepFragment.setBerbarNum(2,data.get(i).getDay());
+                if (count == 11 && time == 23)
+                    stepFragment.setBerbarNum(2, data.get(i).getDay());
                 if (count <= 17 && count >= 12)
                     setPartnerData(i);
-                if(count==17&&time==23)
-                    stepFragment.setBerbarNum(3,data.get(i).getDay());
+                if (count == 17 && time == 23)
+                    stepFragment.setBerbarNum(3, data.get(i).getDay());
                 if (count <= 23 && count >= 18)
                     setPartnerData(i);
-                if(count==23&&time==23)
-                    stepFragment.setBerbarNum(4,data.get(i).getDay());
+                if (count == 23 && time == 23)
+                    stepFragment.setBerbarNum(4, data.get(i).getDay());
                 if (count <= 29 && count >= 24)
                     setPartnerData(i);
-                if(count==29&&time==23)
-                    stepFragment.setBerbarNum(5,data.get(i).getDay());
+                if (count == 29 && time == 23)
+                    stepFragment.setBerbarNum(5, data.get(i).getDay());
                 if (count <= 35 && count >= 30)
                     setPartnerData(i);
-                if(count==35&&time==23)
-                    stepFragment.setBerbarNum(6,data.get(i).getDay());
+                if (count == 35 && time == 23)
+                    stepFragment.setBerbarNum(6, data.get(i).getDay());
                 if (count <= 41 && count >= 36)
                     setPartnerData(i);
                 if (count == 41 && time == 23) {
-                    stepFragment.setBerbarNum(7,data.get(i).getDay());
+                    stepFragment.setBerbarNum(7, data.get(i).getDay());
                     stepFragment.getTodayStepPost();
+                    stepFragment.setTvSynchronizationtime();
                 }
             }
         }
     }
 
 
+    private  void  SaveSleep(){
+
+
+
+
+    }
+
     private void setPartnerData(int i) {
         Partner partner;
-        String strday = setStrDay(i,0);
+        String strday = setStrDay(i, 0);
         String time = String.valueOf(data.get(i).getTime());
         SumsStep += data.get(i).getStep();
 
@@ -339,7 +353,7 @@ public class HealthyActivity extends BaseActivity {
             partner.setDate(strday);                                                    //  保存日期
         } else {
             // 计算活动时间
-            int second =(int) (SumsStep*1.08);
+            int second = (int) (SumsStep * 1.08);
             double km = SumsStep * 0.5;
             //计算卡路里
             Weight = Integer.valueOf(userWeight);
@@ -353,7 +367,7 @@ public class HealthyActivity extends BaseActivity {
             partner.setStepsumsnum(String.valueOf(SumsStep));       //保存总记步
             partner.setExercisetime(String.valueOf(second));              //  保存运动时间
             partner.setExercisedistance(String.valueOf(km));               //  保存运动距离
-            partner.setCalcalNum(String.valueOf((int)card));                 //  保存卡路里
+            partner.setCalcalNum(String.valueOf((int) card));                 //  保存卡路里
             SumsStep = 0;
         }
         sb.setLength(0);
@@ -365,8 +379,9 @@ public class HealthyActivity extends BaseActivity {
         } else
             mCommonUtils.insertPartner(partner);   //插入数据
     }
-                //  type 0 是计步 1  是睡眠
-    private String setStrDay(int i,int type) {
+
+    //  type 0 是计步 1  是睡眠
+    private String setStrDay(int i, int type) {
         String strday = null;
         if (month < 10)
             strMonth = sb.append("0").append(String.valueOf(month)).toString();
@@ -374,12 +389,12 @@ public class HealthyActivity extends BaseActivity {
             strMonth = String.valueOf(month);
         sb.setLength(0);
         if (i != 999999) {
-            if(type==0) {
+            if (type == 0) {
                 if (data.get(i).getDay() < 10)
                     strDay = sb.append("0").append(String.valueOf(data.get(i).getDay())).toString();
                 else
                     strDay = String.valueOf(data.get(i).getDay());
-            }else {
+            } else {
                 if (sleepData.get(i).getDate() < 10)
                     strDay = sb.append("0").append(String.valueOf(sleepData.get(i).getDate())).toString();
                 else
@@ -474,7 +489,7 @@ public class HealthyActivity extends BaseActivity {
                 stepFragment.removeTodayStepPost();
                 if (viewPager.getCurrentItem() == 0) {
                     stepFragment.setSynchronizationData();
-                }else
+                } else
                     sleepFragment.setSynchronizationData();
                 break;
         }

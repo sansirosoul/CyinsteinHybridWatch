@@ -103,132 +103,10 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         initView();
         initCalendar();
         InitViewPager();
-        initTime();
-        String address = PreferenceData.getAddressValue(this);
-        if (address != null && !address.equals("")) {
-            connectionObservable = getRxObservable(this);
-            bleUtils = new BleUtils();
-           // Write(bleUtils.getStepData(6), connectionObservable);
-        }
-        Notify(connectionObservable);
+
         stepActivity = this;
         mCommonUtils = new CommonUtils(this);
     }
-
-    @Override
-    protected void onNotifyReturn(int type, String str) {
-        super.onNotifyReturn(type, str);
-        switch (type) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-        }
-    }
-
-    @Override
-    protected void onReadReturn(byte[] bytes) {
-        super.onReadReturn(bytes);
-        data = bleUtils.returnStepData(bytes);
-        SaveStepData();
-    }
-
-    private void SaveStepData() {
-        if (data.size() != 0 && data != null) {
-            for (int i = 0; i < data.size(); i++) {
-                int count = data.get(i).getCount();
-                int time = data.get(i).getTime();
-                if (count <= 5 && count >= 0)
-                    setPartnerData(i);
-                if (count <= 11 && count >= 6)
-                    setPartnerData(i);
-                if (count <= 17 && count >= 12)
-                    setPartnerData(i);
-                if (count <= 23 && count >= 18)
-                    setPartnerData(i);
-                if (count <= 29 && count >= 24)
-                    setPartnerData(i);
-                if (count <= 35 && count >= 30)
-                    setPartnerData(i);
-                if (count <= 41 && count >= 36)
-                    setPartnerData(i);
-                if (count == 41 && time == 23) {
-                    if(weekMap.size()!=0)weekMap.clear();
-                    weekMap = new SomeUtills().getWeekdate(CalendarInstance.getTime());
-                    String strday = setStrDay(999999);
-                    stepDayFragment.initData(strday);
-                    stepWeekFragment.initData(weekMap);
-                    if(commonDialog.isShowing())commonDialog.dismiss();
-                }
-            }
-        }
-    }
-
-    private void setPartnerData(int i) {
-        Partner partner;
-        String strday = setStrDay(i);
-        String time = String.valueOf(data.get(i).getTime());
-        SumsStep += data.get(i).getStep();
-
-        if (data.get(i).getTime() != 23) {
-            partner = new Partner();
-            partner.setType("step");                                                          // 保存计步或 睡眠
-            partner.setTime(String.valueOf(data.get(i).getTime()));         // 保存各时间段
-            partner.setSleep(String.valueOf(data.get(i).getStep()));       //  保存记步数
-            partner.setDate(strday);                                                         //  保存日期
-        } else {
-            // 计算活动时间
-            int second =(int) (SumsStep*1.08);
-            double km = SumsStep * 0.5;
-            //计算卡路里
-                Weight = Integer.valueOf(userWeight);
-                double card = ((Weight * 0.0005 + (SumsStep - 1) * 0.005) * SumsStep);
-
-            partner = new Partner();
-            partner.setType("step");                                                      // 保存计步或 睡眠
-            partner.setTime(String.valueOf(data.get(i).getTime()));     // 保存各时间段
-            partner.setSleep(String.valueOf(data.get(i).getStep()));   //  保存记步数
-            partner.setDate(strday);                                                     //  保存日期
-            partner.setStepsumsnum(String.valueOf(SumsStep));       //保存总记步
-            partner.setExercisetime(String.valueOf(second));              //  保存运动时间
-            partner.setExercisedistance(String.valueOf(km));               //  保存运动距离
-            partner.setCalcalNum(String.valueOf((int)card));                 //  保存卡路里
-            SumsStep = 0;
-        }
-        sb.setLength(0);
-        if (partners.size() != 0) partners.clear();
-        partners = mCommonUtils.PartnerqueryByBuilder("step", strday, time);
-        if (partners.size() != 0) {
-            partner.setId(partners.get(0).getId());
-            mCommonUtils.uoDatePartner(partner);  //更新数据
-        } else
-            mCommonUtils.insertPartner(partner);   //插入数据
-    }
-
-    private String setStrDay(int i) {
-        String strday = null;
-        if (month < 10)
-            strMonth = sb.append("0").append(String.valueOf(month)).toString();
-        else
-            strMonth = String.valueOf(month);
-        sb.setLength(0);
-        if (i != 999999) {
-            if (data.get(i).getDay() < 10)
-                strDay = sb.append("0").append(String.valueOf(data.get(i).getDay())).toString();
-            else
-                strDay = String.valueOf(data.get(i).getDay());
-        } else {
-            if (Queryday < 10)
-                strDay = sb.append("0").append(String.valueOf(Queryday)).toString();
-            else
-                strDay = String.valueOf(Queryday);
-        }
-        sb.setLength(0);
-        return strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
-    }
-
 
     private void initView() {
 
@@ -236,7 +114,6 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
         btnOpt.setBackground(this.getResources().getDrawable(R.drawable.page17_share));
         utills = new SomeUtills();
-
 
         userWeight = PreferenceData.getUserInfo(StepActivity.this).getWeight();
         if(userWeight!=null&&!userWeight.equals("")) {
@@ -274,7 +151,6 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         viewpager.setAdapter(mFragmentAdapter);
         viewpager.setOffscreenPageLimit(3);
         viewpager.setCurrentItem(0);
-
 
         viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -486,14 +362,5 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         public int getCount() {
             return fragmentList.size();
         }
-    }
-
-    private void initTime() {
-        mCalendar = new Time();
-        mCalendar.setToNow();
-        myear = mCalendar.year;
-        month = mCalendar.month + 1;
-        day = mCalendar.monthDay;
-        Queryday = mCalendar.monthDay;
     }
 }

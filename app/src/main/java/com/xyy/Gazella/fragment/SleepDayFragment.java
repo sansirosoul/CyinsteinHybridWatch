@@ -88,7 +88,7 @@ public class SleepDayFragment extends BaseFragment {
     private String strMonth, strDay;
     //    private int awakeTime, lightsleepTime, sleepingTime,sleepTime,awakeCount;
     private static String TAG = SleepDayFragment.class.getName();
-    private String today,yeday;
+    private String today,yeday,strday ;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -113,7 +113,7 @@ public class SleepDayFragment extends BaseFragment {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         Date date = null;
-        String strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
+         strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
         try {
             date = sdf.parse(strday);
         } catch (ParseException e) {
@@ -128,7 +128,6 @@ public class SleepDayFragment extends BaseFragment {
         return view;
     }
 
-
     public void initData(String Today, String yesterday) {
         int sleepTime = 0;
         int lightsleepTime = 0;
@@ -142,7 +141,7 @@ public class SleepDayFragment extends BaseFragment {
         todayPartners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", Today);
         yesterdayPartners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", yesterday);
 
-        if (todayPartners.size() == 24 && yesterdayPartners.size() == 24) {
+        if (todayPartners.size() == 24 && yesterdayPartners.size() == 24 && !yesterday.equals(strday) ) {
             yesterdayPartners = yesterdayPartners.subList(12, 24);
             todayPartners = todayPartners.subList(0, 12);
 
@@ -197,7 +196,6 @@ public class SleepDayFragment extends BaseFragment {
             }
         });
     }
-
 
     private void initChart() {
         mChart.setDescription("");
@@ -355,8 +353,10 @@ public class SleepDayFragment extends BaseFragment {
     public void onClick(View view) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         Date date = null;
+
         try {
             date = sdf.parse(tvDate.getText().toString());
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -370,10 +370,17 @@ public class SleepDayFragment extends BaseFragment {
 
                 break;
             case R.id.iv_right:
-                today = tvDate.getText().toString();
                 yeday = new SomeUtills().getAmountDate(date, 0, 1);
+                try {
+                    date = sdf.parse(yeday);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                today = new SomeUtills().getAmountDate(date, 0, 1);
                 tvDate.setText(yeday);
-                initData(today, yeday);
+                initData(today,yeday);
+
                 break;
             case R.id.ll_sleep_day:
                 new SomeUtills().setCalendarViewGone(0);

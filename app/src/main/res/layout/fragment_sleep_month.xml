@@ -157,7 +157,6 @@
                     android:layout_weight="9"
                     android:orientation="vertical">
 
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
@@ -179,7 +178,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:textColor="@color/white"
-
                             android:text="睡眠时长" />
 
                         <LinearLayout
@@ -192,9 +190,10 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/tv_sleeptime"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1"
+                                android:text="0"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
@@ -208,7 +207,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="23"
+                                android:text="0"
+                                android:visibility="invisible"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
@@ -216,6 +216,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="分钟"
+                                android:visibility="invisible"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
@@ -225,7 +226,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_below="@+id/ll_sleep"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="5dp"
                             android:background="#444444" />
                     </RelativeLayout>
 
@@ -265,7 +266,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1"
+                                android:text="0"
+                                android:id="@+id/tv_lightsleepTime"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
@@ -279,7 +281,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="23"
+                                android:text="0"
+                                android:visibility="invisible"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
@@ -287,6 +290,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="分钟"
+                                android:visibility="invisible"
+
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
@@ -296,7 +301,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_below="@+id/ll_sleep"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="5dp"
                             android:background="#444444" />
                     </RelativeLayout>
 
@@ -336,7 +341,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1"
+                                android:text="0"
+                                android:id="@+id/tv_sleepingtime"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
@@ -350,7 +356,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="23"
+                                android:text="0"
+                                android:visibility="invisible"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
@@ -358,6 +365,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="分钟"
+                                android:visibility="invisible"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
@@ -367,7 +375,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_below="@+id/ll_sleep"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="5dp"
                             android:background="#444444" />
 
                         <RelativeLayout
@@ -389,8 +397,6 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/white"
-
                                 android:layout_centerInParent="true"
                                 android:text="睡眠时长" />
 
@@ -437,7 +443,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="1dp"
                                 android:layout_below="@+id/ll_sleep"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginTop="5dp"
                                 android:background="#444444" />
                         </RelativeLayout>
                     </RelativeLayout>
@@ -461,9 +467,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
                             android:textColor="@color/white"
 
-                            android:layout_centerInParent="true"
                             android:text="清醒时长" />
 
                         <LinearLayout
@@ -478,7 +484,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1"
+                                android:text="0"
+                                android:id="@+id/tv_awakeTime"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
@@ -492,7 +499,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="23"
+                                android:text="0"
+                                android:visibility="invisible"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
@@ -500,6 +508,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="分钟"
+                                android:visibility="invisible"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
@@ -509,7 +518,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_below="@+id/ll_sleep"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="5dp"
                             android:background="#444444" />
                     </RelativeLayout>
 
@@ -532,9 +541,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
                             android:textColor="@color/white"
 
-                            android:layout_centerInParent="true"
                             android:text="清醒次数" />
 
                         <LinearLayout
@@ -549,7 +558,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="1"
+                                android:text="0"
+                                android:id="@+id/tv_awakeCount"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
@@ -563,7 +573,8 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="23"
+                                android:text="0"
+                                android:visibility="invisible"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
@@ -571,6 +582,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="分钟"
+                                android:visibility="invisible"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 

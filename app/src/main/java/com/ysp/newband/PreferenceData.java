@@ -49,6 +49,8 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_NOTIFICATION_LINE_STATE="SAVE_NOTIFICATION_LINE_STATE";
 
     public static final String SAVE_TIMEZONES_STATE="SAVE_TIMEZONES_STATE";
+    public static final String SAVE_SYNCHRONIZATION_TIME="SAVE_SYNCHRONIZATION_TIME";
+    public static final String SAVE_SLEEP_SYNCHRONIZATION_TIME="SAVE_SLEEP_SYNCHRONIZATION_TIME";
 
 
 
@@ -456,5 +458,34 @@ public class PreferenceData implements Serializable{
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(SAVE_TIMEZONES_STATE, tz.getID());
+    }
+    //保存同步时间
+    public static void setSynchronizationTime(Context context,String state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SAVE_SYNCHRONIZATION_TIME,state).commit();
+    }
+
+    //获取同步时间
+    public static String getSynchronizationTime(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(SAVE_SYNCHRONIZATION_TIME, "");
+    }
+
+    //保存睡眠同步时间
+    public static void setSleepSynchronizationTime(Context context,String state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SAVE_SLEEP_SYNCHRONIZATION_TIME,state).commit();
+    }
+
+    //获取睡眠同步时间
+    public static String getSleepSynchronizationTime(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(SAVE_SLEEP_SYNCHRONIZATION_TIME, "");
     }
 }
