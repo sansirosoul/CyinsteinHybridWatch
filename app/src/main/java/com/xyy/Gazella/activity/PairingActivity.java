@@ -275,20 +275,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         loadingDialog.show();
-//        GazelleApplication.mBluetoothService.disconnect();
-//        GazelleApplication.mBluetoothService.close();
-//        if (GazelleApplication.mBluetoothService.initialize()) {
-//            device = devices.get(i);
-//            GazelleApplication.mBluetoothService.connect(devices.get(i).getAddress());
-//            GazelleApplication.mBluetoothService.setActivityHandler(mHandler);
-//        }
-//        if (bluetoothAdapter != null) {
-////            if(bluetoothLeScanner!=null){
-////                bluetoothLeScanner.stopScan(scanCallback);
-////            }
-//            bluetoothAdapter.stopLeScan(leScanCallback);
-//        }
-
         scanSubscription.unsubscribe();
         device = devices.get(i);
         RxBleDevice rxBleDevice = rxBleClient.getBleDevice(device.getAddress());

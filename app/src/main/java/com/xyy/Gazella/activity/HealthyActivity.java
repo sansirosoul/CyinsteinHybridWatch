@@ -1,6 +1,8 @@
 package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -118,7 +120,7 @@ public class HealthyActivity extends BaseActivity {
                 break;
             case 1:   // 断开状态
                 isNotify = false;
-                HandleThrowableException(str);
+                Message.obtain(ehandler,101,str).sendToTarget();
                 break;
             case 2:   // 重新连接
                 Notify(connectionObservable);
@@ -128,6 +130,19 @@ public class HealthyActivity extends BaseActivity {
         }
         super.onNotifyReturn(type,str);
     }
+
+    Handler ehandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 101:
+                    String str = (String) msg.obj;
+                    HandleThrowableException(str);
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onReadReturn(byte[] bytes) {

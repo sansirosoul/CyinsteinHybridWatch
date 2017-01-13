@@ -212,16 +212,17 @@ public class BaseActivity extends FragmentActivity {
                     }
                 });
             } else {
-                if (dialog == null) dialog = new CommonDialog(this);
-                if (!dialog.isShowing()) dialog.show();
-                dialog.setTvContext("蓝牙连接已断开");
-                dialog.setButOk(View.VISIBLE);
-                dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                    @Override
-                    public void onButOKListener() {
-                        dialog.dismiss();
-                    }
-                });
+//                if (dialog == null) dialog = new CommonDialog(this);
+//                if (!dialog.isShowing()) dialog.show();
+//                dialog.setTvContext("蓝牙连接已断开是否重新连接");
+//                dialog.setButOk(View.VISIBLE);
+//                dialog.onButOKListener(new CommonDialog.onButOKListener() {
+//                    @Override
+//                    public void onButOKListener() {
+//                        dialog.dismiss();
+//                        Notify(connectionObservable);
+//                    }
+//                });
             }
         }
     }

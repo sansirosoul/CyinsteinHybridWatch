@@ -55,7 +55,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
                             if(bluetoothDevice.getName()!=null){
                                 if (bluetoothDevice.getName().equals("DfuTarg")) {
                                     scanSubscription.unsubscribe();
-                                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00051j).start(context, DfuService.class);
+                                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00051k).start(context, DfuService.class);
                                 }
                             }
                         },

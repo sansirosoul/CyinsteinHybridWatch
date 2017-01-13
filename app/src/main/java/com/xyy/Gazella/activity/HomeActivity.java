@@ -6,15 +6,15 @@ package com.xyy.Gazella.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.utils.BleUtils;
-import com.xyy.Gazella.utils.HexString;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
@@ -56,20 +56,13 @@ public class HomeActivity extends BaseActivity {
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
-            Write(bleUtils.setSystemType(),connectionObservable);
         }
         install = this;
     }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        Logger.t(TAG).e(HexString.bytesToHex(bytes));
-        onHomeReadReturn(bytes);
         super.onReadReturn(bytes);
-    }
-
-    public void onHomeReadReturn(byte[] bytes) {
-
     }
 
     @Override
@@ -84,15 +77,29 @@ public class HomeActivity extends BaseActivity {
         super.onNotifyReturn(type,str);
         switch (type) {
             case 0:
+                Write(bleUtils.setSystemType(),connectionObservable);
                 break;
             case 1:
-                HandleThrowableException(str);
+                Message.obtain(handler,101,str).sendToTarget();
                 break;
             case 2:
                 Notify(connectionObservable);
                 break;
         }
     }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 101:
+                    String str = (String) msg.obj;
+                    HandleThrowableException(str);
+                    break;
+            }
+        }
+    };
 
     @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce,R.id.ll_other})
     public void onClick(View view) {
