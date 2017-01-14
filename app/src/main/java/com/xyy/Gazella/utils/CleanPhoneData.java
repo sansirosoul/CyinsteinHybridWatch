@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.xyy.Gazella.dbmanager.CommonUtils;
 import com.ysp.hybridtwatch.R;
 
 
@@ -64,7 +65,8 @@ public class CleanPhoneData extends Dialog implements View.OnClickListener{
                 dismiss();
                 break;
             case R.id.confirm:
-//                PreferenceData.clearSharePreferences(context,PreferenceData.SAVE_USER_VALUE);
+                new CommonUtils(context).deleteAll();
+//             PreferenceData.clearSharePreferences(context,PreferenceData.SAVE_USER_VALUE);
                 dismiss();
                 break;
         }

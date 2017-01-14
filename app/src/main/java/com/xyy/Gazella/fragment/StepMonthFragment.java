@@ -74,8 +74,8 @@ public class StepMonthFragment extends BaseFragment {
     TextView tvNumCard;
     @BindView(R.id.tv_card)
     TextView tvCard;
-    @BindView(R.id.tv_step_target)
-    TextView tvStepTarget;
+//    @BindView(R.id.tv_step_target)
+//    TextView tvStepTarget;
     @BindView(R.id.tv_sumsnum)
     TextView tvSumsnum;
     @BindView(R.id.tv_manystep)
@@ -107,7 +107,6 @@ public class StepMonthFragment extends BaseFragment {
         initView();
         initData(monthMap);
         initChart();
-
         return view;
     }
 
@@ -124,7 +123,6 @@ public class StepMonthFragment extends BaseFragment {
                 return true;
             }
         });
-
     }
 
     public void initData(HashMap<String, String> monthMap) {
@@ -132,10 +130,12 @@ public class StepMonthFragment extends BaseFragment {
         second = new int[monthMap.size()];
         km = new double[monthMap.size()];
         calcalNum = new double[monthMap.size()];
+
         for (int i = 0; i < monthMap.size(); i++) {
             weekDate = monthMap.get(String.valueOf(i + 1));
             initData(weekDate, i);
         }
+
         updateUI(xValue);
 
         for (int n = 0; n < xValue.length; n++) {
@@ -226,6 +226,7 @@ public class StepMonthFragment extends BaseFragment {
         sumsCalcalNum = 0;
         sumsKm = 0;
         netSumsStep=0;
+
     }
 
     public void initData(String date, int n) {

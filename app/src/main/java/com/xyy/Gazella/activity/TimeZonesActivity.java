@@ -74,7 +74,6 @@ public class TimeZonesActivity extends BaseActivity {
                 overridePendingTransitionExit(TimeZonesActivity.this);
                 break;
             case R.id.btnOpt:
-
                 break;
         }
     }
@@ -85,9 +84,16 @@ public class TimeZonesActivity extends BaseActivity {
             for (int n = 0; n < dateList.size(); n++) {
                 dateList.get(n).setClick(false);
             }
+
             dateList.get(i).setClick(true);
             adapter.notifyDataSetChanged();
             postion = i;
+
+        PreferenceData.setTimeZonesState(TimeZonesActivity.this, dateList.get(postion).getGtm());
+                setResult(RESULT_OK, new Intent());
+                TimeZonesActivity.this.finish();
+                overridePendingTransitionExit(TimeZonesActivity.this);
+
         }
     }
 }

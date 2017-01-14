@@ -76,8 +76,8 @@ public class StepWeekFragment extends BaseFragment {
     TextView tvCard;
     @BindView(R.id.tv_sumsnum)
     TextView tvSumsnum;
-    @BindView(R.id.tv_step_target)
-    TextView tvStepTarget;
+//    @BindView(R.id.tv_step_target)
+//    TextView tvStepTarget;
     @BindView(R.id.tv_netweekstep)
     TextView tvNetweekstep;
     @BindView(R.id.tv_manystep)

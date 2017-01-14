@@ -58,7 +58,6 @@ public class ClockActivity extends BaseActivity {
         if (address != null && !address.equals("")) {
             connectionObservable = getRxObservable(ClockActivity.this);
             Notify(connectionObservable);
-            Write(bleUtils.getAlarms(), connectionObservable);
 //            handler.post(runnable);
         }
     }
@@ -68,9 +67,10 @@ public class ClockActivity extends BaseActivity {
         super.onNotifyReturn(type,str);
         switch (type) {
             case 0:
+                Write(bleUtils.getAlarms(), connectionObservable);
                 break;
             case 1:
-                HandleThrowableException(str);
+                Message.obtain(handler,102,str).sendToTarget();
                 break;
             case 2:
                 Notify(connectionObservable);
@@ -85,6 +85,10 @@ public class ClockActivity extends BaseActivity {
             switch (msg.what){
                 case 101:
                     Write(bleUtils.getAlarms(), connectionObservable);
+                    break;
+                case 102:
+                    String str = (String) msg.obj;
+                    HandleThrowableException(str);
                     break;
             }
         }

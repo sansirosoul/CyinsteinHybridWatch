@@ -28,7 +28,6 @@ import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -171,11 +170,11 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         weightDialog = new WeightDialog(context);
         weightDialog.setOnSelectedListener(wOnSelectedListener);
 
-        File f = new File(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
-        if (!f.exists())
-            head.setBackground(getResources().getDrawable(R.drawable.page5_head_portrait));
-        else
-            head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
+//        File f = new File(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
+//        if (!f.exists())
+//            head.setBackground(getResources().getDrawable(R.drawable.page5_head_portrait));
+//        else
+//            head.setImageBitmap(BitmapFactory.decodeFile(Environment.getExternalStorageDirectory() + "/" + "userImage.png"));
     }
 
 

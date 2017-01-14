@@ -56,8 +56,6 @@ public class StepDayFragment extends BaseFragment {
     LinearLayout llSetpBata;
     @BindView(R.id.scrollView)
     ScrollView scrollView;
-    @BindView(R.id.tv_step_target)
-    TextView tvStepTarget;
     @BindView(R.id.tv_sumsnum)
     TextView tvSumsnum;
     @BindView(R.id.tv_num_hour)
@@ -166,7 +164,7 @@ public class StepDayFragment extends BaseFragment {
                     tvSumsnum.setText(String.valueOf(sumsNum));
                 }
             }
-            tvStepTarget.setText(getResources().getString(R.string.step_target_ok));
+            //tvStepTarget.setText(getResources().getString(R.string.step_target_ok));
         } else {
             for (int i = 0; i < xValue.length; i++)
                 xValue[i] = "0";
@@ -179,7 +177,7 @@ public class StepDayFragment extends BaseFragment {
             tvNumMi.setText("0");
             tvNumCard.setText("0.0");
             tvSumsnum.setText("0");
-            tvStepTarget.setText(getResources().getString(R.string.no_step_data));
+         //   tvStepTarget.setText(getResources().getString(R.string.no_step_data));
         }
         Date netDate = null;
         int netSumsNum,i1 = 0;

@@ -122,4 +122,5 @@ dependencies {
     compile  'io.reactivex:rxandroid:1.2.1'
     compile 'com.bugtags.library:bugtags-lib:latest.integration'
     compile 'com.nbsp:library:1.1'
+    compile 'com.lovedise:permissiongen:0.0.6'
 }

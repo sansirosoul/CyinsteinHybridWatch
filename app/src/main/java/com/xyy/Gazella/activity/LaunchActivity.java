@@ -1,10 +1,7 @@
 package com.xyy.Gazella.activity;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
@@ -22,7 +19,6 @@ public class LaunchActivity extends BaseActivity {
     private  static String  TAG= LaunchActivity.class.getName();
     private Button start;
     private byte ck_a, ck_b;
-    private static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
     private RxBleClient rxBleClient;
 
     @Override
@@ -46,31 +42,5 @@ public class LaunchActivity extends BaseActivity {
                 finish();
             }
         });
-
-        if (!isNotificationAccessEnabled()) {
-            //通知监听授权
-            Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-            startActivity(intent);
-        }
-
-    }
-
-    //判断通知权限是否开启
-    private boolean isNotificationAccessEnabled() {
-        String pkgName = getPackageName();
-        final String flat = Settings.Secure.getString(getContentResolver(),
-                ENABLED_NOTIFICATION_LISTENERS);
-        if (!TextUtils.isEmpty(flat)) {
-            final String[] names = flat.split(":");
-            for (int i = 0; i < names.length; i++) {
-                final ComponentName cn = ComponentName.unflattenFromString(names[i]);
-                if (cn != null) {
-                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 }
