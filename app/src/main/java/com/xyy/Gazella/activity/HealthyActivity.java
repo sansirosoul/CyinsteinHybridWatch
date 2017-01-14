@@ -152,14 +152,12 @@ public class HealthyActivity extends BaseActivity {
             data = bleUtils.returnStepData(bytes);
             SaveStepData();
         }
-        if (bleUtils.returnSleepData(bytes) != null) {//  同步睡眠数据
+        if (bleUtils.returnSleepData(bytes) != null) { //  同步睡眠数据
             sleepData = bleUtils.returnSleepData(bytes);
             if(sleepData.get(0).getSums()==42)
             SaveSleepData();
-            else
-                SaveSleep();
-        }
 
+        }
 
         if (bytes[0] == 0x07 && bytes[1] == 0x0C) {  // 今日步数
             StepData stepData = bleUtils.returnTodayStep(bytes);
@@ -240,8 +238,9 @@ public class HealthyActivity extends BaseActivity {
                     setPartnersleepData(i);
                 if (count == 41 && time == 23) {
                     sleepFragment.setBerbarNum(7, sleepData.get(i).getDate());
-
                     sleepFragment.setTvSynchronizationtime();
+                    sleepFragment.setToDayTime();
+
                 }
             }
         }
@@ -345,14 +344,6 @@ public class HealthyActivity extends BaseActivity {
                 }
             }
         }
-    }
-
-
-    private  void  SaveSleep(){
-
-
-
-
     }
 
     private void setPartnerData(int i) {
@@ -502,6 +493,10 @@ public class HealthyActivity extends BaseActivity {
                 overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
                 break;
             case R.id.btnOpt:
+                if(!getConnectionState()){
+                    showToatst(HealthyActivity.this,"蓝牙未连接");
+                    break;
+                }
                 stepFragment.removeTodayStepPost();
                 if (viewPager.getCurrentItem() == 0) {
                     stepFragment.setSynchronizationData();

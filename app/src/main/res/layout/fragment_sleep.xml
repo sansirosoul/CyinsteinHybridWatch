@@ -170,7 +170,7 @@
                     android:id="@+id/tv_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="30"
+                    android:text="00"
                     android:textColor="#0e9edf"
                     android:textSize="55sp"
                     android:textStyle="bold" />

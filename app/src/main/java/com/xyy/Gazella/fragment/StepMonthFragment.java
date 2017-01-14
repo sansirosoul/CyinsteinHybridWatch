@@ -74,8 +74,8 @@ public class StepMonthFragment extends BaseFragment {
     TextView tvNumCard;
     @BindView(R.id.tv_card)
     TextView tvCard;
-    @BindView(R.id.tv_step_target)
-    TextView tvStepTarget;
+//    @BindView(R.id.tv_step_target)
+//    TextView tvStepTarget;
     @BindView(R.id.tv_sumsnum)
     TextView tvSumsnum;
     @BindView(R.id.tv_manystep)

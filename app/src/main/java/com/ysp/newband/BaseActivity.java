@@ -204,6 +204,7 @@ public class BaseActivity extends FragmentActivity {
                 if (!dialog.isShowing()) dialog.show();
                 dialog.setTvContext("蓝牙连接失败是否继续连接");
                 dialog.setButOk(View.VISIBLE);
+                dialog.setLoadingVisibility(View.GONE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
                     public void onButOKListener() {
@@ -261,6 +262,9 @@ public class BaseActivity extends FragmentActivity {
             return false;
     }
 
+    protected  RxBleDevice getBleDevicme(){
+        return  bleDevicme;
+    }
 
     protected void onReadReturn(byte[] bytes) {
     }

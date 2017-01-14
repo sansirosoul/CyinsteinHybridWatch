@@ -146,7 +146,7 @@ public class SleepFragment extends BaseFragment {
         setToDayTime();
     }
 
-    private void setToDayTime() {
+    public void setToDayTime() {
         initTime();
         if (month < 10)
             strMonth = sb.append("0").append(String.valueOf(month)).toString();
