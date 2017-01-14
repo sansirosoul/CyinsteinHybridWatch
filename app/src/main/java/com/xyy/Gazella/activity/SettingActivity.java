@@ -23,6 +23,7 @@ import com.xyy.Gazella.view.SwitchView;
 import com.xyy.model.TimeZonesData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import java.util.ArrayList;
@@ -206,7 +207,8 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_clean_watch:
-                if(!getConnectionState()){
+
+                if(getbleDevicme(SettingActivity.this)==null){
                     showToatst(SettingActivity.this,"蓝牙未连接");
                     break;
                 }
@@ -223,19 +225,14 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_search_watch:
-                if(!getConnectionState()){
-                    showToatst(SettingActivity.this,"蓝牙未连接");
-                    break;
-                }
                 if (connectionObservable != null) {
                     Write(bleUtils.setWatchShake(1, 2, 3), connectionObservable);
                 }
                 break;
             case R.id.rl_close_bluetooth:
-                if(!getConnectionState()){
-                    showToatst(SettingActivity.this,"蓝牙未连接");
-                    break;
-                }
+
+
+
                 CheckUpdateDialog2 myDialog = new CheckUpdateDialog2(SettingActivity.this);
                 myDialog.show();
                 myDialog.setTvContext("是否确定关闭蓝牙？");
@@ -253,6 +250,7 @@ public class SettingActivity extends BaseActivity {
                         if (connectionObservable != null)
                             Write(bleUtils.sendMessage(0, 0, 0, 0, 0, 0), connectionObservable);
                         connectionObservable = null;
+                        GazelleApplication.isEnabled=true;
                     }
                 });
                 break;
