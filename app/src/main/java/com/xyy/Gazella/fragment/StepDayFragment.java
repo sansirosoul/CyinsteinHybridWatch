@@ -136,21 +136,23 @@ public class StepDayFragment extends BaseFragment {
                             tvNumHour.setVisibility(View.INVISIBLE);
                             tvHour.setVisibility(View.INVISIBLE);
                         }
+                        tvNumMinute.setText(String.valueOf(second / 60));
                     } else if (second > 60) {
                         if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                             tvNumHour.setVisibility(View.VISIBLE);
                             tvHour.setVisibility(View.VISIBLE);
-                            tvNumHour.setText(String.valueOf(second / 60));
-                            tvNumMinute.setText(String.valueOf(second / 10));
                         }
+                        tvNumHour.setText(String.valueOf(second / 360));
+                        tvNumMinute.setText(String.valueOf((second % 3600) / 60));
                     } else if (second == 0) {
                         if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                             tvNumHour.setVisibility(View.VISIBLE);
                             tvHour.setVisibility(View.VISIBLE);
-                            tvNumHour.setText("0");
-                            tvNumMinute.setText("0");
                         }
+                        tvNumHour.setText("0");
+                        tvNumMinute.setText("0");
                     }
+
                     // 计算活动距离
                     if (km < 1000) {
                         tvNumMi.setText(String.valueOf((int) km));

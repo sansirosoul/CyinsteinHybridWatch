@@ -158,7 +158,6 @@ public class SettingActivity extends BaseActivity {
         setTimezone();
     }
 
-
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
@@ -212,7 +211,6 @@ public class SettingActivity extends BaseActivity {
                 if(getbleDevicme(SettingActivity.this)==null||!getConnectionState()){
                     showToatst(SettingActivity.this,"蓝牙未连接");
                     break;
-
                 }
                 Intent watchIntent = new Intent(this, CleanWatchData.class);
                 startActivity(watchIntent);
@@ -227,13 +225,15 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_search_watch:
+                if(getbleDevicme(SettingActivity.this)==null||!getConnectionState()){
+                    showToatst(SettingActivity.this,"蓝牙未连接");
+                    break;
+                }
                 if (connectionObservable != null) {
                     Write(bleUtils.setWatchShake(1, 2, 3), connectionObservable);
                 }
                 break;
             case R.id.rl_close_bluetooth:
-
-
 
                 CheckUpdateDialog2 myDialog = new CheckUpdateDialog2(SettingActivity.this);
                 myDialog.show();

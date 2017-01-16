@@ -74,6 +74,13 @@ public class CommonDialog extends Dialog {
     public void setButAdgin(int visibility) {
         butAdgin.setVisibility(visibility);
     }
+    public void setButOkText(String str) {
+        butOk.setText(str);
+    }
+
+    public void setButAdginText(String str) {
+        butAdgin.setText(str);
+    }
 
     public void setLoadingVisibility(int visibility) {
         iv_loading.setVisibility(visibility);

@@ -191,9 +191,9 @@ public class HealthyActivity extends BaseActivity {
 
                 //计算活动时间
                 int second = (int) (dayStep * 1.08);
-                if (second > 60) {
+                if (second < 60) {
                     stepFragment.setTime(String.valueOf(second / 60) + getResources().getString(R.string.minute));
-                } else if (second > 60 * 60) {
+                } else if (second > 60) {
                     stepFragment.setTime(String.valueOf(second / 360) + getResources().getString(R.string.hour)
                             + String.valueOf((second % 3600) / 60) + getResources().getString(R.string.minute));
                 }
@@ -362,6 +362,7 @@ public class HealthyActivity extends BaseActivity {
         } else {
             // 计算活动时间
             int second = (int) (SumsStep * 1.08);
+
             double km = SumsStep * 0.5;
             //计算卡路里
             Weight = Integer.valueOf(userWeight);

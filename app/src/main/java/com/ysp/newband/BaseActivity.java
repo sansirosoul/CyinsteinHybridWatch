@@ -54,7 +54,7 @@ public class BaseActivity extends FragmentActivity {
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice bleDevicme;
-    private long timeOut = 5000; //超时设置为5秒
+    private long timeOut = 8000; //超时设置为5秒
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
 
@@ -100,6 +100,7 @@ public class BaseActivity extends FragmentActivity {
         if (address != null && !address.equals(""))
             bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
         RxBleClient.setLogLevel(RxBleLog.DEBUG);
+        DeviceConnectionStateChanges();
     }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
@@ -150,7 +151,7 @@ public class BaseActivity extends FragmentActivity {
         dialog.show();
         if (connectionObservable != null) {
             if (GazelleApplication.isEnabled) {
-                 handler.postDelayed(TimeOutRunnable, 8000);
+                 handler.postDelayed(TimeOutRunnable, timeOut);
             }
             connectionObservable
                     .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
@@ -205,6 +206,7 @@ public class BaseActivity extends FragmentActivity {
 
     protected void HandleThrowableException(String throwable) {
         BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
+        if(TimeOutRunnable!=null) handler.removeCallbacks(TimeOutRunnable);
         if (!blueadapter.isEnabled()) {
             if (dialog == null) dialog = new CommonDialog(this);
             if (dialog.isShowing()) {
@@ -307,6 +309,9 @@ public class BaseActivity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 10010) {
             if (resultCode == Activity.RESULT_OK) {
+                if (GazelleApplication.isEnabled) {
+                    handler.postDelayed(TimeOutRunnable, timeOut);
+                }
                 if (dialog.isShowing())
                     dialog.dismiss();
                 onNotifyReturn(2, null);//  再次发送监听蓝牙
@@ -443,18 +448,27 @@ public class BaseActivity extends FragmentActivity {
     Runnable TimeOutRunnable = new Runnable() {
         @Override
         public void run() {
-            if (!dialog.isShowing()) dialog.show();
-            dialog.setTvContext("蓝牙连接超时, 是否重新连接");
-            dialog.setButOk(View.VISIBLE);
-            dialog.setLoadingVisibility(View.GONE);
-            dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                @Override
-                public void onButOKListener() {
-                    dialog.dismiss();
-                    Notify(connectionObservable);
-                    Logger.t(TAG).e("超时");
-                }
-            });
+            if (dialog.isShowing()) {
+                dialog.setTvContext("蓝牙连接超时, 是否重新连接");
+                dialog.setButOk(View.VISIBLE);
+                dialog.setButOkText("重新连接");
+                dialog.setLoadingVisibility(View.GONE);
+                dialog.setButAdgin(View.VISIBLE);
+                dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                    @Override
+                    public void onButOKListener() {
+                        dialog.dismiss();
+                        Notify(connectionObservable);
+                        Logger.t(TAG).e("超时");
+                    }
+                });
+                dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
+                    @Override
+                    public void onButAdginListener() {
+                        dialog.dismiss();
+                    }
+                });
+            }
         }
     };
 }

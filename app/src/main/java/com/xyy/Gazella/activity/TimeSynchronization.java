@@ -160,7 +160,6 @@ public class TimeSynchronization extends BaseActivity {
         }
     };
 
-
     @Override
     protected void onReadReturn(byte[] bytes) {
         if (HexString.bytesToHex(bytes).equals("0702010A1A")) {
@@ -179,6 +178,12 @@ public class TimeSynchronization extends BaseActivity {
         butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
         butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
         butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
+
+        if(getbleDevicme(TimeSynchronization.this)==null||!getConnectionState())
+            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
+        else
+            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
+
         checkAnalogClock.setOnItemClickListener(new CheckAnalogClock.onItemClickListener() {
 
             @Override
@@ -208,6 +213,9 @@ public class TimeSynchronization extends BaseActivity {
                 butSynchronization.setVisibility(View.VISIBLE);
             }
         });
+
+
+
 
         initTime();
         mHandler.post(initTime);

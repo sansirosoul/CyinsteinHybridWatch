@@ -145,24 +145,27 @@ public class StepMonthFragment extends BaseFragment {
             sumsCalcalNum += calcalNum[n];
         }
 
-        if (sumsSecond > 60) {
+        if (sumsSecond < 60) {
             tvNumMinute.setText(String.valueOf(sumsSecond / 60));
             if (tvNumHour.getVisibility() == View.VISIBLE || tvHour.getVisibility() == View.VISIBLE) {
                 tvNumHour.setVisibility(View.INVISIBLE);
                 tvHour.setVisibility(View.INVISIBLE);
             }
-        } else if (sumsSecond > 60 * 60) {
+            tvNumMinute.setText(String.valueOf(sumsSecond / 60));
+        } else if (sumsSecond > 60) {
             if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
-                tvNumHour.setText(String.valueOf(sumsSecond / 360));
-                tvNumMinute.setText(String.valueOf((sumsSecond % 3600) / 60));
+                tvNumHour.setVisibility(View.VISIBLE);
+                tvHour.setVisibility(View.VISIBLE);
             }
+            tvNumHour.setText(String.valueOf(sumsSecond / 360));
+            tvNumMinute.setText(String.valueOf((sumsSecond % 3600) / 60));
         } else if (sumsSecond == 0) {
             if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                 tvNumHour.setVisibility(View.VISIBLE);
                 tvHour.setVisibility(View.VISIBLE);
-                tvNumHour.setText("0");
-                tvNumMinute.setText("0");
             }
+            tvNumHour.setText("0");
+            tvNumMinute.setText("0");
         }
         // 计算活动距离
         if (sumsKm < 1000) {
