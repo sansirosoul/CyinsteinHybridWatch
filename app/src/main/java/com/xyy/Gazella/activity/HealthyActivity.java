@@ -99,6 +99,7 @@ public class HealthyActivity extends BaseActivity {
         initTime();
         install = this;
         mCommonUtils = new CommonUtils(this);
+        DeviceConnectionStateChanges();
     }
 
     private void initData() {
@@ -493,7 +494,7 @@ public class HealthyActivity extends BaseActivity {
                 overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
                 break;
             case R.id.btnOpt:
-                if(!getConnectionState()){
+                if(!isNotify){
                     showToatst(HealthyActivity.this,"蓝牙未连接");
                     break;
                 }

@@ -58,6 +58,7 @@ public class HomeActivity extends BaseActivity {
             Notify(connectionObservable);
         }
         install = this;
+        DeviceConnectionStateChanges();
     }
 
     @Override

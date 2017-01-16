@@ -105,7 +105,7 @@
         Id="5"
         SortId="5"
         AppId="wx4868b35061f87885"
-        AppSecret="64020361b8ec4c99936c0e3999a9f249"
+        AppSecret="e8be74036d0e6df3855f63c15f34ef2d"
         BypassApproval="false"
         Enable="true" />
         
@@ -113,7 +113,8 @@
         Id="6"
         SortId="6"
         AppId="wx4868b35061f87885"
-        AppSecret="64020361b8ec4c99936c0e3999a9f249"
+        AppSecret="e8be74036d0e6df3855f63c15f34ef2d"
+		BypassApproval="false"
         Enable="true" />
     
 	<!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
@@ -201,7 +202,6 @@
     	http://dev.yinxiang.com/support/上激活你的ConsumerKey，激活成功后，修改HostType
     	为china就好了。至于如果您申请的是国际版的印象笔记（Evernote），则其生产服务器类型为
     	“product”。
-    	
     	如果目标设备上已经安装了印象笔记客户端，ShareSDK允许应用调用本地API来完成分享，但
     	是需要将应用信息中的“ShareByAppClient”设置为true，此字段默认值为false。
     -->
@@ -267,7 +267,7 @@
         AppKey="i5vw2mex1zcgjcj" 
 		AppSecret="3i9xifsgb4omr0s"
 		RedirectUri="https://www.sharesdk.cn"
-        Enable="true" />
+        Enable="true"/>
         
     <VKontakte 
     	Id="27"

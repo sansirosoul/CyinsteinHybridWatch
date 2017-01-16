@@ -87,6 +87,7 @@ public class SettingActivity extends BaseActivity {
         context = this;
         initView();
         initBle();
+        DeviceConnectionStateChanges();
     }
 
     @Override
@@ -194,7 +195,7 @@ public class SettingActivity extends BaseActivity {
                 startActivity(changeIntent);
                 break;
             case R.id.rl_rename_watch:
-                if(!getConnectionState()){
+                if(getbleDevicme(SettingActivity.this)==null||!getConnectionState()){
                     showToatst(SettingActivity.this,"蓝牙未连接");
                     break;
                 }
@@ -208,9 +209,10 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.rl_clean_watch:
 
-                if(getbleDevicme(SettingActivity.this)==null){
+                if(getbleDevicme(SettingActivity.this)==null||!getConnectionState()){
                     showToatst(SettingActivity.this,"蓝牙未连接");
                     break;
+
                 }
                 Intent watchIntent = new Intent(this, CleanWatchData.class);
                 startActivity(watchIntent);

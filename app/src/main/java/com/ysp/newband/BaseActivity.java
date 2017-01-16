@@ -251,7 +251,7 @@ public class BaseActivity extends FragmentActivity {
     }
 
 
-    private void DeviceConnectionStateChanges() {
+    protected void DeviceConnectionStateChanges() {
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
@@ -259,11 +259,12 @@ public class BaseActivity extends FragmentActivity {
                     .subscribe(new Action1<RxBleConnection.RxBleConnectionState>() {
                         @Override
                         public void call(RxBleConnection.RxBleConnectionState rxBleConnectionState) {
-                            if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
-                                    || bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED) {
+                            if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED) {
                                 Logger.t(TAG).e("连接 >>>>>>  " + rxBleConnectionState.toString());
+
                             } else {
                                 Logger.t(TAG).e("断开 >>>>>>  " + rxBleConnectionState.toString());
+                                GazelleApplication.isEnabled = true;
                             }
                         }
                     }, new Action1<Throwable>() {
@@ -276,8 +277,7 @@ public class BaseActivity extends FragmentActivity {
 
 
     protected boolean getConnectionState() {
-        if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
-                || bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED)
+        if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED)
             return true;
         else
             return false;

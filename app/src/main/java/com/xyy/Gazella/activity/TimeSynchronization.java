@@ -121,6 +121,7 @@ public class TimeSynchronization extends BaseActivity {
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
         }
         install = this;
+        DeviceConnectionStateChanges();
     }
 
     @Override
@@ -129,11 +130,10 @@ public class TimeSynchronization extends BaseActivity {
         switch (type) {
             case 0:
                 isNotify = true;
-                btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
+                Message.obtain(ehandler,102,str).sendToTarget();
                 break;
             case 1:
                 isNotify = false;
-                btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
                 Message.obtain(ehandler,101,str).sendToTarget();
                 break;
             case 2:
@@ -149,8 +149,12 @@ public class TimeSynchronization extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what){
                 case 101:
+                    btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
                     String str = (String) msg.obj;
                     HandleThrowableException(str);
+                    break;
+                case 102:
+                    btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
                     break;
             }
         }
@@ -369,7 +373,6 @@ public class TimeSynchronization extends BaseActivity {
         smallFragment3 = new SmallFragment3();
 
         fragmentsList.add(mainDialFragment);
-
         mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
         viewpager.setAdapter(mFragmentAdapter);
         viewpager.setCurrentItem(0);
