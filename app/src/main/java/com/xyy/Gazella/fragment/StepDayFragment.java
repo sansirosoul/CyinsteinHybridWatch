@@ -17,7 +17,10 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.partner.entity.Partner;
 import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.utils.SomeUtills;
@@ -127,16 +130,18 @@ public class StepDayFragment extends BaseFragment {
                     int second = Integer.valueOf(partners.get(i).getExercisetime());
                     double km = Double.valueOf(partners.get(i).getExercisedistance());
                     double calcalNum = Double.valueOf(partners.get(i).getCalcalNum());
-                    if (second > 60) {
-                        tvNumMinute.setText(String.valueOf(second / 60));
+                    if (second < 60) {
+                        tvNumMinute.setText(String.valueOf(second));
                         if (tvNumHour.getVisibility() == View.VISIBLE || tvHour.getVisibility() == View.VISIBLE) {
                             tvNumHour.setVisibility(View.INVISIBLE);
                             tvHour.setVisibility(View.INVISIBLE);
                         }
-                    } else if (second > 60 * 60) {
+                    } else if (second > 60) {
                         if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
-                            tvNumHour.setText(String.valueOf(second / 360));
-                            tvNumMinute.setText(String.valueOf((second % 3600) / 60));
+                            tvNumHour.setVisibility(View.VISIBLE);
+                            tvHour.setVisibility(View.VISIBLE);
+                            tvNumHour.setText(String.valueOf(second / 60));
+                            tvNumMinute.setText(String.valueOf(second / 10));
                         }
                     } else if (second == 0) {
                         if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
@@ -262,7 +267,7 @@ public class StepDayFragment extends BaseFragment {
         mChart.getAxisLeft().setMinWidth(35f);
         mChart.getAxisLeft().setStartAtZero(false);
 
-        mChart.getAxisLeft().setLabelCount(6, true);
+//        mChart.getAxisLeft().setLabelCount(6, true);
         // setting data
         mChart.animateY(2500);   //动画
         mChart.getLegend().setEnabled(false);
@@ -285,7 +290,18 @@ public class StepDayFragment extends BaseFragment {
             mChart.getData().notifyDataChanged();
             mChart.notifyDataSetChanged();
         } else {
+
             set1 = new BarDataSet(yVals1, "");
+            set1.setValueTextSize(10f);
+            set1.setValueTextColor(Color.rgb(222, 169, 160));//设置文字的颜色
+            set1.setValueFormatter(new ValueFormatter() {  //设置X轴的保留个位数  默认 0.00
+                @Override
+                public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+
+                    return String.valueOf((int) value);
+
+                }
+            });
             set1.setColor(Color.rgb(255, 255, 255));
             set1.setDrawValues(false);
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
