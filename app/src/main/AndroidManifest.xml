@@ -174,12 +174,12 @@
 
         <!-- &lt;!&ndash;首页&ndash;&gt; -->
 
-        <!--<activity-->
-            <!--android:name="com.xyy.Gazella.activity.HomeActivity"-->
-            <!--android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"-->
-            <!--android:launchMode="singleTop"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/ExampleTheme" />-->
+        <activity
+            android:name="com.xyy.Gazella.activity.HomeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/ExampleTheme" />
 
         <!-- 通知页面 -->
         <activity
@@ -339,7 +339,7 @@
 
         <!-- 微信分享回调 -->
         <activity
-            android:name="com.com.ysp.smartwatch.wxapi.WXEntryActivity"
+            android:name="com.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"

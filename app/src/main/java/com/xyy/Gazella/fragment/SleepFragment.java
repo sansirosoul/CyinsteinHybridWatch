@@ -146,7 +146,7 @@ public class SleepFragment extends BaseFragment {
         setToDayTime();
     }
 
-    private void setToDayTime() {
+    public void setToDayTime() {
         initTime();
         if (month < 10)
             strMonth = sb.append("0").append(String.valueOf(month)).toString();
@@ -225,6 +225,10 @@ public class SleepFragment extends BaseFragment {
         lowTime.setText(String.valueOf(lightsleepTime)+"小时");
         wakeTime.setText(String.valueOf(awakeTime)+"小时");
 
+        if(sleepTime<PreferenceData.getTargetSleepMinuteValue(getActivity()))
+            quality.setText("差");
+        else
+            quality.setText("良好");
     }
 
 
@@ -272,43 +276,36 @@ public class SleepFragment extends BaseFragment {
         switch (type) {
             case 1:
                 tvDay1.setText(String.valueOf(day) + "号" + "更新完成");
-//                tvDay1.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(10);
                 break;
 
             case 2:
                 tvDay2.setText(String.valueOf(day) + "号" + "更新完成");
-                //    tvDay2.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(30);
                 break;
 
             case 3:
                 tvDay3.setText(String.valueOf(day) + "号" + "更新完成");
-                //     tvDay3.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(40);
                 break;
 
             case 4:
                 tvDay4.setText(String.valueOf(day) + "号" + "更新完成");
-                //    tvDay4.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(60);
                 break;
 
             case 5:
                 tvDay5.setText(String.valueOf(day) + "号" + "更新完成");
-                //    tvDay5.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(80);
                 break;
 
             case 6:
                 tvDay6.setText(String.valueOf(day) + "号" + "更新完成");
-                //    tvDay6.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(90);
                 break;
 
             case 7:
                 tvDay7.setText(String.valueOf(day) + "号" + "更新完成");
-                //    tvDay7.setTextColor(getResources().getColor(R.color.title_linear));
                 numberbar.setProgress(100);
                 llNumberProgressBar.setVisibility(View.GONE);
                 llQuality.setVisibility(View.VISIBLE);

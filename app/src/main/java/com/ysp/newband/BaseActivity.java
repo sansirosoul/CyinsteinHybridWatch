@@ -24,8 +24,10 @@ import com.exchange.android.engine.ExchangeProxy;
 import com.exchange.android.engine.Uoi;
 import com.exchange.android.engine.Uoo;
 import com.orhanobut.logger.Logger;
+import com.polidea.rxandroidble.RxBleClient;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
+import com.polidea.rxandroidble.internal.RxBleLog;
 import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.xyy.Gazella.exchange.ExangeErrorHandler;
 import com.xyy.Gazella.utils.CommonDialog;
@@ -35,7 +37,6 @@ import com.ysp.hybridtwatch.R;
 import java.util.UUID;
 
 import rx.Observable;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -53,7 +54,7 @@ public class BaseActivity extends FragmentActivity {
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice bleDevicme;
-    private static Subscription connectionSubscription;
+    private long timeOut = 8000; //超时设置为5秒
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
 
@@ -62,39 +63,25 @@ public class BaseActivity extends FragmentActivity {
             RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(context).getBleDevice(address);
             if (connectionObservable == null) {
                 connectionObservable = bleDevicme
-                        .establishConnection(context, false)
+                        .establishConnection(context, true)
                         .compose(new ConnectionSharingAdapter());
-            } else {
-
             }
         }
         return connectionObservable;
     }
 
+    public static RxBleDevice getbleDevicme(Context context) {
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")) {
+            RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(context).getBleDevice(address);
+            return bleDevicme;
+        }
+        return null;
+    }
+
     public static void cleanObservable() {
         connectionObservable.unsubscribeOn(AndroidSchedulers.mainThread());
-        connectionSubscription=null;
         connectionObservable = null;
-    }
-
-    public void setConnectionObservable(Context context, RxBleDevice rxBleDevice) {
-        connectionObservable = rxBleDevice
-                .establishConnection(context, false)
-                .compose(new ConnectionSharingAdapter());
-        connectionSubscription = connectionObservable.subscribe(
-                rxBleConnection -> {
-                    // All GATT operations are done through the rxBleConnection.
-                    onConnectionState(1);
-                },
-                throwable -> {
-                    // Handle an error here.
-                    onConnectionState(2);
-                }
-        );
-    }
-
-    public void onConnectionState(int state) {
-
     }
 
     @Override
@@ -112,6 +99,8 @@ public class BaseActivity extends FragmentActivity {
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals(""))
             bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
+        RxBleClient.setLogLevel(RxBleLog.DEBUG);
+        DeviceConnectionStateChanges();
     }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
@@ -161,6 +150,9 @@ public class BaseActivity extends FragmentActivity {
         dialog = new CommonDialog(this);
         dialog.show();
         if (connectionObservable != null) {
+            if (GazelleApplication.isEnabled) {
+                 handler.postDelayed(TimeOutRunnable, timeOut);
+            }
             connectionObservable
                     .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                         @Override
@@ -171,6 +163,8 @@ public class BaseActivity extends FragmentActivity {
                 @Override
                 public void call(Observable<byte[]> observable) {
                     Logger.t(TAG).e("开始接收通知  >>>>>>  ");
+                    GazelleApplication.isEnabled = false;
+                     if(TimeOutRunnable!=null) handler.removeCallbacks(TimeOutRunnable);
                     if (dialog.isShowing())
                         dialog.dismiss();
                     onNotifyReturn(0, null);
@@ -183,6 +177,8 @@ public class BaseActivity extends FragmentActivity {
             }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
                 @Override
                 public void call(byte[] bytes) {
+                    GazelleApplication.isEnabled = false;
+                       if(TimeOutRunnable!=null) handler.removeCallbacks(TimeOutRunnable);
                     Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
                     onReadReturn(bytes);
                 }
@@ -198,6 +194,7 @@ public class BaseActivity extends FragmentActivity {
             if (!dialog.isShowing()) dialog.show();
             dialog.setTvContext("没有连接到手表设备");
             dialog.setButOk(View.VISIBLE);
+            dialog.setLoadingVisibility(View.GONE);
             dialog.onButOKListener(new CommonDialog.onButOKListener() {
                 @Override
                 public void onButOKListener() {
@@ -207,13 +204,14 @@ public class BaseActivity extends FragmentActivity {
         }
     }
 
-
     protected void HandleThrowableException(String throwable) {
         BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
+        if(TimeOutRunnable!=null) handler.removeCallbacks(TimeOutRunnable);
         if (!blueadapter.isEnabled()) {
             if (dialog == null) dialog = new CommonDialog(this);
             if (dialog.isShowing()) {
                 dialog.setTvContext("是否开启手机蓝牙");
+                dialog.setLoadingVisibility(View.GONE);
                 dialog.setButOk(View.VISIBLE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
@@ -228,6 +226,7 @@ public class BaseActivity extends FragmentActivity {
                 if (!dialog.isShowing()) dialog.show();
                 dialog.setTvContext("蓝牙连接失败是否继续连接");
                 dialog.setButOk(View.VISIBLE);
+                dialog.setLoadingVisibility(View.GONE);
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
                     public void onButOKListener() {
@@ -236,6 +235,7 @@ public class BaseActivity extends FragmentActivity {
                     }
                 });
             } else {
+
 //                if (dialog == null) dialog = new CommonDialog(this);
 //                if (!dialog.isShowing()) dialog.show();
 //                dialog.setTvContext("蓝牙连接已断开是否重新连接");
@@ -247,11 +247,13 @@ public class BaseActivity extends FragmentActivity {
 //                        Notify(connectionObservable);
 //                    }
 //                });
+
             }
         }
     }
 
-    private void DeviceConnectionStateChanges() {
+
+    protected void DeviceConnectionStateChanges() {
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
@@ -259,11 +261,12 @@ public class BaseActivity extends FragmentActivity {
                     .subscribe(new Action1<RxBleConnection.RxBleConnectionState>() {
                         @Override
                         public void call(RxBleConnection.RxBleConnectionState rxBleConnectionState) {
-                            if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
-                                    || bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED) {
+                            if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED) {
                                 Logger.t(TAG).e("连接 >>>>>>  " + rxBleConnectionState.toString());
+
                             } else {
                                 Logger.t(TAG).e("断开 >>>>>>  " + rxBleConnectionState.toString());
+                                GazelleApplication.isEnabled = true;
                             }
                         }
                     }, new Action1<Throwable>() {
@@ -276,13 +279,15 @@ public class BaseActivity extends FragmentActivity {
 
 
     protected boolean getConnectionState() {
-        if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTING
-                || bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED)
+        if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED)
             return true;
         else
             return false;
     }
 
+    protected RxBleDevice getBleDevicme() {
+        return bleDevicme;
+    }
 
     protected void onReadReturn(byte[] bytes) {
     }
@@ -304,6 +309,9 @@ public class BaseActivity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 10010) {
             if (resultCode == Activity.RESULT_OK) {
+                if (GazelleApplication.isEnabled) {
+                    handler.postDelayed(TimeOutRunnable, timeOut);
+                }
                 if (dialog.isShowing())
                     dialog.dismiss();
                 onNotifyReturn(2, null);//  再次发送监听蓝牙
@@ -375,7 +383,6 @@ public class BaseActivity extends FragmentActivity {
         triggerDisconnect();
     }
 
-
     public void triggerDisconnect() {
         disconnectTriggerSubject.onNext(null);
     }
@@ -421,4 +428,47 @@ public class BaseActivity extends FragmentActivity {
             textView.setText(tvStr);
         result.show();
     }
+
+    protected void showDialog(Context context) {
+
+        if (dialog == null) dialog = new CommonDialog(this);
+        if (!dialog.isShowing()) dialog.show();
+        dialog.setTvContext("蓝牙连接已断开");
+        dialog.setButOk(View.VISIBLE);
+        dialog.setLoadingVisibility(View.GONE);
+        dialog.onButOKListener(new CommonDialog.onButOKListener() {
+            @Override
+            public void onButOKListener() {
+                dialog.dismiss();
+            }
+        });
+    }
+
+
+    Runnable TimeOutRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (dialog.isShowing()) {
+                dialog.setTvContext("蓝牙连接超时, 是否重新连接");
+                dialog.setButOk(View.VISIBLE);
+                dialog.setButOkText("重新连接");
+                dialog.setLoadingVisibility(View.GONE);
+                dialog.setButAdgin(View.VISIBLE);
+                dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                    @Override
+                    public void onButOKListener() {
+                        dialog.dismiss();
+                        Notify(connectionObservable);
+                        Logger.t(TAG).e("超时");
+                    }
+                });
+                dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
+                    @Override
+                    public void onButAdginListener() {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        }
+    };
 }

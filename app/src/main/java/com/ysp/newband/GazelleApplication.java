@@ -48,7 +48,7 @@ public class GazelleApplication extends Application {
 	public static boolean isDfu=false;
 	public static String deviceName = null;
 	public static String deviceAddress = null;
-   public static boolean isEnabled=true;
+    public static boolean isEnabled=true;
 	private RxBleClient rxBleClient;
 
 

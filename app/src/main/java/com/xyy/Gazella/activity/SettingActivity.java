@@ -23,6 +23,7 @@ import com.xyy.Gazella.view.SwitchView;
 import com.xyy.model.TimeZonesData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import java.util.ArrayList;
@@ -86,6 +87,7 @@ public class SettingActivity extends BaseActivity {
         context = this;
         initView();
         initBle();
+        DeviceConnectionStateChanges();
     }
 
     @Override
@@ -156,7 +158,6 @@ public class SettingActivity extends BaseActivity {
         setTimezone();
     }
 
-
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
@@ -193,6 +194,10 @@ public class SettingActivity extends BaseActivity {
                 startActivity(changeIntent);
                 break;
             case R.id.rl_rename_watch:
+                if(getbleDevicme(SettingActivity.this)==null||!getConnectionState()){
+                    showToatst(SettingActivity.this,"蓝牙未连接");
+                    break;
+                }
                 Intent nameIntent = new Intent(this, RenameWatchDialog.class);
                 startActivity(nameIntent);
                 break;
@@ -202,6 +207,11 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_clean_watch:
+
+                if(getbleDevicme(SettingActivity.this)==null||!getConnectionState()){
+                    showToatst(SettingActivity.this,"蓝牙未连接");
+                    break;
+                }
                 Intent watchIntent = new Intent(this, CleanWatchData.class);
                 startActivity(watchIntent);
                 break;
@@ -215,11 +225,16 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_search_watch:
+                if(getbleDevicme(SettingActivity.this)==null||!getConnectionState()){
+                    showToatst(SettingActivity.this,"蓝牙未连接");
+                    break;
+                }
                 if (connectionObservable != null) {
                     Write(bleUtils.setWatchShake(1, 2, 3), connectionObservable);
                 }
                 break;
             case R.id.rl_close_bluetooth:
+
                 CheckUpdateDialog2 myDialog = new CheckUpdateDialog2(SettingActivity.this);
                 myDialog.show();
                 myDialog.setTvContext("是否确定关闭蓝牙？");
@@ -237,6 +252,7 @@ public class SettingActivity extends BaseActivity {
                         if (connectionObservable != null)
                             Write(bleUtils.sendMessage(0, 0, 0, 0, 0, 0), connectionObservable);
                         connectionObservable = null;
+                        GazelleApplication.isEnabled=true;
                     }
                 });
                 break;

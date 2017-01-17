@@ -235,6 +235,7 @@ public class NotificationActivty extends BaseActivity {
                 facebook.setEnabled(true);
                 twitter.setEnabled(true);
                 wechat.setEnabled(true);
+
             }
 
             @Override

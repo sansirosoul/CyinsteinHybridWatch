@@ -175,6 +175,7 @@ public class AddClockActivity extends BaseActivity {
                 }
             }
         };
+
     }
 
     @OnClick({R.id.cancel, R.id.save, R.id.del_clock, R.id.rl_ringtime, R.id.rl_repeatrate})
