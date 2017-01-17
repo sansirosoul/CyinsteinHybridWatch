@@ -1,73 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/toast_bg"
-    android:orientation="vertical">
-    <!--<ImageView-->
-    <!--android:id="@+id/iv_loading"-->
-    <!--android:src="@drawable/page4_jindutiao"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:layout_marginTop="20dp"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content" />-->
-    <ProgressBar
-        android:id="@+id/iv_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:indeterminateBehavior="repeat"
-        android:indeterminateDrawable="@drawable/dlg_refresh_animate"
-        android:indeterminateDuration="100"
-        android:indeterminateOnly="true" />
-
-    <TextView
-        android:id="@+id/tv_context"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/scan_connection_device"
-        android:textColor="@color/black"
-        android:textSize="15sp" />
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@drawable/mydialog"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/but_ok"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
+        <ProgressBar
+            android:id="@+id/iv_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/commbut_bg"
-            android:text="@string/ok"
-            android:textColor="@color/white"
-            android:visibility="gone" />
+            android:layout_marginTop="20dp"
+            android:indeterminateBehavior="repeat"
+            android:indeterminateDrawable="@drawable/dlg_refresh_animate"
+            android:indeterminateDuration="100"
+            android:indeterminateOnly="true"/>
 
-        <Button
-            android:id="@+id/but_adgin"
-            android:layout_width="0dp"
-            android:layout_height="38dp"
+        <TextView
+            android:id="@+id/tv_context"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:background="@drawable/commbut_bg"
-            android:text="@string/adgin"
-            android:textColor="@color/white"
-            android:visibility="gone" />
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/scan_connection_device"
+            android:textColor="@color/black"
+            android:textSize="15sp"/>
+
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:background="@drawable/blue_dialog"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/but_ok"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="#0d98d6"
+                android:text="@string/ok"
+                android:textColor="@color/white"
+                android:visibility="gone"/>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"/>
+
+            <Button
+                android:id="@+id/but_adgin"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="#0d98d6"
+                android:text="@string/adgin"
+                android:textColor="@color/white"
+                android:visibility="gone"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ public class CommonDialog extends Dialog {
     private TextView tvContext;
     private  onButOKListener onButOKListener;
     private  onButAdginListener onButAdginListener;
+    private LinearLayout llBottom;
 
     public CommonDialog(Context context) {
         super(context, R.style.dialog);
@@ -42,6 +44,7 @@ public class CommonDialog extends Dialog {
         tvContext = (TextView) findViewById(R.id.tv_context);
         butOk = (Button) findViewById(R.id.but_ok);
         butAdgin = (Button) findViewById(R.id.but_adgin);
+        llBottom=(LinearLayout)findViewById(R.id.ll_bottom);
         butOk.setOnClickListener(new onButListener());
         butAdgin.setOnClickListener(new onButListener());
         setDialogAttributes((Activity) context, this, 0.5f, 0, Gravity.CENTER);
@@ -84,6 +87,9 @@ public class CommonDialog extends Dialog {
 
     public void setLoadingVisibility(int visibility) {
         iv_loading.setVisibility(visibility);
+    }
+    public void setllBottomVisibility(int visibility) {
+        llBottom.setVisibility(visibility);
     }
 
     public interface onButOKListener {

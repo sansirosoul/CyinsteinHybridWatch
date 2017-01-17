@@ -167,7 +167,6 @@ public class BaseActivity extends FragmentActivity {
     }
 
     private CommonDialog dialog;
-
     protected void Notify(Observable<RxBleConnection> connectionObservable) {
         dialog = new CommonDialog(this);
         dialog.show();
@@ -215,6 +214,7 @@ public class BaseActivity extends FragmentActivity {
             if (dialog == null) dialog = new CommonDialog(this);
             if (!dialog.isShowing()) dialog.show();
             dialog.setTvContext("没有连接到手表设备");
+            dialog.setllBottomVisibility(View.VISIBLE);
             dialog.setButOk(View.VISIBLE);
             dialog.setLoadingVisibility(View.GONE);
             dialog.onButOKListener(new CommonDialog.onButOKListener() {
@@ -232,30 +232,51 @@ public class BaseActivity extends FragmentActivity {
         if (!blueadapter.isEnabled()) {
             if (dialog == null) dialog = new CommonDialog(this);
             if (dialog.isShowing()) {
-                dialog.setTvContext("是否开启手机蓝牙");
-                dialog.setLoadingVisibility(View.GONE);
+                dialog.setllBottomVisibility(View.VISIBLE);
                 dialog.setButOk(View.VISIBLE);
+                dialog.setButAdgin(View.VISIBLE);
+                dialog.setLoadingVisibility(View.GONE);
+                dialog.setTvContext("是否开启手机蓝牙");
+                dialog.setButOkText("开启蓝牙");
+                dialog.setButAdginText("取消开启");
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
                     public void onButOKListener() {
                         startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 10010);
                     }
                 });
+                dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
+                    @Override
+                    public void onButAdginListener() {
+                        dialog.dismiss();
+                    }
+                });
             }
         } else {
             if (throwable.contains("status=133") || throwable.contains("status=129")) {
-                if (dialog == null) dialog = new CommonDialog(this);
-                if (!dialog.isShowing()) dialog.show();
-                dialog.setTvContext("蓝牙连接失败是否继续连接");
-                dialog.setButOk(View.VISIBLE);
-                dialog.setLoadingVisibility(View.GONE);
-                dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                    @Override
-                    public void onButOKListener() {
-                        dialog.dismiss();
-                        Notify(connectionObservable);
-                    }
-                });
+//                if (dialog == null) dialog = new CommonDialog(this);
+                if (dialog.isShowing()) {
+                    dialog.setllBottomVisibility(View.VISIBLE);
+                    dialog.setButOk(View.VISIBLE);
+                    dialog.setButAdgin(View.VISIBLE);
+                    dialog.setLoadingVisibility(View.GONE);
+                    dialog.setTvContext("连接失败是否继续连接");
+                    dialog.setButOkText("重新连接");
+                    dialog.setButAdginText("取消连接");
+                    dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                        @Override
+                        public void onButOKListener() {
+                            dialog.dismiss();
+                            Notify(connectionObservable);
+                        }
+                    });
+                    dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
+                        @Override
+                        public void onButAdginListener() {
+                            dialog.dismiss();
+                        }
+                    });
+                }
             } else {
 
 //                if (dialog == null) dialog = new CommonDialog(this);
@@ -269,7 +290,6 @@ public class BaseActivity extends FragmentActivity {
 //                        Notify(connectionObservable);
 //                    }
 //                });
-
             }
         }
     }
@@ -431,6 +451,7 @@ public class BaseActivity extends FragmentActivity {
 
         Bugtags.onDispatchTouchEvent(this, event);
         return super.dispatchTouchEvent(event);
+
     }
 
     private Toast result;
@@ -454,16 +475,28 @@ public class BaseActivity extends FragmentActivity {
     protected void showDialog(Context context) {
 
         if (dialog == null) dialog = new CommonDialog(this);
-        if (!dialog.isShowing()) dialog.show();
-        dialog.setTvContext("蓝牙连接已断开");
-        dialog.setButOk(View.VISIBLE);
-        dialog.setLoadingVisibility(View.GONE);
-        dialog.onButOKListener(new CommonDialog.onButOKListener() {
-            @Override
-            public void onButOKListener() {
-                dialog.dismiss();
-            }
-        });
+        if (dialog.isShowing()) {
+            dialog.setButOk(View.VISIBLE);
+            dialog.setllBottomVisibility(View.VISIBLE);
+            dialog.setButAdgin(View.VISIBLE);
+            dialog.setLoadingVisibility(View.GONE);
+            dialog.setTvContext("蓝牙连接已断开");
+            dialog.setButOkText("重新连接");
+            dialog.setButAdginText("取消连接");
+            dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                @Override
+                public void onButOKListener() {
+                    dialog.dismiss();
+                    Notify(connectionObservable);
+                }
+            });
+            dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
+                @Override
+                public void onButAdginListener() {
+                    dialog.dismiss();
+                }
+            });
+        }
     }
 
 
@@ -471,11 +504,13 @@ public class BaseActivity extends FragmentActivity {
         @Override
         public void run() {
             if (dialog.isShowing()) {
-                dialog.setTvContext("蓝牙连接超时, 是否重新连接");
                 dialog.setButOk(View.VISIBLE);
-                dialog.setButOkText("重新连接");
-                dialog.setLoadingVisibility(View.GONE);
+                dialog.setllBottomVisibility(View.VISIBLE);
                 dialog.setButAdgin(View.VISIBLE);
+                dialog.setLoadingVisibility(View.GONE);
+                dialog.setTvContext("连接超时, 是否重新连接");
+                dialog.setButOkText("重新连接");
+                dialog.setButAdginText("取消连接");
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
                     public void onButOKListener() {
