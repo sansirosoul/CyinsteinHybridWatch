@@ -123,4 +123,6 @@ dependencies {
     compile 'com.bugtags.library:bugtags-lib:latest.integration'
     compile 'com.nbsp:library:1.1'
     compile 'com.lovedise:permissiongen:0.0.6'
+    apt 'com.zhy:mpermission-compiler:1.0.0'
+    compile 'com.zhy:mpermission-api:1.0.0'
 }

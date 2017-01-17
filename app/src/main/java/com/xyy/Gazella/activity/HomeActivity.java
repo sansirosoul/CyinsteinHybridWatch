@@ -4,10 +4,12 @@ package com.xyy.Gazella.activity;
  * 主页
  */
 
+import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,6 +20,9 @@ import com.xyy.Gazella.utils.BleUtils;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,13 +62,13 @@ public class HomeActivity extends BaseActivity {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
         }
+        getTelephony();
         install = this;
         DeviceConnectionStateChanges();
     }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        super.onReadReturn(bytes);
     }
 
     @Override
@@ -150,5 +155,46 @@ public class HomeActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private Object iTelephony;
+     // 初始电话实例
+    public void getTelephony() {
+        TelephonyManager telMgr = (TelephonyManager)getSystemService(Service.TELEPHONY_SERVICE);
+        Class<TelephonyManager> c = TelephonyManager.class;
+        Method getITelephonyMethod = null;
+        try {
+            getITelephonyMethod = c.getDeclaredMethod("getITelephony",(Class[]) null);
+            getITelephonyMethod.setAccessible(true);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            iTelephony = getITelephonyMethod.invoke(telMgr,(Object[])null);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //挂电话
+    public void endCall(){
+        try {
+            Method endCallmethod = iTelephony.getClass().getDeclaredMethod("endCall");
+            endCallmethod.invoke(iTelephony);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 }

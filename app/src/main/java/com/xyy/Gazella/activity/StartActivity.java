@@ -19,13 +19,6 @@ public class StartActivity extends BaseActivity {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-//				if(GazelleApplication.deviceAddress==null){
-//					Intent intent = new Intent(StartActivity.this,LaunchActivity.class);
-//					startActivity(intent);
-//				}else{
-//					Intent intent = new Intent(StartActivity.this,HomeActivity.class);
-//					startActivity(intent);
-//				}
 				Intent intent = new Intent(StartActivity.this,LaunchActivity.class);
 				startActivity(intent);
 				overridePendingTransitionEnter(StartActivity.this);

@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
+import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.adapter.DeviceListAdapter;
 import com.xyy.Gazella.utils.CheckUpdateDialog2;
@@ -41,6 +42,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
 import rx.Subscription;
 
 /**
@@ -65,9 +67,10 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private BluetoothDevice device;
     private int count;
     private CheckUpdateDialog2 myDialog;
-    private boolean isRun=true;
+    private boolean isRun = true;
     private RxBleClient rxBleClient;
-    private Subscription scanSubscription,connectionSubscription;
+    private Subscription scanSubscription, connectionSubscription;
+    private Observable<RxBleConnection> connectionObservable;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -105,7 +108,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (bluetoothDevice.getName() != null ) {
+                    if (bluetoothDevice.getName() != null) {
                         if (!devices.contains(bluetoothDevice)) {
                             searchLayout.setVisibility(View.GONE);
                             pairingLayout.setVisibility(View.VISIBLE);
@@ -121,6 +124,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
     //sdk6.0以上获取蓝牙权限
     private static final int REQUEST_FINE_LOCATION = 0;
+
     private void mayRequestLocation() {
         if (Build.VERSION.SDK_INT >= 23) {
             int checkCallPhonePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -163,7 +167,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         }
     }
 
-    private void scanDevices(){
+    private void scanDevices() {
         scanSubscription = rxBleClient.scanBleDevices()
                 .subscribe(
                         rxBleScanResult -> {
@@ -172,7 +176,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (bluetoothDevice.getName() != null ) {
+                                    if (bluetoothDevice.getName() != null) {
                                         if (!devices.contains(bluetoothDevice)) {
                                             searchLayout.setVisibility(View.GONE);
                                             pairingLayout.setVisibility(View.VISIBLE);
@@ -186,7 +190,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                         },
                         throwable -> {
                             // Handle an error here.
-                            Log.d("==========","Scan error :"+throwable);
+                            Log.d("==========", "Scan error :" + throwable);
                         }
                 );
     }
@@ -217,15 +221,15 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 ////            }
 //            bluetoothAdapter.stopLeScan(leScanCallback);
 //        }
-        if(scanSubscription!=null)
-        scanSubscription.unsubscribe();
+        if (scanSubscription != null)
+            scanSubscription.unsubscribe();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(scanSubscription!=null)
-        scanSubscription.unsubscribe();
+        if (scanSubscription != null)
+            scanSubscription.unsubscribe();
     }
 
     @Override
@@ -278,26 +282,37 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         scanSubscription.unsubscribe();
         device = devices.get(i);
         RxBleDevice rxBleDevice = rxBleClient.getBleDevice(device.getAddress());
-        connectionSubscription = rxBleDevice.establishConnection(context, false) // <-- autoConnect flag
-                .subscribe(
-                        rxBleConnection -> {
-                            // All GATT operations are done through the rxBleConnection.
-                            loadingDialog.dismiss();
-                            connectionSubscription.unsubscribe();
-                            PreferenceData.setAddressValue(PairingActivity.this,device.getAddress());
+        setConnectionObservable(context, rxBleDevice);
+//        connectionObservable=rxBleDevice.establishConnection(context,false);// <-- autoConnect flag
+//        connectionSubscription = connectionObservable
+//                .subscribe(
+//                        rxBleConnection -> {
+//                            // All GATT operations are done through the rxBleConnection.
+//                            loadingDialog.dismiss();
+//                            PreferenceData.setAddressValue(PairingActivity.this,device.getAddress());
+//                            Intent intent = new Intent(context, PersonActivity.class);
+//                            startActivity(intent);
+//                            PairingActivity.this.finish();
+//                            overridePendingTransitionEnter(PairingActivity.this);
+//                        },
+//                        throwable -> {
+//                            // Handle an error here.
+//                            mHandler.sendEmptyMessage(2000);
+//                        }
+//                );
+    }
 
-//                            Intent intent = new Intent(context, BleTest.class);
-                            Intent intent = new Intent(context, PersonActivity.class);
-                            startActivity(intent);
-                            PairingActivity.this.finish();
-                            overridePendingTransitionEnter(PairingActivity.this);
-                        },
-                        throwable -> {
-                            // Handle an error here.
-                            Log.d("========","Connection error: "+throwable);
-                            mHandler.sendEmptyMessage(2000);
-                        }
-                );
+    @Override
+    public void onConnectionState(int state) {
+        super.onConnectionState(state);
+        switch (state) {
+            case 1:
+                mHandler.sendEmptyMessage(1000);
+                break;
+            case 2:
+                mHandler.sendEmptyMessage(2000);
+                break;
+        }
     }
 
     Handler mHandler = new Handler() {
@@ -305,15 +320,23 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
+                case 1000:
+                    loadingDialog.dismiss();
+                    PreferenceData.setAddressValue(PairingActivity.this, device.getAddress());
+                    Intent intent = new Intent(context, PersonActivity.class);
+                    startActivity(intent);
+                    PairingActivity.this.finish();
+                    overridePendingTransitionEnter(PairingActivity.this);
+                    break;
                 case 2000:
-                        loadingDialog.dismiss();
-                        pairFailedDialog.show();
+                    loadingDialog.dismiss();
+                    pairFailedDialog.show();
                     break;
                 case 1001:
                     clock.setTimeValue(2, count);
                     if (count == 180 && devices.size() == 0) {
                         bluetoothAdapter.stopLeScan(leScanCallback);
-                        isRun=false;
+                        isRun = false;
                         myDialog = new CheckUpdateDialog2(PairingActivity.this);
                         myDialog.show();
                         myDialog.setTvContext("搜索超时");
@@ -323,12 +346,13 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                             @Override
                             public void onCancelListener() {
                                 myDialog.dismiss();
-                                isRun=true;
-                                count=0;
+                                isRun = true;
+                                count = 0;
 //                                bluetoothAdapter.startLeScan(leScanCallback);
                                 scanDevices();
                                 mHandler.removeCallbacks(runnable);
                             }
+
                             @Override
                             public void onConfirm() {
                                 Intent intent = new Intent(context, PersonActivity.class);

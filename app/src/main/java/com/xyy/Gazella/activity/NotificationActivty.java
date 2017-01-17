@@ -22,13 +22,13 @@ import com.xyy.Gazella.view.SwitchView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import kr.co.namee.permissiongen.PermissionFail;
-import kr.co.namee.permissiongen.PermissionGen;
-import kr.co.namee.permissiongen.PermissionSuccess;
 
 /**
  * Created by Administrator on 2016/10/20.
@@ -117,27 +117,24 @@ public class NotificationActivty extends BaseActivity {
 
     //sdk6.0以上获取权限
     private void getPermission(){
-        PermissionGen.with(NotificationActivty.this)
-                .addRequestCode(100)
-                .permissions(
-                        Manifest.permission.READ_PHONE_STATE,
-                        Manifest.permission.RECEIVE_SMS)
-                .request();
+        MPermissions.requestPermissions(NotificationActivty.this, 100, Manifest.permission.RECEIVE_SMS);
+        MPermissions.requestPermissions(NotificationActivty.this, 100, Manifest.permission.READ_PHONE_STATE);
+        MPermissions.requestPermissions(NotificationActivty.this, 100, Manifest.permission.MODIFY_PHONE_STATE);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        PermissionGen.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        MPermissions.onRequestPermissionsResult(this,requestCode,permissions,grantResults);
     }
 
-    @PermissionSuccess(requestCode = 100)
-    public void doSomething(){
-
+    @PermissionGrant(100)
+    public void requestSdcardSuccess()
+    {
     }
 
-    @PermissionFail(requestCode = 100)
-    public void doFailSomething(){
-       getPermission();
+    @PermissionDenied(100)
+    public void requestSdcardFailed()
+    {
     }
 
     private void initView() {
