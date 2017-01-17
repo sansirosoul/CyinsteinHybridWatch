@@ -47,6 +47,7 @@ public class CheckUpdateDialog2 extends Dialog implements View.OnClickListener{
         tvContext= (TextView) findViewById(R.id.tv_context);
         cancel.setOnClickListener(this);
         confirm.setOnClickListener(this);
+
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,
