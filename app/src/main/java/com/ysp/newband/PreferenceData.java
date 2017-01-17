@@ -35,6 +35,7 @@ public class PreferenceData implements Serializable{
 
     public static final String SAVE_DEVICE_SN_VALUE = "SAVE_DEVICE_SN_VALUE";
     public static final String SAVE_DEVICE_FWV_VALUE = "SAVE_DEVICE_FWV_VALUE";
+    public static final String SAVE_DEVICE_TYPE = "SAVE_DEVICE_TYPE";
 
     public static final String SAVE_NOTIFICATION_SHAKE_STATE="SAVE_NOTIFICATION_SHAKE_STATE";
     public static final String SAVE_NOTIFICATION_STATE="SAVE_NOTIFICATION_STATE";
@@ -276,6 +277,21 @@ public class PreferenceData implements Serializable{
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getString(SAVE_DEVICE_FWV_VALUE,null);
+    }
+
+    //保存手表设备型号
+    public static void setDeviceType(Context context,String type){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SAVE_DEVICE_TYPE,type).commit();
+    }
+
+    //获取手表设备型号
+    public static String getDeviceType(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(SAVE_DEVICE_TYPE,null);
     }
 
     //保存通知提醒状态     0关  1开

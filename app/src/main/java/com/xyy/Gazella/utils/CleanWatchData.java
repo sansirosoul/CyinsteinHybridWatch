@@ -55,7 +55,7 @@ public class CleanWatchData extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.confirm:
                 if(connectionObservable!=null)
-//                Write(bleUtils.eraseWatchData(), connectionObservable);
+                Write(bleUtils.eraseWatchData(), connectionObservable);
                 finish();
                 break;
         }

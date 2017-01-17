@@ -110,6 +110,7 @@ public class UpdateHardware extends BaseActivity {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
+            Write(bleUtils.getDeviceType(),connectionObservable);
         }
     }
 
@@ -125,6 +126,8 @@ public class UpdateHardware extends BaseActivity {
         } else if (bleUtils.returnBatteryValue(bytes) != null) {
             battery_num=Integer.parseInt(bleUtils.returnBatteryValue(bytes));
             battery.setText(bleUtils.returnBatteryValue(bytes) + "%");
+        }else if(bleUtils.returnDeviceType(bytes)!=null){
+            PreferenceData.setDeviceType(this,bleUtils.returnDeviceType(bytes));
         }
     }
 

@@ -35,6 +35,7 @@ import com.ysp.hybridtwatch.R;
 import java.util.UUID;
 
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -52,7 +53,7 @@ public class BaseActivity extends FragmentActivity {
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice bleDevicme;
-
+    private static Subscription connectionSubscription;
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
 
@@ -63,6 +64,8 @@ public class BaseActivity extends FragmentActivity {
                 connectionObservable = bleDevicme
                         .establishConnection(context, false)
                         .compose(new ConnectionSharingAdapter());
+            } else {
+
             }
         }
         return connectionObservable;
@@ -70,7 +73,28 @@ public class BaseActivity extends FragmentActivity {
 
     public static void cleanObservable() {
         connectionObservable.unsubscribeOn(AndroidSchedulers.mainThread());
+        connectionSubscription=null;
         connectionObservable = null;
+    }
+
+    public void setConnectionObservable(Context context, RxBleDevice rxBleDevice) {
+        connectionObservable = rxBleDevice
+                .establishConnection(context, false)
+                .compose(new ConnectionSharingAdapter());
+        connectionSubscription = connectionObservable.subscribe(
+                rxBleConnection -> {
+                    // All GATT operations are done through the rxBleConnection.
+                    onConnectionState(1);
+                },
+                throwable -> {
+                    // Handle an error here.
+                    onConnectionState(2);
+                }
+        );
+    }
+
+    public void onConnectionState(int state) {
+
     }
 
     @Override

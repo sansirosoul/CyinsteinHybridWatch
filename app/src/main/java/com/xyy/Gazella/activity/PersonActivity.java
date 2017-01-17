@@ -7,6 +7,8 @@ import android.net.ParseException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +22,8 @@ import android.widget.Toast;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.kevin.crop.UCrop;
+import com.polidea.rxandroidble.RxBleConnection;
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
 import com.xyy.Gazella.utils.WeightDialog;
@@ -36,6 +40,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.iwf.photopicker.PhotoPicker;
+import rx.Observable;
 
 /**
  * Created by Administrator on 2016/10/12.
@@ -79,6 +84,9 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     private HeightDialog heightDialog;
     private WeightDialog weightDialog;
 
+    BleUtils bleUtils;
+    public Observable<RxBleConnection> connectionObservable;
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -87,8 +95,49 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         ButterKnife.bind(this);
         context = this;
         initView();
+        bleUtils = new BleUtils();
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals("")) {
+            connectionObservable = getRxObservable(this);
+            Notify(connectionObservable);
+        }
     }
 
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        if(bleUtils.returnDeviceType(bytes)!=null){
+            PreferenceData.setDeviceType(this,bleUtils.returnDeviceType(bytes));
+        }
+    }
+
+    @Override
+    protected void onNotifyReturn(int type,String str) {
+        super.onNotifyReturn(type,str);
+        switch (type) {
+            case 0:
+                Write(bleUtils.getDeviceType(),connectionObservable);
+                break;
+            case 1:
+                Message.obtain(handler,101,str).sendToTarget();
+                break;
+            case 2:
+                Notify(connectionObservable);
+                break;
+        }
+    }
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 101:
+                    String str = (String) msg.obj;
+                    HandleThrowableException(str);
+                    break;
+            }
+        }
+    };
 
     private int sex = -1;
 
