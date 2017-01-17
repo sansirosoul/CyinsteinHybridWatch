@@ -74,6 +74,7 @@ public class AddClockActivity extends BaseActivity {
             bleUtils = new BleUtils();
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
+
         }
     }
 
