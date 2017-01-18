@@ -68,7 +68,7 @@
         <service
             android:name="com.xyy.Gazella.googlebth.BluetoothLeService"
             android:enabled="true" />
-        <service android:name="com.xyy.Gazella.services.BluetoothService" />
+        <!--<service android:name="com.xyy.Gazella.services.BluetoothService" />-->
 
         <!-- 空中升级service -->
         <service android:name="com.xyy.Gazella.services.DfuService" />

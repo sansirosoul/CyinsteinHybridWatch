@@ -10,6 +10,15 @@ public class SleepWeekTime {
     int lightsleepTime;
     int sleepingTime;
     int sleeptime;
+    int awakeCount;
+
+    public int getAwakeCount() {
+        return awakeCount;
+    }
+
+    public void setAwakeCount(int awakeCount) {
+        this.awakeCount = awakeCount;
+    }
 
     public SleepWeekTime() {
     }

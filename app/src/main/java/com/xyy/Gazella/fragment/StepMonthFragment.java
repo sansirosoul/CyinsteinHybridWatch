@@ -151,14 +151,14 @@ public class StepMonthFragment extends BaseFragment {
                 tvNumHour.setVisibility(View.INVISIBLE);
                 tvHour.setVisibility(View.INVISIBLE);
             }
-            tvNumMinute.setText(String.valueOf(sumsSecond / 60));
+            tvNumMinute.setText(String.valueOf(sumsSecond));
         } else if (sumsSecond > 60) {
             if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                 tvNumHour.setVisibility(View.VISIBLE);
                 tvHour.setVisibility(View.VISIBLE);
             }
-            tvNumHour.setText(String.valueOf(sumsSecond / 360));
-            tvNumMinute.setText(String.valueOf((sumsSecond % 3600) / 60));
+            tvNumHour.setText(String.valueOf(sumsSecond /60));
+            tvNumMinute.setText(String.valueOf((sumsSecond % 360) / 60));
         } else if (sumsSecond == 0) {
             if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                 tvNumHour.setVisibility(View.VISIBLE);

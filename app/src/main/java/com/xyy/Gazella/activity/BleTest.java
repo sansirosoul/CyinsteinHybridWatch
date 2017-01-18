@@ -17,7 +17,7 @@ import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
-import com.xyy.Gazella.services.BluetoothService;
+
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.utils.SomeUtills;
@@ -180,27 +180,27 @@ public class BleTest extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case BluetoothService.WRITE_SUCCESS:
-                    if (msg.obj != null) {
-                        byte[] bytes = (byte[]) msg.obj;
-                        write.setText(HexString.bytesToHex(bytes));
-                        notify.setText("");
-                    }
-                    break;
-                case BluetoothService.NOTIFY_SUCCESS:
-                    if (msg.obj != null) {
-                        byte[] bytes = (byte[]) msg.obj;
-                        notify.setText(HexString.bytesToHex(bytes));
-                    }
-                    break;
-                case BluetoothService.SERVICES_DISCOVERED:
-                    writeCharacteristic = GazelleApplication.mBluetoothService.getWriteCharacteristic();
-                    notifyCharacteristic = GazelleApplication.mBluetoothService.getNotifyCharacteristic();
-                    if (notifyCharacteristic != null)
-                        GazelleApplication.mBluetoothService.setCharacteristicNotification(notifyCharacteristic, true);
-                    break;
-            }
+//            switch (msg.what) {
+//                case BluetoothService.WRITE_SUCCESS:
+//                    if (msg.obj != null) {
+//                        byte[] bytes = (byte[]) msg.obj;
+//                        write.setText(HexString.bytesToHex(bytes));
+//                        notify.setText("");
+//                    }
+//                    break;
+//                case BluetoothService.NOTIFY_SUCCESS:
+//                    if (msg.obj != null) {
+//                        byte[] bytes = (byte[]) msg.obj;
+//                        notify.setText(HexString.bytesToHex(bytes));
+//                    }
+//                    break;
+//                case BluetoothService.SERVICES_DISCOVERED:
+//                    writeCharacteristic = GazelleApplication.mBluetoothService.getWriteCharacteristic();
+//                    notifyCharacteristic = GazelleApplication.mBluetoothService.getNotifyCharacteristic();
+//                    if (notifyCharacteristic != null)
+//                        GazelleApplication.mBluetoothService.setCharacteristicNotification(notifyCharacteristic, true);
+//                    break;
+//            }
         }
     };
     private StringBuffer stringBuffer = new StringBuffer();
