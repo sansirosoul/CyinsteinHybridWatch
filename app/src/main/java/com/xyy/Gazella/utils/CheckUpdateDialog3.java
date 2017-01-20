@@ -135,7 +135,6 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onDfuCompleted(String deviceAddress) {
-            cleanObservable();
             Intent intent = new Intent(context, CheckUpdateDialog4.class);
             startActivity(intent);
             finish();

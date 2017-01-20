@@ -55,7 +55,7 @@ public class BaseActivity extends FragmentActivity {
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice bleDevicme;
-    private long timeOut = 8000; //超时设置为5秒
+    private long timeOut = 20000; //超时设置为5秒
     private static Subscription connectionSubscription;
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
@@ -65,7 +65,7 @@ public class BaseActivity extends FragmentActivity {
             RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(context).getBleDevice(address);
             if (connectionObservable == null) {
                 connectionObservable = bleDevicme
-                        .establishConnection(context, true)
+                        .establishConnection(context, false)
                         .compose(new ConnectionSharingAdapter());
             }
         }
@@ -82,8 +82,12 @@ public class BaseActivity extends FragmentActivity {
     }
 
     public static void cleanObservable() {
-        connectionObservable.unsubscribeOn(AndroidSchedulers.mainThread());
-        connectionObservable = null;
+        if (connectionSubscription != null)
+            connectionSubscription.unsubscribe();
+        if (connectionObservable != null) {
+            connectionObservable.unsubscribeOn(AndroidSchedulers.mainThread());
+            connectionObservable = null;
+        }
     }
 
     public void setConnectionObservable(Context context, RxBleDevice rxBleDevice) {
@@ -122,7 +126,7 @@ public class BaseActivity extends FragmentActivity {
         if (address != null && !address.equals(""))
             bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
         RxBleClient.setLogLevel(RxBleLog.DEBUG);
-        DeviceConnectionStateChanges();
+//        DeviceConnectionStateChanges();
     }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
@@ -167,13 +171,14 @@ public class BaseActivity extends FragmentActivity {
     }
 
     private CommonDialog dialog;
+
     protected void Notify(Observable<RxBleConnection> connectionObservable) {
         dialog = new CommonDialog(this);
         dialog.show();
         if (connectionObservable != null) {
-            if (GazelleApplication.isEnabled) {
-                 handler.postDelayed(TimeOutRunnable, timeOut);
-            }
+//            if (GazelleApplication.isEnabled) {
+//                 handler.postDelayed(TimeOutRunnable, timeOut);
+//            }
             connectionObservable
                     .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                         @Override
@@ -185,7 +190,7 @@ public class BaseActivity extends FragmentActivity {
                 public void call(Observable<byte[]> observable) {
                     Logger.t(TAG).e("开始接收通知  >>>>>>  ");
                     GazelleApplication.isEnabled = false;
-                     if(TimeOutRunnable!=null) handler.removeCallbacks(TimeOutRunnable);
+                    if (TimeOutRunnable != null) handler.removeCallbacks(TimeOutRunnable);
                     if (dialog.isShowing())
                         dialog.dismiss();
                     onNotifyReturn(0, null);
@@ -199,7 +204,7 @@ public class BaseActivity extends FragmentActivity {
                 @Override
                 public void call(byte[] bytes) {
                     GazelleApplication.isEnabled = false;
-                       if(TimeOutRunnable!=null) handler.removeCallbacks(TimeOutRunnable);
+                    if (TimeOutRunnable != null) handler.removeCallbacks(TimeOutRunnable);
                     Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
                     onReadReturn(bytes);
                 }
@@ -228,7 +233,7 @@ public class BaseActivity extends FragmentActivity {
 
     protected void HandleThrowableException(String throwable) {
         BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
-        if(TimeOutRunnable!=null) handler.removeCallbacks(TimeOutRunnable);
+        if (TimeOutRunnable != null) handler.removeCallbacks(TimeOutRunnable);
         if (!blueadapter.isEnabled()) {
             if (dialog == null) dialog = new CommonDialog(this);
             if (dialog.isShowing()) {
@@ -278,7 +283,6 @@ public class BaseActivity extends FragmentActivity {
                     });
                 }
             } else {
-
 //                if (dialog == null) dialog = new CommonDialog(this);
 //                if (!dialog.isShowing()) dialog.show();
 //                dialog.setTvContext("蓝牙连接已断开是否重新连接");

@@ -64,7 +64,6 @@ public class HomeActivity extends BaseActivity {
         }
         getTelephony();
         install = this;
-        DeviceConnectionStateChanges();
     }
 
     @Override

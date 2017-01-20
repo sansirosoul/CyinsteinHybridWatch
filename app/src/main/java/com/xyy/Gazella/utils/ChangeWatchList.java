@@ -79,6 +79,7 @@ public class ChangeWatchList extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 scanSubscription.unsubscribe();
+                if(connectionObservable!=null)
                 Write(bleUtils.terminateBle(),connectionObservable);
                 PreferenceData.setAddressValue(context, devices.get(i).getAddress());
                 cleanObservable();
