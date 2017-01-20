@@ -64,6 +64,7 @@ public class HomeActivity extends BaseActivity {
         }
         getTelephony();
         install = this;
+       // DeviceConnectionStateChanges();
     }
 
     @Override
@@ -194,6 +195,5 @@ public class HomeActivity extends BaseActivity {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-
     }
 }

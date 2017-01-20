@@ -68,7 +68,7 @@
         <service
             android:name="com.xyy.Gazella.googlebth.BluetoothLeService"
             android:enabled="true" />
-        <service android:name="com.xyy.Gazella.services.BluetoothService" />
+        <!--<service android:name="com.xyy.Gazella.services.BluetoothService" />-->
 
         <!-- 空中升级service -->
         <service android:name="com.xyy.Gazella.services.DfuService" />
@@ -171,16 +171,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/ExampleTheme" />
-
-        <!-- &lt;!&ndash;首页&ndash;&gt; -->
-
-        <activity
-            android:name="com.xyy.Gazella.activity.HomeActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/ExampleTheme" />
-
         <!-- 通知页面 -->
         <activity
             android:name="com.xyy.Gazella.activity.NotificationActivty"

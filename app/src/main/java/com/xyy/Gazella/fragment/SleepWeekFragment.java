@@ -90,6 +90,7 @@ public class SleepWeekFragment extends BaseFragment {
     private String strMonth, strDay;
     private List<SleepWeekTime> sleepWeekTimes = new ArrayList<>();
     private int awakeTime, lightsleepTime, sleepingTime,sleepTime,awakeCount;
+    boolean booleanAwake = true;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -117,6 +118,7 @@ public class SleepWeekFragment extends BaseFragment {
        int lightsleepTimes = 0;
        int sleepingTimes = 0;
        int awakeTimes = 0;
+        int awakeCounts=0;
         if(sleepWeekTimes!=null&&sleepWeekTimes.size()>0)sleepWeekTimes.clear();
         for (int i = 0; i < weekMap.size(); i++) {
             today = weekMap.get(String.valueOf(i + 1));
@@ -137,11 +139,13 @@ public class SleepWeekFragment extends BaseFragment {
             awakeTimes+=sleepWeekTimes.get(m).getAwakeTime();
             sleepTimes+=sleepWeekTimes.get(m).getSleeptime();
             lightsleepTimes+=sleepWeekTimes.get(m).getLightsleepTime();
+            awakeCounts+=sleepWeekTimes.get(m).getAwakeCount();
         }
         tvSleeptime.setText(String.valueOf(sleepTimes));
         tvLightsleepTime.setText(String.valueOf(lightsleepTimes));
         tvSleepingtime.setText(String.valueOf(sleepingTimes));
         tvAwakeTime.setText(String.valueOf(awakeTimes));
+        tvAwakeCount.setText(String.valueOf(awakeCounts));
         updateUI(xValue);
 
     }
@@ -152,6 +156,7 @@ public class SleepWeekFragment extends BaseFragment {
         lightsleepTime=0;
         sleepingTime=0;
         sleepTime=0;
+
 
         xValue = new String[24];
         if (todayPartners != null || todayPartners.size() > 0) {
@@ -181,17 +186,27 @@ public class SleepWeekFragment extends BaseFragment {
                 switch (state) {
                     case "0":
                         awakeTime += 1;
+                        if (booleanAwake){
+                            awakeCount++;
+                            booleanAwake=false;
+                        }
                         break;
                     case "1":
                         sleepTime += 1;
                         lightsleepTime += 1;
+                        booleanAwake=true;
                         break;
                     case "2":
                         sleepTime += 1;
                         sleepingTime += 1;
+                        booleanAwake=true;
                         break;
                     case "3":
                         awakeTime += 1;
+                        if (booleanAwake){
+                            awakeCount++;
+                            booleanAwake=false;
+                        }
                         break;
                     case "4":
                         awakeTime += 0;
@@ -207,6 +222,7 @@ public class SleepWeekFragment extends BaseFragment {
             sleepWeekTime.setLightsleepTime(lightsleepTime);
             sleepWeekTime.setSleepingTime(sleepingTime);
             sleepWeekTime.setSleeptime(sleepTime);
+            sleepWeekTime.setAwakeCount(awakeCount);
             sleepWeekTimes.add(sleepWeekTime);
     }
 

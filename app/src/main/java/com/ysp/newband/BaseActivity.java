@@ -3,6 +3,9 @@ package com.ysp.newband;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -55,7 +58,7 @@ public class BaseActivity extends FragmentActivity {
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice bleDevicme;
-    private long timeOut = 20000; //超时设置为5秒
+    private long timeOut = 20000; //超时设置为20秒
     private static Subscription connectionSubscription;
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
@@ -126,7 +129,7 @@ public class BaseActivity extends FragmentActivity {
         if (address != null && !address.equals(""))
             bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
         RxBleClient.setLogLevel(RxBleLog.DEBUG);
-//        DeviceConnectionStateChanges();
+        //DeviceConnectionStateChanges();
     }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
@@ -177,7 +180,7 @@ public class BaseActivity extends FragmentActivity {
         dialog.show();
         if (connectionObservable != null) {
 //            if (GazelleApplication.isEnabled) {
-//                 handler.postDelayed(TimeOutRunnable, timeOut);
+//                handler.postDelayed(TimeOutRunnable, timeOut);
 //            }
             connectionObservable
                     .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
@@ -216,6 +219,7 @@ public class BaseActivity extends FragmentActivity {
                 }
             });
         } else {
+
             if (dialog == null) dialog = new CommonDialog(this);
             if (!dialog.isShowing()) dialog.show();
             dialog.setTvContext("没有连接到手表设备");
@@ -242,24 +246,26 @@ public class BaseActivity extends FragmentActivity {
                 dialog.setButAdgin(View.VISIBLE);
                 dialog.setLoadingVisibility(View.GONE);
                 dialog.setTvContext("是否开启手机蓝牙");
-                dialog.setButOkText("开启蓝牙");
-                dialog.setButAdginText("取消开启");
+                dialog.setButOkText("取消开启");
+                dialog.setButAdginText("开启蓝牙");
                 dialog.onButOKListener(new CommonDialog.onButOKListener() {
                     @Override
                     public void onButOKListener() {
-                        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 10010);
+                        dialog.dismiss();
                     }
                 });
                 dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
                     @Override
                     public void onButAdginListener() {
-                        dialog.dismiss();
+                        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 10010);
                     }
                 });
             }
         } else {
+            BluetoothGatt  blegatt = bleDevicme.getBluetoothDevice().connectGatt(this, false, gattCallback);
+            blegatt.close();
+            blegatt = null;
             if (throwable.contains("status=133") || throwable.contains("status=129")) {
-//                if (dialog == null) dialog = new CommonDialog(this);
                 if (dialog.isShowing()) {
                     dialog.setllBottomVisibility(View.VISIBLE);
                     dialog.setButOk(View.VISIBLE);
@@ -313,6 +319,7 @@ public class BaseActivity extends FragmentActivity {
                             } else {
                                 Logger.t(TAG).e("断开 >>>>>>  " + rxBleConnectionState.toString());
                                 GazelleApplication.isEnabled = true;
+
                             }
                         }
                     }, new Action1<Throwable>() {
@@ -322,7 +329,6 @@ public class BaseActivity extends FragmentActivity {
                     });
         }
     }
-
 
     protected boolean getConnectionState() {
         if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED)
@@ -496,13 +502,13 @@ public class BaseActivity extends FragmentActivity {
             });
             dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
                 @Override
+
                 public void onButAdginListener() {
                     dialog.dismiss();
                 }
             });
         }
     }
-
 
     Runnable TimeOutRunnable = new Runnable() {
         @Override
@@ -530,6 +536,32 @@ public class BaseActivity extends FragmentActivity {
                     }
                 });
             }
+        }
+    };
+
+    private BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
+
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            switch (newState) {
+                case BluetoothProfile.STATE_CONNECTED:
+                    Logger.t(TAG).e("已连接上");
+                    break;
+                case BluetoothProfile.STATE_DISCONNECTED:
+                    gatt.close();
+                    gatt = null;
+                    Logger.t(TAG).e("无连接");
+                    break;
+                case BluetoothProfile.STATE_CONNECTING:
+                    Logger.t(TAG).e("连接中");
+                    break;
+                case BluetoothProfile.STATE_DISCONNECTING:
+                    gatt.close();
+                    gatt = null;
+                    Logger.t(TAG).e("断开");
+                    break;
+            }
+            super.onConnectionStateChange(gatt, status, newState);
         }
     };
 }

@@ -133,6 +133,8 @@ public class SleepDayFragment extends BaseFragment {
         int lightsleepTime = 0;
         int sleepingTime = 0;
         int awakeTime = 0;
+        int awakecount=0;
+        boolean booleanAwake = true;
         xValue=new String[24];
         if (todayPartners != null || todayPartners.size() > 0) {
             todayPartners.clear();
@@ -161,17 +163,27 @@ public class SleepDayFragment extends BaseFragment {
                       switch (state) {
                           case "0":
                               awakeTime += 1;
+                              if (booleanAwake){
+                                  awakecount++;
+                                  booleanAwake=false;
+                              }
                               break;
                           case "1":
                               sleepTime += 1;
                               lightsleepTime += 1;
+                              booleanAwake=true;
                               break;
                           case "2":
                               sleepTime += 1;
                               sleepingTime += 1;
+                              booleanAwake=true;
                               break;
                           case "3":
                               awakeTime += 1;
+                              if (booleanAwake){
+                                  awakecount++;
+                                  booleanAwake=false;
+                              }
                               break;
                       }
                   }
@@ -180,6 +192,7 @@ public class SleepDayFragment extends BaseFragment {
         tvLightsleepTime.setText(String.valueOf(lightsleepTime));
         tvSleepingtime.setText(String.valueOf(sleepingTime));
         tvAwakeTime.setText(String.valueOf(awakeTime));
+        tvAwakeCount.setText(String.valueOf(awakecount));
         updateUI(xValue);
     }
 

@@ -3,7 +3,10 @@ package com.xyy.Gazella.utils;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,11 +24,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleClient;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.SettingActivity;
 import com.xyy.Gazella.adapter.ChangeWatchListAdapter;
-import com.xyy.Gazella.services.BluetoothService;
+
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
@@ -42,6 +46,7 @@ import rx.Subscription;
  */
 
 public class ChangeWatchList extends BaseActivity {
+    private  static  String TAG=ChangeWatchList.class.getName();
     private ListView listView;
     private Button cancel;
     private Context context;
@@ -184,6 +189,10 @@ public class ChangeWatchList extends BaseActivity {
     }
 
     private void scanDevices() {
+        String address = PreferenceData.getAddressValue(context);
+        if (address != null && !address.equals("")) {
+            rxBleClient.getBleDevice(address).getBluetoothDevice().connectGatt(this, false, gattCallback);
+        }
         scanSubscription = rxBleClient.scanBleDevices()
                 .subscribe(
                         rxBleScanResult -> {
@@ -234,21 +243,46 @@ public class ChangeWatchList extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case BluetoothService.STATE_CONNECTED:
-                    loadingDialog.dismiss();
-                    GazelleApplication.deviceAddress = device.getAddress();
-                    GazelleApplication.deviceName = device.getName();
-                    PreferenceData.setAddressValue(context, device.getAddress());
-                    finish();
-                    break;
-                case BluetoothService.STATE_DISCONNECTED:
-                    pairFailedDialog.show();
-                    break;
-                default:
-                    break;
-            }
+//            switch (msg.what) {
+//                case BluetoothService.STATE_CONNECTED:
+//                    loadingDialog.dismiss();
+//                    GazelleApplication.deviceAddress = device.getAddress();
+//                    GazelleApplication.deviceName = device.getName();
+//                    PreferenceData.setAddressValue(context, device.getAddress());
+//                    finish();
+//                    break;
+//                case BluetoothService.STATE_DISCONNECTED:
+//                    pairFailedDialog.show();
+//                    break;
+//                default:
+//                    break;
+//            }
         }
     };
+    private BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
 
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            switch (newState) {
+                case BluetoothProfile.STATE_CONNECTED:
+                    Logger.t(TAG).e("已连接上");
+                    break;
+                case BluetoothProfile.STATE_DISCONNECTED:
+                    gatt.disconnect();
+                    gatt.close();
+                    gatt=null;
+                    Logger.t(TAG).e("无连接");
+                    break;
+                case BluetoothProfile.STATE_CONNECTING:
+                    Logger.t(TAG).e("连接中");
+                    break;
+                case BluetoothProfile.STATE_DISCONNECTING:
+                    gatt.disconnect();
+                    gatt.close();
+                    Logger.t(TAG).e("断开");
+                    break;
+            }
+            super.onConnectionStateChange(gatt, status, newState);
+        }
+    };
 }

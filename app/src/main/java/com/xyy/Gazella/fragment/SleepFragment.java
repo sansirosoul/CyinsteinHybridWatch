@@ -148,6 +148,9 @@ public class SleepFragment extends BaseFragment {
 
     public void setToDayTime() {
         initTime();
+        strday="";
+        String   yesterday="";
+        sb.setLength(0);
         if (month < 10)
             strMonth = sb.append("0").append(String.valueOf(month)).toString();
         else
@@ -169,7 +172,7 @@ public class SleepFragment extends BaseFragment {
             e.printStackTrace();
         }
 
-        String yesterday = new SomeUtills().getAmountDate(date, 0, 0);
+         yesterday = new SomeUtills().getAmountDate(date, 0, 0);
         initData(strday, yesterday);
 
     }
@@ -327,6 +330,9 @@ public class SleepFragment extends BaseFragment {
     }
 
     private void initTime() {
+        myear=0;
+        month=0;
+        day=0;
         mCalendar = new Time();
         mCalendar.setToNow();
         myear = mCalendar.year;

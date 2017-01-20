@@ -2,12 +2,10 @@ package com.ysp.newband;
 
 import android.app.Application;
 import android.bluetooth.BluetoothDevice;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.support.multidex.MultiDex;
 import android.telephony.TelephonyManager;
 
@@ -19,7 +17,6 @@ import com.polidea.rxandroidble.internal.RxBleLog;
 import com.xyy.Gazella.BroadcastReceiver.PhoneBroadcastReceiver;
 import com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver;
 import com.xyy.Gazella.googlebth.BluetoothLeService;
-import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.services.SmsService;
 import com.xyy.model.User;
 
@@ -30,7 +27,6 @@ public class GazelleApplication extends Application {
 	public static int SCREEN_WIDTH = 800;
 	public static int SCREEN_HEIGHT = 480;
 	public static BluetoothLeService mService;
-	public static BluetoothService mBluetoothService;
 	public static ServiceConnection mServiceConnection;
 	public static BluetoothDevice device;
 	public static int USER_ID = 1;
@@ -80,23 +76,23 @@ public class GazelleApplication extends Application {
 
 	//	alarmClockList = new ArrayList<AlarmClock>();
 		instance = this;
-		mServiceConnection = new ServiceConnection() {
-			public void onServiceConnected(ComponentName className, IBinder rawBinder) {
-				System.out.println("come in");
-				try {
-//					mService = ((BluetoothLeService.LocalBinder) rawBinder).getService();
-					mBluetoothService=((BluetoothService.LocalBinder) rawBinder).getService();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+	//mServiceConnection = new ServiceConnection() {
+//			public void onServiceConnected(ComponentName className, IBinder rawBinder) {
+//				System.out.println("come in");
+//				try {
+////					mService = ((BluetoothLeService.LocalBinder) rawBinder).getService();
+//					mBluetoothService=((BluetoothService.LocalBinder) rawBinder).getService();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
 
-			public void onServiceDisconnected(ComponentName classname) {
-				System.out.println("come on");
-//				mService = null;
-				mBluetoothService=null;
-			}
-		};
+//			public void onServiceDisconnected(ComponentName classname) {
+//				System.out.println("come on");
+////				mService = null;
+//				mBluetoothService=null;
+//			}
+//		};
 //		Intent bindIntent = new Intent(this, BluetoothService.class);
 //		startService(bindIntent);
 //		bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
@@ -141,7 +137,7 @@ public class GazelleApplication extends Application {
 	public void onTerminate() {
 		unbindService(mServiceConnection);
 //		stopService(new Intent(this, BluetoothLeService.class));
-		stopService(new Intent(this, BluetoothService.class));
+		//stopService(new Intent(this, BluetoothService.class));
 		super.onTerminate();
 	}
 

@@ -190,12 +190,13 @@ public class HealthyActivity extends BaseActivity {
                     stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
 
                 //计算活动时间
-                int second = (int) (dayStep * 1.08);
+                int second = (int) ((dayStep * 0.66)%60);
                 if (second < 60) {
-                    stepFragment.setTime(String.valueOf(second / 60) + getResources().getString(R.string.minute));
+                    stepFragment.setTime(String.valueOf(second) + getResources().getString(R.string.minute));
                 } else if (second > 60) {
-                    stepFragment.setTime(String.valueOf(second / 360) + getResources().getString(R.string.hour)
-                            + String.valueOf((second % 3600) / 60) + getResources().getString(R.string.minute));
+                    stepFragment.setTime(String.valueOf(second / 60) + getResources().getString(R.string.hour)
+                            + String.valueOf((second % 360
+                    ) / 60) + getResources().getString(R.string.minute));
                 }
                 if (dayStep <= TargetStep)
                     stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
@@ -361,7 +362,7 @@ public class HealthyActivity extends BaseActivity {
             partner.setDate(strday);                                                    //  保存日期
         } else {
             // 计算活动时间
-            int second = (int) (SumsStep * 1.08);
+            int second = (int) ((dayStep * 0.66)%60);
 
             double km = SumsStep * 0.5;
             //计算卡路里

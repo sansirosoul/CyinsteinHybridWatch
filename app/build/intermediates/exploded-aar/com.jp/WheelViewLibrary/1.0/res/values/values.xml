@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="WheelView"><attr format="dimension" name="unitHeight"/><attr format="integer" name="itemNumber"/><attr format="color" name="normalTextColor"/><attr format="dimension" name="normalTextSize"/><attr format="color" name="selectedTextColor"/><attr format="dimension" name="selectedTextSize"/><attr format="color" name="lineColor"/><attr format="dimension" name="lineHeight"/><attr format="dimension" name="maskHeight"/><attr format="boolean" name="noEmpty"/><attr format="boolean" name="isEnable"/></declare-styleable>
-    <string name="app_name">WheelView</string>
-</resources>
