@@ -58,7 +58,7 @@ public class BaseActivity extends FragmentActivity {
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice bleDevicme;
-    private long timeOut = 20000; //超时设置为20秒
+    private long timeOut = 15000; //超时设置为15秒
     private static Subscription connectionSubscription;
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
@@ -108,7 +108,6 @@ public class BaseActivity extends FragmentActivity {
                 }
         );
     }
-
     public void onConnectionState(int state) {
 
     }
