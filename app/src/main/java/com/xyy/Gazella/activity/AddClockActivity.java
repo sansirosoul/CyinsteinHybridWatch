@@ -58,6 +58,7 @@ public class AddClockActivity extends BaseActivity {
     private int id;
     private BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
+
     private String bytestr;
 
 
