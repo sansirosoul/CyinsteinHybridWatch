@@ -62,9 +62,8 @@ public class HomeActivity extends BaseActivity {
             connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
         }
-        getTelephony();
+//        getTelephony();
         install = this;
-       // DeviceConnectionStateChanges();
     }
 
     @Override
@@ -136,9 +135,9 @@ public class HomeActivity extends BaseActivity {
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.ll_other:
-                Intent otherIntent = new Intent(HomeActivity.this, BleTest.class);
-                startActivity(otherIntent);
-                overridePendingTransitionEnter(HomeActivity.this);
+//                Intent otherIntent = new Intent(HomeActivity.this, BleTest.class);
+//                startActivity(otherIntent);
+//                overridePendingTransitionEnter(HomeActivity.this);
                 break;
         }
     }

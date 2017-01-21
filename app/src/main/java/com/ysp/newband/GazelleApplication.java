@@ -46,7 +46,7 @@ public class GazelleApplication extends Application {
 	public static String deviceAddress = null;
     public static boolean isEnabled=true;
 	private RxBleClient rxBleClient;
-
+    public static boolean isNormalDisconnet = false;
 
 
 	public static GazelleApplication getInstance() {
@@ -136,6 +136,7 @@ public class GazelleApplication extends Application {
 	@Override
 	public void onTerminate() {
 		unbindService(mServiceConnection);
+		BaseActivity.cleanObservable();
 //		stopService(new Intent(this, BluetoothLeService.class));
 		//stopService(new Intent(this, BluetoothService.class));
 		super.onTerminate();

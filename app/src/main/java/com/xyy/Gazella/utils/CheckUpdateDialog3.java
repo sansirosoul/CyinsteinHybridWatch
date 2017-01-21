@@ -55,7 +55,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
                             if(bluetoothDevice.getName()!=null){
                                 if (bluetoothDevice.getName().equals("DfuTarg")) {
                                     scanSubscription.unsubscribe();
-                                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00051k).start(context, DfuService.class);
+                                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00052).start(context, DfuService.class);
                                 }
                             }
                         },
@@ -82,6 +82,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
         if (address != null && !address.equals("")){
             bleUtils = new BleUtils();
             connectionObservable=getRxObservable(this);
+            GazelleApplication.isNormalDisconnet=true;
             Write(bleUtils.startDfu(), connectionObservable);
         }
         numberbar = (NumberProgressBar) findViewById(R.id.numberbar);
@@ -135,6 +136,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onDfuCompleted(String deviceAddress) {
+            GazelleApplication.isNormalDisconnet=true;
             Intent intent = new Intent(context, CheckUpdateDialog4.class);
             startActivity(intent);
             finish();
@@ -142,14 +144,12 @@ public class CheckUpdateDialog3 extends BaseActivity {
 
         @Override
         public void onDfuAborted(String deviceAddress) {
-            cleanObservable();
             showToatst(context,"固件升级失败，请重新升级！");
             finish();
         }
 
         @Override
         public void onError(String deviceAddress, int error, int errorType, String message) {
-            cleanObservable();
             showToatst(context,"固件升级失败，请重新升级！");
             finish();
         }

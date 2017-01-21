@@ -76,6 +76,11 @@ public class ChangeWatchList extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
+    }
+
     private void initView() {
         setFinishOnTouchOutside(false);
         context = this;
@@ -83,9 +88,11 @@ public class ChangeWatchList extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                GazelleApplication.isNormalDisconnet=true;
                 scanSubscription.unsubscribe();
-                if(connectionObservable!=null)
-                Write(bleUtils.terminateBle(),connectionObservable);
+                if(connectionObservable!=null) {
+                    Write(bleUtils.terminateBle(),connectionObservable);
+                }
                 PreferenceData.setAddressValue(context, devices.get(i).getAddress());
                 cleanObservable();
                 Intent intent = new Intent(context, SettingActivity.class);
@@ -190,9 +197,9 @@ public class ChangeWatchList extends BaseActivity {
 
     private void scanDevices() {
         String address = PreferenceData.getAddressValue(context);
-        if (address != null && !address.equals("")) {
-            rxBleClient.getBleDevice(address).getBluetoothDevice().connectGatt(this, false, gattCallback);
-        }
+//        if (address != null && !address.equals("")) {
+//            rxBleClient.getBleDevice(address).getBluetoothDevice().connectGatt(this, false, gattCallback);
+//        }
         scanSubscription = rxBleClient.scanBleDevices()
                 .subscribe(
                         rxBleScanResult -> {

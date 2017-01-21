@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import rx.Observable;
@@ -40,21 +41,21 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
         etName = (EditText) findViewById(R.id.et_name);
 
         String address = PreferenceData.getAddressValue(this);
-        if (address != null && !address.equals("")){
+        if (address != null && !address.equals("")) {
             bleUtils = new BleUtils();
-            connectionObservable=getRxObservable(this);
+            connectionObservable = getRxObservable(this);
             Notify(connectionObservable);
-            Write(bleUtils.getDeviceName(),connectionObservable);
+            Write(bleUtils.getDeviceName(), connectionObservable);
         }
     }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        if(bleUtils.returnDeviceName(bytes)!=null){
+        if (bleUtils.returnDeviceName(bytes) != null) {
             etName.setText(bleUtils.returnDeviceName(bytes));
             etName.setSelection(bleUtils.returnDeviceName(bytes).length());
-        }else if(HexString.bytesToHex(bytes).equals("0707010F24")){
+        } else if (HexString.bytesToHex(bytes).equals("0707010F24")) {
             finish();
         }
     }
@@ -65,19 +66,20 @@ public class RenameWatchDialog extends BaseActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.confirm:
-                if (etName.getText().toString().equals("")){
-                    Toast.makeText(this,"请输入设备名称!",Toast.LENGTH_SHORT).show();
+                if (etName.getText().toString().equals("")) {
+                    Toast.makeText(this, "请输入设备名称!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(etName.getText().toString().length()>13){
-                    Toast.makeText(this,"设备名称太长!",Toast.LENGTH_SHORT).show();
+                if (etName.getText().toString().length() > 13) {
+                    Toast.makeText(this, "设备名称太长!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(connectionObservable==null) {
-                    showToatst(this,"请先连接手表蓝牙");
+                if (connectionObservable == null) {
+                    showToatst(this, "请先连接手表蓝牙");
                     return;
                 }
-                    Write(bleUtils.setDeviceName(etName.getText().toString()), connectionObservable);
+                GazelleApplication.isNormalDisconnet = true;
+                Write(bleUtils.setDeviceName(etName.getText().toString()), connectionObservable);
                 break;
         }
     }
