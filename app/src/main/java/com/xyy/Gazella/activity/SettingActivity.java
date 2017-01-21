@@ -87,7 +87,6 @@ public class SettingActivity extends BaseActivity {
         context = this;
         initView();
         initBle();
-        DeviceConnectionStateChanges();
     }
 
     @Override

@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.polidea.rxandroidble.RxBleClient;
-import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.xyy.Gazella.adapter.DeviceListAdapter;
 import com.xyy.Gazella.utils.CheckUpdateDialog2;
@@ -42,7 +41,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
 import rx.Subscription;
 
 /**
@@ -69,8 +67,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private CheckUpdateDialog2 myDialog;
     private boolean isRun = true;
     private RxBleClient rxBleClient;
-    private Subscription scanSubscription, connectionSubscription;
-    private Observable<RxBleConnection> connectionObservable;
+    private Subscription scanSubscription;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -283,23 +280,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         device = devices.get(i);
         RxBleDevice rxBleDevice = rxBleClient.getBleDevice(device.getAddress());
         setConnectionObservable(context, rxBleDevice);
-//        connectionObservable=rxBleDevice.establishConnection(context,false);// <-- autoConnect flag
-//        connectionSubscription = connectionObservable
-//                .subscribe(
-//                        rxBleConnection -> {
-//                            // All GATT operations are done through the rxBleConnection.
-//                            loadingDialog.dismiss();
-//                            PreferenceData.setAddressValue(PairingActivity.this,device.getAddress());
-//                            Intent intent = new Intent(context, PersonActivity.class);
-//                            startActivity(intent);
-//                            PairingActivity.this.finish();
-//                            overridePendingTransitionEnter(PairingActivity.this);
-//                        },
-//                        throwable -> {
-//                            // Handle an error here.
-//                            mHandler.sendEmptyMessage(2000);
-//                        }
-//                );
     }
 
     @Override
@@ -326,10 +306,11 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     Intent intent = new Intent(context, PersonActivity.class);
                     startActivity(intent);
                     PairingActivity.this.finish();
-                    overridePendingTransitionEnter(PairingActivity.this);
+                   overridePendingTransitionEnter(PairingActivity.this);
                     break;
                 case 2000:
                     loadingDialog.dismiss();
+                    if(pairFailedDialog!=null)
                     pairFailedDialog.show();
                     break;
                 case 1001:

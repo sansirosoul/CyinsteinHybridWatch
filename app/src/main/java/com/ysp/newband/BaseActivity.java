@@ -68,7 +68,7 @@ public class BaseActivity extends FragmentActivity {
             RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(context).getBleDevice(address);
             if (connectionObservable == null) {
                 connectionObservable = bleDevicme
-                        .establishConnection(context, true)
+                        .establishConnection(context, false)
                         .compose(new ConnectionSharingAdapter());
             }
         }
@@ -85,8 +85,12 @@ public class BaseActivity extends FragmentActivity {
     }
 
     public static void cleanObservable() {
-        connectionObservable.unsubscribeOn(AndroidSchedulers.mainThread());
-        connectionObservable = null;
+        if (connectionSubscription != null)
+            connectionSubscription.unsubscribe();
+        if (connectionObservable != null) {
+            connectionObservable.unsubscribeOn(AndroidSchedulers.mainThread());
+            connectionObservable = null;
+        }
     }
 
     public void setConnectionObservable(Context context, RxBleDevice rxBleDevice) {
@@ -125,7 +129,6 @@ public class BaseActivity extends FragmentActivity {
             bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
         RxBleClient.setLogLevel(RxBleLog.DEBUG);
         //DeviceConnectionStateChanges();
-
     }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
@@ -175,9 +178,9 @@ public class BaseActivity extends FragmentActivity {
         dialog = new CommonDialog(this);
         dialog.show();
         if (connectionObservable != null) {
-            if (GazelleApplication.isEnabled) {
-                handler.postDelayed(TimeOutRunnable, timeOut);
-            }
+//            if (GazelleApplication.isEnabled) {
+//                handler.postDelayed(TimeOutRunnable, timeOut);
+//            }
             connectionObservable
                     .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
                         @Override
@@ -285,7 +288,6 @@ public class BaseActivity extends FragmentActivity {
                     });
                 }
             } else {
-
 //                if (dialog == null) dialog = new CommonDialog(this);
 //                if (!dialog.isShowing()) dialog.show();
 //                dialog.setTvContext("蓝牙连接已断开是否重新连接");
