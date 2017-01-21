@@ -163,7 +163,6 @@ public class MainDialFragment extends BaseFragment {
             analogclock.setTimeValue(2, a);
             if(isconnectionObservable())
             Write(bleUtils.adjMinuteHand(2, 1), connectionObservable);
-
         }
         isChangeTime = true;
     }
