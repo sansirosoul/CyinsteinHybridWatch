@@ -92,10 +92,6 @@ public class HealthyActivity extends BaseActivity {
         InitViewPager();
         btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         if (address != null && !address.equals("")) {
-//            connectionObservable = getRxObservable(this);
-//            Notify(connectionObservable);
-//            Write(bleUtils.setSystemType(), connectionObservable);
-
             if (GazelleApplication.isBleConnected) {
                 setNotifyCharacteristic();
             } else {
