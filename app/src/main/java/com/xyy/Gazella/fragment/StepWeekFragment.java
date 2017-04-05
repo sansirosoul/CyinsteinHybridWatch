@@ -140,7 +140,6 @@ public class StepWeekFragment extends BaseFragment {
                 tvNumHour.setVisibility(View.INVISIBLE);
                 tvHour.setVisibility(View.INVISIBLE);
             }
-            tvNumMinute.setText(String.valueOf(sumsSecond ));
         } else if (sumsSecond >= 3600 ) {
             if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                 tvNumHour.setVisibility(View.VISIBLE);
