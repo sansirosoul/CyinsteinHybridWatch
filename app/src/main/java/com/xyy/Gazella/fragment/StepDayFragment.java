@@ -130,21 +130,21 @@ public class StepDayFragment extends BaseFragment {
                     int second = Integer.valueOf(partners.get(i).getExercisetime());
                     double km = Double.valueOf(partners.get(i).getExercisedistance());
                     double calcalNum = Double.valueOf(partners.get(i).getCalcalNum());
-                    if (second < 60) {
-                        tvNumMinute.setText(String.valueOf(second));
+                    if (second >= 60 && second<3600) {
+                        tvNumMinute.setText(String.valueOf(second/60));
                         if (tvNumHour.getVisibility() == View.VISIBLE || tvHour.getVisibility() == View.VISIBLE) {
                             tvNumHour.setVisibility(View.INVISIBLE);
                             tvHour.setVisibility(View.INVISIBLE);
                         }
                         tvNumMinute.setText(String.valueOf(second));
-                    } else if (second > 60) {
+                    } else if (second >= 3600) {
                         if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                             tvNumHour.setVisibility(View.VISIBLE);
                             tvHour.setVisibility(View.VISIBLE);
                         }
-                        tvNumHour.setText(String.valueOf(second / 360));
-                        tvNumMinute.setText(String.valueOf((second % 360) / 60));
-                    } else if (second == 0) {
+                        tvNumHour.setText(String.valueOf(second / 3600));
+                        tvNumMinute.setText(String.valueOf((second % 3600) / 60));
+                    } else {
                         if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                             tvNumHour.setVisibility(View.VISIBLE);
                             tvHour.setVisibility(View.VISIBLE);
@@ -158,14 +158,22 @@ public class StepDayFragment extends BaseFragment {
                         tvNumMi.setText(String.valueOf((int) km));
                         tvMi.setText(getResources().getString(R.string.mi));
                     } else {
-                        tvNumMi.setText(String.valueOf(new SomeUtills().changeDouble(km)));
+                        if(new SomeUtills().changeDouble(km)>9999){
+                            tvNumMi.setText(">9999");
+                        }else{
+                            tvNumMi.setText(String.valueOf(new SomeUtills().changeDouble(km)));
+                        }
                         tvMi.setText(getResources().getString(R.string.km));
                     }
                     if (calcalNum < 1000) {
                         tvNumCard.setText(String.valueOf(calcalNum));
                         tvCard.setText(getResources().getString(R.string.card));
                     } else {
-                        tvNumCard.setText(String.valueOf(new SomeUtills().changeDouble(calcalNum)));
+                        if(new SomeUtills().changeDouble(calcalNum)>9999){
+                            tvNumCard.setText(">9999");
+                        }else{
+                            tvNumCard.setText(String.valueOf(new SomeUtills().changeDouble(calcalNum)));
+                        }
                         tvCard.setText(getResources().getString(R.string.Kcard));
                     }
                     tvSumsnum.setText(String.valueOf(sumsNum));

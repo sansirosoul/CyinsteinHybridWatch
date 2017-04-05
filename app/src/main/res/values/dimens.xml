@@ -14,4 +14,5 @@
     <dimen name="font_size_largest">20.0sp</dimen>
     <!-- margin -->
     <dimen name="margin5">5dp</dimen>
+    <dimen name="textSizeMedium">18sp</dimen>
 </resources>

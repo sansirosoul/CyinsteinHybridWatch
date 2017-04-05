@@ -162,7 +162,7 @@
                 <RadioGroup
                     android:orientation="horizontal"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:layout_height="match_parent">
                     <RadioButton
                         android:id="@+id/rb_male"
@@ -184,7 +184,7 @@
                         android:id="@+id/rb_female"
                         android:layout_gravity="center_vertical"
                         android:button="@null"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="10dp"
                         android:background="@drawable/selector_female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
@@ -194,7 +194,7 @@
                         android:text="@string/female"
                         android:textColor="@color/white"
                         android:textSize="15sp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_gravity="center_vertical"/>
                 </RadioGroup>
                 <!--<LinearLayout
@@ -305,6 +305,7 @@
             android:text="@string/real_msg"
             android:textColor="@color/white"
             android:textSize="11sp"
+            android:padding="10dp"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="0dp"

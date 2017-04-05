@@ -7,18 +7,24 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.support.multidex.MultiDex;
-import android.telephony.TelephonyManager;
 
 import com.bugtags.library.Bugtags;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleClient;
 import com.polidea.rxandroidble.internal.RxBleLog;
-import com.xyy.Gazella.BroadcastReceiver.PhoneBroadcastReceiver;
-import com.xyy.Gazella.BroadcastReceiver.PhoneStatReceiver;
+import com.vise.baseble.ViseBluetooth;
 import com.xyy.Gazella.googlebth.BluetoothLeService;
+import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.services.SmsService;
 import com.xyy.model.User;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.log.LoggerInterceptor;
+
+import java.util.concurrent.TimeUnit;
+
+import cn.sharesdk.framework.ShareSDK;
+import okhttp3.OkHttpClient;
 
 public class GazelleApplication extends Application {
 	
@@ -26,15 +32,14 @@ public class GazelleApplication extends Application {
 	private static GazelleApplication instance;
 	public static int SCREEN_WIDTH = 800;
 	public static int SCREEN_HEIGHT = 480;
-	public static BluetoothLeService mService;
 	public static ServiceConnection mServiceConnection;
+	public static BluetoothLeService mService;
+	public static BluetoothService mBluetoothService;
 	public static BluetoothDevice device;
 	public static int USER_ID = 1;
 	private User user;
 	public static int CONNECTED = -1;
 	// 来电监听广播
-	public static PhoneBroadcastReceiver phoneBroadcastReceiver;
-	public static PhoneStatReceiver mPhoneStatReceiver;
 	public static String UUID;
 	public static IntentFilter intentFoilter;
 	public static boolean isPhoneCall;
@@ -63,48 +68,30 @@ public class GazelleApplication extends Application {
 		super.onCreate();
 
 		initLogger();
-
-//		phoneRegisterReceiver();
-
+		ViseBluetooth.getInstance().init(this);
+		ShareSDK.initSDK(this);
+//        initOkHttp();
 		rxBleClient = RxBleClient.create(this);
 		RxBleClient.setLogLevel(RxBleLog.DEBUG);
 
-//		CrashHandler crashHandler = CrashHandler.getInstance();
-//		crashHandler.init(getApplicationContext());
-
 		user = new User();
 
-	//	alarmClockList = new ArrayList<AlarmClock>();
 		instance = this;
-	//mServiceConnection = new ServiceConnection() {
-//			public void onServiceConnected(ComponentName className, IBinder rawBinder) {
-//				System.out.println("come in");
-//				try {
-////					mService = ((BluetoothLeService.LocalBinder) rawBinder).getService();
-//					mBluetoothService=((BluetoothService.LocalBinder) rawBinder).getService();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-
-//			public void onServiceDisconnected(ComponentName classname) {
-//				System.out.println("come on");
-////				mService = null;
-//				mBluetoothService=null;
-//			}
-//		};
-//		Intent bindIntent = new Intent(this, BluetoothService.class);
-//		startService(bindIntent);
-//		bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
-
-//		Intent bindIntent = new Intent(this, BluetoothLeService.class);
-//		startService(bindIntent);
-//		bindService(bindIntent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
 		Intent smsIntent = new Intent(this, SmsService.class);
 		startService(smsIntent);
 
 		Bugtags.start("5f1b2bd5c0e6fcb208661ab9651ddce0", this, Bugtags.BTGInvocationEventNone );
+	}
+
+	private void initOkHttp(){
+		OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new LoggerInterceptor("TAG"))
+				.connectTimeout(10000L, TimeUnit.MILLISECONDS)
+				.readTimeout(10000L, TimeUnit.MILLISECONDS)
+				//其他配置
+				.build();
+		OkHttpUtils.initClient(okHttpClient);
 	}
 
 	public  int getWatchType() {
@@ -123,33 +110,11 @@ public class GazelleApplication extends Application {
 		this.user = user;
 	}
 
-	/**
-	 * 注册来电监听广播
-	 */
-	private void phoneRegisterReceiver() {
-		intentFoilter = new IntentFilter();
-		intentFoilter.addAction(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
-		mPhoneStatReceiver=new PhoneStatReceiver();
-//		phoneBroadcastReceiver = new PhoneBroadcastReceiver(this);
-	}
-
 	@Override
 	public void onTerminate() {
-		unbindService(mServiceConnection);
 		BaseActivity.cleanObservable();
-//		stopService(new Intent(this, BluetoothLeService.class));
-		//stopService(new Intent(this, BluetoothService.class));
+		ViseBluetooth.getInstance().clear();
 		super.onTerminate();
-	}
-
-	public static void RegisterReceiver(Context context) {
-		context.registerReceiver(mPhoneStatReceiver, intentFoilter);
-//		context.registerReceiver(phoneBroadcastReceiver, intentFoilter);
-	}
-
-	public static void UnRegisterReceiver(Context context) {
-		context.unregisterReceiver(mPhoneStatReceiver);
-//		context.unregisterReceiver(phoneBroadcastReceiver);
 	}
 
 	private void initLogger() {

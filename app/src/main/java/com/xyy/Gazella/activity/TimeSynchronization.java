@@ -28,7 +28,9 @@ import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.view.MyViewPage;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
+import com.ysp.newband.WacthSeries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,8 @@ public class TimeSynchronization extends BaseActivity {
     LinearLayout activityTimeSynchronization;
     @BindView(R.id.tv_hint)
     TextView tvHint;
+    @BindView(R.id.rotatLayout)
+    LinearLayout rotatLayout;
     private boolean isChangeTime = false;
     private CheckAnalogClock checkAnalogClock;
 
@@ -103,6 +107,7 @@ public class TimeSynchronization extends BaseActivity {
     private boolean isClickSynchronization = false;
     private boolean isShwoSynchronization = false;
     private boolean isNotify = false;
+    private boolean isSmall = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,14 +119,28 @@ public class TimeSynchronization extends BaseActivity {
         bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
-            connectionObservable = getRxObservable(this);
-            Notify(connectionObservable);
-            Write(bleUtils.setSystemType(),connectionObservable);
+            if (GazelleApplication.isBleConnected) {
+                btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
+                setNotifyCharacteristic();
+            } else {
+                connectBLEbyMac(address);
+            }
         } else {
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
         }
         install = this;
-        DeviceConnectionStateChanges();
+//        DeviceConnectionStateChanges();
+    }
+
+    @Override
+    public void onConnectionState(int state) {
+        if (state == 0) {
+            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
+        } else if (state == 1) {
+            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
+        } else {
+            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
+        }
     }
 
     @Override
@@ -130,24 +149,24 @@ public class TimeSynchronization extends BaseActivity {
         switch (type) {
             case 0:
                 isNotify = true;
-                Message.obtain(ehandler,102,str).sendToTarget();
+                Message.obtain(ehandler, 102, str).sendToTarget();
                 break;
             case 1:
                 isNotify = false;
-                Message.obtain(ehandler,101,str).sendToTarget();
+                Message.obtain(ehandler, 101, str).sendToTarget();
                 break;
             case 2:
                 Notify(connectionObservable);
                 break;
         }
-        super.onNotifyReturn(type,str);
+        super.onNotifyReturn(type, str);
     }
 
-    Handler ehandler = new Handler(){
+    Handler ehandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 101:
                     btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
                     String str = (String) msg.obj;
@@ -171,7 +190,7 @@ public class TimeSynchronization extends BaseActivity {
     private void InitView() {
 
         TVTitle.setText(getResources().getString(R.string.Synchronization_time));
-        btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
+        btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
         ivLeft.setVisibility(View.GONE);
         ivRight.setVisibility(View.GONE);
         checkAnalogClock = new CheckAnalogClock(TimeSynchronization.this);
@@ -179,10 +198,10 @@ public class TimeSynchronization extends BaseActivity {
         butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
         butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
 
-        if(getbleDevicme(TimeSynchronization.this)==null||!getConnectionState())
-            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
-        else
-            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
+//        if(getbleDevicme(TimeSynchronization.this)==null||!getConnectionState())
+//            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
+//        else
+//            btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
 
         checkAnalogClock.setOnItemClickListener(new CheckAnalogClock.onItemClickListener() {
 
@@ -215,8 +234,6 @@ public class TimeSynchronization extends BaseActivity {
         });
 
 
-
-
         initTime();
         mHandler.post(initTime);
     }
@@ -239,7 +256,11 @@ public class TimeSynchronization extends BaseActivity {
                                 break;
                         }
                     } else {
-                        mainDialFragment.ReduceTime();
+                        if (isSmall) {
+                            smallFragment1.ReduceTime();
+                        } else {
+                            mainDialFragment.ReduceTime();
+                        }
                     }
                 }
                 break;
@@ -259,24 +280,31 @@ public class TimeSynchronization extends BaseActivity {
                                 break;
                         }
                     } else {
-                        mainDialFragment.AddTime();
+                        if (isSmall) {
+                            smallFragment1.AddTime();
+                        } else {
+                            mainDialFragment.AddTime();
+                        }
                     }
                 }
                 break;
 
             case R.id.but_hour:   // 调整时针
                 if (!isShwoSynchronization()) {
+                    isSmall = false;
                     setChangeTimeType(1);
                 }
 
                 break;
             case R.id.but_muinutes://  调整分针
                 if (!isShwoSynchronization()) {
+                    isSmall = false;
                     setChangeTimeType(2);
                 }
                 break;
             case R.id.but_second:   // 调整小时针
                 if (!isShwoSynchronization()) {
+                    isSmall = true;
                     checkAnalogClock.show();
                     butReset.setVisibility(View.GONE);
                     butSynchronization.setVisibility(View.GONE);
@@ -286,21 +314,26 @@ public class TimeSynchronization extends BaseActivity {
                 }
                 break;
             case R.id.but_reset:   /// 重置
-                if(isRun||SynchronizationTimeRun) {
-                    showToatst(TimeSynchronization.this, "请稍等");
+                if (isRun || SynchronizationTimeRun) {
+                    showToatst(TimeSynchronization.this, getResources().getString(R.string.hold_on));
                     break;
                 }
-                if (isNotify())
-                    break;
+//                if (isNotify())
+//                    break;
                 if (isClickSynchronization) {
                     showToatst(TimeSynchronization.this, getResources().getString(R.string.Click_Synchronization));
                     break;
                 }
 
-
-                Write(bleUtils.resetHand(), connectionObservable);
-                if (connectionObservable == null)
+                if (GazelleApplication.isBleConnected) {
+                    writeCharacteristic(bleUtils.resetHand());
+                } else {
+                    showToatst(this, getResources().getString(R.string.not_connect_device));
                     break;
+                }
+//                Write(bleUtils.resetHand(), connectionObservable);
+//                if (connectionObservable == null)
+//                    break;
                 mHandler.post(runnable);
                 isRun = true;
                 tvHint.setText(getResources().getString(R.string.Synchronization_step_2));
@@ -308,8 +341,8 @@ public class TimeSynchronization extends BaseActivity {
                 isShwoSynchronization = true;
                 break;
             case R.id.but_synchronization:    ///同步
-                if(isRun||SynchronizationTimeRun){
-                    showToatst(TimeSynchronization.this,"请稍等");
+                if (isRun || SynchronizationTimeRun) {
+                    showToatst(TimeSynchronization.this, getResources().getString(R.string.hold_on));
                     break;
                 }
                 if (!isClickSynchronization) {
@@ -323,7 +356,13 @@ public class TimeSynchronization extends BaseActivity {
                 small2TimeValue = PreferenceData.getSelectedSmall2Value(this);
                 small3TimeValue = PreferenceData.getSelectedSmall3Value(this);
 
-                Write(bleUtils.setWatchDateAndTime(1, myear, month + 1, mday, hour, minute, second), connectionObservable);
+                if (GazelleApplication.isBleConnected) {
+                    writeCharacteristic(bleUtils.setWatchDateAndTime(1, myear, month + 1, mday, hour, minute, second));
+                } else {
+                    showToatst(this, getResources().getString(R.string.not_connect_device));
+                    break;
+                }
+//                Write(bleUtils.setWatchDateAndTime(1, myear, month + 1, mday, hour, minute, second), connectionObservable);
 
                 if (fragmentsList.size() > 1) {
                     setChangeTimeType(1);
@@ -343,15 +382,17 @@ public class TimeSynchronization extends BaseActivity {
                 overridePendingTransitionExit(TimeSynchronization.this);
                 break;
             case R.id.btnOpt:
-                if(isNotify){
-                    showToatst(TimeSynchronization.this,getResources().getString(R.string.connection_device));
+                if (GazelleApplication.isBleConnected) {
+                    showToatst(TimeSynchronization.this, getResources().getString(R.string.connection_device));
                     break;
+                } else {
+                    String address = PreferenceData.getAddressValue(this);
+                    if (address != null && !address.equals("")) {
+                        connectBLEbyMac(address);
+                    } else {
+                        showToatst(TimeSynchronization.this, getResources().getString(R.string.inspect_ble_state));
+                    }
                 }
-
-                if (!isNotify && connectionObservable != null)
-                    Notify(connectionObservable);
-                else
-                    showToatst(TimeSynchronization.this, getResources().getString(R.string.inspect_ble_state));
 
                 break;
             case R.id.TVTitle:
@@ -371,6 +412,10 @@ public class TimeSynchronization extends BaseActivity {
         }
     }
 
+    @Override
+    public void isServicesDiscovered(boolean flag) {
+        if (flag) setNotifyCharacteristic();
+    }
 
     private void InitViewPager() {
 
@@ -384,7 +429,7 @@ public class TimeSynchronization extends BaseActivity {
         mFragmentAdapter = new FragmentAdapter(this.getSupportFragmentManager(), fragmentsList);
         viewpager.setAdapter(mFragmentAdapter);
         viewpager.setCurrentItem(0);
-        viewpager.setScroll(true);
+        viewpager.setScroll(false);
     }
 
     public class FragmentAdapter extends FragmentStatePagerAdapter {
@@ -433,9 +478,14 @@ public class TimeSynchronization extends BaseActivity {
     private void setFragmentsList(int type) {
         fragmentsList.clear();
         if (type == 1) {
-            fragmentsList.add(smallFragment1);
-            fragmentsList.add(smallFragment2);
-            fragmentsList.add(smallFragment3);
+            String dtype = PreferenceData.getDeviceType(this);
+            if (dtype.equals(WacthSeries.CT003)) {
+                fragmentsList.add(smallFragment1);
+            } else {
+                fragmentsList.add(smallFragment1);
+                fragmentsList.add(smallFragment2);
+                fragmentsList.add(smallFragment3);
+            }
         } else {
             fragmentsList.add(mainDialFragment);
         }
@@ -448,7 +498,7 @@ public class TimeSynchronization extends BaseActivity {
      * @param item
      */
     private void setSmallItem(int item) {
-        setImageVisible(1);
+        setImageVisible(2);
         butReset.setVisibility(View.VISIBLE);
         butSynchronization.setVisibility(View.VISIBLE);
         checkAnalogClock.dismiss();
@@ -471,8 +521,8 @@ public class TimeSynchronization extends BaseActivity {
             viewpager.setScroll(true);
             viewpager.setCurrentItem(0);
             mainDialFragment.setChangeTimeType(1);
-            mainDialFragment.setHourDrawable(R.drawable.page12_hour_selected);
-            mainDialFragment.setMuinutesDrawable(R.drawable.page12_minute_normal);
+//            mainDialFragment.setHourDrawable(R.drawable.page12_hour_selected2);
+//            mainDialFragment.setMuinutesDrawable(R.drawable.page12_minute_normal2);
             butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
             butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
             butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
@@ -483,14 +533,14 @@ public class TimeSynchronization extends BaseActivity {
             viewpager.setCurrentItem(0);
 
             mainDialFragment.setChangeTimeType(2);
-            mainDialFragment.setMuinutesDrawable(R.drawable.page12_minute_selected);
-            mainDialFragment.setHourDrawable(R.drawable.page12_hour_normal);
+//            mainDialFragment.setMuinutesDrawable(R.drawable.page12_minute_selected2);
+//            mainDialFragment.setHourDrawable(R.drawable.page12_hour_normal2);
             butHour.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
             butMuinutes.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_normal));
             butSecond.setBackground(getResources().getDrawable(R.drawable.time_circlebtn_press));
         }
-        mainDialFragment.setHourTimeValue(PreferenceData.getSelectedHourValue(TimeSynchronization.this));
-        mainDialFragment.setMuinutesTimeValue(PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this));
+//        mainDialFragment.setHourTimeValue(PreferenceData.getSelectedHourValue(TimeSynchronization.this));
+//        mainDialFragment.setMuinutesTimeValue(PreferenceData.getSelectedMuinutesValue(TimeSynchronization.this));
     }
 
 
@@ -569,8 +619,8 @@ public class TimeSynchronization extends BaseActivity {
                         count2 = 60;
                         isRun = false;
                     } else {
-                        mainDialFragment.setMuinutesTimeValue(count);
-                        mainDialFragment.setHourTimeValue(count2);
+//                        mainDialFragment.setMuinutesTimeValue(count);
+//                        mainDialFragment.setHourTimeValue(count2);
                         isRun = true;
                     }
                     break;
@@ -585,10 +635,10 @@ public class TimeSynchronization extends BaseActivity {
                         count2 = 60;
                         SynchronizationTimeRun = false;
                     } else {
-                        if (HourCount)
-                            mainDialFragment.setHourTimeValue(count2);
-                        if (MuinutesCount)
-                            mainDialFragment.setMuinutesTimeValue(count);
+//                        if (HourCount)
+//                            mainDialFragment.setHourTimeValue(count2);
+//                        if (MuinutesCount)
+//                            mainDialFragment.setMuinutesTimeValue(count);
                         SynchronizationTimeRun = true;
                         MuinutesCount = true;
                         HourCount = true;
@@ -605,10 +655,10 @@ public class TimeSynchronization extends BaseActivity {
                         count2 = 60;
                         isInitTime = false;
                     } else {
-                        if (HourCount)
-                            mainDialFragment.setHourTimeValue(count2);
-                        if (MuinutesCount)
-                            mainDialFragment.setMuinutesTimeValue(count);
+//                        if (HourCount)
+//                            mainDialFragment.setHourTimeValue(count2);
+//                        if (MuinutesCount)
+//                            mainDialFragment.setMuinutesTimeValue(count);
                         isInitTime = true;
                         MuinutesCount = true;
                         HourCount = true;
@@ -620,18 +670,30 @@ public class TimeSynchronization extends BaseActivity {
     };
 
     private int countHour;
-    private  int HyHour;
+    private int HyHour;
+
     private void initTime() {
-        TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(TimeSynchronization.this));
-        mCalendar = new Time(tz.getID());
-        mCalendar.setToNow();
-        hour = mCalendar.hour;
-        minute = mCalendar.minute;
-        second = mCalendar.second;
-        myear = mCalendar.year;
-        month = mCalendar.month;
-        mday = mCalendar.monthDay;
-        HyHour=hour;
+        if (PreferenceData.getTimeZonesState(TimeSynchronization.this).equals("local")) {
+            mCalendar = new Time();
+            mCalendar.setToNow();
+            hour = mCalendar.hour;
+            minute = mCalendar.minute;
+            second = mCalendar.second;
+            myear = mCalendar.year;
+            month = mCalendar.month;
+            mday = mCalendar.monthDay;
+        } else {
+            TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(TimeSynchronization.this));
+            mCalendar = new Time(tz.getID());
+            mCalendar.setToNow();
+            hour = mCalendar.hour;
+            minute = mCalendar.minute;
+            second = mCalendar.second;
+            myear = mCalendar.year;
+            month = mCalendar.month;
+            mday = mCalendar.monthDay;
+        }
+        HyHour = hour;
         if (HyHour > 12)
             HyHour = HyHour - 12;
         float mHour = HyHour + minute / 60.0f + minute / 360.0f;

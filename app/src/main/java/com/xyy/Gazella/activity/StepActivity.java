@@ -1,6 +1,9 @@
 package com.xyy.Gazella.activity;
 
+import android.Manifest;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
 import com.partner.entity.Partner;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -31,6 +35,9 @@ import com.xyy.model.StepData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,6 +53,8 @@ import butterknife.OnClick;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+
+import static com.xyy.Gazella.activity.HealthyActivity.dayStep;
 
 public class StepActivity extends BaseActivity implements OnDateSelectedListener {
 
@@ -87,12 +96,12 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
     public Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
     public static StepActivity stepActivity = null;
-    private int myear, month, day, Queryday,SumsStep,Weight;
+    private int myear, month, day, Queryday, SumsStep, Weight;
     private StringBuffer sb = new StringBuffer();
     public CommonUtils mCommonUtils;
     private List<StepData> data;
     private List<Partner> partners = new ArrayList<>();
-    private String strMonth, strDay,userWeight;
+    private String strMonth, strDay, userWeight;
     private CommonDialog commonDialog;
 
     @Override
@@ -101,27 +110,163 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
         setContentView(R.layout.activity_step);
         ButterKnife.bind(this);
         initView();
-        initCalendar();
-        InitViewPager();
-
+        handler.sendEmptyMessage(101);
+        handler.sendEmptyMessage(102);
+        getPermission();
         stepActivity = this;
         mCommonUtils = new CommonUtils(this);
     }
 
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case 101:
+                    initCalendar();
+                    break;
+                case 102:
+                    InitViewPager();
+                    break;
+                case 103:
+
+                    break;
+            }
+        }
+    };
+
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        if (bleUtils.returnStepData(bytes) != null) {
+            data = bleUtils.returnStepData(bytes);
+            SaveStepData();
+        }
+    }
+
+    private void SaveStepData() {
+        if (data.size() != 0 && data != null) {
+            for (int i = 0; i < data.size(); i++) {
+                int count = data.get(i).getCount();
+                int time = data.get(i).getTime();
+                if (count <= 5 && count >= 0)
+                    setPartnerData(i);
+                if (count <= 11 && count >= 6)
+                    setPartnerData(i);
+                if (count <= 17 && count >= 12)
+                    setPartnerData(i);
+                if (count <= 23 && count >= 18)
+                    setPartnerData(i);
+                if (count <= 29 && count >= 24)
+                    setPartnerData(i);
+                if (count <= 35 && count >= 30)
+                    setPartnerData(i);
+                if (count <= 41 && count >= 36){
+                    if(commonDialog.isShowing())commonDialog.dismiss();
+                    setPartnerData(i);
+                }
+            }
+        }
+    }
+
+    private void setPartnerData(int i) {
+        Partner partner;
+        String strday = setStrDay(i, 0);
+        String time = String.valueOf(data.get(i).getTime());
+        SumsStep += data.get(i).getStep();
+
+        if (data.get(i).getTime() != 23) {
+            partner = new Partner();
+            partner.setType("step");                                                    // 保存计步或 睡眠
+            partner.setTime(String.valueOf(data.get(i).getTime()));       // 保存各时间段
+            partner.setSleep(String.valueOf(data.get(i).getStep()));      //  保存记步数
+            partner.setDate(strday);                                                    //  保存日期
+        } else {
+            // 计算活动时间
+            int second = (int) ((dayStep * 0.66) % 60);
+
+            double km = SumsStep * 0.5;
+            //计算卡路里
+            Weight = Integer.valueOf(userWeight);
+            double card = ((Weight * 0.0005 + (SumsStep - 1) * 0.005) * SumsStep);
+
+            partner = new Partner();
+            partner.setType("step");                                                      // 保存计步或 睡眠
+            partner.setTime(String.valueOf(data.get(i).getTime()));     // 保存各时间段
+            partner.setSleep(String.valueOf(data.get(i).getStep()));   //  保存记步数
+            partner.setDate(strday);                                                     //  保存日期
+            partner.setStepsumsnum(String.valueOf(SumsStep));       //保存总记步
+            partner.setExercisetime(String.valueOf(second));              //  保存运动时间
+            partner.setExercisedistance(String.valueOf(km));               //  保存运动距离
+            partner.setCalcalNum(String.valueOf((int) card));                 //  保存卡路里
+            SumsStep = 0;
+        }
+        sb.setLength(0);
+        if (partners.size() != 0) partners.clear();
+        partners = mCommonUtils.PartnerqueryByBuilder("step", strday, time);
+        if (partners.size() != 0) {
+            partner.setId(partners.get(0).getId());
+            mCommonUtils.uoDatePartner(partner);  //更新数据
+        } else
+            mCommonUtils.insertPartner(partner);   //插入数据
+    }
+
+    //  type 0 是计步 1  是睡眠
+    private String setStrDay(int i, int type) {
+        String strday = null;
+        if (month < 10)
+            strMonth = sb.append("0").append(String.valueOf(month)).toString();
+        else
+            strMonth = String.valueOf(month);
+        sb.setLength(0);
+        if (i != 999999) {
+            if (type == 0) {
+                if (data.get(i).getDay() < 10)
+                    strDay = sb.append("0").append(String.valueOf(data.get(i).getDay())).toString();
+                else
+                    strDay = String.valueOf(data.get(i).getDay());
+            }
+        } else {
+            if (Queryday < 10)
+                strDay = sb.append("0").append(String.valueOf(Queryday)).toString();
+            else
+                strDay = String.valueOf(Queryday);
+        }
+        sb.setLength(0);
+        return strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
+    }
+
+    //sdk6.0以上获取权限
+    private void getPermission() {
+        MPermissions.requestPermissions(this, 100, Manifest.permission.READ_EXTERNAL_STORAGE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @PermissionGrant(100)
+    public void requestSdcardSuccess() {
+    }
+
+    @PermissionDenied(100)
+    public void requestSdcardFailed() {
+    }
+
     private void initView() {
 
-        TVTitle.setText("计步详情");
+        TVTitle.setText(getResources().getString(R.string.step_detail));
         btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
         btnOpt.setBackground(this.getResources().getDrawable(R.drawable.page17_share));
         utills = new SomeUtills();
 
         userWeight = PreferenceData.getUserInfo(StepActivity.this).getWeight();
-        if(userWeight!=null&&!userWeight.equals("")) {
+        if (userWeight != null && !userWeight.equals("")) {
             userWeight = userWeight.replaceAll("[a-z]", ",");
             String s2[] = userWeight.split(",");
             userWeight = s2[0];
-        }else
-            userWeight="0";
+        } else
+            userWeight = "0";
     }
 
     private void initCalendar() {
@@ -190,18 +335,23 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
                 break;
             case R.id.btnOpt:  //分享
-//                utills.setShare(stepActivity, R.id.activity_step);
-                utills.onSharesdk(stepActivity, R.id.activity_step)
-                        .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Boolean>() {
+                new Thread(new Runnable() {
                     @Override
-                    public void call(Boolean aBoolean) {
-                        utills.showShare(StepActivity.this);
+                    public void run() {
+                        utills.onSharesdk(stepActivity, R.id.activity_step)
+                                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Boolean>() {
+                            @Override
+                            public void call(Boolean aBoolean) {
+                                utills.showShare(StepActivity.this);
+                            }
+                        }, new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                Logger.e(throwable.toString());
+                            }
+                        });
                     }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                    }
-                });
+                }).start();
                 break;
 
             case R.id.btnDate:  // 显示 隐藏 日历

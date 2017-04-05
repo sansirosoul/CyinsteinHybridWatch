@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.kevin.crop.UCrop;
 import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
@@ -200,10 +202,12 @@ public class UserSetting extends BaseActivity {
                 break;
             case R.id.save:
                 if (edName.getText() == null || edName.getText().toString().equals("")) {
+                    YoYo.with(Techniques.Shake).duration(700).playOn(findViewById(R.id.ed_name));
                     Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (edName.getText().toString().length() > 20) {
+                    YoYo.with(Techniques.Shake).duration(700).playOn(findViewById(R.id.ed_name));
                     Toast.makeText(context, R.string.name_too_long, Toast.LENGTH_SHORT).show();
                     return;
                 }

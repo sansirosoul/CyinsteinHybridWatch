@@ -97,12 +97,12 @@ public class ClockListAdapter extends BaseAdapter {
                     if (address != null && !address.equals("")) {
                         BleUtils bleUtils = new BleUtils();
                         connectionObservable = BaseActivity.getRxObservable(context);
-                        if(Clock.transformRate(clock.getRate())!=5){
+                        if(Clock.transformRate(context,clock.getRate())!=5){
                             Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
-                                    Clock.transformSnoozeTime(clock.getSnoozeTime()),Clock.transformRate(clock.getRate()),"00000000",1),connectionObservable);
+                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),Clock.transformRate(context,clock.getRate()),"00000000",1),connectionObservable);
                         }else{
                             Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
-                                    Clock.transformSnoozeTime(clock.getSnoozeTime()),5,clock.getCustom(),1),connectionObservable);
+                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),5,clock.getCustom(),1),connectionObservable);
                         }
                     }
                     clock.setIsOpen(1);
@@ -112,12 +112,12 @@ public class ClockListAdapter extends BaseAdapter {
                     if (address != null && !address.equals("")) {
                         BleUtils bleUtils = new BleUtils();
                         connectionObservable = BaseActivity.getRxObservable(context);
-                        if(Clock.transformRate(clock.getRate())!=5){
+                        if(Clock.transformRate(context,clock.getRate())!=5){
                             Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
-                                    Clock.transformSnoozeTime(clock.getSnoozeTime()),Clock.transformRate(clock.getRate()),"00000000",0),connectionObservable);
+                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),Clock.transformRate(context,clock.getRate()),"00000000",0),connectionObservable);
                         }else{
                             Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
-                                    Clock.transformSnoozeTime(clock.getSnoozeTime()),5,clock.getCustom(),0),connectionObservable);
+                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),5,clock.getCustom(),0),connectionObservable);
                         }
                     }
                     clock.setIsOpen(0);
@@ -134,7 +134,7 @@ public class ClockListAdapter extends BaseAdapter {
                     BleUtils bleUtils = new BleUtils();
                     connectionObservable = BaseActivity.getRxObservable(context);
                     Write(bleUtils.setWatchAlarm(0,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
-                            Clock.transformSnoozeTime(clock.getSnoozeTime()),Clock.transformRate(clock.getRate()),"00000000",0),connectionObservable);
+                            Clock.transformSnoozeTime(context,clock.getSnoozeTime()),Clock.transformRate(context,clock.getRate()),"00000000",0),connectionObservable);
                 }
                 clocks.remove(position);
                 notifyDataSetChanged();

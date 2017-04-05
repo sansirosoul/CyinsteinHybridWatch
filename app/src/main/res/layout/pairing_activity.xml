@@ -84,14 +84,14 @@
         <!--android:layout_gravity="center"-->
         <!--android:layout_height="wrap_content" />-->
 
-        <com.xyy.Gazella.view.AnalogClock
+        <com.xyy.Gazella.view.AnalogClock2
             android:id="@+id/clock"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-           android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="120dp"
             app:dial="@drawable/page2_biaopan"
-            app:hand_minute="@drawable/page2_fangdajing" />
+            />
 
         <TextView
             android:layout_width="wrap_content"

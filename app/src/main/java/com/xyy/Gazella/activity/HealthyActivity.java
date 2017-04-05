@@ -26,10 +26,13 @@ import com.xyy.model.SleepData;
 import com.xyy.model.StepData;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -68,7 +71,7 @@ public class HealthyActivity extends BaseActivity {
     public boolean isNotify;
     private int TargetStep;
     private boolean isTrue;
-    private int dayStep;
+    public static int dayStep;
     private List<StepData> data;
     private List<SleepData> sleepData;
     private Time mCalendar;
@@ -79,7 +82,6 @@ public class HealthyActivity extends BaseActivity {
     private String strMonth, strDay, userWeight;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,18 +90,29 @@ public class HealthyActivity extends BaseActivity {
         String address = PreferenceData.getAddressValue(this);
         bleUtils = new BleUtils();
         InitViewPager();
-
+        btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
         if (address != null && !address.equals("")) {
-            connectionObservable = getRxObservable(this);
-            Notify(connectionObservable);
-            Write(bleUtils.setSystemType(), connectionObservable);
-            btnOpt.setBackground(getResources().getDrawable(R.drawable.page15_tongbu));
+//            connectionObservable = getRxObservable(this);
+//            Notify(connectionObservable);
+//            Write(bleUtils.setSystemType(), connectionObservable);
+
+            if (GazelleApplication.isBleConnected) {
+                setNotifyCharacteristic();
+            } else {
+                connectBLEbyMac(address);
+            }
         }
         initData();
         initTime();
         install = this;
         mCommonUtils = new CommonUtils(this);
-        DeviceConnectionStateChanges();
+    }
+
+    @Override
+    public void onConnectionState(int state) {
+        if (state == 1) {
+            stepFragment.getTodayStepPost();
+        }
     }
 
     private void initData() {
@@ -122,7 +135,7 @@ public class HealthyActivity extends BaseActivity {
                 break;
             case 1:   // 断开状态
                 isNotify = false;
-                Message.obtain(ehandler,101,str).sendToTarget();
+                Message.obtain(ehandler, 101, str).sendToTarget();
                 break;
             case 2:   // 重新连接
                 Notify(connectionObservable);
@@ -133,11 +146,11 @@ public class HealthyActivity extends BaseActivity {
         super.onNotifyReturn(type, str);
     }
 
-    Handler ehandler = new Handler(){
+    Handler ehandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 101:
                     String str = (String) msg.obj;
                     HandleThrowableException(str);
@@ -146,6 +159,81 @@ public class HealthyActivity extends BaseActivity {
         }
     };
 
+    private void handerSleepData(List<SleepData> list) {
+        Date date = new Date();
+        for (int i = 0;i<list.size();i++){
+             if(list.get(i).getDate()==date.getDate()){
+                 saveSleepData(date,list.get(i));
+                 sleepFragment.setBerbarNum(1,list.get(i).getDate());
+             }else if(list.get(i).getDate()==getBeforeDay(date,1).getDate()){
+                 saveSleepData(getBeforeDay(date,1),list.get(i));
+                 sleepFragment.setBerbarNum(2,list.get(i).getDate());
+             }else if(list.get(i).getDate()==getBeforeDay(date,2).getDate()){
+                 saveSleepData(getBeforeDay(date,2),list.get(i));
+                 sleepFragment.setBerbarNum(3,list.get(i).getDate());
+             }else if(list.get(i).getDate()==getBeforeDay(date,3).getDate()){
+                 saveSleepData(getBeforeDay(date,3),list.get(i));
+                 sleepFragment.setBerbarNum(4,list.get(i).getDate());
+             }else if(list.get(i).getDate()==getBeforeDay(date,4).getDate()){
+                 saveSleepData(getBeforeDay(date,4),list.get(i));
+                 sleepFragment.setBerbarNum(5,list.get(i).getDate());
+             }else if(list.get(i).getDate()==getBeforeDay(date,5).getDate()){
+                 saveSleepData(getBeforeDay(date,5),list.get(i));
+                 sleepFragment.setBerbarNum(6,list.get(i).getDate());
+             }else if(list.get(i).getDate()==getBeforeDay(date,6).getDate()){
+                 saveSleepData(getBeforeDay(date,6),list.get(i));
+                 sleepFragment.setBerbarNum(7,list.get(i).getDate());
+             }
+            if(list.get(i).isLast()){
+                sleepFragment.setUploadFinsh();
+            }
+         }
+
+        sleepFragment.setTvSynchronizationtime();
+        sleepFragment.setToDayTime();
+//        SaveSleepData();
+    }
+
+    private void saveSleepData(Date date,SleepData sleepData){
+        String strday;
+        if(date.getMonth()+1<10){
+            if(date.getDate()<10){
+                strday = (date.getYear()+1900)+".0"+(date.getMonth()+1)+".0"+date.getDate();
+            }else{
+                strday = (date.getYear()+1900)+".0"+(date.getMonth()+1)+"."+date.getDate();
+            }
+        }else{
+            if(date.getDate()<10){
+                strday = (date.getYear()+1900)+"."+(date.getMonth()+1)+".0"+date.getDate();
+            }else{
+                strday = (date.getYear()+1900)+"."+(date.getMonth()+1)+"."+date.getDate();
+            }
+        }
+
+        Partner partner = new Partner();
+        partner.setType("sleep");
+        partner.setDate(strday);
+        partner.setTime(sleepData.getHour()+"."+sleepData.getMin());
+        partner.setSleep(sleepData.getStatus()+"");
+
+        if (partners.size() != 0) partners.clear();
+        partners = mCommonUtils.PartnerqueryByBuilder("sleep",strday,sleepData.getHour()+"."+sleepData.getMin());
+        if (partners.size() != 0) {
+            partner.setId(partners.get(0).getId());
+            mCommonUtils.uoDatePartner(partner);  //更新数据
+        } else
+            mCommonUtils.insertPartner(partner);   //插入数据
+    }
+
+    public static Date getBeforeDay(Date date,int num) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, -num);
+        date = calendar.getTime();
+        return date;
+    }
+
+    List<SleepData> list2 = new ArrayList<>();
     @Override
     protected void onReadReturn(byte[] bytes) {
 
@@ -154,13 +242,21 @@ public class HealthyActivity extends BaseActivity {
             SaveStepData();
         }
         if (bleUtils.returnSleepData(bytes) != null) { //  同步睡眠数据
-            sleepData = bleUtils.returnSleepData(bytes);
-            if(sleepData.get(0).getSums()==42)
-            SaveSleepData();
+            sleepData=bleUtils.returnSleepData(bytes);
+            list2.addAll(sleepData);
+            for (int i = 0; i < sleepData.size(); i++) {
+                if(sleepData.get(i).isLast){
+                    handerSleepData(SomeUtills.sort(list2));
+                }
+            }
+
+//            handerSleepData(sleepData);
+//            if(sleepData.get(0).getSums()==42)
+//            SaveSleepData();
 
         }
 
-        if (bytes[0] == 0x07 && bytes[1] == 0x0C) {  // 今日步数
+        if (bleUtils.returnTodayStep(bytes) != null) {  // 今日步数
             StepData stepData = bleUtils.returnTodayStep(bytes);
             if (stepData != null) {
                 dayStep = stepData.getStep();
@@ -190,12 +286,12 @@ public class HealthyActivity extends BaseActivity {
                     stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
 
                 //计算活动时间
-                int second = (int) ((dayStep * 0.66)%60);
-                if (second < 60) {
-                    stepFragment.setTime(String.valueOf(second) + getResources().getString(R.string.minute));
-                } else if (second > 60) {
-                    stepFragment.setTime(String.valueOf(second / 60) + getResources().getString(R.string.hour)
-                            + String.valueOf((second % 360
+                int second = stepData.getSeconds();
+                if (second >= 60 && second<3600) {
+                    stepFragment.setTime(String.valueOf(second/60) + getResources().getString(R.string.minute));
+                } else if (second >= 3600) {
+                    stepFragment.setTime(String.valueOf(second / 3600) + getResources().getString(R.string.hour)
+                            + String.valueOf((second % 3600
                     ) / 60) + getResources().getString(R.string.minute));
                 }
                 if (dayStep <= TargetStep)
@@ -210,41 +306,41 @@ public class HealthyActivity extends BaseActivity {
     private void SaveSleepData() {
         if (sleepData.size() != 0 && sleepData != null) {
             for (int i = 0; i < sleepData.size(); i++) {
-                int count = sleepData.get(i).getCount();
-                int time = sleepData.get(i).getTime();
-                if (count <= 5 && count >= 0)
-                    setPartnersleepData(i);
-                if (count == 5 && time == 23)
-                    sleepFragment.setBerbarNum(1, sleepData.get(i).getDate());
-                if (count <= 11 && count >= 6)
-                    setPartnersleepData(i);
-                if (count == 11 && time == 23)
-                    sleepFragment.setBerbarNum(2, sleepData.get(i).getDate());
-                if (count <= 17 && count >= 12)
-                    setPartnersleepData(i);
-                if (count == 17 && time == 23)
-                    sleepFragment.setBerbarNum(3, sleepData.get(i).getDate());
-                if (count <= 23 && count >= 18)
-                    setPartnersleepData(i);
-                if (count == 23 && time == 23)
-                    sleepFragment.setBerbarNum(4, sleepData.get(i).getDate());
-                if (count <= 29 && count >= 24)
-                    setPartnersleepData(i);
-                if (count == 29 && time == 23)
-                    sleepFragment.setBerbarNum(5, sleepData.get(i).getDate());
-                if (count <= 35 && count >= 30)
-                    setPartnersleepData(i);
-                if (count == 35 && time == 23)
-                    stepFragment.setBerbarNum(6, sleepData.get(i).getDate());
-                if (count <= 41 && count >= 36)
-                    setPartnersleepData(i);
-                if (count == 41 && time == 23) {
-                    sleepFragment.setBerbarNum(7, sleepData.get(i).getDate());
-                    sleepFragment.setTvSynchronizationtime();
-                    sleepFragment.setToDayTime();
-
-                }
+//                int count = sleepData.get(i).getCount();
+//                int time = sleepData.get(i).getTime();
+//                if (count <= 5 && count >= 0)
+//                    setPartnersleepData(i);
+//                if (count == 5 && time == 23)
+//                    sleepFragment.setBerbarNum(1, sleepData.get(i).getDate());
+//                if (count <= 11 && count >= 6)
+//                    setPartnersleepData(i);
+//                if (count == 11 && time == 23)
+//                    sleepFragment.setBerbarNum(2, sleepData.get(i).getDate());
+//                if (count <= 17 && count >= 12)
+//                    setPartnersleepData(i);
+//                if (count == 17 && time == 23)
+//                    sleepFragment.setBerbarNum(3, sleepData.get(i).getDate());
+//                if (count <= 23 && count >= 18)
+//                    setPartnersleepData(i);
+//                if (count == 23 && time == 23)
+//                    sleepFragment.setBerbarNum(4, sleepData.get(i).getDate());
+//                if (count <= 29 && count >= 24)
+//                    setPartnersleepData(i);
+//                if (count == 29 && time == 23)
+//                    sleepFragment.setBerbarNum(5, sleepData.get(i).getDate());
+//                if (count <= 35 && count >= 30)
+//                    setPartnersleepData(i);
+//                if (count == 35 && time == 23)
+//                    sleepFragment.setBerbarNum(6, sleepData.get(i).getDate());
+//                if (count <= 41 && count >= 36)
+//                    setPartnersleepData(i);
+//                if (count == 41 && time == 23) {
+//                    sleepFragment.setBerbarNum(7, sleepData.get(i).getDate());
+//                }
+                setPartnersleepData(i);
             }
+            sleepFragment.setTvSynchronizationtime();
+            sleepFragment.setToDayTime();
         }
     }
 
@@ -266,13 +362,13 @@ public class HealthyActivity extends BaseActivity {
             partner.setType("sleep");                                                          // 保存计步或 睡眠
             int status = sleepData.get(i).getStatus();
             switch (status) {
-                case 0:
+                case 1:
                     awakeTime[i] = 1;
                     break;
-                case 1:
+                case 2:
                     lightsleepTime[i] = 1;
                     break;
-                case 2:
+                case 3:
                     sleepingTime[i] = 1;
                     break;
             }
@@ -362,7 +458,7 @@ public class HealthyActivity extends BaseActivity {
             partner.setDate(strday);                                                    //  保存日期
         } else {
             // 计算活动时间
-            int second = (int) ((dayStep * 0.66)%60);
+            int second = data.get(i).getSeconds();
 
             double km = SumsStep * 0.5;
             //计算卡路里
@@ -420,6 +516,10 @@ public class HealthyActivity extends BaseActivity {
         return strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
     }
 
+
+
+    private boolean flag = false;
+
     private void InitViewPager() {
         TVTitle.setText(getResources().getString(R.string.health_manage));
         viewPager = (ViewPager) findViewById(viewpager);
@@ -468,12 +568,19 @@ public class HealthyActivity extends BaseActivity {
                     case 1:
                         sleep.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed_right));
                         step.setBackground(null);
+//                        if (GazelleApplication.isBleConnected) {
+//                            if (!flag) {
+//                                sleepFragment.setSynchronizationData();
+//                                flag = true;
+//                            }
+//                        }
                         break;
                 }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
             }
         });
     }
@@ -496,15 +603,24 @@ public class HealthyActivity extends BaseActivity {
                 overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
                 break;
             case R.id.btnOpt:
-                if(!isNotify){
-                    showToatst(HealthyActivity.this,"蓝牙未连接");
-                    break;
+//                if(!isNotify){
+//                    showToatst(HealthyActivity.this,"蓝牙未连接");
+//                    break;
+//                }
+                String address = PreferenceData.getAddressValue(this);
+                if (address != null && !address.equals("")) {
+                    if (!GazelleApplication.isBleConnected) {
+                        showToatst(HealthyActivity.this, getResources().getString(R.string.not_connect_device));
+                        break;
+                    }
+                    stepFragment.removeTodayStepPost();
+                    if (viewPager.getCurrentItem() == 0) {
+                        stepFragment.setSynchronizationData();
+                    } else
+                        sleepFragment.setSynchronizationData();
+                } else {
+                    showToatst(this, getResources().getString(R.string.inspect_ble_state));
                 }
-                stepFragment.removeTodayStepPost();
-                if (viewPager.getCurrentItem() == 0) {
-                    stepFragment.setSynchronizationData();
-                } else
-                    sleepFragment.setSynchronizationData();
                 break;
         }
     }
@@ -543,6 +659,12 @@ public class HealthyActivity extends BaseActivity {
         stepFragment.removeTodayStepPost();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stepFragment.removeTodayStepPost();
+    }
+
     private void initTime() {
         mCalendar = new Time();
         mCalendar.setToNow();
@@ -551,4 +673,5 @@ public class HealthyActivity extends BaseActivity {
         day = mCalendar.monthDay;
         Queryday = mCalendar.monthDay;
     }
+
 }

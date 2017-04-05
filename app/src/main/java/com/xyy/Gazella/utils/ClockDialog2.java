@@ -70,16 +70,16 @@ public class ClockDialog2 extends Dialog implements View.OnClickListener{
             }
         };
 
-        if(repeatrate.equals("只响一次")){
+        if(repeatrate.equals(context.getResources().getString(R.string.rate1))){
             ivOnce.setBackgroundResource(R.drawable.page36_sel);
         }
-        if(repeatrate.equals("每天")){
+        if(repeatrate.equals(context.getResources().getString(R.string.rate2))){
             ivEvery.setBackgroundResource(R.drawable.page36_sel);
         }
-        if(repeatrate.equals("周一到周五")){
+        if(repeatrate.equals(context.getResources().getString(R.string.rate3))){
             iv15.setBackgroundResource(R.drawable.page36_sel);
         }
-        if(repeatrate.equals("周六、周日")){
+        if(repeatrate.equals(context.getResources().getString(R.string.rate4))){
             iv67.setBackgroundResource(R.drawable.page36_sel);
         }
     }
@@ -105,19 +105,19 @@ public class ClockDialog2 extends Dialog implements View.OnClickListener{
                 dismiss();
                 break;
             case R.id.rl_once:
-                mOnClickListener.onClick("只响一次");
+                mOnClickListener.onClick(context.getResources().getString(R.string.rate1));
                 dismiss();
                 break;
             case R.id.rl_every:
-                mOnClickListener.onClick("每天");
+                mOnClickListener.onClick(context.getResources().getString(R.string.rate2));
                 dismiss();
                 break;
             case R.id.rl15:
-                mOnClickListener.onClick("周一到周五");
+                mOnClickListener.onClick(context.getResources().getString(R.string.rate3));
                 dismiss();
                 break;
             case R.id.rl67:
-                mOnClickListener.onClick("周六、周日");
+                mOnClickListener.onClick(context.getResources().getString(R.string.rate4));
                 dismiss();
                 break;
             case R.id.rl_define:

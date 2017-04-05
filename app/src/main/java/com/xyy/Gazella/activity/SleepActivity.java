@@ -103,7 +103,7 @@ public class SleepActivity extends BaseActivity implements OnDateSelectedListene
 
     private void initView() {
 
-        TVTitle.setText("睡眠详情");
+        TVTitle.setText(getResources().getString(R.string.sleep_detail));
         btnDate.setBackground(this.getResources().getDrawable(R.drawable.page17_rili));
         btnOpt.setBackground(this.getResources().getDrawable(R.drawable.page17_share));
     }

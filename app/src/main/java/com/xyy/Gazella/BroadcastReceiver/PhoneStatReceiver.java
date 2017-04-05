@@ -1,6 +1,9 @@
 package com.xyy.Gazella.BroadcastReceiver;
 
 import android.app.Service;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +12,14 @@ import android.telephony.TelephonyManager;
 
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
-import com.xyy.Gazella.utils.BleUtils;
+import com.vise.baseble.ViseBluetooth;
+import com.vise.baseble.callback.IBleCallback;
+import com.vise.baseble.exception.BleException;
 import com.xyy.Gazella.utils.HexString;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 
+import java.util.List;
 import java.util.UUID;
 
 import rx.Observable;
@@ -21,28 +27,31 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
+import static com.xyy.Gazella.services.BluetoothService.writeUUID;
+
 /**
  * Created by Administrator on 2016/10/29.
  */
 
 public class PhoneStatReceiver extends BroadcastReceiver {
     private static final String TAG = "PhoneStatReceiver";
+    public final static String serviceUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
-    private Observable<RxBleConnection> connectionObservable;
     private Context mContext;
+    private BluetoothGatt mBluetoothGatt;
+    private TelephonyManager tm;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         this.mContext = context;
+        mBluetoothGatt=BaseActivity.mBluetoothGatt;
         if (intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL)) {
             //如果是去电（拨出）
-            System.out.println("拨出");
 
         } else {
             //查了下android文档，貌似没有专门用于接收来电的action,所以，非去电即来电
-            System.out.println("来电");
-            TelephonyManager tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
+            tm = (TelephonyManager) context.getSystemService(Service.TELEPHONY_SERVICE);
             tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
             //设置一个监听器
         }
@@ -57,28 +66,64 @@ public class PhoneStatReceiver extends BroadcastReceiver {
             super.onCallStateChanged(state, incomingNumber);
             switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
-                    System.out.println("挂断");
+//                    System.out.println("挂断");
                     break;
                 case TelephonyManager.CALL_STATE_OFFHOOK:
-                    System.out.println("接听");
+//                    System.out.println("接听");
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
                     System.out.println("响铃:来电号码" + incomingNumber);
                     //输出来电号码
                     String address = PreferenceData.getAddressValue(mContext);
                     if (address != null && !address.equals("")) {
-                        BleUtils bleUtils = new BleUtils();
-                        connectionObservable = BaseActivity.getRxObservable(mContext);
-                        int pstate = PreferenceData.getNotificationPhoneState(mContext);
-                        int shake = PreferenceData.getNotificationShakeState(mContext);
-                        if (pstate == 1) {
-                                Write(bleUtils.sendMessage(1, pstate, 0, 0, 0, shake), connectionObservable);
-                        }
+//                        BleUtils bleUtils = new BleUtils();
+//                        if (GazelleApplication.isBleConnected) {
+//                            int pstate = PreferenceData.getNotificationPhoneState(mContext);
+//                            int shake = PreferenceData.getNotificationShakeState(mContext);
+//                            if (pstate == 1) {
+//                                writeCharacteristic(bleUtils.sendMessage(1, pstate, 0, 0, 0, shake));
+//                            }
+//                        }
+
                     }
+                    tm=null;
                     break;
             }
         }
     };
+
+    public BluetoothGattCharacteristic getWriteCharacteristic() {
+        BluetoothGattCharacteristic gattCharacteristic = null;
+        if (mBluetoothGatt == null)
+            return null;
+        List<BluetoothGattService> services = mBluetoothGatt.getServices();
+        for (int i = 0; i<services.size();i++){
+            BluetoothGattService service = services.get(i);
+            if(service.getUuid().toString().equals(serviceUUID)){
+                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+                for(int j = 0; j<characteristics.size();j++){
+                    BluetoothGattCharacteristic characteristic = characteristics.get(j);
+                    if(characteristic.getUuid().toString().equals(writeUUID)){
+                        gattCharacteristic=characteristic;
+                    }
+                }
+            }
+        }
+        return gattCharacteristic;
+    }
+
+    public void writeCharacteristic(byte[] bytes){
+        ViseBluetooth.getInstance().writeCharacteristic(getWriteCharacteristic(), bytes, new IBleCallback<BluetoothGattCharacteristic>() {
+            @Override
+            public void onSuccess(BluetoothGattCharacteristic bluetoothGattCharacteristic, int type) {
+            }
+
+            @Override
+            public void onFailure(BleException exception) {
+                Logger.e(exception.getDescription());
+            }
+        });
+    }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
         return connectionObservable

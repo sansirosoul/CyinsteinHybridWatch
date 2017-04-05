@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         ></include>
+
     <ScrollView
         android:overScrollMode="never"
         android:scrollbars="none"
@@ -96,7 +97,7 @@
                         android:id="@+id/email" />
 
                     <ToggleButton
-                        android:background="@drawable/selector_twitter"
+                        android:background="@drawable/selector_msg"
                         android:textOn=""
                         android:textOff=""
                         android:layout_marginLeft="12dp"
@@ -107,6 +108,7 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center_horizontal"
                     android:orientation="horizontal"

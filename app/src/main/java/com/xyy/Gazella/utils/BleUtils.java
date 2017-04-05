@@ -1,5 +1,7 @@
 package com.xyy.Gazella.utils;
 
+import android.content.Context;
+
 import com.orhanobut.logger.Logger;
 import com.xyy.model.Clock;
 import com.xyy.model.SleepData;
@@ -7,6 +9,7 @@ import com.xyy.model.StepData;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * 蓝牙协议操作类
@@ -113,15 +116,32 @@ public class BleUtils {
     //返回手表序列号
     public String returnDeviceSN(byte[] bytes) {
         String deviceSN = null;
-        if (bytes[0] == 0x07 && bytes[1] == 0x00) {
-            byte[] bytes1 = new byte[16];
-            for (int i = 0; i < bytes1.length; i++) {
-                bytes1[i] = bytes[2 + i];
+        if (bytes == null || bytes.length == 0) return null;
+        if (bytes.length != 20) {
+            sbyte = concat(sbyte, bytes);
+            if (sbyte.length == 20) {
+                byte[] bytes1 = new byte[16];
+                for (int i = 0; i < bytes1.length; i++) {
+                    bytes1[i] = sbyte[2 + i];
+                }
+                try {
+                    deviceSN = new String(bytes1, "ascii");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                sbyte = new byte[]{};
             }
-            try {
-                deviceSN = new String(bytes1, "ascii");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+        } else {
+            if (bytes[0] == 0x07 && bytes[1] == 0x00) {
+                byte[] bytes1 = new byte[16];
+                for (int i = 0; i < bytes1.length; i++) {
+                    bytes1[i] = bytes[2 + i];
+                }
+                try {
+                    deviceSN = new String(bytes1, "ascii");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return deviceSN;
@@ -300,10 +320,23 @@ public class BleUtils {
     //返回固件版本
     public String returnFWVer(byte[] bytes) {
         String FWVer = null;
-        if (bytes[0] == 0x07 && bytes[1] == 0x05) {
-            byte[] bytes1 = new byte[5];
-            for (int i = 0; i < bytes1.length; i++) {
-                bytes1[i] = bytes[2 + i];
+        if (bytes == null || bytes.length == 0) return null;
+        if (bytes.length != 9) {
+            sbyte = concat(sbyte, bytes);
+            if (sbyte.length == 9) {
+                byte[] bytes1 = new byte[5];
+                for (int i = 0; i < bytes1.length; i++) {
+                    bytes1[i] = sbyte[2 + i];
+                }
+                FWVer = new String(sbyte);
+                sbyte = new byte[]{};
+            }
+        } else {
+            if (bytes[0] == 0x07 && bytes[1] == 0x05) {
+                byte[] bytes1 = new byte[5];
+                for (int i = 0; i < bytes1.length; i++) {
+                    bytes1[i] = bytes[2 + i];
+                }
                 FWVer = new String(bytes1);
             }
         }
@@ -370,6 +403,7 @@ public class BleUtils {
 
     //返回设备名称
     public String returnDeviceName(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) return null;
         String deviceName = null;
         if (bytes[0] == 0x07 && bytes[1] == 0x08) {
             int length = bytes.length;
@@ -434,6 +468,7 @@ public class BleUtils {
 
     //返回设备型号名称
     public String returnDeviceType(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) return null;
         String deviceType = null;
         if (bytes[0] == 0x07 && bytes[1] == 0x0A) {
             byte[] bytes1 = new byte[6];
@@ -471,16 +506,34 @@ public class BleUtils {
 
     //返回当天总计步值
     public StepData returnTodayStep(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
         StepData data = null;
-        if (bytes[0] == 0x07 && bytes[1] == 0x0C) {
-            data = new StepData();
-            data.setYear((bytes[2] & 0xFF) + 2000);
-            data.setMonth(bytes[3] & 0xFF);
-            data.setDay(bytes[4] & 0xFF);
-            int step = (bytes[8] & 0xFF) + ((bytes[7] & 0xFF) << 8) + ((bytes[6] & 0xFF) << 16) + ((bytes[5] & 0xFF) << 24);
-            int seconds = (bytes[12] & 0xFF) + ((bytes[11] & 0xFF) << 8) + ((bytes[10] & 0xFF) << 16) + ((bytes[9] & 0xFF) << 24);
-            data.setStep(step);
-            data.setSeconds(seconds);
+        if (bytes.length != 15) {
+            sbyte = concat(sbyte, bytes);
+            if (sbyte.length == 15) {
+                data = new StepData();
+                data.setYear((sbyte[2] & 0xFF) + 2000);
+                data.setMonth(sbyte[3] & 0xFF);
+                data.setDay(sbyte[4] & 0xFF);
+                int step = (sbyte[8] & 0xFF) + ((sbyte[7] & 0xFF) << 8) + ((sbyte[6] & 0xFF) << 16) + ((sbyte[5] & 0xFF) << 24);
+                int seconds = (sbyte[12] & 0xFF) + ((sbyte[11] & 0xFF) << 8) + ((sbyte[10] & 0xFF) << 16) + ((sbyte[9] & 0xFF) << 24);
+                data.setStep(step);
+                data.setSeconds(seconds);
+                sbyte = new byte[]{};
+            }
+        } else {
+            if (bytes[0] == 0x07 && bytes[1] == 0x0C) {
+                data = new StepData();
+                data.setYear((bytes[2] & 0xFF) + 2000);
+                data.setMonth(bytes[3] & 0xFF);
+                data.setDay(bytes[4] & 0xFF);
+                int step = (bytes[8] & 0xFF) + ((bytes[7] & 0xFF) << 8) + ((bytes[6] & 0xFF) << 16) + ((bytes[5] & 0xFF) << 24);
+                int seconds = (bytes[12] & 0xFF) + ((bytes[11] & 0xFF) << 8) + ((bytes[10] & 0xFF) << 16) + ((bytes[9] & 0xFF) << 24);
+                data.setStep(step);
+                data.setSeconds(seconds);
+            }
         }
         return data;
     }
@@ -515,24 +568,48 @@ public class BleUtils {
 
     //返回睡眠数据
     public ArrayList<SleepData> returnSleepData(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
         ArrayList<SleepData> list = new ArrayList<>();
-        if (bytes[0] == 0x07 && bytes[1] == 0x0D) {
-            if (bytes[2] != 0) {
-                for (int i = 1; i < 5; i++) {
+        if (bytes.length != 20) {
+            sbyte = concat(sbyte, bytes);
+            if (sbyte.length == 20) {
+                int index = (sbyte.length - 4) / 4;
+                for (int i = 1; i < index + 1; i++) {
                     SleepData data = new SleepData();
-                    data.setDate(bytes[4 * i] & 0xFF);
-                    data.setTime(bytes[4 * i + 1] & 0xFF);
-                    data.setStatus(bytes[4 * i + 2] & 0xFF);
-                    data.setQuality(bytes[4 * i + 3] & 0xFF);
-                    data.setSums(bytes[2]);
-                    data.setCount(bytes[3]);
+                    if (i == index && sbyte[2] == (sbyte[3] + 1)) {
+                        data.setLast(true);
+                    }
+                    data.setDate(sbyte[4 * i] & 0xFF);
+                    data.setHour(sbyte[4 * i + 1] & 0xFF);
+                    data.setMin(sbyte[4 * i + 2] & 0xFF);
+                    data.setStatus(sbyte[4 * i + 3] & 0xFF);
+                    data.setSums(sbyte[2]);
+                    data.setCount(sbyte[3]);
                     list.add(data);
                 }
-            } else {
-                return null;
+                sbyte = new byte[]{};
             }
         } else {
-            return null;
+            if (bytes[0] == 0x07 && bytes[1] == 0x0D) {
+                if (bytes[2] != 0) {
+                    int index = (bytes.length - 4) / 4;
+                    for (int i = 1; i < index + 1; i++) {
+                        SleepData data = new SleepData();
+                        if (i == index && bytes[2] == (bytes[3] + 1)) {
+                            data.setLast(true);
+                        }
+                        data.setDate(bytes[4 * i] & 0xFF);
+                        data.setHour(bytes[4 * i + 1] & 0xFF);
+                        data.setMin(bytes[4 * i + 2] & 0xFF);
+                        data.setStatus(bytes[4 * i + 3] & 0xFF);
+                        data.setSums(bytes[2]);
+                        data.setCount(bytes[3]);
+                        list.add(data);
+                    }
+                }
+            }
         }
         return list;
     }
@@ -587,6 +664,7 @@ public class BleUtils {
 
     //返回生产序号
     public String returnDevicePN(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) return null;
         String deviceSN = null;
         if (bytes[0] == 0x07 && bytes[1] == 0x11) {
             byte[] bytes1 = new byte[16];
@@ -624,6 +702,7 @@ public class BleUtils {
 
     //返回手表电量
     public String returnBatteryValue(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) return null;
         String batteryValue = null;
         if (bytes[0] == 0x07 && bytes[1] == 0x13) {
             batteryValue = String.valueOf(bytes[2] & 0xFF);
@@ -817,25 +896,48 @@ public class BleUtils {
         return value;
     }
 
-    //返回24小时计步数据
+    public static byte[] concat(byte[] first, byte[] second) {
+        byte[] result = Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, result, first.length, second.length);
+        return result;
+    }
+
+    byte[] sbyte = new byte[]{};
+
+    //返回7天计步数据
     public ArrayList<StepData> returnStepData(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
         ArrayList<StepData> list = new ArrayList<>();
-        if (bytes[0] == 0x07 & bytes[1] == 0x24) {
-            if (bytes[2] != 0) {
+        if (bytes.length != 20) {
+            sbyte = concat(sbyte, bytes);
+            if (sbyte.length == 20) {
                 for (int i = 1; i < 5; i++) {
                     StepData data = new StepData();
-                    data.setDay(bytes[4 * i] & 0xFF);
-                    data.setTime(bytes[4 * i + 1] & 0xFF);
-                    data.setStep((bytes[4 * i + 3] & 0xFF) + ((bytes[4 * i + 2] & 0xFF) << 8));
-                    data.setSums(bytes[2]);
-                    data.setCount(bytes[3]);
+                    data.setDay(sbyte[4 * i] & 0xFF);
+                    data.setTime(sbyte[4 * i + 1] & 0xFF);
+                    data.setStep((sbyte[4 * i + 3] & 0xFF) + ((sbyte[4 * i + 2] & 0xFF) << 8));
+                    data.setSums(sbyte[2]);
+                    data.setCount(sbyte[3]);
                     list.add(data);
                 }
-            } else {
-                return null;
+                sbyte = new byte[]{};
             }
         } else {
-            return null;
+            if (bytes[0] == 0x07 & bytes[1] == 0x24) {
+                if (bytes[2] != 0) {
+                    for (int i = 1; i < 5; i++) {
+                        StepData data = new StepData();
+                        data.setDay(bytes[4 * i] & 0xFF);
+                        data.setTime(bytes[4 * i + 1] & 0xFF);
+                        data.setStep((bytes[4 * i + 3] & 0xFF) + ((bytes[4 * i + 2] & 0xFF) << 8));
+                        data.setSums(bytes[2]);
+                        data.setCount(bytes[3]);
+                        list.add(data);
+                    }
+                }
+            }
         }
         return list;
     }
@@ -896,42 +998,77 @@ public class BleUtils {
     }
 
     //返回闹钟信息
-    public Clock returnAlarms(byte[] bytes) {
-        Clock clock = new Clock();
-        if (bytes[0] == 0x07 && bytes[1] == 0x26) {
-            if (bytes[2] != 0) {
-                clock.setId((bytes[3] & 0xFF));
+    public Clock returnAlarms(Context context, byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return null;
+        }
+        Clock clock = null;
+        if (bytes.length != 12) {
+            sbyte = concat(sbyte, bytes);
+            if (sbyte.length == 12) {
+                clock = new Clock();
+                clock.setId((sbyte[3] & 0xFF));
 
                 String hour, minute;
-                if ((bytes[4] & 0xFF) < 10) {
-                    hour = "0" + (bytes[4] & 0xFF);
+                if ((sbyte[4] & 0xFF) < 10) {
+                    hour = "0" + (sbyte[4] & 0xFF);
                 } else {
-                    hour = (bytes[4] & 0xFF) + "";
+                    hour = (sbyte[4] & 0xFF) + "";
                 }
 
-                if ((bytes[5] & 0xFF) < 10) {
-                    minute = "0" + (bytes[5] & 0xFF);
+                if ((sbyte[5] & 0xFF) < 10) {
+                    minute = "0" + (sbyte[5] & 0xFF);
                 } else {
-                    minute = (bytes[5] & 0xFF) + "";
+                    minute = (sbyte[5] & 0xFF) + "";
                 }
                 clock.setTime(hour + ":" + minute);
 
-                clock.setSnoozeTime(Clock.transformSnoozeTime2((bytes[6] & 0xFF)));
+                clock.setSnoozeTime(Clock.transformSnoozeTime2(context, (sbyte[6] & 0xFF)));
 
                 if ((bytes[7] & 0xFF) == 5) {
-                    String str = byte2bits(bytes[8]);
-                    clock.setRate(Clock.transformCustom(str));
+                    String str = byte2bits(sbyte[8]);
+                    clock.setRate(Clock.transformCustom(context, str));
                     clock.setCustom(str);
                 } else {
-                    clock.setRate(Clock.transformRat2((bytes[7] & 0xFF)));
+                    clock.setRate(Clock.transformRat2(context, (sbyte[7] & 0xFF)));
                 }
 
-                clock.setIsOpen((bytes[9] & 0xFF));
-            } else {
-                return null;
+                clock.setIsOpen((sbyte[9] & 0xFF));
+                sbyte = new byte[]{};
             }
         } else {
-            return null;
+            if (bytes[0] == 0x07 && bytes[1] == 0x26) {
+                clock = new Clock();
+                if (bytes[2] != 0) {
+                    clock.setId((bytes[3] & 0xFF));
+
+                    String hour, minute;
+                    if ((bytes[4] & 0xFF) < 10) {
+                        hour = "0" + (bytes[4] & 0xFF);
+                    } else {
+                        hour = (bytes[4] & 0xFF) + "";
+                    }
+
+                    if ((bytes[5] & 0xFF) < 10) {
+                        minute = "0" + (bytes[5] & 0xFF);
+                    } else {
+                        minute = (bytes[5] & 0xFF) + "";
+                    }
+                    clock.setTime(hour + ":" + minute);
+
+                    clock.setSnoozeTime(Clock.transformSnoozeTime2(context, (bytes[6] & 0xFF)));
+
+                    if ((bytes[7] & 0xFF) == 5) {
+                        String str = byte2bits(bytes[8]);
+                        clock.setRate(Clock.transformCustom(context, str));
+                        clock.setCustom(str);
+                    } else {
+                        clock.setRate(Clock.transformRat2(context, (bytes[7] & 0xFF)));
+                    }
+
+                    clock.setIsOpen((bytes[9] & 0xFF));
+                }
+            }
         }
         return clock;
     }
@@ -1082,12 +1219,13 @@ public class BleUtils {
 
     //返回蓝牙OTA固件更新指令
     public boolean returnOTAValue(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) return false;
         if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0xDF) {
-            if (bytes[2] != 0x00) {
-                if (bytes[4] == 0x00)
-                    return false;
-                else
+            if (bytes[2] == 0x02) {
+                if (bytes[4] == 0x01)
                     return true;
+                else
+                    return false;
             } else {
                 return false;
             }
@@ -1097,17 +1235,38 @@ public class BleUtils {
 
     //返回蓝牙OTA固件更新进度值
     public int returnOTAUpdateValue(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return 0;
+        }
         int BytesNum = 0;
-        if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0xDF) {
-            if (bytes[2] == 0x05) {
-                if (bytes[3] == 0x02) {
-                    BytesNum = (bytes[4] & 0xff) * 16777216
-                            + (bytes[5] & 0xff) * 65536
-                            + (bytes[6] & 0xff) * 256
-                            + (bytes[7] & 0xff);
+//        if(bytes.length!=10){
+//            sbyte=concat(sbyte,bytes);
+//            if(sbyte.length==10){
+//                System.out.println(HexString.bytesToHex(sbyte)+"/////");
+//                if (sbyte[0] == 0x07 && (sbyte[1] & 0xff) == 0xDF) {
+//                    if (sbyte[2] == 0x05) {
+//                        if (sbyte[3] == 0x02) {
+//                            BytesNum = (sbyte[4] & 0xff) * 16777216
+//                                    + (sbyte[5] & 0xff) * 65536
+//                                    + (sbyte[6] & 0xff) * 256
+//                                    + (sbyte[7] & 0xff);
+//                        }
+//                    }
+//                }
+//                sbyte=new byte[]{};
+//            }
+//        }else {
+            if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0xDF) {
+                if (bytes[2] == 0x05) {
+                    if (bytes[3] == 0x02) {
+                        BytesNum = (bytes[4] & 0xff) * 16777216
+                                + (bytes[5] & 0xff) * 65536
+                                + (bytes[6] & 0xff) * 256
+                                + (bytes[7] & 0xff);
+                    }
                 }
             }
-        }
+//        }
         return BytesNum;
     }
 
@@ -1118,18 +1277,42 @@ public class BleUtils {
      * @return bytes[4]== 0x00 成功  bytes[4]== 0x01 CRC错 bytes[4]== 0x02 数量错 bytes[4]== 0x03  更新时间超时
      */
     public int returnOTAUUpdateOk(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return -1;
+        }
         int BytesNum = -1;
-        if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0xDF) {
-            if (bytes[2] == 0x06) {
-                if (bytes[3] == 0x10) {
-                    if (bytes[4] == 0x00)
-                        return 0;
-                    if (bytes[4] == 0x01)
-                        return 1;
-                    if (bytes[4] == 0x02)
-                        return 2;
-                    if (bytes[4] == 0x03)
-                        return 3;
+        if (bytes.length !=11) {
+            sbyte = concat(sbyte, bytes);
+            if (sbyte.length == 11) {
+                if (sbyte[0] == 0x07 && (sbyte[1] & 0xff) == 0xDF) {
+                    if (sbyte[2] == 0x06) {
+                        if (sbyte[3] == 0x10) {
+                            if (sbyte[4] == 0x00)
+                                return 0;
+                            if (sbyte[4] == 0x01)
+                                return 1;
+                            if (sbyte[4] == 0x02)
+                                return 2;
+                            if (sbyte[4] == 0x03)
+                                return 3;
+                        }
+                    }
+                }
+                sbyte = new byte[]{};
+            }
+        } else {
+            if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0xDF) {
+                if (bytes[2] == 0x06) {
+                    if (bytes[3] == 0x10) {
+                        if (bytes[4] == 0x00)
+                            return 0;
+                        if (bytes[4] == 0x01)
+                            return 1;
+                        if (bytes[4] == 0x02)
+                            return 2;
+                        if (bytes[4] == 0x03)
+                            return 3;
+                    }
                 }
             }
         }
@@ -1202,5 +1385,74 @@ public class BleUtils {
             ret += " 0x" + hex.toUpperCase();
         }
         return ret;
+    }
+
+    //设置计步目标值
+    public byte[] setStepTarget(int target) {
+        value = new byte[11];
+        ck_a = 0;
+        ck_b = 0;
+
+        value[0] = 0x48;
+        value[1] = 0x59;
+
+        value[2] = 0x07;
+        value[3] = 0x28;
+
+        value[4] = 0x04;
+
+        value[5] = (byte) (target >>> 24);// 最高位,无符号右移。
+        value[6] = (byte) ((target >> 16) & 0xff);// 次高位
+        value[7] = (byte) ((target >> 8) & 0xff);// 次低位
+        value[8] = (byte) (target & 0xff);// 最低位
+
+        for (int i = 2; i < 9; i++) {
+            ck_a = (byte) (ck_a + value[i]);
+            ck_b = (byte) (ck_b + ck_a);
+        }
+        value[9] = ck_a;
+        value[10] = ck_b;
+
+        return value;
+    }
+
+    //获取计步目标值
+    public byte[] getStepTarget() {
+        value = new byte[7];
+        ck_a = 0;
+        ck_b = 0;
+
+        value[0] = 0x48;
+        value[1] = 0x59;
+
+        value[2] = 0x07;
+        value[3] = 0x29;
+
+        value[4] = 0x00;
+
+        for (int i = 2; i < 5; i++) {
+            ck_a = (byte) (ck_a + value[i]);
+            ck_b = (byte) (ck_b + ck_a);
+        }
+
+        value[5] = ck_a;
+        value[6] = ck_b;
+
+        return value;
+    }
+
+    //返回计步目标值
+    public int returnStepTarget(byte[] bytes) {
+        if (bytes == null || bytes.length == 0) {
+            return -1;
+        }
+        int target = -1;
+        if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0x29) {
+            target = (bytes[2] & 0xff) * 16777216
+                    + (bytes[3] & 0xff) * 65536
+                    + (bytes[4] & 0xff) * 256
+                    + (bytes[5] & 0xff);
+        }
+        return target;
     }
 }

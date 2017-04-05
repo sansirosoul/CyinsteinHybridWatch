@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ysp.hybridtwatch.R;
 
@@ -113,7 +112,7 @@ public class ClockDialog3 extends Dialog implements View.OnClickListener {
                     mOnClickListener.onClick(stringBuilder.toString());
                     dismiss();
                 }else{
-                    Toast.makeText(context,"请选择重复频率",Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context,"请选择重复频率",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.rl1:

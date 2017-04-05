@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        >
+        <com.xyy.Gazella.view.AnalogClock
+            android:id="@+id/analogclock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:dial="@drawable/localtime"
+            android:hand_hour="@drawable/hour_big"
+            android:hand_minute="@drawable/minute_big" />
+        <TextView
+            android:id="@+id/time_name"
+            android:layout_gravity="center_horizontal"
+            android:text="当地时区"
+            android:textSize="15sp"
+            android:textColor="@color/help_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/time_zones"
+            android:layout_gravity="center_horizontal"
+            android:text="18:00"
+            android:textSize="15sp"
+            android:textColor="@color/help_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</LinearLayout>

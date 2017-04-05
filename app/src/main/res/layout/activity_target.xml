@@ -23,7 +23,7 @@
         android:layout_margin="10dp"
         android:drawableLeft="@drawable/page41_xiaotieshi"
         android:drawablePadding="10dp"
-        android:text="智能手表建议你每晚睡眠7-9小时，同时步行10000步作为日常锻炼计划"
+        android:text="@string/target_notice"
         android:textColor="@color/white" />
 
     <LinearLayout
@@ -37,17 +37,6 @@
             android:layout_width="fill_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/target_walk_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:text="12315步数"
-                android:textColor="@color/white" />
 
             <SeekBar
                 android:id="@+id/target_run_SeekBar"
@@ -71,7 +60,7 @@
                 android:layout_above="@id/target_run_SeekBar"
                 android:layout_alignLeft="@id/target_run_SeekBar"
                 android:layout_marginBottom="10dp"
-                android:text="运动"
+                android:text="@string/sport"
                 android:textColor="@color/white" />
 
             <TextView
@@ -82,7 +71,7 @@
                 android:layout_marginTop="10dp"
                 android:drawableBottom="@drawable/target_back"
                 android:drawablePadding="10dp"
-                android:text="建议值"
+                android:text="@string/suggest"
                 android:textColor="@color/white" />
 
             <ImageView
@@ -92,6 +81,17 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/page42_sport" />
+
+            <TextView
+                android:id="@+id/target_walk_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="12315步数"
+                android:textColor="@color/white"
+                android:layout_alignBaseline="@+id/targettext2"
+                android:layout_alignBottom="@+id/targettext2"
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
 
@@ -124,7 +124,7 @@
                     android:id="@+id/target_sleep_hour"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="时"
+                    android:text="@string/hour"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -139,7 +139,7 @@
                     android:id="@+id/target_sleep_minute"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="分"
+                    android:text="@string/minute"
                     android:textColor="@color/white" />
 
             </LinearLayout>
@@ -165,7 +165,7 @@
                 android:layout_above="@id/target_sleep_SeekBar"
                 android:layout_alignLeft="@id/target_sleep_SeekBar"
                 android:layout_marginBottom="10dp"
-                android:text="睡眠"
+                android:text="@string/sleep"
                 android:textColor="@color/white" />
 
             <TextView
@@ -177,7 +177,7 @@
                 android:layout_toLeftOf="@+id/target_sleep_text"
                 android:drawableBottom="@drawable/target_back"
                 android:drawablePadding="10dp"
-                android:text="建议值"
+                android:text="@string/suggest"
                 android:textColor="@color/white" />
 
             <ImageView
@@ -208,7 +208,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/time_squarebtn_check"
-            android:text="保存"
+            android:text="@string/save"
             android:textColor="@color/white" />
 
         <Button
@@ -218,7 +218,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="@drawable/time_squarebtn_check"
-            android:text="默认值"
+            android:text="@string/default_range"
             android:textColor="@color/white" />
 
     </LinearLayout>

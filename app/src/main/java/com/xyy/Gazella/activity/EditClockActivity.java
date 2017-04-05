@@ -12,11 +12,13 @@ import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ClockDialog1;
 import com.xyy.Gazella.utils.ClockDialog2;
+import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.view.PickerViewHour;
 import com.xyy.Gazella.view.PickerViewMinute;
 import com.xyy.model.Clock;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import java.util.ArrayList;
@@ -69,7 +71,26 @@ public class EditClockActivity extends BaseActivity {
         String address = PreferenceData.getAddressValue(context);
         if (address != null && !address.equals("")) {
             bleUtils = new BleUtils();
-            connectionObservable = getRxObservable(this);
+            if(GazelleApplication.isBleConnected){
+                setNotifyCharacteristic();
+            }
+        }
+    }
+
+    private boolean flag = false;
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
+        if(HexString.bytesToHex(bytes).equals("0704010C1E")){
+            if(!flag){
+                flag=true;
+                Intent intent = new Intent();
+                setResult(2,intent);
+                finish();
+                overridePendingTransitionEnter(EditClockActivity.this);
+            }
+        }else{
+//            Toast.makeText(context,R.string.set_clock_failed,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -147,10 +168,10 @@ public class EditClockActivity extends BaseActivity {
         onClickListener2 = new ClockDialog2.OnClickListener() {
             @Override
             public void onClick(String text) {
-                if(Clock.transformRate(text)!=5){
+                if(Clock.transformRate(context,text)!=5){
                     tvRepeatrate.setText(text);
                 }else{
-                    tvRepeatrate.setText(Clock.transformCustom(text));
+                    tvRepeatrate.setText(Clock.transformCustom(context,text));
                     bytestr=text;
                 }
             }
@@ -166,14 +187,14 @@ public class EditClockActivity extends BaseActivity {
                 overridePendingTransitionExit(EditClockActivity.this);
                 break;
             case R.id.save:
-                if (Clock.transformRate(tvRepeatrate.getText().toString()) != 5) {
-                    Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
-                            Clock.transformSnoozeTime(tvRingtime.getText().toString()),
-                            Clock.transformRate(tvRepeatrate.getText().toString()), "00000000",isOpen),connectionObservable);
+                if (Clock.transformRate(context,tvRepeatrate.getText().toString()) != 5) {
+                    writeCharacteristic(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                            Clock.transformSnoozeTime(context,tvRingtime.getText().toString()),
+                            Clock.transformRate(context,tvRepeatrate.getText().toString()), "00000000",isOpen));
                 } else {
-                        Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
-                                Clock.transformSnoozeTime(tvRingtime.getText().toString()),
-                                5, bytestr,isOpen),connectionObservable);
+                    writeCharacteristic(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                            Clock.transformSnoozeTime(context,tvRingtime.getText().toString()),
+                            5, bytestr,isOpen));
                 }
                 Intent intent = new Intent();
                 intent.putExtra("time", hour + ":" + minute);
@@ -186,9 +207,9 @@ public class EditClockActivity extends BaseActivity {
                 overridePendingTransitionEnter(EditClockActivity.this);
                 break;
             case R.id.del_clock:
-                Write(bleUtils.setWatchAlarm(0, id, Integer.parseInt(hour), Integer.parseInt(minute),
-                        Clock.transformSnoozeTime(tvRingtime.getText().toString()),
-                        Clock.transformRate(tvRepeatrate.getText().toString()), "00000000", isOpen), connectionObservable);
+                writeCharacteristic(bleUtils.setWatchAlarm(0, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                        Clock.transformSnoozeTime(context,tvRingtime.getText().toString()),
+                        Clock.transformRate(context,tvRepeatrate.getText().toString()), "00000000", isOpen));
                 Intent delIntent = new Intent();
                 delIntent.putExtra("result", "del");
                 setResult(1, delIntent);

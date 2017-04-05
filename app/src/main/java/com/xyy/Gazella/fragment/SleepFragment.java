@@ -1,6 +1,7 @@
 package com.xyy.Gazella.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.YoYo;
 import com.partner.entity.Partner;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.HealthyActivity;
@@ -20,6 +22,7 @@ import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.NumberProgressBar;
+import com.xyy.Gazella.view.RiseNumberTextView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
 import com.ysp.newband.PreferenceData;
@@ -27,6 +30,7 @@ import com.ysp.newband.PreferenceData;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -36,6 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 
+import static com.daimajia.androidanimations.library.Techniques.StandUp;
 import static com.ysp.hybridtwatch.R.id.deep_time;
 
 /**
@@ -47,9 +52,9 @@ public class SleepFragment extends BaseFragment {
     @BindView(R.id.circle)
     ImageView circle;
     @BindView(R.id.tv_hour)
-    TextView tvHour;
+    RiseNumberTextView tvHour;
     @BindView(R.id.tv_min)
-    TextView tvMin;
+    RiseNumberTextView tvMin;
     @BindView(R.id.quality)
     TextView quality;
     @BindView(deep_time)
@@ -82,8 +87,9 @@ public class SleepFragment extends BaseFragment {
     TextView tvDay7;
     @BindView(R.id.tv_synchronizationtime)
     TextView tvSynchronizationtime;
-    @BindView(R.id.tv_hour_num)
-    TextView tvHourNum;
+    @BindView(R.id.iv_tip)
+    ImageView ivTip;
+
     private View view;
     private Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
@@ -95,6 +101,7 @@ public class SleepFragment extends BaseFragment {
     private String strMonth, strDay;
     private String today, yeday, strday;
     private String[] xValue;
+    private List<Partner> partners = new ArrayList<>();
 
     private Handler mHandler = new Handler() {
         @Override
@@ -125,13 +132,17 @@ public class SleepFragment extends BaseFragment {
 
 
     private void initView() {
-
+        tvHour.setTextSize(50);
+        tvMin.setTextSize(50);
+        setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
+        deepTime.setText(0+getResources().getString(R.string.minute));
+        lowTime.setText(0+getResources().getString(R.string.minute));
+        wakeTime.setText(0+getResources().getString(R.string.minute));
         String Synchronizationtime = PreferenceData.getSleepSynchronizationTime(getActivity());
         if (Synchronizationtime != null && !Synchronizationtime.equals("")) {
-            tvSynchronizationtime.setText("最后同步时间  " + Synchronizationtime);
+            tvSynchronizationtime.setText(getResources().getString(R.string.last_synchronize_time) + Synchronizationtime);
         }
 
-        connectionObservable = HealthyActivity.install.connectionObservable;
         bleUtils = new BleUtils();
         final ViewGroup.LayoutParams params = circle.getLayoutParams();
         ViewTreeObserver vto = circle.getViewTreeObserver();
@@ -148,8 +159,8 @@ public class SleepFragment extends BaseFragment {
 
     public void setToDayTime() {
         initTime();
-        strday="";
-        String   yesterday="";
+        strday = "";
+        String yesterday = "";
         sb.setLength(0);
         if (month < 10)
             strMonth = sb.append("0").append(String.valueOf(month)).toString();
@@ -172,9 +183,16 @@ public class SleepFragment extends BaseFragment {
             e.printStackTrace();
         }
 
-         yesterday = new SomeUtills().getAmountDate(date, 0, 0);
+        yesterday = new SomeUtills().getAmountDate(date, 0, 0);
         initData(strday, yesterday);
 
+
+//        Date date1 = new Date();
+//        today=(date1.getYear()+1900)+"."+(date1.getMonth()+1)+"."+date1.getDate();
+//        Date date2 = HealthyActivity.getBeforeDay(date1,1);
+//        yeday = (date2.getYear()+1900)+"."+(date2.getMonth()+1)+"."+date2.getDate();
+//
+//        initData(today,yeday);
     }
 
     public void initData(String Today, String yesterday) {
@@ -182,58 +200,157 @@ public class SleepFragment extends BaseFragment {
         int lightsleepTime = 0;
         int sleepingTime = 0;
         int awakeTime = 0;
-        xValue = new String[24];
+
+        int lightsleepHour = 0;
+        int lightsleepMin = 0;
+        int deepsleepHour = 0;
+        int deepsleepMin = 0;
+        int awakeHour = 0;
+        int awakeMin = 0;
+
         if (todayPartners != null || todayPartners.size() > 0) {
+            partners.clear();
             todayPartners.clear();
             yesterdayPartners.clear();
         }
         todayPartners = HealthyActivity.install.mCommonUtils.queryByBuilder("sleep", Today);
-        yesterdayPartners =  HealthyActivity.install.mCommonUtils.queryByBuilder("sleep", yesterday);
-
-        if (todayPartners.size() == 24 && yesterdayPartners.size() == 24 && !yesterday.equals(strday)) {
-            yesterdayPartners = yesterdayPartners.subList(12, 24);
-            todayPartners = todayPartners.subList(0, 12);
-            for (int i = 0; i < yesterdayPartners.size(); i++) {
-                xValue[i] = yesterdayPartners.get(i).getSleep();
+        yesterdayPartners = HealthyActivity.install.mCommonUtils.queryByBuilder("sleep", yesterday);
+        for (int i = 0; i < yesterdayPartners.size(); i++) {
+            String[] times = yesterdayPartners.get(i).getTime().split("\\.");
+            int hour = Integer.parseInt(times[0]);
+            if (hour >= 12) {
+                partners.add(yesterdayPartners.get(i));
             }
-            for (int i = 0; i < todayPartners.size(); i++) {
-                xValue[i + 12] = todayPartners.get(i).getSleep();
+        }
+        for (int i = 0; i < todayPartners.size(); i++) {
+            String[] times = todayPartners.get(i).getTime().split("\\.");
+            int hour = Integer.parseInt(times[0]);
+            if (hour < 12) {
+                partners.add(todayPartners.get(i));
             }
         }
 
-        for (int i = 0; i < xValue.length; i++) {
-            String state = xValue[i];
-            if (state != null) {
-                switch (state) {
-                    case "0":
-                        awakeTime += 1;
-                        break;
-                    case "1":
-                        sleepTime += 1;
-                        lightsleepTime += 1;
-                        break;
-                    case "2":
-                        sleepTime += 1;
-                        sleepingTime += 1;
-                        break;
-                    case "3":
-                        awakeTime += 1;
-                        break;
+        if (partners.size() != 0) {
+            for (int i = 0; i < partners.size(); i++) {
+                if (i < partners.size() - 1) {
+                    int year1 = Integer.parseInt(partners.get(i).getDate().split("\\.")[0]);
+                    int month1 = Integer.parseInt(partners.get(i).getDate().split("\\.")[1]);
+                    int date1 = Integer.parseInt(partners.get(i).getDate().split("\\.")[2]);
+                    int hour1 = Integer.parseInt(partners.get(i).getTime().split("\\.")[0]);
+                    int min1 = Integer.parseInt(partners.get(i).getTime().split("\\.")[1]);
+                    Calendar c1 = Calendar.getInstance();
+                    c1.set(year1, month1, date1, hour1, min1);
+
+                    int year2 = Integer.parseInt(partners.get(i + 1).getDate().split("\\.")[0]);
+                    int month2 = Integer.parseInt(partners.get(i + 1).getDate().split("\\.")[1]);
+                    int date2 = Integer.parseInt(partners.get(i + 1).getDate().split("\\.")[2]);
+                    int hour2 = Integer.parseInt(partners.get(i + 1).getTime().split("\\.")[0]);
+                    int min2 = Integer.parseInt(partners.get(i + 1).getTime().split("\\.")[1]);
+                    Calendar c2 = Calendar.getInstance();
+                    c2.set(year2, month2, date2, hour2, min2);
+
+                    int second = (int) ((c2.getTime().getTime() - c1.getTime().getTime()) / 1000);
+                    int hour = second / 3600;
+                    int min = (second % 3600) / 60;
+                    switch (partners.get(i).getSleep()) {
+                        case "2":
+                            lightsleepHour += hour;
+                            lightsleepMin += min;
+                            break;
+                        case "3":
+                            deepsleepHour += hour;
+                            deepsleepMin += min;
+                            break;
+                    }
                 }
             }
         }
 
-        tvHour.setText(String.valueOf(sleepTime));
-        deepTime.setText(String.valueOf(sleepingTime)+"小时");
-        lowTime.setText(String.valueOf(lightsleepTime)+"小时");
-        wakeTime.setText(String.valueOf(awakeTime)+"小时");
 
-        if(sleepTime<PreferenceData.getTargetSleepMinuteValue(getActivity()))
-            quality.setText("差");
-        else
-            quality.setText("良好");
+//        xValue = new String[24];
+//        if (todayPartners != null || todayPartners.size() > 0) {
+//            todayPartners.clear();
+//            yesterdayPartners.clear();
+//        }
+//        todayPartners = HealthyActivity.install.mCommonUtils.queryByBuilder("sleep", Today);
+//        yesterdayPartners = HealthyActivity.install.mCommonUtils.queryByBuilder("sleep", yesterday);
+//
+//        if (todayPartners.size() == 24 && yesterdayPartners.size() == 24 && !yesterday.equals(strday)) {
+//            yesterdayPartners = yesterdayPartners.subList(12, 24);
+//            todayPartners = todayPartners.subList(0, 12);
+//            for (int i = 0; i < yesterdayPartners.size(); i++) {
+//                xValue[i] = yesterdayPartners.get(i).getSleep();
+//            }
+//            for (int i = 0; i < todayPartners.size(); i++) {
+//                xValue[i + 12] = todayPartners.get(i).getSleep();
+//            }
+//        }
+//
+//        for (int i = 0; i < xValue.length; i++) {
+//            String state = xValue[i];
+//            if (state != null) {
+//                switch (state) {
+//                    case "1":
+//                        awakeTime += 1;
+//                        break;
+//                    case "2":
+//                        sleepTime += 1;
+//                        lightsleepTime += 1;
+//                        break;
+//                    case "3":
+//                        sleepTime += 1;
+//                        sleepingTime += 1;
+//                        break;
+////                    case "3":
+////                        awakeTime += 1;
+////                        break;
+//                }
+//            }
+//        }
+//
+////        tvHour.setText(String.valueOf(sleepTime));
+        tvHour.withNumber(lightsleepHour + deepsleepHour);
+        tvHour.setDuration(1000);
+        tvHour.start();
+        tvMin.withNumber(lightsleepMin + deepsleepMin);
+        tvMin.setDuration(1000);
+        tvMin.start();
+
+        deepTime.setText(String.valueOf(deepsleepHour) + getResources().getString(R.string.hour) + deepsleepMin + getResources().getString(R.string.minute));
+        lowTime.setText(String.valueOf(lightsleepHour) + getResources().getString(R.string.hour) + lightsleepMin + getResources().getString(R.string.minute));
+        if ((deepsleepMin + lightsleepMin) < 60 && deepsleepMin > 0 && lightsleepMin > 0) {
+            wakeTime.setText((23 - deepsleepHour - lightsleepHour) + getResources().getString(R.string.hour)
+                    + (deepsleepMin + lightsleepMin) + getResources().getString(R.string.minute));
+        } else if ((deepsleepMin + lightsleepMin) == 60) {
+            wakeTime.setText((23 - deepsleepHour - lightsleepHour) + getResources().getString(R.string.hour)
+                    + 0 + getResources().getString(R.string.minute));
+        } else if (deepsleepMin == 0 && deepsleepMin == 0) {
+            if(deepsleepHour+lightsleepHour==0){
+                wakeTime.setText(0 + getResources().getString(R.string.hour)
+                        + 0 + getResources().getString(R.string.minute));
+            }else{
+                wakeTime.setText((24 - deepsleepHour - lightsleepHour) + getResources().getString(R.string.hour)
+                        + 0 + getResources().getString(R.string.minute));
+            }
+
+        } else {
+            wakeTime.setText((22 - deepsleepHour - lightsleepHour) + getResources().getString(R.string.hour)
+                    + (deepsleepMin + lightsleepMin - 60) + getResources().getString(R.string.minute));
+        }
+
+        if ((deepsleepHour + lightsleepHour) < PreferenceData.getTargetSleepHourValue(getActivity())){
+            quality.setText(getResources().getString(R.string.bad));
+            setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
+        } else {
+            quality.setText(getResources().getString(R.string.good));
+            setIvTip(this.getResources().getDrawable(R.drawable.page15_kaixin), this.getResources().getString(R.string.over_target));
+        }
     }
 
+    public void setIvTip(Drawable drawable, String Str) {
+        ivTip.setBackground(drawable);
+        details.setText(Str);
+    }
 
     @OnClick(R.id.circle)
     public void onClick(View view) {
@@ -269,7 +386,7 @@ public class SleepFragment extends BaseFragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Write(bleUtils.getSleepData(6), connectionObservable);
+                writeCharacteristic(bleUtils.getSleepData(6));
             }
         }, 1000);
     }
@@ -278,61 +395,81 @@ public class SleepFragment extends BaseFragment {
 
         switch (type) {
             case 1:
-                tvDay1.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_1));
+                tvDay1.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(10);
                 break;
 
             case 2:
-                tvDay2.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_2));
+                tvDay2.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(30);
                 break;
 
             case 3:
-                tvDay3.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_3));
+                tvDay3.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(40);
                 break;
 
             case 4:
-                tvDay4.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_4));
+                tvDay4.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(60);
                 break;
 
             case 5:
-                tvDay5.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_5));
+                tvDay5.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(80);
                 break;
 
             case 6:
-                tvDay6.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_6));
+                tvDay6.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(90);
                 break;
 
             case 7:
-                tvDay7.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_7));
+                tvDay7.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(100);
-                llNumberProgressBar.setVisibility(View.GONE);
-                llQuality.setVisibility(View.VISIBLE);
                 break;
         }
+    }
+
+    public void setUploadFinsh(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                llNumberProgressBar.setVisibility(View.GONE);
+                llQuality.setVisibility(View.VISIBLE);
+            }
+
+        }, 500);
     }
 
     public void setTvSynchronizationtime() {
         Time mCalendar;
         StringBuffer sb = new StringBuffer();
-        TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(getActivity()));
-        mCalendar = new Time(tz.getID());
+        if (PreferenceData.getTimeZonesState(getActivity()).equals("local")) {
+            mCalendar = new Time();
+        } else {
+            TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(getActivity()));
+            mCalendar = new Time(tz.getID());
+        }
         mCalendar.setToNow();
         String time = sb.append(String.valueOf(mCalendar.year)).append(".").append(String.valueOf(mCalendar.month + 1)).append(".")
                 .append(String.valueOf(mCalendar.monthDay)).append("  ").append(String.valueOf(mCalendar.hour)).append(":")
                 .append(String.valueOf(mCalendar.minute)).append(":").append(String.valueOf(mCalendar.second)).toString();
-        tvSynchronizationtime.setText("最后同步时间  " + time);
+        tvSynchronizationtime.setText(getResources().getString(R.string.last_synchronize_time) + time);
         PreferenceData.setSleepSynchronizationTime(getActivity(), time);
     }
 
     private void initTime() {
-        myear=0;
-        month=0;
-        day=0;
+        myear = 0;
+        month = 0;
+        day = 0;
         mCalendar = new Time();
         mCalendar.setToNow();
         myear = mCalendar.year;

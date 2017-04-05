@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hybrid Watch</string>
+    <string name="press_again_exit">Presser de nouveau pour quitter</string>
+    <!--蓝牙连接-->
+    <string name="is_open_bluetooth">Activez le bluetooth de portable?</string>
+    <string name="cancel_open_bluetooth">Annule</string>
+    <string name="open_bluetooth">Activer</string>
+    <string name="connect_failed_reconnect">Connexion échouée, continuez de connecter?</string>
+    <string name="reconnect">Connecter de nouveau</string>
+    <string name="cancel_connect">Annuler la connexion</string>
+    <string name="not_connect_device">Pas connecté la montre！</string>
+
+    <!--健康管理-->
+    <string name="mi">m</string>
+    <string name="km">km</string>
+    <string name="card">cal</string>
+    <string name="Kcard">kcal</string>
+    <string name="no_over_target">Pas atteint le but, allez-y!</string>
+    <string name="sleep_detail">Dét compt</string>
+    <string name="step_detail">Détail somm</string>
+
+    <!--搜索并连接手表对话框-->
+    <string name="scan_connection_device">En cours de rechercher et de connecter la montre...</string>
+    <string name="ok">Valider</string>
+    <string name="adgin">Annuler</string>
+
+    <!--校时页面-->
+    <string name="Synchronization_time">Corr tps intelligent</string>
+    <string name="Click_Synchronization">Veuillez presser la touche de synchronisation</string>
+    <string name="Synchronization_step_1">1.Veuillez presser la touche de remise à zéro</string>
+    <string name="Synchronization_step_2">2.Ajuster l\'aiguille des heures et celle des minutes pour remettre la montre à zéro puis presser la synchronisation</string>
+    <string name="Synchronization_time_3">"Correction de temps intelligente réussie"</string>
+    <string name="Synchronization_step">Veuillez presser la touche de remise à zéro</string>
+    <string name="on_over_Synchronization">Correction de temps pas accomplie, veuillez presser la touche de synchronisation pour accomplir la correction de temps</string>
+    <string name="connection_device">"Déjà connecté l\'équipement de montre"</string>
+    <string name="inspect_ble_state">Pas connecté la montre, veuillez connecter votre montre sur l\'interface Prérégler - Changer de montre</string>
+    <string name="andin_Synchronization_time">Veuillez réessayer après synchronisation de portable</string>
+    <string name="hour_hand">Heure</string>
+    <string name="minute_hand">Minute</string>
+    <string name="small_hand">Seconde</string>
+    <string name="second_hand">Aiguille des secondes</string>
+    <string name="reset">Remettre à zéro</string>
+    <string name="synchronization">Synchroniser</string>
+    <string name="hold_on">S\'il vous plaît attendre</string>
+
+    <!--计步详情页面-->
+    <string name="step_target_ok">Félicitations, déjà atteint le but d\'aujourd\'hui</string>
+    <string name="no_step_data">"Aucune donnée pour l\'instant"</string>
+    <string name="step_dataday">Vous allez aujourd\'hui</string>
+    <string name="ye_step_manydata">"Vous marchez plus qu\'hier"</string>
+    <string name="ye_step_data">"Vous marchez moins qu\'hier"</string>
+    <string name="ye_step_manydataweek">"Plus de la semaine dernière est allé"</string>
+    <string name="ye_step_dataweek">"Moins de la semaine dernière est allé"</string>
+    <string name="step_dataweek">"Cette semaine, vous allez"</string>
+    <string name="ye_step_datamonth">"Moins que le mois précédent loin"</string>
+    <string name="ye_step_manydatamonth">"Plus d\'un mois pour aller"</string>
+    <string name="step_datamonth">"Ce mois-ci vous allez"</string>
+
+    <!--引导页面-->
+    <string name="skip">Sauter l\'appariement</string>
+    <string name="launch01">Merci d\'utiliser la montre de santé</string>
+    <string name="launch02">Ouvrir voyage  santé</string>
+    <string name="launch03">Copyright@2016All Right Reserved</string>
+    <string name="searching">En cours de rechercher l\'équipement, veuillez patienter…</string>
+    <string name="pairing">En cours d\'appareiller, veuillez patienter…</string>
+    <string name="pair_failed">Appariement échoué, veuillez réessayer!</string>
+    <string name="search_devices">Equipement(s) trouvé(s)</string>
+    <string name="real_msg">* Veuillez remplir des informations fidèles nous permettant de vous fournir des conseils utiles</string>
+    <string name="choose_weight">Veuillez choisir votre poids</string>
+    <string name="choose_height">Veuillez choisir votre taille</string>
+    <string name="choose_birth">Veuillez choisir votre date de naissance </string>
+    <string name="choose_sex">Veuillez choisir votre sexe</string>
+    <string name="input_name">Veuillez entre votre appellation familière</string>
+    <string name="name_too_long">Votre appellation familière est trop longue</string>
+    <string name="sex">Sexe</string>
+    <string name="male">Masculin</string>
+    <string name="female">Féminin</string>
+    <string name="personalizing">正在进行个人化设置，请稍等...</string>
+    <string name="personalized">个人化设置完成，正在跳转...</string>
+
+    <!--健康管理-->
+    <string name="health_manage">Gestion santé</string>
+    <string name="step">Compt</string>
+    <string name="sleep">Somm</string>
+    <string name="click_cirlce">*Presser l\'anneau en dessus pour entrer sur l\'interface de détail</string>
+    <string name="over_target">Déjà dépassé la norme, redoublez d\'efforts！</string>
+    <string name="today_step">Marches d\'auj</string>
+    <string name="target">But:</string>
+    <string name="today_sleep">Somm d\'auj</string>
+    <string name="sleep_quality">Qualité:</string>
+    <string name="hour">h</string>
+    <string name="minute">min</string>
+    <string name="bad">Mauvais</string>
+    <string name="good">Bien</string>
+    <string name="last_synchronize_time">Dernier temps de synchronisation  </string>
+    <string name="syncing">Synchroniser</string>
+    <string name="date">Numéro</string>
+    <string name="update_success">Mise à jour accomplie</string>
+    <string name="message_display">Affichage d\'informations</string>
+    <string name="sport_time">Tps d\'activité</string>
+    <string name="sport_distance">Distance d\'activité</string>
+    <string name="energy_waste">Conso calorie</string>
+    <string name="deep_time">Tps somm prof</string>
+    <string name="low_time">Tps somm légr</string>
+    <string name="awake_time">Tps Lucidité</string>
+    <string name="click_right_synchronize">Cliquer la droite supérieure pour synchroniser les données</string>
+    <string name="day">Jour</string>
+    <string name="week">Semaine</string>
+    <string name="month">Mois</string>
+    <string name="year">An</string>
+    <string name="Sun">Dimanche</string>
+    <string name="Sat">Samedi</string>
+    <string name="Fri">Vendredi</string>
+    <string name="Thu">Jeudi</string>
+    <string name="Wed">Mercredi</string>
+    <string name="Tue">Mardi</string>
+    <string name="Mon">Lundi</string>
+    <string name="awake">Lucidité</string>
+    <string name="light_sleep">Somm léger</string>
+    <string name="deep_sleep">Somm prof</string>
+    <string name="sleeping_time">Tps somm</string>
+    <string name="light_sleeping_time">Tps somm léger</string>
+    <string name="deep_sleeping_time">Tps somm prof</string>
+    <string name="awake_times">Nb fois lucidité </string>
+    <string name="awake_time2">Tps lucidité</string>
+    <string name="times">Fois</string>
+
+    <!--通知-->
+    <string name="msg_notify">Notification</string>
+    <string name="notify_introduce">Après avoir activé la fonction de notification d\'informations, la montre va vibrer légèrement pour vous rappeler, cependant, l\'activation de cette fonction à long terme réduira la durée de vie de batterie, activez-la?</string>
+    <string name="click_icon">* Vous pouvez cliquer les icônes en dessus pour activer la notification des informations que vous désirez</string>
+
+    <!--设置-->
+    <string name="setting">Prérégler</string>
+    <string name="watch_setting">Préréglage de montre</string>
+    <string name="user_setting">Préréglage d\'utilisateur</string>
+    <string name="update_hardware">Renouvellement</string>
+    <string name="change_watch">Changer de montre</string>
+    <string name="rename_watch">Renommer la montre</string>
+    <string name="rename_success">Renomination réussie</string>
+    <string name="rename_failed">Renomination échouée</string>
+    <string name="input_device_name">Veuillez entrer le nom d\'équipement!</string>
+    <string name="device_long">Nom d\'équipement trop long!</string>
+    <string name="clock">Réveil de montre</string>
+    <string name="clean_watchdata">Eff données montre</string>
+    <string name="clean_phonedata">Eff données portable</string>
+    <string name="anti_lost">防丢失功能</string>
+    <string name="search_watch">Rechercher la montre</string>
+    <string name="ble">蓝牙</string>
+    <string name="close_bluetooth">Eteindre bluetooth montre</string>
+    <string name="timezone">Faisceau horaire</string>
+    <string name="bsl">BSL模式</string>
+    <string name="software_setting">Préréglage de logiciels</string>
+    <string name="sport_sleep_target">But de sport/ sommeil</string>
+    <string name="step_num">étape</string>
+    <string name="save_success">Conservation réussie</string>
+    <string name="watch_shake_search">Montre déjà vibrée, veuillez rechercher la montre！</string>
+    <string name="is_close_bluetooth">Confirmez d\'éteindre le bluetooth de portable?</string>
+    <string name="target_notice">La montre intelligente vous conseille de dormir 7~9h chaque jour, avec un plan d\'exercice quotidien de 10000 marches.</string>
+    <string name="sport">Sport</string>
+    <string name="suggest">Valeur conseillée</string>
+    <string name="save">Enregistrer</string>
+    <string name="default_range">Valeur tacite</string>
+    <string name="watch_shake">Regarder vibrent</string>
+
+    <!--更新固件-->
+    <string name="check_update">Rechercher le renouvellement</string>
+    <string name="watch_hardware_ver">Version de microprogramme de montre</string>
+    <string name="watch_num">Numéro de série de montre</string>
+    <string name="app_ver">Version de programmes appliqués</string>
+    <string name="notice1">1.Avant la mise à jour, veuillez d\'abord remplir la batterie de montre et celle de portable, pendant la mise à jour, veuillez ne pas quitter le programme</string>
+    <string name="notice2">2.Veuillez vérifier l\'activation de bluetooth.</string>
+    <string name="watch_battery">Quantité d\'électricité actuelle de montre：</string>
+    <string name="is_update">Nouvelle version de microprogramme trouvée, renouvelez immédiatement?</string>
+    <string name="the_last_version">Version à jour！</string>
+    <string name="cancel">Annuler</string>
+    <string name="confirm">Valider</string>
+    <string name="check_update1">En cours de contrôler la version de microprogramme, veuillez patienter…</string>
+    <string name="update_failed_again">Montée en grade de microprogramme échouée, veuillez réessayer！</string>
+    <string name="change_watch_details">Changez contre l\'autre montre? Après changement, App va se synchroniser avec la nouvelle montre, les données de montre remplacée ont été déjà conservées au moment de la synchronisation précédente.</string>
+    <string name="check_update3">En cours de renouveler la version de microprogramme, il durera un peu de temps, veuillez patienter…</string>
+    <string name="check_update4">Montée en grade de microprogramme accomplie, merci de votre patience！</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="warn">Avertissement！</string>
+    <string name="clean_watchdata_details">Confirmez d\'effacer toutes les données antérieures dans la montre? Cette opération est irrévocable!</string>
+    <string name="clean_phonedata_details">Confirmez d\'effacer toutes les données antérieures dans le portable? Cette opération est irrévocable！</string>
+
+    <!--闹钟-->
+    <string name="edit_clock">Rédiger le réveil</string>
+    <string name="ring_time">Temps de somnolence</string>
+    <string name="repeat_rate">Fréquence de répétition</string>
+    <string name="del_clock">Supprimer le réveil</string>
+    <string name="define">Autodéfinir</string>
+    <string name="clock_enough">Nombre de réveils déjà à la limite supérieure</string>
+    <string name="set_clock_success">Préréglage de réveil réussi</string>
+    <string name="set_clock_failed">Préréglage échoué de réveils, veuillez confirmer la connexion normale de montre</string>
+    <string name="none">Zéro</string>
+    <string name="min5">5 minutes</string>
+    <string name="min10">10 minutes</string>
+    <string name="min15">15 minutes</string>
+    <string name="min20">20 minutes</string>
+    <string name="min25">25 minutes</string>
+    <string name="min30">30 minutes</string>
+    <string name="rate1">Sonner une seule fois</string>
+    <string name="rate2">Chaque jour</string>
+    <string name="rate3">De lundi à vendredi</string>
+    <string name="rate4">Samedi et dimanche</string>
+    <string name="is_delete_clock">Confirmez de supprimer les réveils?</string>
+
+    <!--帮助-->
+    <string name="help">Aide</string>
+    <string name="health_manage2">Health Management  (Automatic tracking)</string>
+    <string name="common_question">Common Questions</string>
+    <string name="common_q1">1.Where can I download the APP for my smart watch</string>
+    <string name="common_q2">2.Update my watch’s software</string>
+    <string name="common_q3">3.Pair my watch with my phone</string>
+    <string name="common_q4">4.My watch’s app does not sync with my phone’s</string>
+    <string name="common_q5">5.Intro to each page and their usage</string>
+    <string name="common_q6">6.Contact us</string>
+    <string name="hybridwatch">Hybrid Watch</string>
+    <string name="hybridwatch_series">(Felix，Nova，EM)</string>
+    <string name="hybridwatch_q1">1.Smart Watch Time Adjustment</string>
+    <string name="hybridwatch_q2">2.Turn on/off Bluetooth</string>
+    <string name="hybridwatch_q3">3.How to use Felix and Nova</string>
+    <string name="quartzwatch">Quartz Smartwatch</string>
+    <string name="quartzwatch_series">(Rosen,Rose,Elves)</string>
+    <string name="quartzwatch_q1">1.How to turn on Bluetooth on my watch</string>
+    <string name="quartzwatch_a1">To have a longer battery life for your watch, smart function of the watch is turned off when coming out of the factory.\nFor first time use, please charge (red light will appear) and this will active smart function and Bluetooth. </string>
+    <string name="hybridwatch_a11">The first step, into the intelligent school interface.\nIn the APP main interface, click on the "smart school" module, enter the intelligent school interface</string>
+    <string name="hybridwatch_a12">The second step, the watch pointer to "zero".\nIn the intelligent school interface, first click "reset", and then respectively, in the APP on the adjustment of the hour hand, minute hand and small needle, so that the hour and minute hands on the watch point to 12 o\'clock position, small needle point 0 / OK position.</string>
+    <string name="hybridwatch_a13">The third step, click on the "synchronization", watch the time and time consistent with the phone for the current Internet time, watch school time to complete.</string>
+    <string name="hybridwatch_a21">1.Turn on Bluetooth\nPress and hold for 1 second on the watch button, the watch will vibrate once.Small pointer will point to “ON” , then it will point to step percentage, this means Bluetooth is on.</string>
+    <string name="hybridwatch_a221">2.Turn of Bluetooth</string>
+    <string name="hybridwatch_a222">Press and hold for 1 second on the watch button, the watch will vibrate once.Pointer will point to “</string>
+    <string name="hybridwatch_a223">” and then it will point to step percentage, this means Bluetooth is off.</string>
+    <string name="hybridwatch_a23">Also, you can go to Smart watch APP, under Bluetooth: Settting – select Turn off Bluetooth.</string>
+    <string name="hybridwatch_a31">One click operation \nSwitching to different mode by the time holding onto the bottom.</string>
+    <string name="hybridwatch_a32">Key function definition</string>
+    <string name="hybridwatch_a33">①Button (short press once)\nminute hand point to date; hour hand point to week; second hand point from daily step count to current battery life (in percentage). After 5 seconds, all pointers resume.</string>
+    <string name="hybridwatch_a34">②Button Pressd and hold for 1 second (Vibrate once)\nturn on and off Bluetooth, when turn on or off the Bluetooth, second pointer will pion to “ON” or flight mode.</string>
+    <string name="hybridwatch_a35">③Button Pressed and hold for 3 second (Vibrate twice)\nturn on the time adjustment mode, in this mode, each click on the button make the pointer move for 1 step; when finish adjusting all pointers, press and hold for 3 seconds (vibrate once) this will let you exit out of the time adjustment mode.</string>
+    <string name="hybridwatch_a36">④Button Pressed and hold for 5 seconds (vibrate 3 times)\nTurn on/off the device, when turned off, all pointers point to 12:00.</string>
+    <string name="common_a11">Apple user can download from App Store</string>
+    <string name="common_a12">Android user can download from</string>
+    <string name="common_a13">（1）Google Play</string>
+    <string name="common_a21">All watch applications can be updated through Hybrid Watch APP</string>
+    <string name="common_a22">In Hybrid Watch APP setting, select update. The APP will automatically search for newest versions for all applications. Choose the newest version and it will download and update automatically</string>
+    <string name="common_a23">Attention: this will not occur if application is already at its newest version</string>
+    <string name="common_a41">1. Make sure the Bluetooth of the watch and the phone are on</string>
+    <string name="common_a42">2. Make sure that the watch smart module has enough power. Power shortage will lead to intelligent module shutdown, shutdown state is closed Bluetooth, and therefore can not be connected with the phone APP.</string>
+    <string name="common_a43">3. If the above two steps are completed, still can not connect, it may be the compatibility of the phone itself. Please replace a phone to try to connect again.\nAt present, our watch on the "IOS7.0 and above" and "Android4.3 and above" and also have Bluetooth 4.0 mobile phone models are basically supported. However, due to Android part of the mobile phone models themselves compatibility issues, there will be unstable watch and mobile phone connection or can not connect the situation.</string>
+    <string name="company_name">Shenzhen Cyinstein Technology Co.,Ltd</string>
+    <string name="company_address">No.11 Guo Tai Road,Tang Tou Community,Shi Yan Town,Bao An District,Shenzhen City,Guangdong Province,China</string>
+    <string name="company_tel">0755-27629999 turn 5015</string>
+    <string name="company_email">service@cyinstein.com</string>
+    <string name="common_a31">1.First download our own smart watch APP -- “Hybrid Watch” (Detail steps please see question 1</string>
+    <string name="common_a32">2.Turn on bluetooth on both watch and phone</string>
+    <string name="common_a33">3.Select “Start of your journey of health adventure” – Searching devise – device found (select watch) – paring (when finish, the next page will come out)－－personal setting (fill in personal info) – enter to main page</string>
+    <string name="common_a34">Note: The Bluetooth on our smart watch can only show whether the device is connected, this page cannot be used to pairing up the phone and the watch</string>
+    <string name="common_a51">Connect to phone all, when complete, click on time synchronization then select reset (all pointer will point to 12), if does not point to 12, use + or – to adjust hr hand and min hand until all point tp 12. Then select sync (watch  pointer will then point to correct area); when finishing sync, watch and phone will have the same time</string>
+    <string name="common_a52">Push Notifications: in Phone APP under Notification page, turn on notifications for phone call, messenger, mail, wechat, QQ etc and this will enable notifications. Light vibration occurs when there are any incoming messages. (Friendly notice: this will shorten battery life)</string>
+    <string name="common_a53">①Step track\n
+        There Are 2 ways to track steps: 1, based on percentage … 2. Connect to phone App, select Health Management when complete, it will show total step count for the day including activity time, select sync option, and it can show up to 7 days of activity history; when sync is complete, it will show total steps and distance
+    </string>
+    <string name="common_a54">②Sleep monitor\nsmart watch will determine whether user is in sleep mode and start recording. Connect with phone app and sync all data, synced data will show time for sleep (Deep sleep, light sleep, etc.) smart watch can store up to 7 days of sleeping data</string>
+    <string name="common_a55">①In air update\n App-under App setting, select update.Click on the mobile phone APP will automatically detect the firmware version of the watch, if detected after the completion of the new firmware, just click on the latest firmware to download and automatically update the watch firmware (when the watch is the latest version of the firmware is not Firmware update)</string>
+    <string name="common_a56">②Rename smart watch\nunder App setting, Rename, customize adjustment option allowed, can input up to 12 letter, only in combination of letter and number.</string>
+    <string name="common_a57">③Alarm\nunder phone App alarm setting, user can setup up to 8 alarms, each alarm can be turn on and off manually. Once set, smart watch will vibrate to notify on the alarm.</string>
+    <string name="common_a58">④Data clearance\nUnder App Setting-Data clearance, select to clear all data (Friendly notice: This function will clear all the data inside the watch, including step, sleep, alarm and other information, please be careful when selecting)</string>
+    <string name="common_a59">⑤Find my watch\nselect setting-find my watch, watch will vibrate so user can determine watch location</string>
+
+
+
+    <!--时区页面-->
+    <string name="Time_Zones">Faisceau horaire</string>
+    <string name="Time_Zones_queryHint">"请输入时区名称"</string>
+    <string name="Time_Zones_check_zones">"请先选择时区"</string>
+    <string name="Time_Zones_ok">"设置时区成功"</string>
+    <string name="local_timezone">Local timezone</string>
+
+    <string name="Pacific_Majuro">Majuro</string>
+    <string name="Pacific_Midway">Midway</string>
+    <string name="Pacific_Honolulu">Honolulu</string>
+    <string name="America_Anchorage">Anchorage</string>
+    <string name="America_Los_Angeles">Los_Angeles</string>
+    <string name="America_Phoenix">Phoenix</string>
+    <string name="America_Chicago">Chicago</string>
+    <string name="America_New_York">New_York</string>
+    <string name="Canada_Atlantic">Atlantic</string>
+    <string name="America_Santiago">Santiago</string>
+    <string name="America_Sao_Paulo">Sao_Paulo</string>
+    <string name="Atlantic_Cape_Verde">Cape Verde</string>
+    <string name="Europe_London">London</string>
+    <string name="Europe_Brussels">Brussels</string>
+    <string name="Europe_Athens">Athens</string>
+    <string name="Asia_Baghdad">Baghdad</string>
+    <string name="Asia_Dubai">Dubai</string>
+    <string name="Asia_Karachi">Karachi</string>
+    <string name="Asia_Almaty">Almaty</string>
+    <string name="Asia_Bangkok">Bangkok</string>
+    <string name="Asia_Shanghai">Beijing</string>
+    <string name="Asia_Tokyo">Tokyo</string>
+    <string name="Australia_Brisbane">Brisbane</string>
+    <string name="Australia_Sydney">Sydney</string>
+
+
+
+</resources>

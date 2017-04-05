@@ -24,17 +24,19 @@ public class MyViewPage extends ViewPager {
     @Override
     public boolean onTouchEvent(MotionEvent arg0) {
 		/*return false;//super.onTouchEvent(arg0);*/
-        if(scroll)
-            return false;
-        else
-            return super.onTouchEvent(arg0);
+//        if(scroll)
+//            return false;
+//        else
+//            return super.onTouchEvent(arg0);
+        return false;
     }
     @Override
     public boolean onInterceptTouchEvent(MotionEvent arg0) {
-        if(scroll)
-            return false;
-        else
-            return super.onInterceptTouchEvent(arg0);
+//        if(scroll)
+//            return false;
+//        else
+//            return super.onInterceptTouchEvent(arg0);
+        return false;
     }
     @Override
     public void setCurrentItem(int item, boolean smoothScroll) {

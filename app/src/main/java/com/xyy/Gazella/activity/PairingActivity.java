@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.content.Context;
@@ -24,13 +25,16 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.polidea.rxandroidble.RxBleClient;
-import com.polidea.rxandroidble.RxBleDevice;
+import com.vise.baseble.ViseBluetooth;
+import com.vise.baseble.callback.IConnectCallback;
+import com.vise.baseble.callback.scan.PeriodScanCallback;
+import com.vise.baseble.exception.BleException;
+import com.vise.baseble.model.BluetoothLeDevice;
 import com.xyy.Gazella.adapter.DeviceListAdapter;
 import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.xyy.Gazella.utils.LoadingDialog;
 import com.xyy.Gazella.utils.PairFailedDialog;
-import com.xyy.Gazella.view.AnalogClock;
+import com.xyy.Gazella.view.AnalogClock2;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
@@ -41,7 +45,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscription;
 
 /**
  * Created by Administrator on 2016/10/12.
@@ -49,13 +52,14 @@ import rx.Subscription;
 
 public class PairingActivity extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     @BindView(R.id.clock)
-    AnalogClock clock;
+    AnalogClock2 clock;
     private ListView listView;
     private Button skip;
     private DeviceListAdapter deviceListAdapter;
     private BluetoothAdapter bluetoothAdapter;
     private BluetoothLeScanner bluetoothLeScanner;
     private List<BluetoothDevice> devices = new ArrayList<>();
+    private List<String> deviceTypes = new ArrayList<>();
     private static final int REQUEST_ENABLE_BT = 1;
     private RelativeLayout searchLayout, bgLayout;
     private LinearLayout pairingLayout;
@@ -66,8 +70,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private int count;
     private CheckUpdateDialog2 myDialog;
     private boolean isRun = true;
-    private RxBleClient rxBleClient;
-    private Subscription scanSubscription;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -77,7 +79,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
 
         initView();
         initBluetooth();
-        rxBleClient = GazelleApplication.getRxBleClient(this);
     }
 
     private void initBluetooth() {
@@ -99,26 +100,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         }
     }
 
-    BluetoothAdapter.LeScanCallback leScanCallback = new BluetoothAdapter.LeScanCallback() {
-        @Override
-        public void onLeScan(final BluetoothDevice bluetoothDevice, int i, byte[] bytes) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (bluetoothDevice.getName() != null) {
-                        if (!devices.contains(bluetoothDevice)) {
-                            searchLayout.setVisibility(View.GONE);
-                            pairingLayout.setVisibility(View.VISIBLE);
-                            bgLayout.setBackgroundResource(R.drawable.page3_background);
-                            devices.add(bluetoothDevice);
-                            deviceListAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-            });
-        }
-    };
-
     //sdk6.0以上获取蓝牙权限
     private static final int REQUEST_FINE_LOCATION = 0;
 
@@ -134,12 +115,10 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                 Log.d("===========", "有蓝牙权限");
                 devices.clear();
                 scanDevices();
-//                bluetoothAdapter.startLeScan(leScanCallback);
             }
         } else {
             devices.clear();
             scanDevices();
-//            bluetoothAdapter.startLeScan(leScanCallback);
         }
     }
 
@@ -154,7 +133,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     // The requested permission is granted.
                     devices.clear();
                     scanDevices();
-//                    bluetoothAdapter.startLeScan(leScanCallback);
                 } else {
                     // The user disallowed the requested permission.
                     mayRequestLocation();
@@ -165,32 +143,47 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     }
 
     private void scanDevices() {
-        scanSubscription = rxBleClient.scanBleDevices()
-                .subscribe(
-                        rxBleScanResult -> {
-                            // Process scan result here.
-                            BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (bluetoothDevice.getName() != null) {
-                                        if (!devices.contains(bluetoothDevice)) {
-                                            searchLayout.setVisibility(View.GONE);
-                                            pairingLayout.setVisibility(View.VISIBLE);
-                                            bgLayout.setBackgroundResource(R.drawable.page3_background);
-                                            devices.add(bluetoothDevice);
-                                            deviceListAdapter.notifyDataSetChanged();
-                                        }
-                                    }
-                                }
-                            });
-                        },
-                        throwable -> {
-                            // Handle an error here.
-                            Log.d("==========", "Scan error :" + throwable);
-                        }
-                );
+        ViseBluetooth.getInstance().setScanTimeout(-1).startScan(periodScanCallback);
     }
+
+
+    private PeriodScanCallback periodScanCallback = new PeriodScanCallback() {
+        @Override
+        public void scanTimeout() {
+
+        }
+
+        @Override
+        public void onDeviceFound(BluetoothLeDevice bluetoothLeDevice) {
+            {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        {
+                            byte[] bytes = bluetoothLeDevice.getScanRecord();
+                            BluetoothDevice bluetoothDevice = bluetoothLeDevice.getDevice();
+                            if (bluetoothLeDevice.getName() != null) {
+                                String scanRecord = new String(bytes);
+                                if (scanRecord.contains("CT") || scanRecord.contains("EM")) {
+                                if (!devices.contains(bluetoothDevice)) {
+                                    byte[] bytes1 = new byte[5];
+                                    for (int i = 0; i < bytes1.length; i++) {
+                                        bytes1[i] = bytes[i+11];
+                                    }
+                                    searchLayout.setVisibility(View.GONE);
+                                    pairingLayout.setVisibility(View.VISIBLE);
+                                    devices.add(bluetoothDevice);
+                                    deviceTypes.add(new String(bytes1));
+                                    deviceListAdapter.notifyDataSetChanged();
+                                }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -212,21 +205,13 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     protected void onPause() {
         super.onPause();
-//        if (bluetoothAdapter != null) {
-////            if(bluetoothLeScanner!=null){
-////                bluetoothLeScanner.stopScan(scanCallback);
-////            }
-//            bluetoothAdapter.stopLeScan(leScanCallback);
-//        }
-        if (scanSubscription != null)
-            scanSubscription.unsubscribe();
+        ViseBluetooth.getInstance().stopLeScan(periodScanCallback);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (scanSubscription != null)
-            scanSubscription.unsubscribe();
+        ViseBluetooth.getInstance().stopLeScan(periodScanCallback);
     }
 
     @Override
@@ -257,6 +242,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         pairFailedDialog = new PairFailedDialog(context);
 
         clock.setDialDrawable(R.drawable.page2_biaopan);
+        clock.setMinuteDrawable(R.drawable.page2_fangdajing2);
         clock.setTimeValue(2, 0);
         mHandler.post(runnable);
 
@@ -276,23 +262,36 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         loadingDialog.show();
-        scanSubscription.unsubscribe();
+        ViseBluetooth.getInstance().stopLeScan(periodScanCallback);
         device = devices.get(i);
-        RxBleDevice rxBleDevice = rxBleClient.getBleDevice(device.getAddress());
-        setConnectionObservable(context, rxBleDevice);
-    }
+        ViseBluetooth.getInstance().connect(device, false, new IConnectCallback() {
+            @Override
+            public void onConnectSuccess(BluetoothGatt gatt, int status) {
+                mBluetoothGatt=gatt;
+                loadingDialog.dismiss();
+                if(pairFailedDialog!=null&&pairFailedDialog.isShowing())pairFailedDialog.dismiss();
+                GazelleApplication.isBleConnected=true;
+                PreferenceData.setAddressValue(PairingActivity.this, device.getAddress());
+                PreferenceData.setDeviceType(PairingActivity.this,deviceTypes.get(i));
+                PreferenceData.setDeviceName(PairingActivity.this,device.getName());
+                Intent intent = new Intent(context, PersonActivity.class);
+                startActivity(intent);
+                PairingActivity.this.finish();
+                overridePendingTransitionEnter(PairingActivity.this);
+            }
 
-    @Override
-    public void onConnectionState(int state) {
-        super.onConnectionState(state);
-        switch (state) {
-            case 1:
-                mHandler.sendEmptyMessage(1000);
-                break;
-            case 2:
-                mHandler.sendEmptyMessage(2000);
-                break;
-        }
+            @Override
+            public void onConnectFailure(BleException exception) {
+                loadingDialog.dismiss();
+                if(pairFailedDialog!=null)
+                    pairFailedDialog.show();
+            }
+
+            @Override
+            public void onDisconnect() {
+                GazelleApplication.isBleConnected=false;
+            }
+        });
     }
 
     Handler mHandler = new Handler() {
@@ -300,23 +299,10 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case 1000:
-                    loadingDialog.dismiss();
-                    PreferenceData.setAddressValue(PairingActivity.this, device.getAddress());
-                    Intent intent = new Intent(context, PersonActivity.class);
-                    startActivity(intent);
-                    PairingActivity.this.finish();
-                   overridePendingTransitionEnter(PairingActivity.this);
-                    break;
-                case 2000:
-                    loadingDialog.dismiss();
-                    if(pairFailedDialog!=null)
-                    pairFailedDialog.show();
-                    break;
                 case 1001:
                     clock.setTimeValue(2, count);
                     if (count == 180 && devices.size() == 0) {
-                        bluetoothAdapter.stopLeScan(leScanCallback);
+                        ViseBluetooth.getInstance().stopLeScan(periodScanCallback);
                         isRun = false;
                         myDialog = new CheckUpdateDialog2(PairingActivity.this);
                         myDialog.show();
@@ -329,7 +315,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                                 myDialog.dismiss();
                                 isRun = true;
                                 count = 0;
-//                                bluetoothAdapter.startLeScan(leScanCallback);
                                 scanDevices();
                                 mHandler.removeCallbacks(runnable);
                             }
@@ -353,10 +338,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.skip:
-//                if (bluetoothAdapter != null) {
-//                    bluetoothAdapter.stopLeScan(leScanCallback);
-//                }
-                scanSubscription.unsubscribe();
+                ViseBluetooth.getInstance().stopLeScan(periodScanCallback);
                 Intent intent = new Intent(context, PersonActivity.class);
                 startActivity(intent);
                 PairingActivity.this.finish();

@@ -9,13 +9,29 @@
     android:orientation="vertical"
     >
 
-    <com.xyy.Gazella.view.AnalogClock
-        android:id="@+id/analogclock"
+    <!--<com.xyy.Gazella.view.AnalogClock-->
+        <!--android:id="@+id/analogclock"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:dial="@drawable/page14_biaopan1"-->
+        <!--app:hand_minute="@drawable/page12_minute_selected2"/>-->
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:dial="@drawable/page14_biaopan1"
-        app:hand_minute="@drawable/page12_minute_selected"/>
-
+        >
+        <com.xyy.Gazella.view.RotatView
+            android:id="@+id/rotatView"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/logo"
+            android:src="@drawable/logo"
+            android:layout_marginTop="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
 
 </LinearLayout>

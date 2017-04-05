@@ -8,7 +8,7 @@ public class TimeZonesData {
 
     String Gtm;
     String name;
-    boolean isClick;
+    boolean isClick = false;
 
     public boolean isClick() {
         return isClick;

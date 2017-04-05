@@ -6,17 +6,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.format.Time;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.polidea.rxandroidble.RxBleConnection;
+import com.vise.baseble.ViseBluetooth;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.ChangeWatchDialog;
 import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.xyy.Gazella.utils.CleanPhoneData;
 import com.xyy.Gazella.utils.CleanWatchData;
+import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.utils.RenameWatchDialog;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.SwitchView;
@@ -25,8 +28,10 @@ import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
+import com.ysp.newband.WacthSeries;
 
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,6 +77,8 @@ public class SettingActivity extends BaseActivity {
     RelativeLayout rlTimezone;
     @BindView(R.id.timezone)
     TextView timezone;
+    @BindView(R.id.rl_update_bsl)
+    RelativeLayout rlUpdateBsl;
     private Context context;
     private BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
@@ -92,15 +99,36 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        ViseBluetooth.getInstance().setOnNotifyListener(onNotifyListener);
         initBle();
     }
 
+    private ViseBluetooth.OnNotifyListener onNotifyListener = new ViseBluetooth.OnNotifyListener() {
+        @Override
+        public void onNotify(boolean flag) {
+            if (flag) {
+                writeCharacteristic(bleUtils.setSystemType());
+            }
+        }
+    };
+
     private void initBle() {
+        bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(context);
         if (address != null && !address.equals("")) {
-            bleUtils = new BleUtils();
-            connectionObservable = getRxObservable(this);
-            Notify(connectionObservable);
+            if (!GazelleApplication.isBleConnected) {
+                connectBLEbyMac(address);
+            } else {
+                setNotifyCharacteristic();
+            }
+        }
+    }
+
+
+    @Override
+    public void onConnectionState(int state) {
+        if (state == 1) {
+            setNotifyCharacteristic();
         }
     }
 
@@ -112,7 +140,7 @@ public class SettingActivity extends BaseActivity {
                 Write(bleUtils.setSystemType(), connectionObservable);
                 break;
             case 1:
-                Message.obtain(handler,101,str).sendToTarget();
+                Message.obtain(handler, 101, str).sendToTarget();
                 break;
             case 2:
                 Notify(connectionObservable);
@@ -120,14 +148,20 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 101:
                     String str = (String) msg.obj;
                     HandleThrowableException(str);
+                    break;
+                case READ_SUCCESS:
+                    byte[] bytes = (byte[]) msg.obj;
+                    if (bytes[0] == 0x07 && bytes[1] == 0x25 && bytes[2] == 0x01) {
+                        showToatst(context, getResources().getString(R.string.watch_shake_search));
+                    }
                     break;
             }
         }
@@ -135,6 +169,11 @@ public class SettingActivity extends BaseActivity {
 
     private void initView() {
         TVTitle.setText(R.string.setting);
+        if(PreferenceData.getDeviceType(this)!=null){
+            if(!PreferenceData.getDeviceType(this).equals(WacthSeries.CT003)){
+                rlUpdateBsl.setVisibility(View.VISIBLE);
+            }
+        }
         int state = PreferenceData.getNotificationShakeState(context);
         if (state == 1) {
             vSwitch.setOpened(true);
@@ -154,20 +193,45 @@ public class SettingActivity extends BaseActivity {
                 PreferenceData.setNotificationShakeState(context, 0);
             }
         });
-        setTimezone();
+        if (PreferenceData.getTimeZonesState(this).equals("local")) {
+            initTime();
+        } else {
+            setTimezone();
+        }
+    }
+
+    private void initTime() {
+        Time time = new Time();
+        time.setToNow();
+        int minute = time.minute;
+        int hour = time.hour;
+        String strHour;
+        String strMinute;
+        if (hour < 10)
+            strHour = String.format("%2d", hour).replace(" ", "0");
+        else
+            strHour = String.valueOf(hour);
+        if (minute < 10)
+            strMinute = String.format("%2d", minute).replace(" ", "0");
+        else
+            strMinute = String.valueOf(minute);
+
+        timezone.setText(strHour + " : " + strMinute + getResources().getString(R.string.local_timezone));
     }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        super.onReadReturn(bytes);
+        if (HexString.bytesToHex(bytes).equals("0725012D60")) {
+            showToatst(context, getResources().getString(R.string.watch_shake_search));
+        } else if (bleUtils.returnDeviceType(bytes) != null) {
+            PreferenceData.setDeviceType(this, bleUtils.returnDeviceType(bytes));
+        }
     }
 
     @Override
-    protected void onWriteReturn(byte[] bytes) {
-        super.onWriteReturn(bytes);
-        if(bytes[2]==0x07&&bytes[3]==0x25){
-            showToatst(context, "手表已震动，请寻找手表！");
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        ViseBluetooth.getInstance().removeOnNotifyListener();
     }
 
     @OnClick({R.id.btnExit, R.id.rl_user_setting, R.id.rl_update_hardware, R.id.rl_change_watch, R.id.rl_rename_watch, R.id.rl_clock, R.id.rl_clean_phone,
@@ -184,35 +248,44 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_update_hardware:
-                Intent updateIntent = new Intent(context, UpdateHardware.class);
-                startActivity(updateIntent);
-                overridePendingTransitionEnter(SettingActivity.this);
+                if (GazelleApplication.isBleConnected) {
+                    Intent updateIntent = new Intent(context, UpdateHardware.class);
+                    startActivity(updateIntent);
+                    overridePendingTransitionEnter(SettingActivity.this);
+                } else {
+                    showToatst(SettingActivity.this, getResources().getString(R.string.not_connect_device));
+                }
                 break;
             case R.id.rl_change_watch:
                 Intent changeIntent = new Intent(this, ChangeWatchDialog.class);
                 startActivity(changeIntent);
                 break;
             case R.id.rl_rename_watch:
-                if(getbleDevicme(SettingActivity.this)==null||!getConnectionState()){
-                    showToatst(SettingActivity.this,"蓝牙未连接");
-                    break;
+                if (GazelleApplication.isBleConnected) {
+                    Intent nameIntent = new Intent(this, RenameWatchDialog.class);
+                    startActivity(nameIntent);
+                } else {
+                    showToatst(SettingActivity.this, getResources().getString(R.string.not_connect_device));
                 }
-                Intent nameIntent = new Intent(this, RenameWatchDialog.class);
-                startActivity(nameIntent);
+
                 break;
             case R.id.rl_clock:
-                Intent clockIntent = new Intent(this, ClockActivity.class);
-                startActivity(clockIntent);
-                overridePendingTransitionEnter(SettingActivity.this);
+                if (GazelleApplication.isBleConnected) {
+                    Intent clockIntent = new Intent(this, ClockActivity.class);
+                    startActivity(clockIntent);
+                    overridePendingTransitionEnter(SettingActivity.this);
+                } else {
+                    showToatst(SettingActivity.this, getResources().getString(R.string.not_connect_device));
+                }
                 break;
             case R.id.rl_clean_watch:
-
-                if(getbleDevicme(SettingActivity.this)==null||!getConnectionState()){
-                    showToatst(SettingActivity.this,"蓝牙未连接");
-                    break;
+                if (GazelleApplication.isBleConnected) {
+                    Intent watchIntent = new Intent(this, CleanWatchData.class);
+                    startActivity(watchIntent);
+                } else {
+                    showToatst(SettingActivity.this, getResources().getString(R.string.not_connect_device));
                 }
-                Intent watchIntent = new Intent(this, CleanWatchData.class);
-                startActivity(watchIntent);
+
                 break;
             case R.id.rl_clean_phone:
                 CleanPhoneData cleanPhoneData = new CleanPhoneData(SettingActivity.this);
@@ -224,36 +297,38 @@ public class SettingActivity extends BaseActivity {
                 overridePendingTransitionEnter(SettingActivity.this);
                 break;
             case R.id.rl_search_watch:
-                if(getbleDevicme(SettingActivity.this)==null||!getConnectionState()){
-                    showToatst(SettingActivity.this,"蓝牙未连接");
-                    break;
-                }
-                if (connectionObservable != null) {
-                    Write(bleUtils.setWatchShake(1, 2, 3), connectionObservable);
+                if (GazelleApplication.isBleConnected) {
+                    writeCharacteristic(bleUtils.setWatchShake(1, 2, 3));
+                } else {
+                    showToatst(SettingActivity.this, getResources().getString(R.string.not_connect_device));
                 }
                 break;
             case R.id.rl_close_bluetooth:
+                if (GazelleApplication.isBleConnected) {
+                    CheckUpdateDialog2 myDialog = new CheckUpdateDialog2(SettingActivity.this);
+                    myDialog.show();
+                    myDialog.setTvContext(getResources().getString(R.string.is_close_bluetooth));
+                    myDialog.setCancel(getResources().getString(R.string.no));
+                    myDialog.setConfirm(getResources().getString(R.string.yes));
+                    myDialog.setBtnlListener(new CheckUpdateDialog2.setBtnlListener() {
+                        @Override
+                        public void onCancelListener() {
+                            myDialog.dismiss();
+                        }
 
-                CheckUpdateDialog2 myDialog = new CheckUpdateDialog2(SettingActivity.this);
-                myDialog.show();
-                myDialog.setTvContext("是否确定关闭蓝牙？");
-                myDialog.setCancel("否");
-                myDialog.setConfirm("是");
-                myDialog.setBtnlListener(new CheckUpdateDialog2.setBtnlListener() {
-                    @Override
-                    public void onCancelListener() {
-                        myDialog.dismiss();
-                    }
+                        @Override
+                        public void onConfirm() {
+                            myDialog.dismiss();
+                            if (GazelleApplication.isBleConnected) {
+                                writeCharacteristic(bleUtils.sendMessage(0, 0, 0, 0, 0, 0));
+                            }
+                            GazelleApplication.isEnabled = true;
+                        }
+                    });
+                } else {
+                    showToatst(SettingActivity.this, getResources().getString(R.string.not_connect_device));
+                }
 
-                    @Override
-                    public void onConfirm() {
-                        myDialog.dismiss();
-                        if (connectionObservable != null)
-                            Write(bleUtils.sendMessage(0, 0, 0, 0, 0, 0), connectionObservable);
-                        connectionObservable = null;
-                        GazelleApplication.isEnabled=true;
-                    }
-                });
                 break;
             case R.id.rl_timezone:
                 Intent TimeZonesIntent = new Intent(context, TimeZonesActivity.class);
@@ -264,14 +339,50 @@ public class SettingActivity extends BaseActivity {
     }
 
 
+    private Time mCalendar;
+    private int hour;
+    private int minute;
+    private int second;
+    private int myear;
+    private int month;
+    private int mday;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 10010) {
-            if (resultCode == Activity.RESULT_OK) {
-                setTimezone();
+        if (data != null) {
+            if (requestCode == 10010) {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (PreferenceData.getTimeZonesState(this).equals("local")) {
+                        initTime();
+                        mCalendar = new Time();
+                        mCalendar.setToNow();
+                        hour = mCalendar.hour;
+                        minute = mCalendar.minute;
+                        second = mCalendar.second;
+                        myear = mCalendar.year;
+                        month = mCalendar.month;
+                        mday = mCalendar.monthDay;
+                        if (GazelleApplication.isBleConnected) {
+                            writeCharacteristic(bleUtils.setWatchDateAndTime(1, myear, month + 1, mday, hour, minute, second));
+                        }
+                    } else {
+                        setTimezone();
+                        TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(this));
+                        mCalendar = new Time(tz.getID());
+                        mCalendar.setToNow();
+                        hour = mCalendar.hour;
+                        minute = mCalendar.minute;
+                        second = mCalendar.second;
+                        myear = mCalendar.year;
+                        month = mCalendar.month;
+                        mday = mCalendar.monthDay;
+                        if (GazelleApplication.isBleConnected) {
+                            writeCharacteristic(bleUtils.setWatchDateAndTime(1, myear, month + 1, mday, hour, minute, second));
+                        }
+                    }
+                }
+                return;
             }
-            return;
         }
     }
 

@@ -35,7 +35,7 @@
             android:layout_height="1dp"/>
 
         <TextView
-            android:text="是否确认删除闹钟？"
+            android:text="@string/is_delete_clock"
             android:textColor="@color/black"
             android:textSize="17sp"
             android:layout_marginTop="10dp"

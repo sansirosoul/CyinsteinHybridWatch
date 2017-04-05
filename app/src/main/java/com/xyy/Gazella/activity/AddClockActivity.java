@@ -18,6 +18,7 @@ import com.xyy.Gazella.view.PickerViewMinute;
 import com.xyy.model.Clock;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import java.util.ArrayList;
@@ -73,9 +74,11 @@ public class AddClockActivity extends BaseActivity {
         String address = PreferenceData.getAddressValue(context);
         if (address != null && !address.equals("")) {
             bleUtils = new BleUtils();
-            connectionObservable = getRxObservable(this);
-            Notify(connectionObservable);
-
+//            connectionObservable = getRxObservable(this);
+//            Notify(connectionObservable);
+                if(GazelleApplication.isBleConnected){
+                    setNotifyCharacteristic();
+                }
         }
     }
 
@@ -91,6 +94,8 @@ public class AddClockActivity extends BaseActivity {
                 finish();
                 overridePendingTransitionEnter(AddClockActivity.this);
             }
+        }else{
+//            Toast.makeText(context,R.string.set_clock_failed,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -169,10 +174,10 @@ public class AddClockActivity extends BaseActivity {
         onClickListener2 = new ClockDialog2.OnClickListener() {
             @Override
             public void onClick(String text) {
-                if(Clock.transformRate(text)!=5){
+                if(Clock.transformRate(context,text)!=5){
                     tvRepeatrate.setText(text);
                 }else{
-                    tvRepeatrate.setText(Clock.transformCustom(text));
+                    tvRepeatrate.setText(Clock.transformCustom(context,text));
                     bytestr=text;
                 }
             }
@@ -188,20 +193,26 @@ public class AddClockActivity extends BaseActivity {
                 overridePendingTransitionExit(AddClockActivity.this);
                 break;
             case R.id.save:
-                if(connectionObservable==null){
-                    showToatst(context,"请先连接手表蓝牙");
-                    return;
-                }
+//                if(connectionObservable==null){
+//                    showToatst(context,"请先连接手表蓝牙");
+//                    return;
+//                }
 
-                if(Clock.transformRate(tvRepeatrate.getText().toString())!=5){
-                    Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
-                            Clock.transformSnoozeTime(tvRingtime.getText().toString()),
-                            Clock.transformRate(tvRepeatrate.getText().toString()), "00000000",1),connectionObservable);
+                if(Clock.transformRate(context,tvRepeatrate.getText().toString())!=5){
+                    writeCharacteristic(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                            Clock.transformSnoozeTime(context,tvRingtime.getText().toString()),
+                            Clock.transformRate(context,tvRepeatrate.getText().toString()), "00000000",1));
+//                    Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+//                            Clock.transformSnoozeTime(tvRingtime.getText().toString()),
+//                            Clock.transformRate(tvRepeatrate.getText().toString()), "00000000",1),connectionObservable);
                 }else{
                     System.out.println(bytestr);
-                    Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
-                            Clock.transformSnoozeTime(tvRingtime.getText().toString()),
-                            5, bytestr,1),connectionObservable);
+                    writeCharacteristic(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+                            Clock.transformSnoozeTime(context,tvRingtime.getText().toString()),
+                            5, bytestr,1));
+//                    Write(bleUtils.setWatchAlarm(1, id, Integer.parseInt(hour), Integer.parseInt(minute),
+//                            Clock.transformSnoozeTime(tvRingtime.getText().toString()),
+//                            5, bytestr,1),connectionObservable);
                 }
                 break;
             case R.id.del_clock:

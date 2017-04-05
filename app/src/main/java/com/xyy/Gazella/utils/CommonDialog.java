@@ -47,7 +47,7 @@ public class CommonDialog extends Dialog {
         llBottom=(LinearLayout)findViewById(R.id.ll_bottom);
         butOk.setOnClickListener(new onButListener());
         butAdgin.setOnClickListener(new onButListener());
-        setDialogAttributes((Activity) context, this, 0.5f, 0, Gravity.CENTER);
+        setDialogAttributes((Activity) context, this, 0.6f, 0, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
     }
 

@@ -1,5 +1,8 @@
 package com.ysp.newband;
 
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,9 +15,13 @@ import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
+import com.vise.baseble.ViseBluetooth;
+import com.vise.baseble.callback.IBleCallback;
+import com.vise.baseble.exception.BleException;
 import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.HexString;
 
+import java.util.List;
 import java.util.UUID;
 
 import rx.Observable;
@@ -23,6 +30,8 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
 
+import static com.xyy.Gazella.services.BluetoothService.writeUUID;
+
 /**
  * Created by Administrator on 2016/10/22.
  */
@@ -30,6 +39,7 @@ import rx.subjects.PublishSubject;
 public class BaseFragment extends Fragment {
 
     private static final String TAG = BaseFragment.class.getName();
+    public final static String serviceUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
 
@@ -37,6 +47,7 @@ public class BaseFragment extends Fragment {
     private static Observable<RxBleConnection> connectionObservable;
     private PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private CommonDialog dialog;
+    public static BluetoothGatt mBluetoothGatt;
 
     public static Observable<RxBleConnection> getRxObservable(Context context) {
         String address = PreferenceData.getAddressValue(context);
@@ -60,12 +71,46 @@ public class BaseFragment extends Fragment {
             //透明导航栏
             getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+        mBluetoothGatt=BaseActivity.mBluetoothGatt;
         dialog= new CommonDialog(getActivity());
         String address = PreferenceData.getAddressValue(getActivity());
         if (address != null && !address.equals(""))
             bleDevice = GazelleApplication.getRxBleClient(getActivity()).getBleDevice(address);
     }
 
+    public BluetoothGattCharacteristic getWriteCharacteristic() {
+        BluetoothGattCharacteristic gattCharacteristic = null;
+        if (mBluetoothGatt == null)
+            return null;
+        List<BluetoothGattService> services = mBluetoothGatt.getServices();
+        for (int i = 0; i<services.size();i++){
+            BluetoothGattService service = services.get(i);
+            if(service.getUuid().toString().equals(serviceUUID)){
+                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+                for(int j = 0; j<characteristics.size();j++){
+                    BluetoothGattCharacteristic characteristic = characteristics.get(j);
+                    if(characteristic.getUuid().toString().equals(writeUUID)){
+                        gattCharacteristic=characteristic;
+                    }
+                }
+            }
+        }
+        return gattCharacteristic;
+    }
+
+    public void writeCharacteristic(byte[] bytes){
+        ViseBluetooth.getInstance().writeCharacteristic(getWriteCharacteristic(), bytes, new IBleCallback<BluetoothGattCharacteristic>() {
+            @Override
+            public void onSuccess(BluetoothGattCharacteristic bluetoothGattCharacteristic, int type) {
+                onWriteReturn(bluetoothGattCharacteristic.getValue());
+            }
+
+            @Override
+            public void onFailure(BleException exception) {
+                Logger.e(exception.getDescription());
+            }
+        });
+    }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
         return connectionObservable

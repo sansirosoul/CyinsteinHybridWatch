@@ -36,9 +36,11 @@ public class PreferenceData implements Serializable{
     public static final String SAVE_DEVICE_SN_VALUE = "SAVE_DEVICE_SN_VALUE";
     public static final String SAVE_DEVICE_FWV_VALUE = "SAVE_DEVICE_FWV_VALUE";
     public static final String SAVE_DEVICE_TYPE = "SAVE_DEVICE_TYPE";
+    public static final String SAVE_DEVICE_NAME = "SAVE_DEVICE_NAME";
 
     public static final String SAVE_NOTIFICATION_SHAKE_STATE="SAVE_NOTIFICATION_SHAKE_STATE";
     public static final String SAVE_NOTIFICATION_STATE="SAVE_NOTIFICATION_STATE";
+    public static final String SAVE_NOTIFICATION_MSG_STATE = "SAVE_NOTIFICATION_MSG_STATE";
     public static final String SAVE_NOTIFICATION_PHONE_STATE="SAVE_NOTIFICATION_PHONE_STATE";
     public static final String SAVE_NOTIFICATION_MESSAGE_STATE="SAVE_NOTIFICATION_MESSAGE_STATE";
     public static final String SAVE_NOTIFICATION_MAIL_STATE="SAVE_NOTIFICATION_MAIL_STATE";
@@ -291,7 +293,22 @@ public class PreferenceData implements Serializable{
     public static String getDeviceType(Context context){
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(SAVE_DEVICE_TYPE,null);
+        return sharedPreferences.getString(SAVE_DEVICE_TYPE,"DEFULT");
+    }
+
+    //保存手表设备名称
+    public static void setDeviceName(Context context,String name){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(SAVE_DEVICE_NAME,name).commit();
+    }
+
+    //获取手表设备名称
+    public static String getDeviceName(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(SAVE_DEVICE_NAME,null);
     }
 
     //保存通知提醒状态     0关  1开
@@ -307,6 +324,20 @@ public class PreferenceData implements Serializable{
         SharedPreferences sharedPreferences = context.getApplicationContext()
                 .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(SAVE_NOTIFICATION_STATE,0);
+    }
+
+    //保存消息提醒状态     0关  1开
+    public static void setNotificationMsgState(Context context,int state){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(SAVE_NOTIFICATION_MSG_STATE,state).commit();
+    }
+    //获取消息提醒状态
+    public static int getNotificationMsgState(Context context){
+        SharedPreferences sharedPreferences = context.getApplicationContext()
+                .getSharedPreferences(SHARED_PREFERENCE, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(SAVE_NOTIFICATION_MSG_STATE,0);
     }
 
     //保存来电提醒状态    0关  1开

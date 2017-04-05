@@ -1,21 +1,22 @@
 package com.xyy.Gazella.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.polidea.rxandroidble.RxBleConnection;
+import com.vise.baseble.ViseBluetooth;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckUpdateDialog1;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import butterknife.BindView;
@@ -47,13 +48,14 @@ public class UpdateHardware extends BaseActivity {
     private BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
     private int battery_num = 0;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.update_hardware);
         ButterKnife.bind(this);
-
+        context = this;
         TVTitle.setText(R.string.check_update);
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -61,73 +63,74 @@ public class UpdateHardware extends BaseActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
+        ViseBluetooth.getInstance().setOnNotifyListener(onNotifyListener);
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             bleUtils = new BleUtils();
-            connectionObservable = getRxObservable(this);
-            Notify(connectionObservable);
+            if (GazelleApplication.isBleConnected) {
+                setNotifyCharacteristic();
+            } else {
+                connectBLEbyMac(address);
+            }
         }
     }
 
     @Override
-    protected void onNotifyReturn(int type, String str) {
-        super.onNotifyReturn(type, str);
-        switch (type){
-            case  0:
-                Write(bleUtils.getDeviceSN(), connectionObservable);
-                Write(bleUtils.getFWVer(), connectionObservable);
-                Write(bleUtils.getBatteryValue(), connectionObservable);
-                break;
-            case  1:
-                Message.obtain(handler,101,str).sendToTarget();
-                break;
-            case  2:
-                Notify(connectionObservable);
-                break;
-
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ViseBluetooth.getInstance().setOnNotifyListener(onNotifyListener);
+        String address = PreferenceData.getAddressValue(this);
+        if (address != null && !address.equals("")) {
+            bleUtils = new BleUtils();
+//            if (GazelleApplication.isBleConnected) {
+//                setNotifyCharacteristic();
+//            } else {
+                connectBLEbyMac(address);
+//            }
         }
     }
 
-    Handler handler = new Handler(){
+    private ViseBluetooth.OnNotifyListener onNotifyListener = new ViseBluetooth.OnNotifyListener() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case 101:
-                    String str = (String) msg.obj;
-                    HandleThrowableException(str);
-                    break;
+        public void onNotify(boolean flag) {
+            if(flag){
+                writeCharacteristic(bleUtils.getDeviceSN());
             }
         }
     };
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        String address = PreferenceData.getAddressValue(this);
-        if (address != null && !address.equals("")) {
-            bleUtils = new BleUtils();
-            connectionObservable = getRxObservable(this);
-            Notify(connectionObservable);
-            Write(bleUtils.getDeviceType(),connectionObservable);
+    public void onConnectionState(int state) {
+        if (state == 1) {
+            setNotifyCharacteristic();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ViseBluetooth.getInstance().removeOnNotifyListener();
     }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
+        if (bytes[0] == 0x07 && bytes[1] == 0x00) {
+            writeCharacteristic(bleUtils.getFWVer());
+        } else if (bytes[0] == 0x07 && bytes[1] == 0x05) {
+            writeCharacteristic(bleUtils.getBatteryValue());
+        }
         if (bleUtils.returnDeviceSN(bytes) != null) {
             watchSN.setText(bleUtils.returnDeviceSN(bytes));
             PreferenceData.setDeviceSnValue(this, bleUtils.returnDeviceSN(bytes));
         } else if (bleUtils.returnFWVer(bytes) != null) {
-            watchVer.setText("V"+bleUtils.returnFWVer(bytes));
+            watchVer.setText(bleUtils.returnFWVer(bytes));
             PreferenceData.setDeviceFwvValue(this, bleUtils.returnFWVer(bytes));
         } else if (bleUtils.returnBatteryValue(bytes) != null) {
-            battery_num=Integer.parseInt(bleUtils.returnBatteryValue(bytes));
+            battery_num = Integer.parseInt(bleUtils.returnBatteryValue(bytes));
             battery.setText(bleUtils.returnBatteryValue(bytes) + "%");
-        }else if(bleUtils.returnDeviceType(bytes)!=null){
-            PreferenceData.setDeviceType(this,bleUtils.returnDeviceType(bytes));
+        } else if (bleUtils.returnDeviceType(bytes) != null) {
+            PreferenceData.setDeviceType(this, bleUtils.returnDeviceType(bytes));
         }
     }
 
@@ -139,9 +142,10 @@ public class UpdateHardware extends BaseActivity {
                 overridePendingTransitionExit(UpdateHardware.this);
                 break;
             case R.id.update:
-              //  if(battery_num>=50){
-                    CheckUpdateDialog1 dialog = new CheckUpdateDialog1(UpdateHardware.this);
-                    dialog.show();
+                //  if(battery_num>=50){
+                ViseBluetooth.getInstance().removeOnNotifyListener();
+                CheckUpdateDialog1 dialog = new CheckUpdateDialog1(UpdateHardware.this);
+                dialog.show();
 //                }else{
 //                    showToatst(UpdateHardware.this,"手表电量不足50%，无法升级！");
 //                }

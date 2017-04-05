@@ -4,20 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
-import com.polidea.rxandroidble.RxBleConnection;
-import com.polidea.rxandroidble.RxBleDevice;
-import com.xyy.Gazella.activity.TimeSynchronization;
 import com.xyy.Gazella.utils.BleUtils;
-import com.xyy.Gazella.view.AnalogClock;
+import com.xyy.Gazella.view.RotatView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
-import com.ysp.newband.PreferenceData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Observable;
 
 /**
  * Created by Administrator on 2016/10/11.
@@ -26,171 +22,63 @@ import rx.Observable;
 public class MainDialFragment extends BaseFragment {
 
     private static final String TAG = MainDialFragment.class.getName();
-
-    @BindView(R.id.analogclock)
-    AnalogClock analogclock;
+    @BindView(R.id.rotatView)
+    RotatView rotatView;
+    @BindView(R.id.rotatLayout)
+    RelativeLayout rotatLayout;
+    @BindView(R.id.logo)
+    ImageView logo;
     private View view;
-
-    private boolean isChangeTime = false;
-    private ViewTreeObserver vto;
-    private boolean saveValue = true;
-    private RxBleDevice bleDevice;
-    private Observable<RxBleConnection> connectionObservable;
     private BleUtils bleUtils;
-    private int newTime,senTime,laoTime ;
-    public boolean conut = true;
-
+    private int timeType = 1;  //1 是 时针  2 分针
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_main_dial, container, false);
         ButterKnife.bind(this, view);
-
+//        logo.setImageDrawable(getResources().getDrawable(R.drawable.adj_julius));
+        rotatView.setRotatDrawableResource(R.drawable.pan);
+        rotatView.setChangeTimeListener(changeTimeListener);
         bleUtils = new BleUtils();
-        if(isconnectionObservable())
-        connectionObservable=TimeSynchronization.install.connectionObservable;
-//        analogclock.setTimeValue(1,TimeSynchronization.install.hour);
-//        analogclock.setTimeValue(2,TimeSynchronization.install.minute);
-        vto = analogclock.getViewTreeObserver();
-        vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                if (saveValue) {
-                    PreferenceData.setSelectedHourValue(getActivity(), analogclock.getHourTimeValue());
-                    PreferenceData.setSelectedMuinutesValue(getActivity(), analogclock.getMinutesTimeValue());
-                }
-                return true;
-            }
-        });
-
-        analogclock.setChangeTimeListener(new AnalogClock.ChangeTimeListener() {
-            @Override
-            public void ChangeTimeListener(int mMinutes,int mHour) {
-                if (conut ) {
-                    if (analogclock.ChangeTimeType == 1) {
-                        laoTime = mHour ;
-                        if (isconnectionObservable())
-                            Write(bleUtils.adjHourHand(1,1), connectionObservable);
-                    }else {
-                        laoTime = mMinutes ;
-                        if (isconnectionObservable())
-                            Write(bleUtils.adjMinuteHand(1, 1), connectionObservable);
-                    }
-                } else {
-                    if (analogclock.ChangeTimeType == 1) {
-                        laoTime = newTime;
-                        newTime = mHour;
-                        if (newTime > laoTime) {
-                            senTime = newTime - laoTime;
-                            if(senTime!=0&&isconnectionObservable())
-                            Write(bleUtils.adjHourHand(1, 1), connectionObservable);
-                        } else {
-                            senTime = laoTime - newTime;
-                            if(senTime!=0&&isconnectionObservable())
-                            Write(bleUtils.adjHourHand(2, 1), connectionObservable);
-                        }
-                    } else {
-                        laoTime = newTime;
-                        newTime = mMinutes ;
-                        if (newTime > laoTime) {
-                            senTime = newTime - laoTime;
-                            if(senTime!=0&&isconnectionObservable())
-                            Write(bleUtils.adjMinuteHand(1, 1), connectionObservable);
-                        }else {
-                            senTime = laoTime - newTime;
-                            if(senTime!=0&&isconnectionObservable())
-                            Write(bleUtils.adjMinuteHand(2, 1), connectionObservable);
-                        }
-                    }
-                }
-                conut=false;
-            }
-        });
         return view;
     }
 
     public void setChangeTimeType(int ChangeTimeType) {
-        analogclock.setChangeTimeType(ChangeTimeType);
-    }
-
-    public void setHourTimeValue(float value) {
-        analogclock.setTimeValue(1, value);
-    }
-
-    public void setMuinutesTimeValue(float value) {
-        analogclock.setTimeValue(2, value);
-    }
-
-    public int getHourTimeValue() {
-        return (int) analogclock.getHourTimeValue();
-    }
-
-    public int getMuinutesTimeValue() {
-        return (int) analogclock.getMinutesTimeValue();
+        this.timeType = ChangeTimeType;
     }
 
     public void AddTime() {
-        if (analogclock.ChangeTimeType == 1) {
-            int a = (int) analogclock.getHourTimeValue();
-            a++;
-            analogclock.setTimeValue(1, a);
-            if(isconnectionObservable())
-            Write(bleUtils.adjHourHand(1, 1), connectionObservable);
-
-        } else {
-            int a = (int) analogclock.getMinutesTimeValue();
-            a++;
-            analogclock.setTimeValue(2, a);
-            if(isconnectionObservable())
-            Write(bleUtils.adjMinuteHand(1, 1), connectionObservable);
+        if (timeType == 1) {
+            writeCharacteristic(bleUtils.adjHourHand(1, 1));
+        } else if (timeType == 2) {
+            writeCharacteristic(bleUtils.adjMinuteHand(1, 1));
         }
-        isChangeTime = true;
     }
 
     public void ReduceTime() {
-        if (analogclock.ChangeTimeType == 1) {
-            int a = (int) analogclock.getHourTimeValue();
-            if (a == 0) a = 60;
-            a--;
-            analogclock.setTimeValue(1, a);
-            if(isconnectionObservable())
-            Write(bleUtils.adjHourHand(2, 1), connectionObservable);
-
-        } else {
-            int a = (int) analogclock.getMinutesTimeValue();
-            if (a == 0) a = 60;
-            a--;
-            analogclock.setTimeValue(2, a);
-            if(isconnectionObservable())
-            Write(bleUtils.adjMinuteHand(2, 1), connectionObservable);
+        if (timeType == 1) {
+            writeCharacteristic(bleUtils.adjHourHand(2, 1));
+        } else if (timeType == 2) {
+            writeCharacteristic(bleUtils.adjMinuteHand(2, 1));
         }
-        isChangeTime = true;
     }
 
-    public void setHourDrawable(int drawable) {
-        analogclock.setHourDrawable(drawable);
-    }
-
-    public void setMuinutesDrawable(int drawable) {
-        analogclock.setMinuteDrawable(drawable);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        saveValue = false;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        saveValue = true;
-    }
-
-    private  boolean  isconnectionObservable(){
-        if(TimeSynchronization.install.connectionObservable!=null)
-            return  true;
-        else
-            return false;
-    }
+    private RotatView.ChangeTimeListener changeTimeListener = new RotatView.ChangeTimeListener() {
+        @Override
+        public void ChangeTimeListener(boolean isClockwise) {
+            if (isClockwise) {
+                if (timeType == 1) {
+                    writeCharacteristic(bleUtils.adjHourHand(1, 1));
+                } else if (timeType == 2) {
+                    writeCharacteristic(bleUtils.adjMinuteHand(1, 1));
+                }
+            } else {
+                if (timeType == 1) {
+                    writeCharacteristic(bleUtils.adjHourHand(2, 1));
+                } else if (timeType == 2) {
+                    writeCharacteristic(bleUtils.adjMinuteHand(2, 1));
+                }
+            }
+        }
+    };
 }

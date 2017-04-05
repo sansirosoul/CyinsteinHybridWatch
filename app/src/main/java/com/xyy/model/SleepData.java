@@ -5,12 +5,39 @@ package com.xyy.model;
  */
 
 public class SleepData {
-    public int date;//日期
+    public int date;//日期 1-31
     public int time;//时间
-    public int status;  //睡眠状态 3 清醒     1 潜睡     2深睡
+    public int hour;//小时
+    public int min;//分钟
+    public int status;  //睡眠状态 0 静止    1 清醒     2 浅睡   3 深睡
     public int quality;  //睡眠质量
     public int count;
     public int sums;
+    public boolean isLast;//是否最后一条数据
+
+    public boolean isLast() {
+        return isLast;
+    }
+
+    public void setLast(boolean last) {
+        isLast = last;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public void setMin(int min) {
+        this.min = min;
+    }
 
     public int getCount() {
         return count;

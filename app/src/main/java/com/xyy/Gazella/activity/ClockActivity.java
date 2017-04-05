@@ -10,12 +10,14 @@ import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 
 import com.polidea.rxandroidble.RxBleConnection;
+import com.vise.baseble.ViseBluetooth;
 import com.xyy.Gazella.adapter.ClockListAdapter;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.ListViewForScrollView;
 import com.xyy.model.Clock;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import java.util.ArrayList;
@@ -54,23 +56,37 @@ public class ClockActivity extends BaseActivity {
         initView();
 
         bleUtils = new BleUtils();
+        ViseBluetooth.getInstance().setOnNotifyListener(onNotifyListener);
         String address = PreferenceData.getAddressValue(context);
         if (address != null && !address.equals("")) {
-            connectionObservable = getRxObservable(ClockActivity.this);
-            Notify(connectionObservable);
+            if (GazelleApplication.isBleConnected) {
+                setNotifyCharacteristic();
+
+            }
+//            connectionObservable = getRxObservable(ClockActivity.this);
+//            Notify(connectionObservable);
 //            handler.post(runnable);
         }
     }
 
+    private ViseBluetooth.OnNotifyListener onNotifyListener = new ViseBluetooth.OnNotifyListener() {
+        @Override
+        public void onNotify(boolean flag) {
+            if(flag){
+                writeCharacteristic(bleUtils.getAlarms());
+            }
+        }
+    };
+
     @Override
-    protected void onNotifyReturn(int type,String str) {
-        super.onNotifyReturn(type,str);
+    protected void onNotifyReturn(int type, String str) {
+        super.onNotifyReturn(type, str);
         switch (type) {
             case 0:
                 Write(bleUtils.getAlarms(), connectionObservable);
                 break;
             case 1:
-                Message.obtain(handler,102,str).sendToTarget();
+                Message.obtain(handler, 102, str).sendToTarget();
                 break;
             case 2:
                 Notify(connectionObservable);
@@ -78,17 +94,29 @@ public class ClockActivity extends BaseActivity {
         }
     }
 
-    Handler handler = new Handler(){
+
+
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
+            switch (msg.what) {
                 case 101:
                     Write(bleUtils.getAlarms(), connectionObservable);
                     break;
                 case 102:
                     String str = (String) msg.obj;
                     HandleThrowableException(str);
+                    break;
+                case READ_SUCCESS:
+                    byte[] bytes = (byte[]) msg.obj;
+                    if (bleUtils.returnAlarms(context,bytes) != null) {
+                        Clock clock = bleUtils.returnAlarms(context,bytes);
+                        if (!clocks.contains(clock)) {
+                            clocks.add(clock);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
                     break;
             }
         }
@@ -98,7 +126,7 @@ public class ClockActivity extends BaseActivity {
         @Override
         public void run() {
             handler.sendEmptyMessage(101);
-            handler.postDelayed(this,1000);
+            handler.postDelayed(this, 1000);
         }
     };
 
@@ -107,14 +135,14 @@ public class ClockActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         handler.removeCallbacks(runnable);
+        ViseBluetooth.getInstance().removeOnNotifyListener();
     }
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        super.onReadReturn(bytes);
-        if (bleUtils.returnAlarms(bytes) != null) {
-            Clock clock = bleUtils.returnAlarms(bytes);
-            if (!clocks.contains(clock)){
+        if (bleUtils.returnAlarms(context,bytes) != null) {
+            Clock clock = bleUtils.returnAlarms(context,bytes);
+            if (!clocks.contains(clock)) {
                 clocks.add(clock);
             }
             adapter.notifyDataSetChanged();
@@ -150,16 +178,16 @@ public class ClockActivity extends BaseActivity {
                 break;
             case R.id.add:
                 if (clocks.size() >= 8) {
-                    showToatst(context,"闹钟数量已达上限");
+                    showToatst(context, getResources().getString(R.string.clock_enough));
                 } else {
                     Intent intent = new Intent(context, AddClockActivity.class);
                     int[] arr = new int[8];
-                    for(int i=0;i<clocks.size();i++){
+                    for (int i = 0; i < clocks.size(); i++) {
                         int index = clocks.get(i).getId();
-                        arr[index]=1;
+                        arr[index] = 1;
                     }
-                    for(int i=0;i<arr.length;i++){
-                        if(arr[i]==0){
+                    for (int i = 0; i < arr.length; i++) {
+                        if (arr[i] == 0) {
                             intent.putExtra("id", i);
                             break;
                         }
@@ -178,20 +206,37 @@ public class ClockActivity extends BaseActivity {
             case REQUEST_ADD:
                 if (data != null) {
                     clocks.clear();
-                    showToatst(context,"闹钟设置成功");
+                    showToatst(context, getResources().getString(R.string.set_clock_success));
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
-                        Write(bleUtils.getAlarms(), connectionObservable);
+                        if (GazelleApplication.isBleConnected)
+                            setNotifyCharacteristic();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                writeCharacteristic(bleUtils.getAlarms());
+                            }
+                        }, 300);
+//                        Write(bleUtils.getAlarms(), connectionObservable);
                     }
                 }
                 break;
             case REQUEST_EDIT:
                 if (data != null) {
                     clocks.clear();
-                    showToatst(context,"闹钟修改成功");
+                    showToatst(context, getResources().getString(R.string.set_clock_success));
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
-                        Write(bleUtils.getAlarms(), connectionObservable);
+                        if (GazelleApplication.isBleConnected) {
+                            setNotifyCharacteristic();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    writeCharacteristic(bleUtils.getAlarms());
+                                }
+                            }, 300);
+                        }
+//                        Write(bleUtils.getAlarms(), connectionObservable);
                     }
                 }
                 break;

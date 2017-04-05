@@ -14,14 +14,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.YoYo;
 import com.polidea.rxandroidble.RxBleConnection;
-import com.xyy.Gazella.activity.HealthyActivity;
 import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.NumberProgressBar;
 import com.xyy.Gazella.view.RiseNumberTextView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import java.util.TimeZone;
@@ -30,6 +31,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
+
+import static com.daimajia.androidanimations.library.Techniques.StandUp;
 
 /**
  * Created by Administrator on 2016/10/11.
@@ -97,15 +100,15 @@ public class StepFragment extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_step, container, false);
         ButterKnife.bind(this, view);
         initView();
-        connectionObservable = HealthyActivity.install.connectionObservable;
         bleUtils = new BleUtils();
-        if (connectionObservable != null)
+        if(GazelleApplication.isBleConnected){
             getTodayStepPost();
+        }
         return view;
     }
 
     public void getTodayStepPost() {
-        if (connectionObservable != null)
+        if(GazelleApplication.isBleConnected)
             mHandler.post(getTodayStep);
     }
 
@@ -115,9 +118,10 @@ public class StepFragment extends BaseFragment {
     }
 
     private void initView() {
+        stepNum.setTextSize(50);
         String Synchronizationtime = PreferenceData.getSynchronizationTime(getActivity());
         if (Synchronizationtime != null && !Synchronizationtime.equals("")) {
-            tvSynchronizationtime.setText("最后同步时间  "+Synchronizationtime);
+            tvSynchronizationtime.setText(getResources().getString(R.string.last_synchronize_time)+Synchronizationtime);
         }
         final ViewGroup.LayoutParams params = circle.getLayoutParams();
         ViewTreeObserver vto = circle.getViewTreeObserver();
@@ -138,6 +142,11 @@ public class StepFragment extends BaseFragment {
                 }
             }
         });
+
+        setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
+        time.setText("0"+getResources().getString(R.string.minute));
+        distance.setText("0"+getResources().getString(R.string.mi));
+        cal.setText("0"+getResources().getString(R.string.card));
     }
 
     @OnClick(R.id.circle)
@@ -151,22 +160,13 @@ public class StepFragment extends BaseFragment {
         }
     }
 
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            barNum++;
-            mHandler.sendEmptyMessage(1001);
-            mHandler.postDelayed(this, 100);
-        }
-    };
-
     Runnable getTodayStep = new Runnable() {
         @Override
         public void run() {
-            if (connectionObservable != null && HealthyActivity.install.isNotify)
-                Write(bleUtils.getTodayStep(), connectionObservable);
+            if(GazelleApplication.isBleConnected)
+                writeCharacteristic(bleUtils.getTodayStep());
             mHandler.sendEmptyMessage(1002);
-            mHandler.postDelayed(this, 1000);
+            mHandler.postDelayed(this, 3000);
         }
     };
 
@@ -184,48 +184,60 @@ public class StepFragment extends BaseFragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Write(bleUtils.getStepData(6), connectionObservable);
+                writeCharacteristic(bleUtils.getStepData(6));
             }
         }, 1000);
     }
 
     public void setBerbarNum(int type, int day) {
-        switch (type) {
+            switch (type) {
             case 1:
-                tvDay1.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_1));
+                tvDay1.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(10);
                 break;
 
             case 2:
-                tvDay2.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_2));
+                tvDay2.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(30);
                 break;
 
             case 3:
-                tvDay3.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_3));
+                tvDay3.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(40);
                 break;
 
             case 4:
-                tvDay4.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_4));
+                tvDay4.setText(String.valueOf(day) +getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(60);
                 break;
 
             case 5:
-                tvDay5.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_5));
+                tvDay5.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(80);
                 break;
 
             case 6:
-                tvDay6.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_6));
+                tvDay6.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(90);
                 break;
 
             case 7:
-                tvDay7.setText(String.valueOf(day) + "号" + "更新完成");
+                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_7));
+                tvDay7.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(100);
-                llNumberProgressBar.setVisibility(View.GONE);
-                llQuality.setVisibility(View.VISIBLE);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        llNumberProgressBar.setVisibility(View.GONE);
+                        llQuality.setVisibility(View.VISIBLE);
+                    }
+                },500);
                 break;
         }
     }
@@ -268,13 +280,17 @@ public class StepFragment extends BaseFragment {
    public void  setTvSynchronizationtime(){
        Time mCalendar;
        StringBuffer sb= new StringBuffer();
-       TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(getActivity()));
-       mCalendar = new Time(tz.getID());
+       if(PreferenceData.getTimeZonesState(getActivity()).equals("local")){
+           mCalendar = new Time();
+       }else{
+           TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(getActivity()));
+           mCalendar = new Time(tz.getID());
+       }
        mCalendar.setToNow();
        String time=sb.append(String.valueOf(mCalendar.year)).append(".").append(String.valueOf(mCalendar.month+1)).append(".")
                .append(String.valueOf(mCalendar.monthDay)).append("  ").append(String.valueOf(mCalendar.hour)).append(":")
                .append(String.valueOf(mCalendar.minute)).append(":").append(String.valueOf(mCalendar.second)).toString();
-       tvSynchronizationtime.setText("最后同步时间  "+time);
+       tvSynchronizationtime.setText(getResources().getString(R.string.last_synchronize_time)  +time);
        PreferenceData.setSynchronizationTime(getActivity(),time);
    }
 

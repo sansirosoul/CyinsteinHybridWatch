@@ -11,7 +11,8 @@
         android:text="@string/launch01"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
         android:id="@+id/start"
@@ -21,14 +22,16 @@
         android:text="@string/launch02"
         android:textColor="@color/white"
         android:textSize="25sp"
+        android:padding="5dp"
+        android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <ImageView
         android:layout_above="@+id/text"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="80dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/page1_logo"
+        android:src="@drawable/hw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView

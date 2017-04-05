@@ -5,8 +5,6 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 
-import com.orhanobut.logger.Logger;
-
 /**
  * Created by Administrator on 2017/1/5.
  */
@@ -38,7 +36,7 @@ public class SmsObserver extends ContentObserver {
     @Override
     public void onChange(boolean selfChange) {
         super.onChange(selfChange);
-        Logger.e("sms is coming...");
-        handler.sendEmptyMessage(101);
+//        Logger.e("sms is coming...");
+//        handler.sendEmptyMessage(101);
     }
 }

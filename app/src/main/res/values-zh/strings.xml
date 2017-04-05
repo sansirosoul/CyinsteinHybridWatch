@@ -1,7 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Hybrid Watch</string>
+    <string name="press_again_exit">再按一次退出程序</string>
+    <!--蓝牙连接-->
+    <string name="is_open_bluetooth">是否开启手机蓝牙</string>
+    <string name="cancel_open_bluetooth">取消开启</string>
+    <string name="open_bluetooth">开启蓝牙</string>
+    <string name="connect_failed_reconnect">连接失败是否继续连接?</string>
+    <string name="reconnect">重新连接</string>
+    <string name="cancel_connect">取消连接</string>
+    <string name="not_connect_device">未连接到手表！</string>
+
+    <!--健康管理-->
+    <string name="mi">米</string>
+    <string name="km">千米</string>
+    <string name="card">卡</string>
+    <string name="Kcard">千卡</string>
+    <string name="no_over_target">未完成目标，继续加油哦！</string>
+    <string name="sleep_detail">睡眠详情</string>
+    <string name="step_detail">计步详情</string>
+
+    <!--搜索并连接手表对话框-->
+    <string name="scan_connection_device">正在搜索并连接手表...</string>
+    <string name="ok">确定</string>
+    <string name="adgin">取消</string>
+
+    <!--校时页面-->
+    <string name="Synchronization_time">智能校时</string>
+    <string name="Click_Synchronization">请先点击同步按键</string>
+    <string name="Synchronization_step_1">1.请先点击重置按键</string>
+    <string name="Synchronization_step_2">2.调整时、分针，使手表归零后点击同步</string>
+    <string name="Synchronization_time_3">"智能校时成功"</string>
+    <string name="Synchronization_step">请先点击重置按键</string>
+    <string name="on_over_Synchronization">"校时未完成，请点击同步按键完成校时"</string>
+    <string name="connection_device">"已连接到手表设备"</string>
+    <string name="inspect_ble_state">"手表没有连接！请到设置-更换手表界面连接您的手表"</string>
+    <string name="andin_Synchronization_time">"请等待手机同步后,再重试"</string>
+    <string name="hour_hand">时针</string>
+    <string name="minute_hand">分针</string>
+    <string name="small_hand">小针</string>
+    <string name="second_hand">秒针</string>
+    <string name="reset">重置</string>
+    <string name="synchronization">同步</string>
+    <string name="hold_on">请稍等</string>
+
+    <!--计步详情页面-->
+    <string name="step_target_ok">"恭喜,今日目标达成"</string>
+    <string name="no_step_data">"暂无数据"</string>
+    <string name="step_dataday">你今天走了</string>
+    <string name="ye_step_manydata">"比昨天多走了"</string>
+    <string name="ye_step_data">"比昨天少走了"</string>
+    <string name="ye_step_manydataweek">"比上周多走了"</string>
+    <string name="ye_step_dataweek">"比上周少走了"</string>
+    <string name="step_dataweek">"你这周走了"</string>
+    <string name="ye_step_datamonth">"比上月少走了"</string>
+    <string name="ye_step_manydatamonth">"比上月多走了"</string>
+    <string name="step_datamonth">"你这月走了"</string>
+
     <!--引导页面-->
-    <string name="title_exit">返回</string>
     <string name="skip">跳过配对</string>
     <string name="launch01">欢迎使用健康手表</string>
     <string name="launch02">开启您的健康之旅</string>
@@ -14,7 +70,9 @@
     <string name="choose_weight">请选择您的体重</string>
     <string name="choose_height">请选择您的身高</string>
     <string name="choose_birth">请选择您的出生年月</string>
+    <string name="choose_sex">请选择您的性别</string>
     <string name="input_name">请输入您的昵称</string>
+    <string name="name_too_long">您的昵称太长</string>
     <string name="sex">性别</string>
     <string name="male">男</string>
     <string name="female">女</string>
@@ -23,130 +81,232 @@
 
     <!--健康管理-->
     <string name="health_manage">健康管理</string>
-    <string name="mi">米</string>
-    <string name="km">公里</string>
-    <string name="card">卡</string>
-    <string name="Kcard">千卡</string>
-    <string name="no_over_target">未完成目标，继续加油哦！</string>
+    <string name="health_manage2">健康管理（自动监测相关数据）</string>
+    <string name="step">计步</string>
+    <string name="sleep">睡眠</string>
+    <string name="click_cirlce">*点击上方圆环即可进入详情界面</string>
+    <string name="over_target">超额完成目标，再接再励哦！</string>
+    <string name="today_step">今日步数</string>
+    <string name="target">目标:</string>
+    <string name="today_sleep">今日睡眠</string>
+    <string name="sleep_quality">睡眠质量:</string>
+    <string name="hour">小时</string>
+    <string name="minute">分</string>
+    <string name="bad">差</string>
+    <string name="good">良好</string>
+    <string name="last_synchronize_time">最后同步时间  </string>
+    <string name="syncing">正在同步</string>
+    <string name="date">号</string>
+    <string name="update_success">更新完成</string>
+    <string name="message_display">信息展示</string>
+    <string name="sport_time">活动时间</string>
+    <string name="sport_distance">活动距离</string>
+    <string name="energy_waste">热量消耗</string>
+    <string name="deep_time">熟睡时间</string>
+    <string name="low_time">浅睡时间</string>
+    <string name="awake_time">清醒时间</string>
+    <string name="click_right_synchronize">点击右上角同步数据</string>
+    <string name="day">日</string>
+    <string name="week">周</string>
+    <string name="month">月</string>
+    <string name="year">年</string>
+    <string name="Sun">周日</string>
+    <string name="Sat">周六</string>
+    <string name="Fri">周五</string>
+    <string name="Thu">周四</string>
+    <string name="Wed">周三</string>
+    <string name="Tue">周二</string>
+    <string name="Mon">周一</string>
+    <string name="awake">清醒</string>
+    <string name="light_sleep">浅睡</string>
+    <string name="deep_sleep">熟睡</string>
+    <string name="sleeping_time">睡眠时长</string>
+    <string name="light_sleeping_time">浅睡时长</string>
+    <string name="deep_sleeping_time">熟睡时长</string>
+    <string name="awake_times">清醒次数</string>
+    <string name="awake_time2">清醒时长</string>
+    <string name="times">次</string>
 
-    <!--搜索并连接手表对话框-->
-    <string name="scan_connection_device">正在搜索并连接手表...</string>
-    <string name="ok">确定</string>
-    <string name="adgin">取消</string>
+    <!--通知-->
+    <string name="msg_notify">通知</string>
+    <string name="notify_introduce">当您启动消息通知功能后，手表会轻微震动来提醒您。不过此功能长期开启会影响电池的寿命，请问您是否开启？</string>
+    <string name="click_icon">* 您可点击上方图标来选择您要开启的消息通知</string>
 
-    <!--校时页面-->
-    <string name="Synchronization_time">"智能校时"</string>
-    <string name="Click_Synchronization">请先点击同步按键</string>
-    <string name="Synchronization_step_1">1.请先点击重置按键</string>
-    <string name="Synchronization_step_2">2.调整时、分针，使手表归零后点击同步</string>
-    <string name="Synchronization_time_3">"智能校时成功"</string>
-    <string name="Synchronization_step">请先点击重置按键</string>
-    <string name="on_over_Synchronization">"校时未完成，请点击同步按键完成校时"</string>
-    <string name="connection_device">"已连接到手表设备"</string>
-    <string name="inspect_ble_state">"手表没有连接！请到设置-更换手表界面连接您的手表"</string>
-    <string name="andin_Synchronization_time">"请等待手机同步后,再重试"</string>
+    <!--设置-->
+    <string name="setting">设置</string>
+    <string name="watch_setting">手表设置</string>
+    <string name="user_setting">用户设置</string>
+    <string name="update_hardware">更新固件</string>
+    <string name="change_watch">更换手表</string>
+    <string name="rename_watch">重命名手表</string>
+    <string name="rename_success">重命名成功</string>
+    <string name="rename_failed">重命名失败</string>
+    <string name="input_device_name">请输入设备名称!</string>
+    <string name="device_long">设备名称太长!</string>
+    <string name="clock">手表闹铃</string>
+    <string name="clean_watchdata">清除手表资料</string>
+    <string name="clean_phonedata">清除手机资料</string>
+    <string name="anti_lost">防丢失功能</string>
+    <string name="search_watch">查找手表</string>
+    <string name="ble">蓝牙</string>
+    <string name="close_bluetooth">关闭手表蓝牙</string>
+    <string name="timezone">时区</string>
+    <string name="bsl">BSL模式</string>
+    <string name="software_setting">软件设置</string>
+    <string name="sport_sleep_target">运动/睡眠目标</string>
+    <string name="step_num">步</string>
+    <string name="save_success">保存成功</string>
+    <string name="watch_shake_search">手表已震动，请寻找手表！</string>
+    <string name="is_close_bluetooth">是否确定关闭蓝牙？</string>
+    <string name="target_notice">智能手表建议你每晚睡眠7-9小时，同时步行10000步作为日常锻炼计划</string>
+    <string name="sport">运动</string>
+    <string name="suggest">建议值</string>
+    <string name="save">保存</string>
+    <string name="default_range">默认值</string>
+    <string name="watch_shake">手表震动提醒</string>
+
+    <!--更新固件-->
+    <string name="check_update">检查更新</string>
+    <string name="watch_hardware_ver">手表固件版本</string>
+    <string name="watch_num">手表序列号</string>
+    <string name="app_ver">应用程序版本</string>
+    <string name="notice1">1.更新前请确保手表与手机电量充足，并于更新过程中，请勿任意退出程序；</string>
+    <string name="notice2">2.确保设备蓝牙已开启。</string>
+    <string name="watch_battery">手表当前电量：</string>
+    <string name="is_update">检查到新的固件版本，是否立即更新？</string>
+    <string name="the_last_version">已是最新版本！</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    <string name="check_update1">正在检查固件版本，请稍等…</string>
+    <string name="update_failed_again">固件升级失败，请重新升级！</string>
+
+    <string name="change_watch_details">是否更换到另一只手表，更换之后App将与您的新手表进行同步，而被替换的手表数据，已在上一次同步时被保存。</string>
+    <string name="check_update3">正在为您更新固件版本，该过程可能会花费一点时间，请您耐心等候…</string>
+    <string name="check_update4">固件升级完成，感谢您的耐心等待！</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="warn">警告！</string>
+    <string name="clean_watchdata_details">是否确定要从手表中擦除之前收集的所有数据？此操作不可恢复！</string>
+    <string name="clean_phonedata_details">是否确定要从手机中擦除之前收集的所有数据？此操作不可恢复！</string>
+
+    <!--闹钟-->
+    <string name="edit_clock">编辑闹钟</string>
+    <string name="ring_time">贪睡时间</string>
+    <string name="repeat_rate">重复频率</string>
+    <string name="del_clock">删除闹钟</string>
+    <string name="define">自定义</string>
+    <string name="clock_enough">闹钟数量已达上限</string>
+    <string name="set_clock_success">闹钟设置成功</string>
+    <string name="set_clock_failed">闹铃设置失败,请确认手表是否连接正常</string>
+    <string name="none">无</string>
+    <string name="min5">5分钟</string>
+    <string name="min10">10分钟</string>
+    <string name="min15">15分钟</string>
+    <string name="min20">20分钟</string>
+    <string name="min25">25分钟</string>
+    <string name="min30">30分钟</string>
+    <string name="rate1">只响一次</string>
+    <string name="rate2">每天</string>
+    <string name="rate3">周一到周五</string>
+    <string name="rate4">周六、周日</string>
+    <string name="is_delete_clock">是否删除闹钟？</string>
+
+    <!--帮助-->
+    <string name="help">帮助</string>
+    <string name="common_question">通用问题</string>
+    <string name="common_q1">1.从哪些平台上下载手表APP</string>
+    <string name="common_q2">2.更新手表软件</string>
+    <string name="common_q3">3.手表和手机配对</string>
+    <string name="common_q4">4.手表和手机APP无法连接</string>
+    <string name="common_q5">5.APP界面各个模块的使用介绍</string>
+    <string name="common_q6">6.联系我们</string>
+    <string name="hybridwatch">混合动力手表</string>
+    <string name="hybridwatch_series">(Felix系列，Nova系列，EM系列)</string>
+    <string name="hybridwatch_q1">1.智能校时操作</string>
+    <string name="hybridwatch_q2">2.开关手表蓝牙</string>
+    <string name="hybridwatch_q3">3.如何使用Felix和Nova手表</string>
+    <string name="quartzwatch">石英智能手表系列</string>
+    <string name="quartzwatch_series">(Rosen系列,Rose系列,Elves系列)</string>
+    <string name="quartzwatch_q1">1.如何打开手表蓝牙</string>
+    <string name="quartzwatch_a1">为了更好的节省手表电量消耗，智能石英手表的智能模块出厂时是关闭的。\n首次使用，请充下电（红灯亮即可）激活智能模块和蓝牙。</string>
+    <string name="hybridwatch_a11">第一步,进入智能校时界面。\n在APP主界面, 点击“智能校时”模块,进入到智能校时界面</string>
+    <string name="hybridwatch_a12">第二步,手表指针归“零”。\n在智能校时界面,先点击“重置”, 然后分别在APP上调节时针、分针和小针，使手表上的时针和分针指向12点位置，小针指向0点/OK位置。</string>
+    <string name="hybridwatch_a13">第三步，点击“同步”，手表时间和手机时间一致，为当前的互联网时间，手表校时完成。</string>
+    <string name="hybridwatch_a21">1.打开蓝牙\n长按手表按键1秒钟，手表震动一次。小针先指示“ON”后指示计步百分比，则表示蓝牙已打开。</string>
+    <string name="hybridwatch_a221">2.关闭蓝牙</string>
+    <string name="hybridwatch_a222">长按手表按键1秒钟，手表震动一次。小针先指示“</string>
+    <string name="hybridwatch_a223">”后指示计步百分比，则表示蓝牙已关闭。</string>
+    <string name="hybridwatch_a23">另外，也可以在手表APP里面关闭蓝牙，打开“设置”—— “关闭蓝牙”</string>
+    <string name="hybridwatch_a31">一键操作所有功能。\n不同功能的切换，通过按键的时间长短来分别。</string>
+    <string name="hybridwatch_a32">按键功能定义</string>
+    <string name="hybridwatch_a33">①按键（短按一次）\n分针由分指向日期；时针由时指向星期；小针:由每日计步值指向当前电池电量(百分比显示)。5秒钟后，时针和分针自动归位指示时间，小针自动归位指示计步值百分比。</string>
+    <string name="hybridwatch_a34">②按键 长按1秒（手表会震动一次）\n启动/关闭蓝牙，开关蓝牙时小针会指向小针表盘的ON或者飞行模式位置。</string>
+    <string name="hybridwatch_a35">③按键 长按3秒（手表马达震动两次）\n开启并进入指针校准模式，此时按键每短按一次，指针移动一步；时针，分针，小针都校准完成之后可以退出指针校准模式，按键长按3秒（手表会震动一次）即可退出并关闭指针校准模式。</string>
+    <string name="hybridwatch_a36">④长按按键5秒(手表马达联系震动三次）\n开机/关机，关机时时针，分针，小针会指向12点钟方向。</string>
+    <string name="common_a11">苹果用户可以从App Store 下载Hybrid Watch</string>
+    <string name="common_a12">安卓用户可以从以下Android 平台下载Hybrid Watch</string>
+    <string name="common_a13">（1）腾讯应用宝\n（2）Google开发者平台\n（3）联想应用商店\n（4）豌豆荚开发者平台\n（5）小米应用商店 \n（6）华为开发者平台 \n（7）OPPO开发者平台
+    \n（8）360开发者平台\n（9）vivo开发者平台</string>
+    <string name="common_a21">手表软件可以通过Hybrid Watch APP 来更新。</string>
+    <string name="common_a22">在Hybrid Watch APP-设置中，选择更新固件选项。点选后手机APP会自动去侦测手表的固件版本，侦测完毕后如有新固件，只要点选最新固件即可下载并自动更新手表固件</string>
+    <string name="common_a23">注意：当手表固件已是最新版本时，则无法进行更新</string>
+    <string name="common_a41">1.请确保手表和手机的蓝牙都是打开状态</string>
+    <string name="common_a42">2.请确保手表智能模块有足够的电。电量不足会导致智能模块关机，关机状态下蓝牙是关闭的，因此无法与手机APP进行连接。</string>
+    <string name="common_a43">3.如果以上两步操作都完成后，仍然无法连接，则可能是手机本身兼容性的问题。请更换一款手机重新尝试连接。\n目前，我司手表对 ”IOS7.0及以上”和”Android4.3及以上”并同时拥有蓝牙4.0的手机机型基本都支持。但由于Android部分手机机型本身兼容性的问题，也会出现手表和手机连接不稳定或无法连接的情况。</string>
+    <string name="company_name">深圳市松路智能科技有限公司</string>
+    <string name="company_address">深圳市宝安区石岩街道国泰路11号亿和科技工业园4栋5楼</string>
+    <string name="company_tel">0755-27629999 转5015</string>
+    <string name="company_email">service@cyinstein.com</string>
+    <string name="common_a31">1.首先下载我司手表专用的APP —— “Hybrid Watch” (具体下载方法请参照通用问题1)</string>
+    <string name="common_a32">2.打开手表蓝牙和手机蓝牙</string>
+    <string name="common_a33">3.进入到“Hybrid Watch”APP界面 ，首次使用会出现以下界面\n点击“开启您的健康之旅”——正在搜索设备——搜索到的设备（点击相对应的手表）——正在配对（配对成功后进入到下个界面）——个人化设置（填好个人信息）——进入到主界面
+</string>
+    <string name="common_a34">注：手机自带蓝牙界面只可用来显示我司设备是否已连接，而不能在此界面直接进行手表和手机配对。</string>
+    <string name="common_a51">连接手机App，连接完成后点击智能校时，再点击重置（手表指针会指向12点方向），若手表指针未指向12点钟位置,则按住界面上的“+”“-”分别调整手表时针、分针至12点钟位置，小针至0点/ok点位置（具体情况根据手表而定）。然后点击同步（手表指针会指向正确的时间位置）；同步完成后，手表时间为手机时间。</string>
+    <string name="common_a52">消息推送：在手机APP的通知界面中打开通知开关并开启电话，短信，邮件，微信，QQ等消息推送功能，即可使用消息推送功能。当有电话、短信、邮件等来时，手表会使用马达震动通知佩戴者有消息来了。（温馨提示:此功能会使手表续航缩短，因此消息比较多时尽量不要开启震动功能）</string>
+    <string name="common_a53">①计步数据\n
+计步数据有两种方式显示：1）.手表是以百分比的方式进行显示(显示于小针，计步百分比是以每日目标值来计算百分比的,过了每日00:00:00则百分比归零)；2）.连接手机App，连接完成后点击健康管理，直接显示当天的总计步值和活动时间，点击同步按钮，可以显示当前时间之前7天的详细计步数据；同步完成后就会显示出所走的步数、里程等信息。
+</string>
+    <string name="common_a54">②睡眠监控\n手表自动去判断使用者是否已经处于睡眠状态并进行数据记录。连接手机App后，点击同步手表数据，同步完成后就会显示睡眠数据(熟睡、浅睡、睡眠时间等)，手表能保存当前时间之前7天的睡眠数据。</string>
+    <string name="common_a55">①空中升级\n App-设置中，选择更新固件选项。点选后手机APP会自动去侦测手表的固件版本，侦测完毕后如有新固件，只要点选最新固件即可下载并自动更新手表固件(当手表固件已是最新版本时，是无法进行固件更新的)</string>
+    <string name="common_a56">②重命名手表\n在App-设置-重命名手表，可以手动输入手表名称，最多可以输入12个字符，并且只能以字母和数字组合的形式。</string>
+    <string name="common_a57">③闹钟功能\n于手机App进行闹钟设定，可以设置8组闹铃，每组闹铃均可以手动开启和关闭。设置完成后，设定时间到达时会以震动的方式来提醒您。</string>
+    <string name="common_a58">④手表资料清除\nApp-设置-清除手表数据，点选后即可清除手表数据(温馨提示:此功能会将手表内部所有数据清除，包含计步，睡眠，闹铃等信息，非必要性请勿任意点选)</string>
+    <string name="common_a59">⑤查找手表\n点击设置-查找手表后，手表会振动,依此来判断手表振动方位</string>
 
 
-    <!--计步详情页面-->
-    <string name="step_target_ok">"恭喜,今日目标达成"</string>
-    <string name="no_step_data">"暂无数据"</string>
-    <string name="ye_step_manydata">"比昨天多走了"</string>
-    <string name="ye_step_data">"比昨天少走了"</string>
-    <string name="ye_step_manydataweek">"比上周多走了"</string>
-    <string name="ye_step_dataweek">"比上周少走了"</string>
-    <string name="step_dataweek">"你这周走了"</string>
-    <string name="ye_step_datamonth">"比上月少走了"</string>
-    <string name="ye_step_manydatamonth">"比上月多走了"</string>
-    <string name="step_datamonth">"你这月走了"</string>
+
     <!--时区页面-->
     <string name="Time_Zones">"时区"</string>
     <string name="Time_Zones_queryHint">"请输入时区名称"</string>
     <string name="Time_Zones_check_zones">"请先选择时区"</string>
     <string name="Time_Zones_ok">"设置时区成功"</string>
+    <string name="local_timezone">当地时区</string>
 
     <string name="Pacific_Majuro">马朱罗</string>
     <string name="Pacific_Midway">中途岛</string>
     <string name="Pacific_Honolulu">檀香山</string>
     <string name="America_Anchorage">安克雷奇</string>
-    <string name="America_Los_Angeles">洛杉矶/美国太平洋</string>
-    <string name="America_Tijuana">提华纳/美国太平洋</string>
-    <string name="America_Phoenix">凤凰城美国山区</string>
-    <string name="America_Chihuahua">奇瓦瓦</string>
-    <string name="America_Denver">丹佛/美国山区</string>
-    <string name="America_Costa_Rica">哥斯达黎加/美国中部</string>
-    <string name="America_Chicago">芝加哥/美国中部</string>
-    <string name="America_Mexico_City">墨西哥城/美国中部</string>
-    <string name="America_Regina">里贾纳/美国中部</string>
-    <string name="America_Bogota">波哥大/哥伦比亚</string>
-    <string name="America_New_York">纽约/美国东部</string>
-    <string name="America_Caracas">加拉加斯/委内瑞拉</string>
-    <string name="America_Barbados">巴巴多斯/大西洋</string>
-    <string name="America_Manaus">马瑙斯/亚马逊</string>
+    <string name="America_Los_Angeles">洛杉矶</string>
+    <string name="America_Phoenix">凤凰城</string>
+    <string name="America_Chicago">芝加哥</string>
+    <string name="America_New_York">纽约</string>
+    <string name="Canada_Atlantic">大西洋时间</string>
     <string name="America_Santiago">圣地亚哥</string>
-    <string name="America_St_Johns">圣约翰/纽芬兰</string>
     <string name="America_Sao_Paulo">圣保罗</string>
-    <string name="America_Argentina_Buenos_Aires">布宜诺斯艾利斯</string>
-    <string name="America_Godthab">戈特霍布</string>
-    <string name="America_Montevideo">蒙得维的亚/乌拉圭</string>
-    <string name="Atlantic_South_Georgia">南乔治亚</string>
-    <string name="Atlantic_Azores">亚述尔群岛</string>
     <string name="Atlantic_Cape_Verde">佛得角</string>
-    <string name="Africa_Casablanca">卡萨布兰卡</string>
-    <string name="Europe_London">伦敦/格林尼治</string>
-    <string name="Europe_Amsterdam">阿姆斯特丹/中欧</string>
-    <string name="Europe_Belgrade">贝尔格莱德/中欧</string>
-    <string name="Europe_Brussels">布鲁塞尔/中欧</string>
-    <string name="Europe_Sarajevo">萨拉热窝/中欧</string>
-    <string name="Africa_Windhoek">温得和克</string>
-    <string name="Africa_Brazzaville">布拉扎维/西部非洲</string>
-    <string name="Asia_Amman">安曼/东欧</string>
-    <string name="Europe_Athens">雅典/东欧</string>
-    <string name="Asia_Beirut">贝鲁特/东欧</string>
-    <string name="Africa_Cairo">开罗/东欧</string>
-    <string name="Europe_Helsinki">赫尔辛基/东欧</string>
-    <string name="Asia_Jerusalem">耶路撒冷/以色列</string>
-    <string name="Europe_Minsk">明斯克</string>
-    <string name="Africa_Harare">哈拉雷/中部非洲</string>
+    <string name="Europe_London">伦敦</string>
+    <string name="Europe_Brussels">布鲁塞尔</string>
+    <string name="Europe_Athens">雅典</string>
     <string name="Asia_Baghdad">巴格达</string>
-    <string name="Europe_Moscow">莫斯科</string>
-    <string name="Asia_Kuwait">科威特</string>
-    <string name="Africa_Nairobi">内罗毕/东部非洲</string>
-    <string name="Asia_Tehran">德黑兰/伊朗</string>
-    <string name="Asia_Baku">巴库</string>
-    <string name="Asia_Tbilisi">第比利斯</string>
-    <string name="Asia_Yerevan">埃里温</string>
     <string name="Asia_Dubai">迪拜</string>
-    <string name="Asia_Kabul">喀布尔/阿富汗</string>
     <string name="Asia_Karachi">卡拉奇</string>
-    <string name="Asia_Oral">乌拉尔</string>
-    <string name="Asia_Yekaterinburg">叶卡捷林堡</string>
-    <string name="Asia_Calcutta">加尔各答</string>
-    <string name="Asia_Colombo">科伦坡</string>
-    <string name="Asia_Katmandu">加德满都/尼泊尔</string>
     <string name="Asia_Almaty">阿拉木图</string>
-    <string name="Asia_Rangoon">仰光/缅甸</string>
-    <string name="Asia_Krasnoyarsk">克拉斯诺亚尔斯克</string>
     <string name="Asia_Bangkok">曼谷</string>
-    <string name="Asia_Shanghai">北京/中国</string>
-    <string name="Asia_Hong_Kong">香港/中国</string>
-    <string name="Asia_Irkutsk">伊尔库茨克</string>
-    <string name="Asia_Kuala_Lumpur">吉隆坡</string>
-    <string name="Australia_Perth">佩思</string>
-    <string name="Asia_Taipei">台北时间 (台北)</string>
-    <string name="Asia_Seoul">首尔</string>
-    <string name="Asia_Tokyo">东京/日本</string>
-    <string name="Asia_Yakutsk">雅库茨克</string>
-    <string name="Australia_Adelaide">阿德莱德</string>
-    <string name="Australia_Darwin">达尔文</string>
+    <string name="Asia_Shanghai">北京</string>
+    <string name="Asia_Tokyo">东京</string>
     <string name="Australia_Brisbane">布里斯班</string>
-    <string name="Australia_Hobart">霍巴特</string>
     <string name="Australia_Sydney">悉尼</string>
-    <string name="Asia_Vladivostok">符拉迪沃斯托克/海参崴</string>
-    <string name="Pacific_Guam">关岛</string>
-    <string name="Asia_Magadan">马加丹</string>
-    <string name="Pacific_Auckland">奥克兰</string>
-    <string name="Pacific_Fiji">斐济</string>
-    <string name="Pacific_Tongatapu">东加塔布</string>
 
 
 

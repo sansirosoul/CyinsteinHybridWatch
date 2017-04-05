@@ -36,5 +36,5 @@
     <color name="v21color_bg">#2B2B2B</color>
     <color name="v21color_qg">#212121</color>
     <color name="zones_qg">#1B1B1B</color>
-
+    <color name="help_text">#b4b4b4</color>
 </resources>

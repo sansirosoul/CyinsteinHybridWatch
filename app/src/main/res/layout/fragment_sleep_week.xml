@@ -119,10 +119,10 @@
                         android:layout_centerVertical="true"
                         android:drawableLeft="@drawable/page20_qingxing"
                         android:drawablePadding="5dp"
-                        android:paddingLeft="35dp"
+                        android:layout_marginLeft="35dp"
                         android:textColor="@color/white"
 
-                        android:text="清醒" />
+                        android:text="@string/awake" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -130,10 +130,8 @@
                         android:layout_centerInParent="true"
                         android:drawableLeft="@drawable/page20_qianshui"
                         android:drawablePadding="5dp"
-                        android:paddingLeft="35dp"
                         android:textColor="@color/white"
-
-                        android:text="浅睡" />
+                        android:text="@string/light_sleep" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -142,10 +140,9 @@
                         android:layout_centerVertical="true"
                         android:drawableLeft="@drawable/page20_shushui"
                         android:drawablePadding="5dp"
-                        android:paddingRight="35dp"
+                        android:layout_marginRight="35dp"
                         android:textColor="@color/white"
-
-                        android:text="熟睡" />
+                        android:text="@string/deep_sleep" />
 
 
                 </RelativeLayout>
@@ -178,7 +175,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:textColor="@color/white"
-                            android:text="睡眠时长" />
+                            android:text="@string/sleeping_time" />
 
                         <LinearLayout
                             android:id="@+id/ll_sleep"
@@ -200,23 +197,22 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="小时"
+                                android:text="@string/hour"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
                             <TextView
+                                android:id="@+id/tv_sleeptime2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:visibility="invisible"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="分钟"
-                                android:visibility="invisible"
+                                android:text="@string/minute"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
@@ -252,7 +248,7 @@
                             android:layout_centerInParent="true"
                             android:textColor="@color/white"
 
-                            android:text="浅睡时长" />
+                            android:text="@string/light_sleeping_time" />
 
                         <LinearLayout
                             android:id="@+id/ll_sleep"
@@ -274,24 +270,22 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="小时"
+                                android:text="@string/hour"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
                             <TextView
+                                android:id="@+id/tv_lightsleepTime2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:visibility="invisible"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="分钟"
-                                android:visibility="invisible"
-
+                                android:text="@string/minute"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
@@ -327,7 +321,7 @@
                             android:layout_centerInParent="true"
                             android:textColor="@color/white"
 
-                            android:text="熟睡时长" />
+                            android:text="@string/deep_sleeping_time" />
 
                         <LinearLayout
                             android:id="@+id/ll_sleep"
@@ -349,23 +343,22 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="小时"
+                                android:text="@string/hour"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
                             <TextView
+                                android:id="@+id/tv_sleepingtime2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:visibility="invisible"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="分钟"
-                                android:visibility="invisible"
+                                android:text="@string/minute"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
@@ -470,7 +463,7 @@
                             android:layout_centerInParent="true"
                             android:textColor="@color/white"
 
-                            android:text="清醒时长" />
+                            android:text="@string/awake_time2" />
 
                         <LinearLayout
                             android:id="@+id/ll_sleep"
@@ -492,23 +485,22 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="小时"
+                                android:text="@string/hour"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
                             <TextView
+                                android:id="@+id/tv_awakeTime2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:visibility="invisible"
                                 android:textColor="@color/text_bg"
                                 android:textSize="23dp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="分钟"
-                                android:visibility="invisible"
+                                android:text="@string/minute"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 
@@ -544,7 +536,7 @@
                             android:layout_centerInParent="true"
                             android:textColor="@color/white"
 
-                            android:text="清醒次数" />
+                            android:text="@string/awake_times" />
 
                         <LinearLayout
                             android:id="@+id/ll_sleep"
@@ -566,7 +558,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="次"
+                                android:text="@string/times"
                                 android:textColor="@color/white"
                                 android:textSize="10dp" />
 

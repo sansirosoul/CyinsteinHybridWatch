@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="只响一次"
+            android:text="@string/rate1"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="每天"
+            android:text="@string/rate2"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="周一到周五"
+            android:text="@string/rate3"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -119,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="周六、周日"
+            android:text="@string/rate4"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -149,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:text="自定义"
+            android:text="@string/define"
             android:textColor="@color/black"
             android:textSize="18sp" />
 

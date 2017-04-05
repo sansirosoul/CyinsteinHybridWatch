@@ -21,7 +21,7 @@
         android:layout_height="0dp">
         <TextView
             android:layout_centerVertical="true"
-            android:text="无"
+            android:text="@string/none"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_marginLeft="20dp"
@@ -47,7 +47,7 @@
         android:layout_height="0dp">
         <TextView
             android:layout_centerVertical="true"
-            android:text="5分钟"
+            android:text="@string/min5"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_marginLeft="20dp"
@@ -73,7 +73,7 @@
         android:layout_height="0dp">
         <TextView
             android:layout_centerVertical="true"
-            android:text="10分钟"
+            android:text="@string/min10"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_marginLeft="20dp"
@@ -99,7 +99,7 @@
         android:layout_height="0dp">
         <TextView
             android:layout_centerVertical="true"
-            android:text="15分钟"
+            android:text="@string/min15"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_marginLeft="20dp"
@@ -125,7 +125,7 @@
         android:layout_height="0dp">
         <TextView
             android:layout_centerVertical="true"
-            android:text="20分钟"
+            android:text="@string/min20"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_marginLeft="20dp"
@@ -152,7 +152,7 @@
         android:layout_height="0dp">
         <TextView
             android:layout_centerVertical="true"
-            android:text="25分钟"
+            android:text="@string/min25"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_marginLeft="20dp"
@@ -179,7 +179,7 @@
         android:layout_height="0dp">
         <TextView
             android:layout_centerVertical="true"
-            android:text="30分钟"
+            android:text="@string/min30"
             android:textColor="@color/black"
             android:textSize="18sp"
             android:layout_marginLeft="20dp"

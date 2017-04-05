@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import rx.Observable;
@@ -35,8 +36,11 @@ public class CleanWatchData extends BaseActivity implements View.OnClickListener
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")){
             bleUtils = new BleUtils();
-            connectionObservable=getRxObservable(this);
-            Notify(connectionObservable);
+            if(!GazelleApplication.isBleConnected){
+                connectBLEbyMac(address);
+            }else{
+                setNotifyCharacteristic();
+            }
         }
     }
 
@@ -54,8 +58,9 @@ public class CleanWatchData extends BaseActivity implements View.OnClickListener
                 finish();
                 break;
             case R.id.confirm:
-                if(connectionObservable!=null)
-                Write(bleUtils.eraseWatchData(), connectionObservable);
+                if(GazelleApplication.isBleConnected){
+                    writeCharacteristic(bleUtils.eraseWatchData());
+                }
                 finish();
                 break;
         }

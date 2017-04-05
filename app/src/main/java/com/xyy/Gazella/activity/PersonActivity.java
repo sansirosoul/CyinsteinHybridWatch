@@ -21,8 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.pickerview.TimePickerView;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.kevin.crop.UCrop;
 import com.polidea.rxandroidble.RxBleConnection;
+import com.vise.baseble.ViseBluetooth;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CalendarDialog;
 import com.xyy.Gazella.utils.HeightDialog;
@@ -32,6 +35,7 @@ import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -97,9 +101,33 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         initView();
         bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);
-        if (address != null && !address.equals("")) {
-            connectionObservable = getRxObservable(this);
-            Notify(connectionObservable);
+//        if (address != null && !address.equals("")) {
+////            connectionObservable = getRxObservable(this);
+////            Notify(connectionObservable);
+//            if(!GazelleApplication.isBleConnected){
+//                connectBLEbyMac(address);
+//            }else{
+//                setNotifyCharacteristic();
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        writeCharacteristic(bleUtils.getDeviceType());
+//                    }
+//                },500);
+//            }
+//        }
+    }
+
+    @Override
+    public void onConnectionState(int state) {
+        if(state==1){
+            setNotifyCharacteristic();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    writeCharacteristic(bleUtils.getDeviceType());
+                }
+            },500);
         }
     }
 
@@ -219,7 +247,8 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         weightDialog = new WeightDialog(context);
         weightDialog.setOnSelectedListener(wOnSelectedListener);
 
-//        File f = new File(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
+        File f = new File(Environment.getExternalStorageDirectory() + "/" + "userImage.png");
+        f.delete();
 //        if (!f.exists())
 //            head.setBackground(getResources().getDrawable(R.drawable.page5_head_portrait));
 //        else
@@ -254,6 +283,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 weightDialog.show();
                 break;
             case R.id.back:
+                ViseBluetooth.getInstance().clear();
                 Intent backIntent = new Intent(context, PairingActivity.class);
                 startActivity(backIntent);
                 finish();
@@ -261,10 +291,17 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.go:
                 if (edName.getText() == null || edName.getText().toString().equals("")) {
+                    YoYo.with(Techniques.Shake).duration(700).playOn(findViewById(R.id.ed_name));
                     Toast.makeText(context, R.string.input_name, Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (edName.getText().toString().length() > 20) {
+                    YoYo.with(Techniques.Shake).duration(700).playOn(findViewById(R.id.ed_name));
+                    Toast.makeText(context, R.string.name_too_long, Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(tvBirth.getText().equals(getResources().getString(R.string.choose_birth))){
+                    YoYo.with(Techniques.Shake).duration(700).playOn(findViewById(R.id.tv_birth));
                     Toast.makeText(context, R.string.choose_birth, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -273,10 +310,12 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                     return;
                 }
                 if(tvHeight.getText().equals(getResources().getString(R.string.choose_height))){
+                    YoYo.with(Techniques.Shake).duration(700).playOn(findViewById(R.id.tv_height));
                     Toast.makeText(context, R.string.choose_height, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(tvWeight.getText().equals(getResources().getString(R.string.choose_weight))){
+                    YoYo.with(Techniques.Shake).duration(700).playOn(findViewById(R.id.tv_weight));
                     Toast.makeText(context, R.string.choose_weight, Toast.LENGTH_SHORT).show();
                     return;
                 }

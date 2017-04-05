@@ -1,14 +1,17 @@
 package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.xyy.Gazella.utils.BleUtils;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import butterknife.BindView;
@@ -44,7 +47,7 @@ public class TargetActivity extends BaseActivity {
     Button butDefault;
 
     private int max, hours, min;
-
+    private BleUtils bleUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +55,48 @@ public class TargetActivity extends BaseActivity {
         setContentView(R.layout.activity_target);
         ButterKnife.bind(this);
         initView();
+        if(GazelleApplication.isBleConnected){
+            setNotifyCharacteristic();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    writeCharacteristic(bleUtils.getStepTarget());
+                }
+            },300);
+        }
+    }
+
+    @Override
+    protected void onReadReturn(byte[] bytes) {
+        super.onReadReturn(bytes);
+        if(bytes!=null&&bytes.length!=0){
+            if(bytes[0]==0x07&&bytes[1]==0x28&&bytes[2]==0x01){
+                showToatst(TargetActivity.this,getResources().getString(R.string.save_success));
+                max = targetSleepSeekBar.getProgress() * 30;
+                hours = max / 60;
+                min = max % 60;
+                PreferenceData.setTargetRunValue(TargetActivity.this,targetRunSeekBar.getProgress()*100);
+                PreferenceData.setTargetSleepSeekBarValue(TargetActivity.this,targetSleepSeekBar.getProgress());
+                PreferenceData.setTargetSleepHourValue(TargetActivity.this,hours);
+                PreferenceData.setTargetSleepMinuteValue(TargetActivity.this,min);
+            }else if(bleUtils.returnStepTarget(bytes)!=-1){
+                int target = bleUtils.returnStepTarget(bytes);
+                PreferenceData.setTargetRunValue(this,target);
+                targetRunSeekBar.setProgress(target/100);
+                targetWalkText.setText(String.valueOf(target)+ getResources().getString(R.string.step_num));
+            }
+        }
     }
 
     private void initView() {
-        TVTitle.setText("运动/睡眠目标");
+        bleUtils = new BleUtils();
+        TVTitle.setText(getResources().getString(R.string.sport_sleep_target));
         setDefault();
-        targetRunSeekBar.setProgress(PreferenceData.getTargetRunValue(TargetActivity.this)/100);
+//        targetRunSeekBar.setProgress(PreferenceData.getTargetRunValue(TargetActivity.this)/100);
         targetSleepSeekBar.setProgress(PreferenceData.getTargetSleepSeekBarValue(TargetActivity.this));
         targetSleepHourText.setText(String.valueOf(PreferenceData.getTargetSleepHourValue(TargetActivity.this)));
         targetSleepMinuteText.setText(String.valueOf(PreferenceData.getTargetSleepMinuteValue(TargetActivity.this)));
-        targetWalkText.setText(String.valueOf(PreferenceData.getTargetRunValue(TargetActivity.this))+ "步数");
+//        targetWalkText.setText(String.valueOf(PreferenceData.getTargetRunValue(TargetActivity.this))+ getResources().getString(R.string.step_num));
         targetRunSeekBar.setOnSeekBarChangeListener(new monlistener());
         targetSleepSeekBar.setOnSeekBarChangeListener(new monlistener());
 
@@ -76,19 +111,10 @@ public class TargetActivity extends BaseActivity {
                 break;
             case R.id.btnOpt:
                 break;
-
-
             case R.id.TVTitle:
                 break;
             case R.id.but_save:
-                max = targetSleepSeekBar.getProgress() * 30;
-                hours = max / 60;
-                min = max % 60;
-                PreferenceData.setTargetRunValue(TargetActivity.this,targetRunSeekBar.getProgress()*100);
-                PreferenceData.setTargetSleepSeekBarValue(TargetActivity.this,targetSleepSeekBar.getProgress());
-                PreferenceData.setTargetSleepHourValue(TargetActivity.this,hours);
-                PreferenceData.setTargetSleepMinuteValue(TargetActivity.this,min);
-                showToatst(TargetActivity.this,"保存成功");
+                writeCharacteristic(bleUtils.setStepTarget(targetRunSeekBar.getProgress()*100));
                 break;
             case R.id.but_default:
                 setDefault();
@@ -102,7 +128,7 @@ public class TargetActivity extends BaseActivity {
         hours = 8;
         min = 0;
         targetWalkText.setText(targetRunSeekBar.getProgress() * 100
-                +"步数");
+                +getResources().getString(R.string.step_num));
         targetSleepHourText.setText(String.valueOf(hours));
         targetSleepMinuteText.setText(String.valueOf(min));
     }
@@ -117,9 +143,9 @@ public class TargetActivity extends BaseActivity {
                 switch (seekBar.getId()) {
                     case target_run_SeekBar:
                         if (progress != 0) {
-                            targetWalkText.setText(progress * 100 + "步数");
+                            targetWalkText.setText(progress * 100 + getResources().getString(R.string.step_num));
                         } else
-                            targetWalkText.setText(progress * 100 + "步数");
+                            targetWalkText.setText(progress * 100 + getResources().getString(R.string.step_num));
                         break;
                     case R.id.target_sleep_SeekBar:
                         max = progress * 30;

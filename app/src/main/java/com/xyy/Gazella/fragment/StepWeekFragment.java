@@ -83,7 +83,7 @@ public class StepWeekFragment extends BaseFragment {
     @BindView(R.id.tv_manystep)
     TextView tvManystep;
     private View view;
-    private String[] XString = new String[]{"周日", "周一", "周二", "周三", "周四", "周五", "周六",};
+    private String[] XString;
     private String[] xValue = new String[]{"0", "0", "0", "0", "0", "0", "0"};
     private String[] netWeekStep = new String[]{"0", "0", "0", "0", "0", "0", "0"};
     private int[] second = new int[7];
@@ -106,8 +106,9 @@ public class StepWeekFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_step_week, container, false);
-
         ButterKnife.bind(this, view);
+        XString = new String[]{getResources().getString(R.string.Sun), getResources().getString(R.string.Mon),getResources().getString(R.string.Tue),
+                getResources().getString(R.string.Wed), getResources().getString(R.string.Thu), getResources().getString(R.string.Fri), getResources().getString(R.string.Sat)};
         initChart();
         initLldate();
         initData(weekMap);
@@ -133,21 +134,21 @@ public class StepWeekFragment extends BaseFragment {
             sumsKm += (km[k]);
             sumsCalcalNum += calcalNum[k];
         }
-        if (sumsSecond < 60) {
+        if (sumsSecond >= 60 && sumsSecond<3600) {
             tvNumMinute.setText(String.valueOf(sumsSecond / 60));
             if (tvNumHour.getVisibility() == View.VISIBLE || tvHour.getVisibility() == View.VISIBLE) {
                 tvNumHour.setVisibility(View.INVISIBLE);
                 tvHour.setVisibility(View.INVISIBLE);
             }
             tvNumMinute.setText(String.valueOf(sumsSecond ));
-        } else if (sumsSecond > 60 ) {
+        } else if (sumsSecond >= 3600 ) {
             if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                 tvNumHour.setVisibility(View.VISIBLE);
                 tvHour.setVisibility(View.VISIBLE);
             }
-            tvNumHour.setText(String.valueOf(sumsSecond /60));
-            tvNumMinute.setText(String.valueOf((sumsSecond % 360) / 60));
-        } else if (sumsSecond == 0) {
+            tvNumHour.setText(String.valueOf(sumsSecond /3600));
+            tvNumMinute.setText(String.valueOf((sumsSecond % 3600) / 60));
+        } else {
             if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                 tvNumHour.setVisibility(View.VISIBLE);
                 tvHour.setVisibility(View.VISIBLE);
@@ -160,14 +161,23 @@ public class StepWeekFragment extends BaseFragment {
             tvNumMi.setText(String.valueOf((int) sumsKm));
             tvMi.setText(getResources().getString(R.string.mi));
         } else {
-            tvNumMi.setText(String.valueOf(new SomeUtills().changeDouble(sumsKm)));
+            if(new SomeUtills().changeDouble(sumsKm)>9999){
+                tvNumMi.setText(">9999");
+            }else{
+                tvNumMi.setText(String.valueOf(new SomeUtills().changeDouble(sumsKm)));
+            }
             tvMi.setText(getResources().getString(R.string.km));
         }
         if (sumsCalcalNum < 1000) {
             tvNumCard.setText(String.valueOf(sumsCalcalNum));
             tvCard.setText(getResources().getString(R.string.card));
         } else {
-            tvNumCard.setText(String.valueOf(new SomeUtills().changeDouble(sumsCalcalNum)));
+            if(new SomeUtills().changeDouble(sumsCalcalNum)>9999){
+                tvNumCard.setText(">9999");
+            }else{
+                tvNumCard.setText(String.valueOf(new SomeUtills().changeDouble(sumsCalcalNum)));
+            }
+
             tvCard.setText(getResources().getString(R.string.Kcard));
         }
         tvSumsnum.setText(String.valueOf(sumsStep));
@@ -293,8 +303,8 @@ public class StepWeekFragment extends BaseFragment {
         mChart.getAxisRight().setEnabled(false);
 
         mChart.getAxisLeft().setSpaceBottom(0);
-        mChart.getAxisLeft().setMaxWidth(35f);
-        mChart.getAxisLeft().setMinWidth(35f);
+        mChart.getAxisLeft().setMaxWidth(40f);
+        mChart.getAxisLeft().setMinWidth(40f);
         mChart.getAxisLeft().setStartAtZero(false);
         mChart.getAxisLeft().setLabelCount(6, true);
         // setting data

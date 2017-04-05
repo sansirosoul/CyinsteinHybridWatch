@@ -22,6 +22,7 @@ import com.xyy.Gazella.view.SwitchView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
+import com.ysp.newband.WacthSeries;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -82,7 +83,11 @@ public class NotificationActivty extends BaseActivity {
         }
         toggleNotificationListenerService(this);
         getPermission();
-        PreferenceData.setNotificationShakeState(this,1);
+        if (PreferenceData.getDeviceType(this) != null) {
+            if (PreferenceData.getDeviceType(this).equals(WacthSeries.CT003)) {
+                PreferenceData.setNotificationShakeState(this, 1);
+            }
+        }
     }
 
     public void toggleNotificationListenerService(Context context) {
@@ -116,25 +121,22 @@ public class NotificationActivty extends BaseActivity {
     }
 
     //sdk6.0以上获取权限
-    private void getPermission(){
-        MPermissions.requestPermissions(NotificationActivty.this, 100, Manifest.permission.RECEIVE_SMS);
+    private void getPermission() {
         MPermissions.requestPermissions(NotificationActivty.this, 100, Manifest.permission.READ_PHONE_STATE);
         MPermissions.requestPermissions(NotificationActivty.this, 100, Manifest.permission.MODIFY_PHONE_STATE);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        MPermissions.onRequestPermissionsResult(this,requestCode,permissions,grantResults);
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
     @PermissionGrant(100)
-    public void requestSdcardSuccess()
-    {
+    public void requestSdcardSuccess() {
     }
 
     @PermissionDenied(100)
-    public void requestSdcardFailed()
-    {
+    public void requestSdcardFailed() {
     }
 
     private void initView() {

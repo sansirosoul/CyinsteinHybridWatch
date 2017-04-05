@@ -69,25 +69,25 @@ public class ClockDialog1 extends Dialog implements View.OnClickListener{
         rl25.setOnClickListener(this);
         rl30.setOnClickListener(this);
 
-        if(ringtime.equals("无")){
+        if(ringtime.equals(context.getResources().getString(R.string.none))){
             iv.setBackgroundResource(R.drawable.page36_sel);
         }
-        if(ringtime.equals("5分钟")){
+        if(ringtime.equals(context.getResources().getString(R.string.min5))){
             iv5.setBackgroundResource(R.drawable.page36_sel);
         }
-        if(ringtime.equals("10分钟")){
+        if(ringtime.equals(context.getResources().getString(R.string.min10))){
             iv10.setBackgroundResource(R.drawable.page36_sel);
         }
-        if(ringtime.equals("15分钟")){
+        if(ringtime.equals(context.getResources().getString(R.string.min15))){
             iv15.setBackgroundResource(R.drawable.page36_sel);
         }
-        if(ringtime.equals("20分钟")){
+        if(ringtime.equals(context.getResources().getString(R.string.min20))){
             iv20.setBackgroundResource(R.drawable.page36_sel);
         }
-        if(ringtime.equals("25分钟")){
+        if(ringtime.equals(context.getResources().getString(R.string.min25))){
             iv25.setBackgroundResource(R.drawable.page36_sel);
         }
-        if(ringtime.equals("30分钟")){
+        if(ringtime.equals(context.getResources().getString(R.string.min30))){
             iv30.setBackgroundResource(R.drawable.page36_sel);
         }
     }
@@ -113,31 +113,31 @@ public class ClockDialog1 extends Dialog implements View.OnClickListener{
                 dismiss();
                 break;
             case R.id.rl:
-                mOnClickListener.onClick("无");
+                mOnClickListener.onClick(context.getResources().getString(R.string.none));
                 dismiss();
                 break;
             case R.id.rl5:
-                mOnClickListener.onClick("5分钟");
+                mOnClickListener.onClick(context.getResources().getString(R.string.min5));
                 dismiss();
                 break;
             case R.id.rl10:
-                mOnClickListener.onClick("10分钟");
+                mOnClickListener.onClick(context.getResources().getString(R.string.min10));
                 dismiss();
                 break;
             case R.id.rl15:
-                mOnClickListener.onClick("15分钟");
+                mOnClickListener.onClick(context.getResources().getString(R.string.min15));
                 dismiss();
                 break;
             case R.id.rl20:
-                mOnClickListener.onClick("20分钟");
+                mOnClickListener.onClick(context.getResources().getString(R.string.min20));
                 dismiss();
                 break;
             case R.id.rl25:
-                mOnClickListener.onClick("25分钟");
+                mOnClickListener.onClick(context.getResources().getString(R.string.min25));
                 dismiss();
                 break;
             case R.id.rl30:
-                mOnClickListener.onClick("30分钟");
+                mOnClickListener.onClick(context.getResources().getString(R.string.min30));
                 dismiss();
                 break;
         }

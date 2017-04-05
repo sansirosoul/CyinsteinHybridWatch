@@ -412,20 +412,20 @@
                    android:layout_height="match_parent"
                    android:text="GMT+08:00 中国标准时间"
                    android:textColor="#808080"
-                   android:textSize="12dp"
+                   android:textSize="15sp"
                    android:gravity="center"
                    android:layout_marginRight="10dp"
                    />
             </RelativeLayout>
             <View
-                android:visibility="gone"
+                android:visibility="visible"
                 android:background="#2c2c2c"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
             <RelativeLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/rl_update_bsl"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
@@ -438,7 +438,7 @@
                    android:layout_height="wrap_content" />
                <TextView
                    android:layout_toRightOf="@+id/iv10"
-                   android:text="手表震动提醒"
+                   android:text="@string/watch_shake"
                    android:textSize="17sp"
                    android:textColor="@color/white"
                    android:layout_marginLeft="15dp"
@@ -446,15 +446,6 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:id="@+id/textView3" />
-                <!--<ToggleButton-->
-                    <!--android:background="@drawable/selector_setting"-->
-                    <!--android:layout_alignParentRight="true"-->
-                    <!--android:layout_centerVertical="true"-->
-                    <!--android:textOn=""-->
-                    <!--android:textOff=""-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content" />-->
                <com.xyy.Gazella.view.SwitchView
                android:id="@+id/v_switch"
                android:layout_width="45dip"

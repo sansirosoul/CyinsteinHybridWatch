@@ -7,7 +7,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -16,7 +15,6 @@ import android.os.SystemClock;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.ysp.hybridtwatch.R;
@@ -64,14 +62,17 @@ public class AnalogClock extends View {
 
     public AnalogClock(Context context) {
         this(context, null);
+        this.mContext=context;
     }
 
     public AnalogClock(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+        this.mContext=context;
     }
 
     public AnalogClock(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.mContext=context;
         r = getContext().getResources();
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomAnalogClock, defStyle, 0);
@@ -84,7 +85,7 @@ public class AnalogClock extends View {
         if (mDial == null || mMinuteHand == null) {
             mDial = r.getDrawable(R.drawable.page12_biaopan);
             // mHourHand = r.getDrawable(R.drawable.page12_hour_selected);
-            mMinuteHand = r.getDrawable(R.drawable.page12_minute_selected);
+            mMinuteHand = r.getDrawable(R.drawable.minute_big);
             //  mSecondHand = r.getDrawable(R.drawable.appwidget_clock_second);
 
 
@@ -278,15 +279,16 @@ public class AnalogClock extends View {
         }
         dial.draw(canvas);
         canvas.save();
-        canvas.rotate(mHour / 60.0f * 360.0f, x, y);
+        canvas.rotate(mHour *30.0f, x, y);
 
         if (mHourHand != null) {
             final Drawable hourHand = mHourHand;
             if (changed) {
                 w = hourHand.getIntrinsicWidth();
                 h = hourHand.getIntrinsicHeight();
-                hourHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y
-                        + (h / 2));
+//                hourHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y
+//                        + (h / 2));
+                hourHand.setBounds(x - (w / 2), y - (h / 1)+(w/2), x + (w/2), y+(w/2) );
             }
             hourHand.draw(canvas);
             canvas.restore();
@@ -296,8 +298,9 @@ public class AnalogClock extends View {
         final Drawable minuteHand = mMinuteHand;
         if (changed) {
             w = minuteHand.getIntrinsicWidth();
-            h = minuteHand.getIntrinsicHeight();
-            minuteHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y + (h / 2));
+            h= minuteHand.getIntrinsicHeight();
+//            minuteHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y + (h / 2));
+            minuteHand.setBounds(x - (w / 2), y - (h / 1)+ (w/2), x + (w/2), y+(w/2) );
         }
         minuteHand.draw(canvas);
         canvas.restore();
@@ -315,55 +318,55 @@ public class AnalogClock extends View {
         setContentDescription(contentDescription);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int rx = (int) event.getX() - x;
-        int ry = -((int) event.getY() - y);
-        Point point = new Point(rx, ry);
-        double Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                int mmintes = (int) mMinutes;
-                int mmhour = (int) mHour;
-
-                int Tiemva = (int) Tiemvalue / 6;
-                if(Tiemva>550) Tiemva=0;
-                if(mmintes>55) mmintes=0;
-                if (Tiemva == mmintes || Tiemva + 1 == mmintes || Tiemva + 2 == mmintes || Tiemva + 3 == mmintes || Tiemva + 4 == mmintes ||Tiemva + 5 == mmintes ||
-                        Tiemva - 1 == mmintes || Tiemva - 2 == mmintes || Tiemva - 3 == mmintes || Tiemvalue - 4 == mmintes || Tiemvalue - 5 == mmintes)
-                    isMinutestMove = true;
-                else
-                    isMinutestMove = false;
-
-                if (Tiemva == mmhour || Tiemva + 1 == mmhour || Tiemva + 2 == mmhour || Tiemva + 3 == mmhour || Tiemva + 4 == mmhour ||
-                        Tiemva - 1 == mmhour || Tiemva - 2 == mmhour || Tiemva - 3 == mmhour || Tiemvalue - 4 == mmintes)
-                    isHourMove = true;
-                else
-                    isHourMove = false;
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-
-                if (ChangeTimeType == 1) {  //移动时针
-                    if (isHourMove)
-                        mHour = (int) Tiemvalue / 6;
-                } else {
-                    if (isMinutestMove)
-                        mMinutes = (int) Tiemvalue / 6;
-                }
-                if (isHourMove || isMinutestMove) {
-                    if (changetimelistener != null)
-                        changetimelistener.ChangeTimeListener((int) mMinutes, (int) mHour);
-                }
-                isChangedTime = true;
-                postInvalidate();
-                break;
-            case MotionEvent.ACTION_UP:
-
-                break;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        int rx = (int) event.getX() - x;
+//        int ry = -((int) event.getY() - y);
+//        Point point = new Point(rx, ry);
+//        double Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                int mmintes = (int) mMinutes;
+//                int mmhour = (int) mHour;
+//
+//                int Tiemva = (int) Tiemvalue / 6;
+//                if(Tiemva>550) Tiemva=0;
+//                if(mmintes>55) mmintes=0;
+//                if (Tiemva == mmintes || Tiemva + 1 == mmintes || Tiemva + 2 == mmintes || Tiemva + 3 == mmintes || Tiemva + 4 == mmintes ||Tiemva + 5 == mmintes ||
+//                        Tiemva - 1 == mmintes || Tiemva - 2 == mmintes || Tiemva - 3 == mmintes || Tiemvalue - 4 == mmintes || Tiemvalue - 5 == mmintes)
+//                    isMinutestMove = true;
+//                else
+//                    isMinutestMove = false;
+//
+//                if (Tiemva == mmhour || Tiemva + 1 == mmhour || Tiemva + 2 == mmhour || Tiemva + 3 == mmhour || Tiemva + 4 == mmhour ||
+//                        Tiemva - 1 == mmhour || Tiemva - 2 == mmhour || Tiemva - 3 == mmhour || Tiemvalue - 4 == mmintes)
+//                    isHourMove = true;
+//                else
+//                    isHourMove = false;
+//                break;
+//
+//            case MotionEvent.ACTION_MOVE:
+//
+//                if (ChangeTimeType == 1) {  //移动时针
+//                    if (isHourMove)
+//                        mHour = (int) Tiemvalue / 6;
+//                } else {
+//                    if (isMinutestMove)
+//                        mMinutes = (int) Tiemvalue / 6;
+//                }
+//                if (isHourMove || isMinutestMove) {
+//                    if (changetimelistener != null)
+//                        changetimelistener.ChangeTimeListener((int) mMinutes, (int) mHour);
+//                }
+//                isChangedTime = true;
+//                postInvalidate();
+//                break;
+//            case MotionEvent.ACTION_UP:
+//
+//                break;
+//        }
+//        return true;
+//    }
 
 
     /***
@@ -392,10 +395,11 @@ public class AnalogClock extends View {
      */
 
     public void setTimeValue(int TimeType, float TimeValue) {
-        if (TimeType == 1)
+        if (TimeType == 1){
             mHour = TimeValue;
-        else
+        } else{
             mMinutes = TimeValue;
+        }
         isChangedTime = true;
         postInvalidate();
 

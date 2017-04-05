@@ -51,7 +51,7 @@
                 android:background="@drawable/step_leftbtn_pressed"
                 android:button="@null"
                 android:gravity="center"
-                android:text="日"
+                android:text="@string/day"
                 android:textColor="@color/white" />
 
             <Button
@@ -65,7 +65,7 @@
                 android:button="@null"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:text="周" />
+                android:text="@string/week" />
 
             <Button
                 android:id="@+id/button_month"
@@ -78,18 +78,16 @@
                 android:button="@null"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:text="月" />
+                android:text="@string/month" />
 
         </LinearLayout>
 
 
-
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

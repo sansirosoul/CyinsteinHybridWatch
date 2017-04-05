@@ -12,6 +12,79 @@ public class SleepWeekTime {
     int sleeptime;
     int awakeCount;
 
+    public int getLightsleepHour() {
+        return lightsleepHour;
+    }
+
+    public void setLightsleepHour(int lightsleepHour) {
+        this.lightsleepHour = lightsleepHour;
+    }
+
+    public int getLightsleepMin() {
+        return lightsleepMin;
+    }
+
+    public void setLightsleepMin(int lightsleepMin) {
+        this.lightsleepMin = lightsleepMin;
+    }
+
+    public int getDeepsleepHour() {
+        return deepsleepHour;
+    }
+
+    public void setDeepsleepHour(int deepsleepHour) {
+        this.deepsleepHour = deepsleepHour;
+    }
+
+    public int getDeepsleepMin() {
+        return deepsleepMin;
+    }
+
+    public void setDeepsleepMin(int deepsleepMin) {
+        this.deepsleepMin = deepsleepMin;
+    }
+
+    public int getAwakeHour() {
+        return awakeHour;
+    }
+
+    public void setAwakeHour(int awakeHour) {
+        this.awakeHour = awakeHour;
+    }
+
+    public int getAwakeMin() {
+        return awakeMin;
+    }
+
+    public void setAwakeMin(int awakeMin) {
+        this.awakeMin = awakeMin;
+    }
+
+    int lightsleepHour = 0;
+    int lightsleepMin = 0;
+    int deepsleepHour = 0;
+    int deepsleepMin = 0;
+    int awakeHour = 0;
+    int awakeMin = 0;
+    int sleepHour = 0;
+    int sleepMin= 0;
+
+    public int getSleepHour() {
+        return sleepHour;
+    }
+
+    public void setSleepHour(int sleepHour) {
+        this.sleepHour = sleepHour;
+    }
+
+    public int getSleepMin() {
+        return sleepMin;
+    }
+
+    public void setSleepMin(int sleepMin) {
+        this.sleepMin = sleepMin;
+    }
+
     public int getAwakeCount() {
         return awakeCount;
     }

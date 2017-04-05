@@ -17,6 +17,7 @@
         android:gravity="center">
 
         <ImageView
+            android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/page_logo" />
@@ -62,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/image_time"
                         android:gravity="center"
-                        android:text="智能校时"
+                        android:text="@string/Synchronization_time"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/white" />
                 </LinearLayout>
@@ -93,7 +94,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/image_but"
                         android:gravity="center"
-                        android:text="通知"
+                        android:text="@string/msg_notify"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/white" />
                 </LinearLayout>
@@ -132,7 +133,7 @@
                         android:layout_below="@id/image_but"
                         android:gravity="center"
                         android:layout_marginTop="10dp"
-                        android:text="健康管理"
+                        android:text="@string/health_manage"
                         android:textColor="@color/white" />
                 </LinearLayout>
             </LinearLayout>
@@ -164,7 +165,7 @@
                         android:layout_below="@id/image_but"
                         android:gravity="center"
                         android:layout_marginTop="10dp"
-                        android:text="设置"
+                        android:text="@string/setting"
                         android:textColor="@color/white" />
                 </LinearLayout>
             </LinearLayout>
@@ -202,7 +203,7 @@
                         android:layout_below="@id/image_but"
                         android:gravity="center"
                         android:layout_marginTop="10dp"
-                        android:text="帮助"
+                        android:text="@string/help"
                         android:textColor="@color/white" />
                 </LinearLayout>
 

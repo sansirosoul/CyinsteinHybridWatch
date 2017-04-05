@@ -98,7 +98,7 @@
         SortId="4"
         AppId="wxa9fb9c5fafa90bc8"
         AppSecret="e8be74036d0e6df3855f63c15f34ef2d"
-        BypassApproval="false"
+        BypassApproval="true"
         Enable="true" />
     
     <WechatMoments
@@ -218,7 +218,7 @@
         SortId="20"
         ApiKey="817d5omltkthkx"
         SecretKey="t17mSY3xvNsoxw9u"
-        RedirectUrl="http://sharesdk.cn"
+        RedirectUrl="http://www.cyinstein.com"
 		ShareByAppClient="true"
         Enable="true" />
     

@@ -1,5 +1,9 @@
 package com.xyy.model;
 
+import android.content.Context;
+
+import com.ysp.hybridtwatch.R;
+
 /**
  * Created by Administrator on 2016/10/26.
  */
@@ -80,68 +84,68 @@ public class Clock {
         return super.equals(o);
     }
 
-    public static int transformSnoozeTime(String s) {
+    public static int transformSnoozeTime(Context context,String s) {
         int i = 0;
         if(s!=null){}
-        if (s.equals("5分钟")) i = 1;
-        if (s.equals("10分钟")) i = 2;
-        if (s.equals("15分钟")) i = 3;
-        if (s.equals("20分钟")) i = 4;
-        if (s.equals("25分钟")) i = 5;
-        if (s.equals("30分钟")) i = 6;
+        if (s.equals(context.getResources().getString(R.string.min5))) i = 1;
+        if (s.equals(context.getResources().getString(R.string.min10))) i = 2;
+        if (s.equals(context.getResources().getString(R.string.min15))) i = 3;
+        if (s.equals(context.getResources().getString(R.string.min20))) i = 4;
+        if (s.equals(context.getResources().getString(R.string.min25))) i = 5;
+        if (s.equals(context.getResources().getString(R.string.min30))) i = 6;
         return i;
     }
 
-    public static String transformSnoozeTime2(int i) {
+    public static String transformSnoozeTime2(Context context,int i) {
         String s = null;
-        if (i == 0) s = "无";
-        if (i == 1) s = "5分钟";
-        if (i == 2) s = "10分钟";
-        if (i == 3) s = "15分钟";
-        if (i == 4) s = "20分钟";
-        if (i == 5) s = "25分钟";
-        if (i == 6) s = "30分钟";
+        if (i == 0) s = context.getResources().getString(R.string.none);
+        if (i == 1) s = context.getResources().getString(R.string.min5);
+        if (i == 2) s = context.getResources().getString(R.string.min10);
+        if (i == 3) s = context.getResources().getString(R.string.min15);
+        if (i == 4) s = context.getResources().getString(R.string.min20);
+        if (i == 5) s = context.getResources().getString(R.string.min25);
+        if (i == 6) s = context.getResources().getString(R.string.min30);
         return s;
     }
 
-    public static int transformRate(String s) {
+    public static int transformRate(Context context,String s) {
         int i = 5;
         if(s!=null){
-            if (s.equals("只响一次")) i = 1;
-            if (s.equals("每天")) i = 2;
-            if (s.equals("周一到周五")) i = 3;
-            if (s.equals("周六、周日")) i = 4;
+            if (s.equals(context.getResources().getString(R.string.rate1))) i = 1;
+            if (s.equals(context.getResources().getString(R.string.rate2))) i = 2;
+            if (s.equals(context.getResources().getString(R.string.rate3))) i = 3;
+            if (s.equals(context.getResources().getString(R.string.rate4))) i = 4;
         }
         return i;
     }
 
-    public static String transformRat2(int i) {
+    public static String transformRat2(Context context,int i) {
         String s = null;
-        if (i == 1) s = "只响一次";
-        if (i == 2) s = "每天";
-        if (i == 3) s = "周一到周五";
-        if (i == 4) s = "周六、周日";
+        if (i == 1) s = context.getResources().getString(R.string.rate1);
+        if (i == 2) s = context.getResources().getString(R.string.rate2);
+        if (i == 3) s = context.getResources().getString(R.string.rate3);
+        if (i == 4) s = context.getResources().getString(R.string.rate4);
         return s;
     }
 
-    public static String transformCustom(String bytestr){
-        StringBuilder stringBuilder = new StringBuilder("周");
+    public static String transformCustom(Context context,String bytestr){
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i=bytestr.length()-1;i>=0;i--){
             String s = bytestr.substring(i,i+1);
             if(i==7){
-                if(s.equals("1"))stringBuilder.append(" 一");
+                if(s.equals("1"))stringBuilder.append(context.getResources().getString(R.string.Mon));
             }else if(i==6){
-                if(s.equals("1"))stringBuilder.append(" 二");
+                if(s.equals("1"))stringBuilder.append(context.getResources().getString(R.string.Tue));
             }else if(i==5){
-                if(s.equals("1"))stringBuilder.append(" 三");
+                if(s.equals("1"))stringBuilder.append(context.getResources().getString(R.string.Wed));
             }else if(i==4){
-                if(s.equals("1"))stringBuilder.append(" 四");
+                if(s.equals("1"))stringBuilder.append(context.getResources().getString(R.string.Thu));
             }else if(i==3){
-                if(s.equals("1"))stringBuilder.append(" 五");
+                if(s.equals("1"))stringBuilder.append(context.getResources().getString(R.string.Fri));
             }else if(i==2){
-                if(s.equals("1"))stringBuilder.append(" 六");
+                if(s.equals("1"))stringBuilder.append(context.getResources().getString(R.string.Sat));
             }else if(i==1){
-                if(s.equals("1"))stringBuilder.append(" 日");
+                if(s.equals("1"))stringBuilder.append(context.getResources().getString(R.string.Sun));
             }
         }
         return stringBuilder.toString();

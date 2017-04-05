@@ -10,7 +10,7 @@
         <TextView
             android:layout_marginLeft="20dp"
             android:gravity="center_vertical"
-            android:text="更换手表"
+            android:text="@string/change_watch"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="18sp"

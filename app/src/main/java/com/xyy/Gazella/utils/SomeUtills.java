@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -19,10 +20,12 @@ import com.partner.entity.Partner;
 import com.xyy.Gazella.activity.SleepActivity;
 import com.xyy.Gazella.activity.StepActivity;
 import com.xyy.Gazella.dbmanager.CommonUtils;
+import com.xyy.model.SleepData;
 import com.xyy.model.TimeZonesData;
 import com.ysp.hybridtwatch.R;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,16 +35,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
-import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import rx.Observable;
 import rx.Subscriber;
@@ -94,6 +98,7 @@ public class SomeUtills {
         }
         return weekMap;
     }
+
     public HashMap<String, String> getMonthdate(Date calendar) {
         HashMap<String, String> weekMap = new HashMap<>();
         sdf = new SimpleDateFormat("yyyy.MM.dd");
@@ -101,12 +106,12 @@ public class SomeUtills {
         CalendarInstance.setTime(calendar);
         // 今天是一周中的第几天
         int dayOfWeek = CalendarInstance.get(Calendar.DAY_OF_MONTH);
-        int MaxDay=CalendarInstance.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int MaxDay = CalendarInstance.getActualMaximum(Calendar.DAY_OF_MONTH);
         // 计算一周开始的日期
         CalendarInstance.add(Calendar.DAY_OF_MONTH, -dayOfWeek);
         for (int i = 1; i <= MaxDay; i++) {
             CalendarInstance.add(Calendar.DAY_OF_MONTH, 1);
-            weekMap.put(String.valueOf(i),sdf.format(CalendarInstance.getTime()));
+            weekMap.put(String.valueOf(i), sdf.format(CalendarInstance.getTime()));
         }
         return weekMap;
     }
@@ -322,10 +327,9 @@ public class SomeUtills {
 
 
     public void showShare(final Activity activity) {
-        ShareSDK.initSDK(activity);
         OnekeyShare oks = new OnekeyShare();
         //关闭sso授权
-        oks.disableSSOWhenAuthorize();
+//        oks.disableSSOWhenAuthorize();
 //        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
 //        oks.setTitle("标题");
 //        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
@@ -344,6 +348,7 @@ public class SomeUtills {
 //        oks.setSiteUrl("http://www.cyinstein.com");
 //        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
 
+//         oks.addHiddenPlatform(QZone.NAME);  //隐藏分享
 
         oks.setTitleUrl("http://www.cyinstein.com");
         // text是分享文本，所有平台都需要这个字段
@@ -438,6 +443,49 @@ public class SomeUtills {
         return fff;
     }
 
+    public String[] readOTABin(Context context,String fileName){
+        String[] strings =null;
+        try {
+            int index = 0;
+            DataInputStream dis = new DataInputStream(context.getResources().getAssets().open(fileName));
+            int length = dis.available();
+            strings = new String[length];
+            byte[] b = new byte[1];
+            while (dis.read(b)!=-1){
+                strings[index]=HexString.bytesToHex(b);
+                index++;
+            }
+            dis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return strings;
+    }
+
+    public String[] readOTABin(String path){
+        String[] strings =null;
+        try {
+            int index = 0;
+            File file = new File(path);
+            DataInputStream dis = new DataInputStream(new FileInputStream(file));
+            int length = dis.available();
+            strings = new String[length];
+            byte[] b = new byte[1];
+            while (dis.read(b)!=-1){
+               strings[index]=HexString.bytesToHex(b);
+                index++;
+            }
+            dis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return strings;
+    }
+
     public String getFromAssets(Context context, String fileName) {
         String result = "";
         try {
@@ -458,7 +506,7 @@ public class SomeUtills {
         InputStream in = null;
         try {
             in = context.getAssets().open(fileName);
-            FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" +fileName));
+            FileOutputStream fos = new FileOutputStream(new File(Environment.getExternalStorageDirectory() + "/" + fileName));
             byte[] buffer = new byte[1024];
             int count = 0;
             while (true) {
@@ -475,8 +523,9 @@ public class SomeUtills {
             e.printStackTrace();
         }
     }
-//
-    public  byte[]  setFromAssets(Context context, String fileName) {
+
+    //
+    public byte[] setFromAssets(Context context, String fileName) {
         //getFromAssets(context, fileName);
         File file = new File(Environment.getExternalStorageDirectory() + "/" + fileName);
         StringBuffer stringBuffer = new StringBuffer();
@@ -490,16 +539,16 @@ public class SomeUtills {
                 if (len == -1) {
                     break;
                 }
-                return  buffer;
+                return buffer;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return  buffer;
+        return buffer;
     }
 
     // 读取sdcard文件
-    public StringBuffer sdcardRead(String path){
+    public StringBuffer sdcardRead(String path) {
         StringBuffer sb = new StringBuffer();
         try {
             File filev = new File(path);
@@ -513,14 +562,8 @@ public class SomeUtills {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return  sb;
+        return sb;
     }
-
-
-
-
-
-
 
 
     /**
@@ -541,15 +584,18 @@ public class SomeUtills {
     }
 
     public double changeDouble(Double dou) {
-        dou =dou/1000;
-        NumberFormat nf = new DecimalFormat("0.0 ");
+        dou = dou / 1000.0;
+        DecimalFormat nf = new DecimalFormat("0.0");
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setDecimalSeparator('.');
+        nf.setDecimalFormatSymbols(symbols);
         dou = Double.parseDouble(nf.format(dou));
         return dou;
     }
 
-    public  ArrayList<TimeZonesData>  getTimeZones(Context context) {
-         TimeZonesData data;
-         ArrayList<TimeZonesData> dateList = new ArrayList<TimeZonesData>();
+    public ArrayList<TimeZonesData> getTimeZones(Context context) {
+        TimeZonesData data;
+        ArrayList<TimeZonesData> dateList = new ArrayList<TimeZonesData>();
 
         Resources res = context.getResources();
         XmlResourceParser xrp = res.getXml(R.xml.timezones);
@@ -590,34 +636,10 @@ public class SomeUtills {
                             data.setName(res.getString(R.string.America_Los_Angeles));
                             dateList.add(data);
                         }
-                        if (xrp.getAttributeValue(0).equals("America/Tijuana")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Tijuana));
-                            dateList.add(data);
-                        }
                         if (xrp.getAttributeValue(0).equals("America/Phoenix")) {
                             data = new TimeZonesData();
                             data.setGtm(xrp.getAttributeValue(0));
                             data.setName(res.getString(R.string.America_Phoenix));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("America/Chihuahua")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Chihuahua));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("America/Denver")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Denver));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("America/Costa_Rica")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Costa_Rica));
                             dateList.add(data);
                         }
                         if (xrp.getAttributeValue(0).equals("America/Chicago")) {
@@ -626,46 +648,16 @@ public class SomeUtills {
                             data.setName(res.getString(R.string.America_Chicago));
                             dateList.add(data);
                         }
-                        if (xrp.getAttributeValue(0).equals("America/Mexico_City")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Mexico_City));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("America/Regina")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Regina));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("America/Bogota")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Bogota));
-                            dateList.add(data);
-                        }
                         if (xrp.getAttributeValue(0).equals("America/New_York")) {
                             data = new TimeZonesData();
                             data.setGtm(xrp.getAttributeValue(0));
                             data.setName(res.getString(R.string.America_New_York));
                             dateList.add(data);
                         }
-                        if (xrp.getAttributeValue(0).equals("America/Caracas")) {
+                        if (xrp.getAttributeValue(0).equals("Canada/Atlantic")) {
                             data = new TimeZonesData();
                             data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Caracas));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("America/Barbados")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Barbados));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("America/Manaus")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Manaus));
+                            data.setName(res.getString(R.string.Canada_Atlantic));
                             dateList.add(data);
                         }
                         if (xrp.getAttributeValue(0).equals("America/Santiago")) {
@@ -674,46 +666,10 @@ public class SomeUtills {
                             data.setName(res.getString(R.string.America_Santiago));
                             dateList.add(data);
                         }
-                        if (xrp.getAttributeValue(0).equals("America/St_Johns")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_St_Johns));
-                            dateList.add(data);
-                        }
                         if (xrp.getAttributeValue(0).equals("America/Sao_Paulo")) {
                             data = new TimeZonesData();
                             data.setGtm(xrp.getAttributeValue(0));
                             data.setName(res.getString(R.string.America_Sao_Paulo));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("America/Argentina/Buenos_Aires")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Argentina_Buenos_Aires));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("America/Godthab")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Godthab));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("America/Montevideo")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.America_Montevideo));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Atlantic/South_Georgia")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Atlantic_South_Georgia));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Atlantic/Azores")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Atlantic_Azores));
                             dateList.add(data);
                         }
                         if (xrp.getAttributeValue(0).equals("Atlantic/Cape_Verde")) {
@@ -722,28 +678,10 @@ public class SomeUtills {
                             data.setName(res.getString(R.string.Atlantic_Cape_Verde));
                             dateList.add(data);
                         }
-                        if (xrp.getAttributeValue(0).equals("Africa/Casablanca")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Africa_Casablanca));
-                            dateList.add(data);
-                        }
                         if (xrp.getAttributeValue(0).equals("Europe/London")) {
                             data = new TimeZonesData();
                             data.setGtm(xrp.getAttributeValue(0));
                             data.setName(res.getString(R.string.Europe_London));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Europe/Amsterdam")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Europe_Amsterdam));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Europe/Belgrade")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Europe_Belgrade));
                             dateList.add(data);
                         }
                         if (xrp.getAttributeValue(0).equals("Europe/Brussels")) {
@@ -752,64 +690,10 @@ public class SomeUtills {
                             data.setName(res.getString(R.string.Europe_Brussels));
                             dateList.add(data);
                         }
-                        if (xrp.getAttributeValue(0).equals("Europe/Sarajevo")) {
+                        if (xrp.getAttributeValue(0).equals("Europe/Athens")) {
                             data = new TimeZonesData();
                             data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Europe_Sarajevo));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Africa/Windhoek")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Africa_Windhoek));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Africa/Brazzaville")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Africa_Brazzaville));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Amman")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Amman));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Beirut")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Beirut));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Africa/Cairo")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Africa_Cairo));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Europe/Helsinki")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Europe_Helsinki));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Jerusalem")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Jerusalem));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Europe/Minsk")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Europe_Minsk));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Africa/Harare")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Africa_Harare));
+                            data.setName(res.getString(R.string.Europe_Athens));
                             dateList.add(data);
                         }
                         if (xrp.getAttributeValue(0).equals("Asia/Baghdad")) {
@@ -818,58 +702,10 @@ public class SomeUtills {
                             data.setName(res.getString(R.string.Asia_Baghdad));
                             dateList.add(data);
                         }
-                        if (xrp.getAttributeValue(0).equals("Europe/Moscow")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Europe_Moscow));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Kuwait")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Kuwait));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Africa/Nairobi")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Africa_Nairobi));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Tehran")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Tehran));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Baku")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Baku));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Tbilisi")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Tbilisi));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Yerevan")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Yerevan));
-                            dateList.add(data);
-                        }
                         if (xrp.getAttributeValue(0).equals("Asia/Dubai")) {
                             data = new TimeZonesData();
                             data.setGtm(xrp.getAttributeValue(0));
                             data.setName(res.getString(R.string.Asia_Dubai));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Kabul")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Kabul));
                             dateList.add(data);
                         }
                         if (xrp.getAttributeValue(0).equals("Asia/Karachi")) {
@@ -878,52 +714,10 @@ public class SomeUtills {
                             data.setName(res.getString(R.string.Asia_Karachi));
                             dateList.add(data);
                         }
-                        if (xrp.getAttributeValue(0).equals("Asia/Oral")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Oral));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Yekaterinburg")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Yekaterinburg));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Calcutta")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Calcutta));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Colombo")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Colombo));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Katmandu")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Katmandu));
-                            dateList.add(data);
-                        }
                         if (xrp.getAttributeValue(0).equals("Asia/Almaty")) {
                             data = new TimeZonesData();
                             data.setGtm(xrp.getAttributeValue(0));
                             data.setName(res.getString(R.string.Asia_Almaty));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Rangoon")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Rangoon));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Krasnoyarsk")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Krasnoyarsk));
                             dateList.add(data);
                         }
                         if (xrp.getAttributeValue(0).equals("Asia/Bangkok")) {
@@ -938,64 +732,10 @@ public class SomeUtills {
                             data.setName(res.getString(R.string.Asia_Shanghai));
                             dateList.add(data);
                         }
-                        if (xrp.getAttributeValue(0).equals("Asia/Hong_Kong")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Hong_Kong));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Irkutsk")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Irkutsk));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Kuala_Lumpur")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Kuala_Lumpur));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Australia/Perth")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Australia_Perth));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Taipei")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Taipei));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Seoul")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Seoul));
-                            dateList.add(data);
-                        }
                         if (xrp.getAttributeValue(0).equals("Asia/Tokyo")) {
                             data = new TimeZonesData();
                             data.setGtm(xrp.getAttributeValue(0));
                             data.setName(res.getString(R.string.Asia_Tokyo));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Yakutsk")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Yakutsk));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Australia/Adelaide")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Australia_Adelaide));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Australia/Darwin")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Australia_Darwin));
                             dateList.add(data);
                         }
                         if (xrp.getAttributeValue(0).equals("Australia/Brisbane")) {
@@ -1004,52 +744,10 @@ public class SomeUtills {
                             data.setName(res.getString(R.string.Australia_Brisbane));
                             dateList.add(data);
                         }
-                        if (xrp.getAttributeValue(0).equals("Australia/Hobart")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Australia_Hobart));
-                            dateList.add(data);
-                        }
                         if (xrp.getAttributeValue(0).equals("Australia/Sydney")) {
                             data = new TimeZonesData();
                             data.setGtm(xrp.getAttributeValue(0));
                             data.setName(res.getString(R.string.Australia_Sydney));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Vladivostok")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Vladivostok));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Pacific/Guam")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Pacific_Guam));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Asia/Magadan")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Asia_Magadan));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Pacific/Auckland")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Pacific_Auckland));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Pacific/Fiji")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Pacific_Fiji));
-                            dateList.add(data);
-                        }
-                        if (xrp.getAttributeValue(0).equals("Pacific/Tongatapu")) {
-                            data = new TimeZonesData();
-                            data.setGtm(xrp.getAttributeValue(0));
-                            data.setName(res.getString(R.string.Pacific_Tongatapu));
                             dateList.add(data);
                         }
                     }
@@ -1059,7 +757,7 @@ public class SomeUtills {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return  dateList;
+        return dateList;
     }
 
     public String getZonesTime(String id) {
@@ -1068,17 +766,78 @@ public class SomeUtills {
         time.setToNow();
         int minute = time.minute;
         int hour = time.hour;
-        String  strHour;
+        String strHour;
         String strMinute;
         if (hour < 10)
-            strHour= String.format("%2d", hour).replace(" ", "0");
+            strHour = String.format("%2d", hour).replace(" ", "0");
         else
-            strHour= String.valueOf(hour);
+            strHour = String.valueOf(hour);
         if (minute < 10)
-            strMinute= String.format("%2d", minute).replace(" ", "0");
+            strMinute = String.format("%2d", minute).replace(" ", "0");
         else
-            strMinute= String.valueOf(minute);
-        return strHour + " :" + strMinute;
+            strMinute = String.valueOf(minute);
+        return strHour + " : " + strMinute;
+    }
+
+    /**
+     * 图片的缩放方法
+     *
+     * @param orgBitmap ：源图片资源
+     * @param newWidth  ：缩放后宽度
+     * @param newHeight ：缩放后高度
+     * @return
+     */
+    public static Bitmap getZoomImage(Bitmap orgBitmap, double newWidth, double newHeight) {
+        if (null == orgBitmap) {
+            return null;
+        }
+        if (orgBitmap.isRecycled()) {
+            return null;
+        }
+        if (newWidth <= 0 || newHeight <= 0) {
+            return null;
+        }
+
+        // 获取图片的宽和高
+        float width = orgBitmap.getWidth();
+        float height = orgBitmap.getHeight();
+        // 创建操作图片的matrix对象
+        Matrix matrix = new Matrix();
+        // 计算宽高缩放率
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // 缩放图片动作
+        matrix.postScale(scaleWidth, scaleHeight);
+        Bitmap bitmap = Bitmap.createBitmap(orgBitmap, 0, 0, (int) width, (int) height, matrix, true);
+        return bitmap;
+    }
+
+    public static List<SleepData> sort(List<SleepData> list) {
+        Collections.sort(list, new Comparator<SleepData>() {
+            @Override
+            public int compare(SleepData sleepData, SleepData t1) {
+                if (sleepData.getDate() < t1.getDate()) {
+                    return -1;
+                } else if (sleepData.getDate() == t1.getDate()) {
+                    if (sleepData.getHour() < t1.getHour()) {
+                        return -1;
+                    } else if (sleepData.getHour() == t1.getHour()) {
+                        if (sleepData.getMin() < t1.getMin()) {
+                            return -1;
+                        } else if (sleepData.getMin() == t1.getMin()) {
+                            return 0;
+                        } else {
+                            return 1;
+                        }
+                    } else {
+                        return 1;
+                    }
+                } else {
+                    return 1;
+                }
+            }
+        });
+        return list;
     }
 }
 

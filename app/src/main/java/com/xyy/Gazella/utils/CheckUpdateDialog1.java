@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.PreferenceData;
+import com.ysp.newband.WacthSeries;
 
 import butterknife.BindView;
 
@@ -43,17 +44,24 @@ public class CheckUpdateDialog1 extends Dialog {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                int ver = Integer.parseInt(PreferenceData.getDeviceFwvValue(context));
-                if(ver==11){
-                    Toast.makeText(context,"已是最新版本！",Toast.LENGTH_SHORT).show();
-                    dismiss();
+                if(PreferenceData.getDeviceType(context).equals(WacthSeries.CT003)){
+                    int ver = Integer.parseInt(PreferenceData.getDeviceFwvValue(context));
+                    if(ver==11){
+                        Toast.makeText(context,context.getResources().getString(R.string.the_last_version),Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    }else{
+                        dismiss();
+                        CheckUpdateDialog2 dialog2 = new CheckUpdateDialog2(context);
+                        dialog2.show();
+                    }
                 }else{
                     dismiss();
                     CheckUpdateDialog2 dialog2 = new CheckUpdateDialog2(context);
                     dialog2.show();
                 }
+
             }
-        }, 1000);
+        }, 500);
     }
 
     public void setDialogAttributes(Activity context, final Dialog dialog,

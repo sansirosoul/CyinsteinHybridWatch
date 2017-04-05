@@ -1,6 +1,9 @@
 package com.xyy.Gazella.services;
 
 import android.app.Service;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.ContentObserver;
@@ -12,11 +15,15 @@ import android.os.Process;
 
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
+import com.vise.baseble.ViseBluetooth;
+import com.vise.baseble.callback.IBleCallback;
+import com.vise.baseble.exception.BleException;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 
+import java.util.List;
 import java.util.UUID;
 
 import rx.Observable;
@@ -24,7 +31,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import static com.xyy.Gazella.activity.HealthyActivity.connectionObservable;
+import static com.xyy.Gazella.services.BluetoothService.writeUUID;
 
 /**
  * Created by Administrator on 2017/1/5.
@@ -33,14 +40,18 @@ import static com.xyy.Gazella.activity.HealthyActivity.connectionObservable;
 //短信监听服务
 public class SmsService extends Service {
     public static final String TAG = "SmsService";
+    public final static String serviceUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
+    public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
     private Uri SMS_INBOX = Uri.parse("content://sms/");
     private ContentObserver mObserver;
+    private BluetoothGatt mBluetoothGatt;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Logger.e("SmsService is starting...");
+        mBluetoothGatt=BaseActivity.mBluetoothGatt;
         addSMSObserver();
     }
 
@@ -54,15 +65,48 @@ public class SmsService extends Service {
                         String address = PreferenceData.getAddressValue(SmsService.this);
                         if (address != null && !address.equals("")) {
                             BleUtils bleUtils = new BleUtils();
-                            connectionObservable = BaseActivity.getRxObservable(SmsService.this);
                             int shake = PreferenceData.getNotificationShakeState(SmsService.this);
-                            Write(bleUtils.sendMessage(1, 0, state, 0, 0, shake), connectionObservable);
+                            writeCharacteristic(bleUtils.sendMessage(1, 0, state, 0, 0, shake));
                         }
                     }
                     break;
             }
         }
     };
+
+    public BluetoothGattCharacteristic getWriteCharacteristic() {
+        BluetoothGattCharacteristic gattCharacteristic = null;
+        if (mBluetoothGatt == null)
+            return null;
+        List<BluetoothGattService> services = mBluetoothGatt.getServices();
+        for (int i = 0; i<services.size();i++){
+            BluetoothGattService service = services.get(i);
+            if(service.getUuid().toString().equals(serviceUUID)){
+                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+                for(int j = 0; j<characteristics.size();j++){
+                    BluetoothGattCharacteristic characteristic = characteristics.get(j);
+                    if(characteristic.getUuid().toString().equals(writeUUID)){
+                        gattCharacteristic=characteristic;
+                    }
+                }
+            }
+        }
+        return gattCharacteristic;
+    }
+
+    public void writeCharacteristic(byte[] bytes){
+        ViseBluetooth.getInstance().writeCharacteristic(getWriteCharacteristic(), bytes, new IBleCallback<BluetoothGattCharacteristic>() {
+            @Override
+            public void onSuccess(BluetoothGattCharacteristic bluetoothGattCharacteristic, int type) {
+                Logger.e("发送短信通知成功");
+            }
+
+            @Override
+            public void onFailure(BleException exception) {
+                Logger.e(exception.getDescription());
+            }
+        });
+    }
 
     public void addSMSObserver() {
         ContentResolver resolver = getContentResolver();

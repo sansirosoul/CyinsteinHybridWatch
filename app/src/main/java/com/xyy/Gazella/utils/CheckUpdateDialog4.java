@@ -26,7 +26,7 @@ public class CheckUpdateDialog4 extends BaseActivity {
                 startActivity(intent);
                 finish();
             }
-        },1500);
+        },2000);
     }
 
 }
