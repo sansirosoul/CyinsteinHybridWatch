@@ -98,6 +98,7 @@ public class HealthyActivity extends BaseActivity {
                 connectBLEbyMac(address);
             }
         }
+
         initData();
         initTime();
         install = this;
