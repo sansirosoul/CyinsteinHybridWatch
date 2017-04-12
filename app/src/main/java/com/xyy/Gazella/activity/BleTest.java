@@ -1,10 +1,13 @@
 package com.xyy.Gazella.activity;
 
+import android.Manifest;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,11 +25,18 @@ import com.xyy.Gazella.utils.HexString;
 import com.xyy.Gazella.utils.SomeUtills;
 import com.xyy.Gazella.view.NumberProgressBar;
 import com.xyy.model.SleepData;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionNo;
+import com.yanzhenjie.permission.PermissionYes;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -38,6 +48,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
 /**
  * Created by Administrator on 2016/11/14.
@@ -134,13 +146,17 @@ public class BleTest extends BaseActivity {
     TextView day07;
     @BindView(R.id.updatebar)
     NumberProgressBar updatebar;
+    @BindView(R.id.btn29)
+    Button btn29;
+    @BindView(R.id.content)
+    TextView content;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
     private int direction = 0;
     private int updateLength;
     private int Upadatecount;
-
+    private int buttonType = 0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -150,12 +166,14 @@ public class BleTest extends BaseActivity {
         bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
-            if(!GazelleApplication.isBleConnected){
+            if (!GazelleApplication.isBleConnected) {
                 connectBLEbyMac(address);
-            }else{
+            } else {
                 setNotifyCharacteristic();
             }
         }
+        AndPermission.with(this).requestCode(100).permission(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE).send();
 
         bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
         connectionObservable = getRxObservable(this);
@@ -174,8 +192,50 @@ public class BleTest extends BaseActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @PermissionYes(100)
+    private void getLocationYes(List<String> grantedPermissions) {
+        // TODO 申请权限成功。
+    }
+
+    // 失败回调的方法，用注解即可，里面的数字是请求时的requestCode。
+    @PermissionNo(100)
+    private void getLocationNo(List<String> deniedPermissions) {
+        // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
+    }
+
+
+    private void writeRecord(String text) {
+        FileOutputStream fos = null;
+        File file = new File(Environment.getExternalStorageDirectory(),
+                "content.txt");
+        try {
+            fos = new FileOutputStream(file, true);
+            fos.write(text.getBytes());
+            fos.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("write success");
+    }
+
+    @Override
     public void isServicesDiscovered(boolean flag) {
-        if(flag)setNotifyCharacteristic();
+        if (flag) setNotifyCharacteristic();
     }
 
     @Override
@@ -207,10 +267,26 @@ public class BleTest extends BaseActivity {
     });
 
     List<SleepData> list = new ArrayList<>();
+
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
+        if(bytes==null||bytes.length==0)return;
         notify.setText(HexString.bytesToHex(bytes));
+        if(buttonType==0){
+            if(bytes!=null)
+            content.setText(HexString.bytesToHex(bytes));
+            String s = HexString.bytesToHex(bytes);
+            StringBuilder sb = new StringBuilder();
+            for(int i=0;i<s.length();i++){
+                if(i%2==0){
+                    sb.append(s.charAt(i));
+                }else{
+                    sb.append(s.charAt(i)+" ");
+                }
+            }
+            writeRecord(sb.toString()+"\n");
+        }
         if (bleUtils.returnOTAValue(bytes)) {
             //返回蓝牙OTA固件更新指令
             thread.start();
@@ -244,124 +320,43 @@ public class BleTest extends BaseActivity {
             List<SleepData> sleepDatas = bleUtils.returnSleepData(bytes);
             list.addAll(sleepDatas);
             for (int i = 0; i < sleepDatas.size(); i++) {
-                if(sleepDatas.get(i).isLast){
+                if (sleepDatas.get(i).isLast) {
                     //按时间排序
                     Collections.sort(list, new Comparator<SleepData>() {
                         @Override
                         public int compare(SleepData sleepData, SleepData t1) {
-                            if(sleepData.getDate()>t1.getDate()){
+                            if (sleepData.getDate() > t1.getDate()) {
                                 return 1;
-                            }else if(sleepData.getDate()==t1.getDate()){
-                                if(sleepData.getHour()>t1.getHour()){
+                            } else if (sleepData.getDate() == t1.getDate()) {
+                                if (sleepData.getHour() > t1.getHour()) {
                                     return 1;
-                                }else if(sleepData.getHour()==t1.getHour()){
-                                    if(sleepData.getMin()>t1.getMin()){
+                                } else if (sleepData.getHour() == t1.getHour()) {
+                                    if (sleepData.getMin() > t1.getMin()) {
                                         return 1;
-                                    }else if(sleepData.getMin()==t1.getMin()){
+                                    } else if (sleepData.getMin() == t1.getMin()) {
                                         return 0;
-                                    }else{
+                                    } else {
                                         return -1;
                                     }
-                                }else{
+                                } else {
                                     return -1;
                                 }
-                            }else {
+                            } else {
                                 return -1;
                             }
                         }
                     });
 
                     for (int j = 0; j < list.size(); j++) {
-                        Logger.e(list.get(j).getDate()+"号"+list.get(j).getHour()+"时"+list.get(j).getMin()+"分    状态>>"+list.get(j).getStatus());
+                        Logger.e(list.get(j).getDate() + "号" + list.get(j).getHour() + "时" + list.get(j).getMin() + "分    状态>>" + list.get(j).getStatus());
                     }
                 }
             }
 
 
-
         } else if (bytes[0] == 0x07 & bytes[1] == 0x24) {
             Logger.t(TAG).e(String.valueOf(bytes[3]));
-            //返回7天计步数据
-         //   List<StepData> data = bleUtils.returnStepData(bytes);
-         //   for (int i = 0; i < data.size(); i++) {
-//                int count = data.get(i).getCount();
-//                int time = data.get(i).getTime();
-             //   Logger.t(TAG).e(String.valueOf(data.get(i).getCount()));
-//                if (count == 41 && time == 23) {
-//                    showToatst(BleTest.this, "完成");
-//                }
 
-//                stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-//                          day01.setText(stringBuffer.toString());
-
-//                if (count <= 5 && count >= 0) {
-//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-//                    day01.setText(stringBuffer.toString());
-//                    if (count == 5 && time == 23) stringBuffer.setLength(0);
-//                }
-//                if (count <= 11 && count >= 6) {
-//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-//                    day02.setText(stringBuffer.toString());
-//                    if (count == 11 && time == 23) stringBuffer.setLength(0);
-//                }
-//                if (count <= 17 && count >= 12) {
-//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-//                    day03.setText(stringBuffer.toString());
-//                    if (count == 17 && time == 23) stringBuffer.setLength(0);
-//                }
-//                if (count <= 23 && count >= 18) {
-//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-//                    day04.setText(stringBuffer.toString());
-//                    if (count == 23 && time == 23) stringBuffer.setLength(0);
-//                }
-//                if (count <= 29 && count >= 24) {
-//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-//                    day05.setText(stringBuffer.toString());
-//                    if (count == 29 && time == 23) stringBuffer.setLength(0);
-//                }
-//                if (count <= 35 && count >= 30) {
-//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-//                    day06.setText(stringBuffer.toString());
-//                    if (count == 35 && time == 23) stringBuffer.setLength(0);
-//                }
-//                if (count <= 41 && count >= 36) {
-//                    stringBuffer.append("总包数>>>  " + String.valueOf(data.get(i).getSums()) + "  " +
-//                            "现在第几个包>>>  " + String.valueOf(data.get(i).getCount()) + "  " +
-//                            "日期>>>  " + String.valueOf(data.get(i).getDay()) + "  " +
-//                            "步数>>>  " + String.valueOf(data.get(i).getStep()) + "  " +
-//                            " 时间 >>>  " + String.valueOf(data.get(i).getTime()) + "\r\n");
-//                    day07.setText(stringBuffer.toString());
-//                    if (count == 41 && time == 23) stringBuffer.setLength(0);
-//                }
-//            }
         } else {
             notify.setText(HexString.bytesToHex(bytes));
         }
@@ -377,7 +372,7 @@ public class BleTest extends BaseActivity {
     }
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
-            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25, R.id.btn26})
+            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25, R.id.btn26,R.id.btn29})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
@@ -480,8 +475,8 @@ public class BleTest extends BaseActivity {
                 writeCharacteristic(bleUtils.terminateBle());
                 break;
             case R.id.btn24:
-                if (path !=null) {
-                      handUpdateData();
+                if (path != null) {
+                    handUpdateData();
                 }
 
                 break;
@@ -583,6 +578,21 @@ public class BleTest extends BaseActivity {
                         .start();
 
                 break;
+            case R.id.btn29:
+                buttonType=0;
+                writeCharacteristic(bleUtils.send());
+
+//                String s = "0011223344";
+//                StringBuilder sb = new StringBuilder();
+//                for(int i=0;i<s.length();i++){
+//                    if(i%2==0){
+//                        sb.append(s.charAt(i));
+//                    }else{
+//                        sb.append(s.charAt(i)+" ");
+//                    }
+//                }
+//                writeRecord(sb.toString()+"\n");
+                break;
         }
     }
 
@@ -602,6 +612,7 @@ public class BleTest extends BaseActivity {
 
     private int crcLength;
     List<String[]> bigData = new ArrayList<>();
+
     private void handUpdateData() {
         String[] strs = new SomeUtills().readOTABin(path);
 //        String strLength = new SomeUtills().sdcardRead(path).toString();
@@ -628,7 +639,7 @@ public class BleTest extends BaseActivity {
             }
         }
         byte[] Bytes = bleUtils.HexString2Bytes(WriteLength.toString());
-        updateLength=Bytes.length;
+        updateLength = Bytes.length;
         crcLength = bleUtils.OTACrc(Bytes);
         prepareOTA();
     }
@@ -639,6 +650,7 @@ public class BleTest extends BaseActivity {
     }
 
     boolean isReturn = false;
+
     private void OTA() {
         try {
             for (int i = 0; i < bigData.size(); i++) {

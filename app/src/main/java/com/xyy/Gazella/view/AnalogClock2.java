@@ -7,7 +7,6 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -16,7 +15,6 @@ import android.os.SystemClock;
 import android.text.format.DateUtils;
 import android.text.format.Time;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.ysp.hybridtwatch.R;
@@ -123,6 +121,11 @@ public class AnalogClock2 extends View {
 
     public void setMinuteDrawable(int drawable) {
         mMinuteHand = r.getDrawable(drawable);
+    }
+
+    public void setMinuteHandGone(){
+        mMinuteHand = null;
+        invalidate();
     }
 
     public int getChangeTimeType() {
@@ -294,16 +297,18 @@ public class AnalogClock2 extends View {
             canvas.save();
         }
         canvas.rotate(mMinutes / 60.0f * 360.0f, x, y);
-        final Drawable minuteHand = mMinuteHand;
-        if (changed) {
-            w = minuteHand.getIntrinsicWidth();
-            h= minuteHand.getIntrinsicHeight();
+        if(mMinuteHand!=null) {
+            final Drawable minuteHand = mMinuteHand;
+            if (changed) {
+                w = minuteHand.getIntrinsicWidth();
+                h = minuteHand.getIntrinsicHeight();
 //            minuteHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y + (h / 2));
-            minuteHand.setBounds(x - (w / 2), y - (h / 1), x + (w/2), y );
+                minuteHand.setBounds(x - (w / 2), y - (h / 1), x + (w / 2), y);
+            }
+            minuteHand.draw(canvas);
+            canvas.restore();
+            canvas.save();
         }
-        minuteHand.draw(canvas);
-        canvas.restore();
-        canvas.save();
         canvas.rotate(mSecond / 60.0f * 360.0f, x, y);
         if (scaled) {
             canvas.restore();
@@ -317,55 +322,56 @@ public class AnalogClock2 extends View {
         setContentDescription(contentDescription);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int rx = (int) event.getX() - x;
-        int ry = -((int) event.getY() - y);
-        Point point = new Point(rx, ry);
-        double Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                int mmintes = (int) mMinutes;
-                int mmhour = (int) mHour;
 
-                int Tiemva = (int) Tiemvalue / 6;
-                if(Tiemva>550) Tiemva=0;
-                if(mmintes>55) mmintes=0;
-                if (Tiemva == mmintes || Tiemva + 1 == mmintes || Tiemva + 2 == mmintes || Tiemva + 3 == mmintes || Tiemva + 4 == mmintes ||Tiemva + 5 == mmintes ||
-                        Tiemva - 1 == mmintes || Tiemva - 2 == mmintes || Tiemva - 3 == mmintes || Tiemvalue - 4 == mmintes || Tiemvalue - 5 == mmintes)
-                    isMinutestMove = true;
-                else
-                    isMinutestMove = false;
-
-                if (Tiemva == mmhour || Tiemva + 1 == mmhour || Tiemva + 2 == mmhour || Tiemva + 3 == mmhour || Tiemva + 4 == mmhour ||
-                        Tiemva - 1 == mmhour || Tiemva - 2 == mmhour || Tiemva - 3 == mmhour || Tiemvalue - 4 == mmintes)
-                    isHourMove = true;
-                else
-                    isHourMove = false;
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-
-                if (ChangeTimeType == 1) {  //移动时针
-                    if (isHourMove)
-                        mHour = (int) Tiemvalue / 6;
-                } else {
-                    if (isMinutestMove)
-                        mMinutes = (int) Tiemvalue / 6;
-                }
-                if (isHourMove || isMinutestMove) {
-                    if (changetimelistener != null)
-                        changetimelistener.ChangeTimeListener((int) mMinutes, (int) mHour);
-                }
-                isChangedTime = true;
-                postInvalidate();
-                break;
-            case MotionEvent.ACTION_UP:
-
-                break;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        int rx = (int) event.getX() - x;
+//        int ry = -((int) event.getY() - y);
+//        Point point = new Point(rx, ry);
+//        double Tiemvalue = MyDegreeAdapter.GetRadianByPos(point);
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                int mmintes = (int) mMinutes;
+//                int mmhour = (int) mHour;
+//
+//                int Tiemva = (int) Tiemvalue / 6;
+//                if(Tiemva>550) Tiemva=0;
+//                if(mmintes>55) mmintes=0;
+//                if (Tiemva == mmintes || Tiemva + 1 == mmintes || Tiemva + 2 == mmintes || Tiemva + 3 == mmintes || Tiemva + 4 == mmintes ||Tiemva + 5 == mmintes ||
+//                        Tiemva - 1 == mmintes || Tiemva - 2 == mmintes || Tiemva - 3 == mmintes || Tiemvalue - 4 == mmintes || Tiemvalue - 5 == mmintes)
+//                    isMinutestMove = true;
+//                else
+//                    isMinutestMove = false;
+//
+//                if (Tiemva == mmhour || Tiemva + 1 == mmhour || Tiemva + 2 == mmhour || Tiemva + 3 == mmhour || Tiemva + 4 == mmhour ||
+//                        Tiemva - 1 == mmhour || Tiemva - 2 == mmhour || Tiemva - 3 == mmhour || Tiemvalue - 4 == mmintes)
+//                    isHourMove = true;
+//                else
+//                    isHourMove = false;
+//                break;
+//
+//            case MotionEvent.ACTION_MOVE:
+//
+//                if (ChangeTimeType == 1) {  //移动时针
+//                    if (isHourMove)
+//                        mHour = (int) Tiemvalue / 6;
+//                } else {
+//                    if (isMinutestMove)
+//                        mMinutes = (int) Tiemvalue / 6;
+//                }
+//                if (isHourMove || isMinutestMove) {
+//                    if (changetimelistener != null)
+//                        changetimelistener.ChangeTimeListener((int) mMinutes, (int) mHour);
+//                }
+//                isChangedTime = true;
+//                postInvalidate();
+//                break;
+//            case MotionEvent.ACTION_UP:
+//
+//                break;
+//        }
+//        return true;
+//    }
 
 
     /***

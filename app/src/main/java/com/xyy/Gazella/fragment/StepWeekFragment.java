@@ -134,6 +134,14 @@ public class StepWeekFragment extends BaseFragment {
             sumsKm += (km[k]);
             sumsCalcalNum += calcalNum[k];
         }
+        if(sumsStep<2000){
+            sumsSecond=(int)(sumsStep*0.8);
+        }else if(sumsStep>4000){
+            sumsSecond=(int)(sumsStep*0.6);
+        }else{
+            sumsSecond=(int)(sumsStep*0.7);
+        }
+
         if (sumsSecond >= 60 && sumsSecond<3600) {
             tvNumMinute.setText(String.valueOf(sumsSecond / 60));
             if (tvNumHour.getVisibility() == View.VISIBLE || tvHour.getVisibility() == View.VISIBLE) {

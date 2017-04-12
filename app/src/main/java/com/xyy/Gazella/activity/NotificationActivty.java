@@ -19,13 +19,15 @@ import android.widget.ToggleButton;
 
 import com.xyy.Gazella.services.NotificationService;
 import com.xyy.Gazella.view.SwitchView;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionNo;
+import com.yanzhenjie.permission.PermissionYes;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 import com.ysp.newband.WacthSeries;
-import com.zhy.m.permission.MPermissions;
-import com.zhy.m.permission.PermissionDenied;
-import com.zhy.m.permission.PermissionGrant;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -122,21 +124,24 @@ public class NotificationActivty extends BaseActivity {
 
     //sdk6.0以上获取权限
     private void getPermission() {
-        MPermissions.requestPermissions(NotificationActivty.this, 100, Manifest.permission.READ_PHONE_STATE);
-        MPermissions.requestPermissions(NotificationActivty.this, 100, Manifest.permission.MODIFY_PHONE_STATE);
+        AndPermission.with(this).requestCode(100).permission(Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.MODIFY_PHONE_STATE).send();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        AndPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
-    @PermissionGrant(100)
-    public void requestSdcardSuccess() {
+    @PermissionYes(100)
+    private void getLocationYes(List<String> grantedPermissions) {
+        // TODO 申请权限成功。
     }
 
-    @PermissionDenied(100)
-    public void requestSdcardFailed() {
+    // 失败回调的方法，用注解即可，里面的数字是请求时的requestCode。
+    @PermissionNo(100)
+    private void getLocationNo(List<String> deniedPermissions) {
+        // 用户否勾选了不再提示并且拒绝了权限，那么提示用户到设置中授权。
     }
 
     private void initView() {

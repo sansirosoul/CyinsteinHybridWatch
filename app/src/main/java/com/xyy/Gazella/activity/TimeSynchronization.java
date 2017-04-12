@@ -481,7 +481,12 @@ public class TimeSynchronization extends BaseActivity {
             String dtype = PreferenceData.getDeviceType(this);
             if (dtype.equals(WacthSeries.CT003)) {
                 fragmentsList.add(smallFragment1);
-            } else {
+            }else if(dtype.equals(WacthSeries.EM001)){
+                fragmentsList.add(smallFragment1);
+            } else if(dtype.equals(WacthSeries.EM002)){
+                fragmentsList.add(smallFragment1);
+                fragmentsList.add(smallFragment2);
+            }else {
                 fragmentsList.add(smallFragment1);
                 fragmentsList.add(smallFragment2);
                 fragmentsList.add(smallFragment3);

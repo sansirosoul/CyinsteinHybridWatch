@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.YoYo;
 import com.partner.entity.Partner;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.activity.HealthyActivity;
@@ -40,7 +39,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rx.Observable;
 
-import static com.daimajia.androidanimations.library.Techniques.StandUp;
 import static com.ysp.hybridtwatch.R.id.deep_time;
 
 /**
@@ -386,6 +384,7 @@ public class SleepFragment extends BaseFragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                HealthyActivity.type=2;
                 writeCharacteristic(bleUtils.getSleepData(6));
             }
         }, 1000);
@@ -395,43 +394,43 @@ public class SleepFragment extends BaseFragment {
 
         switch (type) {
             case 1:
-                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_1));
+//                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_1));
                 tvDay1.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(10);
                 break;
 
             case 2:
-                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_2));
+//                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_2));
                 tvDay2.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(30);
                 break;
 
             case 3:
-                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_3));
+//                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_3));
                 tvDay3.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(40);
                 break;
 
             case 4:
-                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_4));
+//                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_4));
                 tvDay4.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(60);
                 break;
 
             case 5:
-                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_5));
+//                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_5));
                 tvDay5.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(80);
                 break;
 
             case 6:
-                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_6));
+//                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_6));
                 tvDay6.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(90);
                 break;
 
             case 7:
-                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_7));
+//                YoYo.with(StandUp).duration(700).playOn(view.findViewById(R.id.tv_day_7));
                 tvDay7.setText(String.valueOf(day) + getResources().getString(R.string.date) + getResources().getString(R.string.update_success));
                 numberbar.setProgress(100);
                 break;

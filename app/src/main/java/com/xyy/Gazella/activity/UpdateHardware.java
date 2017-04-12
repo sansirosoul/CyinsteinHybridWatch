@@ -82,11 +82,7 @@ public class UpdateHardware extends BaseActivity {
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             bleUtils = new BleUtils();
-//            if (GazelleApplication.isBleConnected) {
-//                setNotifyCharacteristic();
-//            } else {
                 connectBLEbyMac(address);
-//            }
         }
     }
 
@@ -112,24 +108,32 @@ public class UpdateHardware extends BaseActivity {
         ViseBluetooth.getInstance().removeOnNotifyListener();
     }
 
+    private String deviceSN,FwvValue;
+    private int type = 0;
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        if (bytes[0] == 0x07 && bytes[1] == 0x00) {
-            writeCharacteristic(bleUtils.getFWVer());
-        } else if (bytes[0] == 0x07 && bytes[1] == 0x05) {
-            writeCharacteristic(bleUtils.getBatteryValue());
+        if(type==0){
+            if ((deviceSN=bleUtils.returnDeviceSN(bytes)) != null) {
+                watchSN.setText(deviceSN);
+                PreferenceData.setDeviceSnValue(this, deviceSN);
+                writeCharacteristic(bleUtils.getFWVer());
+                type=1;
+            }
+        }else if(type==1){
+            if ((FwvValue=bleUtils.returnFWVer(bytes)) != null) {
+                watchVer.setText(FwvValue);
+                PreferenceData.setDeviceFwvValue(this, FwvValue);
+                writeCharacteristic(bleUtils.getBatteryValue());
+                type=2;
+            }
+        }else if(type==2){
+            if (bleUtils.returnBatteryValue(bytes) != null) {
+                battery_num = Integer.parseInt(bleUtils.returnBatteryValue(bytes));
+                battery.setText(bleUtils.returnBatteryValue(bytes) + "%");
+            }
         }
-        if (bleUtils.returnDeviceSN(bytes) != null) {
-            watchSN.setText(bleUtils.returnDeviceSN(bytes));
-            PreferenceData.setDeviceSnValue(this, bleUtils.returnDeviceSN(bytes));
-        } else if (bleUtils.returnFWVer(bytes) != null) {
-            watchVer.setText(bleUtils.returnFWVer(bytes));
-            PreferenceData.setDeviceFwvValue(this, bleUtils.returnFWVer(bytes));
-        } else if (bleUtils.returnBatteryValue(bytes) != null) {
-            battery_num = Integer.parseInt(bleUtils.returnBatteryValue(bytes));
-            battery.setText(bleUtils.returnBatteryValue(bytes) + "%");
-        } else if (bleUtils.returnDeviceType(bytes) != null) {
+        if (bleUtils.returnDeviceType(bytes) != null) {
             PreferenceData.setDeviceType(this, bleUtils.returnDeviceType(bytes));
         }
     }

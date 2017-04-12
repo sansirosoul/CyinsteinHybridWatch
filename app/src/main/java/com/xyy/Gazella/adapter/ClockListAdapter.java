@@ -176,7 +176,6 @@ public class ClockListAdapter extends BaseAdapter {
                 .subscribe(new Action1<byte[]>() {
                     @Override
                     public void call(byte[] bytes) {
-                        Logger.t("TAG").e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
                     }
                 }, new Action1<Throwable>() {
                     @Override

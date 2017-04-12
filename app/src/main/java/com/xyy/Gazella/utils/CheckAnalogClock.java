@@ -51,6 +51,10 @@ public class CheckAnalogClock extends Dialog{
             if(type.equals(WacthSeries.CT003)){
                 ivSmall2.setVisibility(View.GONE);
                 ivSmall3.setVisibility(View.GONE);
+            }else if(type.equals(WacthSeries.EM001)){
+
+            }else if(type.equals(WacthSeries.EM002)){
+
             }
         }
         ivSmall1.setOnClickListener(new View.OnClickListener() {

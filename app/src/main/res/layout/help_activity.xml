@@ -24,7 +24,7 @@
                 android:id="@+id/rl_common"
                 android:background="#222222"
                 android:layout_width="match_parent"
-                android:layout_height="55dp">
+                android:layout_height="60dp">
                 <ImageView
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/hl_kuai"
@@ -153,7 +153,7 @@
                 android:id="@+id/rl_hybridwatch"
                 android:background="#222222"
                 android:layout_width="match_parent"
-                android:layout_height="55dp">
+                android:layout_height="60dp">
                 <RelativeLayout
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
@@ -248,7 +248,7 @@
                 android:id="@+id/rl_quartzwatch"
                 android:background="#222222"
                 android:layout_width="match_parent"
-                android:layout_height="55dp">
+                android:layout_height="60dp">
                 <RelativeLayout
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"

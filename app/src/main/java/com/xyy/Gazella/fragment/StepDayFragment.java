@@ -127,7 +127,14 @@ public class StepDayFragment extends BaseFragment {
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
                     if (partners.get(i).getStepsumsnum() != null)
                         sumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
-                    int second = Integer.valueOf(partners.get(i).getExercisetime());
+                    int second;
+                    if(sumsNum<2000){
+                        second=(int)(sumsNum*0.8);
+                    }else if(sumsNum>4000){
+                        second=(int)(sumsNum*0.6);
+                    }else{
+                        second=(int)(sumsNum*0.7);
+                    }
                     double km = Double.valueOf(partners.get(i).getExercisedistance());
                     double calcalNum = Double.valueOf(partners.get(i).getCalcalNum());
                     if (second >= 60 && second<3600) {
@@ -136,7 +143,6 @@ public class StepDayFragment extends BaseFragment {
                             tvNumHour.setVisibility(View.INVISIBLE);
                             tvHour.setVisibility(View.INVISIBLE);
                         }
-                        tvNumMinute.setText(String.valueOf(second));
                     } else if (second >= 3600) {
                         if (tvNumHour.getVisibility() == View.INVISIBLE || tvHour.getVisibility() == View.INVISIBLE) {
                             tvNumHour.setVisibility(View.VISIBLE);

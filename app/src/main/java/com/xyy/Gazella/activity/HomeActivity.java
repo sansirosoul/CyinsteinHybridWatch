@@ -155,31 +155,37 @@ public class HomeActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_time:
+                ViseBluetooth.getInstance().removeOnNotifyListener();
                 Intent timeIntent = new Intent(HomeActivity.this, TimeSynchronization.class);
                 startActivity(timeIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.ll_notice:
+                ViseBluetooth.getInstance().removeOnNotifyListener();
                 Intent noticeIntent = new Intent(HomeActivity.this, NotificationActivty.class);
                 startActivity(noticeIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.ll_healthy:
+                ViseBluetooth.getInstance().removeOnNotifyListener();
                 Intent healthIntent = new Intent(HomeActivity.this, HealthyActivity.class);
                 startActivity(healthIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.ll_settings:
+                ViseBluetooth.getInstance().removeOnNotifyListener();
                 Intent settingsIntent = new Intent(HomeActivity.this, SettingActivity.class);
                 startActivity(settingsIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.ll_introduce:
+                ViseBluetooth.getInstance().removeOnNotifyListener();
                 Intent helpIntent = new Intent(HomeActivity.this, HelpActivity.class);
                 startActivity(helpIntent);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.ll_other:
+                ViseBluetooth.getInstance().removeOnNotifyListener();
                 Intent otherIntent = new Intent(HomeActivity.this, BleTest.class);
                 startActivity(otherIntent);
                 overridePendingTransitionEnter(HomeActivity.this);

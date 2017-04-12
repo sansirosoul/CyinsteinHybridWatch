@@ -6,69 +6,9 @@
     android:clipToPadding="true"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
+<com.xyy.Gazella.view.AnalogClock2
+    android:id="@+id/analogclock2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 
-    <include
-        layout="@layout/connection_title"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:descendantFocusability="blocksDescendants"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <com.xyy.Gazella.view.AnalogClock
-                    android:id="@+id/analogclock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:dial="@drawable/localtime"
-                    android:hand_hour="@drawable/hour_big"
-                    android:hand_minute="@drawable/minute_big" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="当地时区"
-                    android:textColor="@color/help_text"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/local_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="18:00"
-                    android:textColor="@color/help_text"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.xyy.Gazella.view.MyGridView
-                    android:id="@+id/gridView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:listSelector="@android:color/transparent"
-                    android:numColumns="3"
-                    android:scrollbars="none"
-                    android:stretchMode="columnWidth"></com.xyy.Gazella.view.MyGridView>
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>

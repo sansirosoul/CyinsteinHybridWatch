@@ -41,6 +41,7 @@ public class ClockActivity extends BaseActivity {
     RelativeLayout add;
     private Context context;
     private List<Clock> clocks = new ArrayList<>();
+    private Clock clock;
     private ClockListAdapter adapter;
     public final static int REQUEST_ADD = 1;
     public final static int REQUEST_EDIT = 2;
@@ -140,8 +141,7 @@ public class ClockActivity extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        if (bleUtils.returnAlarms(context,bytes) != null) {
-            Clock clock = bleUtils.returnAlarms(context,bytes);
+        if ((clock=bleUtils.returnAlarms(context,bytes)) != null) {
             if (!clocks.contains(clock)) {
                 clocks.add(clock);
             }

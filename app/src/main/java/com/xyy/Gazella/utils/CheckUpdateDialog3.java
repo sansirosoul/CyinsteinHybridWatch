@@ -268,7 +268,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
     List<String[]> bigData = new ArrayList<>();
 
     private void handUpdateData() {
-        String[] strs = new SomeUtills().readOTABin(this,"em003_3a_38.bin");
+        String[] strs = new SomeUtills().readOTABin(this,"cyinstein_watch.bin");
         int size = strs.length / 2048 + 1;
         for (int i = 0; i < size; i++) {
             String[] ss;

@@ -20,6 +20,7 @@ public class BleUtils {
     private String TAG = BleUtils.class.getName();
     private byte ck_a, ck_b;
     private byte[] value;
+    private byte[] sbyte = new byte[]{};
 
     private int[] g_pui32CRC32Table = new int[]{
             0x00000000, 0x1EDC6F41, 0x3DB8DE82, 0x2364B1C3,
@@ -87,6 +88,28 @@ public class BleUtils {
             0xD2DFB272, 0xCC03DD33, 0xEF676CF0, 0xF1BB03B1,
             0xA9AE0F76, 0xB7726037, 0x9416D1F4, 0x8ACABEB5
     };
+    public byte[] send() {
+        value = new byte[7];
+        ck_a = 0;
+        ck_b = 0;
+
+        value[0] = 0x48;
+        value[1] = 0x59;
+
+        value[2] = 0x07;
+        value[3] = (byte) 0x99;
+
+        value[4] = 0x00;
+
+        for (int i = 2; i < 5; i++) {
+            ck_a = (byte) (ck_a + value[i]);
+            ck_b = (byte) (ck_b + ck_a);
+        }
+        value[5] = ck_a;
+        value[6] = ck_b;
+
+        return value;
+    }
 
 
     //获取手表序列号
@@ -120,16 +143,18 @@ public class BleUtils {
         if (bytes.length != 20) {
             sbyte = concat(sbyte, bytes);
             if (sbyte.length == 20) {
-                byte[] bytes1 = new byte[16];
-                for (int i = 0; i < bytes1.length; i++) {
-                    bytes1[i] = sbyte[2 + i];
+                if (bytes[0] == 0x07 && bytes[1] == 0x00) {
+                    byte[] bytes1 = new byte[16];
+                    for (int i = 0; i < bytes1.length; i++) {
+                        bytes1[i] = sbyte[2 + i];
+                    }
+                    try {
+                        deviceSN = new String(bytes1, "ascii");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    sbyte = new byte[]{};
                 }
-                try {
-                    deviceSN = new String(bytes1, "ascii");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                sbyte = new byte[]{};
             }
         } else {
             if (bytes[0] == 0x07 && bytes[1] == 0x00) {
@@ -513,15 +538,17 @@ public class BleUtils {
         if (bytes.length != 15) {
             sbyte = concat(sbyte, bytes);
             if (sbyte.length == 15) {
-                data = new StepData();
-                data.setYear((sbyte[2] & 0xFF) + 2000);
-                data.setMonth(sbyte[3] & 0xFF);
-                data.setDay(sbyte[4] & 0xFF);
-                int step = (sbyte[8] & 0xFF) + ((sbyte[7] & 0xFF) << 8) + ((sbyte[6] & 0xFF) << 16) + ((sbyte[5] & 0xFF) << 24);
-                int seconds = (sbyte[12] & 0xFF) + ((sbyte[11] & 0xFF) << 8) + ((sbyte[10] & 0xFF) << 16) + ((sbyte[9] & 0xFF) << 24);
-                data.setStep(step);
-                data.setSeconds(seconds);
-                sbyte = new byte[]{};
+                if (bytes[0] == 0x07 && bytes[1] == 0x0C) {
+                    data = new StepData();
+                    data.setYear((sbyte[2] & 0xFF) + 2000);
+                    data.setMonth(sbyte[3] & 0xFF);
+                    data.setDay(sbyte[4] & 0xFF);
+                    int step = (sbyte[8] & 0xFF) + ((sbyte[7] & 0xFF) << 8) + ((sbyte[6] & 0xFF) << 16) + ((sbyte[5] & 0xFF) << 24);
+                    int seconds = (sbyte[12] & 0xFF) + ((sbyte[11] & 0xFF) << 8) + ((sbyte[10] & 0xFF) << 16) + ((sbyte[9] & 0xFF) << 24);
+                    data.setStep(step);
+                    data.setSeconds(seconds);
+                    sbyte = new byte[]{};
+                }
             }
         } else {
             if (bytes[0] == 0x07 && bytes[1] == 0x0C) {
@@ -573,23 +600,32 @@ public class BleUtils {
         }
         ArrayList<SleepData> list = new ArrayList<>();
         if (bytes.length != 20) {
-            sbyte = concat(sbyte, bytes);
+            if(sbyte==null||sbyte.length==0){
+                sbyte = concat(sbyte, bytes);
+            }else{
+                sbyte = concat(sbyte, bytes);
+                if(sbyte.length!=20)sbyte=new byte[]{};
+            }
             if (sbyte.length == 20) {
-                int index = (sbyte.length - 4) / 4;
-                for (int i = 1; i < index + 1; i++) {
-                    SleepData data = new SleepData();
-                    if (i == index && sbyte[2] == (sbyte[3] + 1)) {
-                        data.setLast(true);
+                if (bytes[0] == 0x07 && bytes[1] == 0x0D) {
+                    if (bytes[2] != 0) {
+                        int index = (sbyte.length - 4) / 4;
+                        for (int i = 1; i < index + 1; i++) {
+                            SleepData data = new SleepData();
+                            if (i == index && sbyte[2] == (sbyte[3] + 1)) {
+                                data.setLast(true);
+                            }
+                            data.setDate(sbyte[4 * i] & 0xFF);
+                            data.setHour(sbyte[4 * i + 1] & 0xFF);
+                            data.setMin(sbyte[4 * i + 2] & 0xFF);
+                            data.setStatus(sbyte[4 * i + 3] & 0xFF);
+                            data.setSums(sbyte[2]);
+                            data.setCount(sbyte[3]);
+                            list.add(data);
+                        }
+                        sbyte = new byte[]{};
                     }
-                    data.setDate(sbyte[4 * i] & 0xFF);
-                    data.setHour(sbyte[4 * i + 1] & 0xFF);
-                    data.setMin(sbyte[4 * i + 2] & 0xFF);
-                    data.setStatus(sbyte[4 * i + 3] & 0xFF);
-                    data.setSums(sbyte[2]);
-                    data.setCount(sbyte[3]);
-                    list.add(data);
                 }
-                sbyte = new byte[]{};
             }
         } else {
             if (bytes[0] == 0x07 && bytes[1] == 0x0D) {
@@ -902,7 +938,6 @@ public class BleUtils {
         return result;
     }
 
-    byte[] sbyte = new byte[]{};
 
     //返回7天计步数据
     public ArrayList<StepData> returnStepData(byte[] bytes) {
@@ -911,18 +946,27 @@ public class BleUtils {
         }
         ArrayList<StepData> list = new ArrayList<>();
         if (bytes.length != 20) {
-            sbyte = concat(sbyte, bytes);
+            if(sbyte==null||sbyte.length==0){
+                sbyte = concat(sbyte, bytes);
+            }else{
+                sbyte = concat(sbyte, bytes);
+                if(sbyte.length!=20)sbyte=new byte[]{};
+            }
             if (sbyte.length == 20) {
-                for (int i = 1; i < 5; i++) {
-                    StepData data = new StepData();
-                    data.setDay(sbyte[4 * i] & 0xFF);
-                    data.setTime(sbyte[4 * i + 1] & 0xFF);
-                    data.setStep((sbyte[4 * i + 3] & 0xFF) + ((sbyte[4 * i + 2] & 0xFF) << 8));
-                    data.setSums(sbyte[2]);
-                    data.setCount(sbyte[3]);
-                    list.add(data);
+                if (bytes[0] == 0x07 & bytes[1] == 0x24) {
+                    if (bytes[2] != 0) {
+                        for (int i = 1; i < 5; i++) {
+                            StepData data = new StepData();
+                            data.setDay(sbyte[4 * i] & 0xFF);
+                            data.setTime(sbyte[4 * i + 1] & 0xFF);
+                            data.setStep((sbyte[4 * i + 3] & 0xFF) + ((sbyte[4 * i + 2] & 0xFF) << 8));
+                            data.setSums(sbyte[2]);
+                            data.setCount(sbyte[3]);
+                            list.add(data);
+                        }
+                        sbyte = new byte[]{};
+                    }
                 }
-                sbyte = new byte[]{};
             }
         } else {
             if (bytes[0] == 0x07 & bytes[1] == 0x24) {
@@ -1025,7 +1069,7 @@ public class BleUtils {
 
                 clock.setSnoozeTime(Clock.transformSnoozeTime2(context, (sbyte[6] & 0xFF)));
 
-                if ((bytes[7] & 0xFF) == 5) {
+                if ((sbyte[7] & 0xFF) == 5) {
                     String str = byte2bits(sbyte[8]);
                     clock.setRate(Clock.transformCustom(context, str));
                     clock.setCustom(str);
@@ -1242,7 +1286,6 @@ public class BleUtils {
 //        if(bytes.length!=10){
 //            sbyte=concat(sbyte,bytes);
 //            if(sbyte.length==10){
-//                System.out.println(HexString.bytesToHex(sbyte)+"/////");
 //                if (sbyte[0] == 0x07 && (sbyte[1] & 0xff) == 0xDF) {
 //                    if (sbyte[2] == 0x05) {
 //                        if (sbyte[3] == 0x02) {
@@ -1256,16 +1299,16 @@ public class BleUtils {
 //                sbyte=new byte[]{};
 //            }
 //        }else {
-            if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0xDF) {
-                if (bytes[2] == 0x05) {
-                    if (bytes[3] == 0x02) {
-                        BytesNum = (bytes[4] & 0xff) * 16777216
-                                + (bytes[5] & 0xff) * 65536
-                                + (bytes[6] & 0xff) * 256
-                                + (bytes[7] & 0xff);
-                    }
+        if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0xDF) {
+            if (bytes[2] == 0x05) {
+                if (bytes[3] == 0x02) {
+                    BytesNum = (bytes[4] & 0xff) * 16777216
+                            + (bytes[5] & 0xff) * 65536
+                            + (bytes[6] & 0xff) * 256
+                            + (bytes[7] & 0xff);
                 }
             }
+        }
 //        }
         return BytesNum;
     }
@@ -1281,7 +1324,7 @@ public class BleUtils {
             return -1;
         }
         int BytesNum = -1;
-        if (bytes.length !=11) {
+        if (bytes.length != 11) {
             sbyte = concat(sbyte, bytes);
             if (sbyte.length == 11) {
                 if (sbyte[0] == 0x07 && (sbyte[1] & 0xff) == 0xDF) {
@@ -1455,4 +1498,6 @@ public class BleUtils {
         }
         return target;
     }
+
+
 }

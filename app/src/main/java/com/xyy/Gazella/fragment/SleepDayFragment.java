@@ -134,7 +134,7 @@ public class SleepDayFragment extends BaseFragment {
         initData(strday, yesterday);
         initChart();
         initView();
-        tvDate.setText(yesterday);
+        tvDate.setText(strday);
         return view;
     }
 
@@ -476,23 +476,26 @@ public class SleepDayFragment extends BaseFragment {
         }
         switch (view.getId()) {
             case R.id.iv_left:
-
-                today = tvDate.getText().toString();
+                today = new SomeUtills().getAmountDate(date, 0, 0);
+                try {
+                    date = sdf.parse(today);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 yeday = new SomeUtills().getAmountDate(date, 0, 0);
-                tvDate.setText(yeday);
+                tvDate.setText(today);
                 initData(today, yeday);
 
                 break;
             case R.id.iv_right:
-                yeday = new SomeUtills().getAmountDate(date, 0, 1);
+                today = new SomeUtills().getAmountDate(date, 0, 1);
                 try {
-                    date = sdf.parse(yeday);
+                    date = sdf.parse(today);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
-                today = new SomeUtills().getAmountDate(date, 0, 1);
-                tvDate.setText(yeday);
+                yeday = new SomeUtills().getAmountDate(date, 0, 0);
+                tvDate.setText(today);
                 initData(today, yeday);
 
                 break;

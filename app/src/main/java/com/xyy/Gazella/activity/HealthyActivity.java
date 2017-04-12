@@ -1,8 +1,6 @@
 package com.xyy.Gazella.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -74,13 +72,13 @@ public class HealthyActivity extends BaseActivity {
     public static int dayStep;
     private List<StepData> data;
     private List<SleepData> sleepData;
+    private StepData todayStepData;
     private Time mCalendar;
     private int myear, month, day, Queryday, SumsStep, Weight;
     private StringBuffer sb = new StringBuffer();
     public CommonUtils mCommonUtils;
     private List<Partner> partners = new ArrayList<>();
     private String strMonth, strDay, userWeight;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +106,7 @@ public class HealthyActivity extends BaseActivity {
     @Override
     public void onConnectionState(int state) {
         if (state == 1) {
-            stepFragment.getTodayStepPost();
+
         }
     }
 
@@ -124,97 +122,63 @@ public class HealthyActivity extends BaseActivity {
         isTrue = true;
     }
 
-    @Override
-    protected void onNotifyReturn(int type, String str) {
-        switch (type) {
-            case 0:
-                isNotify = true;
-                break;
-            case 1:   // 断开状态
-                isNotify = false;
-                Message.obtain(ehandler, 101, str).sendToTarget();
-                break;
-            case 2:   // 重新连接
-                Notify(connectionObservable);
-                isNotify = true;
-                stepFragment.getTodayStepPost();
-                break;
-        }
-        super.onNotifyReturn(type, str);
-    }
-
-    Handler ehandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 101:
-                    String str = (String) msg.obj;
-                    HandleThrowableException(str);
-                    break;
-            }
-        }
-    };
-
     private void handerSleepData(List<SleepData> list) {
         Date date = new Date();
-        for (int i = 0;i<list.size();i++){
-             if(list.get(i).getDate()==date.getDate()){
-                 saveSleepData(date,list.get(i));
-                 sleepFragment.setBerbarNum(1,list.get(i).getDate());
-             }else if(list.get(i).getDate()==getBeforeDay(date,1).getDate()){
-                 saveSleepData(getBeforeDay(date,1),list.get(i));
-                 sleepFragment.setBerbarNum(2,list.get(i).getDate());
-             }else if(list.get(i).getDate()==getBeforeDay(date,2).getDate()){
-                 saveSleepData(getBeforeDay(date,2),list.get(i));
-                 sleepFragment.setBerbarNum(3,list.get(i).getDate());
-             }else if(list.get(i).getDate()==getBeforeDay(date,3).getDate()){
-                 saveSleepData(getBeforeDay(date,3),list.get(i));
-                 sleepFragment.setBerbarNum(4,list.get(i).getDate());
-             }else if(list.get(i).getDate()==getBeforeDay(date,4).getDate()){
-                 saveSleepData(getBeforeDay(date,4),list.get(i));
-                 sleepFragment.setBerbarNum(5,list.get(i).getDate());
-             }else if(list.get(i).getDate()==getBeforeDay(date,5).getDate()){
-                 saveSleepData(getBeforeDay(date,5),list.get(i));
-                 sleepFragment.setBerbarNum(6,list.get(i).getDate());
-             }else if(list.get(i).getDate()==getBeforeDay(date,6).getDate()){
-                 saveSleepData(getBeforeDay(date,6),list.get(i));
-                 sleepFragment.setBerbarNum(7,list.get(i).getDate());
-             }
-            if(list.get(i).isLast()){
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getDate() == date.getDate()) {
+                saveSleepData(date, list.get(i));
+//                sleepFragment.setBerbarNum(1, list.get(i).getDate());
+            } else if (list.get(i).getDate() == getBeforeDay(date, 1).getDate()) {
+                saveSleepData(getBeforeDay(date, 1), list.get(i));
+//                sleepFragment.setBerbarNum(2, list.get(i).getDate());
+            } else if (list.get(i).getDate() == getBeforeDay(date, 2).getDate()) {
+                saveSleepData(getBeforeDay(date, 2), list.get(i));
+//                sleepFragment.setBerbarNum(3, list.get(i).getDate());
+            } else if (list.get(i).getDate() == getBeforeDay(date, 3).getDate()) {
+                saveSleepData(getBeforeDay(date, 3), list.get(i));
+//                sleepFragment.setBerbarNum(4, list.get(i).getDate());
+            } else if (list.get(i).getDate() == getBeforeDay(date, 4).getDate()) {
+                saveSleepData(getBeforeDay(date, 4), list.get(i));
+//                sleepFragment.setBerbarNum(5, list.get(i).getDate());
+            } else if (list.get(i).getDate() == getBeforeDay(date, 5).getDate()) {
+                saveSleepData(getBeforeDay(date, 5), list.get(i));
+//                sleepFragment.setBerbarNum(6, list.get(i).getDate());
+            } else if (list.get(i).getDate() == getBeforeDay(date, 6).getDate()) {
+                saveSleepData(getBeforeDay(date, 6), list.get(i));
+//                sleepFragment.setBerbarNum(7, list.get(i).getDate());
+            }
+            if (list.get(i).isLast()) {
                 sleepFragment.setUploadFinsh();
             }
-         }
-
+        }
         sleepFragment.setTvSynchronizationtime();
         sleepFragment.setToDayTime();
-//        SaveSleepData();
     }
 
-    private void saveSleepData(Date date,SleepData sleepData){
+    private void saveSleepData(Date date, SleepData sleepData) {
         String strday;
-        if(date.getMonth()+1<10){
-            if(date.getDate()<10){
-                strday = (date.getYear()+1900)+".0"+(date.getMonth()+1)+".0"+date.getDate();
-            }else{
-                strday = (date.getYear()+1900)+".0"+(date.getMonth()+1)+"."+date.getDate();
+        if (date.getMonth() + 1 < 10) {
+            if (date.getDate() < 10) {
+                strday = (date.getYear() + 1900) + ".0" + (date.getMonth() + 1) + ".0" + date.getDate();
+            } else {
+                strday = (date.getYear() + 1900) + ".0" + (date.getMonth() + 1) + "." + date.getDate();
             }
-        }else{
-            if(date.getDate()<10){
-                strday = (date.getYear()+1900)+"."+(date.getMonth()+1)+".0"+date.getDate();
-            }else{
-                strday = (date.getYear()+1900)+"."+(date.getMonth()+1)+"."+date.getDate();
+        } else {
+            if (date.getDate() < 10) {
+                strday = (date.getYear() + 1900) + "." + (date.getMonth() + 1) + ".0" + date.getDate();
+            } else {
+                strday = (date.getYear() + 1900) + "." + (date.getMonth() + 1) + "." + date.getDate();
             }
         }
 
         Partner partner = new Partner();
         partner.setType("sleep");
         partner.setDate(strday);
-        partner.setTime(sleepData.getHour()+"."+sleepData.getMin());
-        partner.setSleep(sleepData.getStatus()+"");
+        partner.setTime(sleepData.getHour() + "." + sleepData.getMin());
+        partner.setSleep(sleepData.getStatus() + "");
 
         if (partners.size() != 0) partners.clear();
-        partners = mCommonUtils.PartnerqueryByBuilder("sleep",strday,sleepData.getHour()+"."+sleepData.getMin());
+        partners = mCommonUtils.PartnerqueryByBuilder("sleep", strday, sleepData.getHour() + "." + sleepData.getMin());
         if (partners.size() != 0) {
             partner.setId(partners.get(0).getId());
             mCommonUtils.uoDatePartner(partner);  //更新数据
@@ -222,7 +186,7 @@ public class HealthyActivity extends BaseActivity {
             mCommonUtils.insertPartner(partner);   //插入数据
     }
 
-    public static Date getBeforeDay(Date date,int num) {
+    public static Date getBeforeDay(Date date, int num) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH, -num);
@@ -231,71 +195,92 @@ public class HealthyActivity extends BaseActivity {
     }
 
     List<SleepData> list2 = new ArrayList<>();
+    public static int type = 0;
+
     @Override
     protected void onReadReturn(byte[] bytes) {
-
-        if (bleUtils.returnStepData(bytes) != null) {   //  同步计步数据
-            data = bleUtils.returnStepData(bytes);
-            SaveStepData();
-        }
-        if (bleUtils.returnSleepData(bytes) != null) { //  同步睡眠数据
-            sleepData=bleUtils.returnSleepData(bytes);
-            list2.addAll(sleepData);
-            for (int i = 0; i < sleepData.size(); i++) {
-                if(sleepData.get(i).isLast){
-                    handerSleepData(SomeUtills.sort(list2));
+        if (type == 1) {
+            if ((data = bleUtils.returnStepData(bytes)) != null) {   //  同步计步数据
+                SaveStepData();
+            }
+        } else if (type == 2) {
+            if ((sleepData = bleUtils.returnSleepData(bytes)) != null) { //  同步睡眠数据
+                list2.addAll(sleepData);
+                Date date = new Date();
+                for (int i = 0; i < sleepData.size(); i++) {
+                    if (sleepData.get(i).getDate() == date.getDate()) {
+                        sleepFragment.setBerbarNum(1, sleepData.get(i).getDate());
+                    } else if (sleepData.get(i).getDate() == getBeforeDay(date, 1).getDate()) {
+                        sleepFragment.setBerbarNum(2, sleepData.get(i).getDate());
+                    } else if (sleepData.get(i).getDate() == getBeforeDay(date, 2).getDate()) {
+                        sleepFragment.setBerbarNum(3, sleepData.get(i).getDate());
+                    } else if (sleepData.get(i).getDate() == getBeforeDay(date, 3).getDate()) {
+                        sleepFragment.setBerbarNum(4, sleepData.get(i).getDate());
+                    } else if (sleepData.get(i).getDate() == getBeforeDay(date, 4).getDate()) {
+                        sleepFragment.setBerbarNum(5, sleepData.get(i).getDate());
+                    } else if (sleepData.get(i).getDate() == getBeforeDay(date, 5).getDate()) {
+                        sleepFragment.setBerbarNum(6, sleepData.get(i).getDate());
+                    } else if (sleepData.get(i).getDate() == getBeforeDay(date, 6).getDate()) {
+                        sleepFragment.setBerbarNum(7, sleepData.get(i).getDate());
+                    }
+                    if (sleepData.get(i).isLast) {
+                        handerSleepData(SomeUtills.sort(list2));
+                    }
                 }
             }
+        } else if (type == 0) {
+            if ((todayStepData = bleUtils.returnTodayStep(bytes)) != null) {  // 今日步数
+                StepData stepData = todayStepData;
+                if (stepData != null) {
+                    dayStep = stepData.getStep();
+                    if (isTrue) {
+                        stepFragment.setStepNum(stepData.getStep(), stepFragment.stepNum);
+                        stepFragment.setStepNumTextOnEndListener(new StepFragment.setStepNumTextOnEndListener() {
+                            @Override
+                            public void setStepNumTextOnEndListener() {
+//                                stepFragment.getTodayStepPost();
+                                isTrue = false;
+                            }
+                        });
+                    } else
+                        stepFragment.setStepNumFalse(stepData.getStep());
 
-//            handerSleepData(sleepData);
-//            if(sleepData.get(0).getSums()==42)
-//            SaveSleepData();
+                    double km = dayStep * 0.5;
+                    // 计算活动距离
+                    if (km < 1000)
+                        stepFragment.setDistanceNum(String.valueOf((int) km) + getResources().getString(R.string.mi));
+                    else
+                        stepFragment.setDistanceNum(String.valueOf(new SomeUtills().changeDouble(km)) + getResources().getString(R.string.km));
+                    //计算卡路里
+                    Weight = Integer.valueOf(userWeight);
+                    double card = ((Weight * 0.0005 + (dayStep - 1) * 0.005) * dayStep);
+                    if (card < 1000)
+                        stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) card)) + getResources().getString(R.string.card));
+                    else
+                        stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
 
-        }
-
-        if (bleUtils.returnTodayStep(bytes) != null) {  // 今日步数
-            StepData stepData = bleUtils.returnTodayStep(bytes);
-            if (stepData != null) {
-                dayStep = stepData.getStep();
-                if (isTrue) {
-                    stepFragment.setStepNum(stepData.getStep(), stepFragment.stepNum);
-                    stepFragment.setStepNumTextOnEndListener(new StepFragment.setStepNumTextOnEndListener() {
-                        @Override
-                        public void setStepNumTextOnEndListener() {
-                            stepFragment.getTodayStepPost();
-                            isTrue = false;
-                        }
-                    });
-                } else
-                    stepFragment.setStepNumFalse(stepData.getStep());
-                double km = dayStep * 0.5;
-                // 计算活动距离
-                if (km < 1000)
-                    stepFragment.setDistanceNum(String.valueOf((int) km) + getResources().getString(R.string.mi));
-                else
-                    stepFragment.setDistanceNum(String.valueOf(new SomeUtills().changeDouble(km)) + getResources().getString(R.string.km));
-                //计算卡路里
-                Weight = Integer.valueOf(userWeight);
-                double card = ((Weight * 0.0005 + (dayStep - 1) * 0.005) * dayStep);
-                if (card < 1000)
-                    stepFragment.setCalcalNum(String.valueOf(Integer.valueOf((int) card)) + getResources().getString(R.string.card));
-                else
-                    stepFragment.setCalcalNum(String.valueOf(new SomeUtills().changeDouble(card)) + getResources().getString(R.string.Kcard));
-
-                //计算活动时间
-                int second = stepData.getSeconds();
-                if (second >= 60 && second<3600) {
-                    stepFragment.setTime(String.valueOf(second/60) + getResources().getString(R.string.minute));
-                } else if (second >= 3600) {
-                    stepFragment.setTime(String.valueOf(second / 3600) + getResources().getString(R.string.hour)
-                            + String.valueOf((second % 3600
-                    ) / 60) + getResources().getString(R.string.minute));
+                    //计算活动时间
+                    int second;
+                    if (dayStep < 2000) {
+                        second = (int) (dayStep * 0.8);
+                    } else if (dayStep > 4000) {
+                        second = (int) (dayStep * 0.6);
+                    } else {
+                        second = (int) (dayStep * 0.7);
+                    }
+                    if (second >= 60 && second < 3600) {
+                        stepFragment.setTime(String.valueOf(second / 60) + getResources().getString(R.string.minute));
+                    } else if (second >= 3600) {
+                        stepFragment.setTime(String.valueOf(second / 3600) + getResources().getString(R.string.hour)
+                                + String.valueOf((second % 3600
+                        ) / 60) + getResources().getString(R.string.minute));
+                    }
+                    if (dayStep <= TargetStep)
+                        stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
+                    else
+                        stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_kaixin), this.getResources().getString(R.string.over_target));
+                    super.onReadReturn(bytes);
                 }
-                if (dayStep <= TargetStep)
-                    stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
-                else
-                    stepFragment.setIvTip(this.getResources().getDrawable(R.drawable.page15_kaixin), this.getResources().getString(R.string.over_target));
-                super.onReadReturn(bytes);
             }
         }
     }
@@ -436,6 +421,7 @@ public class HealthyActivity extends BaseActivity {
                     stepFragment.setBerbarNum(7, data.get(i).getDay());
                     stepFragment.getTodayStepPost();
                     stepFragment.setTvSynchronizationtime();
+                    stepFragment.removePoint();
                 }
             }
         }
@@ -455,7 +441,7 @@ public class HealthyActivity extends BaseActivity {
             partner.setDate(strday);                                                    //  保存日期
         } else {
             // 计算活动时间
-            int second = data.get(i).getSeconds();
+            int second = 0;
 
             double km = SumsStep * 0.5;
             //计算卡路里
@@ -514,7 +500,6 @@ public class HealthyActivity extends BaseActivity {
     }
 
 
-
     private boolean flag = false;
 
     private void InitViewPager() {
@@ -565,12 +550,13 @@ public class HealthyActivity extends BaseActivity {
                     case 1:
                         sleep.setBackground(getResources().getDrawable(R.drawable.health_btn_pressed_right));
                         step.setBackground(null);
-//                        if (GazelleApplication.isBleConnected) {
-//                            if (!flag) {
-//                                sleepFragment.setSynchronizationData();
-//                                flag = true;
-//                            }
-//                        }
+                        if (GazelleApplication.isBleConnected) {
+                            if (!flag) {
+                                stepFragment.removeTodayStepPost();
+                                sleepFragment.setSynchronizationData();
+                                flag = true;
+                            }
+                        }
                         break;
                 }
             }
@@ -600,10 +586,6 @@ public class HealthyActivity extends BaseActivity {
                 overridePendingTransition(R.anim.in_lefttoright, R.anim.out_to_left);
                 break;
             case R.id.btnOpt:
-//                if(!isNotify){
-//                    showToatst(HealthyActivity.this,"蓝牙未连接");
-//                    break;
-//                }
                 String address = PreferenceData.getAddressValue(this);
                 if (address != null && !address.equals("")) {
                     if (!GazelleApplication.isBleConnected) {

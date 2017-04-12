@@ -262,7 +262,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:text="获取生产序号" />
-
+            <Button
+                android:id="@+id/btn29"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="发送命令" />
+            <TextView
+                android:id="@+id/content"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/day01"
