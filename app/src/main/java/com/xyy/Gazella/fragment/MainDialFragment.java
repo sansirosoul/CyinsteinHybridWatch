@@ -11,6 +11,7 @@ import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.RotatView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
+import com.ysp.newband.GazelleApplication;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +37,9 @@ public class MainDialFragment extends BaseFragment {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_main_dial, container, false);
         ButterKnife.bind(this, view);
+        if(!GazelleApplication.isLogoVisible){
+            logo.setVisibility(View.INVISIBLE);
+        }
 //        logo.setImageDrawable(getResources().getDrawable(R.drawable.adj_julius));
         rotatView.setRotatDrawableResource(R.drawable.pan);
         rotatView.setChangeTimeListener(changeTimeListener);

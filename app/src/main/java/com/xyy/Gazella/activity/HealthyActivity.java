@@ -174,7 +174,19 @@ public class HealthyActivity extends BaseActivity {
         Partner partner = new Partner();
         partner.setType("sleep");
         partner.setDate(strday);
-        partner.setTime(sleepData.getHour() + "." + sleepData.getMin());
+        if(sleepData.getHour()<10){
+            if(sleepData.getMin()<10){
+                partner.setTime("0" + sleepData.getHour() + "." + "0"+sleepData.getMin());
+            }else {
+                partner.setTime("0" + sleepData.getHour() + "." + sleepData.getMin());
+            }
+        }else{
+            if(sleepData.getMin()<10){
+                partner.setTime(sleepData.getHour() + "." + "0"+sleepData.getMin());
+            }else {
+                partner.setTime(sleepData.getHour() + "." + sleepData.getMin());
+            }
+        }
         partner.setSleep(sleepData.getStatus() + "");
 
         if (partners.size() != 0) partners.clear();

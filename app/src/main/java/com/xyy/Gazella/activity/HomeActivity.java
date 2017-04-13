@@ -66,6 +66,9 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         ViseBluetooth.getInstance().setOnNotifyListener(onNotifyListener);
+        if(!GazelleApplication.isLogoVisible){
+            logo.setVisibility(View.INVISIBLE);
+        }
 //        logo.setImageDrawable(getResources().getDrawable(R.drawable.index_julius));
         bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);

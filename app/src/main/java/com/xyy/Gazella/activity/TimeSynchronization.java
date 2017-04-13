@@ -484,8 +484,8 @@ public class TimeSynchronization extends BaseActivity {
             }else if(dtype.equals(WacthSeries.EM001)){
                 fragmentsList.add(smallFragment1);
             } else if(dtype.equals(WacthSeries.EM002)){
-                fragmentsList.add(smallFragment1);
                 fragmentsList.add(smallFragment2);
+                fragmentsList.add(smallFragment3);
             }else {
                 fragmentsList.add(smallFragment1);
                 fragmentsList.add(smallFragment2);

@@ -52,6 +52,7 @@ public class GazelleApplication extends Application {
     public static boolean isEnabled=true;
 	private RxBleClient rxBleClient;
     public static boolean isNormalDisconnet = false;
+	public static boolean isLogoVisible = true;
 
 
 	public static GazelleApplication getInstance() {

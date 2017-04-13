@@ -10,6 +10,7 @@ import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.view.RotatView;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseFragment;
+import com.ysp.newband.GazelleApplication;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +33,9 @@ public class SmallFragment2 extends BaseFragment {
         view = inflater.inflate(R.layout.fragment_small_2, container, false);
         ButterKnife.bind(this, view);
         bleUtils = new BleUtils();
+        if(!GazelleApplication.isLogoVisible){
+            logo.setVisibility(View.INVISIBLE);
+        }
 //        logo.setImageDrawable(getResources().getDrawable(R.drawable.adj_julius));
         rotatView.setRotatDrawableResource(R.drawable.pan);
         rotatView.setChangeTimeListener(changeTimeListener);
