@@ -124,11 +124,6 @@ public class SleepWeekFragment extends BaseFragment {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
         Date date = null;
-//        int sleepTimes = 0;
-//        int lightsleepTimes = 0;
-//        int sleepingTimes = 0;
-//        int awakeTimes = 0;
-//        int awakeCounts = 0;
 
         int lightsleepHour = 0;
         int lightsleepMin = 0;
@@ -157,22 +152,23 @@ public class SleepWeekFragment extends BaseFragment {
             initData(today, yeday);
         }
         for (int m = 0; m < sleepWeekTimes.size(); m++) {
-//            sleepingTimes += sleepWeekTimes.get(m).getSleepingTime();
-//            awakeTimes += sleepWeekTimes.get(m).getAwakeTime();
-//            sleepTimes += sleepWeekTimes.get(m).getSleeptime();
-//            lightsleepTimes += sleepWeekTimes.get(m).getLightsleepTime();
-//            awakeCounts += sleepWeekTimes.get(m).getAwakeCount();
-
-            lightsleepHour += sleepWeekTimes.get(m).getLightsleepHour();
             lightsleepMin += sleepWeekTimes.get(m).getLightsleepMin();
-            deepsleepHour += sleepWeekTimes.get(m).getDeepsleepHour();
             deepsleepMin += sleepWeekTimes.get(m).getDeepsleepMin();
-            sleepHour += sleepWeekTimes.get(m).getSleepHour();
-            sleepMin += sleepWeekTimes.get(m).getSleepMin();
-            awakeHour += sleepWeekTimes.get(m).getAwakeHour();
-            awakeMin += sleepWeekTimes.get(m).getAwakeMin();
             awakecount += sleepWeekTimes.get(m).getAwakeCount();
         }
+
+        sleepHour = (lightsleepMin + deepsleepMin) / 60;
+        sleepMin = (lightsleepMin + deepsleepMin) % 60;
+
+        awakeHour = (24 * 60 * sleepWeekTimes.size() - lightsleepMin - deepsleepMin) / 60;
+        awakeMin = (24 * 60 * sleepWeekTimes.size() - lightsleepMin - deepsleepMin) % 60;
+
+        lightsleepHour = lightsleepMin / 60;
+        lightsleepMin = lightsleepMin % 60;
+
+        deepsleepHour = deepsleepMin / 60;
+        deepsleepMin = deepsleepMin % 60;
+
         tvSleeptime.setText(String.valueOf(sleepHour));
         tvSleeptime2.setText(String.valueOf(sleepMin));
         tvLightsleepTime.setText(String.valueOf(lightsleepHour));
@@ -187,16 +183,14 @@ public class SleepWeekFragment extends BaseFragment {
     }
 
     public void initData(String Today, String yesterday) {
-
-//        awakeTime = 0;
-//        lightsleepTime = 0;
-//        sleepingTime = 0;
-//        sleepTime = 0;
-
         int lightsleepHour = 0;
         int lightsleepMin = 0;
         int deepsleepHour = 0;
         int deepsleepMin = 0;
+        int sleepHour = 0;
+        int sleepMin = 0;
+        int awakeHour = 0;
+        int awakeMin = 0;
         int awakecount = 0;
 
         if (todayPartners != null || todayPartners.size() > 0) {
@@ -242,15 +236,12 @@ public class SleepWeekFragment extends BaseFragment {
                     c2.set(year2, month2, date2, hour2, min2);
 
                     int second = (int) ((c2.getTime().getTime() - c1.getTime().getTime()) / 1000);
-                    int hour = second / 3600;
-                    int min = (second % 3600) / 60;
+                    int min = second / 60;
                     switch (partners.get(i).getSleep()) {
                         case "2":
-                            lightsleepHour += hour;
                             lightsleepMin += min;
                             break;
                         case "3":
-                            deepsleepHour += hour;
                             deepsleepMin += min;
                         case "1":
                             awakecount += 1;
@@ -260,99 +251,11 @@ public class SleepWeekFragment extends BaseFragment {
             }
         }
 
-//        xValue = new String[24];
-//        if (todayPartners != null || todayPartners.size() > 0) {
-//            todayPartners.clear();
-//            yesterdayPartners.clear();
-//        }
-//        todayPartners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", Today);
-//        yesterdayPartners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", yesterday);
-//
-//        if (todayPartners.size() == 24 && yesterdayPartners.size() == 24) {
-//            yesterdayPartners = yesterdayPartners.subList(12, 24);
-//            todayPartners = todayPartners.subList(0, 12);
-//            for (int i = 0; i < yesterdayPartners.size(); i++) {
-//                xValue[i] = yesterdayPartners.get(i).getSleep();
-//            }
-//            for (int i = 0; i < todayPartners.size(); i++) {
-//                xValue[i + 12] = todayPartners.get(i).getSleep();
-//            }
-//        }else {
-//            for (int k=0;k<xValue.length;k++) {
-//                xValue[k]="4";
-//            }
-//        }
-//        for (int i = 0; i < xValue.length; i++) {
-//            String state = xValue[i];
-//            if (state != null) {
-//                switch (state) {
-//                    case "1":
-//                        awakeTime += 1;
-//                        if (booleanAwake){
-//                            awakeCount++;
-//                            booleanAwake=false;
-//                        }
-//                        break;
-//                    case "2":
-//                        sleepTime += 1;
-//                        lightsleepTime += 1;
-//                        booleanAwake=true;
-//                        break;
-//                    case "3":
-//                        sleepTime += 1;
-//                        sleepingTime += 1;
-//                        booleanAwake=true;
-//                        break;
-////                    case "3":
-////                        awakeTime += 1;
-////                        if (booleanAwake){
-////                            awakeCount++;
-////                            booleanAwake=false;
-////                        }
-////                        break;
-////                    case "4":
-////                        awakeTime += 0;
-////                        sleepTime += 0;
-////                        lightsleepTime += 0;
-////                        sleepingTime += 0;
-////                        break;
-//                }
-//            }
-//        }
         SleepWeekTime sleepWeekTime = new SleepWeekTime();
-        sleepWeekTime.setLightsleepHour(lightsleepHour);
         sleepWeekTime.setLightsleepMin(lightsleepMin);
-        sleepWeekTime.setDeepsleepHour(deepsleepHour);
         sleepWeekTime.setDeepsleepMin(deepsleepMin);
-        sleepWeekTime.setSleepHour(lightsleepHour + deepsleepHour);
-        sleepWeekTime.setSleepMin(lightsleepMin + deepsleepMin);
-        if (deepsleepMin + lightsleepMin < 60&&deepsleepMin>0&&lightsleepMin>0) {
-            sleepWeekTime.setAwakeHour(23 - deepsleepHour - lightsleepHour);
-            sleepWeekTime.setAwakeMin(deepsleepMin + lightsleepMin);
-        } else if ((deepsleepMin + lightsleepMin) == 60) {
-            sleepWeekTime.setAwakeHour(23 - deepsleepHour - lightsleepHour);
-            sleepWeekTime.setAwakeMin(0);
-        } else if (deepsleepMin == 0 && deepsleepMin == 0) {
-            if(deepsleepHour+lightsleepHour==0){
-                sleepWeekTime.setAwakeHour(0);
-            }else{
-                sleepWeekTime.setAwakeHour(24 - deepsleepHour - lightsleepHour);
-            }
-            sleepWeekTime.setAwakeMin(0);
-        } else {
-            sleepWeekTime.setAwakeHour(22 - deepsleepHour - lightsleepHour);
-            sleepWeekTime.setAwakeMin(deepsleepMin + lightsleepMin - 60);
-        }
-
-
-//            sleepWeekTime.setAwakeTime(awakeTime);
-//            sleepWeekTime.setLightsleepTime(lightsleepTime);
-//            sleepWeekTime.setSleepingTime(sleepingTime);
-//            sleepWeekTime.setSleeptime(sleepTime);
         sleepWeekTime.setAwakeCount(awakecount);
         sleepWeekTimes.add(sleepWeekTime);
-
-
     }
 
     private void initView() {

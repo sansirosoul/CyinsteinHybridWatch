@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.xyy.Gazella.fragment.MainDialFragment;
 import com.xyy.Gazella.fragment.SmallFragment1;
@@ -129,7 +128,6 @@ public class TimeSynchronization extends BaseActivity {
             btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
         }
         install = this;
-//        DeviceConnectionStateChanges();
     }
 
     @Override
@@ -143,41 +141,6 @@ public class TimeSynchronization extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onNotifyReturn(int type, String str) {
-        Logger.t(TAG).e(String.valueOf(type));
-        switch (type) {
-            case 0:
-                isNotify = true;
-                Message.obtain(ehandler, 102, str).sendToTarget();
-                break;
-            case 1:
-                isNotify = false;
-                Message.obtain(ehandler, 101, str).sendToTarget();
-                break;
-            case 2:
-                Notify(connectionObservable);
-                break;
-        }
-        super.onNotifyReturn(type, str);
-    }
-
-    Handler ehandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 101:
-                    btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_duankai));
-                    String str = (String) msg.obj;
-                    HandleThrowableException(str);
-                    break;
-                case 102:
-                    btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
-                    break;
-            }
-        }
-    };
 
     @Override
     protected void onReadReturn(byte[] bytes) {

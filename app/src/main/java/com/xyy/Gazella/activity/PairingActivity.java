@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.content.Context;
@@ -26,11 +25,10 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.vise.baseble.ViseBluetooth;
-import com.vise.baseble.callback.IConnectCallback;
 import com.vise.baseble.callback.scan.PeriodScanCallback;
-import com.vise.baseble.exception.BleException;
 import com.vise.baseble.model.BluetoothLeDevice;
 import com.xyy.Gazella.adapter.DeviceListAdapter;
+import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.xyy.Gazella.utils.LoadingDialog;
 import com.xyy.Gazella.utils.PairFailedDialog;
@@ -60,6 +58,8 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private BluetoothLeScanner bluetoothLeScanner;
     private List<BluetoothDevice> devices = new ArrayList<>();
     private List<String> deviceTypes = new ArrayList<>();
+    private BluetoothDevice mDevice;
+    private String mDeviceType;
     private static final int REQUEST_ENABLE_BT = 1;
     private RelativeLayout searchLayout, bgLayout;
     private LinearLayout pairingLayout;
@@ -71,12 +71,13 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     private CheckUpdateDialog2 myDialog;
     private boolean isRun = true;
 
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.pairing_activity);
         ButterKnife.bind(this);
-
+        GazelleApplication.mBluetoothService.setActivityHandler2(mActivityHandler);
         initView();
         initBluetooth();
     }
@@ -199,7 +200,6 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         bgLayout.setBackgroundResource(R.drawable.page2_bg);
 
         mayRequestLocation();
-
     }
 
     @Override
@@ -212,6 +212,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     protected void onDestroy() {
         super.onDestroy();
         ViseBluetooth.getInstance().stopLeScan(periodScanCallback);
+        GazelleApplication.mBluetoothService.removeActivityHandler2();
     }
 
     @Override
@@ -259,39 +260,41 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         }
     };
 
+    private Handler mActivityHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case BluetoothService.STATE_CONNECTED:
+                    loadingDialog.dismiss();
+                    if(pairFailedDialog!=null&&pairFailedDialog.isShowing())pairFailedDialog.dismiss();
+                    GazelleApplication.isBleConnected=true;
+                    PreferenceData.setAddressValue(PairingActivity.this, mDevice.getAddress());
+                    PreferenceData.setDeviceType(PairingActivity.this,mDeviceType);
+                    PreferenceData.setDeviceName(PairingActivity.this,mDevice.getName());
+                    Intent intent = new Intent(context, PersonActivity.class);
+                    startActivity(intent);
+                    PairingActivity.this.finish();
+                    overridePendingTransitionEnter(PairingActivity.this);
+                    break;
+                case BluetoothService.STATE_DISCONNECTED:
+                    GazelleApplication.isBleConnected = false;
+                    break;
+                case BluetoothService.STATE_CONNECT_FAILED:
+                    loadingDialog.dismiss();
+                    if (pairFailedDialog != null)
+                        pairFailedDialog.show();
+                    break;
+            }
+        }
+    };
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        mDevice = devices.get(i);
+//        if (Build.VERSION.SDK_INT >= 19) mDevice.createBond();
+        mDeviceType = deviceTypes.get(i);
         loadingDialog.show();
-        ViseBluetooth.getInstance().stopLeScan(periodScanCallback);
-        device = devices.get(i);
-        ViseBluetooth.getInstance().connect(device, false, new IConnectCallback() {
-            @Override
-            public void onConnectSuccess(BluetoothGatt gatt, int status) {
-                mBluetoothGatt=gatt;
-                loadingDialog.dismiss();
-                if(pairFailedDialog!=null&&pairFailedDialog.isShowing())pairFailedDialog.dismiss();
-                GazelleApplication.isBleConnected=true;
-                PreferenceData.setAddressValue(PairingActivity.this, device.getAddress());
-                PreferenceData.setDeviceType(PairingActivity.this,deviceTypes.get(i));
-                PreferenceData.setDeviceName(PairingActivity.this,device.getName());
-                Intent intent = new Intent(context, PersonActivity.class);
-                startActivity(intent);
-                PairingActivity.this.finish();
-                overridePendingTransitionEnter(PairingActivity.this);
-            }
-
-            @Override
-            public void onConnectFailure(BleException exception) {
-                loadingDialog.dismiss();
-                if(pairFailedDialog!=null)
-                    pairFailedDialog.show();
-            }
-
-            @Override
-            public void onDisconnect() {
-                GazelleApplication.isBleConnected=false;
-            }
-        });
+        GazelleApplication.mBluetoothService.connectByDevice(mDevice);
     }
 
     Handler mHandler = new Handler() {
@@ -302,6 +305,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                 case 1001:
                     clock.setTimeValue(2, count);
                     if (count == 180 && devices.size() == 0) {
+                        mHandler.removeCallbacks(runnable);
                         ViseBluetooth.getInstance().stopLeScan(periodScanCallback);
                         isRun = false;
                         myDialog = new CheckUpdateDialog2(PairingActivity.this);
@@ -316,7 +320,8 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                                 isRun = true;
                                 count = 0;
                                 scanDevices();
-                                mHandler.removeCallbacks(runnable);
+                                clock.setTimeValue(2, 0);
+                               mHandler.post(runnable);
                             }
 
                             @Override

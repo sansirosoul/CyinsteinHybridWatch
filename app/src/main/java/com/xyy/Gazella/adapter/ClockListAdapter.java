@@ -16,7 +16,7 @@ import com.xyy.Gazella.utils.DelClockDialog;
 import com.xyy.Gazella.utils.HexString;
 import com.xyy.model.Clock;
 import com.ysp.hybridtwatch.R;
-import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
 import java.util.ArrayList;
@@ -96,13 +96,12 @@ public class ClockListAdapter extends BaseAdapter {
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
                         BleUtils bleUtils = new BleUtils();
-                        connectionObservable = BaseActivity.getRxObservable(context);
                         if(Clock.transformRate(context,clock.getRate())!=5){
-                            Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
-                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),Clock.transformRate(context,clock.getRate()),"00000000",1),connectionObservable);
+                            GazelleApplication.mBluetoothService.writeCharacteristic(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
+                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),Clock.transformRate(context,clock.getRate()),"00000000",1));
                         }else{
-                            Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
-                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),5,clock.getCustom(),1),connectionObservable);
+                            GazelleApplication.mBluetoothService.writeCharacteristic(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
+                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),5,clock.getCustom(),1));
                         }
                     }
                     clock.setIsOpen(1);
@@ -111,13 +110,12 @@ public class ClockListAdapter extends BaseAdapter {
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
                         BleUtils bleUtils = new BleUtils();
-                        connectionObservable = BaseActivity.getRxObservable(context);
                         if(Clock.transformRate(context,clock.getRate())!=5){
-                            Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
-                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),Clock.transformRate(context,clock.getRate()),"00000000",0),connectionObservable);
+                            GazelleApplication.mBluetoothService.writeCharacteristic(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
+                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),Clock.transformRate(context,clock.getRate()),"00000000",0));
                         }else{
-                            Write(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
-                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),5,clock.getCustom(),0),connectionObservable);
+                            GazelleApplication.mBluetoothService.writeCharacteristic(bleUtils.setWatchAlarm(1,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
+                                    Clock.transformSnoozeTime(context,clock.getSnoozeTime()),5,clock.getCustom(),0));
                         }
                     }
                     clock.setIsOpen(0);
@@ -132,9 +130,8 @@ public class ClockListAdapter extends BaseAdapter {
                 String address = PreferenceData.getAddressValue(context);
                 if (address != null && !address.equals("")) {
                     BleUtils bleUtils = new BleUtils();
-                    connectionObservable = BaseActivity.getRxObservable(context);
-                    Write(bleUtils.setWatchAlarm(0,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
-                            Clock.transformSnoozeTime(context,clock.getSnoozeTime()),Clock.transformRate(context,clock.getRate()),"00000000",0),connectionObservable);
+                    GazelleApplication.mBluetoothService.writeCharacteristic(bleUtils.setWatchAlarm(0,clock.getId(),Integer.parseInt(hour), Integer.parseInt(minute),
+                            Clock.transformSnoozeTime(context,clock.getSnoozeTime()),Clock.transformRate(context,clock.getRate()),"00000000",0));
                 }
                 clocks.remove(position);
                 notifyDataSetChanged();

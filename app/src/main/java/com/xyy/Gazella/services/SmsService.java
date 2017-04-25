@@ -20,7 +20,6 @@ import com.vise.baseble.callback.IBleCallback;
 import com.vise.baseble.exception.BleException;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
-import com.ysp.newband.BaseActivity;
 import com.ysp.newband.PreferenceData;
 
 import java.util.List;
@@ -51,7 +50,6 @@ public class SmsService extends Service {
     public void onCreate() {
         super.onCreate();
         Logger.e("SmsService is starting...");
-        mBluetoothGatt=BaseActivity.mBluetoothGatt;
         addSMSObserver();
     }
 

@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.format.Time;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -99,6 +97,7 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        setActivityHandler();
         ViseBluetooth.getInstance().setOnNotifyListener(onNotifyListener);
         initBle();
     }
@@ -132,40 +131,6 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onNotifyReturn(int type, String str) {
-        super.onNotifyReturn(type, str);
-        switch (type) {
-            case 0:
-                Write(bleUtils.setSystemType(), connectionObservable);
-                break;
-            case 1:
-                Message.obtain(handler, 101, str).sendToTarget();
-                break;
-            case 2:
-                Notify(connectionObservable);
-                break;
-        }
-    }
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 101:
-                    String str = (String) msg.obj;
-                    HandleThrowableException(str);
-                    break;
-                case READ_SUCCESS:
-                    byte[] bytes = (byte[]) msg.obj;
-                    if (bytes[0] == 0x07 && bytes[1] == 0x25 && bytes[2] == 0x01) {
-                        showToatst(context, getResources().getString(R.string.watch_shake_search));
-                    }
-                    break;
-            }
-        }
-    };
 
     private void initView() {
         TVTitle.setText(R.string.setting);

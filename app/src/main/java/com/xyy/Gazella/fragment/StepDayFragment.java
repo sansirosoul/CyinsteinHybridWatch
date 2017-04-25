@@ -185,7 +185,6 @@ public class StepDayFragment extends BaseFragment {
                     tvSumsnum.setText(String.valueOf(sumsNum));
                 }
             }
-            //tvStepTarget.setText(getResources().getString(R.string.step_target_ok));
         } else {
             for (int i = 0; i < xValue.length; i++)
                 xValue[i] = "0";
@@ -198,7 +197,6 @@ public class StepDayFragment extends BaseFragment {
             tvNumMi.setText("0");
             tvNumCard.setText("0.0");
             tvSumsnum.setText("0");
-         //   tvStepTarget.setText(getResources().getString(R.string.no_step_data));
         }
         Date netDate = null;
         int netSumsNum,i1 = 0;
@@ -211,7 +209,7 @@ public class StepDayFragment extends BaseFragment {
         String strNetDay = new SomeUtills().getAmountDate(netDate, 0, 0);
         if (partners != null || partners.size() > 0) partners.clear();
         partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", strNetDay);
-        if (partners.size() == 24) {
+//        if (partners.size() == 24) {
             for (int i = 0; i < partners.size(); i++) {
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
                     netSumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
@@ -223,7 +221,7 @@ public class StepDayFragment extends BaseFragment {
                         tvManystep.setText(getResources().getString(R.string.ye_step_manydata));
                 }
             }
-        }
+//        }
         tvNetsumsstep.setText(String.valueOf(i1));
         i1=0;
         sumsNum=0;

@@ -133,9 +133,9 @@ public class SleepFragment extends BaseFragment {
         tvHour.setTextSize(50);
         tvMin.setTextSize(50);
         setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
-        deepTime.setText(0+getResources().getString(R.string.minute));
-        lowTime.setText(0+getResources().getString(R.string.minute));
-        wakeTime.setText(0+getResources().getString(R.string.minute));
+        deepTime.setText(0 + getResources().getString(R.string.minute));
+        lowTime.setText(0 + getResources().getString(R.string.minute));
+        wakeTime.setText(0 + getResources().getString(R.string.minute));
         String Synchronizationtime = PreferenceData.getSleepSynchronizationTime(getActivity());
         if (Synchronizationtime != null && !Synchronizationtime.equals("")) {
             tvSynchronizationtime.setText(getResources().getString(R.string.last_synchronize_time) + Synchronizationtime);
@@ -194,15 +194,12 @@ public class SleepFragment extends BaseFragment {
     }
 
     public void initData(String Today, String yesterday) {
-        int sleepTime = 0;
-        int lightsleepTime = 0;
-        int sleepingTime = 0;
-        int awakeTime = 0;
-
         int lightsleepHour = 0;
         int lightsleepMin = 0;
         int deepsleepHour = 0;
         int deepsleepMin = 0;
+        int sleepHour = 0;
+        int sleepMin = 0;
         int awakeHour = 0;
         int awakeMin = 0;
 
@@ -248,15 +245,12 @@ public class SleepFragment extends BaseFragment {
                     c2.set(year2, month2, date2, hour2, min2);
 
                     int second = (int) ((c2.getTime().getTime() - c1.getTime().getTime()) / 1000);
-                    int hour = second / 3600;
-                    int min = (second % 3600) / 60;
+                    int min = second/60;
                     switch (partners.get(i).getSleep()) {
                         case "2":
-                            lightsleepHour += hour;
                             lightsleepMin += min;
                             break;
                         case "3":
-                            deepsleepHour += hour;
                             deepsleepMin += min;
                             break;
                     }
@@ -264,79 +258,31 @@ public class SleepFragment extends BaseFragment {
             }
         }
 
+        sleepHour = (lightsleepMin+deepsleepMin)/60;
+        sleepMin = (lightsleepMin+deepsleepMin)%60;
 
-//        xValue = new String[24];
-//        if (todayPartners != null || todayPartners.size() > 0) {
-//            todayPartners.clear();
-//            yesterdayPartners.clear();
-//        }
-//        todayPartners = HealthyActivity.install.mCommonUtils.queryByBuilder("sleep", Today);
-//        yesterdayPartners = HealthyActivity.install.mCommonUtils.queryByBuilder("sleep", yesterday);
-//
-//        if (todayPartners.size() == 24 && yesterdayPartners.size() == 24 && !yesterday.equals(strday)) {
-//            yesterdayPartners = yesterdayPartners.subList(12, 24);
-//            todayPartners = todayPartners.subList(0, 12);
-//            for (int i = 0; i < yesterdayPartners.size(); i++) {
-//                xValue[i] = yesterdayPartners.get(i).getSleep();
-//            }
-//            for (int i = 0; i < todayPartners.size(); i++) {
-//                xValue[i + 12] = todayPartners.get(i).getSleep();
-//            }
-//        }
-//
-//        for (int i = 0; i < xValue.length; i++) {
-//            String state = xValue[i];
-//            if (state != null) {
-//                switch (state) {
-//                    case "1":
-//                        awakeTime += 1;
-//                        break;
-//                    case "2":
-//                        sleepTime += 1;
-//                        lightsleepTime += 1;
-//                        break;
-//                    case "3":
-//                        sleepTime += 1;
-//                        sleepingTime += 1;
-//                        break;
-////                    case "3":
-////                        awakeTime += 1;
-////                        break;
-//                }
-//            }
-//        }
-//
-////        tvHour.setText(String.valueOf(sleepTime));
-        tvHour.withNumber(lightsleepHour + deepsleepHour);
+        awakeHour = (24*60-lightsleepMin-deepsleepMin)/60;
+        awakeMin = (24*60-lightsleepMin-deepsleepMin)%60;
+
+        lightsleepHour=lightsleepMin/60;
+        lightsleepMin=lightsleepMin%60;
+
+        deepsleepHour=deepsleepMin/60;
+        deepsleepMin=deepsleepMin%60;
+
+
+        tvHour.withNumber(sleepHour);
         tvHour.setDuration(1000);
         tvHour.start();
-        tvMin.withNumber(lightsleepMin + deepsleepMin);
+        tvMin.withNumber(sleepMin);
         tvMin.setDuration(1000);
         tvMin.start();
 
         deepTime.setText(String.valueOf(deepsleepHour) + getResources().getString(R.string.hour) + deepsleepMin + getResources().getString(R.string.minute));
         lowTime.setText(String.valueOf(lightsleepHour) + getResources().getString(R.string.hour) + lightsleepMin + getResources().getString(R.string.minute));
-        if ((deepsleepMin + lightsleepMin) < 60 && deepsleepMin > 0 && lightsleepMin > 0) {
-            wakeTime.setText((23 - deepsleepHour - lightsleepHour) + getResources().getString(R.string.hour)
-                    + (deepsleepMin + lightsleepMin) + getResources().getString(R.string.minute));
-        } else if ((deepsleepMin + lightsleepMin) == 60) {
-            wakeTime.setText((23 - deepsleepHour - lightsleepHour) + getResources().getString(R.string.hour)
-                    + 0 + getResources().getString(R.string.minute));
-        } else if (deepsleepMin == 0 && deepsleepMin == 0) {
-            if(deepsleepHour+lightsleepHour==0){
-                wakeTime.setText(0 + getResources().getString(R.string.hour)
-                        + 0 + getResources().getString(R.string.minute));
-            }else{
-                wakeTime.setText((24 - deepsleepHour - lightsleepHour) + getResources().getString(R.string.hour)
-                        + 0 + getResources().getString(R.string.minute));
-            }
+        wakeTime.setText(awakeHour+getResources().getString(R.string.hour)+awakeMin+getResources().getString(R.string.minute));
 
-        } else {
-            wakeTime.setText((22 - deepsleepHour - lightsleepHour) + getResources().getString(R.string.hour)
-                    + (deepsleepMin + lightsleepMin - 60) + getResources().getString(R.string.minute));
-        }
-
-        if ((deepsleepHour + lightsleepHour) < PreferenceData.getTargetSleepHourValue(getActivity())){
+        if ((deepsleepHour + lightsleepHour) < PreferenceData.getTargetSleepHourValue(getActivity())) {
             quality.setText(getResources().getString(R.string.bad));
             setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
         } else {
@@ -384,7 +330,7 @@ public class SleepFragment extends BaseFragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                HealthyActivity.type=2;
+                HealthyActivity.type = 2;
                 writeCharacteristic(bleUtils.getSleepData(6));
             }
         }, 1000);
@@ -437,7 +383,7 @@ public class SleepFragment extends BaseFragment {
         }
     }
 
-    public void setUploadFinsh(){
+    public void setUploadFinsh() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

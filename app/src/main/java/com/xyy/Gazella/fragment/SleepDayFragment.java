@@ -139,17 +139,15 @@ public class SleepDayFragment extends BaseFragment {
     }
 
     public void initData(String Today, String yesterday) {
-//        int sleepTime = 0;
-//        int lightsleepTime = 0;
-//        int sleepingTime = 0;
-//        int awakeTime = 0;
         int awakecount = 0;
-//        boolean booleanAwake = true;
-
         int lightsleepHour = 0;
         int lightsleepMin = 0;
         int deepsleepHour = 0;
         int deepsleepMin = 0;
+        int sleepHour = 0;
+        int sleepMin = 0;
+        int awakeHour = 0;
+        int awakeMin = 0;
 
         if (todayPartners != null || todayPartners.size() > 0) {
             partners.clear();
@@ -175,7 +173,7 @@ public class SleepDayFragment extends BaseFragment {
         }
         XString = new String[partners.size()];
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setLabelCount(partners.size(),false);
+        xAxis.setLabelCount(partners.size(), false);
         if (partners.size() != 0) {
             for (int i = 0; i < partners.size(); i++) {
                 XString[i] = partners.get(i).getTime().split("\\.")[0] + ":" + partners.get(i).getTime().split("\\.")[1];
@@ -197,15 +195,12 @@ public class SleepDayFragment extends BaseFragment {
                     c2.set(year2, month2, date2, hour2, min2);
 
                     int second = (int) ((c2.getTime().getTime() - c1.getTime().getTime()) / 1000);
-                    int hour = second / 3600;
-                    int min = (second % 3600) / 60;
+                    int min = second / 60;
                     switch (partners.get(i).getSleep()) {
                         case "2":
-                            lightsleepHour += hour;
                             lightsleepMin += min;
                             break;
                         case "3":
-                            deepsleepHour += hour;
                             deepsleepMin += min;
                         case "1":
                             awakecount += 1;
@@ -215,83 +210,26 @@ public class SleepDayFragment extends BaseFragment {
             }
         }
 
+        sleepHour = (lightsleepMin+deepsleepMin)/60;
+        sleepMin = (lightsleepMin+deepsleepMin)%60;
 
-//        xValue = new String[24];
-//        if (todayPartners != null || todayPartners.size() > 0) {
-//            todayPartners.clear();
-//            yesterdayPartners.clear();
-//        }
-//        todayPartners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", Today);
-//        yesterdayPartners = SleepActivity.sleepActivity.mCommonUtils.queryByBuilder("sleep", yesterday);
-//
-//        if (todayPartners.size() == 24 && yesterdayPartners.size() == 24 && !yesterday.equals(strday)) {
-//            yesterdayPartners = yesterdayPartners.subList(12, 24);
-//            todayPartners = todayPartners.subList(0, 12);
-//
-//            for (int i = 0; i < yesterdayPartners.size(); i++) {
-//                xValue[i] = yesterdayPartners.get(i).getSleep();
-//                XString[i] = yesterdayPartners.get(i).getTime();
-//            }
-//            for (int i = 0; i < todayPartners.size(); i++) {
-//                xValue[i + 12] = todayPartners.get(i).getSleep();
-//                XString[i + 12] = todayPartners.get(i).getTime();
-//            }
-//        }
-//
-//        for (int i = 0; i < xValue.length; i++) {
-//            String state = xValue[i];
-//            if (state != null) {
-//                switch (state) {
-//                    case "1":
-//                        awakeTime += 1;
-//                        if (booleanAwake) {
-//                            awakecount++;
-//                            booleanAwake = false;
-//                        }
-//                        break;
-//                    case "2":
-//                        sleepTime += 1;
-//                        lightsleepTime += 1;
-//                        booleanAwake = true;
-//                        break;
-//                    case "3":
-//                        sleepTime += 1;
-//                        sleepingTime += 1;
-//                        booleanAwake = true;
-//                        break;
-////                          case "3":
-////                              awakeTime += 1;
-////                              if (booleanAwake){
-////                                  awakecount++;
-////                                  booleanAwake=false;
-////                              }
-////                              break;
-//                }
-//            }
-//        }
-        tvSleeptime.setText(String.valueOf(lightsleepHour + deepsleepHour));
-        tvSleeptime2.setText(String.valueOf(lightsleepMin + deepsleepMin));
+        awakeHour = (24*60-lightsleepMin-deepsleepMin)/60;
+        awakeMin = (24*60-lightsleepMin-deepsleepMin)%60;
+
+        lightsleepHour=lightsleepMin/60;
+        lightsleepMin=lightsleepMin%60;
+
+        deepsleepHour=deepsleepMin/60;
+        deepsleepMin=deepsleepMin%60;
+
+        tvSleeptime.setText(String.valueOf(sleepHour));
+        tvSleeptime2.setText(String.valueOf(sleepMin));
         tvLightsleepTime.setText(String.valueOf(lightsleepHour));
         tvLightsleepTime2.setText(String.valueOf(lightsleepMin));
         tvSleepingtime.setText(String.valueOf(deepsleepHour));
         tvSleepingtime2.setText(String.valueOf(deepsleepMin));
-        if (deepsleepMin + lightsleepMin < 60 && deepsleepMin > 0 && lightsleepMin > 0) {
-            tvAwakeTime.setText(String.valueOf(23 - deepsleepHour - lightsleepHour));
-            tvAwakeTime2.setText(String.valueOf(deepsleepMin + lightsleepMin));
-        } else if ((deepsleepMin + lightsleepMin) == 60) {
-            tvAwakeTime.setText(String.valueOf(23 - deepsleepHour - lightsleepHour));
-            tvAwakeTime2.setText(String.valueOf(0));
-        } else if (deepsleepMin == 0 && deepsleepMin == 0) {
-            if(deepsleepHour+lightsleepHour==0){
-                tvAwakeTime.setText(String.valueOf(0));
-            }else{
-                tvAwakeTime.setText(String.valueOf(24 - deepsleepHour - lightsleepHour));
-            }
-            tvAwakeTime2.setText(String.valueOf(0));
-        } else {
-            tvAwakeTime.setText(String.valueOf(22 - deepsleepHour - lightsleepHour));
-            tvAwakeTime2.setText(String.valueOf(deepsleepMin + lightsleepMin - 60));
-        }
+        tvAwakeTime.setText(String.valueOf(awakeHour));
+        tvAwakeTime2.setText(String.valueOf(awakeMin));
         tvAwakeCount.setText(String.valueOf(awakecount));
         updateUI(partners);
     }
@@ -422,7 +360,7 @@ public class SleepDayFragment extends BaseFragment {
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
             //Log.e(Tag, " " + value);
-            if(XString.length==0) return "";
+            if (XString.length == 0) return "";
             return XString[(int) value % XString.length];
         }
 

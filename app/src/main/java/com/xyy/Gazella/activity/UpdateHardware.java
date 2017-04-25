@@ -78,6 +78,8 @@ public class UpdateHardware extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        GazelleApplication.isNormalDisconnet=true;
+        setActivityHandler();
         ViseBluetooth.getInstance().setOnNotifyListener(onNotifyListener);
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
@@ -142,6 +144,8 @@ public class UpdateHardware extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnExit:
+//                Intent intent = new Intent(this,SettingActivity.class);
+//                startActivity(intent);
                 finish();
                 overridePendingTransitionExit(UpdateHardware.this);
                 break;

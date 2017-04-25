@@ -3,11 +3,6 @@ package com.ysp.newband;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCallback;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
-import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -30,31 +25,16 @@ import com.exchange.android.engine.Uoi;
 import com.exchange.android.engine.Uoo;
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleClient;
-import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.internal.RxBleLog;
-import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
 import com.vise.baseble.ViseBluetooth;
-import com.vise.baseble.callback.IBleCallback;
-import com.vise.baseble.callback.IConnectCallback;
-import com.vise.baseble.exception.BleException;
 import com.xyy.Gazella.exchange.ExangeErrorHandler;
+import com.xyy.Gazella.services.BluetoothService;
 import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.HexString;
 import com.ysp.hybridtwatch.R;
 
-import java.util.List;
-import java.util.UUID;
-
-import rx.Observable;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.subjects.PublishSubject;
-
-import static com.xyy.Gazella.services.BluetoothService.notifyUUID;
-import static com.xyy.Gazella.services.BluetoothService.writeUUID;
+import static com.xyy.Gazella.services.BluetoothService.STATE_CONNECT_FAILED;
 
 
 public class BaseActivity extends FragmentActivity {
@@ -66,91 +46,84 @@ public class BaseActivity extends FragmentActivity {
     public final static String serviceUUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String ReadUUID = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
-    private static Observable<RxBleConnection> connectionObservable;
-    private static PublishSubject<Void> disconnectTriggerSubject = PublishSubject.create();
     private RxBleDevice bleDevicme;
-    private long timeOut = 15000; //超时设置为15秒
-    private static Subscription connectionSubscription, scanSubscription;
-    public static BluetoothGatt mBluetoothGatt;
     public static String mDeviceAddress;
-    public final static int READ_SUCCESS = 10000;
 
-    Handler readHandler = new Handler() {
+
+    Handler mActivityHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            byte[] bytes = (byte[]) msg.obj;
-            Logger.e("收到数据" + HexString.bytesToHex(bytes));
-            onReadReturn(bytes);
+            switch (msg.what){
+                case BluetoothService.STATE_CONNECTED:
+                    GazelleApplication.isBleConnected = true;
+                    isServicesDiscovered(true);
+                    if (dialog!=null&&dialog.isShowing())
+                        dialog.dismiss();
+                    Logger.e("连接成功");
+                    onConnectionState(1);
+                    break;
+                case BluetoothService.STATE_DISCONNECTED:
+                    onConnectionState(2);
+                    Logger.e("连接断开");
+                    GazelleApplication.isBleConnected = false;
+                    break;
+                case STATE_CONNECT_FAILED:
+                    onConnectionState(0);
+                    GazelleApplication.isBleConnected=false;
+                    isServicesDiscovered(false);
+                    if (dialog!=null&&dialog.isShowing()) {
+                        dialog.setllBottomVisibility(View.VISIBLE);
+                        dialog.setButOk(View.VISIBLE);
+                        dialog.setButAdgin(View.VISIBLE);
+                        dialog.setLoadingVisibility(View.GONE);
+                        dialog.setTvContext(getResources().getString(R.string.connect_failed_reconnect));
+                        dialog.setButOkText(getResources().getString(R.string.reconnect));
+                        dialog.setButAdginText(getResources().getString(R.string.cancel_connect));
+                        dialog.onButOKListener(new CommonDialog.onButOKListener() {
+                            @Override
+                            public void onButOKListener() {
+                                dialog.dismiss();
+                                ViseBluetooth.getInstance().disconnect();
+                                ViseBluetooth.getInstance().close();
+                                ViseBluetooth.getInstance().clear();
+                                connectBLEbyMac(mDeviceAddress);
+                            }
+                        });
+                        dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
+                            @Override
+                            public void onButAdginListener() {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                    break;
+                case BluetoothService.NOTIFY_SUCCESS:
+                    if(msg.obj!=null){
+                        byte[] bytes = (byte[]) msg.obj;
+                        Logger.e("收到数据" + HexString.bytesToHex(bytes));
+                        if(bytes!=null&&bytes.length!=0){
+                            onReadReturn(bytes);
+                        }
+                    }
+                    break;
+                case BluetoothService.WRITE_SUCCESS:
+                    if(msg.obj!=null){
+                        byte[] bytes = (byte[]) msg.obj;
+                        if(bytes!=null&&bytes.length!=0){
+                            onWriteReturn(bytes);
+                        }
+                    }
+                    break;
+            }
         }
     };
 
-    public BluetoothGattCharacteristic getWriteCharacteristic() {
-        BluetoothGattCharacteristic gattCharacteristic = null;
-        if (mBluetoothGatt == null)
-            return null;
-        List<BluetoothGattService> services = mBluetoothGatt.getServices();
-        for (int i = 0; i < services.size(); i++) {
-            BluetoothGattService service = services.get(i);
-            if (service.getUuid().toString().equals(serviceUUID)) {
-                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-                for (int j = 0; j < characteristics.size(); j++) {
-                    BluetoothGattCharacteristic characteristic = characteristics.get(j);
-                    if (characteristic.getUuid().toString().equals(writeUUID)) {
-                        gattCharacteristic = characteristic;
-                    }
-                }
-            }
-        }
-        return gattCharacteristic;
-    }
-
-    public BluetoothGattCharacteristic getNotifyCharacteristic() {
-        BluetoothGattCharacteristic gattCharacteristic = null;
-        if (mBluetoothGatt == null)
-            return null;
-        List<BluetoothGattService> services = mBluetoothGatt.getServices();
-        for (int i = 0; i < services.size(); i++) {
-            BluetoothGattService service = services.get(i);
-            if (service.getUuid().toString().equals(serviceUUID)) {
-                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-                for (int j = 0; j < characteristics.size(); j++) {
-                    BluetoothGattCharacteristic characteristic = characteristics.get(j);
-                    if (characteristic.getUuid().toString().equals(notifyUUID)) {
-                        gattCharacteristic = characteristic;
-                    }
-                }
-            }
-        }
-        return gattCharacteristic;
-    }
-
     public void writeCharacteristic(byte[] bytes) {
-        ViseBluetooth.getInstance().writeCharacteristic(getWriteCharacteristic(), bytes, new IBleCallback<BluetoothGattCharacteristic>() {
-            @Override
-            public void onSuccess(BluetoothGattCharacteristic bluetoothGattCharacteristic, int type) {
-                onWriteReturn(bluetoothGattCharacteristic.getValue());
-            }
-
-            @Override
-            public void onFailure(BleException exception) {
-                Logger.e(exception.getDescription());
-            }
-        });
+        GazelleApplication.mBluetoothService.writeCharacteristic(bytes);
     }
 
     public void setNotifyCharacteristic() {
-        ViseBluetooth.getInstance().enableCharacteristicNotification(getNotifyCharacteristic(), new IBleCallback<BluetoothGattCharacteristic>() {
-            @Override
-            public void onSuccess(BluetoothGattCharacteristic bluetoothGattCharacteristic, int type) {
-                Message.obtain(readHandler, READ_SUCCESS, bluetoothGattCharacteristic.getValue()).sendToTarget();
-//                onReadReturn(bluetoothGattCharacteristic.getValue());
-            }
-
-            @Override
-            public void onFailure(BleException exception) {
-                Logger.e(exception.getDescription());
-            }
-        }, false);
+        GazelleApplication.mBluetoothService.setNotifyCharacteristic();
     }
 
     public void isServicesDiscovered(boolean flag) {
@@ -185,122 +158,8 @@ public class BaseActivity extends FragmentActivity {
                 });
             }
         } else {
-            ViseBluetooth.getInstance().connectByMac(address, false, new IConnectCallback() {
-                @Override
-                public void onConnectSuccess(BluetoothGatt gatt, int status) {
-                    mBluetoothGatt = gatt;
-                    GazelleApplication.isBleConnected = true;
-                    PreferenceData.setDeviceName(BaseActivity.this,gatt.getDevice().getName());
-                    isServicesDiscovered(true);
-                    if (dialog.isShowing())
-                        dialog.dismiss();
-                    Logger.e("连接成功");
-                    onConnectionState(1);
-                }
-
-                @Override
-                public void onConnectFailure(BleException exception) {
-                    Logger.e(exception.getDescription());
-                    if (!exception.getDescription().equals("Timeout Exception Occurred! ")) {
-                        onConnectionState(0);
-                        GazelleApplication.isBleConnected=false;
-                        ViseBluetooth.getInstance().disconnect();
-                        ViseBluetooth.getInstance().close();
-                        ViseBluetooth.getInstance().clear();
-                    }
-                    isServicesDiscovered(false);
-                    if (dialog.isShowing()) {
-                        dialog.setllBottomVisibility(View.VISIBLE);
-                        dialog.setButOk(View.VISIBLE);
-                        dialog.setButAdgin(View.VISIBLE);
-                        dialog.setLoadingVisibility(View.GONE);
-                        dialog.setTvContext(getResources().getString(R.string.connect_failed_reconnect));
-                        dialog.setButOkText(getResources().getString(R.string.reconnect));
-                        dialog.setButAdginText(getResources().getString(R.string.cancel_connect));
-                        dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                            @Override
-                            public void onButOKListener() {
-                                dialog.dismiss();
-                                ViseBluetooth.getInstance().disconnect();
-                                ViseBluetooth.getInstance().close();
-                                ViseBluetooth.getInstance().clear();
-                                connectBLEbyMac(address);
-                            }
-                        });
-                        dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
-                            @Override
-                            public void onButAdginListener() {
-                                dialog.dismiss();
-                            }
-                        });
-                    }
-                }
-
-                @Override
-                public void onDisconnect() {
-                    onConnectionState(2);
-                    Logger.e("连接断开");
-//                    Toast.makeText(BaseActivity.this,"",Toast.LENGTH_SHORT).show();
-                    GazelleApplication.isBleConnected = false;
-                    ViseBluetooth.getInstance().connectByMac(address,false,this);
-                }
-            });
+            GazelleApplication.mBluetoothService.connectByAddress(address);
         }
-    }
-
-    public static Observable<RxBleConnection> getRxObservable(Context context) {
-        String address = PreferenceData.getAddressValue(context);
-        if (address != null && !address.equals("")) {
-            RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(context).getBleDevice(address);
-            if (connectionObservable == null) {
-                connectionObservable = bleDevicme
-                        .establishConnection(context, false)
-                        .compose(new ConnectionSharingAdapter())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        }
-
-        return connectionObservable;
-    }
-
-    public static RxBleDevice getbleDevicme(Context context) {
-        String address = PreferenceData.getAddressValue(context);
-        if (address != null && !address.equals("")) {
-            RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(context).getBleDevice(address);
-            return bleDevicme;
-        }
-        return null;
-    }
-
-    public static void cleanObservable() {
-        if (connectionSubscription != null) {
-            connectionSubscription.unsubscribe();
-            connectionSubscription = null;
-        }
-        if (connectionObservable != null) {
-            connectionObservable.unsubscribeOn(AndroidSchedulers.mainThread());
-            connectionObservable = null;
-        }
-    }
-
-    public void setConnectionObservable(Context context, RxBleDevice rxBleDevice) {
-        connectionObservable = rxBleDevice
-                .establishConnection(context, false)
-                .compose(new ConnectionSharingAdapter())
-                .observeOn(AndroidSchedulers.mainThread());
-        connectionSubscription = connectionObservable.subscribe(
-                rxBleConnection -> {
-                    // All GATT operations are done through the rxBleConnection.
-                    onConnectionState(1);
-                },
-                throwable -> {
-                    // Handle an error here.
-                    Logger.e(throwable.toString());
-                    onConnectionState(2);
-                    connectionSubscription = null;
-                    connectionObservable = null;
-                }
-        );
     }
 
     public void onConnectionState(int state) {
@@ -323,223 +182,16 @@ public class BaseActivity extends FragmentActivity {
         if (address != null && !address.equals(""))
             bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
         RxBleClient.setLogLevel(RxBleLog.DEBUG);
+        if(GazelleApplication.mBluetoothService!=null)
+        GazelleApplication.mBluetoothService.setActivityHandler(mActivityHandler);
     }
 
-    private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {
-        return connectionObservable
-                .flatMap(new Func1<RxBleConnection, Observable<byte[]>>() {
-                    @Override
-                    public Observable<byte[]> call(RxBleConnection rxBleConnection) {
-                        return rxBleConnection.writeCharacteristic(UUID.fromString(WriteUUID), HexString.hexToBytes(writeString));
-                    }
-                });
-    }
-
-    protected void Write(byte[] bytes, Observable<RxBleConnection> connectionObservable) {
-        if (connectionObservable != null) {
-            WiterCharacteristic(HexString.bytesToHex(bytes), connectionObservable).observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Action1<byte[]>() {
-                        @Override
-                        public void call(byte[] bytes) {
-                            Logger.t(TAG).e("写入数据  >>>>>>  " + HexString.bytesToHex(bytes));
-                            onWriteReturn(bytes);
-                        }
-                    }, new Action1<Throwable>() {
-                        @Override
-                        public void call(Throwable throwable) {
-                            Logger.t(TAG).e("写入数据失败  >>>>>>   " + throwable.toString());
-                        }
-                    });
-        } else {
-            dialog = new CommonDialog(this);
-            dialog.show();
-            if (dialog.isShowing()) {
-                dialog.setTvContext("请检查手表蓝牙是否开启");
-                dialog.setButOk(View.VISIBLE);
-                dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                    @Override
-                    public void onButOKListener() {
-                        dialog.dismiss();
-                    }
-                });
-            }
-        }
+    public void setActivityHandler(){
+        if(mActivityHandler!=null)
+        GazelleApplication.mBluetoothService.setActivityHandler(mActivityHandler);
     }
 
     private CommonDialog dialog;
-
-    protected void Notify(Observable<RxBleConnection> connectionObservable) {
-        dialog = new CommonDialog(this);
-        dialog.show();
-        if (connectionObservable != null) {
-//            if (GazelleApplication.isEnabled) {
-//                handler.postDelayed(TimeOutRunnable, timeOut);
-//            }
-            connectionObservable
-                    .flatMap(new Func1<RxBleConnection, Observable<Observable<byte[]>>>() {
-                        @Override
-                        public Observable<Observable<byte[]>> call(RxBleConnection rxBleConnection) {
-                            return rxBleConnection.setupNotification(UUID.fromString(ReadUUID));
-                        }
-                    }).doOnNext(new Action1<Observable<byte[]>>() {
-                @Override
-                public void call(Observable<byte[]> observable) {
-                    Logger.t(TAG).e("开始接收通知  >>>>>>  ");
-                    GazelleApplication.isBleConnected = true;
-                    GazelleApplication.isEnabled = false;
-                    if (TimeOutRunnable != null) handler.removeCallbacks(TimeOutRunnable);
-                    if (dialog.isShowing())
-                        dialog.dismiss();
-                    onNotifyReturn(0, null);
-                }
-            }).flatMap(new Func1<Observable<byte[]>, Observable<byte[]>>() {
-                @Override
-                public Observable<byte[]> call(Observable<byte[]> notificationObservable) {
-                    return notificationObservable;
-                }
-            }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<byte[]>() {
-                @Override
-                public void call(byte[] bytes) {
-                    GazelleApplication.isEnabled = false;
-                    if (TimeOutRunnable != null) handler.removeCallbacks(TimeOutRunnable);
-                    Logger.t(TAG).e("接收数据  >>>>>>  " + HexString.bytesToHex(bytes) + "\n" + ">>>>>>>>" + new String(bytes));
-                    onReadReturn(bytes);
-                }
-            }, new Action1<Throwable>() {
-                @Override
-                public void call(Throwable throwable) {
-                    Logger.t(TAG).e("接收数据失败 >>>>>>  " + throwable.toString());
-                    GazelleApplication.isBleConnected = false;
-                    onNotifyReturn(1, throwable.toString());
-                }
-            });
-        } else {
-            if (dialog == null) dialog = new CommonDialog(this);
-            if (!dialog.isShowing()) dialog.show();
-            dialog.setTvContext("没有连接到手表设备");
-            dialog.setllBottomVisibility(View.VISIBLE);
-            dialog.setButOk(View.VISIBLE);
-            dialog.setLoadingVisibility(View.GONE);
-            dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                @Override
-                public void onButOKListener() {
-                    dialog.dismiss();
-                }
-            });
-        }
-    }
-
-    protected void HandleThrowableException(String throwable) {
-        BluetoothAdapter blueadapter = BluetoothAdapter.getDefaultAdapter();
-        if (TimeOutRunnable != null) handler.removeCallbacks(TimeOutRunnable);
-        if (!blueadapter.isEnabled()) {
-            if (dialog == null) dialog = new CommonDialog(this);
-            if (dialog.isShowing()) {
-                dialog.setllBottomVisibility(View.VISIBLE);
-                dialog.setButOk(View.VISIBLE);
-                dialog.setButAdgin(View.VISIBLE);
-                dialog.setLoadingVisibility(View.GONE);
-                dialog.setTvContext("是否开启手机蓝牙");
-                dialog.setButOkText("取消开启");
-                dialog.setButAdginText("开启蓝牙");
-                dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                    @Override
-                    public void onButOKListener() {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
-                    @Override
-                    public void onButAdginListener() {
-                        startActivityForResult(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE), 10010);
-                    }
-                });
-            }
-        } else {
-//            BluetoothGatt blegatt = bleDevicme.getBluetoothDevice().connectGatt(this, false, gattCallback);
-//            blegatt.close();
-//            blegatt = null;
-            if (throwable.contains("status=133") || throwable.contains("status=129")) {
-                if (dialog.isShowing()) {
-                    dialog.setllBottomVisibility(View.VISIBLE);
-                    dialog.setButOk(View.VISIBLE);
-                    dialog.setButAdgin(View.VISIBLE);
-                    dialog.setLoadingVisibility(View.GONE);
-                    dialog.setTvContext("连接失败是否继续连接");
-                    dialog.setButOkText("重新连接");
-                    dialog.setButAdginText("取消连接");
-                    dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                        @Override
-                        public void onButOKListener() {
-                            dialog.dismiss();
-                            Notify(connectionObservable);
-                        }
-                    });
-                    dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
-                        @Override
-                        public void onButAdginListener() {
-                            dialog.dismiss();
-                        }
-                    });
-                }
-            } else {
-                if (!GazelleApplication.isNormalDisconnet) {
-                    Toast.makeText(this, "蓝牙连接已断开", Toast.LENGTH_SHORT).show();
-//                    if (dialog == null) dialog = new CommonDialog(this);
-//                    if (!dialog.isShowing()) dialog.show();
-//                    dialog.setTvContext("蓝牙连接已断开是否重新连接");
-//                    dialog.setButOk(View.VISIBLE);
-//                    dialog.onButOKListener(new CommonDialog.onButOKListener() {
-//                        @Override
-//                        public void onButOKListener() {
-//                            dialog.dismiss();
-//                            Notify(connectionObservable);
-//                        }
-//                    });
-                } else {
-                    GazelleApplication.isNormalDisconnet = false;
-                }
-            }
-        }
-
-    }
-
-
-    protected void DeviceConnectionStateChanges() {
-        String address = PreferenceData.getAddressValue(this);
-        if (address != null && !address.equals("")) {
-            RxBleDevice bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
-            bleDevicme.observeConnectionStateChanges()
-                    .subscribe(new Action1<RxBleConnection.RxBleConnectionState>() {
-                        @Override
-                        public void call(RxBleConnection.RxBleConnectionState rxBleConnectionState) {
-                            if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED) {
-                                Logger.t(TAG).e("连接 >>>>>>  " + rxBleConnectionState.toString());
-
-                            } else {
-                                Logger.t(TAG).e("断开 >>>>>>  " + rxBleConnectionState.toString());
-                                GazelleApplication.isEnabled = true;
-
-                            }
-                        }
-                    }, new Action1<Throwable>() {
-                        @Override
-                        public void call(Throwable throwable) {
-                        }
-                    });
-        }
-    }
-
-    protected boolean getConnectionState() {
-        if (bleDevicme.getConnectionState() == RxBleConnection.RxBleConnectionState.CONNECTED)
-            return true;
-        else
-            return false;
-    }
-
-    protected RxBleDevice getBleDevicme() {
-        return bleDevicme;
-    }
 
     protected void onReadReturn(byte[] bytes) {
     }
@@ -550,25 +202,13 @@ public class BaseActivity extends FragmentActivity {
     protected void onNotifyReturn(int type, String str) {
     }
 
-    protected void onReadReturnFailed() {
-    }
-
-    protected void onConnectionStateChanges() {
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 10010) {
             if (resultCode == Activity.RESULT_OK) {
-//                if (GazelleApplication.isEnabled) {
-//                    handler.postDelayed(TimeOutRunnable, timeOut);
-//                }
                 if (dialog.isShowing())
                     dialog.dismiss();
-
                 connectBLEbyMac(mDeviceAddress);
-//                onNotifyReturn(2, null);//  再次发送监听蓝牙
             }
             return;
         }
@@ -634,11 +274,6 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        triggerDisconnect();
-    }
-
-    public void triggerDisconnect() {
-        disconnectTriggerSubject.onNext(null);
     }
 
     @Override
@@ -684,86 +319,4 @@ public class BaseActivity extends FragmentActivity {
         result.show();
     }
 
-    protected void showDialog(Context context) {
-
-        if (dialog == null) dialog = new CommonDialog(this);
-        if (dialog.isShowing()) {
-            dialog.setButOk(View.VISIBLE);
-            dialog.setllBottomVisibility(View.VISIBLE);
-            dialog.setButAdgin(View.VISIBLE);
-            dialog.setLoadingVisibility(View.GONE);
-            dialog.setTvContext("蓝牙连接已断开");
-            dialog.setButOkText("重新连接");
-            dialog.setButAdginText("取消连接");
-            dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                @Override
-                public void onButOKListener() {
-                    dialog.dismiss();
-                    Notify(connectionObservable);
-                }
-            });
-            dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
-                @Override
-
-                public void onButAdginListener() {
-                    dialog.dismiss();
-                }
-            });
-        }
-    }
-
-    Runnable TimeOutRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (dialog.isShowing()) {
-                dialog.setButOk(View.VISIBLE);
-                dialog.setllBottomVisibility(View.VISIBLE);
-                dialog.setButAdgin(View.VISIBLE);
-                dialog.setLoadingVisibility(View.GONE);
-                dialog.setTvContext("连接超时, 是否重新连接");
-                dialog.setButOkText("重新连接");
-                dialog.setButAdginText("取消连接");
-                dialog.onButOKListener(new CommonDialog.onButOKListener() {
-                    @Override
-                    public void onButOKListener() {
-                        dialog.dismiss();
-                        Notify(connectionObservable);
-                        Logger.t(TAG).e("超时");
-                    }
-                });
-                dialog.onButAdginListener(new CommonDialog.onButAdginListener() {
-                    @Override
-                    public void onButAdginListener() {
-                        dialog.dismiss();
-                    }
-                });
-            }
-        }
-    };
-
-    private BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
-
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            switch (newState) {
-                case BluetoothProfile.STATE_CONNECTED:
-                    Logger.t(TAG).e("已连接上");
-                    break;
-                case BluetoothProfile.STATE_DISCONNECTED:
-                    gatt.close();
-                    gatt = null;
-                    Logger.t(TAG).e("无连接");
-                    break;
-                case BluetoothProfile.STATE_CONNECTING:
-                    Logger.t(TAG).e("连接中");
-                    break;
-                case BluetoothProfile.STATE_DISCONNECTING:
-                    gatt.close();
-                    gatt = null;
-                    Logger.t(TAG).e("断开");
-                    break;
-            }
-            super.onConnectionStateChange(gatt, status, newState);
-        }
-    };
 }

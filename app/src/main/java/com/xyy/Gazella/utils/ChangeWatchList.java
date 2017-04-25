@@ -3,13 +3,14 @@ package com.xyy.Gazella.utils;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -21,12 +22,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.vise.baseble.ViseBluetooth;
-import com.vise.baseble.callback.IConnectCallback;
 import com.vise.baseble.callback.scan.PeriodScanCallback;
-import com.vise.baseble.exception.BleException;
 import com.vise.baseble.model.BluetoothLeDevice;
 import com.xyy.Gazella.activity.SettingActivity;
 import com.xyy.Gazella.adapter.ChangeWatchListAdapter;
+import com.xyy.Gazella.services.BluetoothService;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
@@ -48,6 +48,8 @@ public class ChangeWatchList extends BaseActivity {
     private BluetoothAdapter bluetoothAdapter;
     private List<BluetoothDevice> devices = new ArrayList<>();
     private List<String> deviceTypes = new ArrayList<>();
+    private BluetoothDevice mDevice;
+    private String mDeviceType;
     private static final int REQUEST_ENABLE_BT = 1;
     private LoadingDialog loadingDialog;
     private PairFailedDialog pairFailedDialog;
@@ -59,12 +61,34 @@ public class ChangeWatchList extends BaseActivity {
         setContentView(R.layout.change_watch_list);
         initView();
         initBluetooth();
+        GazelleApplication.mBluetoothService.setActivityHandler2(mHandler);
     }
 
-    @Override
-    protected void onReadReturn(byte[] bytes) {
-        super.onReadReturn(bytes);
-    }
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case BluetoothService.STATE_CONNECTED:
+                    loadingDialog.dismiss();
+                    GazelleApplication.isBleConnected = true;
+                    PreferenceData.setDeviceType(context, mDeviceType);
+                    PreferenceData.setDeviceName(context, mDevice.getName());
+                    PreferenceData.setAddressValue(context, mDevice.getAddress());
+                    Intent intent = new Intent(context, SettingActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+                case BluetoothService.STATE_DISCONNECTED:
+                    GazelleApplication.isBleConnected = false;
+                    break;
+                case BluetoothService.STATE_CONNECT_FAILED:
+                    loadingDialog.dismiss();
+                    if (pairFailedDialog != null)
+                        pairFailedDialog.show();
+                    break;
+            }
+        }
+    };
 
     private void initView() {
         setFinishOnTouchOutside(false);
@@ -73,38 +97,16 @@ public class ChangeWatchList extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                GazelleApplication.isNormalDisconnet=true;
                 ViseBluetooth.getInstance().stopLeScan(periodScanCallback);
                 ViseBluetooth.getInstance().disconnect();
                 ViseBluetooth.getInstance().close();
                 ViseBluetooth.getInstance().clear();
+                mDevice = devices.get(i);
+//                if (Build.VERSION.SDK_INT >= 19) mDevice.createBond();
+                mDeviceType = deviceTypes.get(i);
                 loadingDialog.show();
-                ViseBluetooth.getInstance().connect(devices.get(i), false, new IConnectCallback() {
-                    @Override
-                    public void onConnectSuccess(BluetoothGatt gatt, int status) {
-                        mBluetoothGatt = gatt;
-                        loadingDialog.dismiss();
-                        GazelleApplication.isBleConnected = true;
-                        PreferenceData.setDeviceType(context,deviceTypes.get(i));
-                        PreferenceData.setDeviceName(context,devices.get(i).getName());
-                        PreferenceData.setAddressValue(context, devices.get(i).getAddress());
-                        Intent intent = new Intent(context, SettingActivity.class);
-                        startActivity(intent);
-                        finish();
-                        cleanObservable();
-                    }
-
-                    @Override
-                    public void onConnectFailure(BleException exception) {
-                        loadingDialog.dismiss();
-                        if (pairFailedDialog != null)
-                            pairFailedDialog.show();
-                    }
-
-                    @Override
-                    public void onDisconnect() {
-                        GazelleApplication.isBleConnected = false;
-                    }
-                });
+                GazelleApplication.mBluetoothService.connectByDevice(mDevice);
             }
         });
 
@@ -140,6 +142,12 @@ public class ChangeWatchList extends BaseActivity {
     protected void onPause() {
         super.onPause();
         ViseBluetooth.getInstance().stopLeScan(periodScanCallback);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GazelleApplication.mBluetoothService.removeActivityHandler2();
     }
 
     private void initBluetooth() {
@@ -206,7 +214,7 @@ public class ChangeWatchList extends BaseActivity {
                                     if (!devices.contains(bluetoothDevice)) {
                                         byte[] bytes1 = new byte[5];
                                         for (int i = 0; i < bytes1.length; i++) {
-                                            bytes1[i] = bytes[i+11];
+                                            bytes1[i] = bytes[i + 11];
                                         }
                                         loading.setVisibility(View.GONE);
                                         devices.add(bluetoothDevice);

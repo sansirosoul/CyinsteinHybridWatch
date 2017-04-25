@@ -9,7 +9,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.view.KeyEvent;
 import android.view.View;
@@ -58,7 +57,6 @@ public class HomeActivity extends BaseActivity {
     public static HomeActivity install;
     BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
-    private TelephonyManager tm;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -66,7 +64,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         ViseBluetooth.getInstance().setOnNotifyListener(onNotifyListener);
-        if(!GazelleApplication.isLogoVisible){
+        if (!GazelleApplication.isLogoVisible) {
             logo.setVisibility(View.INVISIBLE);
         }
 //        logo.setImageDrawable(getResources().getDrawable(R.drawable.index_julius));
@@ -79,61 +77,15 @@ public class HomeActivity extends BaseActivity {
                 setNotifyCharacteristic();
             }
         }
+        MPermissions.requestPermissions(this, 1000, Manifest.permission.CALL_PHONE);
         getTelephony();
         install = this;
-        if(tm==null) {
-            tm = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
-            tm.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);
-        }
     }
-
-    //来电状态监听
-    PhoneStateListener listener = new PhoneStateListener() {
-
-        @Override
-        public void onCallStateChanged(int state, String incomingNumber) {
-            // TODO Auto-generated method stub
-            //state 当前状态 incomingNumber,貌似没有去电的API
-            super.onCallStateChanged(state, incomingNumber);
-            switch (state) {
-                case TelephonyManager.CALL_STATE_IDLE://挂断
-                    String address1 = PreferenceData.getAddressValue(mContext);
-                    if (address1 != null && !address1.equals("")) {
-                        if (GazelleApplication.isBleConnected) {
-                            writeCharacteristic(bleUtils.sendMessage(1, 2, 0, 0, 0, 0));
-                        }
-                    }
-                    break;
-                case TelephonyManager.CALL_STATE_OFFHOOK://接听
-                    String address2 = PreferenceData.getAddressValue(mContext);
-                    if (address2 != null && !address2.equals("")) {
-                        if (GazelleApplication.isBleConnected) {
-                            writeCharacteristic(bleUtils.sendMessage(1, 2, 0, 0, 0, 0));
-                        }
-                    }
-                    break;
-                case TelephonyManager.CALL_STATE_RINGING://来电
-                    System.out.println("响铃:来电号码" + incomingNumber); //输出来电号码
-                    String address = PreferenceData.getAddressValue(mContext);
-                    if (address != null && !address.equals("")) {
-                        if (GazelleApplication.isBleConnected) {
-                            int pstate = PreferenceData.getNotificationPhoneState(mContext);
-                            int shake = PreferenceData.getNotificationShakeState(mContext);
-                            if (pstate == 1) {
-                                writeCharacteristic(bleUtils.sendMessage(1, pstate, 0, 0, 0, shake));
-                            }
-                        }
-
-                    }
-                    break;
-            }
-        }
-    };
 
     private ViseBluetooth.OnNotifyListener onNotifyListener = new ViseBluetooth.OnNotifyListener() {
         @Override
         public void onNotify(boolean flag) {
-            if(flag){
+            if (flag) {
                 writeCharacteristic(bleUtils.setSystemType());
             }
         }
@@ -149,7 +101,7 @@ public class HomeActivity extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        if(bytes[0]==0x07&&(bytes[1] & 0xff)==0x81){
+        if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0x81) {
             endCall();
         }
     }
@@ -211,25 +163,27 @@ public class HomeActivity extends BaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        GazelleApplication.mBluetoothService.removeActivityHandler();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        MPermissions.onRequestPermissionsResult(this,requestCode,permissions,grantResults);
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
     @PermissionGrant(1000)
-    public void requestSdcardSuccess()
-    {
+    public void requestSdcardSuccess() {
     }
 
     @PermissionDenied(1000)
-    public void requestSdcardFailed()
-    {
+    public void requestSdcardFailed() {
     }
 
     private Object iTelephony;
-
     // 初始电话实例
     public void getTelephony() {
-        MPermissions.requestPermissions(this, 1000, Manifest.permission.CALL_PHONE);
         TelephonyManager telMgr = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
         Class<TelephonyManager> c = TelephonyManager.class;
         Method getITelephonyMethod = null;

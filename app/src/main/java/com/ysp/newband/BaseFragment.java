@@ -1,8 +1,6 @@
 package com.ysp.newband;
 
 import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,13 +13,9 @@ import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
 import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.utils.ConnectionSharingAdapter;
-import com.vise.baseble.ViseBluetooth;
-import com.vise.baseble.callback.IBleCallback;
-import com.vise.baseble.exception.BleException;
 import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.HexString;
 
-import java.util.List;
 import java.util.UUID;
 
 import rx.Observable;
@@ -29,8 +23,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subjects.PublishSubject;
-
-import static com.xyy.Gazella.services.BluetoothService.writeUUID;
 
 /**
  * Created by Administrator on 2016/10/22.
@@ -71,45 +63,14 @@ public class BaseFragment extends Fragment {
             //透明导航栏
             getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-        mBluetoothGatt=BaseActivity.mBluetoothGatt;
         dialog= new CommonDialog(getActivity());
         String address = PreferenceData.getAddressValue(getActivity());
         if (address != null && !address.equals(""))
             bleDevice = GazelleApplication.getRxBleClient(getActivity()).getBleDevice(address);
     }
 
-    public BluetoothGattCharacteristic getWriteCharacteristic() {
-        BluetoothGattCharacteristic gattCharacteristic = null;
-        if (mBluetoothGatt == null)
-            return null;
-        List<BluetoothGattService> services = mBluetoothGatt.getServices();
-        for (int i = 0; i<services.size();i++){
-            BluetoothGattService service = services.get(i);
-            if(service.getUuid().toString().equals(serviceUUID)){
-                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-                for(int j = 0; j<characteristics.size();j++){
-                    BluetoothGattCharacteristic characteristic = characteristics.get(j);
-                    if(characteristic.getUuid().toString().equals(writeUUID)){
-                        gattCharacteristic=characteristic;
-                    }
-                }
-            }
-        }
-        return gattCharacteristic;
-    }
-
     public void writeCharacteristic(byte[] bytes){
-        ViseBluetooth.getInstance().writeCharacteristic(getWriteCharacteristic(), bytes, new IBleCallback<BluetoothGattCharacteristic>() {
-            @Override
-            public void onSuccess(BluetoothGattCharacteristic bluetoothGattCharacteristic, int type) {
-                onWriteReturn(bluetoothGattCharacteristic.getValue());
-            }
-
-            @Override
-            public void onFailure(BleException exception) {
-                Logger.e(exception.getDescription());
-            }
-        });
+        GazelleApplication.mBluetoothService.writeCharacteristic(bytes);
     }
 
     private Observable<byte[]> WiterCharacteristic(String writeString, Observable<RxBleConnection> connectionObservable) {

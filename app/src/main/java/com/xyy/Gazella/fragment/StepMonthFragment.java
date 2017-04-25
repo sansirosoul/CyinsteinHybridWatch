@@ -322,7 +322,7 @@ public class StepMonthFragment extends BaseFragment {
 
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         for (int i = 0; i < xValue.length; i++) {
-
+            if(xValue[i]!=null)
             yVals1.add(new BarEntry(i, Float.parseFloat(xValue[i])));
         }
         BarDataSet set1;

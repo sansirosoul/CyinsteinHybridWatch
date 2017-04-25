@@ -125,6 +125,7 @@ public class HealthyActivity extends BaseActivity {
     private void handerSleepData(List<SleepData> list) {
         Date date = new Date();
         for (int i = 0; i < list.size(); i++) {
+            System.out.println("日期："+list.get(i).getDate()+"时间："+list.get(i).getHour()+":"+list.get(i).getMin()+"状态："+list.get(i).getStatus());
             if (list.get(i).getDate() == date.getDate()) {
                 saveSleepData(date, list.get(i));
 //                sleepFragment.setBerbarNum(1, list.get(i).getDate());
@@ -174,19 +175,20 @@ public class HealthyActivity extends BaseActivity {
         Partner partner = new Partner();
         partner.setType("sleep");
         partner.setDate(strday);
-        if(sleepData.getHour()<10){
-            if(sleepData.getMin()<10){
-                partner.setTime("0" + sleepData.getHour() + "." + "0"+sleepData.getMin());
-            }else {
-                partner.setTime("0" + sleepData.getHour() + "." + sleepData.getMin());
-            }
-        }else{
-            if(sleepData.getMin()<10){
-                partner.setTime(sleepData.getHour() + "." + "0"+sleepData.getMin());
-            }else {
-                partner.setTime(sleepData.getHour() + "." + sleepData.getMin());
-            }
-        }
+        partner.setTime(sleepData.getHour() + "." + sleepData.getMin());
+//        if(sleepData.getHour()<10){
+//            if(sleepData.getMin()<10){
+//                partner.setTime("0" + sleepData.getHour() + "." + "0"+sleepData.getMin());
+//            }else {
+//                partner.setTime("0" + sleepData.getHour() + "." + sleepData.getMin());
+//            }
+//        }else{
+//            if(sleepData.getMin()<10){
+//                partner.setTime(sleepData.getHour() + "." + "0"+sleepData.getMin());
+//            }else {
+//                partner.setTime(sleepData.getHour() + "." + sleepData.getMin());
+//            }
+//        }
         partner.setSleep(sleepData.getStatus() + "");
 
         if (partners.size() != 0) partners.clear();
@@ -431,6 +433,7 @@ public class HealthyActivity extends BaseActivity {
                     setPartnerData(i);
                 if (count == 41 && time == 23) {
                     stepFragment.setBerbarNum(7, data.get(i).getDay());
+                    type=0;
                     stepFragment.getTodayStepPost();
                     stepFragment.setTvSynchronizationtime();
                     stepFragment.removePoint();
@@ -565,6 +568,7 @@ public class HealthyActivity extends BaseActivity {
                         if (GazelleApplication.isBleConnected) {
                             if (!flag) {
                                 stepFragment.removeTodayStepPost();
+                                type=2;
                                 sleepFragment.setSynchronizationData();
                                 flag = true;
                             }
@@ -606,9 +610,12 @@ public class HealthyActivity extends BaseActivity {
                     }
                     stepFragment.removeTodayStepPost();
                     if (viewPager.getCurrentItem() == 0) {
+                        type=1;
                         stepFragment.setSynchronizationData();
-                    } else
+                    } else{
+                        type=2;
                         sleepFragment.setSynchronizationData();
+                    }
                 } else {
                     showToatst(this, getResources().getString(R.string.inspect_ble_state));
                 }

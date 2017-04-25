@@ -175,8 +175,7 @@ public class BleTest extends BaseActivity {
         AndPermission.with(this).requestCode(100).permission(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE).send();
 
-        bleDevice = GazelleApplication.getRxBleClient(this).getBleDevice(address);
-        connectionObservable = getRxObservable(this);
+
 
 
         radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -238,13 +237,7 @@ public class BleTest extends BaseActivity {
         if (flag) setNotifyCharacteristic();
     }
 
-    @Override
-    protected void onNotifyReturn(int type, String str) {
-        super.onNotifyReturn(type, str);
-        if (type == 2) {
-            Notify(connectionObservable);
-        }
-    }
+
 
     Handler handler = new Handler() {
         @Override
@@ -377,11 +370,17 @@ public class BleTest extends BaseActivity {
         switch (view.getId()) {
             case R.id.btn1:
 //                Write(bleUtils.getDeviceSN(), connectionObservable);
-                writeCharacteristic(bleUtils.getDeviceSN());
+//                writeCharacteristic(bleUtils.getDeviceSN());
+                writeCharacteristic(bleUtils.sendMessage(1, 2, 0, 0, 0, 0));
                 break;
             case R.id.btn2:
 //                Write(bleUtils.sendMessage(1, 0, 0, 0, 1, 0), connectionObservable);
-                writeCharacteristic(bleUtils.sendMessage(1, 0, 0, 0, 1, 0));
+//                writeCharacteristic(bleUtils.sendMessage(1, 0, 0, 0, 1, 0));
+                int pstate = PreferenceData.getNotificationPhoneState(getApplicationContext());
+                int shake = PreferenceData.getNotificationShakeState(getApplicationContext());
+                if (pstate == 1) {
+                    writeCharacteristic(bleUtils.sendMessage(1, pstate, 0, 0, 0, shake));
+                }
                 break;
             case R.id.btn3:
                 Calendar calendar = Calendar.getInstance();

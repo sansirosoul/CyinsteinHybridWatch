@@ -25,6 +25,7 @@ public class LaunchActivity extends BaseActivity {
         setContentView(R.layout.launch_activity);
         ButterKnife.bind(this);
 
+
         start = (Button) findViewById(R.id.start);
         start.setOnClickListener(new View.OnClickListener() {
             @Override

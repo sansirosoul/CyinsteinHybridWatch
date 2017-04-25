@@ -275,7 +275,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
         }else if(type.equals(WacthSeries.EM002)){
             strs = new SomeUtills().readOTABin(this,"cyinstein_watch_em002a_43.bin");
         }else {
-            strs = new SomeUtills().readOTABin(this,"cyinstein_watch_em003a_43.bin");
+            strs = new SomeUtills().readOTABin(this,"cyinstein_watch_em003a_48.bin");
         }
         int size = strs.length / 2048 + 1;
         for (int i = 0; i < size; i++) {

@@ -1,8 +1,6 @@
 package com.xyy.Gazella.services;
 
 import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattService;
 import android.os.Handler;
 import android.os.Message;
 import android.service.notification.NotificationListenerService;
@@ -10,24 +8,17 @@ import android.service.notification.StatusBarNotification;
 
 import com.orhanobut.logger.Logger;
 import com.polidea.rxandroidble.RxBleConnection;
-import com.vise.baseble.ViseBluetooth;
-import com.vise.baseble.callback.IBleCallback;
-import com.vise.baseble.exception.BleException;
 import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.HexString;
-import com.ysp.newband.BaseActivity;
+import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
 
-import java.util.List;
 import java.util.UUID;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
-
-import static com.xyy.Gazella.services.BluetoothService.notifyUUID;
-import static com.xyy.Gazella.services.BluetoothService.writeUUID;
 
 /**
  * Created by Administrator on 2017/1/3.
@@ -65,72 +56,8 @@ public class NotificationService extends NotificationListenerService {
 
     }
 
-    public BluetoothGattCharacteristic getWriteCharacteristic() {
-        BluetoothGattCharacteristic gattCharacteristic = null;
-        if (mBluetoothGatt == null)
-            return null;
-        List<BluetoothGattService> services = mBluetoothGatt.getServices();
-        for (int i = 0; i<services.size();i++){
-            BluetoothGattService service = services.get(i);
-            if(service.getUuid().toString().equals(serviceUUID)){
-                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-                for(int j = 0; j<characteristics.size();j++){
-                    BluetoothGattCharacteristic characteristic = characteristics.get(j);
-                    if(characteristic.getUuid().toString().equals(writeUUID)){
-                        gattCharacteristic=characteristic;
-                    }
-                }
-            }
-        }
-        return gattCharacteristic;
-    }
-
-    public void setNotifyCharacteristic() {
-        mBluetoothGatt=BaseActivity.mBluetoothGatt;
-        ViseBluetooth.getInstance().enableCharacteristicNotification(getNotifyCharacteristic(), new IBleCallback<BluetoothGattCharacteristic>() {
-            @Override
-            public void onSuccess(BluetoothGattCharacteristic bluetoothGattCharacteristic, int type) {
-
-            }
-
-            @Override
-            public void onFailure(BleException exception) {
-                Logger.e(exception.getDescription());
-            }
-        }, false);
-    }
-
-    public BluetoothGattCharacteristic getNotifyCharacteristic() {
-        BluetoothGattCharacteristic gattCharacteristic = null;
-        if (mBluetoothGatt == null)
-            return null;
-        List<BluetoothGattService> services = mBluetoothGatt.getServices();
-        for (int i = 0; i < services.size(); i++) {
-            BluetoothGattService service = services.get(i);
-            if (service.getUuid().toString().equals(serviceUUID)) {
-                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
-                for (int j = 0; j < characteristics.size(); j++) {
-                    BluetoothGattCharacteristic characteristic = characteristics.get(j);
-                    if (characteristic.getUuid().toString().equals(notifyUUID)) {
-                        gattCharacteristic = characteristic;
-                    }
-                }
-            }
-        }
-        return gattCharacteristic;
-    }
-
     public void writeCharacteristic(byte[] bytes){
-        ViseBluetooth.getInstance().writeCharacteristic(getWriteCharacteristic(), bytes, new IBleCallback<BluetoothGattCharacteristic>() {
-            @Override
-            public void onSuccess(BluetoothGattCharacteristic bluetoothGattCharacteristic, int type) {
-            }
-
-            @Override
-            public void onFailure(BleException exception) {
-                Logger.e(exception.getDescription());
-            }
-        });
+        GazelleApplication.mBluetoothService.writeCharacteristic(bytes);
     }
 
     Handler handler = new Handler(){
@@ -138,7 +65,6 @@ public class NotificationService extends NotificationListenerService {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 101:
-                    mBluetoothGatt=BaseActivity.mBluetoothGatt;
                     String pname = (String) msg.obj;
                     if(pname.equals("com.tencent.mobileqq")||pname.equals("com.tencent.mm")||pname.equals("com.facebook.katana")||pname.equals("com.twitter.android")
                             ||pname.equals("com.skype.rover")||pname.equals("jp.naver.line.android")){

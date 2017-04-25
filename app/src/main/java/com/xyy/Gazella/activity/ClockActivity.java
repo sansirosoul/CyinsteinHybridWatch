@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
@@ -64,61 +63,14 @@ public class ClockActivity extends BaseActivity {
                 setNotifyCharacteristic();
 
             }
-//            connectionObservable = getRxObservable(ClockActivity.this);
-//            Notify(connectionObservable);
-//            handler.post(runnable);
         }
     }
 
     private ViseBluetooth.OnNotifyListener onNotifyListener = new ViseBluetooth.OnNotifyListener() {
         @Override
         public void onNotify(boolean flag) {
-            if(flag){
+            if (flag) {
                 writeCharacteristic(bleUtils.getAlarms());
-            }
-        }
-    };
-
-    @Override
-    protected void onNotifyReturn(int type, String str) {
-        super.onNotifyReturn(type, str);
-        switch (type) {
-            case 0:
-                Write(bleUtils.getAlarms(), connectionObservable);
-                break;
-            case 1:
-                Message.obtain(handler, 102, str).sendToTarget();
-                break;
-            case 2:
-                Notify(connectionObservable);
-                break;
-        }
-    }
-
-
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 101:
-                    Write(bleUtils.getAlarms(), connectionObservable);
-                    break;
-                case 102:
-                    String str = (String) msg.obj;
-                    HandleThrowableException(str);
-                    break;
-                case READ_SUCCESS:
-                    byte[] bytes = (byte[]) msg.obj;
-                    if (bleUtils.returnAlarms(context,bytes) != null) {
-                        Clock clock = bleUtils.returnAlarms(context,bytes);
-                        if (!clocks.contains(clock)) {
-                            clocks.add(clock);
-                        }
-                        adapter.notifyDataSetChanged();
-                    }
-                    break;
             }
         }
     };
@@ -141,7 +93,7 @@ public class ClockActivity extends BaseActivity {
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        if ((clock=bleUtils.returnAlarms(context,bytes)) != null) {
+        if ((clock = bleUtils.returnAlarms(context, bytes)) != null) {
             if (!clocks.contains(clock)) {
                 clocks.add(clock);
             }
@@ -156,6 +108,7 @@ public class ClockActivity extends BaseActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ViseBluetooth.getInstance().removeOnNotifyListener();
                 Intent intent = new Intent(context, EditClockActivity.class);
                 intent.putExtra("id", clocks.get(i).getId());
                 intent.putExtra("time", clocks.get(i).getTime());
@@ -177,6 +130,7 @@ public class ClockActivity extends BaseActivity {
                 overridePendingTransitionExit(ClockActivity.this);
                 break;
             case R.id.add:
+                ViseBluetooth.getInstance().removeOnNotifyListener();
                 if (clocks.size() >= 8) {
                     showToatst(context, getResources().getString(R.string.clock_enough));
                 } else {
@@ -207,6 +161,7 @@ public class ClockActivity extends BaseActivity {
                 if (data != null) {
                     clocks.clear();
                     showToatst(context, getResources().getString(R.string.set_clock_success));
+                    setActivityHandler();
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
                         if (GazelleApplication.isBleConnected)
@@ -225,6 +180,7 @@ public class ClockActivity extends BaseActivity {
                 if (data != null) {
                     clocks.clear();
                     showToatst(context, getResources().getString(R.string.set_clock_success));
+                    setActivityHandler();
                     String address = PreferenceData.getAddressValue(context);
                     if (address != null && !address.equals("")) {
                         if (GazelleApplication.isBleConnected) {

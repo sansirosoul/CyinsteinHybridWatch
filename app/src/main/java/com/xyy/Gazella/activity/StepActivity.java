@@ -137,10 +137,10 @@ public class StepActivity extends BaseActivity implements OnDateSelectedListener
 
     @Override
     protected void onReadReturn(byte[] bytes) {
-        if (bleUtils.returnStepData(bytes) != null) {
-            data = bleUtils.returnStepData(bytes);
-            SaveStepData();
-        }
+//        if (bleUtils.returnStepData(bytes) != null) {
+//            data = bleUtils.returnStepData(bytes);
+//            SaveStepData();
+//        }
     }
 
     private void SaveStepData() {

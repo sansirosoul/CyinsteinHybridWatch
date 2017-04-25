@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -137,35 +136,6 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             PreferenceData.setDeviceType(this,bleUtils.returnDeviceType(bytes));
         }
     }
-
-    @Override
-    protected void onNotifyReturn(int type,String str) {
-        super.onNotifyReturn(type,str);
-        switch (type) {
-            case 0:
-                Write(bleUtils.getDeviceType(),connectionObservable);
-                break;
-            case 1:
-                Message.obtain(handler,101,str).sendToTarget();
-                break;
-            case 2:
-                Notify(connectionObservable);
-                break;
-        }
-    }
-
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case 101:
-                    String str = (String) msg.obj;
-                    HandleThrowableException(str);
-                    break;
-            }
-        }
-    };
 
     private int sex = -1;
 
