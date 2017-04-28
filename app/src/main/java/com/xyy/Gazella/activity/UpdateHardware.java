@@ -78,21 +78,22 @@ public class UpdateHardware extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        GazelleApplication.isNormalDisconnet=true;
+        GazelleApplication.isNormalDisconnet = true;
         setActivityHandler();
         ViseBluetooth.getInstance().setOnNotifyListener(onNotifyListener);
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
             bleUtils = new BleUtils();
-                connectBLEbyMac(address);
+            connectBLEbyMac(address);
         }
     }
 
     private ViseBluetooth.OnNotifyListener onNotifyListener = new ViseBluetooth.OnNotifyListener() {
         @Override
         public void onNotify(boolean flag) {
-            if(flag){
+            if (flag) {
                 writeCharacteristic(bleUtils.getDeviceSN());
+                type = 0;
             }
         }
     };
@@ -110,26 +111,27 @@ public class UpdateHardware extends BaseActivity {
         ViseBluetooth.getInstance().removeOnNotifyListener();
     }
 
-    private String deviceSN,FwvValue;
+    private String deviceSN, FwvValue;
     private int type = 0;
+
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        if(type==0){
-            if ((deviceSN=bleUtils.returnDeviceSN(bytes)) != null) {
+        if (type == 0) {
+            if ((deviceSN = bleUtils.returnDeviceSN(bytes)) != null) {
                 watchSN.setText(deviceSN);
                 PreferenceData.setDeviceSnValue(this, deviceSN);
                 writeCharacteristic(bleUtils.getFWVer());
-                type=1;
+                type = 1;
             }
-        }else if(type==1){
-            if ((FwvValue=bleUtils.returnFWVer(bytes)) != null) {
+        } else if (type == 1) {
+            if ((FwvValue = bleUtils.returnFWVer(bytes)) != null) {
                 watchVer.setText(FwvValue);
                 PreferenceData.setDeviceFwvValue(this, FwvValue);
                 writeCharacteristic(bleUtils.getBatteryValue());
-                type=2;
+                type = 2;
             }
-        }else if(type==2){
+        } else if (type == 2) {
             if (bleUtils.returnBatteryValue(bytes) != null) {
                 battery_num = Integer.parseInt(bleUtils.returnBatteryValue(bytes));
                 battery.setText(bleUtils.returnBatteryValue(bytes) + "%");

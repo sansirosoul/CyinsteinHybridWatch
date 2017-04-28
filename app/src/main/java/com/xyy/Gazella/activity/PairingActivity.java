@@ -144,6 +144,8 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
     }
 
     private void scanDevices() {
+        devices.clear();
+        deviceTypes.clear();
         ViseBluetooth.getInstance().setScanTimeout(-1).startScan(periodScanCallback);
     }
 

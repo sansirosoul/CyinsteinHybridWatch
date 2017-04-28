@@ -184,12 +184,10 @@ public class ChangeWatchList extends BaseActivity {
                 Log.d("===========", "有蓝牙权限");
                 devices.clear();
                 scanDevices();
-//                bluetoothAdapter.startLeScan(leScanCallback);
             }
         } else {
             devices.clear();
             scanDevices();
-//            bluetoothAdapter.startLeScan(leScanCallback);
         }
     }
 

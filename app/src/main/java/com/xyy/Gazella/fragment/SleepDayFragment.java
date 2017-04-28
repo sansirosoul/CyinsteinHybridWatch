@@ -171,12 +171,9 @@ public class SleepDayFragment extends BaseFragment {
                 partners.add(todayPartners.get(i));
             }
         }
-        XString = new String[partners.size()];
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setLabelCount(partners.size(), false);
+
         if (partners.size() != 0) {
             for (int i = 0; i < partners.size(); i++) {
-                XString[i] = partners.get(i).getTime().split("\\.")[0] + ":" + partners.get(i).getTime().split("\\.")[1];
                 if (i < partners.size() - 1) {
                     int year1 = Integer.parseInt(partners.get(i).getDate().split("\\.")[0]);
                     int month1 = Integer.parseInt(partners.get(i).getDate().split("\\.")[1]);
@@ -210,17 +207,26 @@ public class SleepDayFragment extends BaseFragment {
             }
         }
 
-        sleepHour = (lightsleepMin+deepsleepMin)/60;
-        sleepMin = (lightsleepMin+deepsleepMin)%60;
+        XString = new String[partners.size()];
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setLabelCount(partners.size(), false);
+        if (partners.size() != 0) {
+            for (int i = 0; i < partners.size(); i++) {
+                XString[i] = partners.get(i).getTime().split("\\.")[0] + ":" + partners.get(i).getTime().split("\\.")[1];
+            }
+        }
 
-        awakeHour = (24*60-lightsleepMin-deepsleepMin)/60;
-        awakeMin = (24*60-lightsleepMin-deepsleepMin)%60;
+        sleepHour = (lightsleepMin + deepsleepMin) / 60;
+        sleepMin = (lightsleepMin + deepsleepMin) % 60;
 
-        lightsleepHour=lightsleepMin/60;
-        lightsleepMin=lightsleepMin%60;
+        awakeHour = (24 * 60 - lightsleepMin - deepsleepMin) / 60;
+        awakeMin = (24 * 60 - lightsleepMin - deepsleepMin) % 60;
 
-        deepsleepHour=deepsleepMin/60;
-        deepsleepMin=deepsleepMin%60;
+        lightsleepHour = lightsleepMin / 60;
+        lightsleepMin = lightsleepMin % 60;
+
+        deepsleepHour = deepsleepMin / 60;
+        deepsleepMin = deepsleepMin % 60;
 
         tvSleeptime.setText(String.valueOf(sleepHour));
         tvSleeptime2.setText(String.valueOf(sleepMin));
