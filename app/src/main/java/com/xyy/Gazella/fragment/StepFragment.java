@@ -184,7 +184,8 @@ public class StepFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.circle:
                 Intent intent = new Intent(getActivity(), StepActivity.class);
-                startActivity(intent);
+//                startActivity(intent);
+                startActivityForResult(intent,0);
                 getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_righttoleft);
                 break;
         }

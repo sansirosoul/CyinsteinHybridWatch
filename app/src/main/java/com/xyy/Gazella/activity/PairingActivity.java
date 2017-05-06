@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,17 +30,21 @@ import com.vise.baseble.callback.scan.PeriodScanCallback;
 import com.vise.baseble.model.BluetoothLeDevice;
 import com.xyy.Gazella.adapter.DeviceListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
+import com.xyy.Gazella.utils.BleUtils;
 import com.xyy.Gazella.utils.CheckUpdateDialog2;
 import com.xyy.Gazella.utils.LoadingDialog;
 import com.xyy.Gazella.utils.PairFailedDialog;
 import com.xyy.Gazella.view.AnalogClock2;
+import com.xyy.model.ParsedAd;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
+import com.ysp.newband.WacthSeries;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -169,14 +174,16 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                                 String scanRecord = new String(bytes);
                                 if (scanRecord.contains("CT") || scanRecord.contains("EM")) {
                                 if (!devices.contains(bluetoothDevice)) {
+                                    ParsedAd parsedAd = BleUtils.parseData(bytes);
                                     byte[] bytes1 = new byte[5];
-                                    for (int i = 0; i < bytes1.length; i++) {
-                                        bytes1[i] = bytes[i+11];
+                                    for (int i =0;i<5;i++){
+                                        bytes1[i]=parsedAd.manufacturer[i+6];
                                     }
+                                    String type = new String(bytes1);
                                     searchLayout.setVisibility(View.GONE);
                                     pairingLayout.setVisibility(View.VISIBLE);
                                     devices.add(bluetoothDevice);
-                                    deviceTypes.add(new String(bytes1));
+                                    deviceTypes.add(type);
                                     deviceListAdapter.notifyDataSetChanged();
                                 }
                                 }
@@ -262,6 +269,36 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         }
     };
 
+    private Time mCalendar;
+    public int hour;
+    public int minute;
+    private int second;
+    private int myear;
+    private int month;
+    private int mday;
+    private void initTime() {
+        if (PreferenceData.getTimeZonesState(this).equals("local")) {
+            mCalendar = new Time();
+            mCalendar.setToNow();
+            hour = mCalendar.hour;
+            minute = mCalendar.minute;
+            second = mCalendar.second;
+            myear = mCalendar.year;
+            month = mCalendar.month;
+            mday = mCalendar.monthDay;
+        } else {
+            TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(this));
+            mCalendar = new Time(tz.getID());
+            mCalendar.setToNow();
+            hour = mCalendar.hour;
+            minute = mCalendar.minute;
+            second = mCalendar.second;
+            myear = mCalendar.year;
+            month = mCalendar.month;
+            mday = mCalendar.monthDay;
+        }
+    }
+
     private Handler mActivityHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -273,6 +310,11 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
                     PreferenceData.setAddressValue(PairingActivity.this, mDevice.getAddress());
                     PreferenceData.setDeviceType(PairingActivity.this,mDeviceType);
                     PreferenceData.setDeviceName(PairingActivity.this,mDevice.getName());
+                    if(mDeviceType.equals(WacthSeries.CT002)||mDeviceType.equals("CT012")){
+                        BleUtils bleUtils = new BleUtils();
+                        initTime();
+                        writeCharacteristic(bleUtils.setWatchDateAndTime(1, myear, month + 1, mday, hour, minute, second));
+                    }
                     Intent intent = new Intent(context, PersonActivity.class);
                     startActivity(intent);
                     PairingActivity.this.finish();

@@ -120,6 +120,11 @@ public class SleepFragment extends BaseFragment {
         }
     };
 
+    @Override
+    protected void onReadReturn(int type, byte[] bytes) {
+        super.onReadReturn(type, bytes);
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         view = inflater.inflate(R.layout.fragment_sleep, container, false);
@@ -282,7 +287,7 @@ public class SleepFragment extends BaseFragment {
         lowTime.setText(String.valueOf(lightsleepHour) + getResources().getString(R.string.hour) + lightsleepMin + getResources().getString(R.string.minute));
         wakeTime.setText(awakeHour+getResources().getString(R.string.hour)+awakeMin+getResources().getString(R.string.minute));
 
-        if ((deepsleepHour + lightsleepHour) < PreferenceData.getTargetSleepHourValue(getActivity())) {
+        if (sleepHour < PreferenceData.getTargetSleepHourValue(getActivity())) {
             quality.setText(getResources().getString(R.string.bad));
             setIvTip(this.getResources().getDrawable(R.drawable.page15_nanguo), this.getResources().getString(R.string.no_over_target));
         } else {
@@ -301,7 +306,8 @@ public class SleepFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.circle:
                 Intent intent = new Intent(getActivity(), SleepActivity.class);
-                startActivity(intent);
+//                startActivity(intent);
+                startActivityForResult(intent,0);
                 getActivity().overridePendingTransition(R.anim.in_from_right, R.anim.out_righttoleft);
                 break;
         }

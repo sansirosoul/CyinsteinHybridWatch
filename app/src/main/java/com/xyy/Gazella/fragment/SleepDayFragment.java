@@ -99,6 +99,7 @@ public class SleepDayFragment extends BaseFragment {
     private static String TAG = SleepDayFragment.class.getName();
     private String today, yeday, strday;
     private List<Partner> partners = new ArrayList<>();
+    List<Partner> partnerList = new ArrayList<>();
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -172,8 +173,11 @@ public class SleepDayFragment extends BaseFragment {
             }
         }
 
+        XString = new String[partners.size()];
         if (partners.size() != 0) {
             for (int i = 0; i < partners.size(); i++) {
+                XString[i] = partners.get(i).getTime().split("\\.")[0] + ":" + partners.get(i).getTime().split("\\.")[1];
+                System.out.println(partners.get(i).getDate()+">>>"+partners.get(i).getTime()+">>>"+partners.get(i).getSleep());
                 if (i < partners.size() - 1) {
                     int year1 = Integer.parseInt(partners.get(i).getDate().split("\\.")[0]);
                     int month1 = Integer.parseInt(partners.get(i).getDate().split("\\.")[1]);
@@ -199,6 +203,13 @@ public class SleepDayFragment extends BaseFragment {
                             break;
                         case "3":
                             deepsleepMin += min;
+                            break;
+                        case "1":
+                            awakecount += 1;
+                            break;
+                    }
+                }else{
+                    switch (partners.get(i).getSleep()) {
                         case "1":
                             awakecount += 1;
                             break;
@@ -206,15 +217,9 @@ public class SleepDayFragment extends BaseFragment {
                 }
             }
         }
-
-        XString = new String[partners.size()];
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setLabelCount(partners.size(), false);
-        if (partners.size() != 0) {
-            for (int i = 0; i < partners.size(); i++) {
-                XString[i] = partners.get(i).getTime().split("\\.")[0] + ":" + partners.get(i).getTime().split("\\.")[1];
-            }
-        }
+        xAxis.setLabelCount(partners.size(),false);
+
 
         sleepHour = (lightsleepMin + deepsleepMin) / 60;
         sleepMin = (lightsleepMin + deepsleepMin) % 60;
@@ -307,9 +312,6 @@ public class SleepDayFragment extends BaseFragment {
             String state = partners.get(i).getSleep();
             if (state != null) {
                 switch (state) {
-//                        case "3":
-//                            yVals1.add(new BarEntry(i, Sober));
-//                            break;
                     case "1":
                         yVals1.add(new BarEntry(i, Sober));
                         break;
@@ -365,7 +367,7 @@ public class SleepDayFragment extends BaseFragment {
 
         @Override
         public String getFormattedValue(float value, AxisBase axis) {
-            //Log.e(Tag, " " + value);
+//            Log.e(Tag, " " + value);
             if (XString.length == 0) return "";
             return XString[(int) value % XString.length];
         }
@@ -429,7 +431,6 @@ public class SleepDayFragment extends BaseFragment {
                 yeday = new SomeUtills().getAmountDate(date, 0, 0);
                 tvDate.setText(today);
                 initData(today, yeday);
-
                 break;
             case R.id.iv_right:
                 today = new SomeUtills().getAmountDate(date, 0, 1);
@@ -441,7 +442,6 @@ public class SleepDayFragment extends BaseFragment {
                 yeday = new SomeUtills().getAmountDate(date, 0, 0);
                 tvDate.setText(today);
                 initData(today, yeday);
-
                 break;
             case R.id.ll_sleep_day:
                 new SomeUtills().setCalendarViewGone(0);

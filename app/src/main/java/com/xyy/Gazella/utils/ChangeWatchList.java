@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,13 +28,16 @@ import com.vise.baseble.model.BluetoothLeDevice;
 import com.xyy.Gazella.activity.SettingActivity;
 import com.xyy.Gazella.adapter.ChangeWatchListAdapter;
 import com.xyy.Gazella.services.BluetoothService;
+import com.xyy.model.ParsedAd;
 import com.ysp.hybridtwatch.R;
 import com.ysp.newband.BaseActivity;
 import com.ysp.newband.GazelleApplication;
 import com.ysp.newband.PreferenceData;
+import com.ysp.newband.WacthSeries;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by Administrator on 2016/11/2.
@@ -64,6 +68,37 @@ public class ChangeWatchList extends BaseActivity {
         GazelleApplication.mBluetoothService.setActivityHandler2(mHandler);
     }
 
+    private Time mCalendar;
+    public int hour;
+    public int minute;
+    private int second;
+    private int myear;
+    private int month;
+    private int mday;
+
+    private void initTime() {
+        if (PreferenceData.getTimeZonesState(this).equals("local")) {
+            mCalendar = new Time();
+            mCalendar.setToNow();
+            hour = mCalendar.hour;
+            minute = mCalendar.minute;
+            second = mCalendar.second;
+            myear = mCalendar.year;
+            month = mCalendar.month;
+            mday = mCalendar.monthDay;
+        } else {
+            TimeZone tz = TimeZone.getTimeZone(PreferenceData.getTimeZonesState(this));
+            mCalendar = new Time(tz.getID());
+            mCalendar.setToNow();
+            hour = mCalendar.hour;
+            minute = mCalendar.minute;
+            second = mCalendar.second;
+            myear = mCalendar.year;
+            month = mCalendar.month;
+            mday = mCalendar.monthDay;
+        }
+    }
+
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -74,6 +109,11 @@ public class ChangeWatchList extends BaseActivity {
                     PreferenceData.setDeviceType(context, mDeviceType);
                     PreferenceData.setDeviceName(context, mDevice.getName());
                     PreferenceData.setAddressValue(context, mDevice.getAddress());
+                    if(mDeviceType.equals(WacthSeries.CT002)||mDeviceType.equals("CT012")){
+                        BleUtils bleUtils = new BleUtils();
+                        initTime();
+                        writeCharacteristic(bleUtils.setWatchDateAndTime(1, myear, month + 1, mday, hour, minute, second));
+                    }
                     Intent intent = new Intent(context, SettingActivity.class);
                     startActivity(intent);
                     finish();
@@ -210,13 +250,16 @@ public class ChangeWatchList extends BaseActivity {
                                 String scanRecord = new String(bytes);
                                 if (scanRecord.contains("CT") || scanRecord.contains("EM")) {
                                     if (!devices.contains(bluetoothDevice)) {
+                                        ParsedAd parsedAd = BleUtils.parseData(bytes);
                                         byte[] bytes1 = new byte[5];
-                                        for (int i = 0; i < bytes1.length; i++) {
-                                            bytes1[i] = bytes[i + 11];
+                                        for (int i =0;i<5;i++){
+                                            bytes1[i]=parsedAd.manufacturer[i+6];
                                         }
+                                        String type = new String(bytes1);
+                                        System.out.println(HexString.bytesToHex(parsedAd.manufacturer)+"--"+type+">>>>");
                                         loading.setVisibility(View.GONE);
                                         devices.add(bluetoothDevice);
-                                        deviceTypes.add(new String(bytes1));
+                                        deviceTypes.add(type);
                                         deviceListAdapter.notifyDataSetChanged();
                                     }
                                 }

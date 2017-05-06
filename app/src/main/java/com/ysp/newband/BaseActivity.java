@@ -2,6 +2,7 @@ package com.ysp.newband;
 
 
 import android.app.Activity;
+import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
+import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,6 +36,9 @@ import com.xyy.Gazella.utils.CommonDialog;
 import com.xyy.Gazella.utils.HexString;
 import com.ysp.hybridtwatch.R;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import static com.xyy.Gazella.services.BluetoothService.STATE_CONNECT_FAILED;
 
 
@@ -48,7 +53,6 @@ public class BaseActivity extends FragmentActivity {
     public final static String WriteUUID = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
     private RxBleDevice bleDevicme;
     public static String mDeviceAddress;
-
 
     Handler mActivityHandler = new Handler(){
         @Override
@@ -102,6 +106,9 @@ public class BaseActivity extends FragmentActivity {
                         byte[] bytes = (byte[]) msg.obj;
                         Logger.e("收到数据" + HexString.bytesToHex(bytes));
                         if(bytes!=null&&bytes.length!=0){
+                            if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0x81) {
+                                endCall();
+                            }
                             onReadReturn(bytes);
                         }
                     }
@@ -178,6 +185,7 @@ public class BaseActivity extends FragmentActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         mContext = this;
+        getTelephony();
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals(""))
             bleDevicme = GazelleApplication.getRxBleClient(this).getBleDevice(address);
@@ -197,9 +205,6 @@ public class BaseActivity extends FragmentActivity {
     }
 
     protected void onWriteReturn(byte[] bytes) {
-    }
-
-    protected void onNotifyReturn(int type, String str) {
     }
 
     @Override
@@ -319,4 +324,44 @@ public class BaseActivity extends FragmentActivity {
         result.show();
     }
 
+    private Object iTelephony;
+    // 初始电话实例
+    public void getTelephony() {
+        TelephonyManager telMgr = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
+        Class<TelephonyManager> c = TelephonyManager.class;
+        Method getITelephonyMethod = null;
+        try {
+            getITelephonyMethod = c.getDeclaredMethod("getITelephony", (Class[]) null);
+            getITelephonyMethod.setAccessible(true);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            iTelephony = getITelephonyMethod.invoke(telMgr, (Object[]) null);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //挂电话
+    public void endCall() {
+        System.out.println("挂电话>>>>>>>>>>>>>>>>>>>>>>>>");
+        try {
+            Method endCallmethod = iTelephony.getClass().getDeclaredMethod("endCall");
+            endCallmethod.invoke(iTelephony);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 }

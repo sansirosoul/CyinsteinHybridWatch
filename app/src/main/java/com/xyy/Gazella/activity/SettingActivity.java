@@ -50,33 +50,33 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.TVTitle)
     TextView TVTitle;
     @BindView(R.id.rl_user_setting)
-    RelativeLayout rlUserSetting;
+    LinearLayout rlUserSetting;
     @BindView(R.id.rl_update_hardware)
-    RelativeLayout rlUpdateHardware;
+    LinearLayout rlUpdateHardware;
     @BindView(R.id.rl_change_watch)
-    RelativeLayout rlChangeWatch;
+    LinearLayout rlChangeWatch;
     @BindView(R.id.rl_rename_watch)
-    RelativeLayout rlRenameWatch;
+    LinearLayout rlRenameWatch;
     @BindView(R.id.rl_clock)
-    RelativeLayout rlClock;
+    LinearLayout rlClock;
     @BindView(R.id.rl_clean_watch)
-    RelativeLayout rlCleanWatch;
+    LinearLayout rlCleanWatch;
     @BindView(R.id.rl_clean_phone)
-    RelativeLayout rlCleanPhone;
+    LinearLayout rlCleanPhone;
     @BindView(R.id.rl_target)
     RelativeLayout rlTarget;
     @BindView(R.id.rl_search_watch)
-    RelativeLayout rlSearchWatch;
+    LinearLayout rlSearchWatch;
     @BindView(R.id.rl_close_bluetooth)
-    RelativeLayout rlCloseBluetooth;
+    LinearLayout rlCloseBluetooth;
     @BindView(R.id.v_switch)
     SwitchView vSwitch;
     @BindView(R.id.rl_timezone)
-    RelativeLayout rlTimezone;
+    LinearLayout rlTimezone;
     @BindView(R.id.timezone)
     TextView timezone;
     @BindView(R.id.rl_update_bsl)
-    RelativeLayout rlUpdateBsl;
+    LinearLayout rlUpdateBsl;
     private Context context;
     private BleUtils bleUtils;
     public Observable<RxBleConnection> connectionObservable;
@@ -112,6 +112,21 @@ public class SettingActivity extends BaseActivity {
     };
 
     private void initBle() {
+        String deviceType = PreferenceData.getDeviceType(this);
+        if(deviceType.equals(WacthSeries.CT002)||deviceType.equals("CT012")){
+            rlClock.setVisibility(View.GONE);
+            rlSearchWatch.setVisibility(View.GONE);
+            rlCloseBluetooth.setVisibility(View.GONE);
+            rlTimezone.setVisibility(View.GONE);
+            rlUpdateBsl.setVisibility(View.GONE);
+        }else{
+            rlClock.setVisibility(View.VISIBLE);
+            rlSearchWatch.setVisibility(View.VISIBLE);
+            rlCloseBluetooth.setVisibility(View.VISIBLE);
+            rlTimezone.setVisibility(View.VISIBLE);
+            rlUpdateBsl.setVisibility(View.VISIBLE);
+        }
+
         bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(context);
         if (address != null && !address.equals("")) {

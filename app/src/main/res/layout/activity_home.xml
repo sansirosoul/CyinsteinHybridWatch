@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/page_logobg"
-    android:fitsSystemWindows="true"
     android:clipToPadding="true"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -17,18 +17,107 @@
         android:gravity="center">
 
         <ImageView
-            android:visibility="visible"
             android:id="@+id/logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/page_logo" />
+            android:src="@drawable/page_logo"
+            android:visibility="visible" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/ll_health"
+            android:background="@drawable/home_health_bg2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
+            <LinearLayout
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/home_health_icon2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="@string/health_manage"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_setting"
+            android:background="@drawable/home_setting_bg2"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/home_setting_icon2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="@string/setting"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_help"
+            android:background="@drawable/home_help_bg2"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:src="@drawable/home_help_icon2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:text="@string/help"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="vertical"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,9 +152,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/image_time"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:text="@string/Synchronization_time"
-                        android:layout_marginTop="10dp"
                         android:textColor="@color/white" />
                 </LinearLayout>
             </LinearLayout>
@@ -73,7 +162,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:id="@+id/ll_notice"
@@ -94,9 +183,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/image_but"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
                         android:text="@string/msg_notify"
-                        android:layout_marginTop="10dp"
                         android:textColor="@color/white" />
                 </LinearLayout>
             </LinearLayout>
@@ -132,8 +221,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/image_but"
-                        android:gravity="center"
                         android:layout_marginTop="10dp"
+                        android:gravity="center"
                         android:text="@string/health_manage"
                         android:textColor="@color/white" />
                 </LinearLayout>
@@ -142,16 +231,15 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-           >
+                android:layout_weight="1">
 
                 <LinearLayout
                     android:id="@+id/ll_settings"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:background="@drawable/home_settings_bg"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <ImageView
@@ -164,8 +252,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/image_but"
-                        android:gravity="center"
                         android:layout_marginTop="10dp"
+                        android:gravity="center"
                         android:text="@string/setting"
                         android:textColor="@color/white" />
                 </LinearLayout>
@@ -202,8 +290,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/image_but"
-                        android:gravity="center"
                         android:layout_marginTop="10dp"
+                        android:gravity="center"
                         android:text="@string/help"
                         android:textColor="@color/white" />
                 </LinearLayout>

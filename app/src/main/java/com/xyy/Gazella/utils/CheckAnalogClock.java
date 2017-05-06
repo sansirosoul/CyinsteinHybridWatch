@@ -55,7 +55,17 @@ public class CheckAnalogClock extends Dialog{
                 ivSmall2.setVisibility(View.GONE);
                 ivSmall3.setVisibility(View.GONE);
             }else if(type.equals(WacthSeries.EM002)){
-                ivSmall1.setVisibility(View.GONE);
+                ivSmall2.setVisibility(View.GONE);
+            }else if(type.equals(WacthSeries.EM003)){
+                String fw = PreferenceData.getDeviceFwvValue(context);
+                String t = fw.substring(fw.indexOf(".")+1);
+                System.out.println(">>>"+t+"<<<");
+                if(t.equals("1B")){
+                    ivSmall2.setVisibility(View.GONE);
+                    ivSmall3.setVisibility(View.GONE);
+                }else if(t.equals("2A")){
+                    ivSmall2.setVisibility(View.GONE);
+                }
             }
         }
         ivSmall1.setOnClickListener(new View.OnClickListener() {

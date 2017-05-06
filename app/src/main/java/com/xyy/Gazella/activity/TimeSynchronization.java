@@ -121,6 +121,12 @@ public class TimeSynchronization extends BaseActivity {
             if (GazelleApplication.isBleConnected) {
                 btnOpt.setBackground(getResources().getDrawable(R.drawable.page12_lianjie));
                 setNotifyCharacteristic();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        writeCharacteristic(bleUtils.getFWVer());
+                    }
+                },300);
             } else {
                 connectBLEbyMac(address);
             }
@@ -146,6 +152,10 @@ public class TimeSynchronization extends BaseActivity {
     protected void onReadReturn(byte[] bytes) {
         if (HexString.bytesToHex(bytes).equals("0702010A1A")) {
             tvHint.setText(getResources().getString(R.string.Synchronization_time_3));
+        }else if(bleUtils.returnFWVer(bytes)!=null){
+            String fw = bleUtils.returnFWVer(bytes);
+            System.out.println(fw+">>>>");
+            PreferenceData.setDeviceFwvValue(this,bleUtils.returnFWVer(bytes));
         }
         super.onReadReturn(bytes);
     }
@@ -435,7 +445,7 @@ public class TimeSynchronization extends BaseActivity {
     /***
      * 切换 时分针 小针 Fragment
      *
-     * @param type 1 是时分针  2是小针
+     * @param type 1是小针   2是时分针
      */
 
     private void setFragmentsList(int type) {
@@ -449,6 +459,20 @@ public class TimeSynchronization extends BaseActivity {
             } else if(dtype.equals(WacthSeries.EM002)){
                 fragmentsList.add(smallFragment2);
                 fragmentsList.add(smallFragment3);
+            }else if(dtype.equals(WacthSeries.EM003)) {
+                String fw = PreferenceData.getDeviceFwvValue(this);
+                String t = fw.substring(fw.indexOf(".")+1);
+                System.out.println(">>>"+t+"<<<");
+                if(t.equals("1B")){
+                    fragmentsList.add(smallFragment1);
+                }else if(t.equals("2A")){
+                    fragmentsList.add(smallFragment1);
+                    fragmentsList.add(smallFragment3);
+                } else {
+                    fragmentsList.add(smallFragment1);
+                    fragmentsList.add(smallFragment2);
+                    fragmentsList.add(smallFragment3);
+                }
             }else {
                 fragmentsList.add(smallFragment1);
                 fragmentsList.add(smallFragment2);

@@ -369,7 +369,6 @@ public class BleTest extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
-//                Write(bleUtils.getDeviceSN(), connectionObservable);
 //                writeCharacteristic(bleUtils.getDeviceSN());
                 writeCharacteristic(bleUtils.sendMessage(1, 2, 0, 0, 0, 0));
                 break;
@@ -386,79 +385,59 @@ public class BleTest extends BaseActivity {
                 Calendar calendar = Calendar.getInstance();
                 System.out.println(calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + "-"
                         + calendar.get(Calendar.HOUR_OF_DAY) + "-" + calendar.get(Calendar.MINUTE) + "-" + calendar.get(Calendar.SECOND));
-//                Write(bleUtils.setWatchDateAndTime(1, calendar.get(Calendar.YEAR),
-//                        calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
-//                        calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND)), connectionObservable);
                 writeCharacteristic(bleUtils.setWatchDateAndTime(1, calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH),
                         calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND)));
                 break;
             case R.id.btn4:
-//                Write(bleUtils.setWatchAlarm(1, 0, 12, 0, 1, 1, "", 1), connectionObservable);
                 writeCharacteristic(bleUtils.setWatchAlarm(1, 0, 12, 0, 1, 1, "", 1));
                 break;
             case R.id.btn5:
-//                Write(bleUtils.getFWVer(), connectionObservable);
                 writeCharacteristic(bleUtils.getFWVer());
                 break;
             case R.id.btn6:
-//                Write(bleUtils.setDeviceName("CT003"), connectionObservable);
                 writeCharacteristic(bleUtils.setDeviceName("CT003"));
                 break;
             case R.id.btn7:
-//                Write(bleUtils.getDeviceName(), connectionObservable);
                 writeCharacteristic(bleUtils.getDeviceName());
                 break;
             case R.id.btn8:
-//                Write(bleUtils.setSystemType(), connectionObservable);
                 writeCharacteristic(bleUtils.setSystemType());
                 break;
             case R.id.btn9:
-//                Write(bleUtils.getTodayStep(), connectionObservable);
                 writeCharacteristic(bleUtils.getTodayStep());
                 break;
             case R.id.btn10:
-//                Write(bleUtils.getSleepData(6), connectionObservable);
                 writeCharacteristic(bleUtils.getSleepData(6));
                 break;
             case R.id.btn11:
-//                Write(bleUtils.eraseWatchData(), connectionObservable);
                 writeCharacteristic(bleUtils.eraseWatchData());
                 break;
             case R.id.btn12:
-//                Write(bleUtils.getBatteryValue(), connectionObservable);
                 writeCharacteristic(bleUtils.getBatteryValue());
                 break;
             case R.id.btn13:
-//                Write(bleUtils.adjHourHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 writeCharacteristic(bleUtils.adjHourHand(direction, Integer.parseInt(step.getText().toString())));
                 break;
             case R.id.btn14:
-//                Write(bleUtils.adjMinuteHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 writeCharacteristic(bleUtils.adjMinuteHand(direction, Integer.parseInt(step.getText().toString())));
                 break;
             case R.id.btn15:
-//                Write(bleUtils.adjSecondHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 writeCharacteristic(bleUtils.adjSecondHand(direction, Integer.parseInt(step.getText().toString())));
                 break;
             case R.id.btn16:
-//                Write(bleUtils.adjMsgHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 writeCharacteristic(bleUtils.adjMsgHand(direction, Integer.parseInt(step.getText().toString())));
                 break;
             case R.id.btn17:
-//                Write(bleUtils.adjStepHand(direction, Integer.parseInt(step.getText().toString())), connectionObservable);
                 writeCharacteristic(bleUtils.adjStepHand(direction, Integer.parseInt(step.getText().toString())));
                 break;
             case R.id.btn18:
-//                Write(bleUtils.resetHand(), connectionObservable);
                 writeCharacteristic(bleUtils.resetHand());
                 break;
             case R.id.btn19:
-//                Write(bleUtils.getStepData(6), connectionObservable);
                 writeCharacteristic(bleUtils.getStepData(6));
                 break;
             case R.id.btn20:
-//                Write(bleUtils.setWatchShake(1, 0, 0), connectionObservable);
                 writeCharacteristic(bleUtils.setWatchShake(1, 0, 0));
                 break;
             case R.id.btn21:

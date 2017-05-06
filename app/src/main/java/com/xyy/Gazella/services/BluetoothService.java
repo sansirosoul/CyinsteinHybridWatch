@@ -79,10 +79,11 @@ public class BluetoothService extends Service {
 
 
     public void connectByAddress(String address) {
-        ViseBluetooth.getInstance().setScanTimeout(-1).connectByMac(address, false, new IConnectCallback() {
+        ViseBluetooth.getInstance().connectByMac(address, false, new IConnectCallback() {
             @Override
             public void onConnectSuccess(BluetoothGatt gatt, int status) {
                 mAddress=address;
+                GazelleApplication.isBleConnected=true;
                 GazelleApplication.isNormalDisconnet=false;
                 mBluetoothGatt = gatt;
                 if(mActivityHandler!=null)
@@ -93,6 +94,7 @@ public class BluetoothService extends Service {
             public void onConnectFailure(BleException exception) {
                 Logger.e(exception.getDescription());
                 if(exception.getDescription().equals("Timeout Exception Occurred! "))return;
+                GazelleApplication.isBleConnected=false;
                 if(mActivityHandler!=null){
                     mActivityHandler.sendEmptyMessage(STATE_CONNECT_FAILED);
                 }
@@ -104,6 +106,7 @@ public class BluetoothService extends Service {
 
             @Override
             public void onDisconnect() {
+                GazelleApplication.isBleConnected=false;
                 if(mActivityHandler!=null)
                 mActivityHandler.sendEmptyMessage(STATE_DISCONNECTED);
                 if(!GazelleApplication.isNormalDisconnet){
@@ -119,6 +122,7 @@ public class BluetoothService extends Service {
             @Override
             public void onConnectSuccess(BluetoothGatt gatt, int status) {
                 mAddress=device.getAddress();
+                GazelleApplication.isBleConnected=true;
                 GazelleApplication.isNormalDisconnet=false;
                 mBluetoothGatt = gatt;
                 if(mActivityHandler2!=null)
@@ -129,6 +133,7 @@ public class BluetoothService extends Service {
             public void onConnectFailure(BleException exception) {
                 Logger.e(exception.getDescription());
                 if(exception.getDescription().equals("Timeout Exception Occurred! "))return;
+                GazelleApplication.isBleConnected=false;
                 if(mActivityHandler2!=null)
                     mActivityHandler2.sendEmptyMessage(STATE_CONNECT_FAILED);
                 if(!GazelleApplication.isNormalDisconnet){
@@ -139,6 +144,7 @@ public class BluetoothService extends Service {
 
             @Override
             public void onDisconnect() {
+                GazelleApplication.isBleConnected=false;
                 if(mActivityHandler2!=null)
                     mActivityHandler2.sendEmptyMessage(STATE_DISCONNECTED);
                 if(!GazelleApplication.isNormalDisconnet){

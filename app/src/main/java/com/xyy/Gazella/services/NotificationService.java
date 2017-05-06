@@ -88,7 +88,7 @@ public class NotificationService extends NotificationListenerService {
                                 writeCharacteristic(bleUtils.sendMessage(1, 0, 0, state, 0, shake));
                             }
                         }
-                    } else if(pname.equals("com.android.mms")){
+                    } else if(pname.equals("com.android.mms")||pname.equals("com.google.android.apps.messaging")){
                         //短信
                         int state = PreferenceData.getNotificationMessageState(NotificationService.this);
                         if(state==1){

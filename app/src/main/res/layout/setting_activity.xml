@@ -1,503 +1,607 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="true"
-    android:background="#1b1b1b"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent">
-   <include
-       layout="@layout/connection_title"
-       android:layout_width="match_parent"
-       android:layout_height="50dp"/>
-   <ScrollView
-       android:overScrollMode="never"
-       android:scrollbars="none"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
-      <LinearLayout
-          android:orientation="vertical"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
-         <TextView
-             android:text="@string/watch_setting"
-             android:textColor="@color/white"
-             android:textSize="18sp"
-             android:gravity="center_vertical"
-             android:layout_marginLeft="15dp"
-             android:layout_width="wrap_content"
-             android:layout_height="45dp" />
-         <LinearLayout
-             android:orientation="vertical"
-             android:background="#222222"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content">
-            <RelativeLayout
-                android:id="@+id/rl_user_setting"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-               <ImageView
-                   android:id="@+id/iv1"
-                   android:src="@drawable/page25_user"
-                   android:layout_marginLeft="20dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <TextView
-                   android:layout_toRightOf="@+id/iv1"
-                   android:text="@string/user_setting"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <ImageView
-                   android:src="@drawable/page25_step"
-                   android:layout_marginRight="30dp"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentRight="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <View
-                android:background="#2c2c2c"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <RelativeLayout
-                android:id="@+id/rl_update_hardware"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-               <ImageView
-                   android:id="@+id/iv2"
-                   android:src="@drawable/page25_jianchagengxin"
-                   android:layout_marginLeft="20dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <TextView
-                   android:layout_toRightOf="@+id/iv2"
-                   android:text="@string/update_hardware"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <ImageView
-                   android:src="@drawable/page25_step"
-                   android:layout_marginRight="30dp"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentRight="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <View
-                android:background="#2c2c2c"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <RelativeLayout
-                android:id="@+id/rl_change_watch"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-               <ImageView
-                   android:id="@+id/iv3"
-                   android:src="@drawable/page25_genghuanshoubiao"
-                   android:layout_marginLeft="20dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <TextView
-                   android:layout_toRightOf="@+id/iv3"
-                   android:text="@string/change_watch"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <ImageView
-                   android:src="@drawable/page25_step"
-                   android:layout_marginRight="30dp"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentRight="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <View
-                android:background="#2c2c2c"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <RelativeLayout
-                android:id="@+id/rl_rename_watch"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-               <ImageView
-                   android:id="@+id/iv4"
-                   android:src="@drawable/page25_rename"
-                   android:layout_marginLeft="20dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <TextView
-                   android:layout_toRightOf="@+id/iv4"
-                   android:text="@string/rename_watch"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <ImageView
-                   android:src="@drawable/page25_step"
-                   android:layout_marginRight="30dp"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentRight="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <View
-                android:background="#2c2c2c"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <RelativeLayout
-                android:id="@+id/rl_clock"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-               <ImageView
-                   android:id="@+id/iv5"
-                   android:src="@drawable/page25_alerm"
-                   android:layout_marginLeft="20dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <TextView
-                   android:layout_toRightOf="@+id/iv5"
-                   android:text="@string/clock"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <ImageView
-                   android:src="@drawable/page25_step"
-                   android:layout_marginRight="30dp"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentRight="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <View
-                android:background="#2c2c2c"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <RelativeLayout
-                android:id="@+id/rl_clean_watch"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-               <ImageView
-                   android:id="@+id/iv6"
-                   android:src="@drawable/page25_qingchushoubiao"
-                   android:layout_marginLeft="20dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <TextView
-                   android:layout_toRightOf="@+id/iv6"
-                   android:text="@string/clean_watchdata"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <ImageView
-                   android:src="@drawable/page25_step"
-                   android:layout_marginRight="30dp"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentRight="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <View
-                android:background="#2c2c2c"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <RelativeLayout
-                android:id="@+id/rl_clean_phone"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-               <ImageView
-                   android:id="@+id/iv7"
-                   android:src="@drawable/page25_qingchushouji"
-                   android:layout_marginLeft="20dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <TextView
-                   android:layout_toRightOf="@+id/iv7"
-                   android:text="@string/clean_phonedata"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <ImageView
-                   android:src="@drawable/page25_step"
-                   android:layout_marginRight="30dp"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentRight="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <View
-                android:background="#2c2c2c"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <RelativeLayout
-                android:id="@+id/rl_search_watch"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-               <ImageView
-                   android:id="@+id/iv8"
-                   android:src="@drawable/page25_search"
-                   android:layout_marginLeft="20dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <TextView
-                   android:layout_toRightOf="@+id/iv8"
-                   android:text="@string/search_watch"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <!--<ToggleButton-->
-                   <!--android:background="@drawable/selector_setting"-->
-                   <!--android:layout_alignParentRight="true"-->
-                   <!--android:layout_centerVertical="true"-->
-                   <!--android:textOn=""-->
-                   <!--android:textOff=""-->
-                   <!--android:layout_marginRight="10dp"-->
-                   <!--android:layout_width="wrap_content"-->
-                   <!--android:layout_height="wrap_content" />-->
-               <!--<com.xyy.Gazella.view.SwitchView-->
-                   <!--android:id="@+id/v_switch"-->
-                   <!--android:layout_width="45dip"-->
-                   <!--android:layout_height="wrap_content"-->
-                   <!--android:layout_alignParentRight="true"-->
-                   <!--android:layout_centerVertical="true"-->
-                   <!--android:layout_marginRight="10dp"-->
-                   <!--app:primaryColor="#257BB6"-->
-                   <!--app:primaryColorDark="#252525"-->
-                   <!--app:isOpened="false"/>-->
-               <ImageView
-                   android:src="@drawable/page25_step"
-                   android:layout_marginRight="30dp"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentRight="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <View
-                android:background="#2c2c2c"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <RelativeLayout
-                android:id="@+id/rl_close_bluetooth"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1b1b1b"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-               <TextView
-                   android:layout_toRightOf="@+id/iv9"
-                   android:text="@string/close_bluetooth"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
+    <include
+        layout="@layout/connection_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
-               <ImageView
-                   android:id="@+id/iv9"
-                   android:src="@drawable/page25_bt"
-                   android:layout_marginLeft="20dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentStart="true"
-                   android:layout_marginStart="19dp" />
-               <!--<ToggleButton-->
-                   <!--android:background="@drawable/selector_setting"-->
-                   <!--android:layout_alignParentRight="true"-->
-                   <!--android:layout_centerVertical="true"-->
-                   <!--android:textOn=""-->
-                   <!--android:textOff=""-->
-                   <!--android:layout_marginRight="10dp"-->
-                   <!--android:layout_width="wrap_content"-->
-                   <!--android:layout_height="wrap_content" />-->
-               <ImageView
-                   android:src="@drawable/page25_step"
-                   android:layout_marginRight="30dp"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentRight="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-            </RelativeLayout>
-            <View
-                android:background="#2c2c2c"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <RelativeLayout
-                android:id="@+id/rl_timezone"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-               <TextView
-                   android:layout_toRightOf="@+id/iv9"
-                   android:text="@string/timezone"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-
-
-               <ImageView
-                   android:id="@+id/iv9"
-                   android:src="@drawable/page25_timezone"
-                   android:layout_marginLeft="20dp"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentStart="true"
-                   android:layout_marginStart="19dp" />
-               <ImageView
-                   android:id="@+id/step"
-                   android:src="@drawable/page25_step"
-                   android:layout_marginRight="30dp"
-                   android:layout_centerVertical="true"
-                   android:layout_alignParentRight="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <TextView
-                   android:id="@+id/timezone"
-                   android:layout_toLeftOf="@+id/step"
-                   android:layout_width="wrap_content"
-                   android:layout_height="match_parent"
-                   android:text="GMT+08:00 中国标准时间"
-                   android:textColor="#808080"
-                   android:textSize="15sp"
-                   android:gravity="center"
-                   android:layout_marginRight="10dp"
-                   />
-            </RelativeLayout>
-            <View
-                android:visibility="visible"
-                android:background="#2c2c2c"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"/>
-            <RelativeLayout
-                android:visibility="visible"
-                android:id="@+id/rl_update_bsl"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-               <ImageView
-                   android:id="@+id/iv10"
-                   android:src="@drawable/page25_zhendong"
-                   android:layout_marginLeft="20dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content" />
-               <TextView
-                   android:layout_toRightOf="@+id/iv10"
-                   android:text="@string/watch_shake"
-                   android:textSize="17sp"
-                   android:textColor="@color/white"
-                   android:layout_marginLeft="15dp"
-                   android:layout_centerVertical="true"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:id="@+id/textView3" />
-               <com.xyy.Gazella.view.SwitchView
-               android:id="@+id/v_switch"
-               android:layout_width="45dip"
-               android:layout_height="wrap_content"
-               android:layout_alignParentRight="true"
-               android:layout_centerVertical="true"
-               android:layout_marginRight="10dp"
-               app:primaryColor="#257BB6"
-               app:primaryColorDark="#252525"
-               app:isOpened="false"/>
-
-
-            </RelativeLayout>
-         </LinearLayout>
-         <TextView
-             android:text="@string/software_setting"
-             android:textColor="@color/white"
-             android:textSize="18sp"
-             android:gravity="center_vertical"
-             android:layout_marginLeft="15dp"
-             android:layout_width="wrap_content"
-             android:layout_height="45dp" />
-         <RelativeLayout
-             android:id="@+id/rl_target"
-             android:layout_marginBottom="45dp"
-             android:background="#222222"
-             android:layout_width="match_parent"
-             android:layout_height="50dp">
-            <ImageView
-                android:id="@+id/iv10"
-                android:src="@drawable/page25_sport"
-                android:layout_marginLeft="20dp"
-                android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
             <TextView
-                android:layout_toRightOf="@+id/iv10"
-                android:text="@string/sport_sleep_target"
-                android:textSize="17sp"
-                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
                 android:layout_marginLeft="15dp"
-                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:text="@string/watch_setting"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#222222"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/rl_user_setting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/iv1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/page25_user" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv1"
+                            android:text="@string/user_setting"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="30dp"
+                            android:src="@drawable/page25_step" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#2c2c2c" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_update_hardware"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/iv2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/page25_jianchagengxin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv2"
+                            android:text="@string/update_hardware"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="30dp"
+                            android:src="@drawable/page25_step" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#2c2c2c" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_change_watch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/iv3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/page25_genghuanshoubiao" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv3"
+                            android:text="@string/change_watch"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="30dp"
+                            android:src="@drawable/page25_step" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#2c2c2c" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_rename_watch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/iv4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/page25_rename" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv4"
+                            android:text="@string/rename_watch"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="30dp"
+                            android:src="@drawable/page25_step" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#2c2c2c" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_clock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/iv5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/page25_alerm" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv5"
+                            android:text="@string/clock"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="30dp"
+                            android:src="@drawable/page25_step" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#2c2c2c" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_clean_watch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/iv6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/page25_qingchushoubiao" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv6"
+                            android:text="@string/clean_watchdata"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="30dp"
+                            android:src="@drawable/page25_step" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#2c2c2c" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_clean_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/iv7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/page25_qingchushouji" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv7"
+                            android:text="@string/clean_phonedata"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="30dp"
+                            android:src="@drawable/page25_step" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#2c2c2c" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_search_watch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/iv8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/page25_search" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv8"
+                            android:text="@string/search_watch"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="30dp"
+                            android:src="@drawable/page25_step" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#2c2c2c" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_close_bluetooth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv9"
+                            android:text="@string/close_bluetooth"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+
+                        <ImageView
+                            android:id="@+id/iv9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginStart="19dp"
+                            android:src="@drawable/page25_bt" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="30dp"
+                            android:src="@drawable/page25_step" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#2c2c2c" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_timezone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv9"
+                            android:text="@string/timezone"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+
+                        <ImageView
+                            android:id="@+id/iv9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginStart="19dp"
+                            android:src="@drawable/page25_timezone" />
+
+                        <ImageView
+                            android:id="@+id/step"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="30dp"
+                            android:src="@drawable/page25_step" />
+
+                        <TextView
+                            android:id="@+id/timezone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:layout_toLeftOf="@+id/step"
+                            android:gravity="center"
+                            android:text="GMT+08:00 中国标准时间"
+                            android:textColor="#808080"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#2c2c2c"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/rl_update_bsl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:id="@+id/iv10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20dp"
+                            android:src="@drawable/page25_zhendong" />
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:layout_toRightOf="@+id/iv10"
+                            android:text="@string/watch_shake"
+                            android:textColor="@color/white"
+                            android:textSize="17sp" />
+
+                        <com.xyy.Gazella.view.SwitchView
+                            android:id="@+id/v_switch"
+                            android:layout_width="45dip"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            app:isOpened="false"
+                            app:primaryColor="#257BB6"
+                            app:primaryColorDark="#252525" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:src="@drawable/page25_step"
-                android:layout_marginRight="30dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-         </RelativeLayout>
-      </LinearLayout>
-   </ScrollView>
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="@string/software_setting"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <RelativeLayout
+                android:id="@+id/rl_target"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="45dp"
+                android:background="#222222">
+
+                <ImageView
+                    android:id="@+id/iv10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/page25_sport" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/iv10"
+                    android:text="@string/sport_sleep_target"
+                    android:textColor="@color/white"
+                    android:textSize="17sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="30dp"
+                    android:src="@drawable/page25_step" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -1,6 +1,5 @@
 package com.xyy.Gazella.utils;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +10,9 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
-import com.polidea.rxandroidble.RxBleClient;
-import com.polidea.rxandroidble.RxBleConnection;
+import com.vise.baseble.ViseBluetooth;
+import com.vise.baseble.callback.scan.PeriodScanCallback;
+import com.vise.baseble.model.BluetoothLeDevice;
 import com.xyy.Gazella.activity.UpdateHardware;
 import com.xyy.Gazella.services.DfuService;
 import com.xyy.Gazella.view.NumberProgressBar;
@@ -29,8 +29,6 @@ import java.util.List;
 import no.nordicsemi.android.dfu.DfuProgressListener;
 import no.nordicsemi.android.dfu.DfuServiceInitiator;
 import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
-import rx.Observable;
-import rx.Subscription;
 
 /**
  * Created by Administrator on 2016/10/14.
@@ -40,9 +38,6 @@ public class CheckUpdateDialog3 extends BaseActivity {
     private Context context;
     private NumberProgressBar numberbar;
     private BleUtils bleUtils;
-    public Observable<RxBleConnection> connectionObservable;
-    private RxBleClient rxBleClient;
-    private Subscription scanSubscription;
 
     @Override
     protected void onResume() {
@@ -57,35 +52,30 @@ public class CheckUpdateDialog3 extends BaseActivity {
     }
 
     private void scanDevices() {
-        rxBleClient = GazelleApplication.getRxBleClient(this);
-        scanSubscription = rxBleClient.scanBleDevices()
-                .subscribe(
-                        rxBleScanResult -> {
-                            // Process scan result here.
-                            BluetoothDevice bluetoothDevice = rxBleScanResult.getBleDevice().getBluetoothDevice();
-                            if (bluetoothDevice.getName() != null) {
-                                if (bluetoothDevice.getName().equals("DfuTarg")) {
-                                    scanSubscription.unsubscribe();
-                                    new DfuServiceInitiator(bluetoothDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct003v00053g).start(context, DfuService.class);
-                                }
-                            }
-                        },
-                        throwable -> {
-                            // Handle an error here.
-                            Log.d("OTA========", "Scan error :" + throwable);
-                        }
-                );
+        ViseBluetooth.getInstance().setScanTimeout(-1).startScan(new PeriodScanCallback() {
+            @Override
+            public void scanTimeout() {
+
+            }
+
+            @Override
+            public void onDeviceFound(BluetoothLeDevice bluetoothLeDevice) {
+                 if(bluetoothLeDevice.getName()!=null){
+                     if (bluetoothLeDevice.getName().equals("DfuTarg")) {
+                         ViseBluetooth.getInstance().stopLeScan(this);
+                         new DfuServiceInitiator(bluetoothLeDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct001v31).start(context, DfuService.class);
+                     }
+                 }
+            }
+        });
     }
 
-    private boolean isWriteSuccess = false;
     @Override
     protected void onWriteReturn(byte[] bytes) {
         super.onWriteReturn(bytes);
-        isWriteSuccess=true;
-        if (bytes[0] == 0x07 && (bytes[1] & 0xff) == 0xdf) {
-            if (bytes[2] == 0x01) {
-                scanDevices();
-            }
+        if(HexString.bytesToHex(bytes).equals("485907DF00E6D3")){
+            GazelleApplication.isNormalDisconnet=true;
+            scanDevices();
         }
     }
 
@@ -154,14 +144,6 @@ public class CheckUpdateDialog3 extends BaseActivity {
     }
 
     @Override
-    public void onConnectionState(int state) {
-        super.onConnectionState(state);
-        if(state==2){
-            finish();
-        }
-    }
-
-    @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.check_update_dialog3);
@@ -174,14 +156,13 @@ public class CheckUpdateDialog3 extends BaseActivity {
             bleUtils = new BleUtils();
             if (GazelleApplication.isBleConnected) {
                 String type = PreferenceData.getDeviceType(this);
-                if (type.equals(WacthSeries.CT003)) {
+                if (type.equals(WacthSeries.CT003)||type.equals(WacthSeries.CT002)||type.equals("CT012")) {
                     writeCharacteristic(bleUtils.startDfu());
                 } else {
                     setNotifyCharacteristic();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-//                            handUpdateData();
                             dateThread.start();
                         }
                     }, 300);
@@ -268,14 +249,20 @@ public class CheckUpdateDialog3 extends BaseActivity {
     List<String[]> bigData = new ArrayList<>();
 
     private void handUpdateData() {
+        String fw = PreferenceData.getDeviceFwvValue(this);
+        String t = fw.substring(fw.indexOf(".")+1);
         String type = PreferenceData.getDeviceType(this);
         String[] strs;
-        if(type.equals(WacthSeries.EM001)){
-            strs = new SomeUtills().readOTABin(this,"cyinstein_watch_em001b_43.bin");
-        }else if(type.equals(WacthSeries.EM002)){
-            strs = new SomeUtills().readOTABin(this,"cyinstein_watch_em002a_43.bin");
+        if(type.equals(WacthSeries.EM003)){
+            if(t.equals("1B")){
+                strs = new SomeUtills().readOTABin(this,"em003_1b_53.bin");
+            }else if(t.equals("2A")){
+                strs = new SomeUtills().readOTABin(this,"em003_2a_53.bin");
+            }else{
+                strs = new SomeUtills().readOTABin(this,"em003_3a_53.bin");
+            }
         }else {
-            strs = new SomeUtills().readOTABin(this,"cyinstein_watch_em003a_48.bin");
+            strs = new SomeUtills().readOTABin(this,"em003_3a_53.bin");
         }
         int size = strs.length / 2048 + 1;
         for (int i = 0; i < size; i++) {

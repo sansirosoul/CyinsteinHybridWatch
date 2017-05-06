@@ -118,12 +118,12 @@ public class StepDayFragment extends BaseFragment {
     }
 
     public void initData(String date) {
-
         if (partners != null || partners.size() > 0) partners.clear();
         partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", date);
         if (partners.size() == 24) {
             for (int i = 0; i < partners.size(); i++) {
-                xValue[i] = partners.get(i).getSleep();
+//                System.out.println(partners.get(i).getTime()+">>>"+partners.get(i).getSleep());
+                xValue[Integer.parseInt(partners.get(i).getTime())] = partners.get(i).getSleep();
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
                     if (partners.get(i).getStepsumsnum() != null)
                         sumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
@@ -209,7 +209,7 @@ public class StepDayFragment extends BaseFragment {
         String strNetDay = new SomeUtills().getAmountDate(netDate, 0, 0);
         if (partners != null || partners.size() > 0) partners.clear();
         partners = StepActivity.stepActivity.mCommonUtils.queryByBuilder("step", strNetDay);
-//        if (partners.size() == 24) {
+        if (partners.size() == 24) {
             for (int i = 0; i < partners.size(); i++) {
                 if (Integer.valueOf(partners.get(i).getTime()) == 23) {
                     netSumsNum = Integer.valueOf(partners.get(i).getStepsumsnum());
@@ -221,7 +221,7 @@ public class StepDayFragment extends BaseFragment {
                         tvManystep.setText(getResources().getString(R.string.ye_step_manydata));
                 }
             }
-//        }
+        }
         tvNetsumsstep.setText(String.valueOf(i1));
         i1=0;
         sumsNum=0;

@@ -1,5 +1,6 @@
 package com.xyy.Gazella.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -128,25 +129,18 @@ public class HealthyActivity extends BaseActivity {
             System.out.println("日期："+list.get(i).getDate()+"时间："+list.get(i).getHour()+":"+list.get(i).getMin()+"状态："+list.get(i).getStatus());
             if (list.get(i).getDate() == date.getDate()) {
                 saveSleepData(date, list.get(i));
-//                sleepFragment.setBerbarNum(1, list.get(i).getDate());
             } else if (list.get(i).getDate() == getBeforeDay(date, 1).getDate()) {
                 saveSleepData(getBeforeDay(date, 1), list.get(i));
-//                sleepFragment.setBerbarNum(2, list.get(i).getDate());
             } else if (list.get(i).getDate() == getBeforeDay(date, 2).getDate()) {
                 saveSleepData(getBeforeDay(date, 2), list.get(i));
-//                sleepFragment.setBerbarNum(3, list.get(i).getDate());
             } else if (list.get(i).getDate() == getBeforeDay(date, 3).getDate()) {
                 saveSleepData(getBeforeDay(date, 3), list.get(i));
-//                sleepFragment.setBerbarNum(4, list.get(i).getDate());
             } else if (list.get(i).getDate() == getBeforeDay(date, 4).getDate()) {
                 saveSleepData(getBeforeDay(date, 4), list.get(i));
-//                sleepFragment.setBerbarNum(5, list.get(i).getDate());
             } else if (list.get(i).getDate() == getBeforeDay(date, 5).getDate()) {
                 saveSleepData(getBeforeDay(date, 5), list.get(i));
-//                sleepFragment.setBerbarNum(6, list.get(i).getDate());
             } else if (list.get(i).getDate() == getBeforeDay(date, 6).getDate()) {
                 saveSleepData(getBeforeDay(date, 6), list.get(i));
-//                sleepFragment.setBerbarNum(7, list.get(i).getDate());
             }
             if (list.get(i).isLast()) {
                 sleepFragment.setUploadFinsh();
@@ -176,19 +170,6 @@ public class HealthyActivity extends BaseActivity {
         partner.setType("sleep");
         partner.setDate(strday);
         partner.setTime(sleepData.getHour() + "." + sleepData.getMin());
-//        if(sleepData.getHour()<10){
-//            if(sleepData.getMin()<10){
-//                partner.setTime("0" + sleepData.getHour() + "." + "0"+sleepData.getMin());
-//            }else {
-//                partner.setTime("0" + sleepData.getHour() + "." + sleepData.getMin());
-//            }
-//        }else{
-//            if(sleepData.getMin()<10){
-//                partner.setTime(sleepData.getHour() + "." + "0"+sleepData.getMin());
-//            }else {
-//                partner.setTime(sleepData.getHour() + "." + sleepData.getMin());
-//            }
-//        }
         partner.setSleep(sleepData.getStatus() + "");
 
         if (partners.size() != 0) partners.clear();
@@ -299,138 +280,38 @@ public class HealthyActivity extends BaseActivity {
         }
     }
 
-    private void SaveSleepData() {
-        if (sleepData.size() != 0 && sleepData != null) {
-            for (int i = 0; i < sleepData.size(); i++) {
-//                int count = sleepData.get(i).getCount();
-//                int time = sleepData.get(i).getTime();
-//                if (count <= 5 && count >= 0)
-//                    setPartnersleepData(i);
-//                if (count == 5 && time == 23)
-//                    sleepFragment.setBerbarNum(1, sleepData.get(i).getDate());
-//                if (count <= 11 && count >= 6)
-//                    setPartnersleepData(i);
-//                if (count == 11 && time == 23)
-//                    sleepFragment.setBerbarNum(2, sleepData.get(i).getDate());
-//                if (count <= 17 && count >= 12)
-//                    setPartnersleepData(i);
-//                if (count == 17 && time == 23)
-//                    sleepFragment.setBerbarNum(3, sleepData.get(i).getDate());
-//                if (count <= 23 && count >= 18)
-//                    setPartnersleepData(i);
-//                if (count == 23 && time == 23)
-//                    sleepFragment.setBerbarNum(4, sleepData.get(i).getDate());
-//                if (count <= 29 && count >= 24)
-//                    setPartnersleepData(i);
-//                if (count == 29 && time == 23)
-//                    sleepFragment.setBerbarNum(5, sleepData.get(i).getDate());
-//                if (count <= 35 && count >= 30)
-//                    setPartnersleepData(i);
-//                if (count == 35 && time == 23)
-//                    sleepFragment.setBerbarNum(6, sleepData.get(i).getDate());
-//                if (count <= 41 && count >= 36)
-//                    setPartnersleepData(i);
-//                if (count == 41 && time == 23) {
-//                    sleepFragment.setBerbarNum(7, sleepData.get(i).getDate());
-//                }
-                setPartnersleepData(i);
-            }
-            sleepFragment.setTvSynchronizationtime();
-            sleepFragment.setToDayTime();
-        }
-    }
-
-    private int[] lightsleepTime = new int[24];
-    private int[] sleepingTime = new int[24];
-    private int[] awakeTime = new int[24];
-    private int intlightsleepTime;
-    private int intsleepingTime;
-    private int intawakeTime;
-
-
-    private void setPartnersleepData(int i) {
-        Partner partner;
-        String strday = setStrDay(i, 1);
-        String time = String.valueOf(sleepData.get(i).getTime());
-
-        if (sleepData.get(i).getTime() != 23) {
-            partner = new Partner();
-            partner.setType("sleep");                                                          // 保存计步或 睡眠
-            int status = sleepData.get(i).getStatus();
-            switch (status) {
-                case 1:
-                    awakeTime[i] = 1;
-                    break;
-                case 2:
-                    lightsleepTime[i] = 1;
-                    break;
-                case 3:
-                    sleepingTime[i] = 1;
-                    break;
-            }
-
-            partner.setTime(String.valueOf(sleepData.get(i).getTime()));         // 保存各时间段
-            partner.setSleep(String.valueOf(sleepData.get(i).getStatus()));       //  保存睡眠状态 0 清醒     1 潜睡     2深睡
-            partner.setDate(strday);                                                         //  保存日期
-        } else {
-            for (int n = 0; n < awakeTime.length; n++) {
-                intawakeTime += awakeTime[n];
-                intsleepingTime += sleepingTime[n];
-                intlightsleepTime += lightsleepTime[n];
-            }
-            partner = new Partner();
-            partner.setType("sleep");                                                      // 保存计步或 睡眠
-            partner.setTime(String.valueOf(sleepData.get(i).getTime()));        // 保存各时间段
-            partner.setSleep(String.valueOf(sleepData.get(i).getStatus()));   //  保存记步数
-            partner.setAwake(String.valueOf(intawakeTime));              //   保存清醒时长
-            partner.setLightsleep(String.valueOf(intlightsleepTime));  //   保存 浅睡时长
-            partner.setSleeping(String.valueOf(intsleepingTime));        //   保存深睡时长
-            partner.setDate(strday);                                                     //  保存日期
-        }
-        intawakeTime = 0;
-        intlightsleepTime = 0;
-        intsleepingTime = 0;
-        sb.setLength(0);
-        if (partners.size() != 0) partners.clear();
-        partners = mCommonUtils.PartnerqueryByBuilder("sleep", strday, time);
-        if (partners.size() != 0) {
-            partner.setId(partners.get(0).getId());
-            mCommonUtils.uoDatePartner(partner);  //更新数据
-        } else
-            mCommonUtils.insertPartner(partner);   //插入数据
-    }
-
     private void SaveStepData() {
+        Date date = new Date();
         if (data.size() != 0 && data != null) {
             for (int i = 0; i < data.size(); i++) {
                 int count = data.get(i).getCount();
                 int time = data.get(i).getTime();
                 if (count <= 5 && count >= 0)
-                    setPartnerData(i);
+                    setPartnerData(getBeforeDay(date,6),i);
                 if (count == 5 && time == 23)
                     stepFragment.setBerbarNum(1, data.get(i).getDay());
                 if (count <= 11 && count >= 6)
-                    setPartnerData(i);
+                    setPartnerData(getBeforeDay(date,5),i);
                 if (count == 11 && time == 23)
                     stepFragment.setBerbarNum(2, data.get(i).getDay());
                 if (count <= 17 && count >= 12)
-                    setPartnerData(i);
+                    setPartnerData(getBeforeDay(date,4),i);
                 if (count == 17 && time == 23)
                     stepFragment.setBerbarNum(3, data.get(i).getDay());
                 if (count <= 23 && count >= 18)
-                    setPartnerData(i);
+                    setPartnerData(getBeforeDay(date,3),i);
                 if (count == 23 && time == 23)
                     stepFragment.setBerbarNum(4, data.get(i).getDay());
                 if (count <= 29 && count >= 24)
-                    setPartnerData(i);
+                    setPartnerData(getBeforeDay(date,2),i);
                 if (count == 29 && time == 23)
                     stepFragment.setBerbarNum(5, data.get(i).getDay());
                 if (count <= 35 && count >= 30)
-                    setPartnerData(i);
+                    setPartnerData(getBeforeDay(date,1),i);
                 if (count == 35 && time == 23)
                     stepFragment.setBerbarNum(6, data.get(i).getDay());
                 if (count <= 41 && count >= 36)
-                    setPartnerData(i);
+                    setPartnerData(date,i);
                 if (count == 41 && time == 23) {
                     stepFragment.setBerbarNum(7, data.get(i).getDay());
                     type=0;
@@ -442,9 +323,23 @@ public class HealthyActivity extends BaseActivity {
         }
     }
 
-    private void setPartnerData(int i) {
+    private void setPartnerData(Date date,int i) {
         Partner partner;
-        String strday = setStrDay(i, 0);
+        String strday;
+        if (date.getMonth() + 1 < 10) {
+            if (date.getDate() < 10) {
+                strday = (date.getYear() + 1900) + ".0" + (date.getMonth() + 1) + ".0" + date.getDate();
+            } else {
+                strday = (date.getYear() + 1900) + ".0" + (date.getMonth() + 1) + "." + date.getDate();
+            }
+        } else {
+            if (date.getDate() < 10) {
+                strday = (date.getYear() + 1900) + "." + (date.getMonth() + 1) + ".0" + date.getDate();
+            } else {
+                strday = (date.getYear() + 1900) + "." + (date.getMonth() + 1) + "." + date.getDate();
+            }
+        }
+
         String time = String.valueOf(data.get(i).getTime());
         SumsStep += data.get(i).getStep();
 
@@ -477,43 +372,13 @@ public class HealthyActivity extends BaseActivity {
         sb.setLength(0);
         if (partners.size() != 0) partners.clear();
         partners = mCommonUtils.PartnerqueryByBuilder("step", strday, time);
+        System.out.println(partner.getDate()+">>>"+partner.getTime()+">>>"+partner.getSleep()+"-----"+partner.getStepsumsnum());
         if (partners.size() != 0) {
             partner.setId(partners.get(0).getId());
             mCommonUtils.uoDatePartner(partner);  //更新数据
         } else
             mCommonUtils.insertPartner(partner);   //插入数据
     }
-
-    //  type 0 是计步 1  是睡眠
-    private String setStrDay(int i, int type) {
-        String strday = null;
-        if (month < 10)
-            strMonth = sb.append("0").append(String.valueOf(month)).toString();
-        else
-            strMonth = String.valueOf(month);
-        sb.setLength(0);
-        if (i != 999999) {
-            if (type == 0) {
-                if (data.get(i).getDay() < 10)
-                    strDay = sb.append("0").append(String.valueOf(data.get(i).getDay())).toString();
-                else
-                    strDay = String.valueOf(data.get(i).getDay());
-            } else {
-                if (sleepData.get(i).getDate() < 10)
-                    strDay = sb.append("0").append(String.valueOf(sleepData.get(i).getDate())).toString();
-                else
-                    strDay = String.valueOf(sleepData.get(i).getDate());
-            }
-        } else {
-            if (Queryday < 10)
-                strDay = sb.append("0").append(String.valueOf(Queryday)).toString();
-            else
-                strDay = String.valueOf(Queryday);
-        }
-        sb.setLength(0);
-        return strday = sb.append(String.valueOf(myear)).append(".").append(strMonth).append(".").append(strDay).toString();
-    }
-
 
     private boolean flag = false;
 
@@ -584,6 +449,12 @@ public class HealthyActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        setActivityHandler();
+    }
+
     @OnClick({R.id.step, R.id.sleep, R.id.btnExit, R.id.btnOpt})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -622,6 +493,7 @@ public class HealthyActivity extends BaseActivity {
                 break;
         }
     }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

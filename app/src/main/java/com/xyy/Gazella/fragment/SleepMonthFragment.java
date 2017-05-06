@@ -230,6 +230,13 @@ public class SleepMonthFragment extends BaseFragment {
                             break;
                         case "3":
                             deepsleepMin += min;
+                            break;
+                        case "1":
+                            awakecount += 1;
+                            break;
+                    }
+                }else{
+                    switch (partners.get(i).getSleep()) {
                         case "1":
                             awakecount += 1;
                             break;
@@ -239,7 +246,7 @@ public class SleepMonthFragment extends BaseFragment {
         }
 
         SleepWeekTime sleepWeekTime = new SleepWeekTime();
-        sleepWeekTime.setLightsleepHour(lightsleepHour);
+        sleepWeekTime.setLightsleepMin(lightsleepMin);
         sleepWeekTime.setDeepsleepMin(deepsleepMin);
         sleepWeekTime.setAwakeCount(awakecount);
         sleepWeekTimes.add(sleepWeekTime);
@@ -302,7 +309,12 @@ public class SleepMonthFragment extends BaseFragment {
     private void setChartData() {
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
         for (int i = 0; i < sleepWeekTimes.size(); i++) {
-            float val1 = (float) (sleepWeekTimes.get(i).getAwakeHour() + sleepWeekTimes.get(i).getAwakeMin());
+            float val1;
+            if(sleepWeekTimes.get(i).getLightsleepMin()==0&&sleepWeekTimes.get(i).getDeepsleepMin()==0){
+                val1 = 0;
+            }else{
+                val1 = (float) (24*60-sleepWeekTimes.get(i).getLightsleepMin() - sleepWeekTimes.get(i).getDeepsleepMin());
+            }
             float val2 = (float) (sleepWeekTimes.get(i).getLightsleepHour() + sleepWeekTimes.get(i).getLightsleepMin());
             float val3 = (float) (sleepWeekTimes.get(i).getDeepsleepHour() + sleepWeekTimes.get(i).getDeepsleepMin());
 
