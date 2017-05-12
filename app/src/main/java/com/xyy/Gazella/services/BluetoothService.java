@@ -30,7 +30,6 @@ public class BluetoothService extends Service {
     private Handler mActivityHandler = null;
     private Handler mActivityHandler2 = null;
     public BluetoothGatt mBluetoothGatt;
-    private String mAddress;
 
     public static final int STATE_DISCONNECTED = 2000;
     public static final int STATE_CONNECTED = 2001;
@@ -79,10 +78,9 @@ public class BluetoothService extends Service {
 
 
     public void connectByAddress(String address) {
-        ViseBluetooth.getInstance().connectByMac(address, false, new IConnectCallback() {
+        ViseBluetooth.getInstance().setScanTimeout(-1).connectByMac(address, false, new IConnectCallback() {
             @Override
             public void onConnectSuccess(BluetoothGatt gatt, int status) {
-                mAddress=address;
                 GazelleApplication.isBleConnected=true;
                 GazelleApplication.isNormalDisconnet=false;
                 mBluetoothGatt = gatt;
@@ -121,7 +119,6 @@ public class BluetoothService extends Service {
         ViseBluetooth.getInstance().connect(device, false, new IConnectCallback() {
             @Override
             public void onConnectSuccess(BluetoothGatt gatt, int status) {
-                mAddress=device.getAddress();
                 GazelleApplication.isBleConnected=true;
                 GazelleApplication.isNormalDisconnet=false;
                 mBluetoothGatt = gatt;

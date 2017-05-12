@@ -63,7 +63,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
                  if(bluetoothLeDevice.getName()!=null){
                      if (bluetoothLeDevice.getName().equals("DfuTarg")) {
                          ViseBluetooth.getInstance().stopLeScan(this);
-                         new DfuServiceInitiator(bluetoothLeDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct001v31).start(context, DfuService.class);
+                         new DfuServiceInitiator(bluetoothLeDevice.getAddress()).setDisableNotification(true).setZip(R.raw.ct001v33).start(context, DfuService.class);
                      }
                  }
             }
@@ -156,9 +156,9 @@ public class CheckUpdateDialog3 extends BaseActivity {
             bleUtils = new BleUtils();
             if (GazelleApplication.isBleConnected) {
                 String type = PreferenceData.getDeviceType(this);
-                if (type.equals(WacthSeries.CT003)||type.equals(WacthSeries.CT002)||type.equals("CT012")) {
+                if (type.equals(WacthSeries.CT003)||type.equals(WacthSeries.CT002)||type.equals("CT012")||type.equals("CT-002")) {
                     writeCharacteristic(bleUtils.startDfu());
-                } else {
+                } else if(type.equals(WacthSeries.EM001)||type.equals(WacthSeries.EM002)||type.equals(WacthSeries.EM003)) {
                     setNotifyCharacteristic();
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -255,14 +255,14 @@ public class CheckUpdateDialog3 extends BaseActivity {
         String[] strs;
         if(type.equals(WacthSeries.EM003)){
             if(t.equals("1B")){
-                strs = new SomeUtills().readOTABin(this,"em003_1b_53.bin");
+                strs = new SomeUtills().readOTABin(this,"em003_1b_55.bin");
             }else if(t.equals("2A")){
-                strs = new SomeUtills().readOTABin(this,"em003_2a_53.bin");
+                strs = new SomeUtills().readOTABin(this,"em003_2a_55.bin");
             }else{
-                strs = new SomeUtills().readOTABin(this,"em003_3a_53.bin");
+                strs = new SomeUtills().readOTABin(this,"em003_3a_55.bin");
             }
         }else {
-            strs = new SomeUtills().readOTABin(this,"em003_3a_53.bin");
+            strs = new SomeUtills().readOTABin(this,"em003_3a_55.bin");
         }
         int size = strs.length / 2048 + 1;
         for (int i = 0; i < size; i++) {

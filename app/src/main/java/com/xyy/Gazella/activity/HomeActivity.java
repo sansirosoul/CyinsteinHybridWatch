@@ -156,7 +156,7 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce, R.id.ll_other,R.id.ll_health,R.id.ll_setting,R.id.ll_help})
+    @OnClick({R.id.ll_time, R.id.ll_notice, R.id.ll_healthy, R.id.ll_settings, R.id.ll_introduce, R.id.ll_other,R.id.ll_health,R.id.ll_setting,R.id.ll_help,R.id.logo})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_time:
@@ -189,7 +189,7 @@ public class HomeActivity extends BaseActivity {
                 startActivityForResult(helpIntent,0);
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
-            case R.id.ll_other:
+            case R.id.logo:
                 ViseBluetooth.getInstance().removeOnNotifyListener();
                 Intent otherIntent = new Intent(HomeActivity.this, BleTest.class);
                 startActivityForResult(otherIntent,0);

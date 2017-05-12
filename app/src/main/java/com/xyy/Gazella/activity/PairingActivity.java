@@ -337,6 +337,7 @@ public class PairingActivity extends BaseActivity implements AdapterView.OnItemC
         mDevice = devices.get(i);
 //        if (Build.VERSION.SDK_INT >= 19) mDevice.createBond();
         mDeviceType = deviceTypes.get(i);
+        System.out.println(mDeviceType+"------");
         loadingDialog.show();
         GazelleApplication.mBluetoothService.connectByDevice(mDevice);
     }

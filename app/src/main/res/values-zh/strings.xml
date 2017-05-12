@@ -242,7 +242,7 @@
     <string name="hybridwatch_a33">①按键（短按一次）\n分针由分指向日期；时针由时指向星期；小针:由每日计步值指向当前电池电量(百分比显示)。5秒钟后，时针和分针自动归位指示时间，小针自动归位指示计步值百分比。</string>
     <string name="hybridwatch_a34">②按键 长按1秒（手表会震动一次）\n启动/关闭蓝牙，开关蓝牙时小针会指向小针表盘的ON或者飞行模式位置。</string>
     <string name="hybridwatch_a35">③按键 长按3秒（手表马达震动两次）\n开启并进入指针校准模式，此时按键每短按一次，指针移动一步；时针，分针，小针都校准完成之后可以退出指针校准模式，按键长按3秒（手表会震动一次）即可退出并关闭指针校准模式。</string>
-    <string name="hybridwatch_a36">④长按按键5秒(手表马达联系震动三次）\n开机/关机，关机时时针，分针，小针会指向12点钟方向。</string>
+    <string name="hybridwatch_a36">④长按按键5秒(手表马达连续震动三次）\n开机/关机，关机时时针，分针，小针会指向12点钟方向。</string>
     <string name="common_a11">苹果用户可以从App Store 下载Hybrid Watch</string>
     <string name="common_a12">安卓用户可以从以下Android 平台下载Hybrid Watch</string>
     <string name="common_a13">（1）腾讯应用宝\n（2）Google开发者平台\n（3）联想应用商店\n（4）豌豆荚开发者平台\n（5）小米应用商店 \n（6）华为开发者平台 \n（7）OPPO开发者平台

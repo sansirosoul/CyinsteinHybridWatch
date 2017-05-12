@@ -150,6 +150,8 @@ public class BleTest extends BaseActivity {
     Button btn29;
     @BindView(R.id.content)
     TextView content;
+    @BindView(R.id.tv_address)
+    TextView tvAddress;
     private Observable<RxBleConnection> connectionObservable;
     private RxBleDevice bleDevice;
     private static final String TAG = BleTest.class.getName();
@@ -166,6 +168,7 @@ public class BleTest extends BaseActivity {
         bleUtils = new BleUtils();
         String address = PreferenceData.getAddressValue(this);
         if (address != null && !address.equals("")) {
+            tvAddress.setText(address);
             if (!GazelleApplication.isBleConnected) {
                 connectBLEbyMac(address);
             } else {
@@ -174,8 +177,6 @@ public class BleTest extends BaseActivity {
         }
         AndPermission.with(this).requestCode(100).permission(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE).send();
-
-
 
 
         radiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -238,7 +239,6 @@ public class BleTest extends BaseActivity {
     }
 
 
-
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -264,21 +264,21 @@ public class BleTest extends BaseActivity {
     @Override
     protected void onReadReturn(byte[] bytes) {
         super.onReadReturn(bytes);
-        if(bytes==null||bytes.length==0)return;
+        if (bytes == null || bytes.length == 0) return;
         notify.setText(HexString.bytesToHex(bytes));
-        if(buttonType==0){
-            if(bytes!=null)
-            content.setText(HexString.bytesToHex(bytes));
+        if (buttonType == 0) {
+            if (bytes != null)
+                content.setText(HexString.bytesToHex(bytes));
             String s = HexString.bytesToHex(bytes);
             StringBuilder sb = new StringBuilder();
-            for(int i=0;i<s.length();i++){
-                if(i%2==0){
+            for (int i = 0; i < s.length(); i++) {
+                if (i % 2 == 0) {
                     sb.append(s.charAt(i));
-                }else{
-                    sb.append(s.charAt(i)+" ");
+                } else {
+                    sb.append(s.charAt(i) + " ");
                 }
             }
-            writeRecord(sb.toString()+"\n");
+            writeRecord(sb.toString() + "\n");
         }
         if (bleUtils.returnOTAValue(bytes)) {
             //返回蓝牙OTA固件更新指令
@@ -365,7 +365,7 @@ public class BleTest extends BaseActivity {
     }
 
     @OnClick({R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4, R.id.btn5, R.id.btn7, R.id.btn6, R.id.btn8, R.id.btn9, R.id.btn10, R.id.btn11, R.id.btn12, R.id.btn13,
-            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25, R.id.btn26,R.id.btn29})
+            R.id.btn14, R.id.btn15, R.id.btn16, R.id.btn17, R.id.btn18, R.id.btn19, R.id.btn20, R.id.btn21, R.id.btn22, R.id.btn23, R.id.btn24, R.id.btn25, R.id.btn26, R.id.btn29})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn1:
@@ -557,7 +557,7 @@ public class BleTest extends BaseActivity {
 
                 break;
             case R.id.btn29:
-                buttonType=0;
+                buttonType = 0;
                 writeCharacteristic(bleUtils.send());
 
 //                String s = "0011223344";

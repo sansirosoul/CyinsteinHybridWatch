@@ -32,6 +32,12 @@
         android:background="@color/white"
         android:gravity="center"
         android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/tv_address"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

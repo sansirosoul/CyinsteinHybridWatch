@@ -216,7 +216,7 @@ public class TimeSynchronization extends BaseActivity {
         switch (view.getId()) {
             case R.id.but_reduce:  //减时间
                 if (!isShwoSynchronization()) {
-                    if (fragmentsList.size() > 1) {
+                    if (fragmentsList.size() == 3) {
                         switch (viewpager.getCurrentItem()) {
                             case 0:
                                 smallFragment1.ReduceTime();
@@ -225,6 +225,15 @@ public class TimeSynchronization extends BaseActivity {
                                 smallFragment2.ReduceTime();
                                 break;
                             case 2:
+                                smallFragment3.ReduceTime();
+                                break;
+                        }
+                    }else if(fragmentsList.size() == 2) {
+                        switch (viewpager.getCurrentItem()) {
+                            case 0:
+                                smallFragment1.ReduceTime();
+                                break;
+                            case 1:
                                 smallFragment3.ReduceTime();
                                 break;
                         }
@@ -240,7 +249,7 @@ public class TimeSynchronization extends BaseActivity {
 
             case R.id.but_add://加时间
                 if (!isShwoSynchronization()) {
-                    if (fragmentsList.size() > 1) {
+                    if (fragmentsList.size() == 3) {
                         switch (viewpager.getCurrentItem()) {
                             case 0:
                                 smallFragment1.AddTime();
@@ -249,6 +258,15 @@ public class TimeSynchronization extends BaseActivity {
                                 smallFragment2.AddTime();
                                 break;
                             case 2:
+                                smallFragment3.AddTime();
+                                break;
+                        }
+                    } else if(fragmentsList.size() == 2) {
+                        switch (viewpager.getCurrentItem()) {
+                            case 0:
+                                smallFragment1.AddTime();
+                                break;
+                            case 1:
                                 smallFragment3.AddTime();
                                 break;
                         }

@@ -453,6 +453,10 @@ public class HealthyActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         setActivityHandler();
+        if(GazelleApplication.isBleConnected){
+            type=0;
+            stepFragment.getTodayStepPost();
+        }
     }
 
     @OnClick({R.id.step, R.id.sleep, R.id.btnExit, R.id.btnOpt})
