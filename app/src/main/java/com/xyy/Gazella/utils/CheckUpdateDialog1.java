@@ -46,7 +46,12 @@ public class CheckUpdateDialog1 extends Dialog {
             public void run() {
                 if(PreferenceData.getDeviceType(context).equals(WacthSeries.CT003)){
                     int ver = Integer.parseInt(PreferenceData.getDeviceFwvValue(context));
-                    if(ver==11){
+                        dismiss();
+                        CheckUpdateDialog2 dialog2 = new CheckUpdateDialog2(context);
+                        dialog2.show();
+                }else if(PreferenceData.getDeviceType(context).equals(WacthSeries.EM003)){
+                    int ver = Integer.parseInt(PreferenceData.getDeviceFwvValue(context).substring(0,2));
+                    if(ver>=58){
                         Toast.makeText(context,context.getResources().getString(R.string.the_last_version),Toast.LENGTH_SHORT).show();
                         dismiss();
                     }else{
@@ -54,12 +59,17 @@ public class CheckUpdateDialog1 extends Dialog {
                         CheckUpdateDialog2 dialog2 = new CheckUpdateDialog2(context);
                         dialog2.show();
                     }
-                }else{
-                    dismiss();
-                    CheckUpdateDialog2 dialog2 = new CheckUpdateDialog2(context);
-                    dialog2.show();
+                }else if(PreferenceData.getDeviceType(context).equals(WacthSeries.CT002)||PreferenceData.getDeviceType(context).equals("CT012")){
+                    int ver = Integer.parseInt(PreferenceData.getDeviceFwvValue(context).substring(0,2));
+                    if(ver>=39){
+                        Toast.makeText(context,context.getResources().getString(R.string.the_last_version),Toast.LENGTH_SHORT).show();
+                        dismiss();
+                    }else {
+                        dismiss();
+                        CheckUpdateDialog2 dialog2 = new CheckUpdateDialog2(context);
+                        dialog2.show();
+                    }
                 }
-
             }
         }, 500);
     }

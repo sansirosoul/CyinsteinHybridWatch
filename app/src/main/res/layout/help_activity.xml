@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content" />
                 <ImageView
                     android:id="@+id/common_next"
-                    android:src="@drawable/hl_bar_down"
+                    android:src="@drawable/hl_bar_up"
                     android:layout_marginRight="10dp"
                     android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
@@ -54,6 +54,7 @@
                 android:layout_height="1dp"/>
             <LinearLayout
                 android:id="@+id/ll_common_detail"
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -174,7 +175,7 @@
                         android:layout_height="wrap_content" />
                     <ImageView
                         android:id="@+id/hybridwatch_next"
-                        android:src="@drawable/hl_bar_down"
+                        android:src="@drawable/hl_bar_up"
                         android:layout_marginRight="10dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
@@ -198,6 +199,7 @@
                 />
             <LinearLayout
                 android:id="@+id/ll_hybridwatch_detail"
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -269,7 +271,7 @@
                         android:layout_height="wrap_content" />
                     <ImageView
                         android:id="@+id/quartzwatch_next"
-                        android:src="@drawable/hl_bar_down"
+                        android:src="@drawable/hl_bar_up"
                         android:layout_marginRight="10dp"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
@@ -293,6 +295,7 @@
                 />
             <LinearLayout
                 android:id="@+id/ll_quartzwatch_detail"
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

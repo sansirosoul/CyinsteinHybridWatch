@@ -309,6 +309,8 @@ public class BleTest extends BaseActivity {
 
         } else if (bleUtils.returnSleepData(bytes) != null) {
             //返回7天睡眠数据
+            stringBuffer.append(HexString.bytesToHex(bytes)+"\n");
+            content.setText(stringBuffer.toString());
             notify.setText(HexString.bytesToHex(bytes));
             List<SleepData> sleepDatas = bleUtils.returnSleepData(bytes);
             list.addAll(sleepDatas);
@@ -408,6 +410,8 @@ public class BleTest extends BaseActivity {
                 writeCharacteristic(bleUtils.getTodayStep());
                 break;
             case R.id.btn10:
+                content.setText("");
+                stringBuffer.setLength(0);
                 writeCharacteristic(bleUtils.getSleepData(6));
                 break;
             case R.id.btn11:

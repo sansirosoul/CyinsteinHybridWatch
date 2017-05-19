@@ -63,6 +63,7 @@ public class HomeActivity extends BaseActivity {
     private long mExitTime = 0;
     public static HomeActivity install;
     BleUtils bleUtils;
+    private int clicknum = 0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -190,10 +191,13 @@ public class HomeActivity extends BaseActivity {
                 overridePendingTransitionEnter(HomeActivity.this);
                 break;
             case R.id.logo:
-                ViseBluetooth.getInstance().removeOnNotifyListener();
-                Intent otherIntent = new Intent(HomeActivity.this, BleTest.class);
-                startActivityForResult(otherIntent,0);
-                overridePendingTransitionEnter(HomeActivity.this);
+                clicknum++;
+                if(clicknum==5){
+                    ViseBluetooth.getInstance().removeOnNotifyListener();
+                    Intent otherIntent = new Intent(HomeActivity.this, BleTest.class);
+                    startActivityForResult(otherIntent,0);
+                    overridePendingTransitionEnter(HomeActivity.this);
+                }
                 break;
 
 
@@ -221,6 +225,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        clicknum=0;
         String deviceType = PreferenceData.getDeviceType(this);
         if(deviceType.equals(WacthSeries.CT002)||deviceType.equals("CT012")){
             layout1.setVisibility(View.GONE);
