@@ -91,8 +91,13 @@ public class BluetoothService extends Service {
             @Override
             public void onConnectFailure(BleException exception) {
                 Logger.e(exception.getDescription());
-                if(exception.getDescription().equals("Timeout Exception Occurred! "))return;
                 GazelleApplication.isBleConnected=false;
+                if(exception.getDescription().equals("Timeout Exception Occurred! ")){
+                    if(mActivityHandler!=null){
+                        mActivityHandler.sendEmptyMessage(STATE_CONNECT_FAILED);
+                    }
+                    return;
+                }
                 if(mActivityHandler!=null){
                     mActivityHandler.sendEmptyMessage(STATE_CONNECT_FAILED);
                 }
@@ -129,8 +134,13 @@ public class BluetoothService extends Service {
             @Override
             public void onConnectFailure(BleException exception) {
                 Logger.e(exception.getDescription());
-                if(exception.getDescription().equals("Timeout Exception Occurred! "))return;
                 GazelleApplication.isBleConnected=false;
+                if(exception.getDescription().equals("Timeout Exception Occurred! ")){
+                    if(mActivityHandler!=null){
+                        mActivityHandler.sendEmptyMessage(STATE_CONNECT_FAILED);
+                    }
+                    return;
+                }
                 if(mActivityHandler2!=null)
                     mActivityHandler2.sendEmptyMessage(STATE_CONNECT_FAILED);
                 if(!GazelleApplication.isNormalDisconnet){

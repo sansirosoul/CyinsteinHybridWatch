@@ -40,7 +40,7 @@ public class CheckUpdateDialog1 extends Dialog {
         setContentView(R.layout.check_update_dialog1);
         setDialogAttributes((Activity) context, this, 0, 0, Gravity.CENTER);
         setCanceledOnTouchOutside(false);
-
+        System.out.println(PreferenceData.getDeviceType(context)+">>>>>>>>");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

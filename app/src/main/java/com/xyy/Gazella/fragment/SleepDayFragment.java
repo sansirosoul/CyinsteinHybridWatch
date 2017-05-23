@@ -176,7 +176,21 @@ public class SleepDayFragment extends BaseFragment {
         XString = new String[partners.size()];
         if (partners.size() != 0) {
             for (int i = 0; i < partners.size(); i++) {
-                XString[i] = partners.get(i).getTime().split("\\.")[0] + ":" + partners.get(i).getTime().split("\\.")[1];
+                int h = Integer.parseInt(partners.get(i).getTime().split("\\.")[0]);
+                int m = Integer.parseInt(partners.get(i).getTime().split("\\.")[1]);
+                if(h<10){
+                    if(m<10){
+                        XString[i]="0"+h+":"+"0"+m;
+                    }else{
+                        XString[i]="0"+h+":"+m;
+                    }
+                }else{
+                    if(m<10){
+                        XString[i]=h+":"+"0"+m;
+                    }else{
+                        XString[i]=h+":"+m;
+                    }
+                }
                 System.out.println(partners.get(i).getDate()+">>>"+partners.get(i).getTime()+">>>"+partners.get(i).getSleep());
                 if (i < partners.size() - 1) {
                     int year1 = Integer.parseInt(partners.get(i).getDate().split("\\.")[0]);

@@ -156,6 +156,7 @@ public class CheckUpdateDialog3 extends BaseActivity {
             bleUtils = new BleUtils();
             if (GazelleApplication.isBleConnected) {
                 String type = PreferenceData.getDeviceType(this);
+                System.out.println(type+">>>>>>>>>>>");
                 if (type.equals(WacthSeries.CT003)||type.equals(WacthSeries.CT002)||type.equals("CT012")||type.equals("CT-002")) {
                     writeCharacteristic(bleUtils.startDfu());
                 } else if(type.equals(WacthSeries.EM001)||type.equals(WacthSeries.EM002)||type.equals(WacthSeries.EM003)) {
